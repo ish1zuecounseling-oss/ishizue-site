@@ -221,62 +221,18 @@ export default function App() {
 
       {/* Operator Section */}
       <section className="py-24 px-6 bg-white">
-        <div className="max-w-3xl mx-auto space-y-16">
-          <motion.div {...fadeIn} className="space-y-12">
+        <div className="max-w-3xl mx-auto">
+          <motion.div {...fadeIn} className="space-y-10">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Profile</span>
-              <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
+              <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者について</h2>
             </div>
-            
-            <div className="space-y-8">
-              <div className="border-b border-stone-100 pb-8 text-center md:text-left">
-                <div className="flex flex-col md:flex-row md:items-baseline md:space-x-4 mb-2">
-                  <h3 className="text-2xl font-medium text-stone-900">松本 龍児</h3>
-                  <span className="text-stone-500 text-sm tracking-widest font-medium">公認心理師</span>
-                </div>
-                <p className="text-stone-500 tracking-widest text-sm">こころの相談室 いしずえ 代表</p>
-              </div>
-
-              <div className="text-stone-600 leading-loose space-y-6">
-                <p>
-                  これまで約15年にわたり、障害分野を中心とした支援業務に従事してきました。<br />
-                  心理カウンセリング、メンタル支援、キャリア支援を専門とし、個別面談の累計は300名以上、総対応時間は約6,000時間を超えます。
-                </p>
-                <p>
-                  私の支援は、「問題を個人の責任にしない」ことを大切にしています。<br />
-                  人は環境・身体・人間関係・これまでの経験など、さまざまな要因の中で生きています。その全体像を丁寧に整理しながら、感情や思考を一緒に見つめ直していきます。
-                </p>
-                <p>
-                  不安や抑うつ傾向、対人関係の悩み、就労不安、自己理解の課題などに幅広く対応してきました。感情を無理に消すのではなく、「どう扱うか」を共に考え、相談者のペースと決定権を尊重することを重視しています。
-                </p>
-                <p>
-                  また、キャリア支援においては、人生全体の文脈や価値観を大切にしながら、自律性を保てる選択ができる状態を目指します。
-                </p>
-                <p>
-                  オンラインカウンセリングにおいても、安心して話せる構造づくりを重視し、対面と同等の安全性と質を担保できるよう努めています。
-                </p>
-                <div className="bg-stone-50 p-8 rounded-2xl border border-stone-100 text-center italic">
-                  <p className="text-stone-800 font-medium mb-2">目指しているのは、</p>
-                  <p className="text-stone-900 text-xl">「支えられる状態」から「自分の力で進める状態」へと移行していくこと。</p>
-                </div>
-                <p className="text-center pt-4">
-                  安心を土台に、主体性が回復していくプロセスを伴走します。
-                </p>
-              </div>
-
-              <div className="pt-12 border-t border-stone-100">
-                <h4 className="text-sm font-medium tracking-[0.2em] text-stone-400 uppercase mb-6">経歴・資格</h4>
-                <ul className="space-y-3 text-stone-600">
-                  <li className="flex items-center">
-                    <div className="w-1 h-1 bg-stone-400 rounded-full mr-3" />
-                    福祉職として15年勤務
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-1 h-1 bg-stone-400 rounded-full mr-3" />
-                    公認心理師
-                  </li>
-                </ul>
-              </div>
+            <div className="bg-stone-50/30 p-10 rounded-3xl border border-stone-100 space-y-6">
+              <p className="text-stone-700 leading-loose text-lg">
+                <span className="font-medium text-stone-900">松本 龍児</span> — 構造整理型カウンセラー。<br />
+                対人援助職として長年現場に携わり、支援する立場の方々が自分自身を後回しにしてしまう構造に強い課題意識を持つようになりました。<br />
+                支援者が持続可能な形で立ち続けられるよう、思考・役割・負荷の整理を重視したカウンセリングを提供しています。
+              </p>
             </div>
           </motion.div>
         </div>
@@ -300,11 +256,15 @@ export default function App() {
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                      <span className="text-stone-500 text-xs tracking-widest uppercase">30分</span>
+                      <span className="text-stone-500 text-xs tracking-widest uppercase">初回体験 (30分)</span>
+                      <span className="text-lg text-emerald-400">5,000円 (税込)</span>
+                    </div>
+                    <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+                      <span className="text-stone-500 text-xs tracking-widest uppercase">通常 30分</span>
                       <span className="text-lg">8,000円 (税込)</span>
                     </div>
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                      <span className="text-stone-500 text-xs tracking-widest uppercase">60分</span>
+                      <span className="text-stone-500 text-xs tracking-widest uppercase">通常 60分</span>
                       <span className="text-lg">12,000円 (税込)</span>
                     </div>
                   </div>
@@ -339,13 +299,16 @@ export default function App() {
 
             <div className="text-center pt-8 border-t border-stone-800 space-y-3">
               <p className="text-stone-400 text-sm tracking-widest">
+                ※ キャンセルは24時間前まで無料です。それ以降は所定のキャンセル料を申し受けます。
+              </p>
+              <p className="text-stone-400 text-sm tracking-widest">
+                ※ 継続的なサポートをご希望の方には、お得な継続コースもご案内しております。
+              </p>
+              <p className="text-stone-400 text-sm tracking-widest">
                 ※ 守秘義務を厳守いたします。安心してご相談ください。
               </p>
               <p className="text-stone-400 text-sm tracking-widest">
-                ※ 医療行為は行っておりません。
-              </p>
-              <p className="text-stone-400 text-sm tracking-widest">
-                ※ 緊急性の高い場合は専門機関をご案内いたします。
+                ※ 医療行為は行っておりません。緊急性の高い場合は専門機関をご案内いたします。
               </p>
             </div>
           </motion.div>
@@ -389,7 +352,7 @@ export default function App() {
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">相談方法 (必須)</label>
+                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">相談内容 (必須)</label>
                   <select 
                     required
                     value={method}
@@ -402,11 +365,13 @@ export default function App() {
                     <option value="">選択してください</option>
                     <option value="online">オンラインカウンセリング</option>
                     <option value="email">メールカウンセリング</option>
+                    <option value="question">質問・お問い合わせ</option>
+                    <option value="other">その他</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">希望プラン (必須)</label>
+                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">希望 (必須)</label>
                   <select 
                     required
                     value={plan}
@@ -416,12 +381,19 @@ export default function App() {
                     <option value="">選択してください</option>
                     {(!method || method === "online") && (
                       <>
+                        <option value="online_trial">初回体験 30分 (5,000円)</option>
                         <option value="online_30">オンライン 30分 (8,000円)</option>
                         <option value="online_60">オンライン 60分 (12,000円)</option>
                       </>
                     )}
                     {(!method || method === "email") && (
                       <option value="email_3">メール 3往復 (3,000円)</option>
+                    )}
+                    {(method === "question") && (
+                      <option value="question_only">質問・お問い合わせのみ</option>
+                    )}
+                    {(method === "other") && (
+                      <option value="other_plan">その他</option>
                     )}
                   </select>
                 </div>
@@ -631,15 +603,15 @@ export default function App() {
                   
                   <ul className="space-y-4">
                     <li className="flex justify-between border-b border-stone-50 pb-2">
-                      <span>前日までのキャンセル</span>
+                      <span>24時間前までのキャンセル</span>
                       <span className="font-medium text-stone-900">無料</span>
                     </li>
                     <li className="flex justify-between border-b border-stone-50 pb-2">
-                      <span>当日キャンセル</span>
+                      <span>24時間以内のキャンセル</span>
                       <span className="font-medium text-stone-900">料金の50%</span>
                     </li>
                     <li className="flex justify-between border-b border-stone-50 pb-2">
-                      <span>無断キャンセル</span>
+                      <span>当日・無断キャンセル</span>
                       <span className="font-medium text-stone-900">料金の100%</span>
                     </li>
                   </ul>
