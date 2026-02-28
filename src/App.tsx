@@ -222,17 +222,38 @@ export default function App() {
       {/* Operator Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <motion.div {...fadeIn} className="space-y-10">
+          <motion.div {...fadeIn} className="space-y-12">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Profile</span>
-              <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者について</h2>
+              <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
             </div>
-            <div className="bg-stone-50/30 p-10 rounded-3xl border border-stone-100 space-y-6">
-              <p className="text-stone-700 leading-loose text-lg">
-                <span className="font-medium text-stone-900">松本 龍児</span> — 構造整理型カウンセラー。<br />
-                対人援助職として長年現場に携わり、支援する立場の方々が自分自身を後回しにしてしまう構造に強い課題意識を持つようになりました。<br />
-                支援者が持続可能な形で立ち続けられるよう、思考・役割・負荷の整理を重視したカウンセリングを提供しています。
-              </p>
+            
+            <div className="bg-stone-50/30 p-10 md:p-16 rounded-3xl border border-stone-100 space-y-10">
+              <div className="text-center border-b border-stone-100 pb-8">
+                <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
+                <p className="text-stone-500 tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
+              </div>
+
+              <div className="text-stone-700 leading-loose space-y-8 text-lg">
+                <p>
+                  対人援助職として現場に携わる中で、<br className="hidden md:block" />
+                  「支援する側が疲弊し、土台から崩れていく構造」に強い問題意識を持つようになりました。
+                </p>
+                <p>
+                  支援者は、責任・役割・感情労働を日常的に抱えています。<br className="hidden md:block" />
+                  その負荷は、本人の努力不足ではなく、構造上の問題であることが多くあります。
+                </p>
+                <p>
+                  私は感情の共感だけで終わらせるのではなく、<br className="hidden md:block" />
+                  思考の癖、役割過多、責任の抱え込み、期待とのズレなどを整理し、<br className="hidden md:block" />
+                  「消耗を減らす設計」に立ち戻る支援を行っています。
+                </p>
+                <div className="pt-6 border-t border-stone-100 text-center">
+                  <p className="font-medium text-stone-900 mb-2">強くなることを目指すのではなく、</p>
+                  <p className="text-xl text-stone-900">持続可能な状態に戻すこと。</p>
+                  <p className="mt-6 text-stone-600">支援を続けられる土台を整えることが、私の役割です。</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -322,138 +343,24 @@ export default function App() {
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Contact</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
-              <p className="mt-4 text-stone-500 text-sm">
-                ご予約やご質問は、以下のフォームよりお気軽にご連絡ください。
-              </p>
             </div>
 
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">お名前 (必須)</label>
-                  <input 
-                    type="text" 
-                    required
-                    className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent font-sans"
-                    placeholder="山田 太郎"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">メールアドレス (必須)</label>
-                  <input 
-                    type="email" 
-                    required
-                    className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent font-sans"
-                    placeholder="example@mail.com"
-                  />
-                </div>
-              </div>
+            <div className="text-center bg-stone-50/50 p-12 rounded-3xl border border-stone-100">
+              <p className="text-stone-500 mb-6">
+                現在フォーム調整中のため、恐れ入りますが<br className="hidden md:block" />下記メールアドレスまで直接ご連絡ください。
+              </p>
 
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">相談内容 (必須)</label>
-                  <select 
-                    required
-                    value={method}
-                    onChange={(e) => {
-                      setMethod(e.target.value);
-                      setPlan(""); // Reset plan when method changes
-                    }}
-                    className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent font-sans appearance-none cursor-pointer"
-                  >
-                    <option value="">選択してください</option>
-                    <option value="online">オンラインカウンセリング</option>
-                    <option value="email">メールカウンセリング</option>
-                    <option value="question">質問・お問い合わせ</option>
-                    <option value="other">その他</option>
-                  </select>
-                </div>
+              <a 
+                href="mailto:ish1zue.counseling@gmail.com" 
+                className="text-xl md:text-2xl text-stone-800 underline underline-offset-8 hover:text-stone-900 transition-colors font-medium"
+              >
+                ish1zue.counseling@gmail.com
+              </a>
 
-                <div className="space-y-2">
-                  <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">希望 (必須)</label>
-                  <select 
-                    required
-                    value={plan}
-                    onChange={(e) => setPlan(e.target.value)}
-                    className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent font-sans appearance-none cursor-pointer"
-                  >
-                    <option value="">選択してください</option>
-                    {(!method || method === "online") && (
-                      <>
-                        <option value="online_trial">初回体験 30分 (5,000円)</option>
-                        <option value="online_30">オンライン 30分 (8,000円)</option>
-                        <option value="online_60">オンライン 60分 (12,000円)</option>
-                      </>
-                    )}
-                    {(!method || method === "email") && (
-                      <option value="email_3">メール 3往復 (3,000円)</option>
-                    )}
-                    {(method === "question") && (
-                      <option value="question_only">質問・お問い合わせのみ</option>
-                    )}
-                    {(method === "other") && (
-                      <option value="other_plan">その他</option>
-                    )}
-                  </select>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">現在の症状・状態 (任意)</label>
-                <textarea 
-                  rows={4}
-                  className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent resize-none font-sans"
-                  placeholder="現在お困りのことや、心身の状態について差し支えない範囲でご記入ください。"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs tracking-widest text-stone-500 uppercase font-medium">その他ご相談内容 (任意)</label>
-                <textarea 
-                  rows={2}
-                  className="w-full px-0 py-3 border-b border-stone-200 focus:border-stone-900 outline-none transition-colors bg-transparent resize-none font-sans"
-                  placeholder="ご希望の日時などがあればご記入ください。"
-                />
-              </div>
-
-              <div className="flex items-start space-x-3 pt-4">
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  required
-                  className="mt-1 w-4 h-4 border-stone-300 rounded text-stone-900 focus:ring-stone-900 cursor-pointer"
-                />
-                <label htmlFor="terms" className="text-sm text-stone-500 leading-relaxed cursor-pointer">
-                  <button 
-                    type="button" 
-                    onClick={() => setActiveModal("privacy")}
-                    className="text-stone-800 underline underline-offset-4 hover:text-stone-900 transition-colors"
-                  >
-                    プライバシーポリシー
-                  </button>
-                  および
-                  <button 
-                    type="button" 
-                    onClick={() => setActiveModal("cancel")}
-                    className="text-stone-800 underline underline-offset-4 hover:text-stone-900 transition-colors"
-                  >
-                    キャンセルポリシー
-                  </button>
-                  に同意しました
-                </label>
-              </div>
-
-              <div className="pt-8">
-                <button 
-                  type="submit"
-                  className="w-full py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full flex items-center justify-center group"
-                >
-                  <Mail className="w-4 h-4 mr-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  送信する
-                </button>
-              </div>
-            </form>
+              <p className="text-sm text-stone-400 mt-8 tracking-widest">
+                通常24時間以内に返信いたします。守秘義務を厳守いたします。
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
