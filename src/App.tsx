@@ -65,19 +65,17 @@ export default function App() {
               </p>
             </div>
             
-            <div className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-loose text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
-              <p>
-                礎（いしずえ）とは、土台のこと。<br />
-                支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
-              </p>
-              <p>
-                ここは「弱さを吐き出す場所」ではなく、<br />
-                思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
-              </p>
-              <p className="font-medium text-stone-900">
-                消耗を減らし、支援を続けられる土台を再設計します。
-              </p>
-            </div>
+<div className="max-w-2xl mx-auto space-y-6 text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
+  <p className="text-left md:text-center">
+    礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
+  </p>
+  <p className="text-left md:text-center">
+    ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
+  </p>
+  <p className="font-medium text-stone-900 text-left md:text-center">
+    消耗を減らし、支援を続けられる土台を再設計します。
+  </p>
+</div>
             <div className="mt-16">
               <a 
                 href="#contact"
@@ -273,7 +271,7 @@ export default function App() {
                 </div>
                 <div className="text-center md:text-left pt-4">
                   <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
-                  <p className="text-stone-500 tracking-[0.1em] md:tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
+                  <p className="text-stone-500 tracking-normal md:tracking-wide text-sm">構造整理型カウンセラー｜支援者支援特化</p>
                 </div>
               </div>
 
