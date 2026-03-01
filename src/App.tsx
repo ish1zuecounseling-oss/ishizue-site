@@ -55,17 +55,17 @@ export default function App() {
           <motion.div {...fadeIn}>
             <div className="mb-12">
               <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
-                <span className="text-xs tracking-[0.3em] text-stone-600 uppercase font-medium">公認心理師による支援者支援</span>
+                <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">公認心理師による支援者支援</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-medium tracking-[0.2em] mb-8 text-stone-900 leading-tight">
+              <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
                 こころの相談室<br className="md:hidden" /> いしずえ
               </h1>
-              <p className="text-stone-600 tracking-[0.3em] mb-12 text-lg md:text-xl italic font-light">
+              <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
                 ― 支援する人の、土台を整える ―
               </p>
             </div>
             
-            <div className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-loose text-lg bg-white/40 backdrop-blur-sm p-8 rounded-3xl border border-white/20 shadow-sm">
+            <div className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-loose text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
               <p>
                 礎（いしずえ）とは、土台のこと。<br />
                 支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
@@ -99,7 +99,7 @@ export default function App() {
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">About</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">当相談室について</h2>
             </div>
-            <div className="space-y-8 text-stone-600 leading-loose text-lg">
+            <div className="space-y-8 text-stone-600 leading-loose text-base md:text-lg">
               <p>
                 支援する立場にいる人ほど、自分のことは後回しに、そして孤独になりがちです。<br />
                 教育、医療、福祉、心理職。誰かの人生に伴走する方々が、自分自身の「いしずえ」を疎かにしてしまうと、支援そのものが揺らいでしまいます。
@@ -180,7 +180,7 @@ export default function App() {
                   icon: <CheckCircle2 className="w-6 h-6 text-stone-400" />
                 }
               ].map((feature, i) => (
-                <div key={i} className="p-8 rounded-2xl border border-stone-100 hover:border-stone-200 transition-colors">
+                <div key={i} className="p-6 md:p-8 rounded-2xl border border-stone-100 hover:border-stone-200 transition-colors">
                   <div className="mb-6">{feature.icon}</div>
                   <h3 className="text-lg font-medium mb-4">{feature.title}</h3>
                   <p className="text-stone-500 text-sm leading-relaxed">{feature.desc}</p>
@@ -198,19 +198,39 @@ export default function App() {
             <h2 className="text-2xl font-medium tracking-wider text-center">
               構造整理型カウンセリングとは
             </h2>
-            <div className="text-stone-600 leading-loose text-lg space-y-6">
-              <p>
-                感情の共感だけで終わらせません。
-              </p>
-              <div className="bg-white p-8 rounded-2xl border border-stone-100 space-y-2">
-                <p>・役割の過剰化</p>
-                <p>・責任の抱え込み</p>
-                <p>・思考のループ</p>
-                <p>・境界の曖昧さ</p>
+            <div className="text-stone-600 leading-loose text-base md:text-lg space-y-8">
+              <div className="space-y-6">
+                <p>
+                  感情の共感だけで終わらせません。
+                </p>
+                <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-100 space-y-2">
+                  <p>・役割の過剰化</p>
+                  <p>・責任の抱え込み</p>
+                  <p>・思考のループ</p>
+                  <p>・境界の曖昧さ</p>
+                </div>
+                <p>
+                  これらを言語化・可視化し、負荷の構造を整理します。
+                </p>
               </div>
-              <p>
-                これらを言語化・可視化し、負荷の構造を整理します。
-              </p>
+
+              <div className="pt-8 border-t border-stone-200">
+                <h3 className="text-sm font-medium text-stone-900 mb-6 tracking-widest uppercase text-center">支援の進め方</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[
+                    { text: "面談は1回60分", icon: <Clock className="w-4 h-4" /> },
+                    { text: "2週間単位のサイクル", icon: <Clock className="w-4 h-4" /> },
+                    { text: "オンライン完結", icon: <Monitor className="w-4 h-4" /> },
+                    { text: "文字起こし活用（同意の上）", icon: <ShieldCheck className="w-4 h-4" /> }
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center space-x-3 bg-white/50 p-4 rounded-xl border border-stone-100">
+                      <span className="text-stone-400">{item.icon}</span>
+                      <span className="text-sm text-stone-700">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <p className="font-medium text-stone-800 text-center pt-4">
                 目的は「強くなること」ではなく、消耗を減らすこと。
               </p>
@@ -228,13 +248,17 @@ export default function App() {
               <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
             </div>
             
-            <div className="bg-stone-50/30 p-10 md:p-16 rounded-3xl border border-stone-100 space-y-10">
+            <div className="bg-stone-50/30 p-6 md:p-16 rounded-3xl border border-stone-100 space-y-10">
               <div className="text-center border-b border-stone-100 pb-8">
                 <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
-                <p className="text-stone-500 tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
+                <p className="text-stone-500 tracking-[0.1em] md:tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
               </div>
 
-              <div className="text-stone-700 leading-loose space-y-8 text-lg">
+              <div className="text-stone-700 leading-loose space-y-8 text-base md:text-lg">
+                <p>
+                  現場で出会った支援者の疲弊や孤立を目の当たりにし、<br className="hidden md:block" />
+                  支援する側が立ち止まれる場の必要性を感じました。
+                </p>
                 <p>
                   対人援助職として現場に携わる中で、<br className="hidden md:block" />
                   「支援する側が疲弊し、土台から崩れていく構造」に強い問題意識を持つようになりました。
@@ -248,6 +272,14 @@ export default function App() {
                   思考の癖、役割過多、責任の抱え込み、期待とのズレなどを整理し、<br className="hidden md:block" />
                   「消耗を減らす設計」に立ち戻る支援を行っています。
                 </p>
+                
+                <div className="pt-8 border-t border-stone-100">
+                  <h4 className="text-xs font-medium text-stone-400 mb-4 tracking-[0.3em] uppercase">活動歴</h4>
+                  <p className="text-stone-600 text-sm md:text-base">
+                    対人援助職としての現場経験を経て、個別面談・ケース支援・支援者支援に従事。現在はオンラインを中心に活動。
+                  </p>
+                </div>
+
                 <div className="pt-6 border-t border-stone-100 text-center">
                   <p className="font-medium text-stone-900 mb-2">強くなることを目指すのではなく、</p>
                   <p className="text-xl text-stone-900">持続可能な状態に戻すこと。</p>
@@ -269,7 +301,7 @@ export default function App() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="p-10 border border-stone-800 rounded-2xl space-y-8">
+              <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
                 <div className="flex items-center space-x-4">
                   <Monitor className="w-6 h-6 text-stone-500" />
                   <h3 className="text-xl font-medium tracking-wider">オンラインカウンセリング</h3>
@@ -277,26 +309,26 @@ export default function App() {
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                      <span className="text-stone-500 text-xs tracking-widest uppercase">初回体験 (30分)</span>
-                      <span className="text-lg text-emerald-400">5,000円 (税込)</span>
+                      <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">初回体験 (30分)</span>
+                      <span className="text-base md:text-lg text-emerald-400 whitespace-nowrap">5,000円 (税込)</span>
                     </div>
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                      <span className="text-stone-500 text-xs tracking-widest uppercase">通常 30分</span>
-                      <span className="text-lg">8,000円 (税込)</span>
+                      <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">通常 30分</span>
+                      <span className="text-base md:text-lg whitespace-nowrap">8,000円 (税込)</span>
                     </div>
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                      <span className="text-stone-500 text-xs tracking-widest uppercase">通常 60分</span>
-                      <span className="text-lg">12,000円 (税込)</span>
+                      <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">通常 60分</span>
+                      <span className="text-base md:text-lg whitespace-nowrap">12,000円 (税込)</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-baseline pb-2">
-                    <span className="text-stone-500 text-xs tracking-widest uppercase">形式</span>
-                    <span className="text-lg">Google Meet</span>
+                    <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">形式</span>
+                    <span className="text-base md:text-lg">Google Meet</span>
                   </div>
                 </div>
               </div>
 
-              <div className="p-10 border border-stone-800 rounded-2xl space-y-8">
+              <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
                 <div className="flex items-center space-x-4">
                   <Mail className="w-6 h-6 text-stone-500" />
                   <h3 className="text-xl font-medium tracking-wider">メールカウンセリング</h3>
@@ -345,19 +377,19 @@ export default function App() {
               <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
             </div>
 
-            <div className="text-center bg-stone-50/50 p-12 rounded-3xl border border-stone-100">
-              <p className="text-stone-500 mb-6">
+            <div className="text-center bg-stone-50/50 p-6 md:p-12 rounded-3xl border border-stone-100">
+              <p className="text-stone-500 mb-6 text-sm md:text-base">
                 現在フォーム調整中のため、恐れ入りますが<br className="hidden md:block" />下記メールアドレスまで直接ご連絡ください。
               </p>
 
               <a 
                 href="mailto:ish1zue.counseling@gmail.com" 
-                className="text-xl md:text-2xl text-stone-800 underline underline-offset-8 hover:text-stone-900 transition-colors font-medium"
+                className="text-sm md:text-2xl text-stone-800 underline underline-offset-8 hover:text-stone-900 transition-colors font-medium whitespace-nowrap"
               >
                 ish1zue.counseling@gmail.com
               </a>
 
-              <p className="text-sm text-stone-400 mt-8 tracking-widest">
+              <p className="text-xs md:text-sm text-stone-400 mt-8 tracking-widest">
                 通常24時間以内に返信いたします。守秘義務を厳守いたします。
               </p>
             </div>
