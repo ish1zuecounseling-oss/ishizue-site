@@ -43,12 +43,12 @@ export default function App() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 -z-10">
           <img 
-            src="https://images.unsplash.com/photo-1516589174184-c685266e430c?q=80&w=2574&auto=format&fit=crop" 
-            alt="穏やかなカウンセリングルームの風景" 
+            src="/hero.jpg" 
+            alt="柔らかい自然光が差し込む静かな空間" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-stone-100/80 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative">
@@ -100,6 +100,14 @@ export default function App() {
               <h2 className="text-2xl font-medium mt-4 tracking-wider">当相談室について</h2>
             </div>
             <div className="space-y-8 text-stone-600 leading-loose text-base md:text-lg">
+              <div className="aspect-[21/9] w-full overflow-hidden rounded-2xl mb-12">
+                <img 
+                  src="/concept.jpg" 
+                  alt="積み上げられた石（土台の象徴）" 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
               <p>
                 支援する立場にいる人ほど、自分のことは後回しに、そして孤独になりがちです。<br />
                 教育、医療、福祉、心理職。誰かの人生に伴走する方々が、自分自身の「いしずえ」を疎かにしてしまうと、支援そのものが揺らいでしまいます。
@@ -209,6 +217,11 @@ export default function App() {
                   <p>・思考のループ</p>
                   <p>・境界の曖昧さ</p>
                 </div>
+                <div className="bg-stone-100/50 p-6 rounded-xl border border-stone-200 text-sm md:text-base">
+                  <p className="font-medium text-stone-800 mb-2">例）「管理職として部下を支えながら、自分は誰にも相談できない状態」</p>
+                  <p className="text-stone-500">→ 役割過剰 × 責任の抱え込み × 境界の曖昧さ</p>
+                  <p className="text-stone-500">→ 優先順位再設計</p>
+                </div>
                 <p>
                   これらを言語化・可視化し、負荷の構造を整理します。
                 </p>
@@ -249,9 +262,19 @@ export default function App() {
             </div>
             
             <div className="bg-stone-50/30 p-6 md:p-16 rounded-3xl border border-stone-100 space-y-10">
-              <div className="text-center border-b border-stone-100 pb-8">
-                <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
-                <p className="text-stone-500 tracking-[0.1em] md:tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-stone-100 pb-10">
+                <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-sm">
+                  <img 
+                    src="/profile.jpg" 
+                    alt="松本 龍児 近影" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="text-center md:text-left pt-4">
+                  <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
+                  <p className="text-stone-500 tracking-[0.1em] md:tracking-widest text-sm">構造整理型カウンセラー｜支援者支援特化</p>
+                </div>
               </div>
 
               <div className="text-stone-700 leading-loose space-y-8 text-base md:text-lg">
@@ -276,7 +299,7 @@ export default function App() {
                 <div className="pt-8 border-t border-stone-100">
                   <h4 className="text-xs font-medium text-stone-400 mb-4 tracking-[0.3em] uppercase">活動歴</h4>
                   <p className="text-stone-600 text-sm md:text-base">
-                    対人援助職としての現場経験を経て、個別面談・ケース支援・支援者支援に従事。現在はオンラインを中心に活動。
+                    医療・福祉・教育領域での実務経験を経て、個別面談・ケース支援・支援者支援に従事。現在はオンラインを中心に活動。
                   </p>
                 </div>
 
@@ -378,6 +401,10 @@ export default function App() {
             </div>
 
             <div className="text-center bg-stone-50/50 p-6 md:p-12 rounded-3xl border border-stone-100">
+              <p className="text-stone-800 mb-8 text-base md:text-lg leading-relaxed">
+                小さな違和感の段階でも構いません。<br className="hidden md:block" />
+                まずは一度、整理の時間を持ってみませんか。
+              </p>
               <p className="text-stone-500 mb-6 text-sm md:text-base">
                 現在フォーム調整中のため、恐れ入りますが<br className="hidden md:block" />下記メールアドレスまで直接ご連絡ください。
               </p>
