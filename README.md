@@ -1,20 +1,17 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# いしずえ相談室｜支援者支援特化カウンセリング
 
-# Run and deploy your AI Studio app
+本サイトは、支援職に従事する方々のための
+構造整理型カウンセリング「いしずえ相談室」の公式ページです。
 
-This contains everything you need to run your app locally.
+思考・役割・負荷を構造的に整理し、
+持続可能な支援の土台を再設計することを目的としています。
 
-View your app in AI Studio: https://ai.studio/apps/865e7f6c-14a5-4c8f-9de0-309e994b34e5
+## Website
+https://ishizue-site-ker9.vercel.app
 
-## Run Locally
+## Concept
+「礎（いしずえ）」とは、土台のこと。
+支援する立場にいる人こそ、自身の基盤を整える時間が必要です。
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+消耗を減らし、支援を続けられる構造を整える。
+それが、いしずえ相談室の理念です。
