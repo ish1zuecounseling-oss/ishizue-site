@@ -20,15 +20,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-sm border-b border-stone-100">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="text-lg font-medium tracking-wider text-stone-900">
-              いしずえ
-            </div>
-          </div>
+ <div className="flex items-center space-x-3">
+  <img
+    src="/favicon.png"
+    alt="いしずえ ロゴ"
+    className="h-8 w-8"
+  />
+  <div className="text-lg font-medium tracking-wider text-stone-900">
+    こころの相談室（いしずえ）
+  </div>
+</div>
           <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
             <a href="#about" className="hover:text-stone-900 transition-colors">当相談室について</a>
             <a href="#services" className="hover:text-stone-900 transition-colors">ご相談</a>
