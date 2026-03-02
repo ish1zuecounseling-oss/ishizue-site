@@ -19,27 +19,32 @@ export default function App() {
     transition: { duration: 0.8, ease: "easeOut" }
   };
 
-  return (
+return (
   <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
- <div className="flex items-center space-x-3">
-  <img
-    src="/favicon.png"
-    alt="いしずえ ロゴ"
-    className="h-8 w-8"
-  />
-  <div className="text-lg font-medium tracking-wider text-stone-900">
-    こころの相談室（いしずえ）
-  </div>
-</div>
-          <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
-            <a href="#about" className="hover:text-stone-900 transition-colors">当相談室について</a>
-            <a href="#services" className="hover:text-stone-900 transition-colors">ご相談</a>
-            <a href="#guide" className="hover:text-stone-900 transition-colors">ご利用案内</a>
-            <a href="#contact" className="hover:text-stone-900 transition-colors">お問い合わせ</a>
+
+    <nav className="px-6 py-4 border-b border-stone-100 bg-white">
+      <div className="max-w-5xl mx-auto flex justify-between items-center">
+
+        <div className="flex items-center space-x-3">
+          <img
+            src="/favicon.png"
+            alt="いしずえ ロゴ"
+            className="h-8 w-8"
+          />
+          <div className="text-lg font-medium tracking-wider text-stone-900">
+            こころの相談室（いしずえ）
           </div>
         </div>
-      </nav>
 
+        <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
+          <a href="#about" className="hover:text-stone-900 transition-colors">当相談室について</a>
+          <a href="#services" className="hover:text-stone-900 transition-colors">ご相談</a>
+          <a href="#guide" className="hover:text-stone-900 transition-colors">ご利用案内</a>
+          <a href="#contact" className="hover:text-stone-900 transition-colors">お問い合わせ</a>
+        </div>
+
+      </div>
+    </nav>
       {/* Hero Section */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
         {/* Background Image with Overlay */}
