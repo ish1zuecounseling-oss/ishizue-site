@@ -73,13 +73,13 @@ return (
             </div>
             
 <div className="max-w-2xl mx-auto space-y-6 text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
-  <p className="text-left md:text-center">
+  <p className="text-left md:className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm text-left"">
     礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
   </p>
-  <p className="text-left md:text-center">
+  <p className="text-left className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm text-left"">
     ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
   </p>
-  <p className="font-medium text-stone-900 text-left md:text-center">
+  <p className="font-medium text-stone-900 text-left md:className="max-w-2xl mx-auto space-y-8 text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm text-left"">
     消耗を減らし、支援を続けられる土台を再設計します。
   </p>
 </div>
