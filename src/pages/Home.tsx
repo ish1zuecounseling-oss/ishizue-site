@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Mail, ArrowRight, CheckCircle2, ShieldCheck, Monitor, Clock, X } from "lucide-react";
+
 export default function Home() {
   return (import { BrowserRouter, Routes, Route } from "react-router-dom"
 import HelperBurnout from "./pages/HelperBurnout"
