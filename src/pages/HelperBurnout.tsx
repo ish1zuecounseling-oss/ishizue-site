@@ -1,11 +1,6 @@
 export default function HelperBurnout() {
   return (
-    <div style={{
-      backgroundColor: "#f7f7f7",
-      minHeight: "100vh",
-      padding: "60px 20px"
-    }}>
-
+    <div style={{ backgroundColor: "#f7f7f7", minHeight: "100vh", padding: "60px 20px" }}>
       <div style={{
         maxWidth: "800px",
         margin: "0 auto",
@@ -15,7 +10,6 @@ export default function HelperBurnout() {
         boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
         lineHeight: "1.9"
       }}>
-
         <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>
           支援職の燃え尽き（バーンアウト）
         </h1>
@@ -26,9 +20,7 @@ export default function HelperBurnout() {
           知らないうちに心身の疲労が蓄積してしまうことがあります。
         </p>
 
-        <h2 style={{ marginTop: "40px" }}>
-          燃え尽き（バーンアウト）とは
-        </h2>
+        <h2 style={{ marginTop: "40px" }}>燃え尽き（バーンアウト）とは</h2>
 
         <p>
           燃え尽きとは、仕事に強い使命感や責任感を持つ人ほど
@@ -40,9 +32,7 @@ export default function HelperBurnout() {
           共感疲労や慢性的なストレスが蓄積しやすいとされています。
         </p>
 
-        <h2 style={{ marginTop: "40px" }}>
-          よく見られるサイン
-        </h2>
+        <h2 style={{ marginTop: "40px" }}>よく見られるサイン</h2>
 
         <ul style={{ paddingLeft: "20px" }}>
           <li>仕事への意欲が低下する</li>
@@ -52,9 +42,7 @@ export default function HelperBurnout() {
           <li>休んでも回復しない疲れ</li>
         </ul>
 
-        <h2 style={{ marginTop: "40px" }}>
-          支援職で燃え尽きが起きやすい理由
-        </h2>
+        <h2 style={{ marginTop: "40px" }}>支援職で燃え尽きが起きやすい理由</h2>
 
         <p>
           支援職では「人の役に立ちたい」という思いが強い人ほど、
@@ -68,9 +56,7 @@ export default function HelperBurnout() {
 
         <hr style={{ margin: "40px 0" }} />
 
-        <h2>
-          支援職の悩みについて相談する
-        </h2>
+        <h2>支援職の悩みについて相談する</h2>
 
         <p>
           支援職の仕事には外からは見えにくい負担や葛藤があります。
@@ -89,9 +75,7 @@ export default function HelperBurnout() {
         }}>
           カウンセリングについて見る
         </button>
-
       </div>
-
     </div>
   )
 }
