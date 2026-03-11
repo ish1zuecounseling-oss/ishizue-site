@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import HelperBurnout from "./pages/HelperBurnout"
 /**
  * @license
@@ -21,8 +22,11 @@ export default function App() {
   };
 
 return (
-  <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
+  <BrowserRouter>
 
+    <Routes>
+
+      <Route path="/" element={<div>
     <nav className="px-6 py-4 border-b border-stone-100 bg-white">
       <div className="max-w-5xl mx-auto flex justify-between items-center">
 
@@ -599,6 +603,13 @@ return (
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
-  );
+</div>
+} />
+
+<Route path="/helper-burnout" element={<HelperBurnout />} />
+
+</Routes>
+
+</BrowserRouter>
+);
 }
