@@ -108,7 +108,7 @@ export default function HelperBurnout() {
             </p>
 
             <button className="group inline-flex items-center gap-2 bg-[#5a5a40] hover:bg-[#4a4a30] text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg">
-              カウンセリングについて見る
+              支援職の悩みを相談する
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </section>
