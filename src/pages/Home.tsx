@@ -72,7 +72,7 @@ export default function Home() {
 <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
   {/* Background Image with Overlay */}
   <div className="absolute inset-0 -z-10">
-    <img 
+    <img
       src="/hero.jpg"
       alt="カウンセリングをイメージした静かな空間"
       className="w-full h-full object-cover"
@@ -81,8 +81,8 @@ export default function Home() {
     <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
   </div>
 
-  {/* Hero contents（← これをHeroの中へ） */}
-  <div className="max-w-4xl mx-auto text-center relative w-full">
+  {/* Hero本文（← これをHeroの中に入れる） */}
+  <div className="max-w-4xl mx-auto text-center relative">
     <motion.div>
       <div className="mb-12">
         <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
@@ -133,14 +133,9 @@ export default function Home() {
     「バーンアウト（燃え尽き）」について解説しています。
   </p>
 
-  <h2 className="text-xl font-medium mb-4">
-    支援職の燃え尽きについて
-  </h2>
+  <h2 className="text-xl font-medium mb-4">支援職の燃え尽きについて</h2>
 
-  <a
-    href="/helper-burnout"
-    className="text-stone-800 underline hover:text-stone-900"
-  >
+  <a href="/helper-burnout" className="text-stone-800 underline hover:text-stone-900">
     支援職のバーンアウトについて詳しく読む
   </a>
 </section>
