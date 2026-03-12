@@ -3,138 +3,179 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react"; // ② 修正
-import {
-  Mail,
-  ArrowRight,
-  CheckCircle2,
-  ShieldCheck,
-  Monitor,
-  Clock,
-  X,
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { ArrowRight } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function Home() {
-  const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.8, ease: "easeOut" },
-  };
+  const [activeModal, setActiveModal] = useState<string | null>(null)
 
   return (
-    <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
-      {/* Navigation ① 修正：固定ヘッダーに戻す */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-sm border-b border-stone-100">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* ロゴ */}
+    <>
+
+      {/* =========================
+          NAV
+      ========================= */}
+
+      <nav className="px-6 py-4 border-b border-stone-100 bg-white">
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
+
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/favicon.png" alt="いしずえ ロゴ" className="h-8 w-8" />
+            <img
+              src="/favicon.png"
+              alt="いしずえ ロゴ"
+              className="h-8 w-8"
+            />
             <div className="text-lg font-medium tracking-wider text-stone-900">
               こころの相談室（いしずえ）
             </div>
           </Link>
 
-          {/* ナビゲーション */}
           <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
+
             <a href="#about" className="hover:text-stone-900 transition-colors">
               当相談室について
             </a>
+
             <a href="#services" className="hover:text-stone-900 transition-colors">
               ご相談
             </a>
-            <Link
-              to="/emotional-labor"
-              className="hover:text-stone-900 transition-colors"
-            >
+
+            <Link to="/emotional-labor" className="hover:text-stone-900 transition-colors">
               心理記事
             </Link>
+
             <a href="#guide" className="hover:text-stone-900 transition-colors">
               ご利用案内
             </a>
+
             <a href="#contact" className="hover:text-stone-900 transition-colors">
               お問い合わせ
             </a>
+
           </div>
+
         </div>
       </nav>
 
-      {/* Hero Section */}
+
+      {/* =========================
+          HERO
+      ========================= */}
+
       <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
-        {/* Background Image with Overlay */}
+
+        {/* Background */}
+
         <div className="absolute inset-0 -z-10">
+
           <img
             src="/hero.jpg"
             alt="カウンセリングをイメージした静かな空間"
             className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-stone-100/90 to-stone-200/90 backdrop-blur-sm" />
+
+          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
+
         </div>
 
-        {/* ③ 修正：w-full を削除 */}
+        {/* Content */}
+
         <div className="max-w-4xl mx-auto text-center relative">
-          <motion.div {...fadeIn}>
+
+          <motion.div>
+
             <div className="mb-12">
+
               <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
+
                 <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">
                   公認心理師による支援者支援
                 </span>
+
               </div>
+
               <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
-                支援職のためのカウンセリング
-                <br />
+
+                支援職のためのカウンセリング<br />
                 こころの相談室 いしずえ
+
               </h1>
+
               <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
                 ― 支援する人の、土台を整える ―
               </p>
+
             </div>
 
+
             <div className="max-w-2xl mx-auto space-y-6 text-left text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
+
               <p>
                 礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
               </p>
+
               <p>
                 ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
               </p>
+
               <p className="font-medium text-stone-900">
                 消耗を減らし、支援を続けられる土台を再設計します。
               </p>
 
-              {/* SEO導線 */}
-              <div className="pt-6 border-t border-white/30">
-                <p className="text-stone-600 text-sm leading-relaxed">
-                  福祉・医療・教育などの対人援助職で起こりやすい「バーンアウト（燃え尽き）」について解説しています。
-                </p>
-                <div className="mt-3">
-                  <Link
-                    to="/helper-burnout"
-                    className="text-stone-800 underline hover:text-stone-900 text-sm"
-                  >
-                    支援職のバーンアウトについて詳しく読む
-                  </Link>
-                </div>
-              </div>
             </div>
+
 
             <div className="mt-16">
+
               <a
                 href="#contact"
-                className="inline-flex items-center px-12 py-5 bg-stone-900 text-white text-sm tracking-[0.2em] rounded-full shadow-xl shadow-stone-300 hover:scale-105 hover:bg-stone-800 transition-all duration-300"
+                className="inline-flex items-center px-12 py-5 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-xl shadow-stone-200/50"
               >
+
                 お問い合わせ
                 <ArrowRight className="ml-2 w-4 h-4" />
+
               </a>
+
             </div>
+
           </motion.div>
+
         </div>
+
       </section>
 
+
+      {/* =========================
+          SEO導線
+      ========================= */}
+
+      <section className="py-16 px-6 bg-stone-50 text-center">
+
+        <p className="text-stone-600 mb-6">
+          福祉・医療・教育などの対人援助職で起こりやすい
+          「バーンアウト（燃え尽き）」について解説しています。
+        </p>
+
+        <h2 className="text-xl font-medium mb-4">
+          支援職の燃え尽きについて
+        </h2>
+
+        <a
+          href="/helper-burnout"
+          className="text-stone-800 underline hover:text-stone-900"
+        >
+          支援職のバーンアウトについて詳しく読む
+        </a>
+
+      </section>
+
+    </>
+  )
+}
       {/* About Section */}
       <section id="about" className="py-24 px-6 bg-white relative overflow-hidden">
         <div className="max-w-3xl mx-auto">
