@@ -20,7 +20,8 @@ export default function HelperBurnout() {
             <span className="italic font-normal text-[#5a5a40]">（バーンアウト）</span>
           </h1>
           <p className="text-lg text-[#6a6a5a] max-w-2xl mx-auto leading-relaxed">
-            対人援助職は、利用者やクライアントの人生に深く関わる仕事です。
+            支援職（対人援助職）は、福祉・医療・教育などの現場で
+            利用者やクライアントの人生に深く関わる仕事です。
             そのため責任の重さや感情労働の負担が大きく、
             知らないうちに心身の疲労が蓄積してしまうことがあります。
           </p>
