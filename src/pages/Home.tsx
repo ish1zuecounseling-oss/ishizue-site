@@ -1,36 +1,78 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Mail, ArrowRight, CheckCircle2, ShieldCheck, Monitor, Clock, X } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function Home() {
 
   const [activeModal, setActiveModal] = useState<string | null>(null)
 
   return (
-<>
-  <nav className="px-6 py-4 border-b border-stone-100 bg-white">
-      <div className="max-w-5xl mx-auto flex justify-between items-center">
+    <>
 
-        <div className="flex items-center space-x-3">
-          <img
-            src="/favicon.png"
-            alt="いしずえ ロゴ"
-            className="h-8 w-8"
-          />
-          <div className="text-lg font-medium tracking-wider text-stone-900">
-            こころの相談室（いしずえ）
+      <nav className="px-6 py-4 border-b border-stone-100 bg-white">
+
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
+
+          {/* ロゴ */}
+          <Link to="/" className="flex items-center space-x-3">
+            <img
+              src="/favicon.png"
+              alt="いしずえ ロゴ"
+              className="h-8 w-8"
+            />
+            <div className="text-lg font-medium tracking-wider text-stone-900">
+              こころの相談室（いしずえ）
+            </div>
+          </Link>
+
+          {/* ナビゲーション */}
+          <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
+
+            <a
+              href="#about"
+              className="hover:text-stone-900 transition-colors"
+            >
+              当相談室について
+            </a>
+
+            <a
+              href="#services"
+              className="hover:text-stone-900 transition-colors"
+            >
+              ご相談
+            </a>
+
+            <Link
+              to="/emotional-labor"
+              className="hover:text-stone-900 transition-colors"
+            >
+              心理記事
+            </Link>
+
+            <a
+              href="#guide"
+              className="hover:text-stone-900 transition-colors"
+            >
+              ご利用案内
+            </a>
+
+            <a
+              href="#contact"
+              className="hover:text-stone-900 transition-colors"
+            >
+              お問い合わせ
+            </a>
+
           </div>
+
         </div>
 
-        <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
-          <a href="#about" className="hover:text-stone-900 transition-colors">当相談室について</a>
-          <a href="#services" className="hover:text-stone-900 transition-colors">ご相談</a>
-          <a href="#guide" className="hover:text-stone-900 transition-colors">ご利用案内</a>
-          <a href="#contact" className="hover:text-stone-900 transition-colors">お問い合わせ</a>
-        </div>
+      </nav>
 
-      </div>
-    </nav>
+    </>
+  )
+}
       {/* Hero Section */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
         {/* Background Image with Overlay */}
