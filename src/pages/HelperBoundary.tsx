@@ -29,7 +29,6 @@ export default function HelperBoundary() {
           <div className="h-px w-24 bg-stone-300 mt-8" />
         </header>
 
-
         <section className="space-y-6">
 
           <p>
@@ -46,7 +45,6 @@ export default function HelperBoundary() {
             境界線が曖昧になると、
             支援する側が必要以上の責任や感情を抱え込んでしまうことがあります。
           </p>
-
 
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
             境界線が曖昧になると起こりやすいこと
@@ -67,7 +65,6 @@ export default function HelperBoundary() {
             このような状態が続くと、
             心理的な疲労が蓄積しやすくなります。
           </p>
-
 
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
             境界線は「距離を取ること」ではない
@@ -100,7 +97,6 @@ export default function HelperBoundary() {
             土台にもなります。
           </p>
 
-
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
             支援を続けるための境界線
           </h2>
@@ -120,7 +116,6 @@ export default function HelperBoundary() {
           </p>
 
         </section>
-
 
         <section className="mt-20 pt-10 border-t border-stone-200">
 
