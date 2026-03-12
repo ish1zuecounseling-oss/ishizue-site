@@ -2,23 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
-/* Theme */
-@theme {
+/* =========================
+   Base
+========================= */
 
-  /* Fonts */
-  --font-sans: "Inter", "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Noto Serif JP", "Cormorant Garamond", serif;
-
-  /* Brand Colors */
-  --color-brand-olive: #5A5A40;
-  --color-brand-cream: #f5f5f0;
-  --color-brand-ink: #1a1a1a;
-}
-
-
-/* Base */
 @layer base {
 
   html {
@@ -26,19 +16,24 @@
   }
 
   body {
-    @apply font-serif text-stone-800 bg-stone-50/30;
+    font-family: "Noto Serif JP", "Cormorant Garamond", serif;
+    @apply text-stone-800 bg-stone-50/30;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-medium tracking-tight;
+    font-family: "Noto Serif JP", "Cormorant Garamond", serif;
+    @apply font-medium tracking-tight;
   }
 
 }
 
+/* =========================
+   Markdown (記事用)
+========================= */
 
-/* Markdown (記事用) */
 .markdown-body {
-  @apply font-serif leading-relaxed;
+  @apply leading-relaxed;
+  font-family: "Noto Serif JP", "Cormorant Garamond", serif;
 }
 
 .markdown-body h1 {
@@ -61,8 +56,10 @@
   @apply mb-2;
 }
 
+/* =========================
+   Utilities
+========================= */
 
-/* Utilities */
 @layer utilities {
 
   .fade-in {
@@ -74,6 +71,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
