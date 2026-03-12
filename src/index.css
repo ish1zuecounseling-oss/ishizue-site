@@ -10,6 +10,7 @@
   html {
     scroll-behavior: smooth;
   }
+
   body {
     @apply font-serif text-stone-800 bg-stone-50/30;
   }
@@ -19,21 +20,9 @@
   .fade-in {
     animation: fadeIn 1.2s ease-out forwards;
   }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 }
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "CounselingService",
- "name": "こころの相談室 いしずえ",
- "areaServed": "Japan",
- "serviceType": "カウンセリング",
- "provider": {
-   "@type": "Person",
-   "name": "松本 龍児"
- }
-}
-</script>
