@@ -68,39 +68,81 @@ export default function Home() {
         </div>
         </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 -z-10">
-          <img 
-            src="/hero.jpg" 
-             alt="カウンセリングをイメージした静かな空間" 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
+{/* Hero Section */}
+<section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
+  {/* Background Image with Overlay */}
+  <div className="absolute inset-0 -z-10">
+    <img 
+      src="/hero.jpg"
+      alt="カウンセリングをイメージした静かな空間"
+      className="w-full h-full object-cover"
+      referrerPolicy="no-referrer"
+    />
+    <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
+  </div>
+
+  {/* Hero contents（← これをHeroの中へ） */}
+  <div className="max-w-4xl mx-auto text-center relative w-full">
+    <motion.div>
+      <div className="mb-12">
+        <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
+          <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">
+            公認心理師による支援者支援
+          </span>
         </div>
-        </section> {/* Hero end */}
-      
-        {/* SEO導線 */}
-        <section className="py-16 px-6 bg-stone-50 text-center">
 
-        <p className="text-stone-600 mb-6">
-        福祉・医療・教育などの対人援助職で起こりやすい
-        「バーンアウト（燃え尽き）」について解説しています。
+        <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
+          支援職のためのカウンセリング<br />
+          こころの相談室 いしずえ
+        </h1>
+
+        <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
+          ― 支援する人の、土台を整える ―
         </p>
+      </div>
 
-        <h2 className="text-xl font-medium mb-4">
-        支援職の燃え尽きについて
-        </h2>
+      <div className="max-w-2xl mx-auto space-y-6 text-left text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
+        <p>
+          礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
+        </p>
+        <p>
+          ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
+        </p>
+        <p className="font-medium text-stone-900">
+          消耗を減らし、支援を続けられる土台を再設計します。
+        </p>
+      </div>
 
-      <a
-      href="/helper-burnout"
-      className="text-stone-800 underline hover:text-stone-900"
+      <div className="mt-16">
+        <a
+          href="#contact"
+          className="inline-flex items-center px-12 py-5 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-xl shadow-stone-200/50"
         >
-      支援職のバーンアウトについて詳しく読む
-          </a>
+          お問い合わせ
+          <ArrowRight className="ml-2 w-4 h-4" />
+        </a>
+      </div>
+    </motion.div>
+  </div>
+</section>
 
+{/* SEO導線 */}
+<section className="py-16 px-6 bg-stone-50 text-center">
+  <p className="text-stone-600 mb-6">
+    福祉・医療・教育などの対人援助職で起こりやすい
+    「バーンアウト（燃え尽き）」について解説しています。
+  </p>
+
+  <h2 className="text-xl font-medium mb-4">
+    支援職の燃え尽きについて
+  </h2>
+
+  <a
+    href="/helper-burnout"
+    className="text-stone-800 underline hover:text-stone-900"
+  >
+    支援職のバーンアウトについて詳しく読む
+  </a>
 </section>
 
   <div className="max-w-4xl mx-auto text-center relative">
