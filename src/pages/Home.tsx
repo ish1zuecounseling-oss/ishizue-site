@@ -65,7 +65,7 @@ export default function Home() {
             </a>
 
           </div>
-
+        </div>
         </nav>
 
       {/* Hero Section */}
@@ -80,8 +80,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
-        </section> {/* Hero end */}
-
+        
         {/* SEO導線 */}
         <section className="py-16 px-6 bg-stone-50 text-center">
 
@@ -140,7 +139,7 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> {/* Hero end */}
 
       {/* About Section */}
       <section id="about" className="py-24 px-6 bg-white relative overflow-hidden">
