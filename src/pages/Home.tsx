@@ -37,23 +37,24 @@ export default function Home() {
         <div className="absolute inset-0 -z-10">
           <img 
             src="/hero.jpg" 
-            alt="柔らかい自然光が差し込む静かな空間" 
+           　alt="カウンセリングをイメージした静かな空間" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
-        <section className="py-16 text-center">
+        <section className="py-16 px-6 bg-stone-50 text-center">
         <h2 className="text-xl font-medium mb-6">
         支援職の燃え尽きについて
-        </h2>
+          </h2>
 
-        <a
-        href="/helper-burnout"
-        className="text-stone-800 underline"
-          >
-        支援職のバーンアウトについて詳しく読む
-        </a>
+          <a
+          href="/helper-burnout"
+          className="text-stone-800 underline hover:text-stone-900"
+            >
+    支援職のバーンアウトについて詳しく読む
+  </a>
+</section>
 
 </section>
 
