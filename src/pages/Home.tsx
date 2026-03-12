@@ -68,11 +68,6 @@ export default function Home() {
 
         </div>
 
-      </nav>
-
-    </>
-  )
-}
       {/* Hero Section */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
         {/* Background Image with Overlay */}
@@ -649,8 +644,6 @@ export default function Home() {
           </motion.div>
         )}
   </AnimatePresence>
-
 </>
-
 )
 }
