@@ -37,28 +37,36 @@ export default function Home() {
         <div className="absolute inset-0 -z-10">
           <img 
             src="/hero.jpg" 
-           　alt="カウンセリングをイメージした静かな空間" 
+             alt="カウンセリングをイメージした静かな空間" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
+        </section> {/* Hero end */}
+
+        {/* SEO導線 */}
         <section className="py-16 px-6 bg-stone-50 text-center">
-        <h2 className="text-xl font-medium mb-6">
+
+        <p className="text-stone-600 mb-6">
+        福祉・医療・教育などの対人援助職で起こりやすい
+        「バーンアウト（燃え尽き）」について解説しています。
+        </p>
+
+        <h2 className="text-xl font-medium mb-4">
         支援職の燃え尽きについて
-          </h2>
+        </h2>
 
-          <a
-          href="/helper-burnout"
-          className="text-stone-800 underline hover:text-stone-900"
-            >
-    支援職のバーンアウトについて詳しく読む
-  </a>
+      <a
+      href="/helper-burnout"
+      className="text-stone-800 underline hover:text-stone-900"
+        >
+      支援職のバーンアウトについて詳しく読む
+          </a>
+
 </section>
 
-</section>
-
-        <div className="max-w-4xl mx-auto text-center relative">
+  <div className="max-w-4xl mx-auto text-center relative">
           <motion.div>
             <div className="mb-12">
               <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
