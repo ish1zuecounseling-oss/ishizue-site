@@ -43,6 +43,19 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
+        <section className="py-16 text-center">
+        <h2 className="text-xl font-medium mb-6">
+        支援職の燃え尽きについて
+        </h2>
+
+        <a
+        href="/helper-burnout"
+        className="text-stone-800 underline"
+          >
+        支援職のバーンアウトについて詳しく読む
+        </a>
+
+</section>
 
         <div className="max-w-4xl mx-auto text-center relative">
           <motion.div>
@@ -51,8 +64,9 @@ export default function Home() {
                 <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">公認心理師による支援者支援</span>
               </div>
               <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
-                こころの相談室<br className="md:hidden" /> いしずえ
-              </h1>
+                支援職のためのカウンセリング<br />
+                こころの相談室 いしずえ
+                </h1>
               <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
                 ― 支援する人の、土台を整える ―
               </p>
