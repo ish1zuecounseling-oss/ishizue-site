@@ -4,7 +4,7 @@
  */
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react"; // ② 修正
 import {
   Mail,
   ArrowRight,
@@ -28,9 +28,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
-      {/* Navigation */}
-      <nav className="px-6 py-4 border-b border-stone-100 bg-white">
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
+      {/* Navigation ① 修正：固定ヘッダーに戻す */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-sm border-b border-stone-100">
+        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* ロゴ */}
           <Link to="/" className="flex items-center space-x-3">
             <img src="/favicon.png" alt="いしずえ ロゴ" className="h-8 w-8" />
@@ -76,7 +76,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
 
-        <div className="max-w-4xl mx-auto text-center relative w-full">
+        {/* ③ 修正：w-full を削除 */}
+        <div className="max-w-4xl mx-auto text-center relative">
           <motion.div {...fadeIn}>
             <div className="mb-12">
               <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
@@ -105,7 +106,7 @@ export default function Home() {
                 消耗を減らし、支援を続けられる土台を再設計します。
               </p>
 
-              {/* SEO導線：ヒーローの"中"に馴染ませる */}
+              {/* SEO導線 */}
               <div className="pt-6 border-t border-white/30">
                 <p className="text-stone-600 text-sm leading-relaxed">
                   福祉・医療・教育などの対人援助職で起こりやすい「バーンアウト（燃え尽き）」について解説しています。
@@ -560,7 +561,6 @@ export default function Home() {
                   <p>
                     こころの相談室 いしずえ（以下「当相談室」）は、利用者の個人情報の重要性を認識し、以下のとおり適切に取り扱います。
                   </p>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">1. 取得する情報</h3>
                     <p>当相談室では、以下の情報を取得する場合があります。</p>
@@ -572,7 +572,6 @@ export default function Home() {
                       <li>決済情報</li>
                     </ul>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">2. 利用目的</h3>
                     <p>取得した情報は、以下の目的に利用します。</p>
@@ -583,34 +582,28 @@ export default function Home() {
                       <li>法令に基づく対応</li>
                     </ul>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">3. 第三者提供</h3>
                     <p>法令に基づく場合を除き、本人の同意なく第三者へ提供することはありません。</p>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">4. 情報管理</h3>
                     <p>取得した情報は適切に管理し、不正アクセス・漏えい・改ざん防止に努めます。</p>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">5. オンラインツールの利用</h3>
                     <p>
                       オンラインカウンセリングでは Google Meet を使用します。各ツールのセキュリティポリシーは提供元の規定に準じます。
                     </p>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">6. 開示・訂正・削除</h3>
                     <p>ご本人からの請求があった場合、法令に従い対応いたします。</p>
                   </section>
-
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">7. 改定</h3>
                     <p>本ポリシーは必要に応じて改定されます。</p>
                   </section>
-
                   <div className="pt-8 border-t border-stone-100 text-sm space-y-1">
                     <p>事業者名：こころの相談室 いしずえ</p>
                     <p>代表：松本 龍児</p>
@@ -625,14 +618,11 @@ export default function Home() {
                   <h2 className="text-2xl font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-6">
                     特定商取引法に基づく表記
                   </h2>
-
                   <div className="grid grid-cols-[120px_1fr] gap-y-6 text-sm md:text-base">
                     <div className="text-stone-400 font-medium">事業者名</div>
                     <div>こころの相談室 いしずえ</div>
-
                     <div className="text-stone-400 font-medium">代表者名</div>
                     <div>松本 龍児</div>
-
                     <div className="text-stone-400 font-medium">所在地</div>
                     <div>
                       大阪府大阪市
@@ -641,7 +631,6 @@ export default function Home() {
                         ※詳細な所在地については、ご請求があった場合に遅滞なく開示いたします。
                       </span>
                     </div>
-
                     <div className="text-stone-400 font-medium">連絡先</div>
                     <div>
                       ish1zue.counseling@gmail.com
@@ -650,7 +639,6 @@ export default function Home() {
                         ※お問い合わせはメールにてお願いいたします。
                       </span>
                     </div>
-
                     <div className="text-stone-400 font-medium">販売価格</div>
                     <div className="space-y-2">
                       <p>
@@ -666,16 +654,12 @@ export default function Home() {
                         ・3往復 3,000円（税込）
                       </p>
                     </div>
-
                     <div className="text-stone-400 font-medium">支払方法</div>
                     <div>銀行振込</div>
-
                     <div className="text-stone-400 font-medium">支払時期</div>
                     <div>予約確定後、指定期日までにお支払いください。</div>
-
                     <div className="text-stone-400 font-medium">提供時期</div>
                     <div>入金確認後、予約日時に提供いたします。</div>
-
                     <div className="text-stone-400 font-medium">返品・返金</div>
                     <div>下記キャンセルポリシーをご確認ください。</div>
                   </div>
@@ -688,7 +672,6 @@ export default function Home() {
                     キャンセルポリシー
                   </h2>
                   <p>ご予約後のキャンセルについては、以下の通りといたします。</p>
-
                   <ul className="space-y-4">
                     <li className="flex justify-between border-b border-stone-50 pb-2">
                       <span>24時間前までのキャンセル</span>
@@ -703,11 +686,9 @@ export default function Home() {
                       <span className="font-medium text-stone-900">料金の100%</span>
                     </li>
                   </ul>
-
                   <p className="text-sm">
                     やむを得ない事情がある場合は個別にご相談ください。返金が発生する場合、振込手数料をご負担いただくことがあります。
                   </p>
-
                   <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-sm">
                     <p>
                       なお、本サービスは医療行為ではありません。診断・投薬・緊急対応は行っておりません。
