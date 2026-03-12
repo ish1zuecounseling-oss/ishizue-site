@@ -1,13 +1,34 @@
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Mail, ArrowRight, CheckCircle2, ShieldCheck, Monitor, Clock, X } from "lucide-react"
-import { Link } from "react-router-dom"
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Mail,
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Monitor,
+  Clock,
+  X,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  const [activeModal, setActiveModal] = useState<string | null>(null)
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.8, ease: "easeOut" },
+  };
 
   return (
-    <>
+    <div className="min-h-screen selection:bg-stone-200 selection:text-stone-900">
+      {/* Navigation */}
       <nav className="px-6 py-4 border-b border-stone-100 bg-white">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           {/* ロゴ */}
@@ -23,19 +44,18 @@ export default function Home() {
             <a href="#about" className="hover:text-stone-900 transition-colors">
               当相談室について
             </a>
-
             <a href="#services" className="hover:text-stone-900 transition-colors">
               ご相談
             </a>
-
-            <Link to="/emotional-labor" className="hover:text-stone-900 transition-colors">
+            <Link
+              to="/emotional-labor"
+              className="hover:text-stone-900 transition-colors"
+            >
               心理記事
             </Link>
-
             <a href="#guide" className="hover:text-stone-900 transition-colors">
               ご利用案内
             </a>
-
             <a href="#contact" className="hover:text-stone-900 transition-colors">
               お問い合わせ
             </a>
@@ -43,88 +63,114 @@ export default function Home() {
         </div>
       </nav>
 
-{/* Hero Section */}
-<section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
-  {/* Background Image with Overlay */}
-  <div className="absolute inset-0 -z-10">
-    <img
-      src="/hero.jpg"
-      alt="カウンセリングをイメージした静かな空間"
-      className="w-full h-full object-cover"
-      referrerPolicy="no-referrer"
-    />
-    <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
-  </div>
-
-  <div className="max-w-4xl mx-auto text-center relative w-full">
-    <motion.div>
-      <div className="mb-12">
-        <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
-          <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">
-            公認心理師による支援者支援
-          </span>
+      {/* Hero Section */}
+      <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex items-center">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 -z-10">
+          <img
+            src="/hero.jpg"
+            alt="カウンセリングをイメージした静かな空間"
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
         </div>
 
-        <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
-          支援職のためのカウンセリング<br />
-          こころの相談室 いしずえ
-        </h1>
+        <div className="max-w-4xl mx-auto text-center relative w-full">
+          <motion.div {...fadeIn}>
+            <div className="mb-12">
+              <div className="inline-block px-4 py-1 border border-stone-300 rounded-full mb-8 bg-white/50 backdrop-blur-sm">
+                <span className="text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-stone-600 uppercase font-medium">
+                  公認心理師による支援者支援
+                </span>
+              </div>
+              <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
+                支援職のためのカウンセリング
+                <br />
+                こころの相談室 いしずえ
+              </h1>
+              <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
+                ― 支援する人の、土台を整える ―
+              </p>
+            </div>
 
-        <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
-          ― 支援する人の、土台を整える ―
-        </p>
-      </div>
+            <div className="max-w-2xl mx-auto space-y-6 text-left text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
+              <p>
+                礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
+              </p>
+              <p>
+                ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
+              </p>
+              <p className="font-medium text-stone-900">
+                消耗を減らし、支援を続けられる土台を再設計します。
+              </p>
 
-      <div className="max-w-2xl mx-auto space-y-6 text-left text-stone-700 leading-relaxed text-base md:text-lg bg-white/40 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-white/20 shadow-sm">
-        <p>
-          礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
-        </p>
-        <p>
-          ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、持続可能な状態へ整え直すための時間です。
-        </p>
-        <p className="font-medium text-stone-900">
-          消耗を減らし、支援を続けられる土台を再設計します。
-        </p>
+              {/* SEO導線：ヒーローの"中"に馴染ませる */}
+              <div className="pt-6 border-t border-white/30">
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  福祉・医療・教育などの対人援助職で起こりやすい「バーンアウト（燃え尽き）」について解説しています。
+                </p>
+                <div className="mt-3">
+                  <Link
+                    to="/helper-burnout"
+                    className="text-stone-800 underline hover:text-stone-900 text-sm"
+                  >
+                    支援職のバーンアウトについて詳しく読む
+                  </Link>
+                </div>
+              </div>
+            </div>
 
-        {/* SEO導線：ヒーローの“中”に馴染ませる */}
-        <div className="pt-6 border-t border-white/30">
-          <p className="text-stone-600 text-sm leading-relaxed">
-            福祉・医療・教育などの対人援助職で起こりやすい「バーンアウト（燃え尽き）」について解説しています。
-          </p>
-          <div className="mt-3">
-            <Link
-              to="/helper-burnout"
-              className="text-stone-800 underline hover:text-stone-900 text-sm"
-            >
-              支援職のバーンアウトについて詳しく読む
-            </Link>
-          </div>
+            <div className="mt-16">
+              <a
+                href="#contact"
+                className="inline-flex items-center px-12 py-5 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-xl shadow-stone-200/50"
+              >
+                お問い合わせ
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
-      <div className="mt-16">
-        <a
-          href="#contact"
-          className="inline-flex items-center px-12 py-5 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-xl shadow-stone-200/50"
-        >
-          お問い合わせ
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </a>
-      </div>
-    </motion.div>
-  </div>
-</section>
-
-{/* About Section */}
-<section id="about" className="py-24 px-6 bg-white relative overflow-hidden">
-  ...
-</section>
-
+      {/* About Section */}
+      <section id="about" className="py-24 px-6 bg-white relative overflow-hidden">
+        <div className="max-w-3xl mx-auto">
+          <motion.div {...fadeIn} className="space-y-12">
+            <div>
+              <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">About</span>
+              <h2 className="text-2xl font-medium mt-4 tracking-wider">当相談室について</h2>
+            </div>
+            <div className="space-y-8 text-stone-600 leading-loose text-base md:text-lg">
+              <div className="aspect-[21/9] w-full overflow-hidden rounded-2xl mb-12">
+                <img
+                  src="/concept.jpg"
+                  alt="積み上げられた石（土台の象徴）"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <p>
+                支援する立場にいる人ほど、自分のことは後回しに、そして孤独になりがちです。
+                <br />
+                教育、医療、福祉、心理職。誰かの人生に伴走する方々が、自分自身の「いしずえ」を疎かにしてしまうと、支援そのものが揺らいでしまいます。
+              </p>
+              <p>
+                当相談室では、支援者支援に特化したオンラインカウンセリングを行っています。
+              </p>
+              <p className="border-l-2 border-stone-200 pl-6 italic">
+                持続可能であるための整理の時間を提供します。
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Consultations Section */}
       <section id="services" className="py-24 px-6 bg-stone-50/50">
         <div className="max-w-4xl mx-auto">
-          <motion.div className="space-y-16">
+          <motion.div {...fadeIn} className="space-y-16">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Consultation</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">このようなご相談</h2>
@@ -147,7 +193,6 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-
               <div className="bg-white p-8 rounded-2xl border border-stone-100 shadow-sm">
                 <h3 className="text-lg font-medium mb-4 text-stone-800">構造整理型アプローチ</h3>
                 <p className="text-stone-600 leading-relaxed">
@@ -163,7 +208,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="space-y-16">
+          <motion.div {...fadeIn} className="space-y-16">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Features</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">カウンセリングの特徴</h2>
@@ -204,9 +249,10 @@ export default function Home() {
       {/* Approach Section */}
       <section className="py-24 px-6 bg-stone-50">
         <div className="max-w-3xl mx-auto space-y-10">
-          <motion.div className="space-y-10">
-            <h2 className="text-2xl font-medium tracking-wider text-center">構造整理型カウンセリングとは</h2>
-
+          <motion.div {...fadeIn} className="space-y-10">
+            <h2 className="text-2xl font-medium tracking-wider text-center">
+              構造整理型カウンセリングとは
+            </h2>
             <div className="text-stone-600 leading-loose text-base md:text-lg space-y-8">
               <div className="space-y-6">
                 <p>感情の共感だけで終わらせません。</p>
@@ -233,7 +279,6 @@ export default function Home() {
                 <h3 className="text-sm font-medium text-stone-900 mb-6 tracking-widest uppercase text-center">
                   支援の進め方
                 </h3>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { text: "面談は1回60分", icon: <Clock className="w-4 h-4" /> },
@@ -263,7 +308,7 @@ export default function Home() {
       {/* Operator Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <motion.div className="space-y-12">
+          <motion.div {...fadeIn} className="space-y-12">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Profile</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
@@ -279,7 +324,6 @@ export default function Home() {
                     referrerPolicy="no-referrer"
                   />
                 </div>
-
                 <div className="text-center md:text-left pt-4">
                   <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
                   <p className="text-stone-500 tracking-normal md:tracking-wide text-sm">
@@ -294,19 +338,16 @@ export default function Home() {
                   <br className="hidden md:block" />
                   支援する側が立ち止まれる場の必要性を感じました。
                 </p>
-
                 <p>
                   対人援助職として現場に携わる中で、
                   <br className="hidden md:block" />
                   「支援する側が疲弊し、土台から崩れていく構造」に強い問題意識を持つようになりました。
                 </p>
-
                 <p>
                   支援者は、責任・役割・感情労働を日常的に抱えています。
                   <br className="hidden md:block" />
                   その負荷は、本人の努力不足ではなく、構造上の問題であることが多くあります。
                 </p>
-
                 <p>
                   私は感情の共感だけで終わらせるのではなく、
                   <br className="hidden md:block" />
@@ -340,7 +381,7 @@ export default function Home() {
       {/* Guide Section */}
       <section id="guide" className="py-24 px-6 bg-stone-900 text-stone-50">
         <div className="max-w-4xl mx-auto">
-          <motion.div className="space-y-16">
+          <motion.div {...fadeIn} className="space-y-16">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-500 uppercase">Guide</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">ご利用案内</h2>
@@ -352,7 +393,6 @@ export default function Home() {
                   <Monitor className="w-6 h-6 text-stone-500" />
                   <h3 className="text-xl font-medium tracking-wider">オンラインカウンセリング</h3>
                 </div>
-
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
@@ -363,14 +403,12 @@ export default function Home() {
                         5,000円 (税込)
                       </span>
                     </div>
-
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
                       <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
                         通常 30分
                       </span>
                       <span className="text-base md:text-lg whitespace-nowrap">8,000円 (税込)</span>
                     </div>
-
                     <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
                       <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
                         通常 60分
@@ -378,7 +416,6 @@ export default function Home() {
                       <span className="text-base md:text-lg whitespace-nowrap">12,000円 (税込)</span>
                     </div>
                   </div>
-
                   <div className="flex justify-between items-baseline pb-2">
                     <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
                       形式
@@ -393,18 +430,15 @@ export default function Home() {
                   <Mail className="w-6 h-6 text-stone-500" />
                   <h3 className="text-xl font-medium tracking-wider">メールカウンセリング</h3>
                 </div>
-
                 <div className="space-y-4">
                   <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
                     <span className="text-stone-500 text-xs tracking-widest uppercase">回数</span>
                     <span className="text-lg">3往復</span>
                   </div>
-
                   <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
                     <span className="text-stone-500 text-xs tracking-widest uppercase">料金</span>
                     <span className="text-lg">3,000円 (税込)</span>
                   </div>
-
                   <div className="flex justify-between items-baseline pb-2">
                     <span className="text-stone-500 text-xs tracking-widest uppercase">形式</span>
                     <span className="text-lg">メール</span>
@@ -434,7 +468,7 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 bg-white">
         <div className="max-w-2xl mx-auto">
-          <motion.div className="space-y-16">
+          <motion.div {...fadeIn} className="space-y-16">
             <div className="text-center">
               <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Contact</span>
               <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
@@ -446,20 +480,17 @@ export default function Home() {
                 <br className="hidden md:block" />
                 まずは一度、整理の時間を持ってみませんか。
               </p>
-
               <p className="text-stone-500 mb-6 text-sm md:text-base">
                 現在フォーム調整中のため、恐れ入りますが
                 <br className="hidden md:block" />
                 下記メールアドレスまで直接ご連絡ください。
               </p>
-
               <a
                 href="mailto:ish1zue.counseling@gmail.com"
                 className="text-sm md:text-2xl text-stone-800 underline underline-offset-8 hover:text-stone-900 transition-colors font-medium whitespace-nowrap"
               >
                 ish1zue.counseling@gmail.com
               </a>
-
               <p className="text-xs md:text-sm text-stone-400 mt-8 tracking-widest">
                 通常24時間以内に返信いたします。守秘義務を厳守いたします。
               </p>
@@ -471,16 +502,26 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-stone-100 bg-stone-50/30">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-          <div className="text-stone-400 text-sm tracking-widest">© 2026 こころの相談室 いしずえ</div>
-
+          <div className="text-stone-400 text-sm tracking-widest">
+            © 2026 こころの相談室 いしずえ
+          </div>
           <div className="flex flex-wrap justify-center gap-6 text-xs tracking-widest text-stone-400">
-            <button onClick={() => setActiveModal("privacy")} className="hover:text-stone-900 transition-colors">
+            <button
+              onClick={() => setActiveModal("privacy")}
+              className="hover:text-stone-900 transition-colors"
+            >
               プライバシーポリシー
             </button>
-            <button onClick={() => setActiveModal("tokusho")} className="hover:text-stone-900 transition-colors">
+            <button
+              onClick={() => setActiveModal("tokusho")}
+              className="hover:text-stone-900 transition-colors"
+            >
               特定商取引法表記
             </button>
-            <button onClick={() => setActiveModal("cancel")} className="hover:text-stone-900 transition-colors">
+            <button
+              onClick={() => setActiveModal("cancel")}
+              className="hover:text-stone-900 transition-colors"
+            >
               キャンセルポリシー
             </button>
           </div>
@@ -555,7 +596,9 @@ export default function Home() {
 
                   <section className="space-y-4">
                     <h3 className="text-lg font-medium text-stone-900">5. オンラインツールの利用</h3>
-                    <p>オンラインカウンセリングでは Google Meet を使用します。各ツールのセキュリティポリシーは提供元の規定に準じます。</p>
+                    <p>
+                      オンラインカウンセリングでは Google Meet を使用します。各ツールのセキュリティポリシーは提供元の規定に準じます。
+                    </p>
                   </section>
 
                   <section className="space-y-4">
@@ -603,7 +646,9 @@ export default function Home() {
                     <div>
                       ish1zue.counseling@gmail.com
                       <br />
-                      <span className="text-xs text-stone-400">※お問い合わせはメールにてお願いいたします。</span>
+                      <span className="text-xs text-stone-400">
+                        ※お問い合わせはメールにてお願いいたします。
+                      </span>
                     </div>
 
                     <div className="text-stone-400 font-medium">販売価格</div>
@@ -664,7 +709,9 @@ export default function Home() {
                   </p>
 
                   <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-sm">
-                    <p>なお、本サービスは医療行為ではありません。診断・投薬・緊急対応は行っておりません。</p>
+                    <p>
+                      なお、本サービスは医療行為ではありません。診断・投薬・緊急対応は行っておりません。
+                    </p>
                   </div>
                 </div>
               )}
@@ -672,6 +719,6 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
-  )
+    </div>
+  );
 }
