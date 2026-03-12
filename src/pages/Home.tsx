@@ -73,7 +73,7 @@ export default function Home() {
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-stone-100/90 to-stone-200/90 backdrop-blur-sm" />
         </div>
 
         {/* ③ 修正：w-full を削除 */}
@@ -125,7 +125,7 @@ export default function Home() {
             <div className="mt-16">
               <a
                 href="#contact"
-                className="inline-flex items-center px-12 py-5 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-xl shadow-stone-200/50"
+                className="inline-flex items-center px-12 py-5 bg-stone-900 text-white text-sm tracking-[0.2em] rounded-full shadow-xl shadow-stone-300 hover:scale-105 hover:bg-stone-800 transition-all duration-300"
               >
                 お問い合わせ
                 <ArrowRight className="ml-2 w-4 h-4" />
@@ -194,7 +194,7 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-              <div className="bg-white p-8 rounded-2xl border border-stone-100 shadow-sm">
+              <div className="bg-white/80 backdrop-blur-md p-8 rounded-3xl border border-stone-200 shadow-lg shadow-stone-200/40">
                 <h3 className="text-lg font-medium mb-4 text-stone-800">構造整理型アプローチ</h3>
                 <p className="text-stone-600 leading-relaxed">
                   感情の整理だけでなく、思考・役割・負荷の「見える化」を重視します。
