@@ -126,6 +126,5 @@ export default function HelperBurnout() {
 </div>
 );
 }
-</main>
-
 <RelatedArticles />
+</main>
