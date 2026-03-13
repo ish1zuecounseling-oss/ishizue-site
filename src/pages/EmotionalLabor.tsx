@@ -159,11 +159,9 @@ export default function App() {
           </ul>
         </section>
 
+        <RelatedArticles />
+
       </motion.main>
     </div>
   );
 }
-<RelatedArticles />
-</main>
-
-
