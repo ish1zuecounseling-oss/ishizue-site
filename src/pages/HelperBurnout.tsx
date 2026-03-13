@@ -107,13 +107,12 @@ export default function HelperBurnout() {
               一人で抱え込まず、整理する場としてカウンセリングを利用することもできます。
             </p>
 
-            <button className="group inline-flex items-center gap-2 bg-[#5a5a40] hover:bg-[#4a4a30] text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg">
-              支援職の悩みを相談する
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </section>
-        </motion.div>
-      </main>
+<Link to="/#contact">
+  <button className="group inline-flex items-center gap-2 bg-[#5a5a40] hover:bg-[#4a4a30] text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg">
+    支援職の悩みを相談する
+    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+  </button>
+</Link>
 
       {/* Footer */}
       <footer className="max-w-4xl mx-auto px-6 pb-12 text-center text-sm text-[#8a8a7a] font-sans">
