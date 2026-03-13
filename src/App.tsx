@@ -4,6 +4,7 @@ import Layout from "./components/Layout"
 import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
+import ProfilePage from "./pages/ProfilePage"
 import HelperBurnout from "./pages/HelperBurnout"
 import EmotionalLabor from "./pages/EmotionalLabor"
 import HelperBoundary from "./pages/HelperBoundary"
@@ -19,6 +20,7 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
           {/* 記事一覧 */}
           <Route path="/articles" element={<Articles />} />
