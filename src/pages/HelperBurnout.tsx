@@ -122,5 +122,6 @@ export default function HelperBurnout() {
 
 </motion.div>
 </main>
+</div>
 );
 }
