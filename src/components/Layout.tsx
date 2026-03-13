@@ -14,6 +14,10 @@ export default function Layout() {
           <Link to="/articles">
             心理記事
           </Link>
+
+          <Link to="/profile">
+            カウンセラー
+          </Link>
         </nav>
       </header>
 
