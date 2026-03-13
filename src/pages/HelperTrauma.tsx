@@ -176,6 +176,5 @@ export default function HelperTrauma() {
     </div>
   );
 }
-</main>
-
 <RelatedArticles />
+</main>
