@@ -50,7 +50,7 @@ export default function Home() {
               ご相談
             </a>
 
-            <Link to="/emotional-labor" className="hover:text-stone-900 transition-colors">
+            <Link to="/articles" className="hover:text-stone-900 transition-colors">
               心理記事
             </Link>
 
