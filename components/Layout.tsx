@@ -5,10 +5,16 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col">
 
       {/* Header */}
-      <header className="border-b border-gray-200 py-4 px-6">
-        <Link to="/" className="font-semibold text-lg">
-          こころの相談室 いしずえ
-        </Link>
+      <header className="border-b border-gray-200 px-6 py-4">
+        <nav className="max-w-5xl mx-auto flex gap-6 text-sm">
+          <Link to="/" className="font-semibold">
+            ホーム
+          </Link>
+
+          <Link to="/articles">
+            心理記事
+          </Link>
+        </nav>
       </header>
 
       {/* Page Content */}
@@ -17,7 +23,7 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="text-center text-sm text-gray-500 py-10 border-t">
+      <footer className="border-t text-center text-sm text-gray-500 py-10">
         © 2026 こころの相談室 いしずえ
       </footer>
 
