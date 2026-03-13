@@ -20,6 +20,7 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/helper-counseling" element={<HelperCounseling />} />
 
           {/* 記事一覧 */}
           <Route path="/articles" element={<Articles />} />
