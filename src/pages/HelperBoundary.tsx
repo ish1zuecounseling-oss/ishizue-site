@@ -156,9 +156,9 @@ export default function HelperBoundary() {
 
         </section>
 
+        <RelatedArticles />
+
       </motion.main>
     </div>
   );
 }
-<RelatedArticles />
-</main>
