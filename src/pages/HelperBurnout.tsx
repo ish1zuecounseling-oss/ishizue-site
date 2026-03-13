@@ -113,12 +113,14 @@ export default function HelperBurnout() {
     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
   </button>
 </Link>
+</section>
 
-      {/* Footer */}
-<footer>
+{/* Footer */}
+<footer className="text-center text-sm text-gray-500 py-10">
   <p>© 2026 Helper Burnout Support. All rights reserved.</p>
 </footer>
-</section>
+
+</main>
 </motion.div>
 );
 }
