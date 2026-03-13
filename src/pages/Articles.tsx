@@ -80,10 +80,9 @@ export default function Articles() {
 
         </section>
 
-      </motion.main>
+        <RelatedArticles />
 
+      </motion.main>
     </div>
   );
 }
-<RelatedArticles />
-</main>
