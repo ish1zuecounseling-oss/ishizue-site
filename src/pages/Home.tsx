@@ -104,12 +104,10 @@ export default function Home() {
 
               </div>
 
-              <h1 className="text-3xl md:text-6xl font-medium tracking-[0.1em] md:tracking-[0.2em] mb-8 text-stone-900 leading-tight">
-
-                支援職のためのカウンセリング<br />
-                こころの相談室 いしずえ
-
-              </h1>
+<h1 className="text-3xl md:text-4xl font-medium tracking-[0.1em] md:tracking-[0.15em] mb-8 text-stone-900 leading-tight">
+  支援職のためのカウンセリング<br />
+  こころの相談室 いしずえ
+</h1>
 
               <p className="text-stone-600 tracking-[0.15em] md:tracking-[0.3em] mb-12 text-base md:text-xl italic font-light">
                 ― 支援する人の、土台を整える ―
