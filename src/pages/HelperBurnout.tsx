@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from "react-router-dom";
 import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
+import RelatedArticles from "../components/RelatedArticles"
 
 export default function HelperBurnout() {
   return (
