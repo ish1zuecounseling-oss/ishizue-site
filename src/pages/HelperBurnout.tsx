@@ -115,7 +115,6 @@ export default function HelperBurnout() {
 </Link>
 </section>
 
-{/* Footer */}
 <footer className="text-center text-sm text-gray-500 py-10">
   <p>© 2026 Helper Burnout Support. All rights reserved.</p>
 </footer>
