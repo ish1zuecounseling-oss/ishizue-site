@@ -85,6 +85,5 @@ export default function Articles() {
     </div>
   );
 }
-</main>
-
 <RelatedArticles />
+</main>
