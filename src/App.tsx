@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
 import HelperCounseling from "./pages/HelperCounseling"
+
 import HelperBurnout from "./pages/HelperBurnout"
 import EmotionalLabor from "./pages/EmotionalLabor"
 import HelperBoundary from "./pages/HelperBoundary"
@@ -13,27 +14,31 @@ import HelperTrauma from "./pages/HelperTrauma"
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
 
-        {/* 共通レイアウト */}
-        <Route element={<Layout />}>
+      <Layout>
+
+        <Routes>
 
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/helper-counseling" element={<HelperCounseling />} />
 
-          {/* 記事一覧 */}
           <Route path="/articles" element={<Articles />} />
 
-          {/* 心理記事 */}
-          <Route path="/emotional-labor" element={<EmotionalLabor />} />
-          <Route path="/helper-trauma" element={<HelperTrauma />} />
-          <Route path="/helper-boundary" element={<HelperBoundary />} />
+          <Route path="/profile" element={<Profile />} />
+
+          <Route path="/helper-counseling" element={<HelperCounseling />} />
+
           <Route path="/helper-burnout" element={<HelperBurnout />} />
 
-        </Route>
+          <Route path="/emotional-labor" element={<EmotionalLabor />} />
 
-      </Routes>
+          <Route path="/helper-boundary" element={<HelperBoundary />} />
+
+          <Route path="/helper-trauma" element={<HelperTrauma />} />
+
+        </Routes>
+
+      </Layout>
+
     </BrowserRouter>
   )
 }
