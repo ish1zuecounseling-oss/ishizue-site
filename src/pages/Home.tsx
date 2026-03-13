@@ -706,7 +706,6 @@ export default function Home() {
                 </div>
               )}
       </motion.div>
-    </motion.div>
   )}
 </AnimatePresence>
 </div>
