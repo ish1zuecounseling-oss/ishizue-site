@@ -8,6 +8,13 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, ShieldCheck, Monitor, CheckCircle2, Clock, Mail, X } from "lucide-react"
 import { Link } from "react-router-dom"
 
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 }
+}
+
 export default function Home() {
 
   const [activeModal, setActiveModal] = useState<string | null>(null)
