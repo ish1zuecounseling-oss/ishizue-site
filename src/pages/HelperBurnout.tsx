@@ -115,9 +115,10 @@ export default function HelperBurnout() {
 </Link>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-6 pb-12 text-center text-sm text-[#8a8a7a] font-sans">
-        <p>© 2026 Helper Burnout Support. All rights reserved.</p>
-      </footer>
-    </div>
-  );
+<footer>
+  <p>© 2026 Helper Burnout Support. All rights reserved.</p>
+</footer>
+</section>
+</motion.div>
+);
 }
