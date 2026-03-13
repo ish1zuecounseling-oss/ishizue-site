@@ -172,9 +172,9 @@ export default function HelperTrauma() {
 
         </section>
 
+        <RelatedArticles />
+
       </motion.main>
     </div>
   );
 }
-<RelatedArticles />
-</main>
