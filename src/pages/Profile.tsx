@@ -13,13 +13,13 @@ export default function Profile() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl font-light mb-4">
-            カウンセラープロフィール
-          </h1>
-          <p className="text-lg text-[#6a6a5a]">
-            こころの相談室 いしずえ  
-            松本 龍児
-          </p>
+<h1 className="text-4xl font-light mb-2 text-center">
+  支援職専門カウンセラー
+</h1>
+
+<p className="text-center text-lg text-[#6a6a5a] mb-10">
+  松本 龍児
+</p>
         </motion.div>
 
         {/* 共感 */}
