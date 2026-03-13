@@ -114,6 +114,5 @@ export default function HelperCounseling() {
     </div>
   );
 }
-</main>
-
 <RelatedArticles />
+</main>
