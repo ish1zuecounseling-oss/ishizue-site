@@ -110,9 +110,9 @@ export default function HelperCounseling() {
           </Link>
         </section>
 
-      </main>
+        <RelatedArticles />
+
+      </motion.main>
     </div>
   );
 }
-<RelatedArticles />
-</main>
