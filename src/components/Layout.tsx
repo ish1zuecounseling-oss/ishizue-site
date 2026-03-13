@@ -18,6 +18,10 @@ export default function Layout() {
           <Link to="/profile">
             カウンセラー
           </Link>
+          
+          <Link to="/helper-counseling">
+            支援職カウンセリング
+          </Link>
         </nav>
       </header>
 
