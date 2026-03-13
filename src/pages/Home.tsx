@@ -4,8 +4,8 @@
  */
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ArrowRight, ShieldCheck, Monitor, CheckCircle2, Clock, Mail, X } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export default function Home() {
@@ -172,10 +172,6 @@ export default function Home() {
         </a>
 
       </section>
-
-    </>
-  )
-}
 
       {/* Consultations Section */}
       <section id="services" className="py-24 px-6 bg-stone-50/50">
@@ -709,7 +705,6 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     )
 }
 
