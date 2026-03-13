@@ -177,7 +177,56 @@ export default function Home() {
         </a>
 
       </section>
+      
+{/* About Section */}
+<section id="about" className="py-24 px-6 bg-white relative overflow-hidden">
+  <div className="max-w-3xl mx-auto">
 
+    <motion.div className="space-y-12">
+
+      <div>
+        <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">
+          About
+        </span>
+
+        <h2 className="text-2xl font-medium mt-4 tracking-wider">
+          当相談室について
+        </h2>
+      </div>
+
+      <div className="space-y-8 text-stone-600 leading-loose text-base md:text-lg">
+
+        <div className="aspect-[21/9] w-full overflow-hidden rounded-2xl mb-12">
+          <img
+            src="/concept.jpg"
+            alt="積み上げられた石（土台の象徴）"
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
+        <p>
+          支援する立場にいる人ほど、自分のことは後回しに、
+          そして孤独になりがちです。<br />
+          教育、医療、福祉、心理職。誰かの人生に伴走する方々が、
+          自分自身の「いしずえ」を疎かにしてしまうと、
+          支援そのものが揺らいでしまいます。
+        </p>
+
+        <p>
+          当相談室では、支援者支援に特化したオンラインカウンセリングを行っています。
+        </p>
+
+        <p className="border-l-2 border-stone-200 pl-6 italic">
+          持続可能であるための整理の時間を提供します。
+        </p>
+
+      </div>
+
+    </motion.div>
+
+  </div>
+</section>
       {/* Consultations Section */}
       <section id="services" className="py-24 px-6 bg-stone-50/50">
         <div className="max-w-4xl mx-auto">
