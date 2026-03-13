@@ -160,3 +160,6 @@ export default function HelperBoundary() {
     </div>
   );
 }
+</main>
+
+<RelatedArticles />
