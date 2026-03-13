@@ -120,7 +120,7 @@ export default function HelperBurnout() {
   <p>© 2026 Helper Burnout Support. All rights reserved.</p>
 </footer>
 
-</main>
 </motion.div>
+</main>
 );
 }
