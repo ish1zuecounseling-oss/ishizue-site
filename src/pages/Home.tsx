@@ -705,11 +705,11 @@ export default function Home() {
                   </div>
                 </div>
               )}
-      </motion.div>
-  )}
-</AnimatePresence>
-</div>
-)
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    )
 }
 
 export default Home
