@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
+import ReadAloud from "../components/ReadAloud"
 
 export default function HelperFatigue() {
   return (
@@ -19,6 +20,7 @@ export default function HelperFatigue() {
           <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900">
             支援職が疲れる理由とは
           </h1>
+          <ReadAloud text="支援職が疲れる理由とは、他者の問題や感情に長期間向き合うことによって心理的負荷が積み重なることにあります..." />
 
           <p className="text-stone-600 text-lg">
             支援職が疲れる理由とは、他者の問題や感情に長期間向き合うことによって、
