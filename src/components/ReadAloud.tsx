@@ -1,10 +1,28 @@
+import { useEffect, useState } from "react";
+
 export default function ReadAloud({ text }: { text: string }) {
+  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
+
+  useEffect(() => {
+    const voices = speechSynthesis.getVoices();
+    const jaVoice = voices.find(v => v.lang === "ja-JP");
+    if (jaVoice) setVoice(jaVoice);
+  }, []);
 
   const speak = () => {
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = "ja-JP"
-    speechSynthesis.speak(utterance)
-  }
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "ja-JP";
+    utterance.rate = 1;
+    utterance.pitch = 1;
+
+    if (voice) {
+      utterance.voice = voice;
+    }
+
+    speechSynthesis.speak(utterance);
+  };
 
   return (
     <button
@@ -13,5 +31,5 @@ export default function ReadAloud({ text }: { text: string }) {
     >
       🔊 記事を読み上げる
     </button>
-  )
+  );
 }
