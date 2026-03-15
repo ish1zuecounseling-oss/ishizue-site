@@ -31,6 +31,18 @@ export default function Articles() {
         <section className="space-y-8">
 
           <Link
+            to="/helper-fatigue"
+            className="block bg-white p-8 rounded-2xl border border-stone-200 hover:border-stone-400 transition"
+          >
+            <h2 className="text-xl font-medium mb-2">
+              支援職が疲れる理由とは
+            </h2>
+            <p className="text-stone-600">
+              対人援助職が疲れやすい背景にある心理的構造について解説します。
+            </p>
+          </Link>
+
+          <Link
             to="/emotional-labor"
             className="block bg-white p-8 rounded-2xl border border-stone-200 hover:border-stone-400 transition"
           >
@@ -78,7 +90,7 @@ export default function Articles() {
             </p>
           </Link>
 
-        </section>
+          </section>
 
         <RelatedArticles />
 
