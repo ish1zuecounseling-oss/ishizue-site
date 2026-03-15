@@ -18,6 +18,7 @@ export default function HelperCounseling() {
           <h1 className="text-4xl font-light mb-4">
             支援職のためのカウンセリング
           </h1>
+          <AudioPlayer src="/audio/Helper-Counseling" />
 
           <p className="text-lg text-[#6a6a5a]">
             支援する側が立ち止まれる場所として
