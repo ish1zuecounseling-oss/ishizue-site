@@ -19,6 +19,11 @@ export default function HelperTrauma() {
           <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
             二次受傷とは ― 支援職が抱えやすい「共感疲労」
           </h1>
+          <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900">
+  二次受傷（共感疲労）とは
+</h1>
+
+<AudioPlayer src="/audio/helper-trauma.mp3" />
 
           <p className="text-stone-600 text-lg">
             支援職では、誰かの苦しみや困難に日常的に向き合います。
