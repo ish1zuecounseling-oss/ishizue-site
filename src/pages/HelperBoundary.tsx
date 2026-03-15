@@ -21,6 +21,7 @@ export default function HelperBoundary() {
           <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
             支援職の境界線（バウンダリー）とは
           </h1>
+          <AudioPlayer src="/audio/helper-boundary.mp3" />
 
           <p className="text-stone-600 text-lg">
             支援職では、相手に寄り添うことが重要とされます。
