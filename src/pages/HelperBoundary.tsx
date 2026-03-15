@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import RelatedArticles from "../components/RelatedArticles";
 
 export default function HelperBoundary() {
-
-export default function HelperBoundary() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
       <motion.main
