@@ -76,7 +76,7 @@ export default function Home() {
 
         {/* Background */}
 
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0">
 
           <img
             src="/hero.jpg"
@@ -84,7 +84,7 @@ export default function Home() {
             className="w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-stone-100/85 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-stone-100/40" />
 
         </div>
 
