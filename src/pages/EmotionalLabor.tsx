@@ -23,6 +23,7 @@ export default function App() {
           <h1 className="text-3xl md:text-4xl font-medium mb-10 text-stone-900 tracking-tight">
             感情労働とは ― 支援職が消耗しやすい理由
           </h1>
+          <AudioPlayer src="/audio/helper-trauma.mp3" />
           <p className="text-stone-600 mb-10 text-lg">
           支援職では、仕事の中で自分の感情をコントロールする場面が多くあります。
           こうした働き方は「感情労働」と呼ばれ、消耗の原因になることがあります。
