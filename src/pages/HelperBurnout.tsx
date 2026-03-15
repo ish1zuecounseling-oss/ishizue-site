@@ -22,6 +22,7 @@ export default function HelperBurnout() {
             支援職の燃え尽き<br />
             <span className="italic font-normal text-[#5a5a40]">（バーンアウト）</span>
           </h1>
+          <AudioPlayer src="/audio/helper-burnout.mp3" />
           <p className="text-lg text-[#6a6a5a] max-w-2xl mx-auto leading-relaxed">
             支援職（対人援助職）は、福祉・医療・教育などの現場で
             利用者やクライアントの人生に深く関わる仕事です。
