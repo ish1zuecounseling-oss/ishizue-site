@@ -111,8 +111,7 @@ export default function HelperCounseling() {
         </section>
 
         <RelatedArticles />
-
-      </motion.main>
+      </main>
     </div>
   );
 }
