@@ -10,6 +10,7 @@ import HelperBurnout from "./pages/HelperBurnout"
 import EmotionalLabor from "./pages/EmotionalLabor"
 import HelperBoundary from "./pages/HelperBoundary"
 import HelperTrauma from "./pages/HelperTrauma"
+import HelperFatigue from "./pages/HelperFatigue";
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/helper-boundary" element={<HelperBoundary />} />
 
           <Route path="/helper-trauma" element={<HelperTrauma />} />
+
+          <Route path="/helper-fatigue" element={<HelperFatigue />} />
 
         </Routes>
 
