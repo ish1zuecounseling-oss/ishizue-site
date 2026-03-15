@@ -1,5 +1,8 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
+import RelatedArticles from "../components/RelatedArticles";
+
+export default function HelperBoundary() {
 
 export default function HelperBoundary() {
   return (
