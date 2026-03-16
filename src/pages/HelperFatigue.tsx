@@ -15,7 +15,6 @@ export default function HelperFatigue() {
 />
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
 <motion.main
-  <Breadcrumbs title="支援職が疲れる理由とは" />
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
@@ -28,7 +27,7 @@ export default function HelperFatigue() {
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4">
             Workplace Psychology
           </div>
-
+<Breadcrumbs title="支援職が疲れる理由とは" />
 <h1
   className="text-3xl md:text-4xl font-medium mb-8 text-stone-900"
   itemProp="headline"
