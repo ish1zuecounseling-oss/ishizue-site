@@ -10,12 +10,16 @@ import ArticleSchema from "../components/ArticleSchema";
 
 export default function EmotionalLabor() {
   return (
-    <ArticleSchema
+return (
+<>
+<ArticleSchema
   title="感情労働とは ― 支援職が消耗しやすい理由"
   description="支援職で起こりやすい感情労働と心理的消耗の構造について整理します。"
   url="https://ishizue-site-ker9.vercel.app/emotional-labor"
   date="2026-03-16"
 />
+
+<div className="min-h-screen bg-stone-50 font-sans text-stone-900">
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
 <motion.main
   initial={{ opacity: 0, y: 20 }}
