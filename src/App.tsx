@@ -27,19 +27,19 @@ function App() {
 
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/helper-counseling" element={<HelperCounseling />} />
+          <Route path="/articles/helper-counseling" element={<HelperCounseling />} />
 
-          <Route path="/helper-burnout" element={<HelperBurnout />} />
+          <Route path="/articles/helper-burnout" element={<HelperBurnout />} />
 
-          <Route path="/emotional-labor" element={<EmotionalLabor />} />
+          <Route path="/articles/emotional-labor" element={<EmotionalLabor />} />
 
-          <Route path="/helper-boundary" element={<HelperBoundary />} />
+          <Route path="/articles/helper-boundary" element={<HelperBoundary />} />
 
-          <Route path="/helper-trauma" element={<HelperTrauma />} />
+          <Route path="/articles/helper-trauma" element={<HelperTrauma />} />
 
-          <Route path="/helper-fatigue" element={<HelperFatigue />} />
+          <Route path="/articles/helper-fatigue" element={<HelperFatigue />} />
 
-          <Route path="/helper-fatigue-check" element={<HelperFatigueCheck />} />
+          <Route path="/articles/helper-fatigue-check" element={<HelperFatigueCheck />} />
 
         </Routes>
 
