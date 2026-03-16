@@ -138,8 +138,6 @@ export default function EmotionalLabor() {
 
 <RelatedArticles currentPath="/emotional-labor" />
 
-        <RelatedArticles />
-
       </motion.main>
     </div>
   );
