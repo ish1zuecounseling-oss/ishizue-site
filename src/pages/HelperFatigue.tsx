@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import AudioPlayer from "../components/AudioPlayer";
 import RelatedArticles from "../components/RelatedArticles";
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function HelperFatigue() {
   return (
@@ -14,6 +15,7 @@ export default function HelperFatigue() {
 />
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
 <motion.main
+  <Breadcrumbs title="支援職が疲れる理由とは" />
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
