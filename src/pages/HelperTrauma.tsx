@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import RelatedArticles from "../components/RelatedArticles";
 import AudioPlayer from "../components/AudioPlayer";
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function HelperTrauma() {
   return (
@@ -14,6 +15,7 @@ export default function HelperTrauma() {
 />
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
         <motion.main
+          <Breadcrumbs title="支援職のトラウマ" />
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
