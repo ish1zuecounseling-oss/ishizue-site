@@ -9,14 +9,21 @@
 </url>
 
 <url>
-<loc>https://ishizue-site-ker9.vercel.app/helper-burnout</loc>
+<loc>https://ishizue-site-ker9.vercel.app/articles</loc>
+<lastmod>2026-03-16</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.9</priority>
+</url>
+
+<url>
+<loc>https://ishizue-site-ker9.vercel.app/helper-fatigue</loc>
 <lastmod>2026-03-16</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://ishizue-site-ker9.vercel.app/helper-boundary</loc>
+<loc>https://ishizue-site-ker9.vercel.app/emotional-labor</loc>
 <lastmod>2026-03-16</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
@@ -30,10 +37,31 @@
 </url>
 
 <url>
-<loc>https://ishizue-site-ker9.vercel.app/helper-fatigue</loc>
+<loc>https://ishizue-site-ker9.vercel.app/helper-boundary</loc>
 <lastmod>2026-03-16</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://ishizue-site-ker9.vercel.app/helper-burnout</loc>
+<lastmod>2026-03-16</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://ishizue-site-ker9.vercel.app/helper-fatigue-check</loc>
+<lastmod>2026-03-16</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>https://ishizue-site-ker9.vercel.app/helper-counseling</loc>
+<lastmod>2026-03-16</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 </urlset>
