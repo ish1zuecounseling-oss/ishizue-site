@@ -14,11 +14,11 @@ export const articles = [
     path: "/helper-trauma",
     description: "他者の苦しみに触れ続けることで起こる心理的影響について。"
   },
-{
-  title: "共感疲労セルフチェック",
-  description: "支援職の共感疲労を確認する20項目チェックリスト。",
-  path: "/helper-fatigue-check"
-}
+  {
+    title: "共感疲労セルフチェック",
+    description: "支援職の共感疲労を確認する20項目チェックリスト。",
+    path: "/helper-fatigue-check"
+  },
   {
     title: "支援職の境界線（バウンダリー）とは",
     path: "/helper-boundary",
