@@ -26,7 +26,7 @@ export default function HelperCounseling() {
         </motion.div>
 
         {/* Problem */}
-        <section className="mb-14 space-y-6 text-lg leading-relaxed">
+        <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
             福祉・医療・教育などの対人援助の現場では、
             利用者やクライアントの人生に深く関わることが多くあります。
@@ -51,7 +51,7 @@ export default function HelperCounseling() {
         </section>
 
         {/* Structure */}
-        <section className="mb-14 space-y-6 text-lg leading-relaxed">
+        <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <h2 className="text-2xl font-medium">
             支援者の疲労は「構造」から生まれることがあります
           </h2>
@@ -112,7 +112,9 @@ export default function HelperCounseling() {
           </Link>
         </section>
 
-        <RelatedArticles />
+<div className="mt-20">
+  <RelatedArticles currentPath="/helper-counseling" />
+</div>
       </main>
     </div>
   );
