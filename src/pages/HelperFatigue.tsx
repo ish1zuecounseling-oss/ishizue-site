@@ -107,7 +107,8 @@ export default function HelperFatigue() {
 </div>
 
 
-      </motion.main>
-    </div>
-  );
+</motion.main>
+</div>
+</>
+);
 }
