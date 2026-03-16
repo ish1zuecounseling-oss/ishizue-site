@@ -9,7 +9,6 @@ import AudioPlayer from "../components/AudioPlayer"
 import ArticleSchema from "../components/ArticleSchema";
 
 export default function EmotionalLabor() {
-  return (
 return (
 <>
 <ArticleSchema
