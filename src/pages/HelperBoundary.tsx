@@ -6,14 +6,18 @@ import AudioPlayer from "../components/AudioPlayer"
 export default function HelperBoundary() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-      <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
-      >
-
+<motion.main
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+  className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
+  itemScope
+  itemType="https://schema.org/Article"
+>
         <header className="mb-16">
+          <meta itemProp="headline" content="支援職の境界線（バウンダリー）とは" />
+<meta itemProp="datePublished" content="2026-03-16" />
+<meta itemProp="author" content="松本 龍児" />
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
             Workplace Psychology
           </div>
@@ -120,7 +124,9 @@ export default function HelperBoundary() {
 
         </section>
 
-<RelatedArticles currentPath="/helper-boundary" />
+<div className="mt-20">
+  <RelatedArticles currentPath="/helper-boundary" />
+</div>
 
       </motion.main>
     </div>
