@@ -10,7 +10,7 @@ export default function HelperBoundary() {
 <ArticleSchema
   title="支援職の境界線（バウンダリー）とは"
   description="支援職で重要とされる心理的境界線（バウンダリー）について整理します。"
-  url="https://ishizue-site-ker9.vercel.app/helper-boundary"
+  url="https://ishizue-site-ker9.vercel.app/articles/helper-boundary"
   date="2026-03-16"
 />
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
