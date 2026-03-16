@@ -19,16 +19,19 @@ export default function HelperFatigue() {
             Workplace Psychology
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900">
-            支援職が疲れる理由とは
-          </h1>
+<h1
+  className="text-3xl md:text-4xl font-medium mb-8 text-stone-900"
+  itemProp="headline"
+>
+  支援職が疲れる理由とは
+</h1>
           <AudioPlayer src="/audio/helper-fatigue.mp3" />
 
-          <p className="text-stone-600 text-lg">
-            支援職が疲れる理由とは、他者の問題や感情に長期間向き合うことによって、
-            心理的・感情的な負荷が積み重なることにあります。
-            対人援助の仕事には、感情労働や共感疲労など特有の負担が存在します。
-          </p>
+<p className="text-stone-600 text-lg" itemProp="description">
+  支援職が疲れる理由とは、他者の問題や感情に長期間向き合うことによって、
+  心理的・感情的な負荷が積み重なることにあります。
+  対人援助の仕事には、感情労働や共感疲労など特有の負担が存在します。
+</p>
 
           <div className="h-px w-24 bg-stone-300 mt-8" />
         </header>
