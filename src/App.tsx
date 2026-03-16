@@ -38,6 +38,8 @@ function App() {
 
           <Route path="/helper-fatigue" element={<HelperFatigue />} />
 
+          <Route path="/helper-fatigue-check" element={<HelperFatigueCheck />} />
+
         </Routes>
 
       </Layout>
