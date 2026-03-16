@@ -5,12 +5,14 @@ import RelatedArticles from "../components/RelatedArticles";
 export default function HelperFatigue() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-      <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
-      >
+<motion.main
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
+  itemScope
+  itemType="https://schema.org/Article"
+>
 
         <header className="mb-16">
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4">
@@ -89,7 +91,9 @@ export default function HelperFatigue() {
           </p>
 
         </section>
-<RelatedArticles currentPath="/helper-fatigue" />
+<div className="mt-20">
+  <RelatedArticles currentPath="/helper-fatigue" />
+</div>
 
 
       </motion.main>
