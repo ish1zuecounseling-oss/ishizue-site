@@ -1,7 +1,7 @@
 export const articles = [
   {
     title: "支援職が疲れる理由とは",
-    path: "/helper-fatigue",
+    path: "/helper-structure",
     description: "対人援助職が疲れやすい背景にある心理的構造について解説します。"
   },
   {
@@ -14,11 +14,11 @@ export const articles = [
     path: "/helper-trauma",
     description: "他者の苦しみに触れ続けることで起こる心理的影響について。"
   },
-{
-  title: "共感疲労セルフチェック",
-  description: "支援職の共感疲労を確認する20項目チェックリスト。",
-  path: "/helper-fatigue"
-}
+  {
+    title: "共感疲労セルフチェック",
+    path: "/helper-fatigue-check",
+    description: "支援職の共感疲労を確認する20項目チェックリスト。"
+  },
   {
     title: "支援職の境界線（バウンダリー）とは",
     path: "/helper-boundary",
@@ -29,4 +29,4 @@ export const articles = [
     path: "/helper-burnout",
     description: "長期的な心理的疲労としてのバーンアウトについて。"
   }
-]
+];
