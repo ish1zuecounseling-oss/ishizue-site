@@ -1,34 +1,22 @@
 import { Link } from "react-router-dom";
+import { articles } from "../data/articles";
 
-export default function RelatedArticles() {
-  const articles = [
-    {
-      title: "支援職のバーンアウト",
-      path: "/helper-burnout"
-    },
-    {
-      title: "感情労働による疲労",
-      path: "/emotional-labor"
-    },
-    {
-      title: "支援者の境界線",
-      path: "/helper-boundary"
-    },
-    {
-      title: "支援者の二次受傷",
-      path: "/helper-trauma"
-    }
-  ];
+export default function RelatedArticles({ currentPath }) {
+
+  const related = articles.filter(
+    (article) => article.path !== currentPath
+  );
 
   return (
     <section className="mt-20 pt-10 border-t border-stone-200">
+
       <h3 className="text-xl font-medium mb-6">
         関連記事
       </h3>
 
       <div className="grid md:grid-cols-2 gap-4">
 
-        {articles.map((article) => (
+        {related.slice(0,4).map((article) => (
           <Link
             key={article.path}
             to={article.path}
@@ -39,6 +27,7 @@ export default function RelatedArticles() {
         ))}
 
       </div>
+
     </section>
   );
 }
