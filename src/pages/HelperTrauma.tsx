@@ -15,13 +15,13 @@ export default function HelperTrauma() {
 />
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
         <motion.main
-          <Breadcrumbs title="支援職のトラウマ" />
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
         >
 <header className="mb-16">
+<Breadcrumbs title="支援職のトラウマ" />
 <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
   二次受傷（共感疲労）とは
 </h1>
