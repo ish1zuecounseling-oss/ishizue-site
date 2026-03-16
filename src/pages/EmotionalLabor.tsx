@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import RelatedArticles from "../components/RelatedArticles"
 import AudioPlayer from "../components/AudioPlayer"
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function EmotionalLabor() {
   return (
@@ -34,6 +35,7 @@ export default function EmotionalLabor() {
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
             Workplace Psychology
           </div>
+          <Breadcrumbs title="感情労働とは ― 支援職が消耗しやすい理由" />
           <h1 className="text-3xl md:text-4xl font-medium mb-10 text-stone-900 tracking-tight">
             感情労働とは ― 支援職が消耗しやすい理由
           </h1>
