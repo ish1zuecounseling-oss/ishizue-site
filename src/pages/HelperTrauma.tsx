@@ -9,7 +9,7 @@ export default function HelperTrauma() {
 <ArticleSchema
   title="支援職のトラウマ"
   description="支援職が経験する二次受傷や心理的影響について整理します。"
-  url="https://ishizue-site-ker9.vercel.app/helper-trauma"
+  url="https://ishizue-site-ker9.vercel.app/articles/helper-trauma"
   date="2026-03-16"
 />
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
