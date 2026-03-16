@@ -1,13 +1,21 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import RelatedArticles from "../components/RelatedArticles"
-import AudioPlayer from "../components/AudioPlayer"
+import RelatedArticles from "../components/RelatedArticles";
+import AudioPlayer from "../components/AudioPlayer";
 
 export default function HelperCounseling() {
   return (
     <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
-      <main className="max-w-3xl mx-auto px-6 py-20">
 
+      <motion.main
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-3xl mx-auto px-6 py-20"
+        itemScope
+        itemType="https://schema.org/Article"
+      >
+        
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -15,14 +23,20 @@ export default function HelperCounseling() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl font-light mb-4">
-            支援職のためのカウンセリング
-          </h1>
+<h1
+  className="text-4xl font-light mb-4"
+  itemProp="headline"
+>
+  支援職のためのカウンセリング
+</h1>
           <AudioPlayer src="/audio/helper-counseling.mp3" />
 
-          <p className="text-lg text-[#6a6a5a]">
-            支援する側が立ち止まれる場所として
-          </p>
+<p
+  className="text-lg text-[#6a6a5a]"
+  itemProp="description"
+>
+  支援する側が立ち止まれる場所として
+</p>
         </motion.div>
 
         {/* Problem */}
