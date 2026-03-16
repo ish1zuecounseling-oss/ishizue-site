@@ -138,6 +138,7 @@ export default function HelperCounseling() {
   <RelatedArticles currentPath="/helper-counseling" />
 </div>
 </motion.main>
-    </div>
-  );
+</div>
+</>
+);
 }
