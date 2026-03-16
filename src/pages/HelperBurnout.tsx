@@ -3,10 +3,19 @@ import { Link } from "react-router-dom";
 import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
 import RelatedArticles from "../components/RelatedArticles"
 import AudioPlayer from "../components/AudioPlayer"
+import ArticleSchema from "../components/ArticleSchema";
 export default function HelperBurnout() {
   return (
-    <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
-      {/* Hero Section */}
+    <>
+      <ArticleSchema
+        title="支援職の燃え尽き（バーンアウト）"
+        description="支援職が経験しやすい心理的疲労について整理します。"
+        url="https://ishizue-site-ker9.vercel.app/helper-burnout"
+        date="2026-03-16"
+      />
+
+      <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
+        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,8 +49,8 @@ export default function HelperBurnout() {
           </p>
          </header>
           <meta itemProp="datePublished" content="2026-03-16" />
-          <meta itemProp="author" content="松本 龍児" />
-          <meta itemProp="publisher" content="Ryuuji Counseling" />
+<meta itemProp="author" content="松本 龍児" />
+<meta itemProp="publisher" content="いしずえカウンセリング" />
      
         {/* Content Card */}
         <motion.div
@@ -134,6 +143,7 @@ export default function HelperBurnout() {
 
 </motion.div> {/* Hero motion */}
 
-</div>
-);
+      </div>
+    </>
+  );
 }
