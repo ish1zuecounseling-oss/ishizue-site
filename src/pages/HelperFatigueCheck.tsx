@@ -9,7 +9,7 @@ export default function EmpathyFatigueCheck() {
       <ArticleSchema
         title="共感疲労セルフチェック｜支援職のための20項目"
         description="支援職の共感疲労を確認する20項目セルフチェック。福祉職・相談員・心理職など対人援助職の心理的疲労を整理します。"
-        url="https://ishizue-site-ker9.vercel.app/helper-fatigue"
+        url="https://ishizue-site-ker9.vercel.app/articles/helper-fatigue"
         date="2026-03-16"
       />
 
