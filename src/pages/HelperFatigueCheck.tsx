@@ -24,13 +24,14 @@ export default function EmpathyFatigueCheck() {
             <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
               共感疲労セルフチェック
             </h1>
-
+            <AudioPlayer src="/audio/helper-fatigue-check.mp3" />
+            
             <p className="text-stone-600 text-lg">
               支援職では、利用者の苦しみや困難に長く寄り添うことで、
               心理的な疲労が蓄積することがあります。
             </p>
 
-            <AudioPlayer src="/audio/helper-fatigue-check.mp3" />
+
 
             <p className="text-stone-600 text-lg">
               こうした状態は心理学では「共感疲労（Compassion Fatigue）」と呼ばれ、
