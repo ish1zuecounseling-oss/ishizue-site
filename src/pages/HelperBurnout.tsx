@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from "react-router-dom";
 import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
@@ -32,7 +31,7 @@ export default function HelperBurnout() {
         </motion.div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 pb-24">
+      <main className="max-w-4xl mx-auto px-6 pb-24" itemScope itemType="https://schema.org/Article">
         {/* Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -118,12 +117,10 @@ export default function HelperBurnout() {
   </button>
 </Link>
 </section>
-
-<footer className="text-center text-sm text-gray-500 py-10">
-  <p>© 2026 Helper Burnout Support. All rights reserved.</p>
-</footer>
-
-<RelatedArticles />
+          
+<div className="mt-16">
+  <RelatedArticles currentPath="/helper-burnout" />
+</div>
 
 </motion.div>
 </main>
