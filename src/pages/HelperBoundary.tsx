@@ -120,44 +120,7 @@ export default function HelperBoundary() {
 
         </section>
 
-        <section className="mt-20 pt-10 border-t border-stone-200">
-
-          <h3 className="text-lg font-medium mb-6 text-stone-900">
-            関連記事
-          </h3>
-
-          <ul className="space-y-3">
-
-            <li>
-              <Link
-                to="/helper-trauma"
-                className="text-stone-600 underline hover:text-stone-900 transition-colors"
-              >
-                二次受傷（共感疲労）とは
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/helper-burnout"
-                className="text-stone-600 underline hover:text-stone-900 transition-colors"
-              >
-                支援職のバーンアウトについて
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/emotional-labor"
-                className="text-stone-600 underline hover:text-stone-900 transition-colors"
-              >
-                感情労働とは
-              </Link>
-            </li>
-
-          </ul>
-
-        </section>
+<RelatedArticles currentPath="/emotional-labor" />
 
         <RelatedArticles />
 
