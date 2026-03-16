@@ -21,7 +21,7 @@ export default function HelperTrauma() {
           className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
         >
 <header className="mb-16">
-<Breadcrumbs title="支援職のトラウマ" />
+<Breadcrumbs title="二次受傷（共感疲労）とは" />
 <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
   二次受傷（共感疲労）とは
 </h1>
