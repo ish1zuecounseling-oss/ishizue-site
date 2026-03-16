@@ -1,21 +1,27 @@
 import { motion } from "motion/react";
-import RelatedArticles from "../components/RelatedArticles"
-import AudioPlayer from "../components/AudioPlayer"
+import RelatedArticles from "../components/RelatedArticles";
+import AudioPlayer from "../components/AudioPlayer";
+import { Helmet } from "react-helmet";
 
 export default function HelperTrauma() {
   return (
-    <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-      <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
-      >
-        <header className="mb-16">
-          <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
-            Workplace Psychology
-          </div>
+    <>
+      <Helmet>
+        <title>二次受傷（共感疲労）とは｜支援職の心理</title>
+<meta
+  name="description"
+  content="支援職が抱えやすい心理的負担である二次受傷（共感疲労）について解説します。対人援助職で起こりやすい背景や影響を整理します。"
+/>
+      </Helmet>
 
+      <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
+        <motion.main
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
+        >
+<header className="mb-16">
 <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
   二次受傷（共感疲労）とは
 </h1>
@@ -137,11 +143,12 @@ export default function HelperTrauma() {
 
         </section>
 
- <div className="mt-20">
-  <RelatedArticles currentPath="/helper-trauma" />
-</div>
+          <div className="mt-20">
+            <RelatedArticles currentPath="/helper-trauma" />
+          </div>
 
-      </motion.main>
-    </div>
+        </motion.main>
+      </div>
+    </>
   );
 }
