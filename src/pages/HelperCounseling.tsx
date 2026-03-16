@@ -2,9 +2,17 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import RelatedArticles from "../components/RelatedArticles";
 import AudioPlayer from "../components/AudioPlayer";
+import ArticleSchema from "../components/ArticleSchema";
 
 export default function HelperCounseling() {
   return (
+    <>
+<ArticleSchema
+  title="支援職のためのカウンセリング"
+  description="福祉・医療・教育などの対人援助職が抱える心理的負担を整理し、支援を続けるための視点を紹介します。"
+  url="https://ishizue-site-ker9.vercel.app/helper-counseling"
+  date="2026-03-16"
+/>
     <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
 
       <motion.main
