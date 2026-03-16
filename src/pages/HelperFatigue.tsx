@@ -9,7 +9,7 @@ export default function HelperFatigue() {
 <ArticleSchema
   title="支援職が疲れる理由とは"
   description="支援職が疲れる背景には感情労働・共感疲労・境界線の問題などがあります。対人援助職の心理的負荷について整理します。"
-  url="https://ishizue-site-ker9.vercel.app/helper-fatigue"
+  url="https://ishizue-site-ker9.vercel.app/articles/helper-fatigue"
   date="2026-03-16"
 />
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
