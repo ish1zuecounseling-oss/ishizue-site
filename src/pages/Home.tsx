@@ -170,7 +170,7 @@ export default function Home() {
         </h2>
 
         <a
-          href="/helper-burnout"
+          href="/articles/helper-burnout"
           className="text-stone-800 underline hover:text-stone-900"
         >
           支援職のバーンアウトについて詳しく読む
