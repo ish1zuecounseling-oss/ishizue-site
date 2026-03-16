@@ -10,7 +10,7 @@ export default function HelperBurnout() {
       <ArticleSchema
         title="支援職の燃え尽き（バーンアウト）"
         description="支援職が経験しやすい心理的疲労について整理します。"
-        url="https://ishizue-site-ker9.vercel.app/helper-burnout"
+        url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout"
         date="2026-03-16"
       />
 
