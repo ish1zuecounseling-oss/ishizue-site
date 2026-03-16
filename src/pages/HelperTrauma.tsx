@@ -16,13 +16,12 @@ export default function HelperTrauma() {
             Workplace Psychology
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
-            二次受傷とは ― 支援職が抱えやすい「共感疲労」
-          </h1>
-          <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900">
+<h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
   二次受傷（共感疲労）とは
 </h1>
-
+<p className="text-stone-600 text-lg">
+  支援職が抱えやすい心理的負荷として知られる「二次受傷」について整理します。
+</p>
 <AudioPlayer src="/audio/helper-trauma.mp3" />
 
           <p className="text-stone-600 text-lg">
@@ -138,47 +137,9 @@ export default function HelperTrauma() {
 
         </section>
 
-
-        <section className="mt-20 pt-10 border-t border-stone-200">
-
-          <h3 className="text-lg font-medium mb-6 text-stone-900">
-            関連記事
-          </h3>
-
-          <ul className="space-y-3">
-
-<li>
-  <a
-    href="/helper-burnout"
-    className="text-stone-600 underline hover:text-stone-900 transition-colors"
-  >
-    支援職のバーンアウトについて
-  </a>
-</li>
-
-<li>
-  <a
-    href="/emotional-labor"
-    className="text-stone-600 underline hover:text-stone-900 transition-colors"
-  >
-    感情労働とは
-  </a>
-</li>
-
-<li>
-  <a
-    href="/helper-boundary"
-    className="text-stone-600 underline hover:text-stone-900 transition-colors"
-  >
-    支援職の境界線（バウンダリー）
-  </a>
-</li>
-
-          </ul>
-
-        </section>
-
-        <RelatedArticles />
+ <div className="mt-20">
+  <RelatedArticles currentPath="/helper-trauma" />
+</div>
 
       </motion.main>
     </div>
