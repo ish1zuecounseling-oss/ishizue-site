@@ -22,7 +22,7 @@ export default function Profile() {
   松本 龍児
 </p>
         </motion.div>
-<AudioPlayer src="/audio/helper-Profile.mp3" />
+<AudioPlayer src="/audio/Profile.mp3" />
         {/* 共感 */}
         <section className="mb-12 space-y-5 text-lg leading-relaxed">
           <p>
