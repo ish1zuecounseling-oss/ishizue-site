@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import RelatedArticles from "../components/RelatedArticles"
 import AudioPlayer from "../components/AudioPlayer"
 
-export default function App() {
+export default function EmotionalLabor() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
       <motion.main 
@@ -136,30 +136,7 @@ export default function App() {
           </p>
         </section>
 
-        <section className="mt-20 pt-10 border-t border-stone-200">
-          <h3 className="text-lg font-medium mb-6 text-stone-900">
-            関連記事
-          </h3>
-          <ul className="space-y-3">
-            <li>
-  <a 
-    href="/helper-burnout"
-    className="text-stone-600 underline hover:text-stone-900 transition-colors"
-  >
-    支援職のバーンアウトについて
-  </a>
-</li>
-
-<li>
-  <a 
-    href="/helper-boundary"
-    className="text-stone-600 underline hover:text-stone-900 transition-colors"
-  >
-    支援職の境界線（バウンダリー）
-  </a>
-            </li>
-          </ul>
-        </section>
+<RelatedArticles currentPath="/emotional-labor" />
 
         <RelatedArticles />
 
