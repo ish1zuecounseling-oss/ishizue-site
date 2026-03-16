@@ -9,7 +9,7 @@ import AudioPlayer from "../components/AudioPlayer"
 import ArticleSchema from "../components/ArticleSchema";
 
 export default function EmotionalLabor() {
-return (
+  return (
 <>
 <ArticleSchema
   title="感情労働とは ― 支援職が消耗しやすい理由"
