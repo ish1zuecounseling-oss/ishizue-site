@@ -4,7 +4,7 @@ import Layout from "./components/Layout"
 import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
-import HelperCounseling from "./pages/articles/HelperCounseling"
+import HelperCounseling from "./pages/HelperCounseling"
 
 import HelperBurnout from "./pages/HelperBurnout"
 import EmotionalLabor from "./pages/EmotionalLabor"
