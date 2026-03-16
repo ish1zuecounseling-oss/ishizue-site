@@ -129,7 +129,7 @@ export default function HelperCounseling() {
 <div className="mt-20">
   <RelatedArticles currentPath="/helper-counseling" />
 </div>
-      </main>
+</motion.main>
     </div>
   );
 }
