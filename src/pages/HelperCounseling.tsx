@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import RelatedArticles from "../components/RelatedArticles";
 import AudioPlayer from "../components/AudioPlayer";
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function HelperCounseling() {
   return (
@@ -31,6 +32,7 @@ export default function HelperCounseling() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
+          <Breadcrumbs title="支援職のためのカウンセリング" />
 <h1
   className="text-4xl font-light mb-4"
   itemProp="headline"
