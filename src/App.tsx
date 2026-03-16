@@ -11,6 +11,7 @@ import EmotionalLabor from "./pages/EmotionalLabor"
 import HelperBoundary from "./pages/HelperBoundary"
 import HelperTrauma from "./pages/HelperTrauma"
 import HelperFatigue from "./pages/HelperFatigue";
+import HelperFatigueCheck from "./pages/HelperFatigueCheck";
 
 function App() {
   return (
