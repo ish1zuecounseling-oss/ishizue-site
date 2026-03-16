@@ -1,7 +1,7 @@
 export const articles = [
   {
     title: "支援職が疲れる理由とは",
-    path: "/helper-structure",
+    path: "//helper-fatigue",
     description: "対人援助職が疲れやすい背景にある心理的構造について解説します。"
   },
   {
