@@ -17,7 +17,13 @@ export default function HelperBoundary() {
         <header className="mb-16">
           <meta itemProp="headline" content="支援職の境界線（バウンダリー）とは" />
 <meta itemProp="datePublished" content="2026-03-16" />
-<meta itemProp="author" content="松本 龍児" />
+<div itemProp="author" itemScope itemType="https://schema.org/Person">
+<meta itemProp="name" content="松本 龍児" />
+</div>
+
+<div itemProp="publisher" itemScope itemType="https://schema.org/Organization">
+<meta itemProp="name" content="いしずえカウンセリング" />
+</div>
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
             Workplace Psychology
           </div>
@@ -128,7 +134,7 @@ export default function HelperBoundary() {
   <RelatedArticles currentPath="/helper-boundary" />
 </div>
 
-      </motion.main>
-    </div>
-  );
+</motion.main>
+</div>
+);
 }
