@@ -11,7 +11,7 @@ import EmotionalLabor from "./pages/EmotionalLabor"
 import HelperBoundary from "./pages/HelperBoundary"
 import HelperTrauma from "./pages/HelperTrauma"
 import HelperFatigue from "./pages/HelperFatigue";
-import HelperFatigueCheck from "./pages/helper-fatigue-check";
+import HelperFatigueCheck from "./pages/HelperFatigueCheck";
 
 function App() {
   return (
@@ -39,7 +39,7 @@ function App() {
 
           <Route path="/helper-fatigue" element={<HelperFatigue />} />
 
-          <Route path="/helper-fatigue-check" element={<helper-fatigue-check />} />
+          <Route path="/helper-fatigue-check" element={<HelperFatigueCheck />} />
 
         </Routes>
 
