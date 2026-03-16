@@ -6,12 +6,12 @@ import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
 import HelperCounseling from "./pages/articles/HelperCounseling"
 
-import HelperBurnout from "./pages/articles/HelperBurnout"
-import EmotionalLabor from "./pages/articles/EmotionalLabor"
-import HelperBoundary from "./pages/articles/HelperBoundary"
-import HelperTrauma from "./pages/articles/HelperTrauma"
-import HelperFatigue from "./pages/articles/HelperFatigue";
-import HelperFatigueCheck from "./pages/articles/HelperFatigueCheck";
+import HelperBurnout from "./pages/HelperBurnout"
+import EmotionalLabor from "./pages/EmotionalLabor"
+import HelperBoundary from "./pages/HelperBoundary"
+import HelperTrauma from "./pages/HelperTrauma"
+import HelperFatigue from "./pages/HelperFatigue";
+import HelperFatigueCheck from "./pages/HelperFatigueCheck";
 
 function App() {
   return (
