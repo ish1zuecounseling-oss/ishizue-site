@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import RelatedArticles from "../components/RelatedArticles";
 import { articles } from "../data/articles";
 
 export default function Articles() {
@@ -12,7 +11,6 @@ export default function Articles() {
         transition={{ duration: 0.8 }}
         className="max-w-3xl mx-auto px-6 py-24"
       >
-
         <header className="mb-16">
           <h1 className="text-3xl md:text-4xl font-medium mb-6">
             心理記事
@@ -34,7 +32,6 @@ export default function Articles() {
               to={article.path}
               className="block bg-white p-8 rounded-2xl border border-stone-200 hover:border-stone-400 transition"
             >
-
               <h2 className="text-xl font-medium mb-2">
                 {article.title}
               </h2>
@@ -42,13 +39,10 @@ export default function Articles() {
               <p className="text-stone-600">
                 {article.description}
               </p>
-
             </Link>
           ))}
 
         </section>
-
-        <RelatedArticles />
 
       </motion.main>
     </div>
