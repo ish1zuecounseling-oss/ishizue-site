@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import RelatedArticles from "../components/RelatedArticles";
 import AudioPlayer from "../components/AudioPlayer";
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function EmpathyFatigueCheck() {
   return (
@@ -21,6 +22,7 @@ export default function EmpathyFatigueCheck() {
           className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
         >
           <header className="mb-16">
+            <Breadcrumbs title="共感疲労セルフチェック｜支援職のための20項目" />
             <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
               共感疲労セルフチェック
             </h1>
