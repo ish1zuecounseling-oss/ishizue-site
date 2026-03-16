@@ -1,19 +1,17 @@
 import { motion } from "motion/react";
 import RelatedArticles from "../components/RelatedArticles";
 import AudioPlayer from "../components/AudioPlayer";
-import { Helmet } from "react-helmet";
+import ArticleSchema from "../components/ArticleSchema";
 
 export default function HelperTrauma() {
   return (
-    <>
-      <Helmet>
-        <title>二次受傷（共感疲労）とは｜支援職の心理</title>
-<meta
-  name="description"
-  content="支援職が抱えやすい心理的負担である二次受傷（共感疲労）について解説します。対人援助職で起こりやすい背景や影響を整理します。"
+<>
+<ArticleSchema
+  title="支援職のトラウマ"
+  description="支援職が経験する二次受傷や心理的影響について整理します。"
+  url="https://ishizue-site-ker9.vercel.app/helper-trauma"
+  date="2026-03-16"
 />
-      </Helmet>
-
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
         <motion.main
           initial={{ opacity: 0, y: 20 }}
