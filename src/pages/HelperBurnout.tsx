@@ -4,6 +4,7 @@ import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'luci
 import RelatedArticles from "../components/RelatedArticles"
 import AudioPlayer from "../components/AudioPlayer"
 import ArticleSchema from "../components/ArticleSchema";
+import Breadcrumbs from "../components/Breadcrumbs";
 export default function HelperBurnout() {
   return (
     <>
@@ -30,6 +31,7 @@ export default function HelperBurnout() {
   itemType="https://schema.org/Article"
 >
       <header className="max-w-4xl mx-auto pt-20 pb-12 px-6 text-center">
+        <Breadcrumbs title="支援職の燃え尽き（バーンアウト）" />
 <h1
   className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#2a2a2a]"
   itemProp="headline"
