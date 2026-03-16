@@ -120,9 +120,7 @@ export default function HelperBoundary() {
 
         </section>
 
-<RelatedArticles currentPath="/emotional-labor" />
-
-        <RelatedArticles />
+<RelatedArticles currentPath="/helper-boundary" />
 
       </motion.main>
     </div>
