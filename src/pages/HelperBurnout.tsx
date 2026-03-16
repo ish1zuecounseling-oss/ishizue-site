@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
 import RelatedArticles from "../components/RelatedArticles"
 import AudioPlayer from "../components/AudioPlayer"
-
 export default function HelperBurnout() {
   return (
     <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
       {/* Hero Section */}
-      <header className="max-w-4xl mx-auto pt-20 pb-12 px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -17,21 +15,34 @@ export default function HelperBurnout() {
           <span className="text-xs uppercase tracking-[0.2em] text-[#8a8a7a] font-sans font-semibold mb-4 block">
             Professional Well-being
           </span>
-          <h1 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#2a2a2a]">
-            支援職の燃え尽き<br />
-            <span className="italic font-normal text-[#5a5a40]">（バーンアウト）</span>
-          </h1>
+        <main
+  className="max-w-4xl mx-auto px-6 pb-24"
+  itemScope
+  itemType="https://schema.org/Article"
+>
+      <header className="max-w-4xl mx-auto pt-20 pb-12 px-6 text-center">
+<h1
+  className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#2a2a2a]"
+  itemProp="headline"
+>
+  支援職の燃え尽き<br />
+  <span className="italic font-normal text-[#5a5a40]">（バーンアウト）</span>
+</h1>
           <AudioPlayer src="/audio/helper-burnout.mp3" />
-          <p className="text-lg text-[#6a6a5a] max-w-2xl mx-auto leading-relaxed">
+<p
+  className="text-lg text-[#6a6a5a] max-w-2xl mx-auto leading-relaxed"
+  itemProp="description"
+>
             支援職（対人援助職）は、福祉・医療・教育などの現場で
             利用者やクライアントの人生に深く関わる仕事です。
             そのため責任の重さや感情労働の負担が大きく、
             知らないうちに心身の疲労が蓄積してしまうことがあります。
           </p>
-        </motion.div>
-      </header>
-
-      <main className="max-w-4xl mx-auto px-6 pb-24" itemScope itemType="https://schema.org/Article">
+         </header>
+          <meta itemProp="datePublished" content="2026-03-16" />
+          <meta itemProp="author" content="松本 龍児" />
+          <meta itemProp="publisher" content="Ryuuji Counseling" />
+     
         {/* Content Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -56,7 +67,6 @@ export default function HelperBurnout() {
               </p>
             </div>
           </section>
-
           {/* Section: Signs */}
           <section className="mb-16 bg-[#f9f8f4] -mx-8 md:-mx-16 px-8 md:px-16 py-12">
             <div className="flex items-center gap-3 mb-8 text-[#5a5a40]">
@@ -78,7 +88,6 @@ export default function HelperBurnout() {
               ))}
             </div>
           </section>
-
           {/* Section: Why it happens */}
           <section className="mb-16">
             <div className="flex items-center gap-3 mb-6 text-[#5a5a40]">
@@ -96,9 +105,7 @@ export default function HelperBurnout() {
               </p>
             </div>
           </section>
-
           <div className="h-px bg-[#f0eee8] w-full mb-16" />
-
           {/* Section: Counseling */}
           <section className="text-center">
             <div className="inline-flex items-center justify-center p-3 bg-[#f5f5f0] rounded-full mb-6 text-[#5a5a40]">
@@ -109,7 +116,6 @@ export default function HelperBurnout() {
               支援職の仕事には外からは見えにくい負担や葛藤があります。
               一人で抱え込まず、整理する場としてカウンセリングを利用することもできます。
             </p>
-
 <Link to="/#contact">
   <button className="group inline-flex items-center gap-2 bg-[#5a5a40] hover:bg-[#4a4a30] text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg">
     支援職の悩みを相談する
@@ -117,13 +123,17 @@ export default function HelperBurnout() {
   </button>
 </Link>
 </section>
-          
+
+</motion.div> {/* Content Card */}
+
 <div className="mt-16">
   <RelatedArticles currentPath="/helper-burnout" />
 </div>
 
-</motion.div>
 </main>
+
+</motion.div> {/* Hero motion */}
+
 </div>
 );
 }
