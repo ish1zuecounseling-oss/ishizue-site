@@ -30,7 +30,7 @@ export default function EmpathyFatigueCheck() {
               心理的な疲労が蓄積することがあります。
             </p>
 
-            <AudioPlayer src="/audio/empathy-fatigue.mp3" />
+            <AudioPlayer src="/audio/helper-fatigue-check.mp3" />
 
             <p className="text-stone-600 text-lg">
               こうした状態は心理学では「共感疲労（Compassion Fatigue）」と呼ばれ、
