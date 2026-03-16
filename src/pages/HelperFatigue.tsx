@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
-import AudioPlayer from "../components/AudioPlayer"
+import AudioPlayer from "../components/AudioPlayer";
+import RelatedArticles from "../components/RelatedArticles";
 
 export default function HelperFatigue() {
   return (
@@ -89,36 +89,8 @@ export default function HelperFatigue() {
           </p>
 
         </section>
+<RelatedArticles currentPath="/helper-fatigue" />
 
-        <section className="mt-20 pt-10 border-t border-stone-200">
-
-          <h3 className="text-lg font-medium mb-6 text-stone-900">
-            関連記事
-          </h3>
-
-          <ul className="space-y-3">
-
-            <li>
-              <Link to="/helper-burnout" className="underline">
-                支援職のバーンアウトとは
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/helper-trauma" className="underline">
-                二次受傷（共感疲労）とは
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/helper-boundary" className="underline">
-                支援職の境界線とは
-              </Link>
-            </li>
-
-          </ul>
-
-        </section>
 
       </motion.main>
     </div>
