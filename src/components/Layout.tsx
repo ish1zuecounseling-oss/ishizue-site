@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link to="/" className="hover:text-stone-900">ホーム</Link>
             <Link to="/articles" className="hover:text-stone-900">心理記事</Link>
             <Link to="/profile" className="hover:text-stone-900">カウンセラー</Link>
-            <Link to="/helper-counseling" className="hover:text-stone-900">
+            <Link to="/articles/helper-counseling" className="hover:text-stone-900">
               支援職カウンセリング
             </Link>
           </nav>
