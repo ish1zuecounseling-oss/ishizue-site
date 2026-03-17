@@ -1,9 +1,10 @@
-import HelperFatigue from "../pages/articles/HelperFatigue";
-import EmotionalLabor from "../pages/articles/EmotionalLabor";
-import HelperTrauma from "../pages/articles/HelperTrauma";
-import HelperFatigueCheck from "../pages/articles/HelperFatigueCheck";
-import HelperBoundary from "../pages/articles/HelperBoundary";
-import HelperBurnout from "../pages/articles/HelperBurnout";
+import HelperFatigue from "../pages/HelperFatigue"
+import EmotionalLabor from "../pages/EmotionalLabor"
+import HelperTrauma from "../pages/HelperTrauma"
+import HelperFatigueCheck from "../pages/HelperFatigueCheck"
+import HelperBoundary from "../pages/HelperBoundary"
+import HelperBurnout from "../pages/HelperBurnout"
+import HelperCounseling from "../pages/HelperCounseling"
 
 export const articles = [
   {
