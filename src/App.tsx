@@ -3,9 +3,32 @@ import Layout from "./components/Layout"
 import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
-import { articles } from "./data/articles"
+
+const articlePages = import.meta.glob("./pages/*.tsx", { eager: true })
 
 function App() {
+
+  const articleRoutes = Object.entries(articlePages)
+    .filter(([path]) => !path.includes("Home") && !path.includes("Articles") && !path.includes("Profile"))
+    .map(([path, module]: any) => {
+      const name = path
+        .replace("./pages/", "")
+        .replace(".tsx", "")
+        .replace(/([A-Z])/g, "-$1")
+        .toLowerCase()
+        .replace(/^-/, "")
+
+      const Component = module.default
+
+      return (
+        <Route
+          key={name}
+          path={`/articles/${name}`}
+          element={<Component />}
+        />
+      )
+    })
+
   return (
     <BrowserRouter>
       <Layout>
@@ -15,13 +38,7 @@ function App() {
           <Route path="/articles" element={<Articles />} />
           <Route path="/profile" element={<Profile />} />
 
-          {articles.map((article) => (
-            <Route
-              key={article.path}
-              path={article.path}
-              element={<article.component />}
-            />
-          ))}
+          {articleRoutes}
 
         </Routes>
       </Layout>
