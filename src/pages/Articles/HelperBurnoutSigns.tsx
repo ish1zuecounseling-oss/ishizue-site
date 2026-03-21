@@ -175,6 +175,5 @@ export default function HelperBurnoutSigns() {
 
 </motion.main>
 </div>
-</>
 );
 }
