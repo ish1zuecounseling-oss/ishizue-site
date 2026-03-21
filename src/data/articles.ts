@@ -33,10 +33,10 @@ export const articles = [
     title: "支援職カウンセリング",
     path: "/articles/helper-counseling",
     description: "支援職向けのカウンセリングについて。"
+  },
+  {
+    title: "バーンアウトの前兆（サイン）とは",
+    path: "/articles/helper-burnout-signs",
+    description: "支援職におけるバーンアウトの前兆（サイン）と、その心理的背景を整理します。"
   }
-]
-{
-  title: "バーンアウトの前兆（サイン）とは",
-  path: "/helper-burnout-signs",
-  description: "支援職におけるバーンアウトの前兆（サイン）と、その心理的背景を整理します。"
-}
+];
