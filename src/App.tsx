@@ -12,11 +12,12 @@ function App() {
     .filter(([path]) => !path.includes("Home") && !path.includes("Articles") && !path.includes("Profile"))
     .map(([path, module]: any) => {
       const name = path
-        .replace("./pages/", "")
-        .replace(".tsx", "")
-        .replace(/([A-Z])/g, "-$1")
-        .toLowerCase()
-        .replace(/^-/, "")
+const name = path
+  .replace("./pages/Articles/", "")
+  .replace(".tsx", "")
+  .replace(/([A-Z])/g, "-$1")
+  .toLowerCase()
+  .replace(/^-/, "")
 
       const Component = module.default
 
