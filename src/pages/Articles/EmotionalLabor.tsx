@@ -45,8 +45,6 @@ export default function EmotionalLabor() {
             感情労働とは ― 支援職が消耗しやすい理由
           </h1>
 
-          {/* 🔥 ランダムおすすめ（文言強化済み） */}
-          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
 
           <AudioPlayer src="/audio/emotional-labor.mp3" />
 
@@ -172,7 +170,8 @@ export default function EmotionalLabor() {
             持続可能な状態を取り戻すためには、思考や役割、負荷の構造を整理する時間が必要になることがあります。
           </p>
         </section>
-
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
         {/* 🔥 修正済み */}
         <RelatedArticles currentPath="/articles/emotional-labor" />
 
