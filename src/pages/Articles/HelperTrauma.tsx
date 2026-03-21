@@ -2,16 +2,10 @@ import { motion } from "motion/react";
 import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperTrauma() {
   return (
-<>
-<ArticleSchema
-  title="支援職のトラウマ"
-  description="支援職が経験する二次受傷や心理的影響について整理します。"
-  url="https://ishizue-site-ker9.vercel.app/articles/helper-trauma"
-  date="2026-03-16"
-/>
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
         <motion.main
           initial={{ opacity: 0, y: 20 }}
@@ -142,12 +136,10 @@ export default function HelperTrauma() {
 
         </section>
 
-          <div className="mt-20">
-            <RelatedArticles currentPath="/helper-trauma" />
-          </div>
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
 
         </motion.main>
       </div>
-    </>
   );
 }
