@@ -140,12 +140,12 @@ export default function HelperBoundary() {
 
         </section>
 
-<div className="mt-20">
-          {/* 🔥 ランダムおすすめ（文言強化済み） */}
-          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
-
-</motion.main>
-</div>
+<>
+  <motion.main>
+    <div className="mt-20">
+      <RandomArticles currentPath="/articles/emotional-labor" count={2} />
+    </div>
+  </motion.main>
 </>
 );
 }
