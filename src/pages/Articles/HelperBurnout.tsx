@@ -1,11 +1,10 @@
 import { motion } from 'motion/react';
 import { Link } from "react-router-dom";
 import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
-import RelatedArticles from "../../components/RelatedArticles"
-import AudioPlayer from "../components/AudioPlayer"
-import ArticleSchema from "../components/ArticleSchema";
-import Breadcrumbs from "../components/Breadcrumbs";
-export default function HelperBurnout() {
+import RelatedArticles from "../../components/RelatedArticles";
+import AudioPlayer from "../../components/AudioPlayer";
+import ArticleSchema from "../../components/ArticleSchema";
+import Breadcrumbs from "../../components/Breadcrumbs";
   return (
     <>
       <ArticleSchema
