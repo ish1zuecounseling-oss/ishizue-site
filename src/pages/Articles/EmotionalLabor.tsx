@@ -170,10 +170,9 @@ export default function EmotionalLabor() {
             持続可能な状態を取り戻すためには、思考や役割、負荷の構造を整理する時間が必要になることがあります。
           </p>
         </section>
+
           {/* 🔥 ランダムおすすめ（文言強化済み） */}
           <RandomArticles currentPath="/articles/emotional-labor" count={2} />
-        {/* 🔥 修正済み */}
-        <RelatedArticles currentPath="/articles/emotional-labor" />
 
 </motion.main>
 </div>
