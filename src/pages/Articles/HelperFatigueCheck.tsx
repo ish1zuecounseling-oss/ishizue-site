@@ -3,16 +3,10 @@ import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function EmpathyFatigueCheck() {
   return (
-    <>
-      <ArticleSchema
-        title="共感疲労セルフチェック｜支援職のための20項目"
-        description="支援職の共感疲労を確認する20項目セルフチェック。福祉職・相談員・心理職など対人援助職の心理的疲労を整理します。"
-        url="https://ishizue-site-ker9.vercel.app/articles/helper-fatigue"
-        date="2026-03-16"
-      />
 
       <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
         <motion.main
@@ -144,11 +138,9 @@ export default function EmpathyFatigueCheck() {
             </p>
           </section>
 
-          <div className="mt-20">
-            <RelatedArticles currentPath="/helper-fatigue" />
-          </div>
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
         </motion.main>
       </div>
-    </>
   );
 }
