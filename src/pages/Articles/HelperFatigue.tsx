@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import AudioPlayer from "../components/AudioPlayer";
-import RelatedArticles from "../../components/RelatedArticles"
-import ArticleSchema from "../components/ArticleSchema";
-import Breadcrumbs from "../components/Breadcrumbs";
+import AudioPlayer from "../../components/AudioPlayer";
+import RelatedArticles from "../../components/RelatedArticles";
+import ArticleSchema from "../../components/ArticleSchema";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 export default function HelperFatigue() {
   return (
