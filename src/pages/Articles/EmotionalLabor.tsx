@@ -4,10 +4,10 @@
  */
 
 import { motion } from "motion/react";
-import RelatedArticles from "../../components/RelatedArticles"
-import AudioPlayer from "../components/AudioPlayer"
-import ArticleSchema from "../components/ArticleSchema";
-import Breadcrumbs from "../components/Breadcrumbs";
+import RelatedArticles from "../../components/RelatedArticles";
+import AudioPlayer from "../../components/AudioPlayer";
+import ArticleSchema from "../../components/ArticleSchema";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 export default function EmotionalLabor() {
   return (
