@@ -4,6 +4,7 @@ import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperBoundary() {
   return (
@@ -140,8 +141,8 @@ export default function HelperBoundary() {
         </section>
 
 <div className="mt-20">
-  <RelatedArticles currentPath="/helper-boundary" />
-</div>
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
 
 </motion.main>
 </div>
