@@ -4,10 +4,12 @@
  */
 
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function EmotionalLabor() {
   return (
@@ -29,22 +31,31 @@ export default function EmotionalLabor() {
   itemType="https://schema.org/Article"
 >
         <header className="mb-16">
-          <meta itemProp="headline" content="感情労働とは ― 支援職が消耗しやすい理由" />
+<meta itemProp="headline" content="感情労働とは ― 支援職が消耗しやすい理由" />
 <meta itemProp="datePublished" content="2026-03-16" />
 <meta itemProp="author" content="松本 龍児" />
+
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
             Workplace Psychology
           </div>
+
           <Breadcrumbs title="感情労働とは ― 支援職が消耗しやすい理由" />
+
           <h1 className="text-3xl md:text-4xl font-medium mb-10 text-stone-900 tracking-tight">
             感情労働とは ― 支援職が消耗しやすい理由
           </h1>
+
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
+
           <AudioPlayer src="/audio/emotional-labor.mp3" />
+
           <p className="text-stone-600 mb-10 text-lg">
-          支援職では、仕事の中で自分の感情をコントロールする場面が多くあります。
-          こうした働き方は「感情労働」と呼ばれ、消耗の原因になることがあります。
-          ここでは、支援職と感情労働の関係について整理します。
-            </p>
+            支援職では、仕事の中で自分の感情をコントロールする場面が多くあります。
+            こうした働き方は「感情労働」と呼ばれ、消耗の原因になることがあります。
+            ここでは、支援職と感情労働の関係について整理します。
+          </p>
+
           <div className="h-px w-24 bg-stone-300 mb-8" />
         </header>
 
@@ -106,8 +117,13 @@ export default function EmotionalLabor() {
             <p>・境界線の曖昧さ</p>
           </div>
 
+          {/* 🔥 本文内リンク① */}
           <p className="mb-10">
-            このような状態が続くと、疲労感だけでなく、思考のループや自己否定感につながることもあります。
+            こうした構造が積み重なることで、
+            <Link to="/articles/helper-burnout" className="text-blue-600 underline mx-1">
+              バーンアウト
+            </Link>
+            につながることもあります。
           </p>
 
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
@@ -131,8 +147,13 @@ export default function EmotionalLabor() {
             </ul>
           </div>
 
+          {/* 🔥 本文内リンク② */}
           <p className="mb-10">
-            問題は個人の弱さではなく、構造の問題であることも少なくありません。
+            また、
+            <Link to="/articles/helper-boundary" className="text-blue-600 underline mx-1">
+              境界線（バウンダリー）
+            </Link>
+            を整理することも重要な視点になります。
           </p>
 
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
@@ -152,7 +173,8 @@ export default function EmotionalLabor() {
           </p>
         </section>
 
-<RelatedArticles currentPath="/emotional-labor" />
+        {/* 🔥 修正済み */}
+        <RelatedArticles currentPath="/articles/emotional-labor" />
 
 </motion.main>
 </div>
