@@ -8,13 +8,6 @@ import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperBurnoutSigns() {
   return (
-    <>
-<ArticleSchema
-  title="バーンアウトの前兆（サイン）とは｜支援職が気づきたい心と体の変化"
-  description="支援職におけるバーンアウトの前兆（サイン）について、心理的背景と具体例を交えて整理します。"
-  url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout-signs"
-  date="2026-03-21"
-/>
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
 <motion.main
   initial={{ opacity: 0, y: 20 }}
@@ -179,10 +172,6 @@ export default function HelperBurnoutSigns() {
 
           {/* 🔥 ランダムおすすめ（文言強化済み） */}
           <RandomArticles currentPath="/articles/emotional-labor" count={2} />
-  
-<div className="mt-20">
-  <RelatedArticles currentPath="/helper-burnout-signs" />
-</div>
 
 </motion.main>
 </div>
