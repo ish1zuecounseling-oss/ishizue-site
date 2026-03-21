@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import RelatedArticles from "../../components/RelatedArticles"
-import AudioPlayer from "../components/AudioPlayer";
-import ArticleSchema from "../components/ArticleSchema";
-import Breadcrumbs from "../components/Breadcrumbs";
+import RelatedArticles from "../../components/RelatedArticles";
+import AudioPlayer from "../../components/AudioPlayer";
+import ArticleSchema from "../../components/ArticleSchema";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 export default function HelperCounseling() {
   return (
