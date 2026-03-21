@@ -35,3 +35,8 @@ export const articles = [
     description: "支援職向けのカウンセリングについて。"
   }
 ]
+{
+  title: "バーンアウトの前兆（サイン）とは",
+  path: "/helper-burnout-signs",
+  description: "支援職におけるバーンアウトの前兆（サイン）と、その心理的背景を整理します。"
+}
