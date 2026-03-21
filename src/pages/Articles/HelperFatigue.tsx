@@ -3,16 +3,10 @@ import AudioPlayer from "../../components/AudioPlayer";
 import RelatedArticles from "../../components/RelatedArticles";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperFatigue() {
   return (
-    <>
-<ArticleSchema
-  title="支援職が疲れる理由とは"
-  description="支援職が疲れる背景には感情労働・共感疲労・境界線の問題などがあります。対人援助職の心理的負荷について整理します。"
-  url="https://ishizue-site-ker9.vercel.app/articles/helper-fatigue"
-  date="2026-03-16"
-/>
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
 <motion.main
   initial={{ opacity: 0, y: 20 }}
@@ -103,13 +97,10 @@ export default function HelperFatigue() {
           </p>
 
         </section>
-<div className="mt-20">
-  <RelatedArticles currentPath="/helper-fatigue" />
-</div>
-
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
 
 </motion.main>
 </div>
-</>
 );
 }
