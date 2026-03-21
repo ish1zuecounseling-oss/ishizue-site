@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
 
-const articlePages = import.meta.glob("./pages/*.tsx", { eager: true })
+const articlePages = import.meta.glob("./pages/Articles/*.tsx", { eager: true })
 
 function App() {
 
