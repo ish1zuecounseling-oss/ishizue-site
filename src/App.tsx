@@ -12,7 +12,7 @@ function App() {
     .filter(([path]) => !path.includes("Home") && !path.includes("Articles") && !path.includes("Profile"))
     .map(([path, module]: any) => {
       const name = path
-const name = path
+
   .replace("./pages/Articles/", "")
   .replace(".tsx", "")
   .replace(/([A-Z])/g, "-$1")
