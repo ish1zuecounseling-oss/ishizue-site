@@ -4,6 +4,7 @@ import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperBurnoutSigns() {
   return (
@@ -176,6 +177,9 @@ export default function HelperBurnoutSigns() {
 
         </section>
 
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
+  
 <div className="mt-20">
   <RelatedArticles currentPath="/helper-burnout-signs" />
 </div>
