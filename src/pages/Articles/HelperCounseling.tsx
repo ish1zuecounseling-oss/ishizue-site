@@ -4,16 +4,11 @@ import RelatedArticles from "../../components/RelatedArticles";
 import AudioPlayer from "../../components/AudioPlayer";
 import ArticleSchema from "../../components/ArticleSchema";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import RandomArticles from "../../components/RandomArticles";
 
 export default function HelperCounseling() {
   return (
-    <>
-<ArticleSchema
-  title="支援職のためのカウンセリング"
-  description="福祉・医療・教育などの対人援助職が抱える心理的負担を整理し、支援を続けるための視点を紹介します。"
-  url="https://ishizue-site-ker9.vercel.app/articles/helper-counseling"
-  date="2026-03-16"
-/>
+
     <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
 
       <motion.main
@@ -135,12 +130,10 @@ export default function HelperCounseling() {
             相談について問い合わせる
           </Link>
         </section>
+          {/* 🔥 ランダムおすすめ（文言強化済み） */}
+          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
 
-<div className="mt-20">
-  <RelatedArticles currentPath="/helper-counseling" />
-</div>
 </motion.main>
 </div>
-</>
 );
 }
