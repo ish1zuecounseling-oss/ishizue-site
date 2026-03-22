@@ -10,11 +10,16 @@ export const articles = [
     description: "対人援助職が疲れやすい背景にある心理的構造について解説します。"
   },
 
-  // 🔥 ここに追加（重要）
   {
     title: "支援職が仕事を抱え込みやすい理由とは｜感情労働・共感疲労・境界線から解説",
     path: "/articles/helper-overwork",
     description: "支援職が仕事を抱え込みやすい背景を心理学的に整理します。"
+  },
+
+  {
+    title: "支援職が休むことの重要性とは｜共感疲労・バーンアウトを防ぐセルフケア",
+    path: "/articles/helper-rest-importance",
+    description: "支援職が休むことの重要性について、心理的負荷と回復の観点から解説します。"
   },
 
   {
