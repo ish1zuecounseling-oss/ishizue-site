@@ -37,10 +37,10 @@ export default function EmotionalLabor() {
       <div className="card">
         <p className="font-medium mb-4">例えば支援職では次のような場面があります。</p>
         <ul className="space-y-2">
-          <li>・強い感情を抱える利用者に対応する</li>
-          <li>・怒りや不安を受け止める</li>
-          <li>・冷静さを保ちながら関係を維持する</li>
-          <li>・個人的な感情を表に出さない</li>
+          <li>強い感情を抱える利用者に対応する</li>
+          <li>怒りや不安を受け止める</li>
+          <li>冷静さを保ちながら関係を維持する</li>
+          <li>個人的な感情を表に出さない</li>
         </ul>
       </div>
 
@@ -60,10 +60,10 @@ export default function EmotionalLabor() {
       </p>
 
       <div className="card space-y-2">
-        <p>・責任の抱え込み</p>
-        <p>・役割の過剰化</p>
-        <p>・相談できる相手の少なさ</p>
-        <p>・境界線の曖昧さ</p>
+        <p>責任の抱え込み</p>
+        <p>役割の過剰化</p>
+        <p>相談できる相手の少なさ</p>
+        <p>境界線の曖昧さ</p>
       </div>
 
       <p>
@@ -87,9 +87,9 @@ export default function EmotionalLabor() {
       <div className="card">
         <p className="font-medium mb-4">例えば次のような整理です。</p>
         <ul className="space-y-2">
-          <li>・役割の優先順位を見直す</li>
-          <li>・抱え込みすぎている責任を整理する</li>
-          <li>・境界線を言語化する</li>
+          <li>役割の優先順位を見直す</li>
+          <li>抱え込みすぎている責任を整理する</li>
+          <li>境界線を言語化する</li>
         </ul>
       </div>
 
