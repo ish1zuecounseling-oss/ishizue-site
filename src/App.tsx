@@ -3,17 +3,22 @@ import Layout from "./components/Layout"
 import Home from "./pages/Home"
 import Articles from "./pages/Articles"
 import Profile from "./pages/Profile"
+import ScrollToTop from "./components/ScrollToTop" // ←追加
+
 const articlePages = import.meta.glob("./pages/Articles/*.tsx", { eager: true })
+
 function App() {
-const articleRoutes = Object.entries(articlePages)
-  .map(([path, module]: any) => {
+  const articleRoutes = Object.entries(articlePages)
+    .map(([path, module]: any) => {
       const name = path
-  .replace("./pages/Articles/", "")
-  .replace(".tsx", "")
-  .replace(/([A-Z])/g, "-$1")
-  .toLowerCase()
-  .replace(/^-/, "")
+        .replace("./pages/Articles/", "")
+        .replace(".tsx", "")
+        .replace(/([A-Z])/g, "-$1")
+        .toLowerCase()
+        .replace(/^-/, "")
+
       const Component = module.default
+
       return (
         <Route
           key={name}
@@ -22,8 +27,10 @@ const articleRoutes = Object.entries(articlePages)
         />
       )
     })
+
   return (
     <BrowserRouter>
+      <ScrollToTop /> {/* ←ここ！ */}
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -35,4 +42,5 @@ const articleRoutes = Object.entries(articlePages)
     </BrowserRouter>
   )
 }
+
 export default App
