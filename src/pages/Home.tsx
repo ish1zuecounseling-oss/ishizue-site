@@ -8,16 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ShieldCheck, Monitor, CheckCircle2, Clock, Mail, X, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// framer-motionを動的インポートする例（パフォーマンス最適化）
-// import dynamic from 'next/dynamic';
-// const MotionDiv = dynamic(() => import('framer-motion'), { ssr: false });
-
 const Home: React.FC = React.memo(() => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // ESCキーでモーダルやメニューを閉じる (アクセシビリティ)
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       setActiveModal(null);
@@ -29,7 +24,6 @@ const Home: React.FC = React.memo(() => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  // モーダルが開いたらフォーカスを当てる (簡易フォーカストラップ)
   useEffect(() => {
     if (activeModal && modalRef.current) {
       modalRef.current.focus();
@@ -38,25 +32,6 @@ const Home: React.FC = React.memo(() => {
 
   return (
     <>
-      {/** <!-- SEO用: <Head> */}
-      {/* TODO: Headでタイトル・メタ・canonicalを設定 (例: React HelmetやNext.js <Head> を利用) */}
-      {/* <title>支援職向けオンラインカウンセリング | こころの相談室 いしずえ</title> */}
-      {/* <meta name="description" content="公認心理師による支援者支援に特化したオンラインカウンセリングサイトです。" /> */}
-      {/* <link rel="canonical" href="https://example.com/" /> */}
-      {/* Content-Security-Policy例: default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; */}
-      {/* 構造化データJSON-LD例 */}
-      {/* <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "こころの相談室 いしずえ",
-              "url": "https://example.com/",
-              "logo": "https://example.com/favicon.png"
-            }
-          `}
-      </script> */}
-
       {/* スキップリンク */}
       <a href="#main-content" className="sr-only focus:not-sr-only px-4 py-2 bg-white text-blue-600">
         メインコンテンツへスキップ
@@ -76,7 +51,6 @@ const Home: React.FC = React.memo(() => {
               こころの相談室（いしずえ）
             </div>
           </Link>
-          {/* モバイル用ハンバーガーメニュー */}
           <button
             onClick={() => setMobileMenuOpen(prev => !prev)}
             className="md:hidden p-2 focus:outline-none focus:ring-2 focus:ring-stone-500"
@@ -84,7 +58,6 @@ const Home: React.FC = React.memo(() => {
           >
             <Menu className="w-6 h-6" />
           </button>
-          {/* デスクトップメニュー */}
           <div className="hidden md:flex space-x-8 text-sm tracking-widest text-stone-500">
             <a href="#about" className="hover:text-stone-900 transition-colors">当相談室について</a>
             <a href="#services" className="hover:text-stone-900 transition-colors">ご相談</a>
@@ -93,7 +66,6 @@ const Home: React.FC = React.memo(() => {
             <a href="#contact" className="hover:text-stone-900 transition-colors">お問い合わせ</a>
           </div>
         </div>
-        {/* モバイルメニュー */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-2 space-y-2 bg-white p-4 rounded shadow-md">
             <a href="#about" className="block px-2 py-2 hover:bg-stone-100 rounded">当相談室について</a>
@@ -109,7 +81,6 @@ const Home: React.FC = React.memo(() => {
       <main id="main-content">
         {/* HERO */}
         <section className="relative pt-40 pb-32 px-6 min-h-[90vh] flex items-center bg-stone-50">
-          {/* 背景画像 */}
           <img
             src="/hero.jpg"
             alt="カウンセリングをイメージした静かな空間"
@@ -118,7 +89,6 @@ const Home: React.FC = React.memo(() => {
             loading="lazy"
           />
           <div className="absolute inset-0 bg-stone-100/40"></div>
-          {/* コンテンツ */}
           <div className="max-w-4xl mx-auto text-center relative">
             <motion.div>
               <div className="mb-12">
@@ -161,7 +131,7 @@ const Home: React.FC = React.memo(() => {
           </div>
         </section>
 
-        {/* SEO導線 (記事紹介) */}
+        {/* SEO導線 */}
         <section className="py-16 px-6 bg-stone-50 text-center">
           <p className="text-stone-600 mb-6">
             福祉・医療・教育などの対人援助職で起こりやすい「バーンアウト（燃え尽き）」について解説しています。
@@ -392,3 +362,229 @@ const Home: React.FC = React.memo(() => {
 
         {/* ご利用案内 */}
         <section id="guide" className="py-24 px-6 bg-stone-900 text-stone-50">
+          <div className="max-w-3xl mx-auto">
+            <motion.div className="space-y-16">
+              <div className="text-center">
+                <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Guide</span>
+                <h2 className="text-2xl font-medium mt-4 tracking-wider text-stone-100">ご利用案内</h2>
+              </div>
+
+              {/* 料金 */}
+              <div className="space-y-6">
+                <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400">料金</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {[
+                    { label: "初回相談（60分）", price: "¥8,000" },
+                    { label: "継続セッション（60分）", price: "¥10,000" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex justify-between items-center p-6 rounded-2xl border border-stone-700 bg-stone-800/50">
+                      <span className="text-stone-300 text-sm tracking-wide">{item.label}</span>
+                      <span className="text-stone-100 font-medium text-lg">{item.price}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-stone-500 text-xs leading-relaxed">
+                  ※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。
+                </p>
+              </div>
+
+              {/* 利用の流れ */}
+              <div className="space-y-6">
+                <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400">ご利用の流れ</h3>
+                <ol className="space-y-4">
+                  {[
+                    { step: "01", title: "お問い合わせ", desc: "下記フォームよりご連絡ください。" },
+                    { step: "02", title: "日程調整", desc: "メールにてご希望の日時をお知らせします。" },
+                    { step: "03", title: "事前シート記入", desc: "簡単な状況把握シートにご記入いただきます。" },
+                    { step: "04", title: "セッション（Google Meet）", desc: "オンラインにて60分のセッションを行います。" },
+                    { step: "05", title: "振り返りシート共有", desc: "セッション後、整理内容をまとめてお送りします。" },
+                  ].map((item) => (
+                    <li key={item.step} className="flex gap-6 items-start">
+                      <span className="text-stone-600 font-medium text-sm shrink-0 pt-0.5">{item.step}</span>
+                      <div>
+                        <p className="text-stone-200 font-medium text-sm mb-1">{item.title}</p>
+                        <p className="text-stone-500 text-sm leading-relaxed">{item.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* 対象・注意事項 */}
+              <div className="space-y-4 p-6 rounded-2xl border border-stone-700 bg-stone-800/30">
+                <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400 mb-4">対象・ご注意</h3>
+                <ul className="space-y-3 text-stone-400 text-sm leading-relaxed">
+                  <li className="flex gap-3">
+                    <span className="text-stone-600 shrink-0">—</span>
+                    対象は支援職（福祉・医療・教育・心理職など）に従事されている方です。
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-stone-600 shrink-0">—</span>
+                    本サービスは医療行為・診断・精神科的治療ではありません。
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-stone-600 shrink-0">—</span>
+                    精神科・心療内科への通院中の方はかかりつけ医にご相談の上、お申し込みください。
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-stone-600 shrink-0">—</span>
+                    キャンセルは48時間前までにご連絡ください。それ以降はキャンセル料が発生します。
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* お問い合わせ */}
+        <section id="contact" className="py-24 px-6 bg-white">
+          <div className="max-w-2xl mx-auto">
+            <motion.div className="space-y-12">
+              <div className="text-center">
+                <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Contact</span>
+                <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
+                <p className="text-stone-500 mt-4 text-sm leading-relaxed">
+                  ご質問・ご予約のご相談はこちらからお気軽にどうぞ。<br />
+                  通常2営業日以内にご返信いたします。
+                </p>
+              </div>
+
+              <form
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setActiveModal("sent");
+                }}
+              >
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-xs tracking-widest text-stone-500 uppercase">
+                    お名前 <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    placeholder="山田 花子"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-xs tracking-widest text-stone-500 uppercase">
+                    メールアドレス <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    placeholder="example@email.com"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="job" className="text-xs tracking-widest text-stone-500 uppercase">
+                    ご職種
+                  </label>
+                  <input
+                    id="job"
+                    type="text"
+                    placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="text-xs tracking-widest text-stone-500 uppercase">
+                    ご相談内容 <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    required
+                    rows={5}
+                    placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300 resize-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg"
+                >
+                  <Mail className="w-4 h-4" />
+                  送信する
+                </button>
+                <p className="text-center text-xs text-stone-400 leading-relaxed">
+                  送信いただいた情報はカウンセリングのご案内にのみ使用し、第三者への提供は行いません。
+                </p>
+              </form>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+
+      {/* フッター */}
+      <footer className="py-12 px-6 bg-stone-50 border-t border-stone-100">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-stone-400 text-xs tracking-widest">
+          <div className="flex items-center gap-3">
+            <img src="/favicon.png" alt="" className="h-5 w-5 opacity-50" width={20} height={20} />
+            <span>こころの相談室 いしずえ</span>
+          </div>
+          <div className="flex gap-6">
+            <a href="#about" className="hover:text-stone-600 transition-colors">当相談室について</a>
+            <a href="#guide" className="hover:text-stone-600 transition-colors">ご利用案内</a>
+            <a href="#contact" className="hover:text-stone-600 transition-colors">お問い合わせ</a>
+          </div>
+          <p className="text-stone-300">© {new Date().getFullYear()} いしずえ. All rights reserved.</p>
+        </div>
+      </footer>
+
+      {/* 送信完了モーダル */}
+      <AnimatePresence>
+        {activeModal === "sent" && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/50 backdrop-blur-sm px-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveModal(null)}
+          >
+            <motion.div
+              ref={modalRef}
+              tabIndex={-1}
+              className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl text-center space-y-6 focus:outline-none"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setActiveModal(null)}
+                className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-600 transition-colors"
+                aria-label="閉じる"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center">
+                <CheckCircle2 className="w-8 h-8 text-stone-500" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-medium text-stone-900">送信が完了しました</h3>
+                <p className="text-stone-500 text-sm leading-relaxed">
+                  お問い合わせありがとうございます。<br />
+                  通常2営業日以内にご返信いたします。
+                </p>
+              </div>
+              <button
+                onClick={() => setActiveModal(null)}
+                className="inline-flex items-center px-8 py-3 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full"
+              >
+                閉じる
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+});
+
+Home.displayName = "Home";
+
+export default Home;
