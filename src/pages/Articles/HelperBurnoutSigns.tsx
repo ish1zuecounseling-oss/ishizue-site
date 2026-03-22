@@ -1,38 +1,40 @@
-import { motion } from "motion/react";
-import { Link } from "react-router-dom";
-import RelatedArticles from "../../components/RelatedArticles";
-import AudioPlayer from "../../components/AudioPlayer";
-import ArticleSchema from "../../components/ArticleSchema";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import RandomArticles from "../../components/RandomArticles";
+import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
+import RelatedArticles from "../../components/RelatedArticles"
+import AudioPlayer from "../../components/AudioPlayer"
+import ArticleSchema from "../../components/ArticleSchema"
+import Breadcrumbs from "../../components/Breadcrumbs"
+import RandomArticles from "../../components/RandomArticles"
 
 export default function HelperBurnoutSigns() {
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-<motion.main
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, ease: "easeOut" }}
-  className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
-  itemScope
-  itemType="https://schema.org/Article"
->
+      <motion.main
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-3xl mx-auto px-6 py-24 text-stone-700 leading-loose"
+        itemScope
+        itemType="https://schema.org/Article"
+      >
         <header className="mb-16">
-<meta itemProp="headline" content="バーンアウトの前兆（サイン）とは｜支援職が気づきたい心と体の変化" />
-<meta itemProp="datePublished" content="2026-03-21" />
-<div itemProp="author" itemScope itemType="https://schema.org/Person">
-<meta itemProp="name" content="松本 龍児" />
-</div>
+          {/* SEO */}
+          <meta itemProp="headline" content="バーンアウトの前兆（サイン）とは｜支援職が気づきたい心と体の変化" />
+          <meta itemProp="datePublished" content="2026-03-21" />
 
-<div itemProp="publisher" itemScope itemType="https://schema.org/Organization">
-<meta itemProp="name" content="いしずえカウンセリング" />
-</div>
+          <div itemProp="author" itemScope itemType="https://schema.org/Person">
+            <meta itemProp="name" content="松本 龍児" />
+          </div>
+
+          <div itemProp="publisher" itemScope itemType="https://schema.org/Organization">
+            <meta itemProp="name" content="いしずえカウンセリング" />
+          </div>
 
           <div className="text-xs uppercase tracking-widest text-stone-400 mb-4 font-medium">
             Workplace Psychology
           </div>
 
-<Breadcrumbs title="バーンアウトの前兆（サイン）とは" />
+          <Breadcrumbs title="バーンアウトの前兆（サイン）とは" />
 
           <h1 className="text-3xl md:text-4xl font-medium mb-8 text-stone-900 tracking-tight">
             バーンアウトの前兆（サイン）とは｜支援職が気づきたい心と体の変化
@@ -50,7 +52,6 @@ export default function HelperBurnoutSigns() {
         </header>
 
         <section className="space-y-6">
-
           <p>
             バーンアウトは突然起こるものではなく、
             徐々に進行していくプロセスの中で形成されます。
@@ -71,9 +72,7 @@ export default function HelperBurnoutSigns() {
             バーンアウトの前兆として現れやすいサイン
           </h2>
 
-          <p>
-            現場では、次のような変化が見られることがあります。
-          </p>
+          <p>現場では、次のような変化が見られることがあります。</p>
 
           <div className="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm my-10 space-y-2">
             <p>・利用者の話に対して感情が動きにくくなる</p>
@@ -111,11 +110,6 @@ export default function HelperBurnoutSigns() {
           <h2 className="text-2xl font-medium mt-16 mb-6 text-stone-900">
             心理的な背景（構造）
           </h2>
-
-          <p>
-            バーンアウトの前兆の背景には、
-            いくつかの心理的要因が関係しています。
-          </p>
 
           <div className="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm my-10 space-y-4">
             <div>
@@ -167,13 +161,18 @@ export default function HelperBurnoutSigns() {
             自分の状態を振り返ることは、
             支援を長く続けるための基盤とも言えるでしょう。
           </p>
-
         </section>
 
-          {/* 🔥 ランダムおすすめ（文言強化済み） */}
-          <RandomArticles currentPath="/articles/emotional-labor" count={2} />
+        {/* 🔥 関連記事 */}
+        <div className="mt-20">
+          <RelatedArticles currentPath="/articles/helper-burnout-signs" />
+        </div>
 
-</motion.main>
-</div>
-);
+        {/* 🔥 ランダム記事 */}
+        <div className="mt-12">
+          <RandomArticles currentPath="/articles/helper-burnout-signs" count={2} />
+        </div>
+      </motion.main>
+    </div>
+  )
 }
