@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import Breadcrumbs from "./Breadcrumbs"
 import AudioPlayer from "./AudioPlayer"
 import ArticleSchema from "./ArticleSchema"
-import RelatedArticles from "./RelatedArticles"
+import RandomArticles from "./RandomArticles"
 
 type Props = {
   title: string
