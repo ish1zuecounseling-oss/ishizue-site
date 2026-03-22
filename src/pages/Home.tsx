@@ -26,7 +26,7 @@ export default function Home() {
           NAV
       ========================= */}
 
-<nav className="sticky top-0 z-50 px-6 py-4 border-b border-stone-100 bg-white/80 backdrop-blur">
+<nav className="px-6 py-4 border-b border-stone-100 bg-white">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
 
           <Link to="/" className="flex items-center space-x-3">
