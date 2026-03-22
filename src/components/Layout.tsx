@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="bg-[#fdfcfb] min-h-screen text-stone-800">
 
       {/* Header */}
-      <header className="border-b border-stone-200 bg-white">
+      <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/80 backdrop-blur">
         <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-4">
 
           {/* Logo */}
