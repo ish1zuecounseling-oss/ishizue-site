@@ -268,7 +268,7 @@ export default function ArticleLayout({
                 <p className="text-sm font-semibold text-stone-900">松本 龍児</p>
                 <p className="text-xs text-stone-400 mb-1">公認心理師 ／ こころの相談室 いしずえ</p>
                 <p className="text-xs text-stone-500 leading-relaxed">
-                  臨床心理の現場での支援経験をもとに、こころの仕組みや関わり方について発信しています。
+                  医療・福祉・教育の現場での支援経験をもとに、こころの仕組みや関わり方について発信しています。
                 </p>
               </div>
             </motion.div>
