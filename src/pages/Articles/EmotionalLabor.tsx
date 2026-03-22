@@ -57,10 +57,10 @@ export default function EmotionalLabor() {
       </p>
 
       <div className="card space-y-2">
-        <p>・責任の抱え込み</p>
-        <p>・役割の過剰化</p>
-        <p>・相談できる相手の少なさ</p>
-        <p>・境界線の曖昧さ</p>
+        <p>責任の抱え込み</p>
+        <p>役割の過剰化</p>
+        <p>相談できる相手の少なさ</p>
+        <p>境界線の曖昧さ</p>
       </div>
 
       <p>
