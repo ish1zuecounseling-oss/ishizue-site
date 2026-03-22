@@ -273,13 +273,13 @@ export default function ArticleLayout({
               </div>
             </motion.div>
 
-            {/* =====================
-                関連記事（SEO）
-            ===================== */}
-            <div className="mt-16 pt-10 border-t border-stone-100">
-              <p className="text-xs tracking-widest text-stone-400 uppercase mb-6">Related Articles</p>
-              <RelatedArticles currentPath={path} />
-            </div>
+{/* =====================
+    おすすめ記事（ランダム）
+===================== */}
+<div className="mt-16 pt-10 border-t border-stone-100">
+  <RandomArticles currentPath={path} count={3} />
+</div>
+
 
           </motion.article>
         </div>
