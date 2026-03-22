@@ -1,7 +1,8 @@
 // ishizue-site/src/components/ArticleLayout.tsx
 
+import { useCallback } from "react"
 import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Breadcrumbs from "./Breadcrumbs"
 import AudioPlayer from "./AudioPlayer"
 import ArticleSchema from "./ArticleSchema"
@@ -53,6 +54,17 @@ export default function ArticleLayout({
 }: Props) {
   const path = url.replace(/.*\/articles/, "")
   const readingTime = estimateReadingTime(children)
+  const navigate = useNavigate()
+
+  // /#contact へのスクロール遷移（記事ページ → ホームの#contact）
+  const handleContactClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    navigate("/")
+    setTimeout(() => {
+      const el = document.getElementById("contact")
+      if (el) el.scrollIntoView({ behavior: "smooth" })
+    }, 300)
+  }, [navigate])
 
   return (
     <>
@@ -146,9 +158,9 @@ export default function ArticleLayout({
 
               {/* 音声プレイヤー */}
               {audio && (
-                  <AudioPlayer src={audio} />
+                <AudioPlayer src={audio} />
               )}
-              
+
               {/* リード文 */}
               <p
                 className="text-stone-600 text-base sm:text-lg leading-[1.9] border-l-4 border-[#7C9A8A]/40 pl-4 py-1"
@@ -172,7 +184,6 @@ export default function ArticleLayout({
             <div
               className={[
                 "space-y-7 text-[0.97rem] sm:text-base text-stone-700 leading-[2.1]",
-                // 見出し・段落・リスト等を統一的にスタイリング
                 "[&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-stone-800 [&_h2]:mt-12 [&_h2]:mb-4",
                 "[&_h2]:border-l-4 [&_h2]:border-[#7C9A8A] [&_h2]:pl-4",
                 "[&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-stone-800 [&_h3]:mt-8 [&_h3]:mb-3",
@@ -230,15 +241,16 @@ export default function ArticleLayout({
                   カウンセリングをご利用いただけます。
                 </p>
 
-                <Link
-                  to="/#contact"
+                <a
+                  href="/#contact"
+                  onClick={handleContactClick}
                   className="inline-flex items-center gap-2 bg-stone-900 text-white px-7 py-3 rounded-full text-sm font-medium hover:bg-[#3D3D3B] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                 >
                   相談について問い合わせる
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </Link>
+                </a>
 
                 <p className="text-xs text-stone-400 mt-4">
                   ※ 初回のご相談は無料です
@@ -270,13 +282,12 @@ export default function ArticleLayout({
               </div>
             </motion.div>
 
-{/* =====================
-    おすすめ記事（ランダム）
-===================== */}
-<div className="mt-16 pt-10 border-t border-stone-100">
-  <RandomArticles currentPath={path} count={3} />
-</div>
-
+            {/* =====================
+                おすすめ記事（ランダム）
+            ===================== */}
+            <div className="mt-16 pt-10 border-t border-stone-100">
+              <RandomArticles currentPath={path} count={3} />
+            </div>
 
           </motion.article>
         </div>
