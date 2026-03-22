@@ -17,9 +17,9 @@ export default function HelperStressCoping() {
       </p>
 
       <div className="card space-y-2">
-        <p>・共感疲労（二次受傷）</p>
-        <p>・感情労働</p>
-        <p>・境界線（バウンダリー）の曖昧さ</p>
+        <p>共感疲労（二次受傷）</p>
+        <p>感情労働</p>
+        <p>境界線（バウンダリー）の曖昧さ</p>
       </div>
 
       <p>
@@ -35,10 +35,10 @@ export default function HelperStressCoping() {
       </p>
 
       <div className="card space-y-2">
-        <p>・他者の感情に継続的に触れる</p>
-        <p>・成果が見えにくい</p>
-        <p>・責任感が強くなりやすい</p>
-        <p>・感情をコントロールし続ける必要がある</p>
+        <p>他者の感情に継続的に触れる</p>
+        <p>成果が見えにくい</p>
+        <p>責任感が強くなりやすい</p>
+        <p>感情をコントロールし続ける必要がある</p>
       </div>
 
       <p>
@@ -48,10 +48,10 @@ export default function HelperStressCoping() {
       <h2>現場で起こりやすいこと</h2>
 
       <div className="card space-y-2">
-        <p>・利用者の問題を自分のことのように抱える</p>
-        <p>・断ることに罪悪感を感じる</p>
-        <p>・仕事が終わっても考え続けてしまう</p>
-        <p>・「自分が何とかしなければ」と感じる</p>
+        <p>利用者の問題を自分のことのように抱える</p>
+        <p>断ることに罪悪感を感じる</p>
+        <p>仕事が終わっても考え続けてしまう</p>
+        <p>「自分が何とかしなければ」と感じる</p>
       </div>
 
       <p>
@@ -82,9 +82,9 @@ export default function HelperStressCoping() {
       <h2>まとめ</h2>
 
       <ul className="space-y-2">
-        <li>・共感疲労（二次受傷）</li>
-        <li>・感情労働</li>
-        <li>・境界線（バウンダリー）の曖昧さ</li>
+        <li>共感疲労（二次受傷）</li>
+        <li>感情労働</li>
+        <li>境界線（バウンダリー）の曖昧さ</li>
       </ul>
 
       <p>
