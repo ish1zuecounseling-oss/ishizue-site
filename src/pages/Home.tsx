@@ -449,7 +449,7 @@ const Home: React.FC = React.memo(() => {
                     { step: "01", title: "お問い合わせ", desc: "下記フォームよりご連絡ください。" },
                     { step: "02", title: "日程調整", desc: "メールにてご希望の日時をお知らせします。" },
                     { step: "03", title: "事前シート記入", desc: "簡単な状況把握シートにご記入いただきます。" },
-                    { step: "04", title: "セッション（Google Meet）", desc: "オンラインにて60分のセッションを行います。" },
+                    { step: "04", title: "セッション（Google Meet）", desc: "オンラインにて30分の体験セッションを行います。" },
                     { step: "05", title: "振り返りシート共有", desc: "セッション後、整理内容をまとめてお送りします。" },
                   ].map((item) => (
                     <li key={item.step} className="flex gap-6 items-start">
@@ -481,7 +481,7 @@ const Home: React.FC = React.memo(() => {
                   </li>
                   <li className="flex gap-3">
                     <span className="text-stone-600 shrink-0">—</span>
-                    キャンセルは48時間前までにご連絡ください。それ以降はキャンセル料が発生します。
+                    キャンセルは24時間前までにご連絡ください。それ以降はキャンセル料が発生します。
                   </li>
                 </ul>
               </div>
