@@ -519,64 +519,226 @@ const Home: React.FC = React.memo(() => {
         </section>
       </main>
 
-      {/* フッター */}
-      <footer className="py-12 px-6 bg-stone-50 border-t border-stone-100">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-stone-400 text-xs tracking-widest">
-          <div className="flex items-center gap-3">
-            <img src="/favicon.png" alt="" className="h-5 w-5 opacity-50" width={20} height={20} />
-            <span>こころの相談室 いしずえ</span>
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-stone-100 bg-stone-50/30">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+          <div className="text-stone-400 text-sm tracking-widest">
+            © 2026 こころの相談室 いしずえ
           </div>
-          <div className="flex gap-6">
-            <a href="#about" className="hover:text-stone-600 transition-colors">当相談室について</a>
-            <a href="#guide" className="hover:text-stone-600 transition-colors">ご利用案内</a>
-            <a href="#contact" className="hover:text-stone-600 transition-colors">お問い合わせ</a>
+          <div className="flex flex-wrap justify-center gap-6 text-xs tracking-widest text-stone-400">
+            <button
+              onClick={() => setActiveModal("privacy")}
+              className="hover:text-stone-900 transition-colors"
+            >
+              プライバシーポリシー
+            </button>
+            <button
+              onClick={() => setActiveModal("tokusho")}
+              className="hover:text-stone-900 transition-colors"
+            >
+              特定商取引法表記
+            </button>
+            <button
+              onClick={() => setActiveModal("cancel")}
+              className="hover:text-stone-900 transition-colors"
+            >
+              キャンセルポリシー
+            </button>
           </div>
-          <p className="text-stone-300">© {new Date().getFullYear()} いしずえ. All rights reserved.</p>
         </div>
       </footer>
 
-      {/* 送信完了モーダル */}
+      {/* Legal Modals */}
       <AnimatePresence>
-        {activeModal === "sent" && (
+        {activeModal && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/50 backdrop-blur-sm px-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-stone-900/40 backdrop-blur-sm"
             onClick={() => setActiveModal(null)}
           >
             <motion.div
               ref={modalRef}
               tabIndex={-1}
-              className="bg-white rounded-3xl p-10 max-w-md w-full shadow-2xl text-center space-y-6 focus:outline-none"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-3xl shadow-2xl p-8 md:p-12 relative focus:outline-none"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setActiveModal(null)}
-                className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-600 transition-colors"
+                className="absolute top-6 right-6 p-2 text-stone-400 hover:text-stone-900 transition-colors"
                 aria-label="閉じる"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
-              <div className="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8 text-stone-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-medium text-stone-900">送信が完了しました</h3>
-                <p className="text-stone-500 text-sm leading-relaxed">
-                  お問い合わせありがとうございます。<br />
-                  通常2営業日以内にご返信いたします。
-                </p>
-              </div>
-              <button
-                onClick={() => setActiveModal(null)}
-                className="inline-flex items-center px-8 py-3 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full"
-              >
-                閉じる
-              </button>
+
+              {activeModal === "privacy" && (
+                <div className="space-y-8 text-stone-600 leading-loose">
+                  <h2 className="text-2xl font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-6">
+                    プライバシーポリシー
+                  </h2>
+                  <p>
+                    こころの相談室 いしずえ（以下「当相談室」）は、利用者の個人情報の重要性を認識し、以下のとおり適切に取り扱います。
+                  </p>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">1. 取得する情報</h3>
+                    <p>当相談室では、以下の情報を取得する場合があります。</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>氏名</li>
+                      <li>メールアドレス</li>
+                      <li>相談内容</li>
+                      <li>予約情報</li>
+                      <li>決済情報</li>
+                    </ul>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">2. 利用目的</h3>
+                    <p>取得した情報は、以下の目的に利用します。</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>カウンセリングサービスの提供</li>
+                      <li>予約管理および連絡対応</li>
+                      <li>サービス向上のための分析</li>
+                      <li>法令に基づく対応</li>
+                    </ul>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">3. 第三者提供</h3>
+                    <p>法令に基づく場合を除き、本人の同意なく第三者へ提供することはありません。</p>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">4. 情報管理</h3>
+                    <p>取得した情報は適切に管理し、不正アクセス・漏えい・改ざん防止に努めます。</p>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">5. オンラインツールの利用</h3>
+                    <p>
+                      オンラインカウンセリングでは Google Meet を使用します。各ツールのセキュリティポリシーは提供元の規定に準じます。
+                    </p>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">6. 開示・訂正・削除</h3>
+                    <p>ご本人からの請求があった場合、法令に従い対応いたします。</p>
+                  </section>
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-medium text-stone-900">7. 改定</h3>
+                    <p>本ポリシーは必要に応じて改定されます。</p>
+                  </section>
+                  <div className="pt-8 border-t border-stone-100 text-sm space-y-1">
+                    <p>事業者名：こころの相談室 いしずえ</p>
+                    <p>代表：松本 龍児</p>
+                    <p>所在地：大阪府大阪市</p>
+                    <p>お問い合わせ：ish1zue.counseling@gmail.com</p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === "tokusho" && (
+                <div className="space-y-8 text-stone-600 leading-loose">
+                  <h2 className="text-2xl font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-6">
+                    特定商取引法に基づく表記
+                  </h2>
+                  <div className="grid grid-cols-[120px_1fr] gap-y-6 text-sm md:text-base">
+                    <div className="text-stone-400 font-medium">事業者名</div>
+                    <div>こころの相談室 いしずえ</div>
+                    <div className="text-stone-400 font-medium">代表者名</div>
+                    <div>松本 龍児</div>
+                    <div className="text-stone-400 font-medium">所在地</div>
+                    <div>
+                      大阪府大阪市
+                      <br />
+                      <span className="text-xs text-stone-400">
+                        ※詳細な所在地については、ご請求があった場合に遅滞なく開示いたします。
+                      </span>
+                    </div>
+                    <div className="text-stone-400 font-medium">連絡先</div>
+                    <div>
+                      ish1zue.counseling@gmail.com
+                      <br />
+                      <span className="text-xs text-stone-400">
+                        ※お問い合わせはメールにてお願いいたします。
+                      </span>
+                    </div>
+                    <div className="text-stone-400 font-medium">販売価格</div>
+                    <div className="space-y-2">
+                      <p>
+                        オンラインカウンセリング
+                        <br />
+                        ・30分 8,000円（税込）
+                        <br />
+                        ・60分 12,000円（税込）
+                      </p>
+                      <p>
+                        メールカウンセリング
+                        <br />
+                        ・3往復 3,000円（税込）
+                      </p>
+                    </div>
+                    <div className="text-stone-400 font-medium">支払方法</div>
+                    <div>銀行振込</div>
+                    <div className="text-stone-400 font-medium">支払時期</div>
+                    <div>予約確定後、指定期日までにお支払いください。</div>
+                    <div className="text-stone-400 font-medium">提供時期</div>
+                    <div>入金確認後、予約日時に提供いたします。</div>
+                    <div className="text-stone-400 font-medium">返品・返金</div>
+                    <div>下記キャンセルポリシーをご確認ください。</div>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === "cancel" && (
+                <div className="space-y-8 text-stone-600 leading-loose">
+                  <h2 className="text-2xl font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-6">
+                    キャンセルポリシー
+                  </h2>
+                  <p>ご予約後のキャンセルについては、以下の通りといたします。</p>
+                  <ul className="space-y-4">
+                    <li className="flex justify-between border-b border-stone-50 pb-2">
+                      <span>24時間前までのキャンセル</span>
+                      <span className="font-medium text-stone-900">無料</span>
+                    </li>
+                    <li className="flex justify-between border-b border-stone-50 pb-2">
+                      <span>24時間以内のキャンセル</span>
+                      <span className="font-medium text-stone-900">料金の50%</span>
+                    </li>
+                    <li className="flex justify-between border-b border-stone-50 pb-2">
+                      <span>当日・無断キャンセル</span>
+                      <span className="font-medium text-stone-900">料金の100%</span>
+                    </li>
+                  </ul>
+                  <p className="text-sm">
+                    やむを得ない事情がある場合は個別にご相談ください。返金が発生する場合、振込手数料をご負担いただくことがあります。
+                  </p>
+                  <div className="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-sm">
+                    <p>
+                      なお、本サービスは医療行為ではありません。診断・投薬・緊急対応は行っておりません。
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === "sent" && (
+                <div className="text-center space-y-6 py-4">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center">
+                    <CheckCircle2 className="w-8 h-8 text-stone-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-medium text-stone-900">送信が完了しました</h3>
+                    <p className="text-stone-500 text-sm leading-relaxed">
+                      お問い合わせありがとうございます。<br />
+                      通常2営業日以内にご返信いたします。
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setActiveModal(null)}
+                    className="inline-flex items-center px-8 py-3 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full"
+                  >
+                    閉じる
+                  </button>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
