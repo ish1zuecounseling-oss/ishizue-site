@@ -25,11 +25,11 @@ export default function HelperCounseling() {
 
       <div className="card">
         <ul className="space-y-2">
-          <li>・仕事の責任が重く感じる</li>
-          <li>・利用者のことが頭から離れない</li>
-          <li>・仕事の疲れが抜けない</li>
-          <li>・誰にも弱音を吐けない</li>
-          <li>・支援を続けることに不安がある</li>
+          <li>仕事の責任が重く感じる</li>
+          <li>利用者のことが頭から離れない</li>
+          <li>仕事の疲れが抜けない</li>
+          <li>誰にも弱音を吐けない</li>
+          <li>支援を続けることに不安がある</li>
         </ul>
       </div>
 
@@ -44,10 +44,10 @@ export default function HelperCounseling() {
       <p>例えば次のような要素です。</p>
 
       <div className="card space-y-2">
-        <p>・役割の抱え込み</p>
-        <p>・責任の過剰化</p>
-        <p>・期待とのズレ</p>
-        <p>・感情労働の蓄積</p>
+        <p>役割の抱え込み</p>
+        <p>責任の過剰化</p>
+        <p>期待とのズレ</p>
+        <p>感情労働の蓄積</p>
       </div>
 
       <p>
@@ -68,9 +68,9 @@ export default function HelperCounseling() {
 
       <div className="card">
         <ul className="space-y-2">
-          <li>・今の状況の整理</li>
-          <li>・思考や役割の構造の確認</li>
-          <li>・消耗を減らす視点の整理</li>
+          <li>今の状況の整理</li>
+          <li>思考や役割の構造の確認</li>
+          <li>消耗を減らす視点の整理</li>
         </ul>
       </div>
 
