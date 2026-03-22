@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,74 +8,67 @@
 /* =========================
    Base
 ========================= */
-
 @layer base {
-
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    font-family: "Noto Serif JP", "Cormorant Garamond", serif;
-    @apply text-stone-800 bg-stone-50/30;
+    font-family: "Noto Serif JP", serif;
+    @apply text-stone-800 bg-stone-50/40 leading-[1.9] tracking-[0.01em];
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Noto Serif JP", "Cormorant Garamond", serif;
-    @apply font-medium tracking-tight;
+  h1 {
+    @apply text-3xl md:text-4xl leading-tight tracking-tight mb-6;
   }
 
+  h2 {
+    @apply text-2xl md:text-3xl leading-snug mt-16 mb-6;
+  }
+
+  h3 {
+    @apply text-xl mt-10 mb-4;
+  }
+
+  p {
+    @apply mb-6;
+  }
 }
 
 /* =========================
-   Markdown (記事用)
+   Article Layout（←重要）
 ========================= */
-
-.markdown-body {
-  @apply leading-relaxed;
-  font-family: "Noto Serif JP", "Cormorant Garamond", serif;
+.article-container {
+  @apply max-w-3xl mx-auto px-6 py-24;
 }
 
-.markdown-body h1 {
-  @apply text-4xl mb-6;
-}
-
-.markdown-body h2 {
-  @apply text-3xl mt-8 mb-4;
-}
-
-.markdown-body p {
-  @apply mb-4;
-}
-
-.markdown-body ul {
-  @apply list-disc pl-6 mb-4;
-}
-
-.markdown-body li {
-  @apply mb-2;
+.article-body {
+  @apply text-stone-700 leading-[2] text-[15.5px] md:text-[16px];
 }
 
 /* =========================
-   Utilities
+   Card（統一感）
 ========================= */
+.card {
+  @apply bg-white border border-stone-200 rounded-2xl p-8 shadow-sm;
+}
 
+/* =========================
+   Animation
+========================= */
 @layer utilities {
-
   .fade-in {
-    animation: fadeIn 1.2s ease-out forwards;
+    animation: fadeIn 0.8s ease-out forwards;
   }
 
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(8px);
     }
-
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-
 }
