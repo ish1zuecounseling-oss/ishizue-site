@@ -144,6 +144,14 @@ export default function ArticleLayout({
                 </div>
               </div>
 
+              {/* 音声プレイヤー */}
+              {audio && (
+                <div className="mb-6 rounded-xl bg-white border border-stone-100 shadow-sm p-4">
+                  <p className="text-xs text-stone-400 mb-2 tracking-wide uppercase">🎧 音声で聴く</p>
+                  <AudioPlayer src={audio} />
+                </div>
+              )}
+              
               {/* リード文 */}
               <p
                 className="text-stone-600 text-base sm:text-lg leading-[1.9] border-l-4 border-[#7C9A8A]/40 pl-4 py-1"
