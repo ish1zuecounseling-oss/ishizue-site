@@ -1,7 +1,7 @@
 // ishizue-site/src/components/Layout.tsx
 
-import { useState, useEffect } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { useState, useEffect, useCallback } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 
 const NAV_LINKS = [
@@ -15,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -34,24 +35,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const isActive = (path: string) => location.pathname === path
 
+  // /#contact へのスクロール遷移
+  const handleContactClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    setOpen(false)
+    if (location.pathname === "/") {
+      // すでにホームにいる場合はそのままスクロール
+      const el = document.getElementById("contact")
+      if (el) el.scrollIntoView({ behavior: "smooth" })
+    } else {
+      // 別ページからの場合はホームに遷移してからスクロール
+      navigate("/")
+      setTimeout(() => {
+        const el = document.getElementById("contact")
+        if (el) el.scrollIntoView({ behavior: "smooth" })
+      }, 300)
+    }
+  }, [location.pathname, navigate])
+
   return (
     <div className="bg-[#FAFAF8] min-h-screen text-stone-800">
 
       {/* ================================
           Header
       ================================ */}
-<header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-5xl mx-auto flex items-center justify-between px-5 h-16">
 
           {/* ── Logo ── */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            {/* マーク */}
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#7C9A8A]/20 flex items-center justify-center group-hover:bg-[#7C9A8A]/30 transition">
               <svg className="w-3.5 h-3.5 text-[#7C9A8A]" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
               </svg>
             </span>
-            {/* テキスト */}
             <div className="leading-tight">
               <p className="font-serif text-sm sm:text-base tracking-wide text-stone-900">
                 こころの相談室 いしずえ
@@ -75,7 +92,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 {label}
-                {/* アクティブインジケーター */}
                 {isActive(to) && (
                   <motion.span
                     layoutId="nav-active"
@@ -86,8 +102,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
 
             {/* CTAボタン */}
-            <Link
-              to="/#contact"
+            <a
+              href="/#contact"
+              onClick={handleContactClick}
               className="ml-3 inline-flex items-center gap-1.5 bg-stone-900 text-white text-xs px-4 py-2 rounded-full font-medium hover:bg-[#3D3D3B] transition shadow-sm hover:shadow-md"
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +113,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 />
               </svg>
               相談する
-            </Link>
+            </a>
           </nav>
 
           {/* ── Mobile Hamburger ── */}
@@ -133,7 +150,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 md:hidden bg-white flex flex-col"
           >
-            {/* ヘッダー部分の高さ確保 */}
             <div className="h-16 border-b border-stone-100 flex items-center px-5">
               <p className="font-serif text-sm text-stone-400 tracking-wide">
                 MENU
@@ -169,8 +185,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 transition={{ delay: NAV_LINKS.length * 0.07 + 0.1 }}
                 className="mt-8"
               >
-                <Link
-                  to="/#contact"
+                <a
+                  href="/#contact"
+                  onClick={handleContactClick}
                   className="flex items-center justify-center gap-2 bg-stone-900 text-white py-4 rounded-2xl font-medium text-base tracking-wide"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,11 +196,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     />
                   </svg>
                   相談について問い合わせる
-                </Link>
+                </a>
               </motion.div>
             </nav>
 
-            {/* 下部情報 */}
             <div className="px-8 py-6 text-xs text-stone-400">
               © 2026 こころの相談室 いしずえ
             </div>
@@ -209,7 +225,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="bg-[#F5F4F1] border-t border-stone-200 mt-24">
         <div className="max-w-5xl mx-auto px-5 py-14">
 
-          {/* 3カラム */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-12">
 
             {/* ── ブランド ── */}
@@ -259,8 +274,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 初回のご相談は無料です。<br />
                 お気軽にお問い合わせください。
               </p>
-              <Link
-                to="/#contact"
+              <a
+                href="/#contact"
+                onClick={handleContactClick}
                 className="inline-flex items-center gap-1.5 text-xs border border-stone-300 text-stone-700 px-4 py-2 rounded-full hover:bg-white hover:border-stone-400 transition"
               >
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,7 +285,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   />
                 </svg>
                 お問い合わせフォームへ
-              </Link>
+              </a>
             </div>
           </div>
 
