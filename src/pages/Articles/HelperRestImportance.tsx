@@ -24,10 +24,10 @@ export default function HelperRestImportance() {
       <h2>現場で起こりやすいこと</h2>
 
       <div className="card space-y-2">
-        <p>・体調が悪くても無理に出勤してしまう</p>
-        <p>・休みの日でも利用者のことが頭から離れない</p>
-        <p>・「自分がいないと回らない」と感じる</p>
-        <p>・休むことに罪悪感を抱く</p>
+        <p>体調が悪くても無理に出勤してしまう</p>
+        <p>休みの日でも利用者のことが頭から離れない</p>
+        <p>「自分がいないと回らない」と感じる</p>
+        <p>休むことに罪悪感を抱く</p>
       </div>
 
       <h2>心理的な背景</h2>
@@ -50,9 +50,9 @@ export default function HelperRestImportance() {
       <h2>まとめ</h2>
 
       <ul className="space-y-2">
-        <li>・感情労働による消耗</li>
-        <li>・共感疲労の蓄積</li>
-        <li>・境界線の揺らぎ</li>
+        <li>感情労働による消耗</li>
+        <li>共感疲労の蓄積</li>
+        <li>境界線の揺らぎ</li>
       </ul>
 
       <p>
