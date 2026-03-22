@@ -34,10 +34,10 @@ export default function HelperSecondaryTrauma() {
       </p>
 
       <div className="card space-y-2">
-        <p>・仕事の内容が頭から離れない</p>
-        <p>・利用者の話を思い出して眠れない</p>
-        <p>・感情的に疲れやすくなる</p>
-        <p>・共感すること自体が負担に感じる</p>
+        <p>仕事の内容が頭から離れない</p>
+        <p>利用者の話を思い出して眠れない</p>
+        <p>感情的に疲れやすくなる</p>
+        <p>共感すること自体が負担に感じる</p>
       </div>
 
       <h2>共感疲労との関係</h2>
@@ -56,10 +56,10 @@ export default function HelperSecondaryTrauma() {
           支援職では次のような構造が重なりやすいと言われています。
         </p>
         <ul className="space-y-2">
-          <li>・強い感情に継続的に触れる</li>
-          <li>・責任感が強い</li>
-          <li>・相談できる環境が少ない</li>
-          <li>・役割が増え続ける</li>
+          <li>強い感情に継続的に触れる</li>
+          <li>責任感が強い</li>
+          <li>相談できる環境が少ない</li>
+          <li>役割が増え続ける</li>
         </ul>
       </div>
 
@@ -78,9 +78,9 @@ export default function HelperSecondaryTrauma() {
           例えば次のような整理が役立つことがあります。
         </p>
         <ul className="space-y-2">
-          <li>・役割の境界線を見直す</li>
-          <li>・責任の範囲を整理する</li>
-          <li>・心理的距離の取り方を言語化する</li>
+          <li>役割の境界線を見直す</li>
+          <li>責任の範囲を整理する</li>
+          <li>心理的距離の取り方を言語化する</li>
         </ul>
       </div>
 
