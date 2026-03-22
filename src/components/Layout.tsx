@@ -40,13 +40,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* ================================
           Header
       ================================ */}
-      <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-stone-100"
-            : "bg-transparent"
-        }`}
-      >
+<header
+  className={`sticky top-0 z-50 transition-all duration-300 ${
+    scrolled
+      ? "bg-white shadow-sm border-b border-stone-100"
+      : "bg-[#FAFAF8]"
+  }`}
+>
         <div className="max-w-5xl mx-auto flex items-center justify-between px-5 h-16">
 
           {/* ── Logo ── */}
