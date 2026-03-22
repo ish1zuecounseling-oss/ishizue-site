@@ -489,119 +489,118 @@ const Home: React.FC = React.memo(() => {
           </div>
         </section>
 
-{/* お問い合わせ */}
-<section id="contact" className="py-24 px-6 bg-white">
-  <div className="max-w-2xl mx-auto">
-    <motion.div className="space-y-12">
-      <div className="text-center">
-        <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Contact</span>
-        <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
-        <p className="text-stone-500 mt-4 text-sm leading-relaxed">
-          ご質問・ご予約のご相談はこちらからお気軽にどうぞ。<br />
-          通常2営業日以内にご返信いたします。
-        </p>
-      </div>
+        {/* お問い合わせ */}
+        <section id="contact" className="py-24 px-6 bg-white">
+          <div className="max-w-2xl mx-auto">
+            <motion.div className="space-y-12">
+              <div className="text-center">
+                <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Contact</span>
+                <h2 className="text-2xl font-medium mt-4 tracking-wider">お問い合わせ</h2>
+                <p className="text-stone-500 mt-4 text-sm leading-relaxed">
+                  ご質問・ご予約のご相談はこちらからお気軽にどうぞ。<br />
+                  通常2営業日以内にご返信いたします。
+                </p>
+              </div>
 
-      <form
-        className="space-y-6"
-        onSubmit={(e) => {
-          e.preventDefault();
+              <form
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  emailjs.send(
+                    'service_o133h6q',
+                    'template_va24xdk',
+                    {
+                      user_name: (e.target as any).name.value,
+                      user_email: (e.target as any).email.value,
+                      job: (e.target as any).job.value,
+                      message: (e.target as any).message.value,
+                    },
+                    'ewvxJYOQmnG4MhwUd'
+                  )
+                  .then(() => {
+                    setActiveModal("sent");
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    alert("送信失敗");
+                  });
+                }}
+              >
+                {/* 名前 */}
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-xs tracking-widest text-stone-500 uppercase">
+                    お名前 <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    placeholder="山田 花子"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
 
-          emailjs.send(
-            'service_o133h6q',
-            'template_va24xdk',
-            {
-              user_name: (e.target as any).name.value,
-              user_email: (e.target as any).email.value,
-              job: (e.target as any).job.value,
-              message: (e.target as any).message.value,
-            },
-            'ewvxJYOQmnG4MhwUd'
-          )
-          .then(() => {
-            setActiveModal("sent");
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("送信失敗");
-          });
-        }}
-      >
+                {/* メール */}
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-xs tracking-widest text-stone-500 uppercase">
+                    メールアドレス <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="example@email.com"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
 
-        {/* 名前 */}
-        <div className="space-y-2">
-          <label htmlFor="name" className="text-xs tracking-widest text-stone-500 uppercase">
-            お名前 <span className="text-stone-400">（必須）</span>
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            placeholder="山田 花子"
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-          />
-        </div>
+                {/* 職種 */}
+                <div className="space-y-2">
+                  <label htmlFor="job" className="text-xs tracking-widest text-stone-500 uppercase">
+                    ご職種
+                  </label>
+                  <input
+                    id="job"
+                    name="job"
+                    type="text"
+                    placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+                  />
+                </div>
 
-        {/* メール */}
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-xs tracking-widest text-stone-500 uppercase">
-            メールアドレス <span className="text-stone-400">（必須）</span>
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            placeholder="example@email.com"
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-          />
-        </div>
+                {/* メッセージ */}
+                <div className="space-y-2">
+                  <label htmlFor="message" className="text-xs tracking-widest text-stone-500 uppercase">
+                    ご相談内容 <span className="text-stone-400">（必須）</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={5}
+                    placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300 resize-none"
+                  />
+                </div>
 
-        {/* 職種 */}
-        <div className="space-y-2">
-          <label htmlFor="job" className="text-xs tracking-widest text-stone-500 uppercase">
-            ご職種
-          </label>
-          <input
-            id="job"
-            name="job"
-            type="text"
-            placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-          />
-        </div>
+                {/* 送信ボタン */}
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg"
+                >
+                  送信する
+                </button>
 
-        {/* メッセージ */}
-        <div className="space-y-2">
-          <label htmlFor="message" className="text-xs tracking-widest text-stone-500 uppercase">
-            ご相談内容 <span className="text-stone-400">（必須）</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            rows={5}
-            placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300 resize-none"
-          />
-        </div>
-
-        {/* 送信ボタン */}
-        <button
-          type="submit"
-          className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg"
-        >
-          送信する
-        </button>
-
-        <p className="text-center text-xs text-stone-400 leading-relaxed">
-          送信いただいた情報はカウンセリングのご案内にのみ使用し、第三者への提供は行いません。
-        </p>
-      </form>
-    </motion.div>
-  </div>
-</section>
+                <p className="text-center text-xs text-stone-400 leading-relaxed">
+                  送信いただいた情報はカウンセリングのご案内にのみ使用し、第三者への提供は行いません。
+                </p>
+              </form>
+            </motion.div>
+          </div>
+        </section>
+      </main>
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-stone-100 bg-stone-50/30">
@@ -750,9 +749,11 @@ const Home: React.FC = React.memo(() => {
                       <p>
                         オンラインカウンセリング
                         <br />
-                        ・30分 8,000円（税込）
+                        ・初回体験 30分 5,000円（税込）
                         <br />
-                        ・60分 12,000円（税込）
+                        ・通常 30分 8,000円（税込）
+                        <br />
+                        ・通常 60分 12,000円（税込）
                       </p>
                       <p>
                         メールカウンセリング
