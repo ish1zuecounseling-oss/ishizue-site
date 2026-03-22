@@ -21,9 +21,11 @@ export default function ArticleLayout({
   audio,
   children,
 }: Props) {
+  const path = url.replace(/.*\/articles/, "")
+
   return (
     <>
-      {/* SEO */}
+      {/* SEO構造化データ */}
       <ArticleSchema
         title={title}
         description={description}
@@ -40,10 +42,22 @@ export default function ArticleLayout({
           itemScope
           itemType="https://schema.org/Article"
         >
-          {/* Header */}
+          {/* =========================
+              HEADER
+          ========================= */}
           <header className="mb-16">
             <meta itemProp="headline" content={title} />
             <meta itemProp="datePublished" content={date} />
+            <meta itemProp="dateModified" content={date} />
+            <meta itemProp="mainEntityOfPage" content={url} />
+
+            <div itemProp="author" itemScope itemType="https://schema.org/Person">
+              <meta itemProp="name" content="松本 龍児" />
+            </div>
+
+            <div itemProp="publisher" itemScope itemType="https://schema.org/Organization">
+              <meta itemProp="name" content="こころの相談室 いしずえ" />
+            </div>
 
             <Breadcrumbs title={title} />
 
@@ -61,10 +75,16 @@ export default function ArticleLayout({
             <div className="divider" />
           </header>
 
-          {/* Body */}
-          <div className="space-y-6">{children}</div>
+          {/* =========================
+              BODY
+          ========================= */}
+          <div className="space-y-6" itemProp="articleBody">
+            {children}
+          </div>
 
-          {/* CTA */}
+          {/* =========================
+              CTA（CV導線）
+          ========================= */}
           <section className="mt-24 text-center">
             <div className="card max-w-xl mx-auto">
               <h2 className="text-xl mb-4">
@@ -74,7 +94,6 @@ export default function ArticleLayout({
                 支援職の負担や葛藤について、落ち着いて整理する場として
                 カウンセリングをご利用いただけます。
               </p>
-
               <a
                 href="/#contact"
                 className="inline-block bg-stone-800 text-white px-8 py-3 rounded-full hover:bg-stone-700 transition"
@@ -84,9 +103,11 @@ export default function ArticleLayout({
             </div>
           </section>
 
-          {/* Related */}
+          {/* =========================
+              内部リンク強化
+          ========================= */}
           <div className="mt-20">
-            <RelatedArticles currentPath={url.replace(/.*\/articles/, "")} />
+            <RelatedArticles currentPath={path} />
           </div>
         </motion.article>
       </div>
