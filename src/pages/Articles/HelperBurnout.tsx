@@ -1,152 +1,121 @@
-import { motion } from 'motion/react';
-import { Link } from "react-router-dom";
-import { Heart, AlertCircle, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
-import RelatedArticles from "../../components/RelatedArticles";
-import AudioPlayer from "../../components/AudioPlayer";
-import ArticleSchema from "../../components/ArticleSchema";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
 
-export default function HelperBurnout() {
+export default function EmotionalLabor() {
   return (
-    <>
-      <ArticleSchema
-        title="支援職の燃え尽き（バーンアウト）"
-        description="支援職が経験しやすい心理的疲労について整理します。"
-        url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout"
-        date="2026-03-16"
-      />
+    <ArticleLayout
+      title="感情労働とは ― 支援職が消耗しやすい理由"
+      description="支援職で起こりやすい感情労働と心理的消耗の構造について整理します。"
+      url="https://ishizue-site-ker9.vercel.app/articles/emotional-labor"
+      date="2026-03-16"
+      audio="/audio/emotional-labor.mp3"
+      currentPath="/articles/emotional-labor"
+    >
+      <p>
+        感情労働とは、仕事の中で自分の感情をコントロールしながら働くことを求められる労働のことを指します。
+      </p>
 
-      <div className="bg-[#fdfcfb] min-h-screen font-serif text-[#3c3c3c]">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="text-xs uppercase tracking-[0.2em] text-[#8a8a7a] font-sans font-semibold mb-4 block">
-            Professional Well-being
-          </span>
-        <main
-  className="max-w-4xl mx-auto px-6 pb-24"
-  itemScope
-  itemType="https://schema.org/Article"
->
-      <header className="max-w-4xl mx-auto pt-20 pb-12 px-6 text-center">
-        <Breadcrumbs title="支援職の燃え尽き（バーンアウト）" />
-<h1
-  className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#2a2a2a]"
-  itemProp="headline"
->
-  支援職の燃え尽き<br />
-  <span className="italic font-normal text-[#5a5a40]">（バーンアウト）</span>
-</h1>
-          <AudioPlayer src="/audio/helper-burnout.mp3" />
-<p
-  className="text-lg text-[#6a6a5a] max-w-2xl mx-auto leading-relaxed"
-  itemProp="description"
->
-            支援職（対人援助職）は、福祉・医療・教育などの現場で
-            利用者やクライアントの人生に深く関わる仕事です。
-            そのため責任の重さや感情労働の負担が大きく、
-            知らないうちに心身の疲労が蓄積してしまうことがあります。
-          </p>
-         </header>
-          <meta itemProp="datePublished" content="2026-03-16" />
-<meta itemProp="author" content="松本 龍児" />
-<meta itemProp="publisher" content="いしずえカウンセリング" />
-     
-        {/* Content Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-[32px] shadow-sm border border-[#f0eee8] p-8 md:p-16"
-        >
-          {/* Section: What is Burnout */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-6 text-[#5a5a40]">
-              <Heart size={24} strokeWidth={1.5} />
-              <h2 className="text-2xl font-medium">燃え尽き（バーンアウト）とは</h2>
-            </div>
-            <div className="space-y-4 text-lg leading-relaxed text-[#4a4a4a]">
-              <p>
-                燃え尽きとは、仕事に強い使命感や責任感を持つ人ほど
-                起こりやすい心理的な疲労状態のことを指します。
-              </p>
-              <p>
-                支援職では利用者の感情や問題に長く向き合うため、
-                共感疲労や慢性的なストレスが蓄積しやすいとされています。
-              </p>
-            </div>
-          </section>
-          {/* Section: Signs */}
-          <section className="mb-16 bg-[#f9f8f4] -mx-8 md:-mx-16 px-8 md:px-16 py-12">
-            <div className="flex items-center gap-3 mb-8 text-[#5a5a40]">
-              <AlertCircle size={24} strokeWidth={1.5} />
-              <h2 className="text-2xl font-medium">よく見られるサイン</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                "仕事への意欲が低下する",
-                "慢性的な疲労感が続く",
-                "利用者との距離を感じる",
-                "仕事の意味を感じにくくなる",
-                "休んでも回復しない疲れ"
-              ].map((item, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#5a5a40] shrink-0" />
-                  <span className="text-lg">{item}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-          {/* Section: Why it happens */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-6 text-[#5a5a40]">
-              <ShieldCheck size={24} strokeWidth={1.5} />
-              <h2 className="text-2xl font-medium">支援職で燃え尽きが起きやすい理由</h2>
-            </div>
-            <div className="space-y-4 text-lg leading-relaxed text-[#4a4a4a]">
-              <p>
-                支援職では「人の役に立ちたい」という思いが強い人ほど、
-                自分の負担を後回しにしてしまうことがあります。
-              </p>
-              <p>
-                また制度や組織の制約の中で思うような支援ができないことが、
-                無力感やストレスにつながることもあります。
-              </p>
-            </div>
-          </section>
-          <div className="h-px bg-[#f0eee8] w-full mb-16" />
-          {/* Section: Counseling */}
-          <section className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-[#f5f5f0] rounded-full mb-6 text-[#5a5a40]">
-              <MessageCircle size={28} strokeWidth={1.5} />
-            </div>
-            <h2 className="text-2xl font-medium mb-4">支援職の悩みについて相談する</h2>
-            <p className="text-lg text-[#6a6a5a] mb-10 max-w-xl mx-auto">
-              支援職の仕事には外からは見えにくい負担や葛藤があります。
-              一人で抱え込まず、整理する場としてカウンセリングを利用することもできます。
-            </p>
-<Link to="/#contact">
-  <button className="group inline-flex items-center gap-2 bg-[#5a5a40] hover:bg-[#4a4a30] text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg">
-    支援職の悩みを相談する
-    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-  </button>
-</Link>
-</section>
+      <p>
+        医療、福祉、教育、心理職などの対人援助職では、業務の中で「感情の管理」が日常的に求められます。
+      </p>
 
-</motion.div> {/* Content Card */}
+      <p>
+        相手の感情を受け止めながら、冷静さや専門職としての態度を維持する必要があるため、
+        気づかないうちに心身の消耗が積み重なりやすい働き方でもあります。
+      </p>
 
-<div className="mt-16">
-  <RelatedArticles currentPath="/helper-burnout" />
-</div>
+      <h2>感情労働が生まれる背景</h2>
 
-</main>
+      <p>
+        感情労働という概念は、社会学者アーリー・ホックシールドによって提唱されました。
+      </p>
 
-</motion.div> {/* Hero motion */}
+      <p>
+        接客業やサービス業でよく語られますが、実際には支援職の方が感情労働の負荷は大きいと言われることがあります。
+      </p>
 
+      <div className="card">
+        <p className="font-medium mb-4">例えば支援職では次のような場面があります。</p>
+        <ul className="space-y-2">
+          <li>・強い感情を抱える利用者に対応する</li>
+          <li>・怒りや不安を受け止める</li>
+          <li>・冷静さを保ちながら関係を維持する</li>
+          <li>・個人的な感情を表に出さない</li>
+        </ul>
       </div>
-    </>
-  );
+
+      <p>
+        こうした状況では、表面的には落ち着いて対応していても、
+        内側では強い負荷がかかり続けていることがあります。
+      </p>
+
+      <h2>支援職が疲弊しやすい理由</h2>
+
+      <p>
+        支援職が疲弊しやすいのは、単に忙しいからではありません。
+      </p>
+
+      <p>
+        感情労働に加えて、次のような構造が重なることが多いためです。
+      </p>
+
+      <div className="card space-y-2">
+        <p>・責任の抱え込み</p>
+        <p>・役割の過剰化</p>
+        <p>・相談できる相手の少なさ</p>
+        <p>・境界線の曖昧さ</p>
+      </div>
+
+      <p>
+        こうした構造が積み重なることで、
+        <Link to="/articles/helper-burnout" className="text-blue-600 underline mx-1">
+          バーンアウト
+        </Link>
+        につながることもあります。
+      </p>
+
+      <h2>感情労働とうまく付き合うために</h2>
+
+      <p>
+        感情労働そのものを完全になくすことはできません。
+      </p>
+
+      <p>
+        しかし、負荷の構造を整理することで、消耗を減らすことは可能です。
+      </p>
+
+      <div className="card">
+        <p className="font-medium mb-4">例えば次のような整理です。</p>
+        <ul className="space-y-2">
+          <li>・役割の優先順位を見直す</li>
+          <li>・抱え込みすぎている責任を整理する</li>
+          <li>・境界線を言語化する</li>
+        </ul>
+      </div>
+
+      <p>
+        また、
+        <Link to="/articles/helper-boundary" className="text-blue-600 underline mx-1">
+          境界線（バウンダリー）
+        </Link>
+        を整理することも重要な視点になります。
+      </p>
+
+      <h2>支援する人の土台を整える</h2>
+
+      <p>
+        支援職は、誰かの人生に伴走する仕事です。
+      </p>
+
+      <p>
+        しかし、支援する側の土台が揺らいでしまうと、
+        支援そのものが続けにくくなります。
+      </p>
+
+      <p>
+        持続可能な状態を取り戻すためには、
+        思考や役割、負荷の構造を整理する時間が必要になることがあります。
+      </p>
+    </ArticleLayout>
+  )
 }
