@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { articles } from "../data/articles"
+import { articles } from "../src/data/articles"
 
 const BASE_URL = "https://ishizue-site-ker9.vercel.app"
 
