@@ -59,7 +59,7 @@ ${urls
 </urlset>`
 
   fs.writeFileSync(
-    path.resolve(__dirname, "../../public/sitemap.xml"),
+    path.resolve(__dirname, "../public/sitemap.xml"),
     xml
   )
 
