@@ -393,77 +393,89 @@ const Home: React.FC = React.memo(() => {
                 <h2 className="text-2xl font-medium mt-4 tracking-wider text-stone-100">ご利用案内</h2>
               </div>
 
-              {/* 料金 */}
-              <div className="space-y-6">
-                <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400">料金</h3>
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* オンラインカウンセリング */}
-                  <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
-                    <div className="flex items-center space-x-4">
-                      <Monitor className="w-6 h-6 text-stone-500" />
-                      <h3 className="text-xl font-medium tracking-wider">オンラインカウンセリング</h3>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                            初回体験 (30分)
-                          </span>
-                          <span className="text-base md:text-lg text-emerald-400 whitespace-nowrap">
-                            5,000円 (税込)
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                            通常 30分
-                          </span>
-                          <span className="text-base md:text-lg whitespace-nowrap">8,000円 (税込)</span>
-                        </div>
-                        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                            通常 60分
-                          </span>
-                          <span className="text-base md:text-lg whitespace-nowrap">12,000円 (税込)</span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-baseline pb-2">
-                        <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                          形式
-                        </span>
-                        <span className="text-base md:text-lg">Google Meet</span>
-                      </div>
-                    </div>
-                  </div>
+{/* 料金 */}
+<div className="space-y-6">
+  <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400">料金</h3>
 
-                  {/* メールカウンセリング */}
-                  <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
-                    <div className="flex items-center space-x-4">
-                      <Mail className="w-6 h-6 text-stone-500" />
-                      <h3 className="text-xl font-medium tracking-wider">メールカウンセリング</h3>
-                    </div>
-                    <div className="space-y-6">
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
-                          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                            3往復
-                          </span>
-                          <span className="text-base md:text-lg whitespace-nowrap">3,000円 (税込)</span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-baseline pb-2">
-                        <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
-                          形式
-                        </span>
-                        <span className="text-base md:text-lg">メール</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-stone-500 text-xs leading-relaxed">
-                  ※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。
-                </p>
-              </div>
+  {/* 無料メール相談バナー */}
+  <div className="p-6 border border-emerald-800/40 rounded-2xl bg-emerald-950/20 flex items-center justify-between gap-4 flex-wrap">
+    <div>
+      <p className="text-xs tracking-widest text-emerald-400 uppercase mb-1">まずはここから</p>
+      <p className="text-lg font-medium text-stone-100">初回メール相談</p>
+      <p className="text-stone-400 text-sm mt-1">1往復・状況整理　／　返信目安2営業日以内</p>
+    </div>
+    <span className="text-3xl font-light text-emerald-400 whitespace-nowrap">無料</span>
+  </div>
 
+  <div className="grid md:grid-cols-2 gap-8">
+    {/* オンラインカウンセリング */}
+    <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
+      <div className="flex items-center space-x-4">
+        <Monitor className="w-6 h-6 text-stone-500" />
+        <h3 className="text-xl font-medium tracking-wider">オンライン面談</h3>
+      </div>
+      <div className="space-y-4">
+        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            初回体験 (30分)
+          </span>
+          <span className="text-base md:text-lg whitespace-nowrap">5,000円 (税込)</span>
+        </div>
+        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            通常 30分
+          </span>
+          <span className="text-base md:text-lg whitespace-nowrap">8,000円 (税込)</span>
+        </div>
+        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            通常 60分
+          </span>
+          <span className="text-base md:text-lg whitespace-nowrap">12,000円 (税込)</span>
+        </div>
+        <div className="flex justify-between items-baseline pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            形式
+          </span>
+          <span className="text-base md:text-lg">Google Meet</span>
+        </div>
+      </div>
+    </div>
+
+    {/* メールカウンセリング */}
+    <div className="p-6 md:p-10 border border-stone-800 rounded-2xl space-y-8">
+      <div className="flex items-center space-x-4">
+        <Mail className="w-6 h-6 text-stone-500" />
+        <h3 className="text-xl font-medium tracking-wider">メール相談</h3>
+      </div>
+      <div className="space-y-4">
+        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            初回 1往復
+          </span>
+          <span className="text-base md:text-lg text-emerald-400 whitespace-nowrap">無料</span>
+        </div>
+        <div className="flex justify-between items-baseline border-b border-stone-800 pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            通常 3往復
+          </span>
+          <span className="text-base md:text-lg whitespace-nowrap">3,000円 (税込)</span>
+        </div>
+        <div className="flex justify-between items-baseline pb-2">
+          <span className="text-stone-500 text-[10px] md:text-xs tracking-widest uppercase">
+            形式
+          </span>
+          <span className="text-base md:text-lg">メール</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p className="text-stone-500 text-xs leading-relaxed">
+    ※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。<br />
+    ※ 初回メール相談は無料です。お気軽にお問い合わせください。
+  </p>
+</div>
               {/* 利用の流れ */}
               <div className="space-y-6">
                 <h3 className="text-sm font-medium tracking-[0.3em] uppercase text-stone-400">ご利用の流れ</h3>
@@ -767,23 +779,26 @@ const Home: React.FC = React.memo(() => {
                         ※お問い合わせはメールにてお願いいたします。
                       </span>
                     </div>
-                    <div className="text-stone-400 font-medium">販売価格</div>
-                    <div className="space-y-2">
-                      <p>
-                        オンラインカウンセリング
-                        <br />
-                        ・初回体験 30分 5,000円（税込）
-                        <br />
-                        ・通常 30分 8,000円（税込）
-                        <br />
-                        ・通常 60分 12,000円（税込）
-                      </p>
-                      <p>
-                        メールカウンセリング
-                        <br />
-                        ・3往復 3,000円（税込）
-                      </p>
-                    </div>
+<div className="text-stone-400 font-medium">販売価格</div>
+<div className="space-y-2">
+  <p>
+    初回メール相談　無料（1往復）
+  </p>
+  <p>
+    オンラインカウンセリング
+    <br />
+    ・初回体験 30分 5,000円（税込）
+    <br />
+    ・通常 30分 8,000円（税込）
+    <br />
+    ・通常 60分 12,000円（税込）
+  </p>
+  <p>
+    メール相談（通常）
+    <br />
+    ・3往復 3,000円（税込）
+  </p>
+</div>
                     <div className="text-stone-400 font-medium">支払方法</div>
                     <div>銀行振込</div>
                     <div className="text-stone-400 font-medium">支払時期</div>
