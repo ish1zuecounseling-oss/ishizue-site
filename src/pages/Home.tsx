@@ -301,66 +301,91 @@ const Home: React.FC = React.memo(() => {
           </div>
         </section>
 
-        {/* 運営者プロフィール */}
-        <section className="py-24 px-6 bg-white">
-          <div className="max-w-3xl mx-auto">
-            <motion.div className="space-y-12">
-              <div className="text-center">
-                <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Profile</span>
-                <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
-              </div>
-              <div className="bg-stone-50/30 p-6 md:p-16 rounded-3xl border border-stone-100 space-y-10">
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-stone-100 pb-10">
-                  <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-sm">
-                    <img
-                      src="/profile.jpg"
-                      alt="松本 龍児 近影"
-                      className="w-full h-full object-cover"
-                      width={500} height={500}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                  <div className="text-center md:text-left pt-4">
-                    <h3 className="text-2xl font-medium text-stone-900 mb-2">松本 龍児</h3>
-                    <p className="text-stone-500 text-sm md:text-base">構造整理型カウンセラー｜支援者支援特化</p>
-                  </div>
-                </div>
-                <div className="text-stone-700 leading-relaxed space-y-8 text-base md:text-lg">
-                  <p>
-                    現場で出会った支援者の疲弊や孤立を目の当たりにし、
-                    支援する側が立ち止まれる場の必要性を感じました。
-                  </p>
-                  <p>
-                    対人援助職として現場に携わる中で、
-                    「支援する側が疲弊し、土台から崩れていく構造」に強い問題意識を持つようになりました。
-                  </p>
-                  <p>
-                    支援者は責任・役割・感情労働を日常的に抱えています。
-                    その負荷は、本人の努力不足ではなく、構造上の問題であることが多くあります。
-                  </p>
-                  <p>
-                    私は感情の共感だけで終わらせるのではなく、
-                    思考の癖、役割過多、責任の抱え込み、期待とのズレなどを整理し、
-                    「消耗を減らす設計」に立ち戻る支援を行っています。
-                  </p>
-                  <div className="pt-8 border-t border-stone-100">
-                    <h4 className="text-xs font-medium text-stone-400 mb-4 tracking-[0.3em] uppercase">活動歴</h4>
-                    <p className="text-stone-600 text-sm md:text-base">
-                      医療・福祉・教育領域での実務経験を経て、個別面談・ケース支援・支援者支援に従事。現在はオンラインを中心に活動。
-                    </p>
-                  </div>
-                  <div className="pt-6 border-t border-stone-100 text-center">
-                    <p className="font-medium text-stone-900 mb-2">強くなることを目指すのではなく、</p>
-                    <p className="text-xl text-stone-900">持続可能な状態に戻すこと。</p>
-                    <p className="mt-6 text-stone-600">支援を続けられる土台を整えることが、私の役割です。</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+{/* 運営者プロフィール */}
+<section className="py-24 px-6 bg-white">
+  <div className="max-w-3xl mx-auto">
+    <motion.div className="space-y-12">
+      <div className="text-center">
+        <span className="text-xs tracking-[0.4em] text-stone-400 uppercase">Profile</span>
+        <h2 className="text-2xl font-medium mt-4 tracking-wider">運営者プロフィール</h2>
+      </div>
+      <div className="bg-stone-50/30 p-6 md:p-16 rounded-3xl border border-stone-100 space-y-10">
+        {/* 名前・資格・写真 */}
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-stone-100 pb-10">
+          <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-sm">
+            <img
+              src="/profile.jpg"
+              alt="松本 龍児 近影"
+              className="w-full h-full object-cover"
+              width={500} height={500}
+              loading="lazy"
+            />
           </div>
-        </section>
+          <div className="text-center md:text-left pt-4">
+            <h3 className="text-2xl font-medium text-stone-900 mb-1">松本 龍児</h3>
+            <p className="text-stone-500 text-sm md:text-base mb-2">公認心理師｜構造整理型カウンセラー／支援者支援専門</p>
+            {/* 実績バッジ */}
+            <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+              {["障害福祉15年", "累計300名以上", "6,000時間以上"].map((badge) => (
+                <span key={badge} className="px-3 py-1 bg-stone-100 text-stone-600 text-xs rounded-full tracking-wide">
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
 
+        {/* 本文 */}
+        <div className="text-stone-700 leading-relaxed space-y-8 text-base md:text-lg">
+          <p>
+            15年間、障害福祉の現場で支援者として働いてきました。
+            300名以上、6,000時間を超える支援の中で、ずっと気になっていたことがあります。
+          </p>
+          <p className="text-xl font-medium text-stone-900 border-l-4 border-stone-300 pl-4">
+            支援者自身が、誰にも頼れていない。
+          </p>
+          <p>
+            責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、何度も見てきました。それは弱さではなく、構造の問題です。
+          </p>
+          <p>
+            支援の軸は、感情の共感だけで終わらせないこと。CBT・ACT・動機づけ面接（MI）・BPSモデル・トラウマインフォームドケアを統合的に用い、思考・役割・負荷を構造的に整理します。「なぜ消耗するのか」を一緒に解きほぐし、持続可能な支援者としての土台を再設計します。
+          </p>
+          <p>
+            個人の努力不足ではなく、構造の問題として捉え直すことが、私の支援の出発点です。
+          </p>
+
+          {/* 資格・経歴 */}
+          <div className="pt-8 border-t border-stone-100">
+            <h4 className="text-xs font-medium text-stone-400 mb-6 tracking-[0.3em] uppercase">資格・経歴</h4>
+            <ul className="space-y-3 text-sm text-stone-600">
+              {[
+                "公認心理師",
+                "障害福祉分野での相談支援業務　15年",
+                "個別カウンセリング　累計300名以上／6,000時間以上",
+                "CBT・ACT・動機づけ面接（MI）・BPSモデル・トラウマインフォームドケア・セルフコンパッション・SDT（自己決定理論）に基づく支援",
+                "医療・福祉・教育領域での実務経験",
+                "他拠点ケース支援・自費カウンセリング従事",
+                "オンラインカウンセリング対応",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-stone-300 shrink-0 mt-1">—</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 締めコピー */}
+          <div className="pt-6 border-t border-stone-100 text-center">
+            <p className="font-medium text-stone-900 mb-2">強くなることを目指すのではなく、</p>
+            <p className="text-xl text-stone-900">持続可能な状態に戻すこと。</p>
+            <p className="mt-6 text-stone-600">支援を続けられる土台を整えることが、私の役割です。</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+</section>
         {/* ご利用案内 */}
         <section id="guide" className="py-24 px-6 bg-stone-900 text-stone-50">
           <div className="max-w-3xl mx-auto">
