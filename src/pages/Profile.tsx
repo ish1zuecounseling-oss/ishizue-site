@@ -154,7 +154,6 @@ export default function Profile() {
               { label: "経験年数", value: "障害福祉分野での相談支援業務　15年" },
               { label: "支援実績", value: "個別カウンセリング　累計300名以上／6,000時間以上" },
               { label: "活動領域", value: "医療・福祉・教育領域での実務経験" },
-              { label: "その他", value: "他拠点ケース支援・自費カウンセリング従事、オンラインカウンセリング対応" },
             ].map((row) => (
               <li key={row.label} className="grid grid-cols-[96px_1fr] gap-4 text-sm md:text-base border-b border-stone-100 pb-4">
                 <span className="text-stone-400 font-medium shrink-0">{row.label}</span>
