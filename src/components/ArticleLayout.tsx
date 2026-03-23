@@ -259,28 +259,50 @@ export default function ArticleLayout({
               </div>
             </motion.section>
 
-            {/* =====================
-                著者カード
-            ===================== */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-14 flex items-start gap-4 bg-white rounded-xl border border-stone-100 shadow-sm p-5"
-            >
-              {/* アバター */}
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#7C9A8A]/20 flex items-center justify-center text-[#7C9A8A] font-semibold text-sm">
-                松
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-stone-900">松本 龍児</p>
-                <p className="text-xs text-stone-400 mb-1">公認心理師 ／ こころの相談室 いしずえ</p>
-                <p className="text-xs text-stone-500 leading-relaxed">
-                  医療・福祉・教育の現場での支援経験をもとに、こころの仕組みや関わり方について発信しています。
-                </p>
-              </div>
-            </motion.div>
+{/* =====================
+    著者カード
+===================== */}
+<motion.div
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: 0.1 }}
+  className="mt-14 flex items-start gap-4 bg-white rounded-xl border border-stone-100 shadow-sm p-5"
+>
+  {/* アバター */}
+  <div className="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm">
+    <img
+      src="/profile.jpg"
+      alt="松本 龍児"
+      className="w-full h-full object-cover"
+      width={56}
+      height={56}
+      loading="lazy"
+    />
+  </div>
+  <div>
+    <div className="flex flex-wrap items-center gap-2 mb-1">
+      <p className="text-sm font-semibold text-stone-900">松本 龍児</p>
+      <span className="text-xs text-stone-400 bg-stone-50 border border-stone-100 rounded-full px-2 py-0.5">
+        公認心理師
+      </span>
+    </div>
+    <p className="text-xs text-stone-400 mb-2">こころの相談室 いしずえ｜支援者支援専門</p>
+    <p className="text-xs text-stone-500 leading-relaxed mb-2">
+      障害福祉分野で15年、累計300名以上・6,000時間以上の支援に携わる。
+      CBT・ACT・MIなどを統合的に用い、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
+    </p>
+    <Link
+      to="/profile"
+      className="inline-flex items-center gap-1 text-xs text-[#7C9A8A] hover:underline"
+    >
+      プロフィール詳細を見る
+      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </Link>
+  </div>
+</motion.div>
 
             {/* =====================
                 おすすめ記事（ランダム）
