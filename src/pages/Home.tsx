@@ -364,8 +364,6 @@ const Home: React.FC = React.memo(() => {
                 "個別カウンセリング　累計300名以上／6,000時間以上",
                 "CBT・ACT・動機づけ面接（MI）・BPSモデル・トラウマインフォームドケア・セルフコンパッション・SDT（自己決定理論）に基づく支援",
                 "医療・福祉・教育領域での実務経験",
-                "他拠点ケース支援・自費カウンセリング従事",
-                "オンラインカウンセリング対応",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="text-stone-300 shrink-0 mt-1">—</span>
