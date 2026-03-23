@@ -252,9 +252,9 @@ export default function ArticleLayout({
                   </svg>
                 </a>
 
-                <p className="text-xs text-stone-400 mt-4">
-                  ※ 初回のご相談は無料です
-                </p>
+<p className="text-xs text-stone-400 mt-4">
+  ※ 初回メール相談は無料です
+</p>
 
               </div>
             </motion.section>
