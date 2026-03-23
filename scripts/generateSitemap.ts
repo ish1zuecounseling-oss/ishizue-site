@@ -1,6 +1,10 @@
 import fs from "fs"
 import path from "path"
+import { fileURLToPath } from "url"
 import { articles } from "../src/data/articles"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const BASE_URL = "https://ishizue-site-ker9.vercel.app"
 
