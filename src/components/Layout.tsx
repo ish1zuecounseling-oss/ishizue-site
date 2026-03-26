@@ -324,8 +324,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <p className="text-[10px] tracking-wider">COUNSELING OFFICE ISHIZUE</p>
-</div>
-</footer>
-</div>
+      </div>
+    </footer>
+
+  </div>
 )
 }
