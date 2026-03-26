@@ -296,21 +296,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   {/* ── SNSアイコン ── */}
   <div className="flex items-center gap-4">
     
-      href="https://x.com/ish1zue"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="X（旧Twitter）"
-      className="text-stone-400 hover:text-stone-800 transition-colors"
+        href="https://x.com/ish1zue"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="X（旧Twitter）"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
       </svg>
     </a>
     
-      href="https://www.instagram.com/ishizue_counseling/?hl=ja"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Instagram"
+        href="https://www.instagram.com/ishizue_counseling/?hl=ja"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
       className="text-stone-400 hover:text-stone-800 transition-colors"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
