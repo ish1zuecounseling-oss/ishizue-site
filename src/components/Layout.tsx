@@ -323,10 +323,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </a>
             </div>
 
-            <p className="text-[10px] tracking-wider">COUNSELING OFFICE ISHIZUE</p>
-      </div>
-    </footer>
+            <p className="text-[10px] tracking-wider">
+              COUNSELING OFFICE ISHIZUE
+            </p>
+          </div>
 
-  </div>
-)
+        </div> {/* ← max-w-5xl */}
+      </footer>
+
+    </div>
+  )
 }
