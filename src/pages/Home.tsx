@@ -871,7 +871,7 @@ function Home() {
   className="bg-white border border-stone-200 rounded-2xl p-6 space-y-4 text-sm text-stone-600 leading-relaxed"
 >
   <p className="text-stone-800 font-medium text-center">
-    こんな不安はありませんか？
+    申し込む前に、こんな不安はありませんか？
   </p>
 
   <div className="space-y-3 pt-2">
@@ -879,18 +879,19 @@ function Home() {
     <p>・相談するほどの内容かわからない</p>
     <p>・無理に継続を勧められないか心配</p>
     <p>・1回だけで終わってもいいのか気になる</p>
+    <p>・こんなことで相談していいのか迷っている</p>
   </div>
 
   <div className="pt-4 border-t border-stone-100 space-y-3">
     <p>
-      これらはすべて、よくあるご不安です。
+      これらはすべて、実際によくいただくご不安です。
     </p>
     <p>
       実際には、整理されていない状態のままご相談いただく方がほとんどです。
     </p>
     <p>
-      無理に話をまとめる必要はありません。
-      今の状態をそのままお聞かせください。
+今の状態をそのままお聞かせください。
+まとまっていなくても大丈夫です。
     </p>
   </div>
 
@@ -977,7 +978,7 @@ function Home() {
         >
 {formStatus === "submitting"
   ? "送信中..."
-  : "今の状態を整理する（無料）"}
+  : "「まずは無料で整理してみる」"}
         </button>
 
         <p className="text-center text-xs text-stone-400 leading-relaxed">
