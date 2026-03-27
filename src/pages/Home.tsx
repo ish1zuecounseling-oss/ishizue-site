@@ -808,111 +808,132 @@ function Home() {
           </div>
         </section>
 
-        {/* Contact */}
-        <section id="contact" className="py-24 px-6 bg-white">
-          <div className="max-w-2xl mx-auto">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger} className="space-y-12">
-              <motion.div variants={fadeUp} className="text-center">
-                <SectionHeading label="Contact" title="お問い合わせ" center />
-                <p className="text-stone-500 mt-4 text-sm leading-relaxed">
-                  ご質問・ご予約のご相談はこちらからお気軽にどうぞ。
-                  <br />
-                  通常2営業日以内にご返信いたします。
-                </p>
-              </motion.div>
+{/* Contact */}
+<section id="contact" className="py-24 px-6 bg-white">
+  <div className="max-w-2xl mx-auto">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={stagger}
+      className="space-y-12"
+    >
+      {/* 見出し */}
+      <motion.div variants={fadeUp} className="text-center">
+        <SectionHeading label="Contact" title="お問い合わせ" center />
+        <p className="text-stone-600 mt-4 text-sm leading-relaxed">
+          支援する側だからこそ、
+          <br />
+          誰にも言えない負担を抱えていませんか？
+          <br />
+          <br />
+          「もう限界かもしれない」と感じたタイミングが、
+          <br />
+          見直しのきっかけになります。
+        </p>
+      </motion.div>
 
-              <motion.form variants={fadeUp} className="space-y-6" onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="name"
-                    className="text-xs tracking-widest text-stone-500 uppercase"
-                  >
-                    お名前 <span className="text-stone-400">（必須）</span>
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    autoComplete="name"
-                    placeholder="山田 花子"
-                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-                  />
-                </div>
+      {/* 安心ブロック */}
+      <motion.div variants={fadeUp} className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed">
+        <p className="font-medium text-stone-800 mb-2">
+          初回は無料でご相談いただけます
+        </p>
+        <p>
+          現在の状況を整理するだけでも大丈夫です。
+          <br />
+          無理に継続を勧めることはありません。
+        </p>
+      </motion.div>
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="email"
-                    className="text-xs tracking-widest text-stone-500 uppercase"
-                  >
-                    メールアドレス <span className="text-stone-400">（必須）</span>
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    placeholder="example@email.com"
-                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-                  />
-                </div>
+      {/* フォーム */}
+      <motion.form
+        variants={fadeUp}
+        className="space-y-6"
+        onSubmit={handleSubmit}
+      >
+        <div className="space-y-2">
+          <label htmlFor="name" className="text-xs tracking-widest text-stone-500 uppercase">
+            お名前 <span className="text-stone-400">（必須）</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            placeholder="山田 花子"
+            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+          />
+        </div>
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="job"
-                    className="text-xs tracking-widest text-stone-500 uppercase"
-                  >
-                    ご職種
-                  </label>
-                  <input
-                    id="job"
-                    name="job"
-                    type="text"
-                    autoComplete="organization-title"
-                    placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
-                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
-                  />
-                </div>
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-xs tracking-widest text-stone-500 uppercase">
+            メールアドレス <span className="text-stone-400">（必須）</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="example@email.com"
+            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+          />
+        </div>
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="message"
-                    className="text-xs tracking-widest text-stone-500 uppercase"
-                  >
-                    ご相談内容 <span className="text-stone-400">（必須）</span>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
-                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300 resize-none"
-                  />
-                </div>
+        <div className="space-y-2">
+          <label htmlFor="job" className="text-xs tracking-widest text-stone-500 uppercase">
+            ご職種
+          </label>
+          <input
+            id="job"
+            name="job"
+            type="text"
+            autoComplete="organization-title"
+            placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
+            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300"
+          />
+        </div>
 
-                {formStatus === "error" && formError && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                    {formError}
-                  </div>
-                )}
+        <div className="space-y-2">
+          <label htmlFor="message" className="text-xs tracking-widest text-stone-500 uppercase">
+            ご相談内容 <span className="text-stone-400">（必須）</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows={5}
+            placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
+            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-stone-400 bg-stone-50 placeholder-stone-300 resize-none"
+          />
+        </div>
 
-                <button
-                  type="submit"
-                  disabled={formStatus === "submitting"}
-                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {formStatus === "submitting" ? "送信中..." : "送信する"}
-                </button>
-
-                <p className="text-center text-xs text-stone-400 leading-relaxed">
-                  送信いただいた情報はカウンセリングのご案内にのみ使用し、第三者への提供は行いません。
-                </p>
-              </motion.form>
-            </motion.div>
+        {formStatus === "error" && formError && (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {formError}
           </div>
-        </section>
+        )}
+
+        <button
+          type="submit"
+          disabled={formStatus === "submitting"}
+          className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {formStatus === "submitting"
+            ? "送信中..."
+            : "無料で相談する（30秒）"}
+        </button>
+
+        <p className="text-center text-xs text-stone-400 leading-relaxed">
+          無理な勧誘や営業は一切行いません。
+          <br />
+          安心してご相談いただけます。
+        </p>
+      </motion.form>
+    </motion.div>
+  </div>
+</section>
 
         {/* Legal Links */}
         <div className="py-6 px-6 border-t border-stone-100">
