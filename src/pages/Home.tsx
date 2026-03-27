@@ -1117,35 +1117,56 @@ function Home() {
           </LegalModal>
         )}
 
-        {activeModal === "sent" && (
-          <LegalModal isOpen title="送信完了" onClose={closeModal}>
-            <div className="text-center space-y-6 py-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8 text-stone-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-medium text-stone-900">
-                  送信が完了しました
-                </h3>
-                <p className="text-stone-500 text-sm leading-relaxed">
-                  お問い合わせありがとうございます。
-                  <br />
-                  通常2営業日以内にご返信いたします。
-                </p>
-              </div>
-              <button
-                onClick={closeModal}
-                className="inline-flex items-center px-8 py-3 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full"
-                type="button"
-              >
-                閉じる
-              </button>
-            </div>
-          </LegalModal>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
+{activeModal === "sent" && (
+  <LegalModal isOpen title="送信完了" onClose={closeModal}>
+    <div className="text-center space-y-6 py-4">
+
+      {/* アイコン */}
+      <div className="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center">
+        <CheckCircle2 className="w-8 h-8 text-stone-500" />
+      </div>
+
+      {/* メイン */}
+      <div className="space-y-3">
+        <h3 className="text-xl font-medium text-stone-900">
+          ご連絡ありがとうございます
+        </h3>
+
+        <p className="text-stone-600 text-sm leading-relaxed">
+          内容は問題なく受け付けられました。
+        </p>
+
+        <p className="text-stone-500 text-sm leading-relaxed">
+          通常24時間以内にご返信いたします。<br />
+          （状況により多少前後する場合があります）
+        </p>
+      </div>
+
+      {/* 安心 */}
+      <div className="text-xs text-stone-400 leading-relaxed">
+        <p>※無理に継続をおすすめすることはありません</p>
+        <p>※1回のみのご相談でも問題ありません</p>
+      </div>
+
+      {/* 補足メッセージ */}
+      <div className="text-sm text-stone-600 leading-relaxed px-4">
+        <p>
+          今の状態を言葉にするだけでも、少し整理が進むことがあります。<br />
+          ご返信まで、無理に何かを変えようとせずお過ごしください。
+        </p>
+      </div>
+
+      {/* ボタン */}
+      <button
+        onClick={closeModal}
+        className="inline-flex items-center px-8 py-3 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full"
+        type="button"
+      >
+        閉じる
+      </button>
+
+    </div>
+  </LegalModal>
+)}
 
 export default memo(Home);
