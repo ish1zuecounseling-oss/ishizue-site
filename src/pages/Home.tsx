@@ -865,6 +865,41 @@ function Home() {
   </p>
 </motion.div>
 
+{/* 不安解消ブロック */}
+<motion.div
+  variants={fadeUp}
+  className="bg-white border border-stone-200 rounded-2xl p-6 space-y-4 text-sm text-stone-600 leading-relaxed"
+>
+  <p className="text-stone-800 font-medium text-center">
+    こんな不安はありませんか？
+  </p>
+
+  <div className="space-y-3 pt-2">
+    <p>・うまく言葉にできるか不安</p>
+    <p>・相談するほどの内容かわからない</p>
+    <p>・無理に継続を勧められないか心配</p>
+    <p>・1回だけで終わってもいいのか気になる</p>
+  </div>
+
+  <div className="pt-4 border-t border-stone-100 space-y-3">
+    <p>
+      これらはすべて、よくあるご不安です。
+    </p>
+    <p>
+      実際には、整理されていない状態のままご相談いただく方がほとんどです。
+    </p>
+    <p>
+      無理に話をまとめる必要はありません。
+      今の状態をそのままお聞かせください。
+    </p>
+  </div>
+
+  <div className="pt-4 border-t border-stone-100 text-xs text-stone-500 space-y-1">
+    <p>※継続を前提としたご案内は行いません</p>
+    <p>※1回のみのご相談でも問題ありません</p>
+  </div>
+</motion.div>
+      
       {/* フォーム */}
       <motion.form
         variants={fadeUp}
