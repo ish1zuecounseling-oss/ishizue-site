@@ -810,43 +810,6 @@ function Home() {
             </motion.div>
           </div>
         </section>
-
-{/* Contact */}
-<section id="contact" className="py-24 px-6 bg-white">
-  <div className="max-w-2xl mx-auto">
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={stagger}
-      className="space-y-12"
-    >
-      {/* 見出し */}
-      <motion.div variants={fadeUp} className="text-center">
-        <SectionHeading label="Contact" title="お問い合わせ" center />
-        <p className="text-stone-600 mt-4 text-sm leading-relaxed">
-          支援する側でいる限り、
-          <br />
-          「自分のことは後回し」が当たり前になっていませんか？
-          <br />
-          <br />
-          気づけば、頭は休まらず、誰にも頼れず、
-          <br />
-          <br />
-          それでも「自分がやるしかない」と抱え込んでいる。
-          <br />
-          <br />
-          その状態は、あなたの弱さではなく「構造」です。
-          <br />
-          <br />
-          「もう限界かもしれない」と感じたときが、立て直しのタイミングです。
-          <br /> 
-           <br />
-          そのまま耐え続ける前に、一度、今の状態を整理してみてください。
-          <br />    
-        </p>
-      </motion.div>
-
       {/* 安心ブロック */}
 <motion.div variants={fadeUp} className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed">
   <p className="font-medium text-stone-800 mb-2">
@@ -903,6 +866,44 @@ function Home() {
     <p>※1回のみのご相談でも問題ありません</p>
   </div>
 </motion.div>
+        
+{/* Contact */}
+<section id="contact" className="py-24 px-6 bg-white">
+  <div className="max-w-2xl mx-auto">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={stagger}
+      className="space-y-12"
+    >
+      {/* 見出し */}
+      <motion.div variants={fadeUp} className="text-center">
+        <SectionHeading label="Contact" title="お問い合わせ" center />
+        <p className="text-stone-600 mt-4 text-sm leading-relaxed">
+          支援する側でいる限り、
+          <br />
+          「自分のことは後回し」が当たり前になっていませんか？
+          <br />
+          <br />
+          気づけば、頭は休まらず、誰にも頼れず、
+          <br />
+          <br />
+          それでも「自分がやるしかない」と抱え込んでいる。
+          <br />
+          <br />
+          その状態は、あなたの弱さではなく「構造」です。
+          <br />
+          <br />
+          「もう限界かもしれない」と感じたときが、立て直しのタイミングです。
+          <br /> 
+           <br />
+          そのまま耐え続ける前に、一度、今の状態を整理してみてください。
+          <br />    
+        </p>
+      </motion.div>
+
+
       
       {/* フォーム */}
       <motion.form
@@ -981,7 +982,7 @@ function Home() {
         >
 {formStatus === "submitting"
   ? "送信中..."
-  : "「まずは無料で整理してみる」"}
+  : "無料で今の状態を整理する"}
         </button>
 
         <p className="text-center text-xs text-stone-400 leading-relaxed">
