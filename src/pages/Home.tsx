@@ -810,62 +810,65 @@ function Home() {
             </motion.div>
           </div>
         </section>
-      {/* 安心ブロック */}
-<motion.div variants={fadeUp} className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed">
-  <p className="font-medium text-stone-800 mb-2">
-    初回は無料でご相談いただけます
-  </p>
-  <p>
-    今の状態を言葉にするだけでも大丈夫です。
-    <br />
-    うまく整理されていなくても問題ありません。
-    <br />
-    <br />
-    無理に変わる必要はありません。
-    まずは「何が負担になっているのか」を一緒に整理します。
-    <br />
-    <br />
-    ※継続を前提としたご案内は行いません
-    <br />
-    ※1回のみのご相談でも問題ありません
-  </p>
-</motion.div>
+{/* ラッパーで左揃え固定 */}
+<div className="max-w-2xl mx-auto text-left space-y-6">
 
-{/* 不安解消ブロック */}
-<motion.div
-  variants={fadeUp}
-  className="bg-white border border-stone-200 rounded-2xl p-6 space-y-4 text-sm text-stone-600 leading-relaxed"
->
-  <p className="text-stone-800 font-medium text-center">
-    申し込む前に、こんな不安はありませんか？
-  </p>
-
-  <div className="space-y-3 pt-2">
-    <p>・うまく言葉にできるか不安</p>
-    <p>・相談するほどの内容かわからない</p>
-    <p>・無理に継続を勧められないか心配</p>
-    <p>・1回だけで終わってもいいのか気になる</p>
-    <p>・こんなことで相談していいのか迷っている</p>
-  </div>
-
-  <div className="pt-4 border-t border-stone-100 space-y-3">
-    <p>
-      これらはすべて、実際によくいただくご不安です。
+  {/* 安心ブロック */}
+  <motion.div
+    variants={fadeUp}
+    className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed text-left"
+  >
+    <p className="font-medium text-stone-800 mb-2">
+      初回は無料でご相談いただけます
     </p>
     <p>
-      実際には、整理されていない状態のままご相談いただく方がほとんどです。
+      今の状態を言葉にするだけでも大丈夫です。
+      <br />
+      うまく整理されていなくても問題ありません。
+      <br /><br />
+      無理に変わる必要はありません。
+      まずは「何が負担になっているのか」を一緒に整理します。
+      <br /><br />
+      ※継続を前提としたご案内は行いません
+      <br />
+      ※1回のみのご相談でも問題ありません
     </p>
-    <p>
-今の状態をそのままお聞かせください。
-まとまっていなくても大丈夫です。
-    </p>
-  </div>
+  </motion.div>
 
-  <div className="pt-4 border-t border-stone-100 text-xs text-stone-500 space-y-1">
-    <p>※継続を前提としたご案内は行いません</p>
-    <p>※1回のみのご相談でも問題ありません</p>
-  </div>
-</motion.div>
+  {/* 不安解消ブロック */}
+  <motion.div
+    variants={fadeUp}
+    className="bg-white border border-stone-200 rounded-2xl p-6 space-y-4 text-sm text-stone-600 leading-relaxed text-left"
+  >
+    {/* ←ここが原因だった */}
+    <p className="text-stone-800 font-medium">
+      申し込む前に、こんな不安はありませんか？
+    </p>
+
+    <div className="space-y-3 pt-2">
+      <p>・うまく言葉にできるか不安</p>
+      <p>・相談するほどの内容かわからない</p>
+      <p>・無理に継続を勧められないか心配</p>
+      <p>・1回だけで終わってもいいのか気になる</p>
+      <p>・こんなことで相談していいのか迷っている</p>
+    </div>
+
+    <div className="pt-4 border-t border-stone-100 space-y-3">
+      <p>これらはすべて、実際によくいただくご不安です。</p>
+      <p>実際には、整理されていない状態のままご相談いただく方がほとんどです。</p>
+      <p>
+        今の状態をそのままお聞かせください。<br />
+        まとまっていなくても大丈夫です。
+      </p>
+    </div>
+
+    <div className="pt-4 border-t border-stone-100 text-xs text-stone-500 space-y-1">
+      <p>※継続を前提としたご案内は行いません</p>
+      <p>※1回のみのご相談でも問題ありません</p>
+    </div>
+  </motion.div>
+
+</div>
         
 {/* Contact */}
 <section id="contact" className="py-24 px-6 bg-white">
