@@ -1167,6 +1167,9 @@ function Home() {
 
     </div>
   </LegalModal>
-)}
+ )}
+    </AnimatePresence>
+  </>
+);
 
 export default memo(Home);
