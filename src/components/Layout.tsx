@@ -27,7 +27,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setOpen(false)
   }, [location.pathname])
 
-  // メニューを開いているときはスクロール禁止
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
     return () => { document.body.style.overflow = "" }
@@ -35,16 +34,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const isActive = (path: string) => location.pathname === path
 
-  // /#contact へのスクロール遷移
   const handleContactClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     setOpen(false)
     if (location.pathname === "/") {
-      // すでにホームにいる場合はそのままスクロール
       const el = document.getElementById("contact")
       if (el) el.scrollIntoView({ behavior: "smooth" })
     } else {
-      // 別ページからの場合はホームに遷移してからスクロール
       navigate("/")
       setTimeout(() => {
         const el = document.getElementById("contact")
@@ -56,13 +52,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-[#FAFAF8] min-h-screen text-stone-800">
 
-      {/* ================================
-          Header
-      ================================ */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
+      {/* Header */}
+      <header className={`sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 transition-shadow duration-300 ${scrolled ? "shadow-md shadow-stone-900/5" : ""}`}>
         <div className="max-w-5xl mx-auto flex items-center justify-between px-5 h-16">
 
-          {/* ── Logo ── */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#7C9A8A]/20 flex items-center justify-center group-hover:bg-[#7C9A8A]/30 transition">
               <svg className="w-3.5 h-3.5 text-[#7C9A8A]" viewBox="0 0 24 24" fill="currentColor">
@@ -79,7 +73,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </Link>
 
-          {/* ── PC Nav ── */}
+          {/* PC Nav */}
           <nav className="hidden md:flex items-center gap-1 text-sm">
             {NAV_LINKS.map(({ to, label }) => (
               <Link
@@ -105,7 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <a
               href="/#contact"
               onClick={handleContactClick}
-              className="ml-3 inline-flex items-center gap-1.5 bg-stone-900 text-white text-xs px-4 py-2 rounded-full font-medium hover:bg-[#3D3D3B] transition shadow-sm hover:shadow-md"
+              className="ml-3 inline-flex items-center gap-1.5 bg-[#7C9A8A] text-white text-xs px-4 py-2 rounded-full font-medium hover:bg-[#6a8778] transition shadow-sm hover:shadow-md"
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -116,31 +110,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </a>
           </nav>
 
-          {/* ── Mobile Hamburger ── */}
+          {/* Mobile Hamburger */}
           <button
             onClick={() => setOpen(!open)}
             aria-label={open ? "メニューを閉じる" : "メニューを開く"}
             className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-stone-100 transition"
           >
-            <motion.span
-              animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-px bg-stone-700 origin-center transition-all"
-            />
-            <motion.span
-              animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              className="block w-5 h-px bg-stone-700"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-px bg-stone-700 origin-center transition-all"
-            />
+            <motion.span animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }} className="block w-5 h-px bg-stone-700 origin-center transition-all" />
+            <motion.span animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} className="block w-5 h-px bg-stone-700" />
+            <motion.span animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }} className="block w-5 h-px bg-stone-700 origin-center transition-all" />
           </button>
         </div>
       </header>
 
-      {/* ================================
-          Mobile Menu（フルスクリーン）
-      ================================ */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -151,9 +134,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="fixed inset-0 z-40 md:hidden bg-white flex flex-col"
           >
             <div className="h-16 border-b border-stone-100 flex items-center px-5">
-              <p className="font-serif text-sm text-stone-400 tracking-wide">
-                MENU
-              </p>
+              <p className="font-serif text-sm text-stone-400 tracking-wide">MENU</p>
             </div>
 
             <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
@@ -178,7 +159,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </motion.div>
               ))}
 
-              {/* モバイルCTA */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -188,7 +168,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <a
                   href="/#contact"
                   onClick={handleContactClick}
-                  className="flex items-center justify-center gap-2 bg-stone-900 text-white py-4 rounded-2xl font-medium text-base tracking-wide"
+                  className="flex items-center justify-center gap-2 bg-[#7C9A8A] text-white py-4 rounded-2xl font-medium text-base tracking-wide hover:bg-[#6a8778] transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -207,9 +187,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* ================================
-          Page Content
-      ================================ */}
+      {/* Page Content */}
       <motion.main
         key={location.pathname}
         initial={{ opacity: 0, y: 10 }}
@@ -219,15 +197,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </motion.main>
 
-{/* ================================
-          Footer
-      ================================ */}
-      <footer className="bg-[#F5F4F1] border-t border-stone-200 mt-24">
+      {/* Footer */}
+      <footer className="bg-[#F5F4F1] mt-24" style={{borderTop: "3px solid #7C9A8A"}}>
         <div className="max-w-5xl mx-auto px-5 py-14">
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-12">
 
-            {/* ── ブランド ── */}
+            {/* ブランド */}
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="w-6 h-6 rounded-full bg-[#7C9A8A]/20 flex items-center justify-center">
@@ -246,18 +222,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </p>
             </div>
 
-            {/* ── ナビ ── */}
+            {/* ナビ */}
             <div>
-              <p className="text-[10px] tracking-widest text-stone-400 uppercase mb-4">
-                Navigation
-              </p>
+              <p className="text-[10px] tracking-widest text-stone-400 uppercase mb-4">Navigation</p>
               <ul className="space-y-2.5">
                 {NAV_LINKS.map(({ to, label }) => (
                   <li key={to}>
-                    <Link
-                      to={to}
-                      className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition"
-                    >
+                    <Link to={to} className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition">
                       {label}
                     </Link>
                   </li>
@@ -265,22 +236,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </ul>
             </div>
 
-            {/* ── お問い合わせ ── */}
+            {/* お問い合わせ */}
             <div>
-              <p className="text-[10px] tracking-widest text-stone-400 uppercase mb-4">
-                Contact
-              </p>
+              <p className="text-[10px] tracking-widest text-stone-400 uppercase mb-4">Contact</p>
               <p className="text-xs text-stone-500 leading-relaxed mb-4">
                 初回のご相談は無料です。<br />
                 お気軽にお問い合わせください。
               </p>
-              
               <a
                 href="/#contact"
                 onClick={handleContactClick}
                 className="inline-flex items-center gap-1.5 text-xs border border-stone-300 text-stone-700 px-4 py-2 rounded-full hover:bg-white hover:border-stone-400 transition"
               >
-
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
@@ -294,27 +261,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* コピーライト */}
           <div className="pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-400">
             <p>© 2026 こころの相談室 いしずえ. All rights reserved.</p>
-
-            {/* ── SNSアイコン ── */}
             <div className="flex items-center gap-4">
-             <a  
-                href="https://x.com/ish1zue"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X（旧Twitter）"
-                className="text-stone-400 hover:text-stone-800 transition-colors"
-              >
+              <a href="https://x.com/ish1zue" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）" className="text-stone-400 hover:text-stone-800 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
                 </svg>
               </a>
-              <a 
-                href="https://www.instagram.com/ishizue_counseling/?hl=ja"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-stone-400 hover:text-stone-800 transition-colors"
-              >
+              <a href="https://www.instagram.com/ishizue_counseling/?hl=ja" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-stone-400 hover:text-stone-800 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="4" />
@@ -322,13 +275,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </svg>
               </a>
             </div>
-
-            <p className="text-[10px] tracking-wider">
-              COUNSELING OFFICE ISHIZUE
-            </p>
+            <p className="text-[10px] tracking-wider">COUNSELING OFFICE ISHIZUE</p>
           </div>
 
-        </div> {/* ← max-w-5xl */}
+        </div>
       </footer>
 
     </div>
