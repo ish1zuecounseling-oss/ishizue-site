@@ -381,7 +381,7 @@ function Home() {
       {/* キャッチコピー */}
       <motion.div variants={fadeUp} className="mb-6">
         <h1 className="text-3xl md:text-4xl font-medium tracking-[0.06em] text-white leading-snug drop-shadow-md">
-          「もう限界かもしれない」と感じている支援職へ
+          「もう限界かもしれない」と感じている支援職の方へ
         </h1>
       </motion.div>
 
@@ -402,6 +402,9 @@ function Home() {
           礎（いしずえ）とは、土台のこと。支援する立場にいる人は、
           感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
         </p>
+<p className="font-semibold text-stone-900 border-l-4 border-stone-400 pl-4">
+  その状態は、あなたの弱さではなく「構造」です。
+</p>       
         <p>
           ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、
           持続可能な状態へ整え直すための時間です。
@@ -422,7 +425,7 @@ function Home() {
 
         {/* 安心 */}
         <p className="text-white/70 text-xs md:text-sm mb-8">
-          無理に変わる必要はありません。整理するところから一緒に進めます。
+          今の状態のまま、ご相談いただいて大丈夫です。
         </p>
 
         {/* CTAボタン */}
@@ -436,7 +439,7 @@ function Home() {
 
         {/* 安心補足 */}
         <p className="text-white/60 text-xs mt-4">
-          ※無理な勧誘はありません。1回だけの相談も可能です。
+          ※無理な勧誘はありません／1回のみの相談も可能です
         </p>
 
       </motion.div>
