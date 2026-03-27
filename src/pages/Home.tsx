@@ -975,9 +975,9 @@ function Home() {
           disabled={formStatus === "submitting"}
           className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.2em] hover:bg-stone-800 transition-all rounded-full shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {formStatus === "submitting"
-            ? "送信中..."
-            : 今の状態を整理する（無料）"}
+{formStatus === "submitting"
+  ? "送信中..."
+  : "今の状態を整理する（無料）"}
         </button>
 
         <p className="text-center text-xs text-stone-400 leading-relaxed">
