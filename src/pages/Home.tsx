@@ -822,28 +822,48 @@ function Home() {
       <motion.div variants={fadeUp} className="text-center">
         <SectionHeading label="Contact" title="お問い合わせ" center />
         <p className="text-stone-600 mt-4 text-sm leading-relaxed">
-          支援する側だからこそ、
+          支援する側でいる限り、
           <br />
-          誰にも言えない負担を抱えていませんか？
+          「自分のことは後回し」が当たり前になっていませんか？
           <br />
           <br />
-          「もう限界かもしれない」と感じたタイミングが、
+          気づけば、頭は休まらず、誰にも頼れず、
           <br />
-          見直しのきっかけになります。
+          <br />
+          それでも「自分がやるしかない」と抱え込んでいる。
+          <br />
+          <br />
+          その状態は、あなたの弱さではなく「構造」です。
+          <br />
+          <br />
+          「もう限界かもしれない」と感じたときが、立て直しのタイミングです。
+          <br /> 
+           <br />
+          そのまま耐え続ける前に、一度、今の状態を整理してみてください。
+          <br />    
         </p>
       </motion.div>
 
       {/* 安心ブロック */}
-      <motion.div variants={fadeUp} className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed">
-        <p className="font-medium text-stone-800 mb-2">
-          初回は無料でご相談いただけます
-        </p>
-        <p>
-          現在の状況を整理するだけでも大丈夫です。
-          <br />
-          無理に継続を勧めることはありません。
-        </p>
-      </motion.div>
+<motion.div variants={fadeUp} className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm text-stone-600 leading-relaxed">
+  <p className="font-medium text-stone-800 mb-2">
+    初回は無料でご相談いただけます
+  </p>
+  <p>
+    今の状態を言葉にするだけでも大丈夫です。
+    <br />
+    うまく整理されていなくても問題ありません。
+    <br />
+    <br />
+    無理に変わる必要はありません。
+    まずは「何が負担になっているのか」を一緒に整理します。
+    <br />
+    <br />
+    ※継続を前提としたご案内は行いません
+    <br />
+    ※1回のみのご相談でも問題ありません
+  </p>
+</motion.div>
 
       {/* フォーム */}
       <motion.form
@@ -922,7 +942,7 @@ function Home() {
         >
           {formStatus === "submitting"
             ? "送信中..."
-            : "無料で相談する（30秒）"}
+            : 今の状態を整理する（無料）"}
         </button>
 
         <p className="text-center text-xs text-stone-400 leading-relaxed">
