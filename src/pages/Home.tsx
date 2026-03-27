@@ -25,6 +25,15 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { Helmet } from "react-helmet-async";
+
+<Helmet>
+  <title>支援職のためのカウンセリング｜燃え尽き・疲労を構造的に整理｜こころの相談室 いしずえ</title>
+  <meta
+    name="description"
+    content="支援職で「もう限界かもしれない」と感じていませんか？頭が休まらない、役割と本音のズレ、燃え尽きの予兆を構造的に整理。消耗を減らし、支援を続けられる状態へ整えるオンラインカウンセリング。初回無料相談あり。"
+  />
+</Helmet>
 
 /* -------------------------------------------------------------------------- */
 /*                                   Types                                    */
