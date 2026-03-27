@@ -353,131 +353,97 @@ function Home() {
 
       <main id="main-content">
         {/* HERO */}
-        <section className="relative pt-40 pb-32 px-6 min-h-[90vh] flex items-center bg-stone-50">
-          <img
-            src="/hero.jpg"
-            alt="カウンセリングをイメージした静かな空間"
-            className="absolute inset-0 w-full h-full object-cover"
-            width={1920}
-            height={1280}
-            loading="eager"
-            fetchPriority="high"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-900/30 via-stone-800/15 to-stone-900/55" />
+<section className="relative pt-40 pb-32 px-6 min-h-[90vh] flex items-center bg-stone-50">
+  <img
+    src="/hero.jpg"
+    alt="カウンセリングをイメージした静かな空間"
+    className="absolute inset-0 w-full h-full object-cover"
+    width={1920}
+    height={1280}
+    loading="eager"
+    fetchPriority="high"
+  />
+  <div className="absolute inset-0 bg-gradient-to-b from-stone-900/30 via-stone-800/15 to-stone-900/55" />
 
-          <div className="max-w-4xl mx-auto text-center relative">
-            <motion.div initial="hidden" animate="visible" variants={stagger}>
-              <motion.div variants={fadeUp} className="mb-12">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 border border-white/40 rounded-full mb-8 bg-white/20 backdrop-blur-md shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#7C9A8A]" />
-                  <span className="text-[10px] md:text-xs tracking-[0.25em] text-white/90 uppercase font-medium">
-                    公認心理師による支援者支援
-                  </span>
-                </div>
+  <div className="max-w-4xl mx-auto text-center relative">
+    <motion.div initial="hidden" animate="visible" variants={stagger}>
+      
+      {/* ラベル */}
+      <motion.div variants={fadeUp} className="mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 border border-white/40 rounded-full bg-white/20 backdrop-blur-md shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#7C9A8A]" />
+          <span className="text-[10px] md:text-xs tracking-[0.25em] text-white/90 uppercase font-medium">
+            公認心理師による支援者支援
+          </span>
+        </div>
+      </motion.div>
 
-                <h1 className="text-3xl md:text-4xl font-medium tracking-[0.08em] mb-4 text-white leading-snug drop-shadow-md">
-                  支援職のためのカウンセリング
-                  <br />
-                  こころの相談室 いしずえ
-                </h1>
+      {/* キャッチコピー */}
+      <motion.div variants={fadeUp} className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-medium tracking-[0.06em] text-white leading-snug drop-shadow-md">
+          「もう限界かもしれない」と感じている支援職へ
+        </h1>
+      </motion.div>
 
-                <p className="text-white/80 tracking-[0.2em] md:tracking-[0.35em] mb-12 italic font-light drop-shadow">
-                  ― 支援する人の、土台を整える ―
-                </p>
-              </motion.div>
+      {/* サブコピー */}
+      <motion.div variants={fadeUp} className="mb-10">
+        <p className="text-white/80 text-sm md:text-base tracking-[0.15em] leading-relaxed">
+          頭が休まらない、役割と本音のズレ、燃え尽きの予兆。<br />
+          それらを構造的に整理し、消耗を減らすための時間です。
+        </p>
+      </motion.div>
 
-              <motion.div
-                variants={fadeUp}
-                className="max-w-2xl mx-auto space-y-5 text-left text-stone-800 leading-relaxed text-base md:text-lg bg-white/70 backdrop-blur-md p-7 md:p-10 rounded-3xl border border-white/60 shadow-xl"
-              >
-                <p>
-                  礎（いしずえ）とは、土台のこと。支援する立場にいる人は、
-                  感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
-                </p>
-                <p>
-                  ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、
-                  持続可能な状態へ整え直すための時間です。
-                </p>
-                <p className="font-semibold text-stone-900 border-t border-stone-200 pt-5">
-                  消耗を減らし、支援を続けられる土台を再設計します。
-                </p>
-              </motion.div>
+      {/* 説明ボックス */}
+      <motion.div
+        variants={fadeUp}
+        className="max-w-2xl mx-auto space-y-5 text-left text-stone-800 leading-relaxed text-base md:text-lg bg-white/70 backdrop-blur-md p-7 md:p-10 rounded-3xl border border-white/60 shadow-xl"
+      >
+        <p>
+          礎（いしずえ）とは、土台のこと。支援する立場にいる人は、
+          感情労働の中で知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
+        </p>
+        <p>
+          ここは「弱さを吐き出す場所」ではなく、思考・役割・負荷を構造的に整理し、
+          持続可能な状態へ整え直すための時間です。
+        </p>
+        <p className="font-semibold text-stone-900 border-t border-stone-200 pt-5">
+          消耗を減らし、支援を続けられる土台を再設計します。
+        </p>
+      </motion.div>
 
-              <motion.div variants={fadeUp} className="mt-14">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 px-10 py-4 bg-white text-stone-900 text-sm tracking-[0.2em] font-medium hover:bg-stone-50 transition-all rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
-                >
-                  「もう限界かも」と感じた方へ（無料相談）
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
+      {/* CTAエリア */}
+      <motion.div variants={fadeUp} className="mt-12">
 
-        {/* SEO導線 */}
-        <section className="py-10 px-6 bg-white border-b border-stone-100">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col sm:flex-row items-center gap-5 p-5 md:p-6 rounded-2xl bg-stone-50 border border-stone-100 hover:border-[#7C9A8A]/30 hover:shadow-sm transition-all">
-              <div className="flex-1 text-center sm:text-left">
-                <p className="text-[10px] tracking-[0.3em] uppercase text-[#7C9A8A] font-medium mb-1.5">
-                  おすすめ記事
-                </p>
-                <p className="text-stone-800 font-medium mb-1 text-sm md:text-base">
-                  支援職の燃え尽き（バーンアウト）について
-                </p>
-                <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
-                  福祉・医療・教育など対人援助職に起こりやすいバーンアウトの構造と対処を解説します。
-                </p>
-              </div>
-              <Link
-                to="/articles/helper-burnout"
-                className="flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-stone-900 text-white text-xs tracking-wider rounded-full hover:bg-stone-700 transition-colors shadow-sm"
-              >
-                詳しく読む
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* 共感 */}
+        <p className="text-white/90 text-sm md:text-base mb-4 leading-relaxed">
+          「このまま続けるのは少しきついかも」と感じているなら、
+          一度、今の状態を整理してみませんか？
+        </p>
 
-        {/* About */}
-        <section id="about" className="py-24 px-6 bg-white">
-          <div className="max-w-3xl mx-auto">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger} className="space-y-12">
-              <motion.div variants={fadeUp}>
-                <SectionHeading label="About" title="当相談室について" />
-              </motion.div>
+        {/* 安心 */}
+        <p className="text-white/70 text-xs md:text-sm mb-8">
+          無理に変わる必要はありません。整理するところから一緒に進めます。
+        </p>
 
-              <motion.div variants={fadeUp} className="space-y-8 text-stone-600 leading-relaxed text-base md:text-lg">
-                <div className="aspect-[21/9] w-full overflow-hidden rounded-2xl mb-12">
-                  <img
-                    src="/concept.jpg"
-                    alt="積み上げられた石（土台の象徴）"
-                    className="w-full h-full object-cover"
-                    width={1920}
-                    height={1036}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
+        {/* CTAボタン */}
+        <a
+          href="#contact"
+          className="inline-flex items-center gap-2 px-10 py-4 bg-white text-stone-900 text-sm tracking-[0.15em] font-medium hover:bg-stone-50 transition-all rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
+        >
+          今の状態を整理する（無料）
+          <ArrowRight className="w-4 h-4" />
+        </a>
 
-                <p>
-                  支援する立場にいる人ほど、自分のことは後回しに、そして孤独になりがちです。
-                  教育、医療、福祉、心理職。誰かの人生に伴走する方々が、自分自身の「いしずえ」を疎かにしてしまうと、
-                  支援そのものが揺らいでしまいます。
-                </p>
-                <p>
-                  当相談室では、支援者支援に特化したオンラインカウンセリングを行っています。
-                </p>
-                <p className="border-l-2 border-stone-200 pl-6 italic">
-                  持続可能であるための整理の時間を提供します。
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
+        {/* 安心補足 */}
+        <p className="text-white/60 text-xs mt-4">
+          ※無理な勧誘はありません。1回だけの相談も可能です。
+        </p>
+
+      </motion.div>
+
+    </motion.div>
+  </div>
+</section>
 
         {/* Consultation */}
         <section id="services" className="py-24 px-6 bg-stone-50">
