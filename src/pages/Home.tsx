@@ -868,7 +868,6 @@ function Home() {
     </div>
   </motion.div>
 
-</div>
         
 {/* Contact */}
 <section id="contact" className="py-24 px-6 bg-white">
