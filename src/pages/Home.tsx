@@ -812,7 +812,7 @@ function Home() {
         </section>
 
 {/* ラッパーで左揃え固定 */}
-className="mt-12 bg-stone-50 border border-stone-200 rounded-xl p-5 ..."
+<motion.div className="mt-12 bg-stone-50 border border-stone-200 rounded-2xl p-6 space-y-6">
   {/* 安心ブロック */}
   <motion.div
     variants={fadeUp}
