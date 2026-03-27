@@ -904,8 +904,10 @@ function Home() {
           <br />    
         </p>
       </motion.div>
+    </div>
+  </section>
 
-</motion.div>
+</motion.div> 
     
       {/* フォーム */}
       <motion.form
