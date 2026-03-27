@@ -408,7 +408,7 @@ function Home() {
                   href="#contact"
                   className="inline-flex items-center gap-2 px-10 py-4 bg-white text-stone-900 text-sm tracking-[0.2em] font-medium hover:bg-stone-50 transition-all rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-0.5"
                 >
-                  まずは無料相談
+                  「もう限界かも」と感じた方へ（無料相談）
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </motion.div>
