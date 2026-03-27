@@ -810,6 +810,9 @@ function Home() {
             </motion.div>
           </div>
         </section>
+
+
+        
 {/* ラッパーで左揃え固定 */}
 <div className="max-w-2xl mx-auto text-left space-y-6">
   {/* 安心ブロック */}
