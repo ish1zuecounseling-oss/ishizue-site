@@ -905,8 +905,8 @@ function Home() {
         </p>
       </motion.div>
 
-
-      
+</div>
+</motion.div>      
       {/* フォーム */}
       <motion.form
         variants={fadeUp}
