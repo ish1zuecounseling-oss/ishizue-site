@@ -25,6 +25,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { Helmet } from "react-helmet-async";
+
+<Helmet>
+  <title>支援職のためのカウンセリング｜燃え尽き・疲労を構造的に整理｜こころの相談室 いしずえ</title>
+  <meta name="description" content="支援職で「もう限界かもしれない」と感じていませんか？..." />
+</Helmet>
 
 /* -------------------------------------------------------------------------- */
 /*                                   Types                                    */
