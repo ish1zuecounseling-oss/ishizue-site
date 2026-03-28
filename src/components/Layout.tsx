@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "motion/react"
 
 const NAV_LINKS = [
   { to: "/", label: "ホーム" },
