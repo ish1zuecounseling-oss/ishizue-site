@@ -168,11 +168,3 @@
   font-family: "Noto Serif JP", sans-serif;
   font-weight: 500;
 }
-
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
