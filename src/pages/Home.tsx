@@ -970,6 +970,7 @@ function Home() {
         </footer>
  
       </main>
+ </motion.div>
  
       {/* ── MODALS ── */}
       <AnimatePresence>
