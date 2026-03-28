@@ -1,11 +1,11 @@
 import ArticleLayout from "../../components/ArticleLayout";
 
-export default function HelperRestImportance() {
+export default function HelperRestTypes() {
   return (
     <ArticleLayout
       title="支援職が知っておきたい「休息に必要な要素」とは｜ただ休むだけでは回復しない理由"
       description="身体を休めても疲れが取れない——それは休息の「種類」が合っていないサインかもしれません。支援職に起こりやすい回復の妨げと、7つの休息の視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-rest-importance"
+      url="https://ishizue-site-ker9.vercel.app/articles/helper-rest-types"
       date="2026-03-28"
     >
 
