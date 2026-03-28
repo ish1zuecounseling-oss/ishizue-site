@@ -35,12 +35,6 @@ export default function Articles() {
           name="description"
           content="支援職・対人援助職が抱えやすい心理的負担について、構造的な視点から整理した記事一覧。燃え尽き・二次受傷・役割過剰など。"
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap"
-          rel="stylesheet"
-        />
       </Helmet>
 
       <div className="bg-white min-h-screen">
