@@ -357,171 +357,209 @@ function Home() {
  
       <main id="main-content">
  
-        {/* ── HERO ── */}
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
-          <img
-            src="/hero.jpg"
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover opacity-30"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-950/60 via-stone-950/30 to-stone-950/80" />
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-              backgroundSize: "200px",
-            }}
-          />
+{/* ── HERO ── 改善版 */}
+<section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
+  <img
+    src="/hero.jpg"
+    alt=""
+    aria-hidden="true"
+    className="absolute inset-0 w-full h-full object-cover opacity-25"
+    loading="eager"
+  />
+  <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/40 to-stone-950/90" />
+
+  <div className="relative max-w-5xl mx-auto px-6 py-32 md:py-40 w-full">
+    <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-8">
+
+      {/* 資格バッジ（信頼シグナル強化） */}
+      <motion.div variants={fadeIn} className="flex flex-wrap gap-2">
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/8 backdrop-blur-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
+          <span className="text-[11px] tracking-[0.25em] text-white/75 uppercase">公認心理師</span>
+        </span>
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/8 backdrop-blur-md">
+          <span className="text-[11px] tracking-[0.2em] text-white/75">障害福祉15年 ／ 累計300名以上</span>
+        </span>
+      </motion.div>
+
+      {/* メインコピー（短く・鋭く） */}
+      <motion.div variants={fadeUp} className="space-y-5 max-w-2xl">
+        <h1
+          className="text-3xl md:text-5xl font-light text-white leading-[1.6] tracking-wide"
+          style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
+        >
+          支援する人が、
+          <br />
+          <span className="text-stone-200">誰かに話せる場所。</span>
+        </h1>
+        <p className="text-stone-300 text-base md:text-lg leading-[2] max-w-lg">
+          頭が休まらない、感情が麻痺してきた、誰にも頼れない。<br />
+          そのしんどさを、構造として一緒に整理します。
+        </p>
+      </motion.div>
+
+      {/* CTA（心理的ハードル最低） */}
+      <motion.div variants={fadeUp} className="space-y-3">
+        <a
+          href="#contact"
+          className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+        >
+          まず、話してみる（初回メール無料）
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </a>
+        {/* ナノコピー：最大の不安を1行で除去 */}
+        <p className="text-stone-500 text-xs pl-2">
+          勧誘なし ／ 1回のみでもOK ／ うまく話せなくても大丈夫
+        </p>
+      </motion.div>
+
+    </motion.div>
+  </div>
+
+  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+    <span className="text-stone-600 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
+    <motion.div
+      animate={{ y: [0, 8, 0] }}
+      transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+      className="w-px h-8 bg-gradient-to-b from-stone-600 to-transparent"
+    />
+  </div>
+</section>
  
-          <div className="relative max-w-5xl mx-auto px-6 py-32 md:py-40 w-full">
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-10">
- 
-              <motion.div variants={fadeIn}>
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
-                  <span className="text-[10px] tracking-[0.3em] text-white/70 uppercase">
-                    公認心理師による支援者支援
-                  </span>
-                </div>
-              </motion.div>
- 
-              <motion.div variants={fadeUp} className="space-y-4 max-w-2xl">
-                <h1
-                  className="text-3xl md:text-5xl font-light text-white leading-[1.5] tracking-wide"
-                  style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
-                >
-                  「もう限界かもしれない」
-                  <br />
-                  <span className="text-stone-300">と感じている支援職の方へ</span>
-                </h1>
-              </motion.div>
- 
-              <motion.div variants={fadeUp}>
-                <p className="text-stone-400 text-sm md:text-base leading-[2] max-w-xl">
-                  頭が休まらない、役割と本音のズレ、燃え尽きの予兆。
-                  <br />
-                  それらを構造的に整理し、消耗を減らすための時間です。
-                </p>
-              </motion.div>
- 
-              <motion.div
-                variants={fadeUp}
-                className="max-w-2xl bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-10 space-y-6"
-              >
-                <p className="text-stone-300 text-sm md:text-base leading-[2]">
-                  礎（いしずえ）とは、土台のこと。支援する立場にいる人は、感情労働の中で
-                  知らず知らずのうちに自分自身を後回しにしてしまうことがあります。
-                </p>
-                <BlockQuote light>
-                  <p className="text-stone-100 font-medium text-sm md:text-base">
-                    その状態は、あなたの弱さではなく「構造」です。
-                  </p>
-                </BlockQuote>
-                <p className="text-stone-400 text-sm leading-[2]">
-                  ここは「弱さを吐き出す場所」ではありません。思考・役割・負荷を構造的に整理し、
-                  持続可能な状態へ整え直すための時間です。
-                </p>
-              </motion.div>
- 
-              <motion.div variants={fadeUp} className="space-y-5">
-                <p className="text-stone-400 text-sm leading-relaxed">
-                  「このまま続けるのは少しきついかも」と感じているなら、
-                  <br className="hidden md:block" />
-                  一度、今の状態を整理してみませんか？
-                </p>
-                <a
-                  href="#contact"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.1em] rounded-full hover:bg-stone-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  今の状態を整理する（初回無料）
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <p className="text-stone-600 text-xs">
-                  ※ 無理な勧誘はありません　／　1回のみのご相談も可能です
-                </p>
-              </motion.div>
- 
-            </motion.div>
-          </div>
- 
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-stone-600 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-              className="w-px h-8 bg-gradient-to-b from-stone-600 to-transparent"
-            />
-          </div>
-        </section>
- 
-        {/* ── CONSULTATION ── */}
-        <section id="services" className="py-28 px-6 bg-white">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={stagger}
-              className="space-y-16"
-            >
-              <motion.div variants={fadeUp}>
-                <SectionLabel en="Consultation" ja="こんな状態、ありませんか" />
-              </motion.div>
- 
-              <div className="grid md:grid-cols-2 gap-12 items-start">
-                <motion.div variants={fadeUp}>
-                  <ul className="divide-y divide-stone-100">
-                    {consultationItems.map((item) => (
-                      <li key={item} className="flex items-center gap-4 py-4 group">
-                        <span className="w-5 h-5 rounded-full border border-[#8FAF9F]/40 flex items-center justify-center flex-shrink-0 group-hover:bg-[#8FAF9F]/10 transition-colors">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
-                        </span>
-                        <span className="text-stone-700 text-sm md:text-base leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
- 
-                <motion.div variants={fadeUp} className="space-y-6">
-                  <div
-                    className="p-8 rounded-2xl border border-stone-100 bg-stone-50 space-y-5"
-                    style={{ fontFamily: "'Noto Serif JP', serif" }}
-                  >
-                    <h3 className="text-lg font-medium text-stone-800 tracking-wide">
-                      構造整理型アプローチ
-                    </h3>
-                    <p className="text-stone-600 text-sm leading-[2]">
-                      感情の整理だけで終わらせません。思考・役割・負荷の「見える化」を重視し、
-                      漠然とした不安や疲弊の正体を構造として明らかにしていきます。
-                    </p>
-                    <div className="pt-4 border-t border-stone-200 space-y-2">
-                      {structureItems.map((item) => (
-                        <div key={item} className="flex items-center gap-3 text-stone-500 text-sm">
-                          <Minus className="w-3 h-3 text-[#8FAF9F] flex-shrink-0" />
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
- 
-                  <div className="p-6 rounded-xl bg-[#8FAF9F]/5 border border-[#8FAF9F]/20 text-sm space-y-3">
-                    <p className="text-stone-700 font-medium leading-relaxed">
-                      例）管理職として部下を支えながら、自分は誰にも相談できない状態
-                    </p>
-                    <div className="text-stone-500 space-y-1 text-xs leading-relaxed">
-                      <p>→ 役割過剰 × 責任の抱え込み × 境界の曖昧さ</p>
-                      <p>→ 優先順位の再設計へ</p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
- 
+{/* ── CONSULTATION 改善版 ── */}
+<section id="services" className="py-28 px-6 bg-white">
+  <div className="max-w-4xl mx-auto space-y-16">
+
+    <motion.div
+      initial="hidden" whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }} variants={stagger}
+    >
+      <motion.div variants={fadeUp} className="space-y-3 max-w-xl">
+        <span className="text-[10px] tracking-[0.35em] uppercase text-[#8FAF9F] font-medium">
+          こんな状態、ありませんか
+        </span>
+        <h2
+          className="text-2xl md:text-3xl font-light text-stone-900 leading-snug tracking-wide"
+          style={{ fontFamily: "'Noto Serif JP', serif" }}
+        >
+          「大丈夫」と言いながら、<br />
+          <span className="text-stone-500 font-light">大丈夫じゃない日が続いている。</span>
+        </h2>
+      </motion.div>
+    </motion.div>
+
+    {/* 共感カード（感情ワードを強調） */}
+    <motion.div
+      initial="hidden" whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }} variants={stagger}
+      className="grid md:grid-cols-2 gap-4"
+    >
+      {[
+        {
+          feeling: "頭が休まらない",
+          detail: "仕事が終わっても利用者のことが頭から離れず、「もっとできることがあったはず」と繰り返してしまう。",
+        },
+        {
+          feeling: "感情が動かなくなってきた",
+          detail: "以前は感じていた「やりがい」が薄れ、利用者の話を聞きながら何も感じない自分に気づく。",
+        },
+        {
+          feeling: "誰にも相談できない",
+          detail: "同僚には弱みを見せられない。家族に話しても伝わらない。「支援職あるある」で片づけられてしまう。",
+        },
+        {
+          feeling: "自分が弱いのかと思う",
+          detail: "「私が強ければ大丈夫なはず」と自分を責め続ける。でも弱さの問題じゃないとどこかで感じている。",
+        },
+        {
+          feeling: "休むことへの罪悪感",
+          detail: "利用者のことが気になって休めない。休んでいても「休んでいていいのか」という気持ちが消えない。",
+        },
+        {
+          feeling: "このまま続けられるか不安",
+          detail: "続けたい気持ちはある。でも「いつか限界が来るかも」という予感が、ずっと頭の片隅にある。",
+        },
+      ].map((item, i) => (
+        <motion.div
+          key={item.feeling}
+          variants={fadeUp}
+          className="p-6 rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 hover:bg-white transition-all duration-300"
+        >
+          <p className="text-stone-800 font-medium mb-2 text-sm tracking-wide">
+            ── {item.feeling}
+          </p>
+          <p className="text-stone-500 text-sm leading-[1.9]">{item.detail}</p>
+        </motion.div>
+      ))}
+    </motion.div>
+
+    {/* 共感後のブリッジコピー */}
+    <motion.div
+      initial="hidden" whileInView="visible"
+      viewport={{ once: true }} variants={fadeUp}
+      className="max-w-2xl mx-auto text-center space-y-4"
+    >
+      <p
+        className="text-stone-700 text-lg md:text-xl font-light leading-[2]"
+        style={{ fontFamily: "'Noto Serif JP', serif" }}
+      >
+        それは、あなたが弱いからではありません。<br />
+        <span className="text-stone-900 font-medium">支援職という構造が、そうさせているのです。</span>
+      </p>
+      {/* マイクロCTA（中間離脱防止） */}
+      <a
+        href="#contact"
+        className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-stone-700 transition-colors underline underline-offset-4"
+      >
+        まず話してみる（初回無料）
+        <ArrowRight className="w-3.5 h-3.5" />
+      </a>
+    </motion.div>
+
+  </div>
+</section>
+ {/* ── TRUST BAR（共感セクション直後に挿入） ── */}
+<section className="py-14 px-6 bg-[#F7F6F3] border-y border-stone-200">
+  <div className="max-w-3xl mx-auto">
+    <motion.div
+      initial="hidden" whileInView="visible"
+      viewport={{ once: true }} variants={fadeUp}
+      className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10"
+    >
+      {/* 顔写真 */}
+      <div className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 border-white shadow-md">
+        <img src="/profile.jpg" alt="松本 龍児" className="w-full h-full object-cover" />
+      </div>
+
+      <div className="text-center sm:text-left space-y-2">
+        <p className="text-xs tracking-[0.3em] uppercase text-stone-400">Counselor</p>
+        <p
+          className="text-xl font-medium text-stone-900"
+          style={{ fontFamily: "'Noto Serif JP', serif" }}
+        >
+          松本 龍児
+          <span className="ml-3 text-sm font-normal text-stone-500">公認心理師</span>
+        </p>
+        <p className="text-stone-500 text-sm leading-relaxed">
+          障害福祉分野15年・累計300名以上6,000時間以上の支援経験。<br className="hidden sm:block" />
+          CBT・ACT・MIを統合し、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
+        </p>
+      </div>
+
+      {/* 信頼バッジ */}
+      <div className="flex-shrink-0 flex flex-row sm:flex-col gap-2">
+        {["公認心理師", "障害福祉15年", "300名以上"].map((b) => (
+          <span
+            key={b}
+            className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center whitespace-nowrap"
+          >
+            {b}
+          </span>
+        ))}
+      </div>
+    </motion.div>
+  </div>
+</section>
         {/* ── FEATURES ── */}
         <section className="py-28 px-6 bg-stone-50">
           <div className="max-w-5xl mx-auto">
@@ -601,113 +639,6 @@ function Home() {
                     <br />
                     消耗を減らすこと。
                   </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
- 
-        {/* ── PROFILE ── */}
-        <section className="py-28 px-6 bg-stone-50">
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.15 }}
-              variants={stagger}
-              className="space-y-16"
-            >
-              <motion.div variants={fadeUp}>
-                <SectionLabel en="Profile" ja="運営者プロフィール" />
-              </motion.div>
- 
-              <motion.div variants={fadeUp}>
-                <div className="grid md:grid-cols-[200px_1fr] gap-12 items-start">
-                  <div className="flex flex-col items-center md:items-start gap-5">
-                    <div className="w-36 h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden border border-stone-200 shadow-sm">
-                      <img
-                        src="/profile.jpg"
-                        alt="松本 龍児 近影"
-                        className="w-full h-full object-cover"
-                        width={500}
-                        height={500}
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="text-center md:text-left">
-                      <p
-                        className="text-xl font-medium text-stone-900 tracking-wider"
-                        style={{ fontFamily: "'Noto Serif JP', serif" }}
-                      >
-                        松本 龍児
-                      </p>
-                      <p className="text-stone-500 text-xs mt-1 leading-relaxed">
-                        公認心理師
-                        <br />
-                        構造整理型カウンセラー
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-1.5 w-full">
-                      {profileBadges.map((badge) => (
-                        <span
-                          key={badge}
-                          className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center"
-                        >
-                          {badge}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
- 
-                  <div
-                    className="text-stone-600 leading-[2] text-sm md:text-base space-y-8"
-                    style={{ fontFamily: "'Noto Serif JP', serif" }}
-                  >
-                    <p>
-                      15年間、障害福祉の現場で支援者として働いてきました。300名以上、6,000時間を超える支援の中で、ずっと気になっていたことがあります。
-                    </p>
- 
-                    <BlockQuote>
-                      <p className="text-stone-800 font-medium text-base md:text-lg">
-                        支援者自身が、誰にも頼れていない。
-                      </p>
-                    </BlockQuote>
- 
-                    <p>
-                      責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を何度も見てきました。それは弱さではなく、構造の問題です。
-                    </p>
- 
-                    <p>
-                      CBT・ACT・動機づけ面接・BPSモデル・トラウマインフォームドケアを統合的に用い、思考・役割・負荷を構造的に整理します。「なぜ消耗するのか」を一緒に解きほぐし、持続可能な支援者としての土台を再設計します。
-                    </p>
- 
-                    <div className="pt-6 border-t border-stone-200">
-                      <p className="text-xs tracking-[0.3em] uppercase text-stone-400 mb-5">
-                        資格・経歴
-                      </p>
-                      <ul className="space-y-2.5 text-xs text-stone-500">
-                        {qualifications.map((item) => (
-                          <li key={item} className="flex items-start gap-3">
-                            <Minus className="w-3 h-3 text-stone-300 shrink-0 mt-1" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
- 
-                    <div className="pt-6 border-t border-stone-200 text-center">
-                      <p
-                        className="text-base md:text-lg text-stone-800 font-light leading-[2]"
-                      >
-                        強くなることを目指すのではなく、
-                        <br />
-                        持続可能な状態に戻すこと。
-                      </p>
-                      <p className="text-stone-500 text-sm mt-4">
-                        支援を続けられる土台を整えることが、私の役割です。
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -825,153 +756,199 @@ function Home() {
             </motion.div>
           </div>
         </section>
+
+       {/* ── REASSURANCE（フォーム直前）改善版 ── */}
+<section className="py-16 px-6 bg-stone-50">
+  <div className="max-w-2xl mx-auto space-y-5">
+
+    <p className="text-center text-xs tracking-[0.3em] uppercase text-stone-400 mb-8">
+      よくあるご不安
+    </p>
+
+    {[
+      {
+        q: "うまく話せるか不安です",
+        a: "整理されていない状態のままで大丈夫です。「何が負担なのかよくわからない」という状態からご相談される方が大半です。",
+      },
+      {
+        q: "相談するほどの内容かどうか迷っています",
+        a: "「大げさかな」と思う感覚自体が、支援職に多いパターンです。その感覚ごと、お話しください。",
+      },
+      {
+        q: "1回だけで終わっても失礼じゃないですか",
+        a: "1回のみのご相談でも、まったく問題ありません。継続を前提としたご案内は行っていません。",
+      },
+      {
+        q: "申し込んだら断りにくくなりそうで",
+        a: "フォームを送っていただいた後も、日程調整の段階でキャンセル可能です。プレッシャーをかけることはありません。",
+      },
+      {
+        q: "カウンセリングに抵抗があります",
+        a: "「カウンセリング」というより、今の状態を言語化して整理する時間です。週1回通い続けるようなものではありません。",
+      },
+    ].map(({ q, a }) => (
+      <details
+        key={q}
+        className="group bg-white rounded-2xl border border-stone-100 overflow-hidden"
+      >
+        <summary className="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none text-stone-700 text-sm font-medium hover:bg-stone-50 transition-colors">
+          <span>{q}</span>
+          <span className="text-stone-300 group-open:rotate-45 transition-transform text-lg flex-shrink-0">+</span>
+        </summary>
+        <div className="px-6 pb-5 pt-1 text-stone-500 text-sm leading-[1.9] border-t border-stone-50">
+          {a}
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+       
+{/* ── CONTACT 改善版（フォーム冒頭部分） ── */}
+<motion.div variants={fadeUp} className="space-y-8">
+  <SectionLabel en="Contact" ja="まず、話してみてください" />
+
+
+  {/* 送信直前の3つの保証（最重要） */}
+  <div className="flex items-center justify-center gap-4 text-xs text-stone-400 flex-wrap">
+    <span className="flex items-center gap-1">
+      <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+      無理な継続案内なし
+    </span>
+    <span className="flex items-center gap-1">
+      <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+      1回のみでもOK
+    </span>
+    <span className="flex items-center gap-1">
+      <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+      送った後もキャンセル可
+    </span>
+  </div>
+</div>
+
  
-        {/* ── PRE-CONTACT ── */}
-        <section className="py-20 px-6 bg-stone-50">
-          <div className="max-w-2xl mx-auto space-y-6">
-            <div className="p-7 rounded-2xl bg-white border border-stone-100 space-y-5 text-sm text-stone-600 leading-[2]">
-              <p className="text-base font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                初回は無料でご相談いただけます
-              </p>
-              <p>
-                今の状態を言葉にするだけで大丈夫です。
-                うまく整理されていなくても問題ありません。
-                まずは「何が負担になっているのか」を一緒に整理します。
-              </p>
-              <div className="text-xs text-stone-400 space-y-1 pt-2 border-t border-stone-100">
-                <p>※ 継続を前提としたご案内は行いません</p>
-                <p>※ 1回のみのご相談でも問題ありません</p>
-              </div>
+{/* ── CONTACT ── */}
+<section id="contact" className="py-28 px-6 bg-white">
+  <div className="max-w-2xl mx-auto">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={stagger}
+      className="space-y-14"
+    >
+      {/* セクションヘッダー */}
+      <motion.div variants={fadeUp} className="space-y-8">
+        <SectionLabel en="Contact" ja="まず、話してみてください" />
+
+        {/* 送信後プロセスの可視化 */}
+        <div className="grid grid-cols-3 gap-3 text-center">
+          {[
+            { step: "1", label: "フォームを送る", sub: "2〜3分で完了" },
+            { step: "2", label: "メールが届く", sub: "2営業日以内に返信" },
+            { step: "3", label: "状況を整理する", sub: "1往復・無料" },
+          ].map(({ step, label, sub }) => (
+            <div key={step} className="p-4 rounded-xl bg-stone-50 border border-stone-100">
+              <span className="text-[10px] text-stone-400 tracking-widest">{step}</span>
+              <p className="text-stone-700 text-xs font-medium mt-1">{label}</p>
+              <p className="text-stone-400 text-[11px] mt-0.5">{sub}</p>
             </div>
- 
-            <div className="p-7 rounded-2xl bg-white border border-stone-100 space-y-5 text-sm text-stone-600 leading-[2]">
-              <p className="text-base font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                申し込む前に、こんな不安はありませんか？
-              </p>
-              <ul className="space-y-2 text-stone-500">
-                {[
-                  "うまく言葉にできるか不安",
-                  "相談するほどの内容かわからない",
-                  "無理に継続を勧められないか心配",
-                  "1回だけで終わってもいいのか気になる",
-                  "こんなことで相談していいのか迷っている",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span className="text-stone-300 shrink-0 mt-1">—</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="pt-4 border-t border-stone-100 space-y-3 text-stone-600">
-                <p>これらはすべて、実際によくいただくご不安です。</p>
-                <p>
-                  整理されていない状態のままご相談いただく方がほとんどです。
-                  今の状態をそのままお聞かせください。
-                </p>
-              </div>
-            </div>
+          ))}
+        </div>
+
+        <p
+          className="text-stone-500 text-sm leading-[2.2]"
+          style={{ fontFamily: "'Noto Serif JP', serif" }}
+        >
+          今の状態を言葉にするだけで、少し楽になることがあります。<br />
+          「うまく書けない」という内容でも、そのままお送りください。
+        </p>
+      </motion.div>
+
+      {/* フォーム */}
+      <motion.form variants={fadeUp} className="space-y-7" onSubmit={handleSubmit} noValidate>
+
+        <div className="space-y-2">
+          <label htmlFor="name" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
+            お名前 <span className="text-stone-300">（必須）</span>
+          </label>
+          <input
+            id="name" name="name" type="text" required autoComplete="name"
+            placeholder="山田 花子"
+            className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
+            メールアドレス <span className="text-stone-300">（必須）</span>
+          </label>
+          <input
+            id="email" name="email" type="email" required autoComplete="email"
+            placeholder="example@email.com"
+            className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="job" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
+            ご職種
+          </label>
+          <input
+            id="job" name="job" type="text" autoComplete="organization-title"
+            placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
+            className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="message" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
+            ご相談内容 <span className="text-stone-300">（必須）</span>
+          </label>
+          <textarea
+            id="message" name="message" required rows={5}
+            placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
+            className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 resize-none transition-colors"
+          />
+        </div>
+
+        {formStatus === "error" && formError && (
+          <div className="rounded-xl border border-red-100 bg-red-50 px-5 py-3.5 text-sm text-red-600">
+            {formError}
           </div>
-        </section>
- 
-        {/* ── CONTACT ── */}
-        <section id="contact" className="py-28 px-6 bg-white">
-          <div className="max-w-2xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-              variants={stagger}
-              className="space-y-14"
-            >
-              <motion.div variants={fadeUp} className="space-y-8">
-                <SectionLabel en="Contact" ja="お問い合わせ" />
-                <div
-                  className="text-stone-500 text-sm leading-[2.2] space-y-5"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
-                  <p>
-                    支援する側でいる限り、「自分のことは後回し」が当たり前になっていませんか？
-                  </p>
-                  <p>
-                    頭は休まらず、誰にも頼れず、それでも「自分がやるしかない」と抱え込んでいる。
-                    その状態は、あなたの弱さではなく「構造」です。
-                  </p>
-                  <BlockQuote>
-                    <p className="text-stone-700 font-medium text-sm">
-                      「もう限界かもしれない」と感じたときが、立て直しのタイミングです。
-                    </p>
-                  </BlockQuote>
-                  <p>そのまま耐え続ける前に、一度、今の状態を整理してみてください。</p>
-                </div>
-              </motion.div>
- 
-              <motion.form variants={fadeUp} className="space-y-7" onSubmit={handleSubmit} noValidate>
- 
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
-                    お名前 <span className="text-stone-300">（必須）</span>
-                  </label>
-                  <input
-                    id="name" name="name" type="text" required autoComplete="name"
-                    placeholder="山田 花子"
-                    className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
-                  />
-                </div>
- 
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
-                    メールアドレス <span className="text-stone-300">（必須）</span>
-                  </label>
-                  <input
-                    id="email" name="email" type="email" required autoComplete="email"
-                    placeholder="example@email.com"
-                    className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
-                  />
-                </div>
- 
-                <div className="space-y-2">
-                  <label htmlFor="job" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
-                    ご職種
-                  </label>
-                  <input
-                    id="job" name="job" type="text" autoComplete="organization-title"
-                    placeholder="例：社会福祉士、看護師、スクールカウンセラー など"
-                    className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 transition-colors"
-                  />
-                </div>
- 
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-[10px] tracking-[0.3em] uppercase text-stone-400">
-                    ご相談内容 <span className="text-stone-300">（必須）</span>
-                  </label>
-                  <textarea
-                    id="message" name="message" required rows={5}
-                    placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
-                    className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 resize-none transition-colors"
-                  />
-                </div>
- 
-                {formStatus === "error" && formError && (
-                  <div className="rounded-xl border border-red-100 bg-red-50 px-5 py-3.5 text-sm text-red-600">
-                    {formError}
-                  </div>
-                )}
- 
-                <button
-                  type="submit"
-                  disabled={formStatus === "submitting"}
-                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 active:scale-[0.99] transition-all rounded-full shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {formStatus === "submitting" ? "送信中..." : "無料で今の状態を整理する"}
-                </button>
- 
-                <p className="text-center text-xs text-stone-400 leading-relaxed">
-                  無理な勧誘や営業は一切行いません。安心してご相談いただけます。
-                </p>
-              </motion.form>
-            </motion.div>
+        )}
+
+        {/* 送信ボタン */}
+        <div className="space-y-3">
+          <button
+            type="submit"
+            disabled={formStatus === "submitting"}
+            className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.12em] hover:bg-stone-800 active:scale-[0.99] transition-all rounded-full shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {formStatus === "submitting" ? "送信中..." : "無料で今の状態を整理する（初回メール）"}
+          </button>
+
+          {/* 送信直前の3つの保証 */}
+          <div className="flex items-center justify-center gap-4 text-xs text-stone-400 flex-wrap">
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+              無理な継続案内なし
+            </span>
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+              1回のみでもOK
+            </span>
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
+              送った後もキャンセル可
+            </span>
           </div>
-        </section>
+        </div>
+
+      </motion.form>
+    </motion.div>
+  </div>
+</section>
  
         {/* ── FOOTER ── */}
         <footer className="py-8 px-6 border-t border-stone-100 bg-white">
