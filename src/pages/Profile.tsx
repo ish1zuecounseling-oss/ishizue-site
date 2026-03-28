@@ -121,6 +121,52 @@ export default function Profile() {
           name="description"
           content="障害福祉15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師・松本龍児のプロフィール。支援職の燃え尽きに特化した構造整理型カウンセリング。"
         />
+        {/* Person スキーマ — Googleに「松本龍児＝いしずえ」と伝える */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "松本 龍児",
+            "alternateName": "まつもと りゅうじ",
+            "jobTitle": "公認心理師",
+            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・消耗に特化した構造整理型カウンセリングを提供。",
+            "url": "https://ishizue-site-ker9.vercel.app/profile",
+            "image": "https://ishizue-site-ker9.vercel.app/profile.jpg",
+            "sameAs": [
+              "https://x.com/ish1zue",
+              "https://www.instagram.com/ishizue_counseling/"
+            ],
+            "worksFor": {
+              "@type": "ProfessionalService",
+              "name": "こころの相談室 いしずえ",
+              "url": "https://ishizue-site-ker9.vercel.app",
+              "description": "支援職・対人援助職の燃え尽き・消耗を構造的に整理するカウンセリングサービス",
+              "areaServed": "JP",
+              "serviceType": "心理カウンセリング"
+            },
+            "knowsAbout": [
+              "支援職カウンセリング",
+              "バーンアウト支援",
+              "共感疲労",
+              "感情労働",
+              "認知行動療法",
+              "ACT",
+              "動機づけ面接",
+              "トラウマインフォームドケア"
+            ],
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "国家資格",
+              "name": "公認心理師"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressRegion": "大阪府",
+              "addressLocality": "大阪市",
+              "addressCountry": "JP"
+            }
+          }
+        `}</script>
       </Helmet>
 
       {/* Home.tsx と同一の背景色・フォント */}
