@@ -350,52 +350,88 @@ function Home() {
           <SafeImg src="/hero.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-25" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/40 to-stone-950/90" />
 
-          <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-24 md:py-40 w-full">
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 md:space-y-8">
+          <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-20 md:py-36 w-full">
+            {/* デスクトップ: 左コピー + 右顔写真の2カラム */}
+            <div className="flex flex-col md:flex-row md:items-center md:gap-14 lg:gap-20">
 
-              <motion.div variants={fadeIn} className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
-                  <span className="text-[11px] tracking-[0.15em] text-white/75 uppercase">公認心理師</span>
-                </span>
-                <span className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
-                  <span className="text-[11px] tracking-[0.1em] text-white/75">障害福祉15年 ／ 累計300名以上</span>
-                </span>
-              </motion.div>
+              {/* 左カラム */}
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 md:space-y-7 flex-1 min-w-0">
 
-              <motion.div variants={fadeUp} className="space-y-4 max-w-2xl">
-                <h1 className="text-[1.7rem] leading-[1.55] md:text-5xl font-light text-white tracking-wide" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>
-                  支援職の「消耗」を、<br />
-                  <span className="text-stone-200">構造から整理する。</span>
-                </h1>
-                <p className="text-stone-300 text-sm md:text-base leading-[2]">
-                  「まだ大丈夫」と思いながら、頭が休まらない日が続いていませんか？<br />
-                  頑張ってきたからこそ、今の消耗は「あなたのせい」ではありません。<br />
-                  <span className="text-stone-200">ここは、支援する人が自分を後回しにしなくていい場所です。</span>
-                </p>
-                <p className="text-stone-400 text-xs md:text-sm italic leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                  「整理してみたら、役割が3つ重なっていた。私が弱かったんじゃなかった」— 介護福祉士・50代
-                </p>
-              </motion.div>
-
-              <motion.div variants={fadeUp} className="flex flex-col gap-2 text-xs text-stone-400">
-                {["感情の共感だけで終わらせない", "「なぜ消耗するか」を構造で整理", "消耗を減らし、続けられる土台へ"].map((item) => (
-                  <span key={item} className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#8FAF9F] flex-shrink-0" />
-                    {item}
+                <motion.div variants={fadeIn} className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
+                    <span className="text-[11px] tracking-[0.15em] text-white/75 uppercase">公認心理師</span>
                   </span>
-                ))}
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
+                    <span className="text-[11px] tracking-[0.1em] text-white/75">障害福祉15年 ／ 累計300名以上</span>
+                  </span>
+                </motion.div>
+
+                <motion.div variants={fadeUp} className="space-y-4">
+                  <h1 className="text-[1.7rem] leading-[1.55] md:text-4xl lg:text-5xl font-light text-white tracking-wide" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>
+                    支援職の「消耗」を、<br />
+                    <span className="text-stone-200">構造から整理する。</span>
+                  </h1>
+                  <p className="text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
+                    「まだ大丈夫」と思いながら、頭が休まらない日が続いていませんか？<br />
+                    頑張ってきたからこそ、今の消耗は「あなたのせい」ではありません。<br />
+                    <span className="text-stone-200">ここは、支援する人が自分を後回しにしなくていい場所です。</span>
+                  </p>
+                  <p className="text-stone-400 text-xs md:text-sm italic leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    「整理してみたら、役割が3つ重なっていた。私が弱かったんじゃなかった」— 介護福祉士・50代
+                  </p>
+                </motion.div>
+
+                <motion.div variants={fadeUp} className="flex flex-col gap-2 text-xs text-stone-400">
+                  {["感情の共感だけで終わらせない", "「なぜ消耗するか」を構造で整理", "消耗を減らし、続けられる土台へ"].map((item) => (
+                    <span key={item} className="flex items-center gap-2">
+                      <span className="w-1 h-1 rounded-full bg-[#8FAF9F] flex-shrink-0" />
+                      {item}
+                    </span>
+                  ))}
+                </motion.div>
+
+                <motion.div variants={fadeUp} className="space-y-3 pt-1" ref={heroCTARef}>
+                  <a href="#contact" className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg">
+                    まず、話してみる（初回メール無料）
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                  <p className="text-stone-500 text-xs text-center sm:text-left">勧誘なし　／　1回のみでもOK　／　うまく言葉にできなくても大丈夫</p>
+                </motion.div>
+
               </motion.div>
 
-              <motion.div variants={fadeUp} className="space-y-3 pt-1" ref={heroCTARef}>
-                <a href="#contact" className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg">
-                  まず、話してみる（初回メール無料）
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <p className="text-stone-500 text-xs text-center sm:text-left">勧誘なし　／　1回のみでもOK　／　うまく言葉にできなくても大丈夫</p>
+              {/* 右カラム: 顔写真 — デスクトップのみ */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="hidden md:flex flex-col items-center gap-4 flex-shrink-0"
+              >
+                {/* 写真 */}
+                <div className="w-52 h-52 lg:w-60 lg:h-60 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl ring-1 ring-white/10">
+                  <SafeImg
+                    src="/profile.jpg"
+                    alt="松本 龍児 — 公認心理師"
+                    className="w-full h-full object-cover object-top"
+                    fallbackBg="bg-stone-700"
+                  />
+                </div>
+                {/* 名前・肩書き */}
+                <div className="text-center space-y-1">
+                  <p className="text-white text-sm font-medium tracking-wider" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    松本 龍児
+                  </p>
+                  <p className="text-stone-400 text-xs">公認心理師 ／ 構造整理型カウンセラー</p>
+                  <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                    {["障害福祉15年", "累計300名以上"].map((b) => (
+                      <span key={b} className="px-2.5 py-0.5 rounded-full bg-white/[0.08] border border-white/15 text-white/60 text-[10px]">{b}</span>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
 
-            </motion.div>
+            </div>
           </div>
 
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5">
@@ -478,6 +514,53 @@ function Home() {
                   <a href="#profile" className="ml-1 text-[#8FAF9F] underline underline-offset-2 hover:text-stone-700 transition-colors">詳しいプロフィールを見る</a>
                 </p>
               </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── MINI VOICES ── 広告ユーザー向け：浅いスクロール位置に証言2件 */}
+        <section className="py-12 md:py-14 px-5 md:px-6 bg-white">
+          <div className="max-w-3xl mx-auto">
+            <motion.div
+              initial="hidden" whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }} variants={stagger}
+              className="space-y-6"
+            >
+              <motion.div variants={fadeUp} className="text-center">
+                <p className="text-[10px] tracking-[0.25em] uppercase text-[#8FAF9F] font-medium">実際に話された方の声</p>
+              </motion.div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    role:   "看護師・病棟勤務・30代",
+                    before: "「職場では絶対に言えないことが溜まっていた」",
+                    after:  "うまく話せなかったのに、気づいたら何が重かったか整理されていた。あれ、話せてたんだと思いました。",
+                  },
+                  {
+                    role:   "介護福祉士・ケアマネジャー・50代",
+                    before: "「10年以上頑張ってきて、なぜ今しんどいのかわからなかった」",
+                    after:  "整理してみたら、役割が3つ重なっていた。「私が弱かったんじゃなかった」とわかって、少し楽になりました。",
+                  },
+                ].map((v) => (
+                  <motion.div key={v.role} variants={fadeUp} className="bg-stone-50 border border-stone-100 rounded-2xl p-5 space-y-3">
+                    <p className="text-stone-400 text-xs italic" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.before}</p>
+                    <div className="border-t border-stone-100 pt-3">
+                      <div className="text-[#8FAF9F] opacity-40 mb-2">
+                        <svg width="18" height="14" viewBox="0 0 24 18" fill="currentColor" aria-hidden="true">
+                          <path d="M0 18V11.5C0 8.167 .833 5.417 2.5 3.25 4.167 1.083 6.5 0 9.5 0L10.5 1.5C8.833 1.833 7.458 2.625 6.375 3.875 5.292 5.125 4.75 6.5 4.75 8H9V18H0ZM14 18V11.5C14 8.167 14.833 5.417 16.5 3.25 18.167 1.083 20.5 0 23.5 0L24.5 1.5C22.833 1.833 21.458 2.625 20.375 3.875 19.292 5.125 18.75 6.5 18.75 8H23V18H14Z" />
+                        </svg>
+                      </div>
+                      <p className="text-stone-700 text-sm leading-[1.85]" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.after}</p>
+                    </div>
+                    <p className="text-stone-400 text-xs">{v.role}</p>
+                  </motion.div>
+                ))}
+              </div>
+              <motion.div variants={fadeUp} className="text-center">
+                <a href="#voices" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">
+                  他の方の声を見る（全5件）
+                </a>
+              </motion.div>
             </motion.div>
           </div>
         </section>
@@ -640,7 +723,7 @@ function Home() {
         </section>
 
         {/* ── VOICES ── */}
-        <section className="py-16 md:py-20 px-5 md:px-6 bg-stone-50">
+        <section id="voices" className="py-16 md:py-20 px-5 md:px-6 bg-stone-50">
           <div className="max-w-4xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} variants={stagger} className="space-y-10">
               <motion.div variants={fadeUp}>
