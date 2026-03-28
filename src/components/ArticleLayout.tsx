@@ -1,100 +1,125 @@
-// ishizue-site/src/components/ArticleLayout.tsx
+/**
+ * ArticleLayout.tsx
+ * こころの相談室 いしずえ
+ * アクセントカラー #8FAF9F に統一 / Layout.tsx・Home.tsx と整合
+ */
 
-import { useCallback } from "react"
-import { motion } from "motion/react"
-import { Link, useNavigate } from "react-router-dom"
-import Breadcrumbs from "./Breadcrumbs"
-import AudioPlayer from "./AudioPlayer"
-import ArticleSchema from "./ArticleSchema"
-import RandomArticles from "./RandomArticles"
+import { useCallback } from "react";
+import { motion } from "motion/react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, Clock, Calendar, User, MessageCircle } from "lucide-react";
+import Breadcrumbs from "./Breadcrumbs";
+import AudioPlayer from "./AudioPlayer";
+import ArticleSchema from "./ArticleSchema";
+import RandomArticles from "./RandomArticles";
+
+/* -------------------------------------------------------------------------- */
+/*  Constants                                                                  */
+/* -------------------------------------------------------------------------- */
+
+const SAGE = "#8FAF9F";
+
+/* -------------------------------------------------------------------------- */
+/*  Types                                                                      */
+/* -------------------------------------------------------------------------- */
 
 type Props = {
-  title: string
-  description: string
-  url: string
-  date: string
-  audio?: string
-  children: React.ReactNode
-}
+  title:       string;
+  description: string;
+  url:         string;
+  date:        string;
+  audio?:      string;
+  children:    React.ReactNode;
+};
 
-// 読了時間を推定（children の文字数から）
-function estimateReadingTime(node: React.ReactNode): number {
-  const text = extractText(node)
-  const chars = text.replace(/\s/g, "").length
-  return Math.max(1, Math.ceil(chars / 400)) // 日本語: 400字/分
-}
+/* -------------------------------------------------------------------------- */
+/*  Helpers                                                                    */
+/* -------------------------------------------------------------------------- */
 
 function extractText(node: React.ReactNode): string {
-  if (typeof node === "string") return node
-  if (typeof node === "number") return String(node)
-  if (!node) return ""
-  if (Array.isArray(node)) return node.map(extractText).join("")
-  if (typeof node === "object" && "props" in (node as any)) {
-    return extractText((node as any).props?.children)
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
+  if (!node) return "";
+  if (Array.isArray(node)) return node.map(extractText).join("");
+  if (typeof node === "object" && "props" in (node as object)) {
+    return extractText((node as React.ReactElement).props?.children);
   }
-  return ""
+  return "";
+}
+
+function estimateReadingTime(node: React.ReactNode): number {
+  const text = extractText(node);
+  const chars = text.replace(/\s/g, "").length;
+  return Math.max(1, Math.ceil(chars / 400)); // 日本語: 400字/分
 }
 
 function formatDate(dateStr: string): string {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  return new Date(dateStr).toLocaleDateString("ja-JP", {
+    year: "numeric", month: "long", day: "numeric",
+  });
 }
 
-export default function ArticleLayout({
-  title,
-  description,
-  url,
-  date,
-  audio,
-  children,
-}: Props) {
-  const path = url.replace(/.*\/articles/, "")
-  const readingTime = estimateReadingTime(children)
-  const navigate = useNavigate()
+/**
+ * Contact セクションへのスムーズスクロール。
+ * Layout.tsx と同一の実装。
+ */
+function scrollToContact(navigate: ReturnType<typeof useNavigate>) {
+  const tryScroll = () => {
+    const el = document.getElementById("contact");
+    if (el) { el.scrollIntoView({ behavior: "smooth" }); return true; }
+    return false;
+  };
 
-  // /#contact へのスクロール遷移（記事ページ → ホームの#contact）
+  navigate("/");
+
+  const timeout = window.setTimeout(() => observer.disconnect(), 2000);
+  const observer = new MutationObserver(() => {
+    if (tryScroll()) { observer.disconnect(); clearTimeout(timeout); }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Component                                                                  */
+/* -------------------------------------------------------------------------- */
+
+export default function ArticleLayout({
+  title, description, url, date, audio, children,
+}: Props) {
+  const path = url.replace(/.*\/articles/, "");
+  const readingTime = estimateReadingTime(children);
+  const navigate = useNavigate();
+
   const handleContactClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    navigate("/")
-    setTimeout(() => {
-      const el = document.getElementById("contact")
-      if (el) el.scrollIntoView({ behavior: "smooth" })
-    }, 300)
-  }, [navigate])
+    e.preventDefault();
+    scrollToContact(navigate);
+  }, [navigate]);
 
   return (
     <>
       {/* SEO */}
-      <ArticleSchema
-        title={title}
-        description={description}
-        url={url}
-        date={date}
-      />
+      <ArticleSchema title={title} description={description} url={url} date={date} />
 
-      {/* ページ全体の背景 */}
-      <div className="min-h-screen bg-[#FAFAF8]">
+      <div className="min-h-screen bg-white">
         <div className="max-w-2xl mx-auto px-5 sm:px-8 py-20 text-stone-700 leading-loose">
           <motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             itemScope
             itemType="https://schema.org/Article"
           >
-            {/* =====================
+
+            {/* ============================================================
                 HEADER
-            ===================== */}
+            ============================================================ */}
             <header className="mb-14">
+
               {/* Schema hidden metas */}
-              <meta itemProp="headline" content={title} />
-              <meta itemProp="datePublished" content={date} />
-              <meta itemProp="dateModified" content={date} />
-              <meta itemProp="mainEntityOfPage" content={url} />
+              <meta itemProp="headline"          content={title} />
+              <meta itemProp="datePublished"     content={date} />
+              <meta itemProp="dateModified"      content={date} />
+              <meta itemProp="mainEntityOfPage"  content={url} />
               <div itemProp="author" itemScope itemType="https://schema.org/Person">
                 <meta itemProp="name" content="松本 龍児" />
               </div>
@@ -107,104 +132,85 @@ export default function ArticleLayout({
 
               {/* カテゴリタグ */}
               <div className="mt-4 mb-5">
-                <span className="inline-block text-xs tracking-widest text-[#7C9A8A] uppercase font-medium border border-[#7C9A8A]/40 rounded-full px-3 py-1">
+                <span
+                  className="inline-block text-[10px] tracking-[0.2em] uppercase font-medium border rounded-full px-3 py-1"
+                  style={{ color: SAGE, borderColor: `${SAGE}60` }}
+                >
                   心理コラム
                 </span>
               </div>
 
               {/* タイトル */}
               <h1
-                className="text-2xl sm:text-3xl md:text-[2rem] font-semibold mb-6 text-stone-900 tracking-tight leading-snug"
+                className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide"
+                style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
                 itemProp="name"
               >
                 {title}
               </h1>
 
               {/* メタ情報バー */}
-              <div className="flex flex-wrap items-center gap-4 text-xs text-stone-400 mb-6">
-                {/* 著者 */}
+              <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 mb-6">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-5 h-5 rounded-full bg-[#7C9A8A]/20 inline-flex items-center justify-center">
-                    <svg className="w-3 h-3 text-[#7C9A8A]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 10a4 4 0 100-8 4 4 0 000 8zm-7 8a7 7 0 1114 0H3z" />
-                    </svg>
+                  <span
+                    className="w-5 h-5 rounded-full inline-flex items-center justify-center"
+                    style={{ background: `${SAGE}22` }}
+                  >
+                    <User className="w-3 h-3" style={{ color: SAGE }} aria-hidden="true" />
                   </span>
                   <span className="text-stone-500 font-medium">松本 龍児</span>
                   <span className="text-stone-300">｜公認心理師</span>
                 </div>
 
-                {/* セパレーター */}
-                <span className="text-stone-200">·</span>
+                <span className="text-stone-200" aria-hidden="true">·</span>
 
-                {/* 日付 */}
                 <div className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+                  <Calendar className="w-3.5 h-3.5 text-stone-300" aria-hidden="true" />
                   <time dateTime={date}>{formatDate(date)}</time>
                 </div>
 
-                {/* セパレーター */}
-                <span className="text-stone-200">·</span>
+                <span className="text-stone-200" aria-hidden="true">·</span>
 
-                {/* 読了時間 */}
                 <div className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <Clock className="w-3.5 h-3.5 text-stone-300" aria-hidden="true" />
                   <span>約 {readingTime} 分で読めます</span>
                 </div>
               </div>
 
               {/* 音声プレイヤー */}
-              {audio && (
-                <AudioPlayer src={audio} />
-              )}
+              {audio && <AudioPlayer src={audio} />}
 
-              {/* リード文 */}
+              {/* リード文 — Home.tsx の BlockQuote と同一スタイル */}
               <p
-                className="text-stone-600 text-base sm:text-lg leading-[1.9] border-l-4 border-[#7C9A8A]/40 pl-4 py-1"
+                className="text-stone-600 text-base sm:text-lg leading-[1.9] py-1"
+                style={{
+                  borderLeft: `2px solid ${SAGE}`,
+                  paddingLeft: "1.25rem",
+                }}
                 itemProp="description"
               >
                 {description}
               </p>
 
               {/* 区切り装飾 */}
-              <div className="mt-10 flex items-center gap-3">
+              <div className="mt-10 flex items-center gap-2.5" aria-hidden="true">
                 <div className="flex-1 h-px bg-gradient-to-r from-stone-200 to-transparent" />
-                <div className="w-1.5 h-1.5 rounded-full bg-[#7C9A8A]/50" />
-                <div className="w-1.5 h-1.5 rounded-full bg-stone-200" />
-                <div className="w-1.5 h-1.5 rounded-full bg-stone-100" />
+                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `${SAGE}80` }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-stone-200" />
+                <span className="w-1 h-1 rounded-full bg-stone-100" />
               </div>
             </header>
 
-            {/* =====================
-                BODY
-            ===================== */}
-            <div
-              className={[
-                "space-y-7 text-[0.97rem] sm:text-base text-stone-700 leading-[2.1]",
-                "[&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-stone-800 [&_h2]:mt-12 [&_h2]:mb-4",
-                "[&_h2]:border-l-4 [&_h2]:border-[#7C9A8A] [&_h2]:pl-4",
-                "[&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-stone-800 [&_h3]:mt-8 [&_h3]:mb-3",
-                "[&_h3]:flex [&_h3]:items-center [&_h3]:gap-2",
-                "[&_h3]:before:content-[''] [&_h3]:before:w-4 [&_h3]:before:h-px [&_h3]:before:bg-[#7C9A8A]",
-                "[&_p]:text-stone-700 [&_p]:leading-[2.05]",
-                "[&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:list-disc [&_ul]:marker:text-[#7C9A8A]",
-                "[&_ol]:pl-5 [&_ol]:space-y-1.5 [&_ol]:list-decimal [&_ol]:marker:text-[#7C9A8A]",
-                "[&_blockquote]:border-l-4 [&_blockquote]:border-[#7C9A8A]/50 [&_blockquote]:pl-5",
-                "[&_blockquote]:text-stone-500 [&_blockquote]:italic [&_blockquote]:my-6",
-                "[&_strong]:text-stone-900 [&_strong]:font-semibold",
-                "[&_a]:text-[#7C9A8A] [&_a]:underline [&_a]:underline-offset-2",
-              ].join(" ")}
-              itemProp="articleBody"
-            >
+            {/* ============================================================
+                BODY — article-body クラスで index.css のスタイルを適用
+            ============================================================ */}
+            <div className="article-body" itemProp="articleBody">
               {children}
             </div>
 
-            {/* =====================
+            {/* ============================================================
                 CTA（CV導線）
-            ===================== */}
+            ============================================================ */}
             <motion.section
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -213,26 +219,42 @@ export default function ArticleLayout({
               className="mt-24"
             >
               {/* 区切り */}
-              <div className="flex items-center gap-3 mb-10">
+              <div className="flex items-center gap-3 mb-10" aria-hidden="true">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent" />
               </div>
 
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F5F7F5] via-white to-[#EFF4F1] border border-[#7C9A8A]/20 shadow-md px-8 py-10 text-center">
-
-                {/* 背景装飾 */}
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-[#7C9A8A]/5 -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-[#7C9A8A]/5 translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+              {/* CTA カード */}
+              <div
+                className="relative overflow-hidden rounded-2xl border shadow-md px-7 md:px-10 py-10 text-center"
+                style={{
+                  background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)",
+                  borderColor: `${SAGE}33`,
+                }}
+              >
+                {/* 背景装飾円 */}
+                <div
+                  className="absolute top-0 right-0 w-40 h-40 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"
+                  style={{ backgroundColor: `${SAGE}08` }}
+                  aria-hidden="true"
+                />
+                <div
+                  className="absolute bottom-0 left-0 w-32 h-32 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"
+                  style={{ backgroundColor: `${SAGE}08` }}
+                  aria-hidden="true"
+                />
 
                 {/* アイコン */}
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#7C9A8A]/15 mb-5">
-                  <svg className="w-6 h-6 text-[#7C9A8A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.862 9.862 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
-                  </svg>
+                <div
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-5"
+                  style={{ backgroundColor: `${SAGE}22` }}
+                >
+                  <MessageCircle className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />
                 </div>
 
-                <h2 className="text-lg sm:text-xl font-semibold mb-3 text-stone-900 leading-snug">
+                <h2
+                  className="text-lg sm:text-xl font-medium mb-3 text-stone-900 leading-snug"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
                   一人で抱え込まず、<br className="sm:hidden" />整理する時間をつくりませんか
                 </h2>
 
@@ -244,69 +266,78 @@ export default function ArticleLayout({
                 <a
                   href="/#contact"
                   onClick={handleContactClick}
-                  className="inline-flex items-center gap-2 bg-stone-900 text-white px-7 py-3 rounded-full text-sm font-medium hover:bg-[#3D3D3B] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-stone-800 transition-all shadow-md group"
                 >
-                  相談について問い合わせる
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  松本に、今の状態を整理してもらう（無料）
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                 </a>
 
-<p className="text-xs text-stone-400 mt-4">
-  ※ 初回メール相談は無料です
-</p>
-
+                <p className="text-xs text-stone-400 mt-4">
+                  1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可
+                </p>
               </div>
             </motion.section>
 
-{/* =====================
-    著者カード
-===================== */}
-<motion.div
-  initial={{ opacity: 0 }}
-  whileInView={{ opacity: 1 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.5, delay: 0.1 }}
-  className="mt-14 flex items-start gap-4 bg-white rounded-xl border border-stone-100 shadow-sm p-5"
->
-  {/* アバター */}
-  <div className="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm">
-    <img
-      src="/profile.jpg"
-      alt="松本 龍児"
-      className="w-full h-full object-cover"
-      width={56}
-      height={56}
-      loading="lazy"
-    />
-  </div>
-  <div>
-    <div className="flex flex-wrap items-center gap-2 mb-1">
-      <p className="text-sm font-semibold text-stone-900">松本 龍児</p>
-      <span className="text-xs text-stone-400 bg-stone-50 border border-stone-100 rounded-full px-2 py-0.5">
-        公認心理師
-      </span>
-    </div>
-    <p className="text-xs text-stone-400 mb-2">こころの相談室 いしずえ｜支援者支援専門</p>
-    <p className="text-xs text-stone-500 leading-relaxed mb-2">
-      障害福祉分野で15年、累計300名以上・6,000時間以上の支援に携わる。
-      CBT・ACT・MIなどを統合的に用い、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
-    </p>
-    <Link
-      to="/profile"
-      className="inline-flex items-center gap-1 text-xs text-[#7C9A8A] hover:underline"
-    >
-      プロフィール詳細を見る
-      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </Link>
-  </div>
-</motion.div>
+            {/* ============================================================
+                著者カード
+            ============================================================ */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-14 flex items-start gap-4 bg-stone-50 rounded-2xl border border-stone-100 p-5"
+            >
+              {/* アバター */}
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border border-stone-200 shadow-sm">
+                <img
+                  src="/profile.jpg"
+                  alt="松本 龍児"
+                  className="w-full h-full object-cover object-top"
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const p = e.currentTarget.parentElement;
+                    if (p) p.classList.add("bg-stone-200");
+                  }}
+                />
+              </div>
 
-            {/* =====================
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <p
+                    className="text-sm font-medium text-stone-900"
+                    style={{ fontFamily: "'Noto Serif JP', serif" }}
+                  >
+                    松本 龍児
+                  </p>
+                  <span className="text-xs text-stone-400 bg-white border border-stone-100 rounded-full px-2 py-0.5">
+                    公認心理師
+                  </span>
+                </div>
+                <p className="text-xs text-stone-400 mb-2">
+                  こころの相談室 いしずえ｜支援者支援専門
+                </p>
+                <p className="text-xs text-stone-500 leading-relaxed mb-3">
+                  障害福祉分野で15年、累計300名以上・6,000時間以上の支援に携わる。
+                  CBT・ACT・MIなどを統合的に用い、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
+                </p>
+                <Link
+                  to="/profile"
+                  className="inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline underline-offset-2"
+                  style={{ color: SAGE }}
+                >
+                  プロフィール詳細を見る
+                  <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* ============================================================
                 おすすめ記事（ランダム）
-            ===================== */}
+            ============================================================ */}
             <div className="mt-16 pt-10 border-t border-stone-100">
               <RandomArticles currentPath={path} count={3} />
             </div>
@@ -315,5 +346,5 @@ export default function ArticleLayout({
         </div>
       </div>
     </>
-  )
+  );
 }
