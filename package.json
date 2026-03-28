@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-"generate:articles": "tsx scripts/generateArticles.ts",
-"build": "npm run generate:articles && npm run generate:sitemap && vite build"
+    "generate:articles": "tsx scripts/generateArticles.ts",
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
+    "build": "npm run generate:articles && npm run generate:sitemap && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
