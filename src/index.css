@@ -1,5 +1,9 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700&display=swap');
+/* =========================
+   Google Fonts
+   Inter は article-body のみで使用。
+   Noto Serif JP が全ページの主フォント。
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,16 +11,17 @@
 
 /* =========================
    CSS Custom Properties
+   ※ アクセントカラーは TSX 全ページで #8FAF9F を直接使用。
+     CSS変数はarticle-body内のみ参照するためここで定義する。
 ========================= */
 :root {
-  --color-sage: #7C9A8A;
-  --color-sage-light: #a8c4b8;
-  --color-sage-pale: rgba(124, 154, 138, 0.12);
-  --color-stone-bg: #FAFAF8;
+  --color-sage: #8FAF9F;          /* TSXと統一（旧: #7C9A8A は削除） */
+  --color-sage-light: #b8cfc8;
+  --color-sage-pale: rgba(143, 175, 159, 0.12);
 }
 
 /* =========================
-   Base（全体の質感）
+   Base
 ========================= */
 @layer base {
   html {
@@ -24,48 +29,46 @@
   }
 
   body {
-    font-family: "Noto Serif JP", serif;
-    @apply text-stone-800 bg-stone-50/40;
+    /* Noto Serif JP を全体のベースに。
+       TSX の style={{ fontFamily }} は個別上書きとして機能する。 */
+    font-family: "Noto Serif JP", Georgia, serif;
+    @apply text-stone-800 bg-white;
     line-height: 1.95;
     letter-spacing: 0.015em;
   }
 
-  /* テキスト選択色 */
+  /* テキスト選択色 — アクセントカラーと統一 */
   ::selection {
-    background: rgba(124, 154, 138, 0.25);
+    background: rgba(143, 175, 159, 0.25);
     color: #1c1917;
   }
 
-  /* フォーカス */
+  /* フォーカス — アクセントカラーと統一 */
   :focus-visible {
     outline: 2px solid var(--color-sage);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
-  /* 見出し */
-  h1 {
-    @apply text-4xl md:text-5xl leading-tight tracking-tight;
+  /* 見出し — TSX側はTailwindで個別管理しているため
+     ここでは article-body 内でのみ有効なスタイルに限定する。
+     グローバルな h1/h2/h3 への margin 付与は削除。 */
+  h1, h2, h3 {
+    font-family: "Noto Serif JP", Georgia, serif;
+    font-weight: 300;
   }
 
-  h2 {
-    @apply text-2xl md:text-3xl mt-24 mb-8 leading-snug;
-  }
-
-  h3 {
-    @apply text-xl md:text-2xl mt-14 mb-4;
-  }
-
-  /* 本文 */
+  /* 本文 — TSX側の text-sm / text-base と競合しないよう
+     font-size のグローバル指定は削除。 */
   p {
-    @apply text-[15.5px] md:text-[16.5px];
-    line-height: 2.05;
     text-wrap: pretty;
   }
 }
 
 /* =========================
-   Article Layout（核）
+   Article Layout
+   心理記事（個別記事ページ）専用。
+   Home / Profile / Articles の各ページには影響しない。
 ========================= */
 .article-container {
   @apply max-w-2xl md:max-w-3xl mx-auto px-6 py-24;
@@ -79,16 +82,18 @@
 
 /* 見出しリズム */
 .article-body h2 {
-  @apply mt-24 mb-8;
+  @apply text-2xl md:text-3xl mt-24 mb-8 leading-snug;
+  font-family: "Noto Serif JP", Georgia, serif;
+  font-weight: 400;
   position: relative;
-  padding-left: 14px;
+  padding-left: 16px;
 }
 
 .article-body h2::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.6em;
+  top: 0.55em;
   width: 4px;
   height: 1em;
   background: var(--color-sage);
@@ -96,11 +101,13 @@
 }
 
 .article-body h3 {
-  @apply mt-16 mb-4;
+  @apply text-xl md:text-2xl mt-16 mb-4 leading-snug;
+  font-family: "Noto Serif JP", Georgia, serif;
 }
 
 .article-body p {
-  @apply mb-6;
+  @apply text-[15.5px] md:text-[16.5px] mb-6;
+  line-height: 2.05;
 }
 
 .article-body ul {
@@ -108,36 +115,38 @@
 }
 
 .article-body li {
-  @apply leading-relaxed;
+  @apply text-[15.5px] md:text-[16.5px] leading-relaxed;
+}
+
+/* article-body 内リンク */
+.article-body a {
+  @apply text-blue-600 underline underline-offset-2 transition-colors;
+}
+.article-body a:hover {
+  @apply text-blue-800;
+}
+
+/* blockquote — Home.tsx の BlockQuote コンポーネントと同じデザイン */
+.article-body blockquote {
+  border-left: 2px solid var(--color-sage);
+  @apply pl-4 md:pl-6 py-1 text-stone-700 my-8;
+}
+
+.article-body blockquote p {
+  @apply mb-0 font-medium text-stone-800;
 }
 
 /* =========================
-   Card（統一UI）
+   Card（記事一覧・関連記事などで使用する場合）
+   Articles.tsx はTailwindで直接書いているためこれは補助。
 ========================= */
 .card {
-  @apply bg-white border border-stone-200 rounded-2xl p-8 shadow-sm transition-shadow;
-  line-height: 1.9;
-  backdrop-filter: blur(2px);
+  @apply bg-white border border-stone-100 rounded-2xl p-6 md:p-8 transition-all duration-300;
 }
 
 .card:hover {
   @apply shadow-md;
-  border-color: rgba(124, 154, 138, 0.3);
-}
-
-/* =========================
-   Link（地味に重要）
-========================= */
-a {
-  @apply transition-colors;
-}
-
-.article-body a {
-  @apply text-blue-600 underline underline-offset-2;
-}
-
-.article-body a:hover {
-  @apply text-blue-800;
+  border-color: rgba(143, 175, 159, 0.4);
 }
 
 /* =========================
@@ -148,20 +157,21 @@ a {
 }
 
 /* =========================
-   Section見出し（統一スタイル）
+   Section見出しラベル（記事ページ内で使う場合の補助）
+   Home / Profile / Articles は SectionLabel コンポーネントで管理。
 ========================= */
 .section-label {
   display: inline-block;
   font-size: 10px;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--color-sage);
-  font-family: "Inter", sans-serif;
+  font-family: "Noto Serif JP", sans-serif;
   font-weight: 500;
 }
 
 /* =========================
-   Animation（上品）
+   Utility animations
 ========================= */
 @layer utilities {
   .fade-in {
@@ -171,7 +181,7 @@ a {
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(4px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
