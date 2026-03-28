@@ -7,20 +7,6 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
 "generate:articles": "tsx scripts/generateArticles.ts",
 "build": "npm run generate:articles && npm run generate:sitemap && vite build"
-```
-
-**③ `src/data/articles.ts` の先頭にコメントを追加（任意）**
-
-次回ビルド後に自動上書きされるので、今の内容は保持されます。
-
----
-
-## 動作の仕組み
-```
-npm run build
-  └─ generate:articles    ← 記事ファイルを解析して articles.ts を上書き生成
-  └─ generate:sitemap     ← 生成済みの articles.ts を読んで sitemap.xml を生成
-  └─ vite build           ← 生成済みの articles.ts を使ってビルド
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
