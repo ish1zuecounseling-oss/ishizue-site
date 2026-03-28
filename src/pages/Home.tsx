@@ -209,7 +209,7 @@ function BlockQuote({ children, light = false }: { children: ReactNode; light?: 
 }
 
 // Fix I: 文脈ごとに異なるコピーを props で受け取れるよう整理
-function CtaBlock({
+function CtaButton({
   label  = "まず、話してみる（初回メール無料）",
   sub    = "1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可",
   center = true,
