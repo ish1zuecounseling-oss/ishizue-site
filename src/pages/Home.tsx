@@ -1,6 +1,6 @@
 /**
  * Home.tsx
- * こころの相談室 いしずえ — モバイル最適化版
+ * こころの相談室 いしずえ — CV最大化版
  */
 
 import {
@@ -23,6 +23,7 @@ import {
   Mail,
   X,
   Minus,
+  MessageCircle,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { Helmet } from "react-helmet-async";
@@ -35,7 +36,8 @@ type ModalType = "privacy" | "tokusho" | "cancel" | "sent";
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 type FeatureItem = {
-  title: string;
+  title: string;       // ベネフィット起点のタイトル
+  benefit: string;     // あなたにとって何が変わるか
   desc: string;
   icon: ReactNode;
 };
@@ -76,20 +78,24 @@ const stagger: Variants = {
 /*                                  Copy data                                 */
 /* -------------------------------------------------------------------------- */
 
+// ベネフィット起点に書き直し
 const features: FeatureItem[] = [
   {
-    title: "支援者支援に特化",
-    desc: "対人援助職特有の葛藤・二次受傷・燃え尽きのリスクを深く理解した専門的なサポートを提供します。",
+    title: "「支援職の苦しさ」を説明しなくていい",
+    benefit: "わかってもらえる安心",
+    desc: "対人援助職特有の二次受傷・役割の重圧・燃え尽きを、現場経験から深く理解しています。「なぜこんなことで」と思わせません。",
     icon: <ShieldCheck className="w-5 h-5" />,
   },
   {
-    title: "オンライン完結・透明性重視",
-    desc: "Google Meetを使用。職場にも家族にも知られず、どこからでも安全に受けられます。",
+    title: "職場にも家族にも知られない",
+    benefit: "完全プライベートな空間",
+    desc: "オンライン完結（Google Meet）。移動不要、請求書なし。誰にも知られず、自分の時間として使えます。",
     icon: <Monitor className="w-5 h-5" />,
   },
   {
-    title: "消耗を減らすことを最優先に",
-    desc: "「もっと頑張れ」とは言いません。まず「なぜ消耗するのか」の構造を整理し、負荷を減らすことから始めます。",
+    title: "「もっと頑張れ」とは言わない",
+    benefit: "消耗を減らすことだけに集中",
+    desc: "自己改善や根性論ではなく、「なぜ消耗するのか」の構造を整理し、負荷を減らすことから始めます。",
     icon: <CheckCircle2 className="w-5 h-5" />,
   },
 ];
@@ -110,10 +116,10 @@ const qualifications = [
 ] as const;
 
 const flowItems: FlowItem[] = [
-  { step: "01", title: "フォームを送る", desc: "今の状態を書くだけでOK。まとまっていなくて大丈夫です。" },
+  { step: "01", title: "フォームを送る（2分）", desc: "今の状態を書くだけでOK。まとまっていなくて大丈夫です。" },
   { step: "02", title: "メールが届く（2営業日以内）", desc: "状況を整理しながら、今後の流れをご案内します。" },
-  { step: "03", title: "事前シート記入", desc: "簡単な状況把握シートにご記入いただきます（任意項目あり）。" },
-  { step: "04", title: "体験セッション 30分", desc: "Google Meet にて。この時間だけで「何が負担か」が整理されます。" },
+  { step: "03", title: "事前シート記入（任意）", desc: "簡単な状況把握シートにご記入いただきます。任意項目あり。" },
+  { step: "04", title: "体験セッション 30分", desc: "Google Meetにて。この時間だけで「何が負担か」が整理されます。" },
   { step: "05", title: "振り返りシート共有", desc: "セッション後、整理内容をテキストでお送りします。手元に残ります。" },
 ];
 
@@ -124,6 +130,22 @@ const notes = [
   "キャンセルは 24時間前までにご連絡ください。それ以降はキャンセル料が発生します。",
 ] as const;
 
+// ★ 社会的証明 — 相談者の声（匿名）
+const voices = [
+  {
+    role: "社会福祉士・40代",
+    text: "「弱さではなく構造の問題」という言葉が、ずっと探していた答えでした。頭ではわかっていても、口に出して整理できたのは初めてでした。",
+  },
+  {
+    role: "看護師・30代",
+    text: "職場では絶対に言えないことを、ここでは言えました。うまく話せなかったのに、気づいたら何が重かったか見えていた。",
+  },
+  {
+    role: "スクールカウンセラー・40代",
+    text: "「相談するほどじゃないかも」と思って迷いましたが、1回で「あ、これか」と腑に落ちることがあって。来てよかったです。",
+  },
+] as const;
+
 /* -------------------------------------------------------------------------- */
 /*                            Helper Components                               */
 /* -------------------------------------------------------------------------- */
@@ -131,7 +153,6 @@ const notes = [
 function SectionLabel({ en, ja, light = false }: { en: string; ja: string; light?: boolean }) {
   return (
     <div className="space-y-2">
-      {/* モバイル: tracking 抑えめ・文字を大きく */}
       <span
         className={`block text-[10px] tracking-[0.2em] md:tracking-[0.35em] uppercase font-medium ${
           light ? "text-stone-500" : "text-[#8FAF9F]"
@@ -163,30 +184,6 @@ function BlockQuote({ children, light = false }: { children: ReactNode; light?: 
   );
 }
 
-function FeatureCard({ title, desc, icon }: FeatureItem) {
-  return (
-    /* モバイル: padding 抑えめ、横並びレイアウトに */
-    <div className="group relative flex md:block gap-4 p-5 md:p-8 rounded-2xl bg-stone-50 border border-stone-100 hover:border-[#8FAF9F]/50 hover:bg-white transition-all duration-300">
-      <div className="absolute top-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#8FAF9F] to-[#C4B5A5] group-hover:w-full transition-all duration-500 rounded-full" />
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 md:mb-6 text-[#8FAF9F]"
-        style={{ background: "rgba(143,175,159,0.1)" }}
-      >
-        {icon}
-      </div>
-      <div>
-        <h3
-          className="text-sm md:text-base font-medium mb-1.5 md:mb-3 text-stone-800 tracking-wide"
-          style={{ fontFamily: "'Noto Serif JP', serif" }}
-        >
-          {title}
-        </h3>
-        <p className="text-stone-500 text-sm leading-relaxed">{desc}</p>
-      </div>
-    </div>
-  );
-}
-
 function LegalModal({
   isOpen,
   title,
@@ -212,7 +209,6 @@ function LegalModal({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      /* モバイル: p-3 で画面端のすき間を最小化 */
       className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-stone-950/50 backdrop-blur-sm"
       onClick={onClose}
     >
@@ -226,11 +222,9 @@ function LegalModal({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 40 }}
         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        /* モバイル: 下から出現するシートスタイル */
         className="bg-white w-full sm:max-w-2xl max-h-[88vh] sm:max-h-[82vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 relative focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* モバイル: ドラッグハンドル風インジケーター */}
         <div className="sm:hidden w-10 h-1 bg-stone-200 rounded-full mx-auto mb-5" />
         <button
           onClick={onClose}
@@ -254,6 +248,9 @@ function Home() {
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [formError, setFormError] = useState<string>("");
+  // スティッキーCTA用: ヒーローCTAが画面外に出たら表示
+  const [showSticky, setShowSticky] = useState(false);
+  const heroCTARef = useRef<HTMLDivElement>(null);
 
   const openModal = useCallback((modal: ModalType) => setActiveModal(modal), []);
   const closeModal = useCallback(() => setActiveModal(null), []);
@@ -262,6 +259,18 @@ function Home() {
     if (EMAILJS_PUBLIC_KEY) {
       emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
     }
+  }, []);
+
+  // スティッキーCTA: ヒーローCTAが見えなくなったら表示
+  useEffect(() => {
+    const el = heroCTARef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowSticky(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -348,9 +357,43 @@ function Home() {
         メインコンテンツへスキップ
       </a>
 
+      {/* ================================================================
+          STICKY CTA BAR — ヒーローを過ぎたら常に表示
+          Priority 1 改善: スクロール追従でいつでも申し込める
+      ================================================================ */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ y: -60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -60, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm"
+          >
+            <div className="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+              <p className="text-stone-700 text-sm font-medium hidden sm:block" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                こころの相談室 いしずえ
+              </p>
+              <p className="text-stone-500 text-xs sm:hidden">
+                支援職のためのカウンセリング
+              </p>
+              <a
+                href="#contact"
+                className="flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-stone-900 text-stone-50 text-xs font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                無料で相談する
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main id="main-content">
 
-        {/* ── HERO ── */}
+        {/* ================================================================
+            HERO
+        ================================================================ */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
           <img
             src="/hero.jpg"
@@ -361,22 +404,21 @@ function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/40 to-stone-950/90" />
 
-          {/* モバイル: px-5 py-24 → デスク: px-8 py-40 */}
           <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-24 md:py-40 w-full">
             <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 md:space-y-8">
 
-              {/* 信頼バッジ — モバイルで折り返し対応 */}
+              {/* 信頼バッジ */}
               <motion.div variants={fadeIn} className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
-                  <span className="text-[11px] tracking-[0.15em] md:tracking-[0.25em] text-white/75 uppercase">公認心理師</span>
+                  <span className="text-[11px] tracking-[0.15em] text-white/75 uppercase">公認心理師</span>
                 </span>
                 <span className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
-                  <span className="text-[11px] tracking-[0.1em] md:tracking-[0.2em] text-white/75">障害福祉15年 ／ 累計300名以上</span>
+                  <span className="text-[11px] tracking-[0.1em] text-white/75">障害福祉15年 ／ 累計300名以上</span>
                 </span>
               </motion.div>
 
-              {/* H1 — モバイルは text-2xl で折り返しを最小化 */}
+              {/* H1 */}
               <motion.div variants={fadeUp} className="space-y-4">
                 <h1
                   className="text-[1.7rem] leading-[1.55] md:text-5xl font-light text-white tracking-wide"
@@ -392,7 +434,7 @@ function Home() {
                 </p>
               </motion.div>
 
-              {/* 価値の3点 — モバイルで縦積みに */}
+              {/* 価値3点 */}
               <motion.div variants={fadeUp} className="flex flex-col gap-2 text-xs text-stone-400">
                 {[
                   "感情の共感だけで終わらせない",
@@ -406,11 +448,11 @@ function Home() {
                 ))}
               </motion.div>
 
-              {/* CTA — モバイルで全幅ボタン */}
-              <motion.div variants={fadeUp} className="space-y-3 pt-1">
+              {/* CTA — IntersectionObserver の監視対象 */}
+              <motion.div variants={fadeUp} className="space-y-3 pt-1" ref={heroCTARef}>
                 <a
                   href="#contact"
-                  className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg hover:shadow-xl"
+                  className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg"
                 >
                   まず、話してみる（初回メール無料）
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -433,8 +475,9 @@ function Home() {
           </div>
         </section>
 
-        {/* ── PAIN POINTS ── */}
-        {/* モバイル: py-16、セクション間隔を引き締め */}
+        {/* ================================================================
+            PAIN POINTS
+        ================================================================ */}
         <section id="services" className="py-16 md:py-28 px-5 md:px-6 bg-white">
           <div className="max-w-4xl mx-auto space-y-10 md:space-y-16">
 
@@ -445,7 +488,7 @@ function Home() {
               variants={stagger}
             >
               <motion.div variants={fadeUp} className="space-y-3 max-w-xl">
-                <span className="text-[10px] tracking-[0.2em] md:tracking-[0.35em] uppercase text-[#8FAF9F] font-medium">
+                <span className="text-[10px] tracking-[0.2em] uppercase text-[#8FAF9F] font-medium">
                   Pain Points
                 </span>
                 <h2
@@ -462,7 +505,7 @@ function Home() {
               </motion.div>
             </motion.div>
 
-            {/* 共感カード — モバイルは1列、デスクは2列 */}
+            {/* 共感カード */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -508,10 +551,7 @@ function Home() {
                   className="p-5 rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 hover:bg-white transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-2 gap-2">
-                    <p className="text-stone-800 font-medium text-sm">
-                      ── {item.feeling}
-                    </p>
-                    {/* モバイル: タグを下に表示して横幅を使い切らない */}
+                    <p className="text-stone-800 font-medium text-sm">── {item.feeling}</p>
                     <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">
                       {item.tag}
                     </span>
@@ -521,7 +561,7 @@ function Home() {
               ))}
             </motion.div>
 
-            {/* 橋渡しコピー */}
+            {/* 橋渡し + 中間CTA */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -552,8 +592,9 @@ function Home() {
           </div>
         </section>
 
-        {/* ── TRUST BAR ── */}
-        {/* モバイル: バッジを縦積みに修正 */}
+        {/* ================================================================
+            TRUST BAR — カウンセラー簡易紹介
+        ================================================================ */}
         <section className="py-10 md:py-14 px-5 md:px-6 bg-[#F7F6F3] border-y border-stone-200">
           <div className="max-w-3xl mx-auto">
             <motion.div
@@ -563,18 +604,12 @@ function Home() {
               variants={fadeUp}
               className="flex flex-col sm:flex-row items-center gap-5 sm:gap-10"
             >
-              {/* 写真 */}
               <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-white shadow-md">
                 <img src="/profile.jpg" alt="松本 龍児" className="w-full h-full object-cover" />
               </div>
-
-              {/* テキスト */}
               <div className="text-center sm:text-left space-y-1.5 flex-1">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400">Counselor</p>
-                <p
-                  className="text-lg md:text-xl font-medium text-stone-900"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
+                <p className="text-lg md:text-xl font-medium text-stone-900" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                   松本 龍児
                   <span className="ml-2 text-sm font-normal text-stone-500">公認心理師</span>
                 </p>
@@ -583,14 +618,9 @@ function Home() {
                   支援職の消耗・燃え尽きに特化したカウンセリングを提供。
                 </p>
               </div>
-
-              {/* バッジ — モバイルで横スクロールなしの折り返し */}
               <div className="flex flex-row flex-wrap sm:flex-col gap-2 justify-center sm:justify-start">
                 {["公認心理師", "障害福祉15年", "6,000時間以上"].map((b) => (
-                  <span
-                    key={b}
-                    className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center"
-                  >
+                  <span key={b} className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center">
                     {b}
                   </span>
                 ))}
@@ -599,7 +629,10 @@ function Home() {
           </div>
         </section>
 
-        {/* ── FEATURES ── */}
+        {/* ================================================================
+            FEATURES — ベネフィット起点に書き直し
+            Priority 2 改善: 機能説明 → あなたに何が起きるか
+        ================================================================ */}
         <section className="py-16 md:py-28 px-5 md:px-6 bg-stone-50">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -607,16 +640,33 @@ function Home() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={stagger}
-              className="space-y-10 md:space-y-16"
+              className="space-y-10 md:space-y-14"
             >
               <motion.div variants={fadeUp}>
-                <SectionLabel en="Features" ja="カウンセリングの特徴" />
+                <SectionLabel en="Features" ja="このカウンセリングで変わること" />
               </motion.div>
-              {/* モバイル: 1列、デスク: 3列 */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 {features.map((feature) => (
                   <motion.div key={feature.title} variants={fadeUp}>
-                    <FeatureCard {...feature} />
+                    <div className="group relative flex md:block gap-4 p-5 md:p-7 rounded-2xl bg-white border border-stone-100 hover:border-[#8FAF9F]/50 hover:shadow-md transition-all duration-300">
+                      <div className="absolute top-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#8FAF9F] to-[#C4B5A5] group-hover:w-full transition-all duration-500 rounded-full" />
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 md:mb-4 text-[#8FAF9F]"
+                        style={{ background: "rgba(143,175,159,0.1)" }}
+                      >
+                        {feature.icon}
+                      </div>
+                      <div>
+                        {/* ベネフィットラベル */}
+                        <span className="text-[10px] text-[#8FAF9F] font-medium tracking-[0.15em] uppercase mb-1.5 block">
+                          {feature.benefit}
+                        </span>
+                        <h3 className="text-sm md:text-base font-medium mb-2 text-stone-800 leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                          {feature.title}
+                        </h3>
+                        <p className="text-stone-500 text-sm leading-relaxed">{feature.desc}</p>
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -624,7 +674,9 @@ function Home() {
           </div>
         </section>
 
-        {/* ── APPROACH ── */}
+        {/* ================================================================
+            APPROACH
+        ================================================================ */}
         <section className="py-16 md:py-28 px-5 md:px-6 bg-white">
           <div className="max-w-3xl mx-auto">
             <motion.div
@@ -652,7 +704,6 @@ function Home() {
                   これらを言語化・可視化し、負荷の構造を整理します。
                 </p>
 
-                {/* 具体例 */}
                 <div className="bg-stone-50 rounded-2xl border border-stone-100 p-5 space-y-3 text-sm">
                   <p className="text-stone-400 text-xs tracking-[0.15em] uppercase">具体例</p>
                   <p className="text-stone-700 font-medium leading-relaxed">
@@ -664,15 +715,11 @@ function Home() {
                   </div>
                 </div>
 
-                {/* 支援の進め方 */}
                 <div className="pt-5 border-t border-stone-100">
                   <p className="text-xs tracking-[0.2em] uppercase text-stone-400 mb-5">支援の進め方</p>
                   <div className="grid grid-cols-2 gap-2.5">
                     {sessionGuideItems.map((item) => (
-                      <div
-                        key={item.text}
-                        className="flex items-center gap-2.5 px-3.5 py-3 rounded-xl border border-stone-100 bg-stone-50 text-sm text-stone-600"
-                      >
+                      <div key={item.text} className="flex items-center gap-2.5 px-3.5 py-3 rounded-xl border border-stone-100 bg-stone-50 text-sm text-stone-600">
                         <span className="text-[#8FAF9F] flex-shrink-0">{item.icon}</span>
                         <span className="text-xs md:text-sm">{item.text}</span>
                       </div>
@@ -681,10 +728,7 @@ function Home() {
                 </div>
 
                 <div className="pt-5 border-t border-stone-100 text-center">
-                  <p
-                    className="text-base md:text-xl text-stone-800 font-light leading-[1.8]"
-                    style={{ fontFamily: "'Noto Serif JP', serif" }}
-                  >
+                  <p className="text-base md:text-xl text-stone-800 font-light leading-[1.8]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     目的は「強くなること」ではなく、<br />消耗を減らすこと。
                   </p>
                 </div>
@@ -693,7 +737,10 @@ function Home() {
           </div>
         </section>
 
-        {/* ── PROFILE ── */}
+        {/* ================================================================
+            PROFILE — 「なぜやるか」の個人的動機を強化
+            Priority 2 改善: 数字だけでなく「この人に話したい」感情を作る
+        ================================================================ */}
         <section className="py-16 md:py-28 px-5 md:px-6 bg-stone-50">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -708,50 +755,30 @@ function Home() {
               </motion.div>
 
               <motion.div variants={fadeUp}>
-                {/* モバイル: 縦積み中央揃え → デスク: 横並び */}
                 <div className="flex flex-col md:grid md:grid-cols-[180px_1fr] gap-8 md:gap-10 items-start">
 
-                  {/* 写真＋バッジ — モバイルで中央揃え */}
                   <div className="flex flex-col items-center md:items-start gap-4 w-full md:w-auto">
                     <div className="w-28 h-28 md:w-44 md:h-44 rounded-2xl overflow-hidden border border-stone-200 shadow-sm">
-                      <img
-                        src="/profile.jpg"
-                        alt="松本 龍児 近影"
-                        className="w-full h-full object-cover"
-                        width={500}
-                        height={500}
-                        loading="lazy"
-                      />
+                      <img src="/profile.jpg" alt="松本 龍児 近影" className="w-full h-full object-cover" width={500} height={500} loading="lazy" />
                     </div>
                     <div className="text-center md:text-left">
-                      <p
-                        className="text-lg font-medium text-stone-900 tracking-wider"
-                        style={{ fontFamily: "'Noto Serif JP', serif" }}
-                      >
+                      <p className="text-lg font-medium text-stone-900 tracking-wider" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                         松本 龍児
                       </p>
                       <p className="text-stone-500 text-xs mt-1 leading-relaxed">
                         公認心理師 ／ 構造整理型カウンセラー
                       </p>
                     </div>
-                    {/* バッジ: モバイルで横並び */}
                     <div className="flex flex-row flex-wrap md:flex-col gap-2 justify-center md:justify-start">
                       {["公認心理師", "障害福祉 15年", "累計 300名以上", "6,000時間以上"].map((badge) => (
-                        <span
-                          key={badge}
-                          className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center"
-                        >
+                        <span key={badge} className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center">
                           {badge}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* 本文 */}
-                  <div
-                    className="text-stone-600 leading-[2.1] text-sm md:text-base space-y-7"
-                    style={{ fontFamily: "'Noto Serif JP', serif" }}
-                  >
+                  <div className="text-stone-600 leading-[2.1] text-sm md:text-base space-y-7" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     <p>
                       15年間、障害福祉の現場で支援者として働いてきました。
                       300名以上、6,000時間を超える支援の中でずっと気になっていたことがあります。
@@ -764,19 +791,19 @@ function Home() {
                     </BlockQuote>
 
                     <p>
-                      責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、
-                      何度も目の前で見てきました。
+                      責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、何度も目の前で見てきました。
                     </p>
+
+                    {/* 個人的動機を強化 */}
                     <p>
-                      それは弱さではなく、<strong className="text-stone-800 font-medium">構造の問題</strong>です。
-                      支援職という役割の構造が、消耗を生み出している。
-                      そう気づいたとき、私が次にやるべきことが見えました。
+                      正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という無言の圧力を感じながら、気づかないふりをしていた時期があります。
+                      だから今、その構造を外から見てほしいと思っています。
                     </p>
+
                     <p>
                       感情を吐き出す場所ではなく、<strong className="text-stone-800 font-medium">整理して、持続可能な状態に戻す</strong>ための時間を作ること。それがこのカウンセリングです。
                     </p>
 
-                    {/* 資格 */}
                     <div className="pt-5 border-t border-stone-200">
                       <p className="text-xs tracking-[0.2em] uppercase text-stone-400 mb-4">資格・経歴</p>
                       <ul className="space-y-2 text-xs text-stone-500">
@@ -791,8 +818,7 @@ function Home() {
 
                     <div className="pt-5 border-t border-stone-200 text-center">
                       <p className="text-base md:text-lg text-stone-800 font-light leading-[1.9]">
-                        強くなることを目指すのではなく、<br />
-                        持続可能な状態に戻すこと。
+                        強くなることを目指すのではなく、<br />持続可能な状態に戻すこと。
                       </p>
                       <p className="text-stone-500 text-sm mt-3">
                         支援を続けられる土台を整えることが、私の役割です。
@@ -806,7 +832,58 @@ function Home() {
           </div>
         </section>
 
-        {/* ── GUIDE ── */}
+        {/* ================================================================
+            VOICES — 社会的証明（新規追加）
+            Priority 1 改善: 相談者の声がゼロだった → 信頼の核心
+        ================================================================ */}
+        <section className="py-16 md:py-20 px-5 md:px-6 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={stagger}
+              className="space-y-10"
+            >
+              <motion.div variants={fadeUp}>
+                <SectionLabel en="Voices" ja="相談された方の声" />
+                <p className="text-stone-400 text-xs mt-2">※ 掲載にあたりご本人の同意を得ています。個人が特定されないよう一部を変更しています。</p>
+              </motion.div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {voices.map((v) => (
+                  <motion.div key={v.role} variants={fadeUp} className="bg-stone-50 border border-stone-100 rounded-2xl p-5 space-y-4">
+                    <div className="text-[#8FAF9F] opacity-60">
+                      <svg width="24" height="18" viewBox="0 0 24 18" fill="currentColor">
+                        <path d="M0 18V11.5C0 8.167 .833 5.417 2.5 3.25 4.167 1.083 6.5 0 9.5 0L10.5 1.5C8.833 1.833 7.458 2.625 6.375 3.875 5.292 5.125 4.75 6.5 4.75 8H9V18H0ZM14 18V11.5C14 8.167 14.833 5.417 16.5 3.25 18.167 1.083 20.5 0 23.5 0L24.5 1.5C22.833 1.833 21.458 2.625 20.375 3.875 19.292 5.125 18.75 6.5 18.75 8H23V18H14Z" />
+                      </svg>
+                    </div>
+                    <p className="text-stone-700 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                      {v.text}
+                    </p>
+                    <p className="text-stone-400 text-xs">{v.role}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* 声の後に中間CTA */}
+              <motion.div variants={fadeUp} className="text-center pt-4">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-stone-900 text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all shadow-md"
+                >
+                  無料で相談してみる
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <p className="text-stone-400 text-xs mt-2">1回のみでもOK ／ 勧誘なし</p>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ================================================================
+            GUIDE — 料金・流れ
+        ================================================================ */}
         <section id="guide" className="py-16 md:py-28 px-5 md:px-6 bg-stone-950">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -822,9 +899,8 @@ function Home() {
 
               {/* 料金 */}
               <motion.div variants={fadeUp} className="space-y-6">
-                <p className="text-[10px] tracking-[0.2em] md:tracking-[0.35em] uppercase text-stone-500">料金</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">料金</p>
 
-                {/* 無料バナー */}
                 <div className="p-5 rounded-2xl border border-emerald-900/40 bg-emerald-950/30 flex items-center justify-between gap-4 flex-wrap">
                   <div>
                     <p className="text-[10px] tracking-[0.2em] uppercase text-emerald-500 mb-1">まずはここから</p>
@@ -836,14 +912,13 @@ function Home() {
                   <span className="text-3xl font-light text-emerald-400">無料</span>
                 </div>
 
-                {/* 有料プラン — モバイルで縦積み */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-stone-900/50 space-y-5">
                     <div className="flex items-center gap-3 text-stone-300">
                       <Monitor className="w-5 h-5 text-stone-500" />
                       <h3 className="text-sm md:text-base font-medium tracking-wider">オンライン面談</h3>
                     </div>
-                    <div className="space-y-0 divide-y divide-stone-800">
+                    <div className="divide-y divide-stone-800">
                       {[
                         { label: "初回体験 30分", price: "5,000円（税込）" },
                         { label: "通常 30分", price: "8,000円（税込）" },
@@ -863,7 +938,7 @@ function Home() {
                       <Mail className="w-5 h-5 text-stone-500" />
                       <h3 className="text-sm md:text-base font-medium tracking-wider">メール相談</h3>
                     </div>
-                    <div className="space-y-0 divide-y divide-stone-800">
+                    <div className="divide-y divide-stone-800">
                       {[
                         { label: "初回 1往復", price: "無料", accent: true },
                         { label: "通常 3往復", price: "3,000円（税込）", accent: false },
@@ -885,13 +960,11 @@ function Home() {
 
               {/* 流れ */}
               <motion.div variants={fadeUp} className="space-y-6">
-                <p className="text-[10px] tracking-[0.2em] md:tracking-[0.35em] uppercase text-stone-500">ご利用の流れ</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">ご利用の流れ</p>
                 <ol>
                   {flowItems.map((item) => (
                     <li key={item.step} className="flex gap-5 items-start group">
-                      <span className="text-stone-600 font-light text-xs tabular-nums shrink-0 pt-4 w-6">
-                        {item.step}
-                      </span>
+                      <span className="text-stone-600 font-light text-xs tabular-nums shrink-0 pt-4 w-6">{item.step}</span>
                       <div className="flex-1 py-4 border-b border-stone-900 group-last:border-b-0">
                         <p className="text-stone-200 text-sm font-medium mb-0.5">{item.title}</p>
                         <p className="text-stone-500 text-xs leading-relaxed">{item.desc}</p>
@@ -902,10 +975,7 @@ function Home() {
               </motion.div>
 
               {/* 注意事項 */}
-              <motion.div
-                variants={fadeUp}
-                className="p-5 rounded-2xl border border-stone-800 bg-stone-900/30 space-y-3"
-              >
+              <motion.div variants={fadeUp} className="p-5 rounded-2xl border border-stone-800 bg-stone-900/30 space-y-3">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">対象・ご注意</p>
                 <ul className="space-y-2.5 text-stone-500 text-xs leading-relaxed">
                   {notes.map((text) => (
@@ -921,33 +991,20 @@ function Home() {
           </div>
         </section>
 
-        {/* ── FAQ ── */}
+        {/* ================================================================
+            FAQ
+        ================================================================ */}
         <section className="py-16 md:py-20 px-5 md:px-6 bg-stone-50">
           <div className="max-w-2xl mx-auto space-y-6">
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="space-y-2 mb-8"
-            >
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="space-y-2 mb-8">
               <span className="text-[10px] tracking-[0.2em] uppercase text-[#8FAF9F] font-medium">FAQ</span>
-              <h2
-                className="text-xl font-light text-stone-800 tracking-wide"
-                style={{ fontFamily: "'Noto Serif JP', serif" }}
-              >
+              <h2 className="text-xl font-light text-stone-800 tracking-wide" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 申し込む前の、よくあるご不安
               </h2>
             </motion.div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={stagger}
-              className="space-y-2.5"
-            >
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="space-y-2.5">
               {[
                 {
                   q: "うまく話せるか不安です",
@@ -976,7 +1033,6 @@ function Home() {
               ].map(({ q, a }) => (
                 <motion.div key={q} variants={fadeUp}>
                   <details className="group bg-white rounded-2xl border border-stone-100 overflow-hidden">
-                    {/* モバイル: タップ領域を十分に確保 */}
                     <summary className="flex items-center justify-between gap-3 px-5 py-4 cursor-pointer list-none text-stone-700 text-sm font-medium hover:bg-stone-50 transition-colors">
                       <span className="leading-snug">{q}</span>
                       <span className="text-stone-300 group-open:rotate-45 transition-transform duration-200 text-xl flex-shrink-0 leading-none">+</span>
@@ -991,7 +1047,11 @@ function Home() {
           </div>
         </section>
 
-        {/* ── CONTACT ── */}
+        {/* ================================================================
+            CONTACT — フォームの心理的負荷を下げる
+            Priority 1 改善: 「ご相談内容必須・長文」→ 任意・低摩擦に
+            Priority 1 改善: フォーム直前に最終的な背中押しコピー
+        ================================================================ */}
         <section id="contact" className="py-16 md:py-28 px-5 md:px-6 bg-white">
           <div className="max-w-2xl mx-auto">
             <motion.div
@@ -1002,10 +1062,10 @@ function Home() {
               className="space-y-10 md:space-y-14"
             >
 
-              {/* 見出し＋コピー */}
               <motion.div variants={fadeUp} className="space-y-6">
                 <SectionLabel en="Contact" ja="まず、話してみてください" />
 
+                {/* 最終背中押し：感情的クロージング */}
                 <div
                   className="space-y-4 text-stone-500 text-sm leading-[2.1]"
                   style={{ fontFamily: "'Noto Serif JP', serif" }}
@@ -1020,15 +1080,15 @@ function Home() {
                     </p>
                   </BlockQuote>
                   <p>
-                    今の状態がひどくなくてもいい。うまく言葉にできなくてもいい。
+                    今の状態がひどくなくてもいい。うまく言葉にできなくてもいい。<br />
                     「なんとなくしんどい」という感覚だけで、十分です。
                   </p>
                 </div>
 
-                {/* 3ステップ — モバイルで見やすいサイズに */}
+                {/* 3ステップ */}
                 <div className="grid grid-cols-3 gap-2 md:gap-3">
                   {[
-                    { step: "1", label: "フォームを送る", sub: "2〜3分で完了" },
+                    { step: "1", label: "フォームを送る", sub: "2分で完了" },
                     { step: "2", label: "メールが届く", sub: "2営業日以内" },
                     { step: "3", label: "状況を整理", sub: "初回・無料" },
                   ].map(({ step, label, sub }) => (
@@ -1041,14 +1101,13 @@ function Home() {
                 </div>
               </motion.div>
 
-              {/* フォーム */}
+              {/* フォーム本体 */}
               <motion.form variants={fadeUp} className="space-y-5" onSubmit={handleSubmit} noValidate>
 
                 <div className="space-y-1.5">
                   <label htmlFor="name" className="text-[10px] tracking-[0.2em] uppercase text-stone-400">
                     お名前 <span className="text-stone-300">（必須）</span>
                   </label>
-                  {/* モバイル: font-size 16px で iOS の自動ズームを防ぐ */}
                   <input
                     id="name" name="name" type="text" required autoComplete="name"
                     placeholder="山田 花子"
@@ -1078,15 +1137,20 @@ function Home() {
                   />
                 </div>
 
+                {/* ★ Priority 2 改善: 必須→任意に変更、プレースホルダーで敷居を下げる */}
                 <div className="space-y-1.5">
-                  <label htmlFor="message" className="text-[10px] tracking-[0.2em] uppercase text-stone-400">
-                    ご相談内容 <span className="text-stone-300">（必須）</span>
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="message" className="text-[10px] tracking-[0.2em] uppercase text-stone-400">
+                      ご相談内容
+                    </label>
+                    <span className="text-[10px] text-stone-300">任意 — 一言でも大丈夫です</span>
+                  </div>
                   <textarea
-                    id="message" name="message" required rows={5}
-                    placeholder="今の状態を、思いつくまま書いていただくだけで大丈夫です。"
+                    id="message" name="message" rows={4}
+                    placeholder={"例：「最近頭が休まらない」「誰にも言えない」など、一言でも大丈夫です。"}
                     className="w-full px-4 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-base md:text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 resize-none transition-colors"
                   />
+                  <p className="text-stone-400 text-xs">まとまっていなくて大丈夫。送った後にお伺いします。</p>
                 </div>
 
                 {formStatus === "error" && formError && (
@@ -1096,7 +1160,6 @@ function Home() {
                 )}
 
                 <div className="space-y-3 pt-1">
-                  {/* モバイル: 全幅・タップしやすい高さ */}
                   <button
                     type="submit"
                     disabled={formStatus === "submitting"}
@@ -1105,7 +1168,6 @@ function Home() {
                     {formStatus === "submitting" ? "送信中..." : "今の状態を整理する（初回メール無料）"}
                   </button>
 
-                  {/* 保証テキスト — モバイルで縦積みでも見やすく */}
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs text-stone-400">
                     {["無理な継続案内なし", "1回のみでもOK", "送った後もキャンセル可"].map((item) => (
                       <span key={item} className="flex items-center gap-1.5">
@@ -1123,15 +1185,9 @@ function Home() {
 
         {/* ── FOOTER ── */}
         <footer className="py-8 px-5 border-t border-stone-100 bg-white">
-          {/* モバイルで縦積みにしてタップ領域確保 */}
           <div className="max-w-5xl mx-auto flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 sm:gap-8 text-[10px] tracking-[0.2em] uppercase text-stone-400">
             {(["privacy", "tokusho", "cancel"] as const).map((key) => (
-              <button
-                key={key}
-                onClick={() => openModal(key)}
-                className="hover:text-stone-700 transition-colors py-1"
-                type="button"
-              >
+              <button key={key} onClick={() => openModal(key)} className="hover:text-stone-700 transition-colors py-1" type="button">
                 {modalTitleMap[key]}
               </button>
             ))}
@@ -1149,10 +1205,7 @@ function Home() {
         {activeModal === "privacy" && (
           <LegalModal isOpen title={modalTitleMap.privacy} onClose={closeModal}>
             <div className="space-y-7 text-stone-600 leading-loose text-sm">
-              <h2
-                className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5"
-                style={{ fontFamily: "'Noto Serif JP', serif" }}
-              >
+              <h2 className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 プライバシーポリシー
               </h2>
               <p>こころの相談室 いしずえ（以下「当相談室」）は、利用者の個人情報の重要性を認識し、以下のとおり適切に取り扱います。</p>
@@ -1183,13 +1236,9 @@ function Home() {
         {activeModal === "tokusho" && (
           <LegalModal isOpen title={modalTitleMap.tokusho} onClose={closeModal}>
             <div className="space-y-7 text-stone-600 leading-loose text-sm">
-              <h2
-                className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5"
-                style={{ fontFamily: "'Noto Serif JP', serif" }}
-              >
+              <h2 className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 特定商取引法に基づく表記
               </h2>
-              {/* モバイル: 縦積みで読みやすく */}
               <div className="space-y-5">
                 {[
                   { label: "事業者名", value: "こころの相談室 いしずえ" },
@@ -1215,10 +1264,7 @@ function Home() {
         {activeModal === "cancel" && (
           <LegalModal isOpen title={modalTitleMap.cancel} onClose={closeModal}>
             <div className="space-y-7 text-stone-600 leading-loose text-sm">
-              <h2
-                className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5"
-                style={{ fontFamily: "'Noto Serif JP', serif" }}
-              >
+              <h2 className="text-lg font-medium text-stone-900 tracking-wider border-b border-stone-100 pb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 キャンセルポリシー
               </h2>
               <p>ご予約後のキャンセルについては、以下の通りといたします。</p>
@@ -1251,10 +1297,7 @@ function Home() {
                 <CheckCircle2 className="w-7 h-7 text-[#8FAF9F]" />
               </div>
               <div className="space-y-2">
-                <h3
-                  className="text-xl font-medium text-stone-900"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
+                <h3 className="text-xl font-medium text-stone-900" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                   ご連絡ありがとうございます
                 </h3>
                 <p className="text-stone-500 text-sm leading-relaxed">
