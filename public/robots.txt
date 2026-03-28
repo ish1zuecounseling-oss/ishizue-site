@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ishizue-site-ker9.vercel.app/sitemap.xml
+# 404ページはインデックスさせない（Helmetのnoindexで制御済みだが念のため）
+Disallow: /404
+
+Sitemap: https://ishizue.com/sitemap.xml
