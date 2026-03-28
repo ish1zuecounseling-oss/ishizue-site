@@ -753,7 +753,6 @@ function Home() {
                   ))}
                 </ul>
               </motion.div>   //
-          </div>
         </section>
 
        {/* ── REASSURANCE（フォーム直前）改善版 ── */}
