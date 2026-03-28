@@ -824,7 +824,7 @@ function Home() {
       送った後もキャンセル可
     </span>
   </div>
-</div>
+<motion.div>
 
  
 {/* ── CONTACT ── */}
