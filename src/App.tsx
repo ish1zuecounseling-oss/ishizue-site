@@ -6,6 +6,7 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowRight, Home as HomeIcon } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Articles from "./pages/Articles";
@@ -48,6 +49,11 @@ function NotFound() {
 
   return (
     <div className="bg-white min-h-screen">
+      <Helmet>
+        <title>ページが見つかりません | こころの相談室 いしずえ</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
       {/* ダーク背景ヘッダー（Profile.tsx・Articles.tsx と同じトーン） */}
       <section className="relative bg-stone-950 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/60 to-stone-950" />
