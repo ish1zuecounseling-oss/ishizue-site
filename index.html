@@ -1,58 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- =====================================================
+         Favicon
+    ===================================================== -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-<title>支援職のバーンアウト相談｜こころの相談室 いしずえ</title>
+    <!-- =====================================================
+         デフォルト title / description
+         各ページの react-helmet-async が上書きする
+    ===================================================== -->
+    <title>支援職のためのカウンセリング｜こころの相談室 いしずえ</title>
+    <meta
+      name="description"
+      content="支援職・対人援助職の燃え尽き・消耗を構造的に整理するカウンセリング。公認心理師・松本龍児。初回メール相談無料。"
+    />
 
-<meta name="description"
-content="支援職・対人援助職の燃え尽き（バーンアウト）、共感疲労、感情労働、仕事のストレスについて整理するカウンセリング。福祉職・心理職・相談員など支援する仕事のための心理相談室。" />
+    <!-- =====================================================
+         OGP（Open Graph Protocol）
+         og:image は public/ogp.jpg（1200×630px）を用意する
+    ===================================================== -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="こころの相談室 いしずえ" />
+    <meta property="og:title"       content="支援職のためのカウンセリング｜こころの相談室 いしずえ" />
+    <meta
+      property="og:description"
+      content="支援職・対人援助職の燃え尽き・消耗を構造的に整理するカウンセリング。公認心理師・松本龍児。初回メール相談無料。"
+    />
+    <meta property="og:url"         content="https://ishizue.com/" />
+    <meta property="og:image"       content="https://ishizue.com/ogp.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale"      content="ja_JP" />
 
-<meta name="keywords"
-content="支援職 カウンセリング, バーンアウト, 共感疲労, 感情労働, 心理相談, 公認心理師" />
+    <!-- =====================================================
+         Twitter / X Card
+    ===================================================== -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:site"        content="@ish1zue" />
+    <meta name="twitter:title"       content="支援職のためのカウンセリング｜こころの相談室 いしずえ" />
+    <meta
+      name="twitter:description"
+      content="支援職・対人援助職の燃え尽き・消耗を構造的に整理するカウンセリング。公認心理師・松本龍児。初回メール相談無料。"
+    />
+    <meta name="twitter:image"       content="https://ishizue.com/ogp.jpg" />
 
-<meta name="robots" content="index, follow" />
+    <!-- =====================================================
+         Google Fonts — index.css の @import と重複しないよう
+         ここでは preconnect のみ。実際の読み込みは index.css で行う。
+    ===================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<meta name="google-site-verification"
-content="mMGEVFkmBQ-24W1e8VCDjCtgLagE5o-VzzRZL5PXtKg" />
-
-<!-- OGP -->
-<meta property="og:title" content="支援職のバーンアウト相談｜こころの相談室 いしずえ" />
-<meta property="og:description" content="支援職・対人援助職の燃え尽き、共感疲労、感情労働などの負担を整理するカウンセリング。" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://ishizue-site-ker9.vercel.app/" />
-<meta property="og:image" content="https://ishizue-site-ker9.vercel.app/hero.jpg" />
-<meta property="og:site_name" content="こころの相談室 いしずえ" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-
-<link rel="icon" type="image/png" href="/favicon.png" />
-
-<!-- 構造化データ -->
-<script type="application/ld+json">
-{
-"@context": "https://schema.org",
-"@type": "CounselingService",
-"name": "こころの相談室 いしずえ",
-"areaServed": "Japan",
-"serviceType": "カウンセリング",
-"provider": {
-"@type": "Person",
-"name": "松本 龍児"
-}
-}
-</script>
-
-</head>
-
-<body>
-
-<div id="root"></div>
-
-<script type="module" src="/src/main.tsx"></script>
-
-</body>
+    <!-- =====================================================
+         その他
+    ===================================================== -->
+    <meta name="theme-color" content="#8FAF9F" />
+    <meta name="format-detection" content="telephone=no" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
