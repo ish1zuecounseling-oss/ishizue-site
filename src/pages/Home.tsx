@@ -13,7 +13,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "motion/react";
 import {
   ArrowRight,
   ShieldCheck,
