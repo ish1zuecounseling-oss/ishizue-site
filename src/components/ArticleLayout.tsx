@@ -1,7 +1,7 @@
 // ishizue-site/src/components/ArticleLayout.tsx
 
 import { useCallback } from "react"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { Link, useNavigate } from "react-router-dom"
 import Breadcrumbs from "./Breadcrumbs"
 import AudioPlayer from "./AudioPlayer"
