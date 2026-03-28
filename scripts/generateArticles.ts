@@ -4,9 +4,6 @@
  * /src/pages/Articles/*.tsx を静的解析し、
  * ArticleLayout の props（title / description / url / date）を抽出して
  * /src/data/articles.ts を自動生成する。
- *
- * 実行タイミング: npm run build の前処理として呼び出す
- *   "build": "tsx scripts/generateArticles.ts && tsx scripts/generateSitemap.ts && vite build"
  */
 
 import fs   from "fs";
@@ -18,17 +15,6 @@ const __dirname  = path.dirname(__filename);
 
 const ARTICLES_DIR = path.resolve(__dirname, "../src/pages/Articles");
 const OUTPUT_FILE  = path.resolve(__dirname, "../src/data/articles.ts");
-
-/* -------------------------------------------------------------------------- */
-/*  型定義                                                                      */
-/* -------------------------------------------------------------------------- */
-
-type Article = {
-  title:       string;
-  path:        string;
-  description: string;
-  updatedAt:   string;
-};
 
 /* -------------------------------------------------------------------------- */
 /*  ファイル名 → URL スラッグ変換（App.tsx と同一ロジック）                       */
@@ -44,29 +30,31 @@ function fileNameToSlug(fileName: string): string {
 
 /* -------------------------------------------------------------------------- */
 /*  ArticleLayout props の静的抽出                                              */
+/*                                                                              */
+/*  対応パターン（複数行にまたがっていても取得できる）:                             */
+/*    title="..."                                                               */
+/*    title="                                                                   */
+/*      複数行のタイトル"                                                        */
+/*    description="..."                                                         */
 /* -------------------------------------------------------------------------- */
 
-/**
- * TSX ファイルのソースから ArticleLayout の props を抽出する。
- *
- * 対応パターン:
- *   title="..."
- *   title={`...`}
- *   description="..."
- *   date="YYYY-MM-DD"
- *   url="https://..."  （url から path を生成）
- */
 function extractProp(src: string, propName: string): string {
-  // ダブルクォート形式: propName="value"
-  const dq = new RegExp(`${propName}="([^"]+)"`);
+  // 改行・スペースを含む値にも対応するため DOTALL フラグを使用
+  // ダブルクォート形式: propName="value" （複数行対応）
+  const dq = new RegExp(`${propName}="([^"]+)"`, "s");
   // バッククォート形式: propName={`value`}
-  const bq = new RegExp(`${propName}=\\{\`([^\`]+)\`\\}`);
+  const bq = new RegExp(`${propName}=\\{\`([^\`]+)\`\\}`, "s");
 
   const dqMatch = src.match(dq);
-  if (dqMatch) return dqMatch[1].trim();
+  if (dqMatch) {
+    // 複数行の場合は空白・改行を1スペースに正規化
+    return dqMatch[1].replace(/\s+/g, " ").trim();
+  }
 
   const bqMatch = src.match(bq);
-  if (bqMatch) return bqMatch[1].replace(/\s+/g, " ").trim();
+  if (bqMatch) {
+    return bqMatch[1].replace(/\s+/g, " ").trim();
+  }
 
   return "";
 }
@@ -75,7 +63,6 @@ function urlToPath(url: string): string {
   try {
     return new URL(url).pathname;
   } catch {
-    // URL でなければそのまま返す
     return url;
   }
 }
@@ -93,10 +80,18 @@ function generate() {
   const files = fs
     .readdirSync(ARTICLES_DIR)
     .filter((f) => f.endsWith(".tsx"))
-    .sort(); // ファイル名アルファベット順
+    .sort();
 
-  const articles: Article[] = [];
-  const warnings: string[]  = [];
+  type Article = {
+    title:       string;
+    path:        string;
+    description: string;
+    updatedAt:   string;
+  };
+
+  const articles: Article[]    = [];
+  const seenPaths = new Set<string>(); // 重複排除用
+  const warnings: string[]     = [];
 
   for (const file of files) {
     const filePath = path.join(ARTICLES_DIR, file);
@@ -107,30 +102,36 @@ function generate() {
     const url         = extractProp(src, "url");
     const date        = extractProp(src, "date");
 
-    // url が取れた場合はそこから path を生成、なければファイル名から生成
     const articlePath = url
       ? urlToPath(url)
       : `/articles/${fileNameToSlug(file)}`;
 
-    // 必須フィールドが欠けているファイルは警告だけ出してスキップ
     if (!title || !description) {
       warnings.push(`⚠️  ${file}: title または description が見つかりません（スキップ）`);
       continue;
     }
 
+    // 同じ path が既に登録済みの場合はスキップ（重複排除）
+    if (seenPaths.has(articlePath)) {
+      warnings.push(`⚠️  ${file}: ${articlePath} は既に登録済みです（スキップ）`);
+      continue;
+    }
+
+    seenPaths.add(articlePath);
     articles.push({
       title,
-      path:        articlePath,
+      path:      articlePath,
       description,
-      updatedAt:   date || new Date().toISOString().split("T")[0],
+      updatedAt: date || new Date().toISOString().split("T")[0],
     });
   }
 
-  if (warnings.length > 0) {
-    warnings.forEach((w) => console.warn(w));
-  }
+  warnings.forEach((w) => console.warn(w));
 
-  /* --- articles.ts を生成 --- */
+  /* --- articles.ts を生成 ---
+     注意: export type は generateSitemap.ts が
+           import { articles } しか使わないため問題ないが、
+           念のため型定義は別行に分けて出力する              */
   const lines: string[] = [
     "/**",
     " * src/data/articles.ts",
@@ -164,9 +165,7 @@ function generate() {
   fs.writeFileSync(OUTPUT_FILE, lines.join("\n"), "utf-8");
 
   console.log(`✅ articles.ts generated (${articles.length} 件)`);
-  if (articles.length > 0) {
-    articles.forEach((a) => console.log(`   ${a.path}`));
-  }
+  articles.forEach((a) => console.log(`   ${a.path}`));
 }
 
 generate();
