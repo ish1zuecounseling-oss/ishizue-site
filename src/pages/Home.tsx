@@ -967,8 +967,6 @@ function Home() {
           </p>
         </footer>
  
-      </main>
- 
       {/* ── MODALS ── */}
       <AnimatePresence>
  
