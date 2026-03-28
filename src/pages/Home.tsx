@@ -718,7 +718,7 @@ function Home() {
                 <p className="text-stone-600 text-xs leading-relaxed">
                   ※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。
                 </p>
-              </motion.div>
+             </motion.div>   //
  
               {/* 流れ */}
               <motion.div variants={fadeUp} className="space-y-8">
@@ -736,7 +736,7 @@ function Home() {
                     </li>
                   ))}
                 </ol>
-              </motion.div>
+              </motion.div>   //
  
               {/* 注意事項 */}
               <motion.div
@@ -752,8 +752,7 @@ function Home() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-            </motion.div>
+              </motion.div>   //
           </div>
         </section>
 
@@ -824,7 +823,7 @@ function Home() {
       送った後もキャンセル可
     </span>
   </div>
-</motion.div>
+</motion.div>   //
 
  
 {/* ── CONTACT ── */}
@@ -863,7 +862,7 @@ function Home() {
           今の状態を言葉にするだけで、少し楽になることがあります。<br />
           「うまく書けない」という内容でも、そのままお送りください。
         </p>
-      </motion.div>
+      </motion.div>   //
 
       {/* フォーム */}
       <motion.form variants={fadeUp} className="space-y-7" onSubmit={handleSubmit} noValidate>
@@ -970,7 +969,6 @@ function Home() {
         </footer>
  
       </main>
- </motion.div>
  
       {/* ── MODALS ── */}
       <AnimatePresence>
