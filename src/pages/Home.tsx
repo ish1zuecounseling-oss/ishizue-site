@@ -23,6 +23,7 @@ import {
   Mail,
   X,
   Minus,
+  Quote,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { Helmet } from "react-helmet-async";
@@ -73,14 +74,9 @@ const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-/* --- copy --- */
-const consultationItems = [
-  "頭が休まらない日が続いている",
-  "役割と本音のあいだにズレを感じる",
-  "自己否定の声が強くなっている",
-  "燃え尽きの予兆を感じている",
-  "責任感が強く、誰にも頼れない",
-] as const;
+/* -------------------------------------------------------------------------- */
+/*                                  Copy data                                 */
+/* -------------------------------------------------------------------------- */
 
 const structureItems = [
   "役割の過剰化",
@@ -97,12 +93,12 @@ const features: FeatureItem[] = [
   },
   {
     title: "オンライン完結・透明性重視",
-    desc: "Google Meetを使用。必要に応じてリアルタイム字幕機能を活用します（同意制）。どこからでも安全に受けられます。",
+    desc: "Google Meetを使用。リアルタイム字幕機能を活用することもあります（同意制）。職場にも家族にも知られず、安全に受けられます。",
     icon: <Monitor className="w-5 h-5" />,
   },
   {
     title: "消耗を減らすことを最優先に",
-    desc: "無理な自己改善を促すのではなく、まず「消耗の構造」を整理することから始めます。",
+    desc: "「もっと頑張れ」とは言いません。まず「なぜ消耗するのか」の構造を整理し、負荷を減らすことから始めます。",
     icon: <CheckCircle2 className="w-5 h-5" />,
   },
 ];
@@ -114,8 +110,6 @@ const sessionGuideItems: GuideItem[] = [
   { text: "文字起こし活用（同意の上）", icon: <ShieldCheck className="w-4 h-4" /> },
 ];
 
-const profileBadges = ["障害福祉 15年", "累計 300名以上", "6,000時間以上"] as const;
-
 const qualifications = [
   "公認心理師",
   "障害福祉分野での相談支援業務 15年",
@@ -125,11 +119,11 @@ const qualifications = [
 ] as const;
 
 const flowItems: FlowItem[] = [
-  { step: "01", title: "お問い合わせ", desc: "下記フォームよりご連絡ください。" },
-  { step: "02", title: "日程調整", desc: "メールにてご希望の日時をお知らせします。" },
-  { step: "03", title: "事前シート記入", desc: "簡単な状況把握シートにご記入いただきます。" },
-  { step: "04", title: "体験セッション", desc: "Google Meet にて 30分、今の状態を整理します。" },
-  { step: "05", title: "振り返りシート共有", desc: "セッション後、整理内容をまとめてお送りします。" },
+  { step: "01", title: "フォームを送る", desc: "今の状態を書くだけでOK。まとまっていなくて大丈夫です。" },
+  { step: "02", title: "メールが届く（2営業日以内）", desc: "状況を整理しながら、今後の流れをご案内します。" },
+  { step: "03", title: "事前シート記入", desc: "簡単な状況把握シートにご記入いただきます（任意項目あり）。" },
+  { step: "04", title: "体験セッション 30分", desc: "Google Meet にて。この時間だけで「何が負担か」が整理されます。" },
+  { step: "05", title: "振り返りシート共有", desc: "セッション後、整理内容をテキストでお送りします。手元に残ります。" },
 ];
 
 const notes = [
@@ -341,7 +335,7 @@ function Home() {
         </title>
         <meta
           name="description"
-          content="支援職で「もう限界かもしれない」と感じていませんか？燃え尽き・疲弊を構造的に整理し、消耗を減らすためのカウンセリングです。公認心理師による支援者支援。"
+          content="「もう限界かもしれない」と感じている支援職の方へ。燃え尽き・疲弊の構造を整理し、消耗を減らすためのカウンセリング。公認心理師・障害福祉15年・初回メール相談無料。"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -357,7 +351,11 @@ function Home() {
 
       <main id="main-content">
 
-        {/* ── HERO ── */}
+        {/* ================================================================
+            HERO
+            弱点改善: 「誰向けか・何が得られるか」を3秒で伝える
+            サブコピーで「限界手前の人」と「予兆がある人」両方に刺さる言葉を配置
+        ================================================================ */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
           <img
             src="/hero.jpg"
@@ -371,6 +369,7 @@ function Home() {
           <div className="relative max-w-5xl mx-auto px-6 py-32 md:py-40 w-full">
             <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-8">
 
+              {/* 信頼バッジ */}
               <motion.div variants={fadeIn} className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F]" />
@@ -381,22 +380,40 @@ function Home() {
                 </span>
               </motion.div>
 
+              {/* メインコピー：「誰向けか」を一発で */}
               <motion.div variants={fadeUp} className="space-y-5 max-w-2xl">
                 <h1
-                  className="text-3xl md:text-5xl font-light text-white leading-[1.6] tracking-wide"
+                  className="text-3xl md:text-5xl font-light text-white leading-[1.55] tracking-wide"
                   style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
                 >
-                  支援する人が、
+                  支援職の「消耗」を、
                   <br />
-                  <span className="text-stone-200">誰かに話せる場所。</span>
+                  <span className="text-stone-200">構造から整理する。</span>
                 </h1>
-                <p className="text-stone-300 text-base md:text-lg leading-[2] max-w-lg">
-                  頭が休まらない、感情が麻痺してきた、誰にも頼れない。<br />
-                  そのしんどさを、構造として一緒に整理します。
+
+                {/* サブコピー：限界手前と予兆、両方に刺さる2行 */}
+                <p className="text-stone-300 text-sm md:text-base leading-[2.2] max-w-lg">
+                  「まだ大丈夫」と思いながら、頭が休まらない日が続いていませんか？<br />
+                  頑張ってきたからこそ、今の消耗は「あなたのせい」ではありません。
                 </p>
               </motion.div>
 
-              <motion.div variants={fadeUp} className="space-y-3">
+              {/* 価値の3点セット（スキャン読みで伝わる） */}
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 text-xs text-stone-400 max-w-lg">
+                {[
+                  "感情の共感だけで終わらせない",
+                  "「なぜ消耗するか」を構造で整理",
+                  "消耗を減らし、続けられる土台へ",
+                ].map((item) => (
+                  <span key={item} className="flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-[#8FAF9F] flex-shrink-0" />
+                    {item}
+                  </span>
+                ))}
+              </motion.div>
+
+              {/* CTA */}
+              <motion.div variants={fadeUp} className="space-y-3 pt-2">
                 <a
                   href="#contact"
                   className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-100 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
@@ -404,8 +421,8 @@ function Home() {
                   まず、話してみる（初回メール無料）
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <p className="text-stone-500 text-xs pl-2">
-                  勧誘なし ／ 1回のみでもOK ／ うまく話せなくても大丈夫
+                <p className="text-stone-500 text-xs pl-1">
+                  勧誘なし　／　1回のみでもOK　／　うまく言葉にできなくても大丈夫
                 </p>
               </motion.div>
 
@@ -422,7 +439,10 @@ function Home() {
           </div>
         </section>
 
-        {/* ── CONSULTATION ── */}
+        {/* ================================================================
+            PAIN POINTS
+            弱点改善: 共感カードに「だから何か」を加え、感情→論理へ橋渡し
+        ================================================================ */}
         <section id="services" className="py-28 px-6 bg-white">
           <div className="max-w-4xl mx-auto space-y-16">
 
@@ -432,93 +452,117 @@ function Home() {
               viewport={{ once: true, amount: 0.2 }}
               variants={stagger}
             >
-              <motion.div variants={fadeUp} className="space-y-3 max-w-xl">
+              <motion.div variants={fadeUp} className="space-y-4 max-w-2xl">
                 <span className="text-[10px] tracking-[0.35em] uppercase text-[#8FAF9F] font-medium">
-                  こんな状態、ありませんか
+                  Pain Points
                 </span>
                 <h2
-                  className="text-2xl md:text-3xl font-light text-stone-900 leading-snug tracking-wide"
+                  className="text-2xl md:text-3xl font-light text-stone-900 leading-[1.6] tracking-wide"
                   style={{ fontFamily: "'Noto Serif JP', serif" }}
                 >
-                  「大丈夫」と言いながら、<br />
-                  <span className="text-stone-500 font-light">大丈夫じゃない日が続いている。</span>
+                  「大丈夫」と言い続けているうちに、<br />
+                  <span className="text-stone-500">自分が一番後回しになっていた。</span>
                 </h2>
+                <p className="text-stone-500 text-sm leading-[2]">
+                  支援職は、他者の痛みに寄り添うことが仕事です。だからこそ、
+                  自分自身の消耗に気づきにくく、気づいても「自分だけが弱い」と感じやすい。
+                </p>
               </motion.div>
             </motion.div>
 
+            {/* 共感カード */}
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.15 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={stagger}
               className="grid md:grid-cols-2 gap-4"
             >
               {[
                 {
                   feeling: "頭が休まらない",
-                  detail: "仕事が終わっても利用者のことが頭から離れず、「もっとできることがあったはず」と繰り返してしまう。",
+                  detail: "仕事が終わっても利用者のことが頭から離れない。「もっとできることがあったはず」という声が止まらない。",
+                  tag: "二次受傷・思考のループ",
                 },
                 {
                   feeling: "感情が動かなくなってきた",
-                  detail: "以前は感じていた「やりがい」が薄れ、利用者の話を聞きながら何も感じない自分に気づく。",
+                  detail: "以前は感じていたやりがいが薄れた。利用者の話を聞きながら、何も感じない自分に気づいて怖くなる。",
+                  tag: "燃え尽き症候群の初期",
                 },
                 {
                   feeling: "誰にも相談できない",
                   detail: "同僚には弱みを見せられない。家族に話しても伝わらない。「支援職あるある」で片づけられてしまう。",
+                  tag: "孤立・役割の重圧",
                 },
                 {
-                  feeling: "自分が弱いのかと思う",
-                  detail: "「私が強ければ大丈夫なはず」と自分を責め続ける。でも弱さの問題じゃないとどこかで感じている。",
+                  feeling: "自分が弱いのだと思う",
+                  detail: "「私が強ければ大丈夫なはず」と自分を責め続ける。でも心のどこかで、弱さの問題じゃないと感じている。",
+                  tag: "自己否定・過剰責任",
                 },
                 {
-                  feeling: "休むことへの罪悪感",
-                  detail: "利用者のことが気になって休めない。休んでいても「休んでいていいのか」という気持ちが消えない。",
+                  feeling: "休むことへの罪悪感がある",
+                  detail: "休んでいても「休んでいていいのか」という気持ちが消えない。利用者のことが気になって、本当には休めない。",
+                  tag: "境界の曖昧さ",
                 },
                 {
                   feeling: "このまま続けられるか不安",
-                  detail: "続けたい気持ちはある。でも「いつか限界が来るかも」という予感が、ずっと頭の片隅にある。",
+                  detail: "続けたい気持ちはある。でも「いつか限界が来るかも」という予感が、ずっと頭の片隅を占めている。",
+                  tag: "バーンアウト予兆",
                 },
               ].map((item) => (
                 <motion.div
                   key={item.feeling}
                   variants={fadeUp}
-                  className="p-6 rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 hover:bg-white transition-all duration-300"
+                  className="p-6 rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 hover:bg-white transition-all duration-300 group"
                 >
-                  <p className="text-stone-800 font-medium mb-2 text-sm tracking-wide">
-                    ── {item.feeling}
-                  </p>
+                  <div className="flex items-start justify-between mb-3 gap-3">
+                    <p className="text-stone-800 font-medium text-sm tracking-wide">
+                      ── {item.feeling}
+                    </p>
+                    <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0 mt-0.5">
+                      {item.tag}
+                    </span>
+                  </div>
                   <p className="text-stone-500 text-sm leading-[1.9]">{item.detail}</p>
                 </motion.div>
               ))}
             </motion.div>
 
+            {/* 橋渡しコピー：感情→論理の転換 */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="max-w-2xl mx-auto text-center space-y-4"
+              className="max-w-2xl mx-auto"
             >
-              <p
-                className="text-stone-700 text-lg md:text-xl font-light leading-[2]"
-                style={{ fontFamily: "'Noto Serif JP', serif" }}
-              >
-                それは、あなたが弱いからではありません。<br />
-                <span className="text-stone-900 font-medium">支援職という構造が、そうさせているのです。</span>
-              </p>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-stone-700 transition-colors underline underline-offset-4"
-              >
-                まず話してみる（初回無料）
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              <div className="p-8 rounded-2xl bg-stone-900 text-center space-y-5">
+                <p
+                  className="text-stone-100 text-lg md:text-xl font-light leading-[2]"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
+                  それは、あなたが弱いからではありません。
+                </p>
+                <p className="text-stone-400 text-sm leading-[2]">
+                  支援職という役割の構造が、消耗を生み出しているのです。<br />
+                  構造がわかれば、変えられます。
+                </p>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-white transition-colors underline underline-offset-4"
+                >
+                  今の状態を整理してみる（初回無料）
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </motion.div>
 
           </div>
         </section>
 
-        {/* ── TRUST BAR ── */}
+        {/* ================================================================
+            TRUST BAR — カウンセラー紹介（簡易版）
+        ================================================================ */}
         <section className="py-14 px-6 bg-[#F7F6F3] border-y border-stone-200">
           <div className="max-w-3xl mx-auto">
             <motion.div
@@ -531,8 +575,7 @@ function Home() {
               <div className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 border-white shadow-md">
                 <img src="/profile.jpg" alt="松本 龍児" className="w-full h-full object-cover" />
               </div>
-
-              <div className="text-center sm:text-left space-y-2">
+              <div className="text-center sm:text-left space-y-2 flex-1">
                 <p className="text-xs tracking-[0.3em] uppercase text-stone-400">Counselor</p>
                 <p
                   className="text-xl font-medium text-stone-900"
@@ -543,12 +586,11 @@ function Home() {
                 </p>
                 <p className="text-stone-500 text-sm leading-relaxed">
                   障害福祉分野15年・累計300名以上6,000時間以上の支援経験。<br className="hidden sm:block" />
-                  CBT・ACT・MIを統合し、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
+                  CBT・ACT・MIを統合し、支援職の消耗・燃え尽きに特化。
                 </p>
               </div>
-
               <div className="flex-shrink-0 flex flex-row sm:flex-col gap-2">
-                {["公認心理師", "障害福祉15年", "300名以上"].map((b) => (
+                {["公認心理師", "障害福祉15年", "6,000時間以上"].map((b) => (
                   <span
                     key={b}
                     className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center whitespace-nowrap"
@@ -561,7 +603,9 @@ function Home() {
           </div>
         </section>
 
-        {/* ── FEATURES ── */}
+        {/* ================================================================
+            FEATURES
+        ================================================================ */}
         <section className="py-28 px-6 bg-stone-50">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -574,7 +618,6 @@ function Home() {
               <motion.div variants={fadeUp}>
                 <SectionLabel en="Features" ja="カウンセリングの特徴" />
               </motion.div>
-
               <div className="grid md:grid-cols-3 gap-6">
                 {features.map((feature) => (
                   <motion.div key={feature.title} variants={fadeUp}>
@@ -586,7 +629,9 @@ function Home() {
           </div>
         </section>
 
-        {/* ── STRUCTURE ── */}
+        {/* ================================================================
+            APPROACH — 構造整理型とは
+        ================================================================ */}
         <section className="py-28 px-6 bg-white">
           <div className="max-w-3xl mx-auto">
             <motion.div
@@ -614,10 +659,20 @@ function Home() {
                   これらを言語化・可視化し、負荷の構造を整理します。
                 </p>
 
-                <div className="pt-6 border-t border-stone-100">
-                  <p className="text-xs tracking-[0.3em] uppercase text-stone-400 mb-8">
-                    支援の進め方
+                {/* 具体例ボックス */}
+                <div className="bg-stone-50 rounded-2xl border border-stone-100 p-6 space-y-4 text-sm">
+                  <p className="text-stone-400 text-xs tracking-[0.2em] uppercase">具体例</p>
+                  <p className="text-stone-700 font-medium">
+                    「管理職として部下を支えながら、自分は誰にも相談できない」
                   </p>
+                  <div className="space-y-1 text-stone-500 text-xs leading-relaxed pl-4 border-l border-stone-200">
+                    <p>→ 役割過剰 × 責任の抱え込み × 境界の曖昧さ、という構造が見えてくる</p>
+                    <p>→ 感情ではなく「構造」として整理することで、対処が見えてくる</p>
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t border-stone-100">
+                  <p className="text-xs tracking-[0.3em] uppercase text-stone-400 mb-8">支援の進め方</p>
                   <div className="grid grid-cols-2 gap-3">
                     {sessionGuideItems.map((item) => (
                       <div
@@ -636,9 +691,7 @@ function Home() {
                     className="text-lg md:text-xl text-stone-800 font-light"
                     style={{ fontFamily: "'Noto Serif JP', serif" }}
                   >
-                    目的は「強くなること」ではなく、
-                    <br />
-                    消耗を減らすこと。
+                    目的は「強くなること」ではなく、<br />消耗を減らすこと。
                   </p>
                 </div>
               </motion.div>
@@ -646,8 +699,127 @@ function Home() {
           </div>
         </section>
 
-        {/* ── GUIDE ── */}
-        {/* ✅ Fix: 元コードでは motion.div 3つが </section> で閉じられていた。正しく </motion.div> で閉じる */}
+        {/* ================================================================
+            PROFILE — 深い信頼構築
+            弱点改善: Trust Barだけでなく、「この人に話したい」感情を作る
+        ================================================================ */}
+        <section className="py-28 px-6 bg-stone-50">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={stagger}
+              className="space-y-16"
+            >
+              <motion.div variants={fadeUp}>
+                <SectionLabel en="Profile" ja="なぜ、支援職の支援をしているのか" />
+              </motion.div>
+
+              <motion.div variants={fadeUp}>
+                <div className="grid md:grid-cols-[180px_1fr] gap-10 items-start">
+
+                  {/* 写真＋バッジ */}
+                  <div className="flex flex-col items-center md:items-start gap-4">
+                    <div className="w-36 h-36 md:w-44 md:h-44 rounded-2xl overflow-hidden border border-stone-200 shadow-sm">
+                      <img
+                        src="/profile.jpg"
+                        alt="松本 龍児 近影"
+                        className="w-full h-full object-cover"
+                        width={500}
+                        height={500}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <p
+                        className="text-xl font-medium text-stone-900 tracking-wider"
+                        style={{ fontFamily: "'Noto Serif JP', serif" }}
+                      >
+                        松本 龍児
+                      </p>
+                      <p className="text-stone-500 text-xs mt-1 leading-relaxed">
+                        公認心理師<br />構造整理型カウンセラー
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-1.5 w-full">
+                      {["公認心理師", "障害福祉 15年", "累計 300名以上", "6,000時間以上"].map((badge) => (
+                        <span
+                          key={badge}
+                          className="px-3 py-1 bg-white border border-stone-200 text-stone-600 text-xs rounded-full tracking-wide text-center"
+                        >
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 本文：「なぜやるか」から始まる物語 */}
+                  <div
+                    className="text-stone-600 leading-[2.2] text-sm md:text-base space-y-8"
+                    style={{ fontFamily: "'Noto Serif JP', serif" }}
+                  >
+                    <p>
+                      15年間、障害福祉の現場で支援者として働いてきました。
+                      300名以上、6,000時間を超える支援の中でずっと気になっていたことがあります。
+                    </p>
+
+                    <BlockQuote>
+                      <p className="text-stone-800 font-medium text-base md:text-lg">
+                        支援者自身が、誰にも頼れていない。
+                      </p>
+                    </BlockQuote>
+
+                    <p>
+                      責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、
+                      何度も目の前で見てきました。
+                    </p>
+
+                    <p>
+                      それは弱さではなく、<strong className="text-stone-800 font-medium">構造の問題</strong>です。
+                      支援職という役割の構造が、消耗を生み出している。
+                      そう気づいたとき、私が次にやるべきことが見えました。
+                    </p>
+
+                    <p>
+                      CBT・ACT・動機づけ面接・BPSモデル・トラウマインフォームドケアを統合的に用い、
+                      「なぜ消耗するのか」を構造として解きほぐします。
+                      感情を吐き出す場所ではなく、<strong className="text-stone-800 font-medium">整理して、持続可能な状態に戻す</strong>ための時間です。
+                    </p>
+
+                    {/* 資格 */}
+                    <div className="pt-6 border-t border-stone-200">
+                      <p className="text-xs tracking-[0.3em] uppercase text-stone-400 mb-5">資格・経歴</p>
+                      <ul className="space-y-2.5 text-xs text-stone-500">
+                        {qualifications.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <Minus className="w-3 h-3 text-stone-300 shrink-0 mt-1" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-6 border-t border-stone-200 text-center">
+                      <p className="text-base md:text-lg text-stone-800 font-light leading-[2]">
+                        強くなることを目指すのではなく、<br />
+                        持続可能な状態に戻すこと。
+                      </p>
+                      <p className="text-stone-500 text-sm mt-3">
+                        支援を続けられる土台を整えることが、私の役割です。
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ================================================================
+            GUIDE — 料金・流れ
+        ================================================================ */}
         <section id="guide" className="py-28 px-6 bg-stone-950">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -722,7 +894,7 @@ function Home() {
                 </p>
               </motion.div>
 
-              {/* 流れ */}
+              {/* 流れ：弱点改善 — 各ステップに「受け手の安心感」を加えた説明文 */}
               <motion.div variants={fadeUp} className="space-y-8">
                 <p className="text-[10px] tracking-[0.35em] uppercase text-stone-500">ご利用の流れ</p>
                 <ol className="space-y-0">
@@ -760,54 +932,83 @@ function Home() {
           </div>
         </section>
 
-        {/* ── REASSURANCE ── */}
-        <section className="py-16 px-6 bg-stone-50">
-          <div className="max-w-2xl mx-auto space-y-5">
+        {/* ================================================================
+            FAQ
+            弱点改善: 答えに「背中を押す一言」を追加
+        ================================================================ */}
+        <section className="py-20 px-6 bg-stone-50">
+          <div className="max-w-2xl mx-auto space-y-6">
 
-            <p className="text-center text-xs tracking-[0.3em] uppercase text-stone-400 mb-8">
-              よくあるご不安
-            </p>
-
-            {[
-              {
-                q: "うまく話せるか不安です",
-                a: "整理されていない状態のままで大丈夫です。「何が負担なのかよくわからない」という状態からご相談される方が大半です。",
-              },
-              {
-                q: "相談するほどの内容かどうか迷っています",
-                a: "「大げさかな」と思う感覚自体が、支援職に多いパターンです。その感覚ごと、お話しください。",
-              },
-              {
-                q: "1回だけで終わっても失礼じゃないですか",
-                a: "1回のみのご相談でも、まったく問題ありません。継続を前提としたご案内は行っていません。",
-              },
-              {
-                q: "申し込んだら断りにくくなりそうで",
-                a: "フォームを送っていただいた後も、日程調整の段階でキャンセル可能です。プレッシャーをかけることはありません。",
-              },
-              {
-                q: "カウンセリングに抵抗があります",
-                a: "「カウンセリング」というより、今の状態を言語化して整理する時間です。週1回通い続けるようなものではありません。",
-              },
-            ].map(({ q, a }) => (
-              <details
-                key={q}
-                className="group bg-white rounded-2xl border border-stone-100 overflow-hidden"
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="space-y-2 mb-10"
+            >
+              <span className="text-[10px] tracking-[0.35em] uppercase text-[#8FAF9F] font-medium">FAQ</span>
+              <h2
+                className="text-xl font-light text-stone-800 tracking-wide"
+                style={{ fontFamily: "'Noto Serif JP', serif" }}
               >
-                <summary className="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none text-stone-700 text-sm font-medium hover:bg-stone-50 transition-colors">
-                  <span>{q}</span>
-                  <span className="text-stone-300 group-open:rotate-45 transition-transform text-lg flex-shrink-0">+</span>
-                </summary>
-                <div className="px-6 pb-5 pt-1 text-stone-500 text-sm leading-[1.9] border-t border-stone-50">
-                  {a}
-                </div>
-              </details>
-            ))}
+                申し込む前の、よくあるご不安
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={stagger}
+              className="space-y-3"
+            >
+              {[
+                {
+                  q: "うまく話せるか不安です",
+                  a: "整理されていない状態のままで大丈夫です。「何が負担なのかよくわからない」という状態からご相談される方が大半です。むしろ、整理できていないことを一緒に整理するのがこの時間の目的です。",
+                },
+                {
+                  q: "相談するほどの内容かどうか迷っています",
+                  a: "「大げさかな」と思う感覚自体が、支援職に多いパターンです。自分の消耗を後回しにしてきた結果です。その感覚ごと、お話しください。",
+                },
+                {
+                  q: "1回だけで終わっても失礼じゃないですか",
+                  a: "まったく問題ありません。継続を前提としたご案内は行っていません。1回の整理だけでも、「何が負担か」が言語化されることで、ずいぶん楽になる方も多いです。",
+                },
+                {
+                  q: "申し込んだら断りにくくなりそうで",
+                  a: "フォームを送った後も、日程調整の段階でキャンセル可能です。「やっぱりやめます」と一言連絡いただくだけで大丈夫です。プレッシャーは一切かけません。",
+                },
+                {
+                  q: "職場や家族に知られたくないのですが",
+                  a: "完全オンラインのため、移動も不要です。請求書等の対外的な書類も発行しません。秘密にしたままご利用いただけます。",
+                },
+                {
+                  q: "カウンセリングに抵抗があります",
+                  a: "「カウンセリング」というより、今の状態を言語化して整理する作業です。週1回通い続けるようなものではなく、2週間に1回・必要な期間だけという形が基本です。",
+                },
+              ].map(({ q, a }) => (
+                <motion.div key={q} variants={fadeUp}>
+                  <details className="group bg-white rounded-2xl border border-stone-100 overflow-hidden">
+                    <summary className="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer list-none text-stone-700 text-sm font-medium hover:bg-stone-50 transition-colors">
+                      <span>{q}</span>
+                      <span className="text-stone-300 group-open:rotate-45 transition-transform duration-200 text-xl flex-shrink-0">+</span>
+                    </summary>
+                    <div className="px-6 pb-5 pt-2 text-stone-500 text-sm leading-[1.9] border-t border-stone-50">
+                      {a}
+                    </div>
+                  </details>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-        {/* ── CONTACT ── */}
-        {/* ✅ Fix: 元コードではフォーム冒頭の motion.div が <section> の外に浮いていた。section 内に統合 */}
+        {/* ================================================================
+            CONTACT
+            弱点改善: フォーム直前に「感情的な後押し」を追加
+                      「今がタイミング」という緊急性の示唆
+        ================================================================ */}
         <section id="contact" className="py-28 px-6 bg-white">
           <div className="max-w-2xl mx-auto">
             <motion.div
@@ -817,32 +1018,47 @@ function Home() {
               variants={stagger}
               className="space-y-14"
             >
+
+              {/* 感情的な後押しコピー */}
               <motion.div variants={fadeUp} className="space-y-8">
                 <SectionLabel en="Contact" ja="まず、話してみてください" />
 
+                <div
+                  className="space-y-6 text-stone-500 text-sm leading-[2.2]"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
+                  <p>
+                    「もう少し耐えれば大丈夫」と思いながら、何ヶ月も過ぎていませんか？
+                  </p>
+                  <BlockQuote>
+                    <p className="text-stone-700 font-medium">
+                      限界まで耐えてから動くより、<br />
+                      予兆を感じているうちに整理する方が、ずっと楽です。
+                    </p>
+                  </BlockQuote>
+                  <p>
+                    今の状態がひどくなくてもいい。うまく言葉にできなくてもいい。
+                    「なんとなくしんどい」という感覚だけで、十分です。
+                  </p>
+                </div>
+
+                {/* 3ステップ：申し込み後の見通しを可視化 */}
                 <div className="grid grid-cols-3 gap-3 text-center">
                   {[
                     { step: "1", label: "フォームを送る", sub: "2〜3分で完了" },
                     { step: "2", label: "メールが届く", sub: "2営業日以内に返信" },
-                    { step: "3", label: "状況を整理する", sub: "1往復・無料" },
+                    { step: "3", label: "状況を整理する", sub: "初回は無料・1往復" },
                   ].map(({ step, label, sub }) => (
                     <div key={step} className="p-4 rounded-xl bg-stone-50 border border-stone-100">
-                      <span className="text-[10px] text-stone-400 tracking-widest">{step}</span>
+                      <span className="text-[10px] text-[#8FAF9F] tracking-widest font-medium">{step}</span>
                       <p className="text-stone-700 text-xs font-medium mt-1">{label}</p>
                       <p className="text-stone-400 text-[11px] mt-0.5">{sub}</p>
                     </div>
                   ))}
                 </div>
-
-                <p
-                  className="text-stone-500 text-sm leading-[2.2]"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
-                  今の状態を言葉にするだけで、少し楽になることがあります。<br />
-                  「うまく書けない」という内容でも、そのままお送りください。
-                </p>
               </motion.div>
 
+              {/* フォーム */}
               <motion.form variants={fadeUp} className="space-y-7" onSubmit={handleSubmit} noValidate>
 
                 <div className="space-y-2">
@@ -884,7 +1100,7 @@ function Home() {
                   </label>
                   <textarea
                     id="message" name="message" required rows={5}
-                    placeholder="現在のお困りのこと、ご質問など、お気軽にお書きください。"
+                    placeholder="今の状態を、思いつくまま書いていただくだけで大丈夫です。"
                     className="w-full px-5 py-3.5 border border-stone-200 rounded-xl text-stone-800 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FAF9F] bg-stone-50 placeholder-stone-300 resize-none transition-colors"
                   />
                 </div>
@@ -895,25 +1111,25 @@ function Home() {
                   </div>
                 )}
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <button
                     type="submit"
                     disabled={formStatus === "submitting"}
                     className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.12em] hover:bg-stone-800 active:scale-[0.99] transition-all rounded-full shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {formStatus === "submitting" ? "送信中..." : "無料で今の状態を整理する（初回メール）"}
+                    {formStatus === "submitting" ? "送信中..." : "今の状態を整理する（初回メール無料）"}
                   </button>
 
-                  <div className="flex items-center justify-center gap-4 text-xs text-stone-400 flex-wrap">
-                    <span className="flex items-center gap-1">
+                  <div className="flex items-center justify-center gap-5 text-xs text-stone-400 flex-wrap">
+                    <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
                       無理な継続案内なし
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
                       1回のみでもOK
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-stone-300" />
                       送った後もキャンセル可
                     </span>
@@ -1060,8 +1276,7 @@ function Home() {
                   ご連絡ありがとうございます
                 </h3>
                 <p className="text-stone-500 text-sm leading-relaxed">
-                  内容は問題なく受け付けられました。
-                  <br />
+                  内容は問題なく受け付けられました。<br />
                   通常 24時間以内にご返信いたします。
                 </p>
               </div>
@@ -1070,8 +1285,7 @@ function Home() {
                 <p>※ 1回のみのご相談でも問題ありません</p>
               </div>
               <p className="text-sm text-stone-500 leading-relaxed px-4">
-                今の状態を言葉にするだけでも、少し整理が進むことがあります。
-                <br />
+                今の状態を言葉にするだけでも、少し整理が進むことがあります。<br />
                 ご返信まで、無理に何かを変えようとせずお過ごしください。
               </p>
               <button
