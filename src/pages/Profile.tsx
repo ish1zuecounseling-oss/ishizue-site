@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import AudioPlayer from "../components/AudioPlayer";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
