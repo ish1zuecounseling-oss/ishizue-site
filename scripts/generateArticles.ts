@@ -2,7 +2,8 @@
  * scripts/generateArticles.ts
  *
  * /src/pages/Articles/*.tsx を静的解析し、
- * ArticleLayout の props（title / description / url / date）を抽出して
+ * ArticleLayout の props または itemProp="headline" メタタグから
+ * title / description / path / updatedAt を抽出して
  * /src/data/articles.ts を自動生成する。
  */
 
@@ -29,41 +30,69 @@ function fileNameToSlug(fileName: string): string {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  ArticleLayout props の静的抽出                                              */
-/*                                                                              */
-/*  対応パターン（複数行にまたがっていても取得できる）:                             */
-/*    title="..."                                                               */
-/*    title="                                                                   */
-/*      複数行のタイトル"                                                        */
-/*    description="..."                                                         */
+/*  抽出ロジック                                                                 */
 /* -------------------------------------------------------------------------- */
 
-function extractProp(src: string, propName: string): string {
-  // 改行・スペースを含む値にも対応するため DOTALL フラグを使用
-  // ダブルクォート形式: propName="value" （複数行対応）
-  const dq = new RegExp(`${propName}="([^"]+)"`, "s");
-  // バッククォート形式: propName={`value`}
-  const bq = new RegExp(`${propName}=\\{\`([^\`]+)\`\\}`, "s");
+/**
+ * パターン1: ArticleLayout props 形式
+ *   title="..."  description="..."  url="..."  date="..."
+ */
+function extractFromArticleLayout(src: string): {
+  title: string; description: string; url: string; date: string;
+} {
+  const get = (prop: string) => {
+    // ダブルクォート（複数行対応）
+    const dq = src.match(new RegExp(`${prop}="([^"]+)"`, "s"));
+    if (dq) return dq[1].replace(/\s+/g, " ").trim();
+    // バッククォート
+    const bq = src.match(new RegExp(`${prop}=\\{\`([^\`]+)\`\\}`, "s"));
+    if (bq) return bq[1].replace(/\s+/g, " ").trim();
+    return "";
+  };
+  return {
+    title:       get("title"),
+    description: get("description"),
+    url:         get("url"),
+    date:        get("date"),
+  };
+}
 
-  const dqMatch = src.match(dq);
-  if (dqMatch) {
-    // 複数行の場合は空白・改行を1スペースに正規化
-    return dqMatch[1].replace(/\s+/g, " ").trim();
-  }
+/**
+ * パターン2: 独自実装形式（HelperBurnoutSigns.tsx など）
+ *   itemProp="headline" content="..."
+ *   itemProp="datePublished" content="..."
+ *   description は <p> の最初のテキストから取得
+ *   path は currentPath="..." または url から取得
+ */
+function extractFromLegacy(src: string): {
+  title: string; description: string; url: string; date: string;
+} {
+  // headline
+  const headlineMatch = src.match(/itemProp="headline"\s*content="([^"]+)"/s);
+  const title = headlineMatch ? headlineMatch[1].replace(/\s+/g, " ").trim() : "";
 
-  const bqMatch = src.match(bq);
-  if (bqMatch) {
-    return bqMatch[1].replace(/\s+/g, " ").trim();
-  }
+  // datePublished
+  const dateMatch = src.match(/itemProp="datePublished"\s*content="([^"]+)"/);
+  const date = dateMatch ? dateMatch[1].trim() : "";
 
-  return "";
+  // currentPath または url から path を取得
+  const currentPathMatch = src.match(/currentPath="([^"]+)"/);
+  const url = currentPathMatch ? currentPathMatch[1].trim() : "";
+
+  // description: <p className="text-stone-600 ..."> の内容
+  const descMatch = src.match(/<p\s+className="text-stone-600[^"]*"[^>]*>\s*([\s\S]+?)\s*<\/p>/);
+  const description = descMatch
+    ? descMatch[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 120)
+    : "";
+
+  return { title, description, url, date };
 }
 
 function urlToPath(url: string): string {
   try {
     return new URL(url).pathname;
   } catch {
-    return url;
+    return url.startsWith("/") ? url : "";
   }
 }
 
@@ -89,29 +118,44 @@ function generate() {
     updatedAt:   string;
   };
 
-  const articles: Article[]    = [];
-  const seenPaths = new Set<string>(); // 重複排除用
-  const warnings: string[]     = [];
+  const articles: Article[]   = [];
+  const seenPaths = new Set<string>();
+  const warnings:  string[]   = [];
 
   for (const file of files) {
     const filePath = path.join(ARTICLES_DIR, file);
     const src      = fs.readFileSync(filePath, "utf-8");
 
-    const title       = extractProp(src, "title");
-    const description = extractProp(src, "description");
-    const url         = extractProp(src, "url");
-    const date        = extractProp(src, "date");
+    // ArticleLayout を使っているか判定
+    const usesArticleLayout = src.includes("ArticleLayout");
 
-    const articlePath = url
-      ? urlToPath(url)
+    let title = "", description = "", rawUrl = "", date = "";
+
+    if (usesArticleLayout) {
+      ({ title, description, url: rawUrl, date } = extractFromArticleLayout(src));
+    } else {
+      ({ title, description, url: rawUrl, date } = extractFromLegacy(src));
+    }
+
+    // path の決定: url props → currentPath → ファイル名から生成
+    const articlePath = rawUrl
+      ? urlToPath(rawUrl)
       : `/articles/${fileNameToSlug(file)}`;
 
-    if (!title || !description) {
-      warnings.push(`⚠️  ${file}: title または description が見つかりません（スキップ）`);
+    if (!title) {
+      warnings.push(`⚠️  ${file}: title が見つかりません（スキップ）`);
+      continue;
+    }
+    if (!description) {
+      warnings.push(`⚠️  ${file}: description が見つかりません（スキップ）`);
+      continue;
+    }
+    if (!articlePath) {
+      warnings.push(`⚠️  ${file}: path が取得できませんでした（スキップ）`);
       continue;
     }
 
-    // 同じ path が既に登録済みの場合はスキップ（重複排除）
+    // 重複排除
     if (seenPaths.has(articlePath)) {
       warnings.push(`⚠️  ${file}: ${articlePath} は既に登録済みです（スキップ）`);
       continue;
@@ -128,10 +172,7 @@ function generate() {
 
   warnings.forEach((w) => console.warn(w));
 
-  /* --- articles.ts を生成 ---
-     注意: export type は generateSitemap.ts が
-           import { articles } しか使わないため問題ないが、
-           念のため型定義は別行に分けて出力する              */
+  /* --- articles.ts を生成 --- */
   const lines: string[] = [
     "/**",
     " * src/data/articles.ts",
