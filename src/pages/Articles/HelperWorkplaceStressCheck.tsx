@@ -92,47 +92,7 @@ export default function HelperWorkplaceStressCheck() {
       date="2026-03-29"
       audio="/audio/helper-workplace-stress-check.mp3"
     >
-      <style>{`
-        .score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .score-label { font-size: 0.875rem; color: #888; }
-        .score-number { font-size: 1.5rem; font-weight: 600; color: #222; }
-        .score-total { font-size: 0.875rem; color: #aaa; font-weight: 400; }
-        .bar-bg { background: #f0f0f0; border-radius: 99px; height: 6px; overflow: hidden; margin-bottom: 1.5rem; }
-        .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s ease, background-color 0.3s ease; }
-        .bar-low { background-color: #4caf7d; }
-        .bar-mid { background-color: #f5a623; }
-        .bar-high { background-color: #e05252; }
-        .checklist { border: 1px solid #ececec; border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
-        .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; cursor: pointer; border-bottom: 1px solid #f5f5f5; transition: background 0.1s; user-select: none; }
-        .check-item:last-child { border-bottom: none; }
-        .check-item:hover { background: #fafafa; }
-        .check-item.checked { background: #f7fbff; }
-        .checkbox { width: 20px; height: 20px; min-width: 20px; border: 1.5px solid #ddd; border-radius: 5px; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: #fff; }
-        .check-item.checked .checkbox { background: #3b82f6; border-color: #3b82f6; }
-        .checkmark { display: none; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translateY(-1px); }
-        .check-item.checked .checkmark { display: block; }
-        .item-text { font-size: 0.9375rem; line-height: 1.6; color: #333; transition: color 0.15s; margin: 0; }
-        .check-item.checked .item-text { color: #999; }
-        .result-box { border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; border: 1.5px solid; }
-        .result-low { background: #f0faf5; border-color: #a8dfc4; }
-        .result-mid { background: #fffbf0; border-color: #fad58a; }
-        .result-high { background: #fff5f5; border-color: #f5b8b8; }
-        .result-score-label { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.4rem; }
-        .result-low .result-score-label { color: #2d8a5e; }
-        .result-mid .result-score-label { color: #b07d1a; }
-        .result-high .result-score-label { color: #c0392b; }
-        .result-title { font-size: 1.0625rem; font-weight: 600; margin: 0 0 0.75rem; color: #222; }
-        .result-message { font-size: 0.9rem; line-height: 1.75; color: #555; margin: 0; }
-        .next-section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #aaa; margin: 1.5rem 0 0.75rem; }
-        .next-link { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid #ececec; border-radius: 8px; text-decoration: none; color: #333; font-size: 0.9rem; margin-bottom: 8px; background: #fff; transition: background 0.1s, border-color 0.1s; }
-        .next-link:hover { background: #f9f9f9; border-color: #ddd; }
-        .next-link-arrow { color: #bbb; font-size: 1rem; flex-shrink: 0; margin-left: 8px; }
-        .cta-button { display: block; width: 100%; padding: 14px 20px; margin-top: 12px; background: #2c5f9e; color: #fff; border: none; border-radius: 8px; font-size: 0.9375rem; font-weight: 600; text-align: center; cursor: pointer; text-decoration: none; transition: background 0.15s; }
-        .cta-button:hover { background: #1e4a7e; }
-        .disclaimer { font-size: 0.8125rem; color: #aaa; line-height: 1.6; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #f0f0f0; }
-      `}</style>
-
-      <p>
+<p>
         支援職の仕事は、利用者との関わりだけでなく、職場環境そのものからも強いストレスを受けることがあります。
       </p>
       <p>
@@ -205,7 +165,7 @@ export default function HelperWorkplaceStressCheck() {
       <p>
         自分の状態を客観的に知ることが、適切な対処への第一歩になります。
       </p>
-      <p className="disclaimer">
+      <p className="check-disclaimer">
         このチェックは診断ではなく、自分の状態に気づくための目安として活用してください。
         結果に関わらず、気になることがあれば専門家への相談をお勧めします。
       </p>
