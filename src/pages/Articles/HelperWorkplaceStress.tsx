@@ -1,4 +1,4 @@
-```jsx
+
 import ArticleLayout from "../../components/ArticleLayout"
 export default function HelperWorkplaceStress() {
   return (
