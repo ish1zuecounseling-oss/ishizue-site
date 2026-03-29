@@ -7,7 +7,7 @@
 import { useCallback } from "react";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Clock, Calendar, User, MessageCircle } from "lucide-react";
+import { ArrowRight, Clock, Calendar, User, MessageCircle, BookOpen } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
 import AudioPlayer from "./AudioPlayer";
 import ArticleSchema from "./ArticleSchema";
@@ -18,6 +18,38 @@ import RandomArticles from "./RandomArticles";
 /* -------------------------------------------------------------------------- */
 
 const SAGE = "#8FAF9F";
+
+/* -------------------------------------------------------------------------- */
+/*  チェック記事への導線データ                                                    */
+/* -------------------------------------------------------------------------- */
+
+const checkArticles = [
+  {
+    path: "/articles/helper-empathy-check",
+    label: "共感疲労チェック",
+    desc: "20項目で今の状態を確認",
+  },
+  {
+    path: "/articles/helper-burnout-check",
+    label: "バーンアウトチェック",
+    desc: "燃え尽きのサインを確認",
+  },
+  {
+    path: "/articles/helper-emotional-labor-check",
+    label: "感情労働の消耗度チェック",
+    desc: "感情の疲れを数値で確認",
+  },
+  {
+    path: "/articles/helper-workplace-stress-check",
+    label: "職場ストレスチェック",
+    desc: "職場環境のリスクを確認",
+  },
+  {
+    path: "/articles/helper-quit-timing-check",
+    label: "辞め時チェック",
+    desc: "転職・退職を考えるサイン",
+  },
+];
 
 /* -------------------------------------------------------------------------- */
 /*  Types                                                                      */
@@ -50,7 +82,7 @@ function extractText(node: React.ReactNode): string {
 function estimateReadingTime(node: React.ReactNode): number {
   const text = extractText(node);
   const chars = text.replace(/\s/g, "").length;
-  return Math.max(1, Math.ceil(chars / 400)); // 日本語: 400字/分
+  return Math.max(1, Math.ceil(chars / 400));
 }
 
 function formatDate(dateStr: string): string {
@@ -59,10 +91,6 @@ function formatDate(dateStr: string): string {
   });
 }
 
-/**
- * Contact セクションへのスムーズスクロール。
- * Layout.tsx と同一の実装。
- */
 function scrollToContact(navigate: ReturnType<typeof useNavigate>) {
   const tryScroll = () => {
     const el = document.getElementById("contact");
@@ -115,7 +143,6 @@ export default function ArticleLayout({
             ============================================================ */}
             <header className="mb-14">
 
-              {/* Schema hidden metas */}
               <meta itemProp="headline"          content={title} />
               <meta itemProp="datePublished"     content={date} />
               <meta itemProp="dateModified"      content={date} />
@@ -127,10 +154,8 @@ export default function ArticleLayout({
                 <meta itemProp="name" content="こころの相談室 いしずえ" />
               </div>
 
-              {/* パンくず */}
               <Breadcrumbs title={title} />
 
-              {/* カテゴリタグ */}
               <div className="mt-4 mb-5">
                 <span
                   className="inline-block text-[10px] tracking-[0.2em] uppercase font-medium border rounded-full px-3 py-1"
@@ -140,7 +165,6 @@ export default function ArticleLayout({
                 </span>
               </div>
 
-              {/* タイトル */}
               <h1
                 className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide"
                 style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
@@ -149,7 +173,6 @@ export default function ArticleLayout({
                 {title}
               </h1>
 
-              {/* メタ情報バー */}
               <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 mb-6">
                 <div className="flex items-center gap-1.5">
                   <span
@@ -177,10 +200,8 @@ export default function ArticleLayout({
                 </div>
               </div>
 
-              {/* 音声プレイヤー */}
               {audio && <AudioPlayer src={audio} />}
 
-              {/* リード文 — Home.tsx の BlockQuote と同一スタイル */}
               <p
                 className="text-stone-600 text-base sm:text-lg leading-[1.9] py-1"
                 style={{
@@ -192,7 +213,6 @@ export default function ArticleLayout({
                 {description}
               </p>
 
-              {/* 区切り装飾 */}
               <div className="mt-10 flex items-center gap-2.5" aria-hidden="true">
                 <div className="flex-1 h-px bg-gradient-to-r from-stone-200 to-transparent" />
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `${SAGE}80` }} />
@@ -202,7 +222,7 @@ export default function ArticleLayout({
             </header>
 
             {/* ============================================================
-                BODY — article-body クラスで index.css のスタイルを適用
+                BODY
             ============================================================ */}
             <div className="article-body" itemProp="articleBody">
               {children}
@@ -218,12 +238,10 @@ export default function ArticleLayout({
               transition={{ duration: 0.5 }}
               className="mt-24"
             >
-              {/* 区切り */}
               <div className="flex items-center gap-3 mb-10" aria-hidden="true">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent" />
               </div>
 
-              {/* CTA カード */}
               <div
                 className="relative overflow-hidden rounded-2xl border shadow-md px-7 md:px-10 py-10 text-center"
                 style={{
@@ -231,7 +249,6 @@ export default function ArticleLayout({
                   borderColor: `${SAGE}33`,
                 }}
               >
-                {/* 背景装飾円 */}
                 <div
                   className="absolute top-0 right-0 w-40 h-40 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"
                   style={{ backgroundColor: `${SAGE}08` }}
@@ -243,7 +260,6 @@ export default function ArticleLayout({
                   aria-hidden="true"
                 />
 
-                {/* アイコン */}
                 <div
                   className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-5"
                   style={{ backgroundColor: `${SAGE}22` }}
@@ -279,6 +295,53 @@ export default function ArticleLayout({
             </motion.section>
 
             {/* ============================================================
+                次の行動ブロック — チェック記事への導線
+            ============================================================ */}
+            <motion.section
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-14"
+            >
+              <div className="border border-stone-100 rounded-2xl p-6 md:p-8 bg-stone-50">
+                <div className="flex items-center gap-2 mb-4">
+                  <BookOpen className="w-4 h-4 text-stone-400" aria-hidden="true" />
+                  <p className="text-[11px] tracking-[0.2em] uppercase font-medium text-stone-400">
+                    今の状態をチェックする
+                  </p>
+                </div>
+                <p
+                  className="text-stone-700 text-sm leading-relaxed mb-5"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
+                  記事を読んで「自分に当てはまるかも」と感じたら、<br className="hidden sm:block" />
+                  セルフチェックで今の状態を確認してみましょう。
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {checkArticles.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className="group flex items-center justify-between gap-3 px-4 py-3 bg-white border border-stone-100 rounded-xl hover:border-stone-200 hover:shadow-sm transition-all duration-200"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-stone-700 group-hover:text-stone-900 transition-colors leading-snug">
+                          {item.label}
+                        </p>
+                        <p className="text-xs text-stone-400 mt-0.5">{item.desc}</p>
+                      </div>
+                      <ArrowRight
+                        className="w-3.5 h-3.5 flex-shrink-0 text-stone-300 group-hover:text-stone-500 group-hover:translate-x-0.5 transition-all"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+
+            {/* ============================================================
                 著者カード
             ============================================================ */}
             <motion.div
@@ -288,7 +351,6 @@ export default function ArticleLayout({
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-14 flex items-start gap-4 bg-stone-50 rounded-2xl border border-stone-100 p-5"
             >
-              {/* アバター */}
               <div className="flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border border-stone-200 shadow-sm">
                 <img
                   src="/profile.jpg"
