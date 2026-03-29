@@ -118,6 +118,8 @@ export default function ArticleLayout({
   const readingTime = estimateReadingTime(children);
   const navigate = useNavigate();
 
+  const visibleCheckArticles = checkArticles.filter((a) => a.path !== `/articles${path}`);
+
   const handleContactClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     scrollToContact(navigate);
@@ -297,6 +299,7 @@ export default function ArticleLayout({
             {/* ============================================================
                 次の行動ブロック — チェック記事への導線
             ============================================================ */}
+            {visibleCheckArticles.length > 0 && (
             <motion.section
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -319,7 +322,7 @@ export default function ArticleLayout({
                   セルフチェックで今の状態を確認してみましょう。
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {checkArticles.map((item) => (
+                  {visibleCheckArticles.map((item) => (
                     <Link
                       key={item.path}
                       to={item.path}
@@ -340,6 +343,7 @@ export default function ArticleLayout({
                 </div>
               </div>
             </motion.section>
+            )}
 
             {/* ============================================================
                 著者カード
