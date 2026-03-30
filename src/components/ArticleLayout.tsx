@@ -30,6 +30,11 @@ const checkArticles = [
     desc: "20項目で今の状態を確認",
   },
   {
+    path: "/articles/helper-fatigue-check",
+    label: "ケアラー疲労チェック",
+    desc: "4軸25項目で消耗度を診断",
+  },
+  {
     path: "/articles/helper-burnout-check",
     label: "バーンアウトチェック",
     desc: "燃え尽きのサインを確認",
