@@ -23,17 +23,12 @@ const NAV_LINKS = [
   { to: "/profile",  label: "カウンセラー" },
 ] as const;
 
+const NOTE_URL = "https://note.com/ryuji_ishizue";
+
 /* -------------------------------------------------------------------------- */
 /*  Helpers                                                                    */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Contact セクションへのスムーズスクロール。
- * ・ホームにいる場合 → 即スクロール
- * ・別ページにいる場合 → /#contact に遷移させ、ScrollToTop が走った後
- *   MutationObserver で #contact が DOM に現れるのを待ってからスクロール。
- *   setTimeout の固定遅延よりも確実。
- */
 function scrollToContact(
   currentPath: string,
   navigate: ReturnType<typeof useNavigate>
@@ -54,7 +49,6 @@ function scrollToContact(
 
   navigate("/");
 
-  // #contact が描画されるまで MutationObserver で待機（最大 2 秒）
   const timeout = window.setTimeout(() => observer.disconnect(), 2000);
   const observer = new MutationObserver(() => {
     if (tryScroll()) {
@@ -69,7 +63,6 @@ function scrollToContact(
 /*  Sub-components                                                             */
 /* -------------------------------------------------------------------------- */
 
-/** ロゴマーク — 「いしずえ（礎）」をイメージしたシンプルな幾何形 */
 function LogoMark({ size = 28 }: { size?: number }) {
   return (
     <svg
@@ -79,16 +72,28 @@ function LogoMark({ size = 28 }: { size?: number }) {
       fill="none"
       aria-hidden="true"
     >
-      {/* 台形（礎石のイメージ） */}
       <path
         d="M5 20 L10 10 L18 10 L23 20 Z"
         fill={SAGE}
         opacity="0.25"
       />
-      {/* 上部の小石 */}
       <rect x="11" y="6" width="6" height="5" rx="1.5" fill={SAGE} opacity="0.55" />
-      {/* 土台のライン */}
       <rect x="4" y="21" width="20" height="2.5" rx="1.25" fill={SAGE} />
+    </svg>
+  );
+}
+
+/** note アイコン */
+function NoteIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M2 4.5A2.5 2.5 0 0 1 4.5 2h15A2.5 2.5 0 0 1 22 4.5v15a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 19.5v-15Zm5.25 3a.75.75 0 0 0 0 1.5h9.5a.75.75 0 0 0 0-1.5h-9.5Zm0 4a.75.75 0 0 0 0 1.5h9.5a.75.75 0 0 0 0-1.5h-9.5Zm0 4a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Z" />
     </svg>
   );
 }
@@ -103,19 +108,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  /* スクロール検知 */
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ページ遷移でモバイルメニューを閉じる */
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
 
-  /* モバイルメニュー open 中はスクロールをロック */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -186,6 +188,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
 
+            {/* note リンク */}
+            <a
+              href={NOTE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative px-3.5 py-2 rounded-lg transition-colors duration-150 text-stone-500 hover:text-stone-800 hover:bg-stone-50 flex items-center gap-1.5"
+              aria-label="noteを開く"
+            >
+              <NoteIcon size={14} />
+              <span>note</span>
+            </a>
+
             {/* CTA */}
             <button
               type="button"
@@ -230,7 +244,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* ================================================================
           MOBILE MENU
-          — ダーク系のトーンで全ページのヒーロー背景と温度感を合わせる
       ================================================================ */}
       <AnimatePresence>
         {open && (
@@ -241,7 +254,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 md:hidden bg-stone-950 flex flex-col"
           >
-            {/* モバイルメニュー ヘッダー */}
             <div className="h-16 border-b border-stone-800 flex items-center justify-between px-5">
               <p
                 className="text-[10px] tracking-[0.3em] uppercase font-medium"
@@ -261,7 +273,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </button>
             </div>
 
-            {/* ナビリンク */}
             <nav className="flex-1 flex flex-col justify-center px-8 gap-0" aria-label="モバイルナビゲーション">
               {NAV_LINKS.map(({ to, label }, i) => (
                 <motion.div
@@ -294,11 +305,34 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </motion.div>
               ))}
 
+              {/* note リンク（モバイル） */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: NAV_LINKS.length * 0.07, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <a
+                  href={NOTE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between py-5 border-b border-stone-800 text-xl font-light tracking-wide text-stone-400 hover:text-white transition-colors"
+                  style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
+                >
+                  <span className="flex items-center gap-3">
+                    <NoteIcon size={18} />
+                    note
+                  </span>
+                  <svg className="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </motion.div>
+
               {/* モバイル CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: NAV_LINKS.length * 0.07 + 0.12, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: (NAV_LINKS.length + 1) * 0.07 + 0.12, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-10"
               >
                 <button
@@ -373,6 +407,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <a
+                    href={NOTE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-stone-500 hover:text-stone-900 transition-colors underline-offset-2 hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <NoteIcon size={13} />
+                    note
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -401,6 +446,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-400">
             <p>© こころの相談室 いしずえ. All rights reserved.</p>
             <div className="flex items-center gap-5">
+              {/* note */}
+              <a
+                href={NOTE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="note"
+                className="text-stone-400 hover:text-stone-800 transition-colors"
+              >
+                <NoteIcon size={15} />
+              </a>
+              {/* X */}
               <a
                 href="https://x.com/ish1zue"
                 target="_blank"
@@ -412,6 +468,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
                 </svg>
               </a>
+              {/* Instagram */}
               <a
                 href="https://www.instagram.com/ishizue_counseling/?hl=ja"
                 target="_blank"
