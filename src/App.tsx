@@ -5,12 +5,13 @@
 
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowRight, Home as HomeIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Articles from "./pages/Articles";
 import Profile from "./pages/Profile";
+import EmpathyFatigue from "./pages/EmpathyFatigue";
 import ScrollToTop from "./components/ScrollToTop";
 
 /* -------------------------------------------------------------------------- */
@@ -33,15 +34,13 @@ function fileNameToSlug(filePath: string): string {
     .replace(".tsx", "");
 
   return base
-    // 連続する大文字（例: "FAQ" → "faq"）は先にまとめて処理
     .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
-    // 小文字の後に大文字が来たらハイフン挿入（例: "BurnOut" → "Burn-Out"）
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
     .toLowerCase();
 }
 
 /* -------------------------------------------------------------------------- */
-/*  404 Not Found ページ — Home.tsx / Profile.tsx と統一デザイン               */
+/*  404 Not Found ページ                                                        */
 /* -------------------------------------------------------------------------- */
 
 function NotFound() {
@@ -54,7 +53,6 @@ function NotFound() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      {/* ダーク背景ヘッダー（Profile.tsx・Articles.tsx と同じトーン） */}
       <section className="relative bg-stone-950 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/60 to-stone-950" />
         <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-24 md:py-32 text-center">
@@ -80,7 +78,6 @@ function NotFound() {
         </div>
       </section>
 
-      {/* 案内セクション */}
       <section className="py-16 md:py-20 px-5 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -88,16 +85,15 @@ function NotFound() {
           transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-xl mx-auto space-y-10"
         >
-          {/* よく使われるページへのリンク */}
           <div className="space-y-3">
             <p className="text-[10px] tracking-[0.25em] uppercase text-[#8FAF9F] font-medium">
               こちらをお探しですか
             </p>
             <div className="space-y-2.5">
               {[
-                { to: "/",         label: "トップページ",        sub: "サービス概要・お問い合わせ" },
-                { to: "/profile",  label: "プロフィール",         sub: "松本龍児（公認心理師）について" },
-                { to: "/articles", label: "心理記事",             sub: "支援職のための構造的な視点" },
+                { to: "/",         label: "トップページ",  sub: "サービス概要・お問い合わせ" },
+                { to: "/profile",  label: "プロフィール",   sub: "松本龍児（公認心理師）について" },
+                { to: "/articles", label: "心理記事",       sub: "支援職のための構造的な視点" },
               ].map(({ to, label, sub }) => (
                 <Link
                   key={to}
@@ -119,7 +115,6 @@ function NotFound() {
             </div>
           </div>
 
-          {/* CTAボタン */}
           <div className="text-center space-y-3 pt-2 border-t border-stone-100">
             <p
               className="text-stone-600 text-sm leading-[2]"
@@ -165,9 +160,10 @@ function App() {
       <Layout>
         <Routes>
           {/* メインページ */}
-          <Route path="/"         element={<Home />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/profile"  element={<Profile />} />
+          <Route path="/"                element={<Home />} />
+          <Route path="/articles"        element={<Articles />} />
+          <Route path="/profile"         element={<Profile />} />
+          <Route path="/empathy-fatigue" element={<EmpathyFatigue />} />
 
           {/* 記事ページ（自動生成） */}
           {articleRoutes}
