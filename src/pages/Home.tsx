@@ -332,26 +332,28 @@ function Home() {
               <p className="text-stone-700 text-sm font-medium hidden sm:block flex-shrink-0" style={{ fontFamily: "'Noto Serif JP', serif" }}>こころの相談室 いしずえ</p>
               <p className="text-stone-500 text-xs sm:hidden flex-shrink-0">いしずえ</p>
 
-              {/* アンカーリンク — デスクトップのみ */}
-              <nav className="hidden md:flex items-center gap-1 text-xs text-stone-500">
+              {/* アンカーリンク — モバイルは短縮ラベル、デスクトップはフルラベル */}
+              <nav className="flex items-center gap-1 text-xs text-stone-500">
                 {[
-                  { href: "#voices", label: "相談された方の声" },
-                  { href: "#guide",  label: "料金・流れ" },
-                  { href: "#contact", label: "FAQ" },
-                ].map(({ href, label }) => (
+                  { href: "#voices", label: "声",       labelMd: "相談された方の声" },
+                  { href: "#guide",  label: "料金",     labelMd: "料金・流れ" },
+                  { href: "#contact", label: "相談する", labelMd: "相談する" },
+                ].map(({ href, label, labelMd }) => (
                   <a
                     key={href}
                     href={href}
-                    className="px-3 py-1.5 rounded-lg hover:bg-stone-100 hover:text-stone-800 transition-colors"
+                    className="px-2.5 py-1.5 rounded-lg hover:bg-stone-100 hover:text-stone-800 transition-colors whitespace-nowrap"
                   >
-                    {label}
+                    <span className="md:hidden">{label}</span>
+                    <span className="hidden md:inline">{labelMd}</span>
                   </a>
                 ))}
               </nav>
 
-              <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 bg-stone-900 text-stone-50 text-xs font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all">
+              <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-stone-900 text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-stone-800 transition-all">
                 <MessageCircle className="w-3.5 h-3.5" />
-                無料で相談する
+                <span className="md:hidden">相談</span>
+                <span className="hidden md:inline">無料で相談する</span>
               </a>
             </div>
           </motion.div>
