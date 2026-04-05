@@ -25,12 +25,15 @@ const SAGE = "#8FAF9F";
 type Category = { id: string; label: string; keywords: string[]; isCheck?: boolean };
 
 const CATEGORIES: Category[] = [
-  { id: "check",    label: "セルフチェック",    keywords: ["check"],                             isCheck: true },
-  { id: "burnout",  label: "バーンアウト",       keywords: ["burnout", "burn-out"] },
-  { id: "empathy",  label: "共感疲労・二次受傷", keywords: ["empathy", "secondary", "compassion"] },
-  { id: "boundary", label: "境界線・抱え込み",   keywords: ["boundary", "overwork"] },
-  { id: "job",      label: "職種別",             keywords: ["nurse", "caregiver", "teacher", "school", "welfare"] },
-  { id: "recovery", label: "回復・ケア",         keywords: ["recovery", "rest", "coping", "stress", "care"] },
+  { id: "check",    label: "セルフチェック",    keywords: ["check"],                                                           isCheck: true },
+  { id: "burnout",  label: "バーンアウト",       keywords: ["burnout", "burn-out", "signs", "quit", "resign"] },
+  { id: "empathy",  label: "共感疲労・二次受傷", keywords: ["empathy", "secondary", "compassion", "fatigue", "emotional-labor", "emotional-fatigue"] },
+  { id: "boundary", label: "境界線・抱え込み",   keywords: ["boundary", "overwork", "no-", "guilt", "sacrifice", "involve", "carry"] },
+  { id: "job",      label: "職種別",             keywords: ["nurse", "caregiver", "teacher", "school", "welfare", "counselor", "sw-", "social-worker"] },
+  { id: "recovery", label: "回復・ケア",         keywords: ["recovery", "rest", "coping", "stress", "care", "return", "leave", "shift", "online-counseling", "self-care"] },
+  { id: "labor",    label: "感情労働",           keywords: ["labor", "emotional-labor", "labor-fatigue"] },
+  { id: "career",   label: "職場・キャリア",     keywords: ["career", "workplace", "harassment", "transfer", "team", "boss", "manager", "claim", "complaint", "job"] },
+  { id: "counsel",  label: "カウンセリング",     keywords: ["counseling", "counselling"] },
   { id: "other",    label: "その他",             keywords: [] },
 ];
 
