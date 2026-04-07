@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 export default function HelperDecisionFatigue() {
   return (
     <ArticleLayout
-      title="判断コストが重たいとは｜支援職が「決めること」で消耗する心理的背景"
+      title="支援職の意思決定疲労とは｜「もう考えたくない」の正体を理解する"
       description="「些細なことを決めるのも億劫になってきた」という感覚の背景に、判断コストの蓄積が関与していることがあります。支援職に判断コストが蓄積しやすい構造を整理します。"
       url="https://ishizue-site-ker9.vercel.app/articles/helper-decision-fatigue"
       date="2026-04-05"
