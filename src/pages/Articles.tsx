@@ -1,7 +1,7 @@
 /**
  * Articles.tsx
  * こころの相談室 いしずえ
- * カテゴリ分け表示版 — セルフチェック優先・タブ切り替え
+ * 3層構造版 — 消耗テーマ / 境界線・人間関係 / キャリア危機 + セルフチェック優先
  */
 
 import { useState } from "react";
@@ -17,121 +17,192 @@ const fadeUp: Variants = {
 };
 const stagger: Variants = {
   hidden:  {},
-  visible: { transition: { staggerChildren: 0.06 } },
+  visible: { transition: { staggerChildren: 0.05 } },
 };
 
 const SAGE = "#8FAF9F";
 
-type Category = { id: string; label: string; keywords: string[]; isCheck?: boolean };
+/* -------------------------------------------------------------------------- */
+/*  3層カテゴリ定義                                                             */
+/* -------------------------------------------------------------------------- */
 
-const CATEGORIES: Category[] = [
-  { id: "check",    label: "セルフチェック",    keywords: ["check"],                                                           isCheck: true },
-  { id: "burnout",  label: "バーンアウト",       keywords: ["burnout", "burn-out", "signs", "quit", "resign"] },
-  { id: "empathy",  label: "共感疲労・二次受傷", keywords: ["empathy", "secondary", "compassion", "fatigue", "emotional-labor", "emotional-fatigue"] },
-  { id: "boundary", label: "境界線・抱え込み",   keywords: ["boundary", "overwork", "no-", "guilt", "sacrifice", "involve", "carry"] },
-  { id: "job",      label: "職種別",             keywords: ["nurse", "caregiver", "teacher", "school", "welfare", "counselor", "sw-", "social-worker"] },
-  { id: "recovery", label: "回復・ケア",         keywords: ["recovery", "rest", "coping", "stress", "care", "return", "leave", "shift", "online-counseling", "self-care"] },
-  { id: "labor",    label: "感情労働",           keywords: ["labor", "emotional-labor", "labor-fatigue"] },
-  { id: "career",   label: "職場・キャリア",     keywords: ["career", "workplace", "harassment", "transfer", "team", "boss", "manager", "claim", "complaint", "job"] },
-  { id: "counsel",  label: "カウンセリング",     keywords: ["counseling", "counselling"] },
-  { id: "other",    label: "その他",             keywords: [] },
+type Layer = {
+  id:       string;
+  label:    string;
+  desc:     string;
+  sections: Section[];
+};
+
+type Section = {
+  id:       string;
+  label:    string;
+  keywords: string[];
+  isCheck?: boolean;
+};
+
+const LAYERS: Layer[] = [
+  {
+    id:    "exhaustion",
+    label: "消耗を理解する",
+    desc:  "支援職の消耗がなぜ起きるのか、構造的な視点から整理した記事",
+    sections: [
+      { id: "check",          label: "セルフチェック",   keywords: ["check"],                              isCheck: true },
+      { id: "burnout",        label: "バーンアウト",      keywords: ["burnout", "burn-out", "signs"] },
+      { id: "compassion",     label: "共感疲労・二次受傷",keywords: ["empathy", "secondary", "compassion", "fatigue"] },
+      { id: "emotional_labor",label: "感情労働",          keywords: ["emotional-labor", "labor-fatigue", "emotional-fatigue", "labor"] },
+      { id: "rest",           label: "休息・回復",         keywords: ["rest", "recovery", "self-care", "coping"] },
+    ],
+  },
+  {
+    id:    "relationship",
+    label: "抱え込み・境界線・職場",
+    desc:  "断れない・職場の人間関係・境界線の曖昧さによる消耗を整理した記事",
+    sections: [
+      { id: "boundary",    label: "境界線・抱え込み", keywords: ["boundary", "overwork", "sacrifice", "involve"] },
+      { id: "workplace",   label: "職場・人間関係",   keywords: ["workplace", "team", "boss", "harassment", "claim", "colleague", "human"] },
+      { id: "counseling",  label: "カウンセリング",   keywords: ["counseling", "counselling"] },
+      { id: "job_specific",label: "職種別",           keywords: ["nurse", "caregiver", "teacher", "school", "welfare", "nursery", "social-worker"] },
+    ],
+  },
+  {
+    id:    "career",
+    label: "辞めたい・続けられない",
+    desc:  "辞めたい・休職・復職・キャリアの壁に直面している方への記事",
+    sections: [
+      { id: "quit",    label: "辞めたい・退職",  keywords: ["quit", "resign", "leave-job", "guilty-leave"] },
+      { id: "absence", label: "休職・復職",      keywords: ["absence", "return", "leave", "休職", "復職"] },
+      { id: "career",  label: "キャリア・閉塞感",keywords: ["career", "transfer", "repeat", "closure", "suitable"] },
+    ],
+  },
 ];
 
-function getCategoryId(path: string): string {
+/* -------------------------------------------------------------------------- */
+/*  ユーティリティ                                                              */
+/* -------------------------------------------------------------------------- */
+
+function matchSection(path: string, section: Section): boolean {
   const p = path.toLowerCase();
-  for (const cat of CATEGORIES) {
-    if (cat.id === "other") continue;
-    if (cat.keywords.some((kw) => p.includes(kw))) return cat.id;
-  }
-  return "other";
+  return section.keywords.some((kw) => p.includes(kw));
 }
 
-function ArticleCard({ article, isCheck }: { article: { title: string; path: string; description: string }; isCheck?: boolean }) {
+function getArticlesForSection(section: Section) {
+  return articles.filter((a) => matchSection(a.path, section));
+}
+
+function getUnclassified(): typeof articles {
+  const allSections = LAYERS.flatMap((l) => l.sections);
+  return articles.filter((a) =>
+    !allSections.some((s) => matchSection(a.path, s))
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Sub-components                                                             */
+/* -------------------------------------------------------------------------- */
+
+function ArticleCard({ article, isCheck }: { article: typeof articles[0]; isCheck?: boolean }) {
   return (
     <motion.div variants={fadeUp}>
       <Link
         to={article.path}
-        className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-6 bg-white border border-stone-100 rounded-2xl p-5 md:p-6 hover:shadow-md transition-all duration-300"
-        style={{ borderColor: "" }}
-        onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}80`; }}
+        className="group flex flex-col md:flex-row md:items-center gap-3 md:gap-5 bg-white border border-stone-100 rounded-xl p-4 md:p-5 hover:shadow-sm transition-all duration-200"
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}70`; }}
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
         itemScope itemType="https://schema.org/Article"
       >
         <div
-          className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ background: `${SAGE}${isCheck ? "22" : "0e"}`, color: SAGE }}
+          className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+          style={{ background: `${SAGE}${isCheck ? "20" : "0d"}`, color: SAGE }}
           aria-hidden="true"
         >
-          {isCheck ? <ClipboardList className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}
+          {isCheck ? <ClipboardList className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
         </div>
-        <div className="flex-1 min-w-0 space-y-1">
-          <h2
-            className="text-sm md:text-base font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors"
+        <div className="flex-1 min-w-0 space-y-0.5">
+          <h3
+            className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors"
             style={{ fontFamily: "'Noto Serif JP', serif" }}
             itemProp="name"
           >
             {article.title}
-          </h2>
-          <p className="text-stone-400 text-xs md:text-sm leading-[1.8] line-clamp-2" itemProp="description">
+          </h3>
+          <p className="text-stone-400 text-xs leading-relaxed line-clamp-1 hidden md:block" itemProp="description">
             {article.description}
           </p>
         </div>
-        <div className="flex-shrink-0 hidden md:flex items-center text-stone-300 group-hover:text-[#8FAF9F] transition-colors">
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-        </div>
-        <div className="flex items-center justify-between text-xs text-stone-400 md:hidden pt-1 border-t border-stone-100">
-          <span>記事を読む</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </div>
+        <ArrowRight className="flex-shrink-0 w-4 h-4 text-stone-300 group-hover:text-[#8FAF9F] group-hover:translate-x-0.5 transition-all hidden md:block" />
       </Link>
     </motion.div>
   );
 }
 
-function CategorySection({ category, items }: { category: Category; items: typeof articles }) {
+function SectionBlock({ section }: { section: Section }) {
+  const items = getArticlesForSection(section);
   if (items.length === 0) return null;
   return (
-    <div className="mb-12">
-      <div className="flex items-center gap-3 mb-5">
+    <div className="mb-8">
+      <div className="flex items-center gap-2.5 mb-3">
         <span
-          className="text-[10px] tracking-[0.25em] uppercase font-medium px-3 py-1 rounded-full"
-          style={{ color: SAGE, background: `${SAGE}12`, border: `1px solid ${SAGE}40` }}
+          className="text-[10px] tracking-[0.22em] uppercase font-medium px-2.5 py-1 rounded-full"
+          style={{ color: SAGE, background: `${SAGE}10`, border: `1px solid ${SAGE}35` }}
         >
-          {category.label}
+          {section.label}
         </span>
         <span className="text-xs text-stone-400">{items.length}本</span>
       </div>
       <motion.div
         initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} variants={stagger}
-        className="space-y-3"
+        className="space-y-2"
       >
-        {items.map((a) => <ArticleCard key={a.path} article={a} isCheck={category.isCheck} />)}
+        {items.map((a) => <ArticleCard key={a.path} article={a} isCheck={section.isCheck} />)}
       </motion.div>
     </div>
   );
 }
 
+function LayerBlock({ layer }: { layer: Layer }) {
+  const totalCount = layer.sections.reduce((n, s) => n + getArticlesForSection(s).length, 0);
+  if (totalCount === 0) return null;
+  return (
+    <div className="mb-16">
+      <div className="mb-6 pb-4 border-b border-stone-100">
+        <div className="flex items-baseline gap-3 mb-1">
+          <h2
+            className="text-lg md:text-xl font-medium text-stone-900"
+            style={{ fontFamily: "'Noto Serif JP', serif" }}
+          >
+            {layer.label}
+          </h2>
+          <span className="text-xs text-stone-400">{totalCount}本</span>
+        </div>
+        <p className="text-stone-500 text-sm">{layer.desc}</p>
+      </div>
+      {layer.sections.map((section) => (
+        <SectionBlock key={section.id} section={section} />
+      ))}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Tabs                                                                       */
+/* -------------------------------------------------------------------------- */
+
 const TABS = [
-  { id: "all",   label: "すべて" },
-  { id: "check", label: "セルフチェック" },
   { id: "theme", label: "テーマ別" },
+  { id: "all",   label: "すべて" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
 
+/* -------------------------------------------------------------------------- */
+/*  Main                                                                       */
+/* -------------------------------------------------------------------------- */
+
 export default function Articles() {
-  const [activeTab, setActiveTab] = useState<TabId>("all");
+  const [activeTab, setActiveTab] = useState<TabId>("theme");
 
-  const categorized = CATEGORIES.map((cat) => ({
-    category: cat,
-    items: articles.filter((a) =>
-      cat.id === "other"
-        ? !CATEGORIES.filter((c) => c.id !== "other").some((c) => c.keywords.some((kw) => a.path.toLowerCase().includes(kw)))
-        : getCategoryId(a.path) === cat.id
-    ),
-  }));
-
-  const checkItems = categorized.find((c) => c.category.id === "check")?.items ?? [];
-  const otherCats  = categorized.filter((c) => c.category.id !== "check");
+  const checkSection = LAYERS[0].sections.find((s) => s.id === "check");
+  const checkItems   = checkSection ? getArticlesForSection(checkSection) : [];
+  const unclassified = getUnclassified();
 
   return (
     <>
@@ -159,10 +230,22 @@ export default function Articles() {
                   構造的な視点から整理しています。
                 </p>
               </motion.div>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
-                {["燃え尽き・バーンアウト", "二次受傷", "役割過剰", "境界線", "セルフチェック"].map((tag) => (
-                  <span key={tag} className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] text-[11px] tracking-[0.08em] text-white/65">
-                    {tag}
+
+              {/* テーマ別導線カード */}
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-2 pt-1">
+                {[
+                  { label: "共感疲労",   keyword: "compassion" },
+                  { label: "バーンアウト", keyword: "burnout" },
+                  { label: "辞めたい",   keyword: "quit" },
+                  { label: "境界線",     keyword: "boundary" },
+                  { label: "休職",       keyword: "absence" },
+                  { label: "感情労働",   keyword: "labor" },
+                ].map(({ label }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] text-[11px] tracking-[0.06em] text-white/70 cursor-default"
+                  >
+                    {label}
                   </span>
                 ))}
               </motion.div>
@@ -178,79 +261,75 @@ export default function Articles() {
             <motion.div
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
               className="mb-10 p-5 md:p-6 rounded-2xl"
-              style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}50` }}
+              style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}45` }}
             >
               <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1.5" style={{ color: SAGE }}>
-                まず今の状態を確認したい方はこちらから
+                まず今の状態を確認したい方はこちら
               </p>
               <p className="text-stone-600 text-sm leading-[1.8] mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                 バーンアウト・共感疲労・感情労働の消耗度をセルフチェックで確認できます。
               </p>
               <div className="flex flex-wrap gap-2">
-                {checkItems.slice(0, 3).map((a) => (
+                {checkItems.slice(0, 4).map((a) => (
                   <Link
                     key={a.path} to={a.path}
-                    className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-stone-200 bg-white text-stone-600 hover:border-[#8FAF9F]/50 hover:text-stone-800 transition-all"
+                    className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-stone-200 bg-white text-stone-600 hover:text-stone-900 transition-all"
+                    style={{ borderColor: "", }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
                   >
                     <ClipboardList className="w-3 h-3" style={{ color: SAGE }} />
-                    {a.title.split("｜")[0].replace(/セルフチェック|チェック/g, "").trim() || a.title.split("｜")[0]}
+                    {a.title.split("｜")[0].replace(/セルフチェック|チェック/g, "").trim()}
                   </Link>
                 ))}
-                {checkItems.length > 3 && (
-                  <button
-                    onClick={() => setActiveTab("check")}
-                    className="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border border-stone-200 bg-white text-stone-400 hover:text-stone-600 transition-all"
-                  >
-                    他{checkItems.length - 3}本 →
-                  </button>
-                )}
               </div>
             </motion.div>
 
             {/* タブ */}
-            <div className="flex gap-0 mb-8 border-b border-stone-100">
+            <div className="flex gap-0 mb-10 border-b border-stone-100">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${
+                  className={`px-5 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${
                     activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"
                   }`}
                   style={activeTab === tab.id ? { borderBottomColor: SAGE } : {}}
                 >
                   {tab.label}
-                  <span className="ml-1.5 text-xs text-stone-400">
-                    {tab.id === "all"   ? articles.length : ""}
-                    {tab.id === "check" ? checkItems.length : ""}
-                    {tab.id === "theme" ? articles.length - checkItems.length : ""}
-                  </span>
+                  {tab.id === "all" && <span className="ml-1.5 text-xs text-stone-400">{articles.length}</span>}
                 </button>
               ))}
             </div>
 
-            {/* すべて */}
-            {activeTab === "all" && (
-              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-3">
-                {articles.map((a) => (
-                  <ArticleCard key={a.path} article={a} isCheck={getCategoryId(a.path) === "check"} />
-                ))}
-              </motion.div>
-            )}
-
-            {/* セルフチェック */}
-            {activeTab === "check" && (
-              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-3">
-                {checkItems.map((a) => <ArticleCard key={a.path} article={a} isCheck />)}
-              </motion.div>
-            )}
-
-            {/* テーマ別 */}
+            {/* テーマ別（3層構造） */}
             {activeTab === "theme" && (
               <div>
-                {otherCats.map(({ category, items }) => (
-                  <CategorySection key={category.id} category={category} items={items} />
-                ))}
+                {LAYERS.map((layer) => <LayerBlock key={layer.id} layer={layer} />)}
+                {/* 未分類 */}
+                {unclassified.length > 0 && (
+                  <div className="mb-16">
+                    <div className="mb-6 pb-4 border-b border-stone-100">
+                      <div className="flex items-baseline gap-3 mb-1">
+                        <h2 className="text-lg font-medium text-stone-900" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                          その他
+                        </h2>
+                        <span className="text-xs text-stone-400">{unclassified.length}本</span>
+                      </div>
+                    </div>
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} variants={stagger} className="space-y-2">
+                      {unclassified.map((a) => <ArticleCard key={a.path} article={a} />)}
+                    </motion.div>
+                  </div>
+                )}
               </div>
+            )}
+
+            {/* すべて */}
+            {activeTab === "all" && (
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
+                {articles.map((a) => <ArticleCard key={a.path} article={a} />)}
+              </motion.div>
             )}
 
             {articles.length === 0 && (
