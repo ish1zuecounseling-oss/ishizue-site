@@ -23,6 +23,17 @@ const stagger: Variants = {
 const SAGE = "#8FAF9F";
 
 /* -------------------------------------------------------------------------- */
+/*  王様記事 — 一覧最上部に固定表示するスラッグ（優先順）                          */
+/* -------------------------------------------------------------------------- */
+const PILLAR_PATHS = [
+  "/articles/helper-empathy-check",         // 共感疲労セルフチェック
+  "/articles/helper-burnout-check",         // バーンアウトセルフチェック（存在すれば）
+  "/articles/helper-emotional-labor-check", // 感情労働消耗度チェック（存在すれば）
+  "/articles/helper-empathy-fatigue",       // 共感疲労とは
+  "/articles/helper-burnout",               // バーンアウトとは
+] as const;
+
+/* -------------------------------------------------------------------------- */
 /*  3層カテゴリ定義                                                             */
 /* -------------------------------------------------------------------------- */
 
@@ -46,11 +57,11 @@ const LAYERS: Layer[] = [
     label: "消耗を理解する",
     desc:  "支援職の消耗がなぜ起きるのか、構造的な視点から整理した記事",
     sections: [
-      { id: "check",          label: "セルフチェック",   keywords: ["check"],                              isCheck: true },
-      { id: "burnout",        label: "バーンアウト",      keywords: ["burnout", "burn-out", "signs"] },
+      { id: "check",          label: "セルフチェック",    keywords: ["check"],                                                    isCheck: true },
       { id: "compassion",     label: "共感疲労・二次受傷",keywords: ["empathy", "secondary", "compassion", "fatigue"] },
-      { id: "emotional_labor",label: "感情労働",          keywords: ["emotional-labor", "labor-fatigue", "emotional-fatigue", "labor"] },
-      { id: "rest",           label: "休息・回復",         keywords: ["rest", "recovery", "self-care", "coping"] },
+      { id: "burnout",        label: "バーンアウト",       keywords: ["burnout", "burn-out", "signs"] },
+      { id: "emotional_labor",label: "感情労働",           keywords: ["emotional-labor", "labor-fatigue", "emotional-fatigue", "labor"] },
+      { id: "rest",           label: "休息・回復",          keywords: ["rest", "recovery", "self-care", "coping"] },
     ],
   },
   {
@@ -60,8 +71,8 @@ const LAYERS: Layer[] = [
     sections: [
       { id: "boundary",    label: "境界線・抱え込み", keywords: ["boundary", "overwork", "sacrifice", "involve"] },
       { id: "workplace",   label: "職場・人間関係",   keywords: ["workplace", "team", "boss", "harassment", "claim", "colleague", "human"] },
-      { id: "counseling",  label: "カウンセリング",   keywords: ["counseling", "counselling"] },
       { id: "job_specific",label: "職種別",           keywords: ["nurse", "caregiver", "teacher", "school", "welfare", "nursery", "social-worker"] },
+      { id: "counseling",  label: "カウンセリング活用",keywords: ["counseling", "counselling"] },
     ],
   },
   {
@@ -70,8 +81,8 @@ const LAYERS: Layer[] = [
     desc:  "辞めたい・休職・復職・キャリアの壁に直面している方への記事",
     sections: [
       { id: "quit",    label: "辞めたい・退職",  keywords: ["quit", "resign", "leave-job", "guilty-leave"] },
-      { id: "absence", label: "休職・復職",      keywords: ["absence", "return", "leave", "休職", "復職"] },
-      { id: "career",  label: "キャリア・閉塞感",keywords: ["career", "transfer", "repeat", "closure", "suitable"] },
+      { id: "absence", label: "休職・復職",       keywords: ["absence", "return", "leave"] },
+      { id: "career",  label: "キャリア・閉塞感", keywords: ["career", "transfer", "repeat", "closure", "suitable"] },
     ],
   },
 ];
@@ -267,33 +278,64 @@ export default function Articles() {
         <section className="py-12 md:py-20 px-5 md:px-6" itemScope itemType="https://schema.org/CollectionPage">
           <div className="max-w-4xl mx-auto">
 
-            {/* セルフチェック導線バナー */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-              className="mb-10 p-5 md:p-6 rounded-2xl"
-              style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}45` }}
-            >
-              <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1.5" style={{ color: SAGE }}>
-                まず今の状態を確認したい方はこちら
-              </p>
-              <p className="text-stone-600 text-sm leading-[1.8] mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                バーンアウト・共感疲労・感情労働の消耗度をセルフチェックで確認できます。
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {checkItems.slice(0, 4).map((a) => (
-                  <Link
-                    key={a.path} to={a.path}
-                    className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-stone-200 bg-white text-stone-600 hover:text-stone-900 transition-all"
-                    style={{ borderColor: "", }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
-                  >
-                    <ClipboardList className="w-3 h-3" style={{ color: SAGE }} />
-                    {a.title.split("｜")[0].replace(/セルフチェック|チェック/g, "").trim()}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
+            {/* ============================================================
+                王様記事 固定ブロック — 一覧最上部に常時表示
+                ここにリンクを集中させることでSEO評価を集める
+            ============================================================ */}
+            {(() => {
+              const pillarArticles = PILLAR_PATHS
+                .map((p) => articles.find((a) => a.path === p))
+                .filter((a): a is NonNullable<typeof a> => !!a);
+              if (pillarArticles.length === 0) return null;
+              return (
+                <motion.section
+                  initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+                  className="mb-10 rounded-2xl overflow-hidden"
+                  style={{ border: `1px solid ${SAGE}50` }}
+                  aria-label="まず読んでほしい記事"
+                >
+                  {/* ヘッダー */}
+                  <div className="px-5 py-3.5 flex items-center gap-2" style={{ background: `${SAGE}12` }}>
+                    <ClipboardList className="w-4 h-4" style={{ color: SAGE }} aria-hidden="true" />
+                    <p className="text-xs font-medium tracking-wide" style={{ color: SAGE }}>
+                      まず今の状態を確認したい方へ
+                    </p>
+                  </div>
+                  {/* 王様記事リスト */}
+                  <div className="bg-white divide-y divide-stone-50">
+                    {pillarArticles.map((a, i) => (
+                      <Link
+                        key={a.path}
+                        to={a.path}
+                        className="group flex items-center gap-4 px-5 py-4 hover:bg-stone-50 transition-colors"
+                        itemScope itemType="https://schema.org/Article"
+                      >
+                        <div
+                          className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold"
+                          style={{ background: `${SAGE}${i === 0 ? "22" : "0e"}`, color: SAGE }}
+                          aria-hidden="true"
+                        >
+                          {i + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors"
+                            style={{ fontFamily: "'Noto Serif JP', serif" }}
+                            itemProp="name"
+                          >
+                            {a.title}
+                          </p>
+                          <p className="text-xs text-stone-400 mt-0.5 line-clamp-1 hidden md:block" itemProp="description">
+                            {a.description}
+                          </p>
+                        </div>
+                        <ArrowRight className="flex-shrink-0 w-4 h-4 text-stone-300 group-hover:text-[#8FAF9F] group-hover:translate-x-0.5 transition-all" />
+                      </Link>
+                    ))}
+                  </div>
+                </motion.section>
+              );
+            })()}
 
             {/* タブ */}
             <div className="flex gap-0 mb-10 border-b border-stone-100">
