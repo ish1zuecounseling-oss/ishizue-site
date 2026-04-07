@@ -96,6 +96,42 @@ function urlToPath(url: string): string {
   }
 }
 
+
+/* -------------------------------------------------------------------------- */
+/*  タグ自動付与                                                                */
+/*  ファイル名のキーワードからタグを自動生成する                                  */
+/* -------------------------------------------------------------------------- */
+
+const TAG_MAP: Array<{ keywords: string[]; tag: string }> = [
+  { keywords: ["empathy", "compassion", "fatigue"],   tag: "compassion" },
+  { keywords: ["burnout", "burn-out", "signs"],        tag: "burnout" },
+  { keywords: ["emotional-labor", "emotional-fatigue", "labor"], tag: "emotional_labor" },
+  { keywords: ["secondary", "trauma"],                 tag: "secondary_trauma" },
+  { keywords: ["boundary", "overwork", "no-"],         tag: "boundary" },
+  { keywords: ["quit", "resign", "career", "job"],     tag: "career_crisis" },
+  { keywords: ["recovery", "rest", "self-care", "coping"], tag: "recovery" },
+  { keywords: ["nurse"],                               tag: "nurse" },
+  { keywords: ["nursery", "preschool", "childcare"],   tag: "nursery" },
+  { keywords: ["teacher", "school", "educator"],       tag: "teacher" },
+  { keywords: ["welfare", "social-worker", "sw-"],     tag: "welfare" },
+  { keywords: ["check"],                               tag: "check" },
+];
+
+function getTagsFromPath(path: string): string[] {
+  const p = path.toLowerCase();
+  const tags: string[] = [];
+  for (const { keywords, tag } of TAG_MAP) {
+    if (keywords.some((kw) => p.includes(kw))) {
+      if (!tags.includes(tag)) tags.push(tag);
+    }
+  }
+  return tags;
+}
+
+function getSlugFromPath(path: string): string {
+  return path.replace("/articles/", "");
+}
+
 /* -------------------------------------------------------------------------- */
 /*  メイン処理                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -114,8 +150,10 @@ function generate() {
   type Article = {
     title:       string;
     path:        string;
+    slug:        string;
     description: string;
     updatedAt:   string;
+    tags:        string[];
   };
 
   const articles: Article[]   = [];
@@ -165,8 +203,10 @@ function generate() {
     articles.push({
       title,
       path:      articlePath,
+      slug:      getSlugFromPath(articlePath),
       description,
       updatedAt: date || new Date().toISOString().split("T")[0],
+      tags:      getTagsFromPath(articlePath),
     });
   }
 
@@ -184,8 +224,10 @@ function generate() {
     "export type Article = {",
     "  title:       string;",
     "  path:        string;",
+    "  slug:        string;",
     "  description: string;",
     "  updatedAt:   string;",
+    "  tags:        string[];",
     "};",
     "",
     "export const articles: Article[] = [",
@@ -195,8 +237,10 @@ function generate() {
     lines.push("  {");
     lines.push(`    title:       ${JSON.stringify(a.title)},`);
     lines.push(`    path:        ${JSON.stringify(a.path)},`);
+    lines.push(`    slug:        ${JSON.stringify(a.slug)},`);
     lines.push(`    description: ${JSON.stringify(a.description)},`);
     lines.push(`    updatedAt:   ${JSON.stringify(a.updatedAt)},`);
+    lines.push(`    tags:        ${JSON.stringify(a.tags)},`);
     lines.push("  },");
   }
 
