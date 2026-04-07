@@ -163,7 +163,7 @@ function LayerBlock({ layer }: { layer: Layer }) {
   const totalCount = layer.sections.reduce((n, s) => n + getArticlesForSection(s).length, 0);
   if (totalCount === 0) return null;
   return (
-    <div className="mb-16">
+    <div id={`layer-${layer.id}`} className="mb-16 scroll-mt-20">
       <div className="mb-6 pb-4 border-b border-stone-100">
         <div className="flex items-baseline gap-3 mb-1">
           <h2
@@ -231,23 +231,33 @@ export default function Articles() {
                 </p>
               </motion.div>
 
-              {/* テーマ別導線カード */}
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-2 pt-1">
-                {[
-                  { label: "共感疲労",   keyword: "compassion" },
-                  { label: "バーンアウト", keyword: "burnout" },
-                  { label: "辞めたい",   keyword: "quit" },
-                  { label: "境界線",     keyword: "boundary" },
-                  { label: "休職",       keyword: "absence" },
-                  { label: "感情労働",   keyword: "labor" },
-                ].map(({ label }) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] text-[11px] tracking-[0.06em] text-white/70 cursor-default"
-                  >
-                    {label}
-                  </span>
-                ))}
+              {/* テーマ別ジャンプリンク */}
+              <motion.div variants={fadeUp} className="pt-1 space-y-2">
+                <p className="text-[10px] tracking-[0.2em] uppercase text-white/40">今の悩みから探す</p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { label: "消耗を理解する",         layerId: "exhaustion" },
+                    { label: "抱え込み・境界線・職場", layerId: "relationship" },
+                    { label: "辞めたい・続けられない", layerId: "career" },
+                  ].map(({ label, layerId }) => (
+                    <a
+                      key={layerId}
+                      href={`#layer-${layerId}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveTab("theme");
+                        setTimeout(() => {
+                          const el = document.getElementById(`layer-${layerId}`);
+                          if (el) el.scrollIntoView({ behavior: "smooth" });
+                        }, 50);
+                      }}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-white/25 bg-white/[0.1] text-[11px] tracking-[0.05em] text-white/80 hover:bg-white/20 hover:text-white transition-all cursor-pointer"
+                    >
+                      <ArrowRight className="w-3 h-3" />
+                      {label}
+                    </a>
+                  ))}
+                </div>
               </motion.div>
             </motion.div>
           </div>
