@@ -6,7 +6,7 @@
 import { useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ClipboardList, ChevronRight } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, ChevronRight, BatteryLow, LogOut, Layers, Users, Moon, RotateCcw } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
 
@@ -41,17 +41,17 @@ const STARTER_PATHS = [
 
 type ShindoCard = {
   label:    string;
-  emoji:    string;
+  icon:     string;
   keywords: string[];
 };
 
 const SHINDO_CARDS: ShindoCard[] = [
-  { label: "疲れが取れない",       emoji: "😮‍💨", keywords: ["fatigue", "empathy", "rest", "recovery", "burnout"] },
-  { label: "辞めたい",             emoji: "🚪", keywords: ["quit", "resign", "guilty-leave", "career", "closure"] },
-  { label: "利用者を抱え込みすぎる", emoji: "💼", keywords: ["overwork", "boundary", "sacrifice", "involve"] },
-  { label: "人間関係がつらい",      emoji: "👥", keywords: ["workplace", "team", "boss", "harassment", "human"] },
-  { label: "休みたいのに休めない",  emoji: "🛌", keywords: ["rest", "absence", "leave", "return", "guilt"] },
-  { label: "復職・続けるか迷う",    emoji: "🔄", keywords: ["return", "transfer", "repeat", "suitable", "absence"] },
+  { label: "疲れが取れない",        icon: "BatteryLow", keywords: ["fatigue", "empathy", "rest", "recovery", "burnout"] },
+  { label: "辞めたい",              icon: "LogOut",     keywords: ["quit", "resign", "guilty-leave", "career", "closure"] },
+  { label: "利用者を抱え込みすぎる", icon: "Layers",     keywords: ["overwork", "boundary", "sacrifice", "involve"] },
+  { label: "人間関係がつらい",       icon: "Users",      keywords: ["workplace", "team", "boss", "harassment", "human"] },
+  { label: "休みたいのに休めない",   icon: "Moon",       keywords: ["rest", "absence", "leave", "return", "guilt"] },
+  { label: "復職・続けるか迷う",     icon: "RotateCcw",  keywords: ["return", "transfer", "repeat", "suitable", "absence"] },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -362,7 +362,12 @@ export default function Articles() {
                         background:  activeShindo?.label === card.label ? `${SAGE}0e` : "white",
                       }}
                     >
-                      <span className="text-xl" aria-hidden="true">{card.emoji}</span>
+                      {card.icon === "BatteryLow" && <BatteryLow className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
+                      {card.icon === "LogOut"     && <LogOut     className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
+                      {card.icon === "Layers"     && <Layers     className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
+                      {card.icon === "Users"      && <Users      className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
+                      {card.icon === "Moon"       && <Moon       className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
+                      {card.icon === "RotateCcw"  && <RotateCcw  className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
                       <span className="text-sm font-medium text-stone-700 leading-snug"
                         style={{ fontFamily: "'Noto Serif JP', serif" }}>
                         {card.label}
