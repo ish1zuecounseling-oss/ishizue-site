@@ -38,24 +38,24 @@ const resultConfig = {
     label: "比較的安定している状態です",
     color: "result-low",
     message: "今のうちにセルフケアの習慣を整えておくことが、長く働き続けるための土台になります。まずは自分の回復パターンを知ることから始めてみましょう。",
+    nextLabel: "今の状態を予防に活かす記事",
     links: [
-      { href: "/articles/helper-rest-importance", text: "休むことの大切さ｜支援職のための休息の考え方" },
-      { href: "/articles/helper-stress-coping", text: "自分に合ったストレスコーピングを見つける" },
-      { href: "/articles/helper-boundary", text: "境界線の引き方｜利用者を思いすぎていませんか" },
+      { href: "/articles/helper-rest-types",      text: "休息に必要な7つの要素｜ただ休むだけでは回復しない理由" },
+      { href: "/articles/helper-stress-coping",   text: "支援職のストレス対処｜共感疲労・感情労働から理解する" },
+      { href: "/articles/helper-boundary",        text: "境界線（バウンダリー）とは｜支援職が抱え込みやすい理由" },
     ],
-    cta: null,
     cvBlock: null,
   },
   mid: {
     label: "共感疲労が蓄積している可能性があります",
     color: "result-mid",
     message: "心のサインが出はじめています。バーンアウトに進む前に、今の状態を整理することが大切です。一人で抱え込まず、まず自分の状態を言語化してみましょう。",
+    nextLabel: "6〜10項目の方に読んでほしい記事",
     links: [
-      { href: "/articles/helper-empathy-fatigue", text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
-      { href: "/articles/helper-burnout-signs", text: "バーンアウトのサインを見逃さないために" },
-      { href: "/articles/helper-boundary", text: "境界線の引き方｜利用者を思いすぎていませんか" },
+      { href: "/articles/helper-empathy-fatigue",       text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/helper-burnout-signs",         text: "バーンアウトの前兆（サイン）とは｜気づきたい心と体の変化" },
+      { href: "/articles/helper-boundary",              text: "境界線の引き方｜冷たくならずに自分を守る方法" },
     ],
-    cta: null,
     cvBlock: {
       heading: "今の状態、一度整理してみませんか",
       body: "「まだ大丈夫」と思いながら、じわじわと消耗していることがあります。共感疲労は、早めに気づいて整理するほど回復しやすくなります。",
@@ -68,11 +68,12 @@ const resultConfig = {
     label: "共感疲労が強くなっている可能性があります",
     color: "result-high",
     message: "一人で抱えるには限界を超えているかもしれません。今感じている苦しさは、あなたが弱いからではなく、支援職として真剣に向き合ってきた証です。",
+    nextLabel: "11項目以上の方へ——まずこの記事を読んでください",
     links: [
-      { href: "/articles/helper-empathy-fatigue", text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
-      { href: "/articles/helper-counseling-resistance", text: "カウンセリングへの抵抗感｜受けていいか迷う人へ" },
+      { href: "/articles/compassion-fatigue-recovery",  text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
+      { href: "/articles/helper-empathy-fatigue",       text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/helper-burnout",               text: "バーンアウトとは｜燃え尽き症候群の構造と回復の視点" },
     ],
-    cta: null,
     cvBlock: {
       heading: "一人で抱え込まなくていい",
       body: "「相談するほどじゃないかも」と思う気持ちは自然です。でもその感覚自体が、共感疲労のサインであることが多いです。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
@@ -83,7 +84,34 @@ const resultConfig = {
   },
 }
 
-export default function EmpathyFatigueCheck() {
+/* -------------------------------------------------------------------------- */
+/*  FAQ データ                                                                  */
+/* -------------------------------------------------------------------------- */
+
+const FAQ_ITEMS = [
+  {
+    q: "共感疲労は甘えですか？",
+    a: "甘えではありません。共感疲労は、支援職に起こりやすい心理的消耗として心理学的に認められた状態です。真剣に利用者と向き合っているからこそ起こるものであり、意志の弱さや能力の問題とは無関係です。",
+  },
+  {
+    q: "共感疲労とうつ病の違いは何ですか？",
+    a: "共感疲労は支援場面との関連が強く、「仕事を離れると少し楽になる」という特徴があります。うつ病は生活全般に影響が及び、休日でも気分の落ち込みが続く点が異なります。ただし長期化すると区別が難しくなるため、気になる場合は専門家への相談をおすすめします。",
+  },
+  {
+    q: "共感疲労は回復できますか？",
+    a: "回復できます。ただし「ただ休む」だけでは不十分で、消耗の構造を理解したうえで適切なケアをすることが重要です。早めに気づいて対処するほど回復が早い傾向があります。",
+  },
+  {
+    q: "このチェックは診断として使えますか？",
+    a: "このチェックは医学的・心理学的な診断ではなく、今の状態に気づくための目安です。結果に関わらず、気になることがあれば専門家への相談をおすすめします。",
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/*  Component                                                                  */
+/* -------------------------------------------------------------------------- */
+
+export default function HelperEmpathyCheck() {
   const [checked, setChecked] = useState<boolean[]>(new Array(20).fill(false))
 
   const toggle = (i: number) => {
@@ -94,32 +122,34 @@ export default function EmpathyFatigueCheck() {
     })
   }
 
-  const score = checked.filter(Boolean).length
-  const level = getLevel(score)
+  const score  = checked.filter(Boolean).length
+  const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 20) * 100)
 
   return (
     <ArticleLayout
-      title="共感疲労セルフチェック｜支援職のための20項目"
-      description="支援職に起こりやすい共感疲労（Compassion Fatigue）の状態を確認するためのセルフチェックです。当てはまる項目を選んで、今の状態を把握しましょう。"
+      title="共感疲労チェック｜支援職のための20項目診断【3分】"
+      description="利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——それは共感疲労のサインかもしれません。支援職に多い20項目から消耗度を3分で確認できるセルフチェックです。"
       url="https://ishizue-site-ker9.vercel.app/articles/helper-empathy-check"
       date="2026-03-22"
       audio="/audio/helper-fatigue-check.mp3"
     >
+
+      {/* ── 導入文（症状語・検索語を自然に含む） ── */}
       <p>
-        支援職では、利用者の苦しみや困難に長く寄り添うことで、
-        心理的な疲労が蓄積することがあります。
+        利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——
+        それは<strong>共感疲労（Compassion Fatigue）</strong>のサインかもしれません。
       </p>
       <p>
-        こうした状態は心理学では「共感疲労（Compassion Fatigue）」と呼ばれ、
-        対人援助職に起こりやすい心理的負荷として知られています。
-        真剣に仕事に向き合っている人ほど、気づかないうちに深刻化しやすいのが特徴です。
+        この共感疲労チェックでは、支援職に多い20項目から今の消耗度を3分で確認できます。
+        真剣に仕事に向き合っている人ほど、気づかないうちに深刻化しやすいのが共感疲労の特徴です。
       </p>
       <p>
         以下の項目を読んで、当てはまると感じるものをタップしてください。
       </p>
 
+      {/* ── チェックリスト ── */}
       <h2>共感疲労セルフチェック（20項目）</h2>
 
       <div className="score-header">
@@ -155,6 +185,7 @@ export default function EmpathyFatigueCheck() {
         ))}
       </div>
 
+      {/* ── 結果 ── */}
       {result && (
         <div>
           <div className={`result-box ${result.color}`}>
@@ -163,6 +194,7 @@ export default function EmpathyFatigueCheck() {
             <p className="result-message">{result.message}</p>
           </div>
 
+          {/* CV ブロック */}
           {result.cvBlock && (
             <div style={{
               background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)",
@@ -200,8 +232,8 @@ export default function EmpathyFatigueCheck() {
             </div>
           )}
 
-          <p className="next-section-label">関連記事</p>
-
+          {/* 結果別の次導線（内部リンク強化） */}
+          <p className="next-section-label">{result.nextLabel}</p>
           {result.links.map((link) => (
             <a key={link.href} href={link.href} className="next-link">
               {link.text}
@@ -211,6 +243,7 @@ export default function EmpathyFatigueCheck() {
         </div>
       )}
 
+      {/* ── 共感疲労が起こる理由 ── */}
       <h2>共感疲労が支援職に起こる理由</h2>
       <div className="card">
         <p className="font-medium mb-4">
@@ -232,10 +265,22 @@ export default function EmpathyFatigueCheck() {
         早めに気づき、適切なサポートを受けることが回復への近道です。
       </p>
 
+      {/* ── FAQ ── */}
+      <h2>共感疲労についてよくある質問</h2>
+      <div className="space-y-5">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
+      </div>
+
       <p className="check-disclaimer">
         このチェックは診断ではなく、自分の状態に気づくための目安として活用してください。
         結果に関わらず、気になることがあれば専門家への相談をお勧めします。
       </p>
+
     </ArticleLayout>
   )
 }
