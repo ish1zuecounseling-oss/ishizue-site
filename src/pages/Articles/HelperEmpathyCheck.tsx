@@ -134,6 +134,8 @@ export default function HelperEmpathyCheck() {
       url="https://ishizue-site-ker9.vercel.app/articles/helper-empathy-check"
       date="2026-03-22"
       audio="/audio/helper-fatigue-check.mp3"
+      tags={["compassion", "check"]}
+      faq={FAQ_ITEMS}
     >
 
       {/* ── 導入文（症状語・検索語を自然に含む） ── */}
