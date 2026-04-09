@@ -7,6 +7,7 @@
 import { useCallback } from "react";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowRight, Clock, Calendar, User, MessageCircle } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
 import AudioPlayer from "./AudioPlayer";
@@ -26,6 +27,8 @@ const SAGE = "#8FAF9F";
 /*  Types                                                                      */
 /* -------------------------------------------------------------------------- */
 
+type FaqItem = { q: string; a: string };
+
 type Props = {
   title:       string;
   description: string;
@@ -33,6 +36,7 @@ type Props = {
   date:        string;
   audio?:      string;
   tags?:       string[];
+  faq?:        FaqItem[];
   children:    React.ReactNode;
 };
 
@@ -88,7 +92,7 @@ function scrollToContact(navigate: ReturnType<typeof useNavigate>) {
 /* -------------------------------------------------------------------------- */
 
 export default function ArticleLayout({
-  title, description, url, date, audio, tags = [], children,
+  title, description, url, date, audio, tags = [], faq = [], children,
 }: Props) {
   const path = url.replace(/.*\/articles/, "");
   const readingTime = estimateReadingTime(children);
@@ -101,8 +105,103 @@ export default function ArticleLayout({
 
   return (
     <>
-      {/* SEO */}
+      {/* ============================================================
+          SEO — canonical / Breadcrumb / Person / FAQ Schema
+      ============================================================ */}
       <ArticleSchema title={title} description={description} url={url} date={date} />
+
+      <Helmet>
+        {/* ① canonical — preview URLによる重複評価を防止 */}
+        <link rel="canonical" href={url} />
+      </Helmet>
+
+      {/* ② Breadcrumb Schema — 検索結果にパンくずを表示させる */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ホーム",
+                "item": "https://ishizue-site-ker9.vercel.app/",
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "心理記事",
+                "item": "https://ishizue-site-ker9.vercel.app/articles",
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": title,
+                "item": url,
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* ③ Person Schema — 全記事に著者を明示（E-E-A-T強化） */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "松本 龍児",
+            "alternateName": "まつもと りゅうじ",
+            "jobTitle": "公認心理師",
+            "url": "https://ishizue-site-ker9.vercel.app/profile",
+            "image": "https://ishizue-site-ker9.vercel.app/profile.jpg",
+            "sameAs": [
+              "https://x.com/ish1zue",
+              "https://www.instagram.com/ishizue_counseling/",
+              "https://note.com/ryuji_ishizue",
+            ],
+            "worksFor": {
+              "@type": "ProfessionalService",
+              "name": "こころの相談室 いしずえ",
+              "url": "https://ishizue-site-ker9.vercel.app",
+            },
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "国家資格",
+              "name": "公認心理師",
+            },
+            "knowsAbout": [
+              "共感疲労", "バーンアウト", "感情労働", "二次受傷",
+              "支援職カウンセリング", "境界線", "認知行動療法", "ACT",
+              "動機づけ面接", "トラウマインフォームドケア",
+            ],
+          }),
+        }}
+      />
+
+      {/* ④ FAQ Schema — faq props がある記事のみ出力 */}
+      {faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faq.map(({ q, a }) => ({
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": a,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
 
       <div className="min-h-screen bg-white">
         <div className="max-w-2xl mx-auto px-5 sm:px-8 py-20 text-stone-700 leading-loose">
@@ -375,10 +474,133 @@ export default function ArticleLayout({
             })()}
 
             {/* ============================================================
-                おすすめ記事（ランダム）
+                監修情報（YMYL対策・全記事共通）
             ============================================================ */}
-            <div className="mt-16 pt-10 border-t border-stone-100">
-              <RandomArticles currentPath={path} count={3} />
+            <div className="mt-14 p-5 rounded-2xl border border-stone-100 bg-stone-50">
+              <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>
+                監修情報
+              </p>
+              <div className="flex items-start gap-4">
+                <div
+                  className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden border border-stone-200"
+                  style={{ background: "rgba(143,175,159,0.15)" }}
+                >
+                  <img
+                    src="/profile.jpg"
+                    alt="松本 龍児"
+                    className="w-full h-full object-cover object-top"
+                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    松本 龍児（まつもと りゅうじ）
+                  </p>
+                  <p className="text-xs text-stone-500 leading-relaxed">
+                    公認心理師 ／ こころの相談室 いしずえ 代表<br />
+                    障害福祉分野15年・累計300名以上6,000時間以上の支援経験。
+                    支援職の燃え尽き・共感疲労に特化した「構造整理型カウンセリング」を提供。
+                  </p>
+                  <p className="text-[11px] text-stone-400 pt-1">
+                    ※ 本記事は心理的な理解を深めるための情報提供を目的としており、医療行為・診断に代わるものではありません。気になる症状がある場合は専門機関にご相談ください。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ============================================================
+                Prev / Next ナビ — 回遊率向上
+            ============================================================ */}
+            {(() => {
+              const currentIndex = articles.findIndex((a) => a.path === path || a.path === `/articles${path}`);
+              if (currentIndex < 0) return null;
+              const prev = currentIndex > 0 ? articles[currentIndex - 1] : null;
+              const next = currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null;
+              if (!prev && !next) return null;
+              return (
+                <div className="mt-10 pt-8 border-t border-stone-100 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {prev && (
+                    <Link
+                      to={prev.path}
+                      className="group flex flex-col gap-1 p-4 rounded-xl border border-stone-100 hover:shadow-sm transition-all"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
+                    >
+                      <span className="text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: SAGE }}>← 前の記事</span>
+                      <span className="text-sm text-stone-700 group-hover:text-stone-900 leading-snug transition-colors line-clamp-2"
+                        style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                        {prev.title}
+                      </span>
+                    </Link>
+                  )}
+                  {next && (
+                    <Link
+                      to={next.path}
+                      className="group flex flex-col gap-1 p-4 rounded-xl border border-stone-100 hover:shadow-sm transition-all md:text-right"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
+                    >
+                      <span className="text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: SAGE }}>次の記事 →</span>
+                      <span className="text-sm text-stone-700 group-hover:text-stone-900 leading-snug transition-colors line-clamp-2"
+                        style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                        {next.title}
+                      </span>
+                    </Link>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ============================================================
+                関連記事（意味ベース優先 → フォールバック: ランダム）
+            ============================================================ */}
+            <div className="mt-8 pt-8 border-t border-stone-100">
+              {(() => {
+                // タグから意味ベースで関連記事を取得
+                const currentPath = path.startsWith("/articles") ? path : `/articles${path}`;
+                const tagSlugs = tags.flatMap((tag) => pillarMap[tag] || []);
+                const tagArticles = [...new Set(tagSlugs)]
+                  .map((slug) => articles.find((a) => a.path === slug))
+                  .filter((a): a is NonNullable<typeof a> => !!a && a.path !== currentPath)
+                  .slice(0, 3);
+
+                // タグ関連記事が足りない場合はランダムで補完
+                const needed = 3 - tagArticles.length;
+                const randomFill = needed > 0
+                  ? articles
+                      .filter((a) => a.path !== currentPath && !tagArticles.some((t) => t.path === a.path))
+                      .sort(() => Math.random() - 0.5)
+                      .slice(0, needed)
+                  : [];
+
+                const related = [...tagArticles, ...randomFill];
+                if (related.length === 0) return null;
+
+                return (
+                  <>
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-4" style={{ color: SAGE }}>
+                      {tagArticles.length > 0 ? "あわせて読みたい記事" : "他の記事"}
+                    </p>
+                    <div className="space-y-2">
+                      {related.map((a) => (
+                        <Link
+                          key={a.path}
+                          to={a.path}
+                          className="group flex items-center gap-3 p-3 rounded-xl border border-stone-100 hover:shadow-sm transition-all"
+                          onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}55`; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
+                        >
+                          <BookOpen className="w-4 h-4 flex-shrink-0" style={{ color: SAGE }} />
+                          <span className="text-sm text-stone-700 group-hover:text-stone-900 leading-snug transition-colors line-clamp-2"
+                            style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                            {a.title}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
             </div>
 
           </motion.article>
