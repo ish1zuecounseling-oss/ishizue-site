@@ -365,7 +365,7 @@ function Home() {
         {/* ── HERO ── */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
           {/* ⑩ フォールバック対応 */}
-          <SafeImg src="/hero.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-25" loading="eager" />
+          <SafeImg src="/hero.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-25" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/40 to-stone-950/90" />
 
           <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-20 md:py-36 w-full">
@@ -430,6 +430,7 @@ function Home() {
                 <div className="w-52 h-52 lg:w-60 lg:h-60 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl ring-1 ring-white/10">
                   <SafeImg
                     src="/profile.jpg"
+                    fetchPriority="high"
                     alt="松本 龍児 — 公認心理師"
                     className="w-full h-full object-cover object-top"
                     fallbackBg="bg-stone-700"
