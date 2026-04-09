@@ -18,11 +18,21 @@ function generateSitemap() {
     { loc: `${BASE_URL}/profile`,  priority: 0.6, changefreq: "monthly", lastmod: today },
   ];
 
-  // 記事ページ
+  // 王様記事（優先度最高）
+  const PILLAR_PATHS = new Set([
+    "/articles/helper-empathy-check",
+    "/articles/helper-burnout-check",
+    "/articles/helper-emotional-labor-check",
+    "/articles/helper-empathy-fatigue",
+    "/articles/helper-burnout",
+    "/articles/helper-quit-timing-check",
+  ]);
+
+  // 記事ページ — 王様記事は priority 0.9、通常記事は 0.7
   const articlePages = articles.map((article) => ({
     loc:        `${BASE_URL}${article.path}`,
-    priority:   0.8,
-    changefreq: "monthly",
+    priority:   PILLAR_PATHS.has(article.path) ? 0.9 : 0.7,
+    changefreq: PILLAR_PATHS.has(article.path) ? "weekly" : "monthly",
     lastmod:    article.updatedAt ?? today,
   }));
 
