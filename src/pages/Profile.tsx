@@ -215,11 +215,16 @@ export default function Profile() {
                 </motion.div>
 
                 {/* キャッチフレーズ */}
-                <motion.div variants={fadeUp}>
+                <motion.div variants={fadeUp} className="space-y-3">
                   <p className="text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
                     支援職という役割の構造が、消耗を生み出しています。<br />
                     感情を吐き出す場所ではなく、<span className="text-stone-100">整理して、持続可能な状態に戻す</span>ための時間を作ること。それがこのカウンセリングです。
                   </p>
+                  {/* 独自メソッド名 */}
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: "rgba(143,175,159,0.15)", border: "1px solid rgba(143,175,159,0.35)" }}>
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-medium text-stone-400">Method</span>
+                    <span className="text-sm font-medium text-white" style={{ fontFamily: "'Noto Serif JP', serif" }}>構造整理型カウンセリング</span>
+                  </div>
                 </motion.div>
 
                 <motion.div variants={fadeUp}>
@@ -246,6 +251,7 @@ export default function Profile() {
                     alt="松本 龍児 — 公認心理師"
                     className="w-full h-full object-cover object-top"
                     fallbackBg="bg-stone-700"
+                    fetchPriority="high"
                   />
                 </div>
                 {/* 名前・肩書き */}
@@ -345,6 +351,8 @@ export default function Profile() {
                     <p>
                       正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という
                       無言の圧力を感じながら、気づかないふりをしていた時期があります。
+                      支援者が消耗するのは弱さではなく、構造の問題だと気づくまでに、
+                      私自身も長い時間がかかりました。
                     </p>
 
                     <p>
@@ -499,6 +507,77 @@ export default function Profile() {
                     </div>
                   ))}
                 </dl>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ================================================================
+            METHOD — 構造整理型カウンセリングとは
+        ================================================================ */}
+        <section className="py-16 md:py-24 px-5 md:px-6 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial="hidden" whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }} variants={stagger}
+              className="space-y-10 md:space-y-12"
+            >
+              <motion.div variants={fadeUp}>
+                <SectionLabel en="Method" ja="構造整理型カウンセリングとは" />
+                <p className="text-stone-500 text-sm mt-3 leading-relaxed max-w-xl">
+                  「話してすっきりした」で終わらない。しんどさの<strong className="text-stone-700 font-medium">原因の構造</strong>を一緒に整理して、消耗を減らす設計に戻すことを目的にしています。
+                </p>
+              </motion.div>
+
+              <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  {
+                    step: "01",
+                    title: "現状を言語化する",
+                    desc:  "何がしんどいのかを整理することから始めます。まとまっていなくても大丈夫です。",
+                  },
+                  {
+                    step: "02",
+                    title: "消耗の構造を見る",
+                    desc:  "感情労働・共感疲労・バウンダリーの曖昧さなど、消耗を生み出している仕組みを一緒に確認します。",
+                  },
+                  {
+                    step: "03",
+                    title: "持続可能な状態に戻す",
+                    desc:  "強くなることを目指すのではなく、長く続けられる状態に戻すための整理と選択を一緒に行います。",
+                  },
+                ].map(({ step, title, desc }) => (
+                  <div key={step} className="p-5 rounded-2xl border border-stone-100 bg-stone-50 space-y-3">
+                    <span className="text-[10px] tracking-[0.3em] uppercase font-medium text-[#8FAF9F]">{step}</span>
+                    <p className="text-stone-800 font-medium text-sm leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                      {title}
+                    </p>
+                    <p className="text-stone-500 text-xs leading-relaxed">{desc}</p>
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* 人柄の安心感 */}
+              <motion.div variants={fadeUp}>
+                <div className="p-5 md:p-7 rounded-2xl border border-stone-200 bg-stone-50 space-y-4">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">こんな方が来ています</p>
+                  <div className="space-y-2">
+                    {[
+                      "「うまく話せないかもしれない」と思いながら来てくれた方",
+                      "「相談するほどじゃないかも」と迷いながら問い合わせてくれた方",
+                      "「支援職なのに情けない」と感じていた方",
+                      "「休むことへの罪悪感が強くて、動けなかった」という方",
+                    ].map((text) => (
+                      <div key={text} className="flex items-start gap-2.5 text-sm text-stone-600">
+                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2" style={{ background: "#8FAF9F" }} />
+                        {text}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-stone-500 text-xs leading-relaxed border-t border-stone-200 pt-4">
+                    整理されていない状態のまま来てください。「何が負担なのか」を一緒に言葉にすることが、この時間の目的です。
+                  </p>
+                </div>
               </motion.div>
             </motion.div>
           </div>
