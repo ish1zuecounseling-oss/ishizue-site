@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- =====================================================
+         LCP画像 preload — ヒーロー・プロフィール画像を優先読み込み
+    ===================================================== -->
+    <link rel="preload" as="image" href="/profile.jpg" fetchpriority="high" />
+
+    <!-- =====================================================
          Google Analytics
     ===================================================== -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSTXP0BZC2"></script>
@@ -18,23 +23,13 @@
     <!-- =====================================================
          Favicon
     ===================================================== -->
-<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- =====================================================
          デフォルト title / description
          各ページの react-helmet-async が上書きする
     ===================================================== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "こころの相談室 いしずえ",
-  "alternateName": "いしずえ",
-  "url": "https://ishizue-site-ker9.vercel.app/"
-}
-</script>
     <title>支援職のためのカウンセリング｜こころの相談室 いしずえ</title>
     <meta
       name="description"
@@ -76,12 +71,61 @@
     ===================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- フォント preload — LCP改善・フォントブロック防止 -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap"
+      />
+    </noscript>
 
     <!-- =====================================================
          その他
     ===================================================== -->
     <meta name="theme-color" content="#8FAF9F" />
     <meta name="format-detection" content="telephone=no" />
+
+    <!-- =====================================================
+         WebSite Schema + SearchAction
+         ブランド検索でサイトリンク検索ボックスを出す
+    ===================================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "こころの相談室 いしずえ",
+      "alternateName": "いしずえカウンセリング",
+      "url": "https://ishizue-site-ker9.vercel.app",
+      "description": "支援職・対人援助職の燃え尽き・共感疲労・バーンアウトに特化したカウンセリング。公認心理師・松本龍児。",
+      "inLanguage": "ja",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://ishizue-site-ker9.vercel.app/articles?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "松本 龍児",
+        "jobTitle": "公認心理師",
+        "url": "https://ishizue-site-ker9.vercel.app/profile"
+      }
+    }
+    </script>
+
   </head>
   <body>
     <div id="root"></div>
