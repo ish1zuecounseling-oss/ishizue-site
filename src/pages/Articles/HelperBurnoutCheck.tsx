@@ -90,7 +90,7 @@ export default function HelperBurnoutCheck() {
     <ArticleLayout
       title="バーンアウト（燃え尽き症候群）セルフチェック｜支援職のための15項目"
       description="介護・福祉・保育士など支援職に多いバーンアウトの状態を確認するセルフチェックです。当てはまる項目を選んで、今の状態を把握しましょう。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout-check"
+      url="https://www.ishizue-counseling.jp/articles/helper-burnout-check"
       date="2026-03-29"
       audio="/audio/helper-burnout-check.mp3"
     >
