@@ -4,7 +4,7 @@ export default function HelperTeamFatigue() {
     <ArticleLayout
       title="チーム連携疲れ・孤立感とは｜支援職が「一緒に働くこと」に消耗する理由"
       description="連携しているはずなのに孤独を感じる。チーム連携疲れの構造的な背景と、孤立感を生む心理的メカニズムを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-team-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/helper-team-fatigue"
       date="2026-03-29"
       audio="/audio/helper-team-fatigue.mp3"
     >
