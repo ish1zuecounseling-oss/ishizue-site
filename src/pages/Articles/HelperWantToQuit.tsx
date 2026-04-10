@@ -4,7 +4,7 @@ export default function HelperWantToQuit() {
     <ArticleLayout
       title="支援職が「辞めたい」と感じる心理とは｜続けるか悩むときに知っておきたいこと"
       description="支援職の「辞めたい」という気持ちは意志の弱さではなく、消耗が限界に近づいているサインです。その心理的背景と、続けるか悩むときの視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-want-to-quit"
+      url="https://www.ishizue-counseling.jp/articles/helper-want-to-quit"
       date="2026-03-29"
       audio="/audio/helper-want-to-quit.mp3"
     >
