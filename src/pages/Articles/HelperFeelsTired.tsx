@@ -4,7 +4,7 @@ export default function HelperFeelsTired() {
     <ArticleLayout
       title="支援する側がしんどいとき｜「助ける人」が助けを必要とする構造を理解する"
       description="支援する側がしんどいのは、当然の反応かもしれません。「助ける人」がしんどくなる構造的な理由と、そのしんどさを正当なものとして受け取るための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-feels-tired"
+      url="https://www.ishizue-counseling.jp/articles/helper-feels-tired"
       date="2026-04-05"
       audio="/audio/helper-feels-tired.mp3"
     >
