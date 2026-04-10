@@ -369,7 +369,7 @@ export default function ArticleLayout({
                 <a
                   href="/#contact"
                   onClick={handleContactClick}
-                  className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-stone-800 transition-all shadow-md group"
+                  className="inline-flex items-center gap-2 bg-[#2C1F14] text-stone-50 px-7 py-3.5 rounded-full text-sm font-medium hover:bg-[#3D2B1F] transition-all shadow-md group"
                 >
                   松本に、今の状態を整理してもらう（無料）
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
