@@ -4,7 +4,7 @@ export default function HelperComplaintDamage() {
     <ArticleLayout
       title="利用者・保護者クレームが支援職に与える心理的ダメージとは｜傷つきを正しく理解するために"
       description="クレームを受けた後の傷つきは、支援者として弱いのではなく、人として自然な反応です。その心理的ダメージの構造と向き合い方を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-complaint-damage"
+      url="https://www.ishizue-counseling.jp/articles/helper-complaint-damage"
       date="2026-03-29"
       audio="/audio/helper-complaint-damage.mp3"
     >
