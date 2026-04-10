@@ -4,7 +4,7 @@ export default function TeacherMentalHealthLimit() {
     <ArticleLayout
       title="教員のメンタルヘルスが限界に達する理由とは｜「子どものために」が自分を壊していくメカニズム"
       description="子どもの前では笑顔なのに、もう限界が近づいている。教員のメンタルヘルスが限界に達する構造的なメカニズムと、そのサインを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/teacher-mental-health-limit"
+      url="https://www.ishizue-counseling.jp/articles/teacher-mental-health-limit"
       date="2026-03-29"
       audio="/audio/teacher-mental-health-limit.mp3"
     >
