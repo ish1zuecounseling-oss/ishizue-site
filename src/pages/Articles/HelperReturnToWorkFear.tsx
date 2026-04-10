@@ -4,7 +4,7 @@ export default function HelperReturnToWorkFear() {
     <ArticleLayout
       title="支援職が復職を怖いと感じる理由とは｜「戻りたい気持ち」と「怖い気持ち」が同時にある状態を理解する"
       description="復職が怖いのは、弱さでも回復不足でもありません。「戻りたい」と「怖い」が同時に存在する状態の心理的な構造と、その恐れへの向き合い方を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-return-to-work-fear"
+      url="https://www.ishizue-counseling.jp/articles/helper-return-to-work-fear"
       date="2026-03-29"
       audio="/audio/helper-return-to-work-fear.mp3"
     >
