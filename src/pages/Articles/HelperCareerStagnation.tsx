@@ -4,7 +4,7 @@ export default function HelperCareerStagnation() {
     <ArticleLayout
       title="支援職が感じるキャリア閉塞感との向き合い方｜「この先、どこへも行けない」という感覚を理解する"
       description="成長の実感がない、先が見えない。キャリア閉塞感の構造的な背景と、「この先どこへも行けない」という感覚に向き合うための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-career-stagnation"
+      url="https://www.ishizue-counseling.jp/articles/helper-career-stagnation"
       date="2026-03-29"
       audio="/audio/helper-career-stagnation.mp3"
     >
