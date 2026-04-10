@@ -4,7 +4,7 @@ export default function CompassionFatigueDiagnosis() {
     <ArticleLayout
       title="共感疲労の診断とは｜「自分は共感疲労なのか」を判断するための理解と視点"
       description="「共感疲労かもしれない」と思ったとき、まず知っておいてほしいこと。共感疲労の状態を理解するための基準と、自分の状態にどう向き合えばよいかを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/compassion-fatigue-diagnosis"
+      url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-diagnosis"
       date="2026-04-05"
       audio="/audio/compassion-fatigue-diagnosis.mp3"
     >
