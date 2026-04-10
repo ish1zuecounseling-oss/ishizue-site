@@ -5,7 +5,7 @@ export default function HelperOverwork() {
     <ArticleLayout
       title="支援職が仕事を抱え込みやすい理由とは"
       description="支援職が仕事を抱え込みやすくなる背景には、感情労働・共感疲労・境界線の問題があります。その構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-overwork"
+      url="https://www.ishizue-counseling.jp/articles/helper-overwork"
       date="2026-03-22"
       audio="/audio/helper-overwork.mp3"
     >
