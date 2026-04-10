@@ -4,7 +4,7 @@ export default function SecondaryTraumaCoping() {
     <ArticleLayout
       title="二次受傷の対処法とは｜支援職が「もらってしまった傷」から回復するために"
       description="二次受傷に気づいたとき、まず知っておいてほしいこと。回復と予防のための7つの視点と、対処を「知識だけ」では難しくする構造的な理由を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/secondary-trauma-coping"
+      url="https://www.ishizue-counseling.jp/articles/secondary-trauma-coping"
       date="2026-03-29"
       audio="/audio/secondary-trauma-coping.mp3"
     >
