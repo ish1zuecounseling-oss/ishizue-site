@@ -4,7 +4,7 @@ export default function WelfareWorkerRelationshipCounseling() {
     <ArticleLayout
       title="福祉職の人間関係にカウンセリングは役立つのか｜職場の消耗を一人で抱えないための選択肢"
       description="職場の人間関係のしんどさを、安全に話せる場所があるとしたら。福祉職の人間関係ストレスの特徴と、カウンセリングがどのように役立つのかを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/welfare-worker-relationship-counseling"
+      url="https://www.ishizue-counseling.jp/articles/welfare-worker-relationship-counseling"
       date="2026-03-29"
       audio="/audio/welfare-worker-relationship-counseling.mp3"
     >
