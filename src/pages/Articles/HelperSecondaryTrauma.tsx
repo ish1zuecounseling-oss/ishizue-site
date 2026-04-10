@@ -5,7 +5,7 @@ export default function HelperSecondaryTrauma() {
     <ArticleLayout
       title="二次受傷（共感疲労）とは"
       description="支援職が抱えやすい心理的負荷である二次受傷（共感疲労）について、その構造と背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-secondary-trauma"
+      url="https://www.ishizue-counseling.jp/articles/helper-secondary-trauma"
       date="2026-03-22"
       audio="/audio/helper-trauma.mp3"
     >
