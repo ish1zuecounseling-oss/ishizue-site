@@ -4,7 +4,7 @@ export default function HelperOnlineCounseling() {
     <ArticleLayout
       title="オンラインカウンセリングの活用法とは｜支援職が「受ける側」になるための手引き"
       description="時間・場所・プライバシーの面で支援職に活用しやすいオンラインカウンセリング。その特徴・活用法・注意点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-online-counseling"
+      url="https://www.ishizue-counseling.jp/articles/helper-online-counseling"
       date="2026-03-29"
       audio="/audio/helper-online-counseling.mp3"
     >
