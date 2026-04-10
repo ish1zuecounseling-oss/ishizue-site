@@ -5,7 +5,7 @@ export default function HelperWorkplaceStress() {
     <ArticleLayout
       title="支援職が抱える職場の人間関係ストレスとは｜なぜ対人援助職に起こりやすいのか"
       description="支援職の職場では、利用者支援よりも職場内の人間関係が消耗の原因になることがあります。その構造的な背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-workplace-stress"
+      url="https://www.ishizue-counseling.jp/articles/helper-workplace-stress"
       date="2026-03-29"
       audio="/audio/helper-workplace-stress.mp3"
     >
