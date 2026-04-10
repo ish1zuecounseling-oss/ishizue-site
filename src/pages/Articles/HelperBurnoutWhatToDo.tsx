@@ -4,7 +4,7 @@ export default function HelperBurnoutWhatToDo() {
     <ArticleLayout
       title="支援職のバーンアウト、どうしたらいい？｜「燃え尽きた」と感じたときの最初の一歩"
       description="バーンアウトしたとき、まず何をすればいいのか。段階的な回復の理解と、「どうしたらいい」という問いへの現実的な答えを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout-what-to-do"
+      url="https://www.ishizue-counseling.jp/articles/helper-burnout-what-to-do"
       date="2026-03-29"
       audio="/audio/helper-burnout-what-to-do.mp3"
     >
