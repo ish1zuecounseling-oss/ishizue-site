@@ -5,7 +5,7 @@ export default function EmpathyFatigueBoundary() {
     <ArticleLayout
       title="共感疲労を防ぐバウンダリーの作り方｜支援職のための境界線"
       description="共感疲労の予防に欠かせないバウンダリー（境界線）の考え方と実践方法を解説します。「冷たい支援者」になるためではなく、長く支援を続けるために必要なスキルです。"
-      url="https://ishizue-site-ker9.vercel.app/articles/empathy-fatigue-boundary"
+      url="https://www.ishizue-counseling.jp/articles/empathy-fatigue-boundary"
       date="2026-03-30"
     >
       <p>
