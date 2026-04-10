@@ -5,7 +5,7 @@ export default function EmpathyFatigueRecovery() {
     <ArticleLayout
       title="共感疲労からの回復方法｜支援職が実践できる5つのケア"
       description="共感疲労（Compassion Fatigue）から回復するために、支援職が日常で実践できる具体的なケア方法を解説します。回復には「休む」だけでなく、構造的なアプローチが必要です。"
-      url="https://ishizue-site-ker9.vercel.app/articles/empathy-fatigue-recovery"
+      url="https://www.ishizue-counseling.jp/articles/empathy-fatigue-recovery"
       date="2026-03-30"
     >
       <p>
