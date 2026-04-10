@@ -4,7 +4,7 @@ export default function CompassionFatigueCoping() {
     <ArticleLayout
       title="共感疲労の対処法とは｜支援職が「削られ続ける」状態から回復するために"
       description="対処法を知る前に、まず「何が起きているか」を理解する。共感疲労の回復と予防のための7つの視点と、対処が難しくなる構造的な理由を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/compassion-fatigue-coping"
+      url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-coping"
       date="2026-03-29"
       audio="/audio/compassion-fatigue-coping.mp3"
     >
