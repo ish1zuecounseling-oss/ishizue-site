@@ -4,7 +4,7 @@ export default function NurseryTeacherLimit() {
     <ArticleLayout
       title="保育士が限界を感じる理由とは｜「子どもが好き」なのに続けられなくなる心理を理解する"
       description="子どもが好きで選んだ仕事なのに、もう限界かもしれない。保育士の限界の構造的な背景と、消耗を生む心理的メカニズムを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nursery-teacher-limit"
+      url="https://www.ishizue-counseling.jp/articles/nursery-teacher-limit"
       date="2026-03-29"
       audio="/audio/nursery-teacher-limit.mp3"
     >
