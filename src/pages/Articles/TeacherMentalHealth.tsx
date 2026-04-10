@@ -4,7 +4,7 @@ export default function TeacherMentalHealth() {
     <ArticleLayout
       title="教員が抱えるメンタルヘルスの問題とは｜「子どものために」が自分を追い詰める構造を理解する"
       description="子どもの前では笑顔なのに、限界が近づいている。教員のメンタルヘルス問題の構造的な背景と、自分を守るための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/teacher-mental-health"
+      url="https://www.ishizue-counseling.jp/articles/teacher-mental-health"
       date="2026-03-29"
       audio="/audio/teacher-mental-health.mp3"
     >
