@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/(.*)",
@@ -6,6 +12,17 @@
         {
           "type": "host",
           "value": "ishizue-site-ker9.vercel.app"
+        }
+      ],
+      "destination": "https://www.ishizue-counseling.jp/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "ishizue-counseling.jp"
         }
       ],
       "destination": "https://www.ishizue-counseling.jp/$1",
