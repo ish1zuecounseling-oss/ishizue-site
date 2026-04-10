@@ -87,7 +87,7 @@ export default function HelperQuitTimingCheck() {
     <ArticleLayout
       title="辞め時チェック｜支援職が転職・退職を考えるべきサイン12項目"
       description="「辞めたいけど、辞めていいのか分からない」支援職のための辞め時チェック。今の状態を客観的に確認して、次の一歩を考えましょう。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-quit-timing-check"
+      url="https://www.ishizue-counseling.jp/articles/helper-quit-timing-check"
       date="2026-03-29"
       audio="/audio/helper-quit-timing-check.mp3"
     >
