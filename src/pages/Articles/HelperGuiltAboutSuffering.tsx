@@ -4,7 +4,7 @@ export default function HelperGuiltAboutSuffering() {
     <ArticleLayout
       title="支援職が感じる「自分が苦しいことへの罪悪感」とは｜苦しんではいけないという思い込みの正体"
       description="「利用者のほうがずっと大変なのに」という罪悪感は、支援職に非常によく見られるものです。その心理的な構造と、自分の苦しさを許すための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-guilt-about-suffering"
+      url="https://www.ishizue-counseling.jp/articles/helper-guilt-about-suffering"
       date="2026-03-29"
       audio="/audio/helper-guilt-about-suffering.mp3"
     >
