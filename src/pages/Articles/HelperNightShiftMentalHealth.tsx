@@ -4,7 +4,7 @@ export default function HelperNightShiftMentalHealth() {
     <ArticleLayout
       title="夜勤・不規則勤務が支援職のメンタルに与える影響とは｜体と心のつながりを理解する"
       description="「なんとなくしんどい」「気分が不安定」という感覚の背景に、夜勤・不規則勤務による身体的な負荷が関係していることがあります。体と心のつながりから整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-night-shift-mental-health"
+      url="https://www.ishizue-counseling.jp/articles/helper-night-shift-mental-health"
       date="2026-03-29"
       audio="/audio/helper-night-shift-mental-health.mp3"
     >
