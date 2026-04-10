@@ -4,7 +4,7 @@ export default function HelperBurnoutVsDepression() {
     <ArticleLayout
       title="バーンアウトとうつの違いとは｜支援職が知っておきたい見極めのポイント"
       description="バーンアウトとうつは症状が似ており混同されやすいですが、原因・影響の範囲・回復のプロセスが異なります。支援職として自分や同僚の状態を理解するための整理です。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout-vs-depression"
+      url="https://www.ishizue-counseling.jp/articles/helper-burnout-vs-depression"
       date="2026-03-29"
       audio="/audio/helper-burnout-vs-depression.mp3"
     >
