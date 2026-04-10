@@ -4,7 +4,7 @@ export default function HelperCompassionFatiguePractice() {
     <ArticleLayout
       title="対人援助職の共感疲労対処法とは｜「共感し続けること」の消耗から回復するための実践的な視点"
       description="対処法を「こなすこと」が、また消耗になっていないか。対人援助職の共感疲労の対処が続かない理由と、消耗の構造に合った8つの実践的な視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-compassion-fatigue-practice"
+      url="https://www.ishizue-counseling.jp/articles/helper-compassion-fatigue-practice"
       date="2026-04-05"
       audio="/audio/helper-compassion-fatigue-practice.mp3"
     >
