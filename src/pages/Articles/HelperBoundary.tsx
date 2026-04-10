@@ -5,7 +5,7 @@ export default function HelperBoundary() {
     <ArticleLayout
       title="支援職の境界線（バウンダリー）とは"
       description="支援職で重要とされる心理的境界線（バウンダリー）について整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-boundary"
+      url="https://www.ishizue-counseling.jp/articles/helper-boundary"
       date="2026-03-16"
       audio="/audio/helper-boundary.mp3"
     >
