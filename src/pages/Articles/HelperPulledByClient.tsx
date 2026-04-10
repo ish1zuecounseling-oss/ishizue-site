@@ -4,7 +4,7 @@ export default function HelperPulledByClient() {
     <ArticleLayout
       title="利用者に引っ張られて苦しい支援職へ｜「巻き込まれる」感覚の正体と境界線の取り戻し方"
       description="「引っ張られている」という感覚は、共感力の豊かさから生まれています。利用者に巻き込まれる状態の心理的な構造と、自分の軸を取り戻すための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-pulled-by-client"
+      url="https://www.ishizue-counseling.jp/articles/helper-pulled-by-client"
       date="2026-04-05"
       audio="/audio/helper-pulled-by-client.mp3"
     >
