@@ -187,7 +187,7 @@ function CtaButton({
     <div className={`space-y-2 ${center ? "text-center" : ""}`}>
       <a
         href="#contact"
-        className="inline-flex items-center gap-2 px-7 py-3.5 bg-stone-900 text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all shadow-md group"
+        className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md group"
       >
         {label}
         <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -222,7 +222,7 @@ function LegalModal({ isOpen, title, onClose, children }: { isOpen: boolean; tit
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-stone-950/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-[#1A110A]/50 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
@@ -350,7 +350,7 @@ function Home() {
                 ))}
               </nav>
 
-              <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-stone-900 text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-stone-800 transition-all">
+              <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#2C1F14] text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-[#3D2B1F] transition-all">
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span className="md:hidden">相談</span>
                 <span className="hidden md:inline">無料で相談する</span>
@@ -363,7 +363,7 @@ function Home() {
       <main id="main-content">
 
         {/* ── HERO ── */}
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-stone-950">
+        <section className="relative min-h-screen flex items-center overflow-hidden bg-[#1A110A]">
           {/* ⑩ フォールバック対応 */}
           <SafeImg src="/hero.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-25" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-stone-950/40 to-stone-950/90" />
@@ -505,7 +505,7 @@ function Home() {
             </motion.div>
 
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <div className="p-6 md:p-8 rounded-2xl bg-stone-900 space-y-5">
+              <div className="p-6 md:p-8 rounded-2xl bg-[#2C1F14] space-y-5">
                 <p className="text-stone-100 text-base md:text-xl font-light leading-[1.9] text-center" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                   それは、あなたが弱いからではありません。
                 </p>
@@ -773,7 +773,7 @@ function Home() {
                   </motion.div>
                 ))}
 
-                <motion.div variants={fadeUp} className="hidden md:flex flex-col items-center justify-center bg-stone-900 rounded-2xl p-6 text-center space-y-4">
+                <motion.div variants={fadeUp} className="hidden md:flex flex-col items-center justify-center bg-[#2C1F14] rounded-2xl p-6 text-center space-y-4">
                   <p className="text-stone-300 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     「相談するほどじゃない」と思っている方ほど、<br />実は一番必要としていることが多いです。
                   </p>
@@ -811,7 +811,7 @@ function Home() {
         </section>
 
         {/* ── GUIDE ── */}
-        <section id="guide" className="py-16 md:py-24 px-5 md:px-6 bg-stone-950">
+        <section id="guide" className="py-16 md:py-24 px-5 md:px-6 bg-[#1A110A]">
           <div className="max-w-4xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger} className="space-y-14 md:space-y-20">
               <motion.div variants={fadeUp}>
@@ -830,7 +830,7 @@ function Home() {
                   <span className="text-3xl font-light text-emerald-400">無料</span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-stone-900/50 space-y-4">
+                  <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-[#2C1F14]/50 space-y-4">
                     <div className="flex items-center gap-3 text-stone-300">
                       <Monitor className="w-5 h-5 text-stone-500" />
                       <h3 className="text-sm md:text-base font-medium tracking-wider">オンライン面談</h3>
@@ -844,7 +844,7 @@ function Home() {
                       ))}
                     </div>
                   </div>
-                  <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-stone-900/50 space-y-4">
+                  <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-[#2C1F14]/50 space-y-4">
                     <div className="flex items-center gap-3 text-stone-300">
                       <Mail className="w-5 h-5 text-stone-500" />
                       <h3 className="text-sm md:text-base font-medium tracking-wider">メール相談</h3>
@@ -880,7 +880,7 @@ function Home() {
               </motion.div>
 
               {/* 注意事項 */}
-              <motion.div variants={fadeUp} className="p-5 rounded-2xl border border-stone-800 bg-stone-900/30 space-y-3">
+              <motion.div variants={fadeUp} className="p-5 rounded-2xl border border-stone-800 bg-[#2C1F14]/30 space-y-3">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">対象・ご注意</p>
                 <ul className="space-y-2.5 text-stone-500 text-xs leading-relaxed">
                   {notes.map((text) => (
@@ -1038,7 +1038,7 @@ function Home() {
                   <button
                     type="submit"
                     disabled={formStatus === "submitting"}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-stone-900 text-stone-50 text-sm tracking-[0.08em] font-medium hover:bg-stone-800 active:scale-[0.99] transition-all rounded-full shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#2C1F14] text-stone-50 text-sm tracking-[0.08em] font-medium hover:bg-[#3D2B1F] active:scale-[0.99] transition-all rounded-full shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {formStatus === "submitting" ? "送信中..." : "松本に、今の状態を整理してもらう（無料）"}
                   </button>
@@ -1177,7 +1177,7 @@ function Home() {
                 <p>※ 無理に継続をおすすめすることはありません</p>
                 <p>※ 1回のみのご相談でも問題ありません</p>
               </div>
-              <button onClick={closeModal} className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-stone-900 text-stone-50 text-sm tracking-[0.15em] hover:bg-stone-800 transition-all rounded-full" type="button">
+              <button onClick={closeModal} className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 bg-[#2C1F14] text-stone-50 text-sm tracking-[0.15em] hover:bg-[#3D2B1F] transition-all rounded-full" type="button">
                 閉じる
               </button>
             </div>
