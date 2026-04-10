@@ -4,7 +4,7 @@ export default function HelperHarassmentGrayZone() {
     <ArticleLayout
       title="支援職が知っておきたいハラスメントのグレーゾーン判断とは｜「これってハラスメント？」と感じたときの整理の仕方"
       description="「ハラスメントかどうかわからない」という状態が、最も消耗します。グレーゾーンの構造と、自分の感覚を信じるための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-harassment-gray-zone"
+      url="https://www.ishizue-counseling.jp/articles/helper-harassment-gray-zone"
       date="2026-03-29"
       audio="/audio/helper-harassment-gray-zone.mp3"
     >
