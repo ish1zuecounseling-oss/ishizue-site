@@ -4,7 +4,7 @@ export default function SchoolCounselorLoneliness() {
     <ArticleLayout
       title="スクールカウンセラーが感じる孤独感とは｜「学校にいるよそ者」という感覚の正体"
       description="学校にいながら、学校に完全には属せない。スクールカウンセラーの孤独感の構造的な背景と、その孤立を緩めるための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/school-counselor-loneliness"
+      url="https://www.ishizue-counseling.jp/articles/school-counselor-loneliness"
       date="2026-03-29"
       audio="/audio/school-counselor-loneliness.mp3"
     >
