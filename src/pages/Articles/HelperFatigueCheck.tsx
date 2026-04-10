@@ -185,7 +185,7 @@ export default function HelperFatigueCheck() {
     <ArticleLayout
       title="ケアラー疲労セルフチェック｜支援職・対人援助職のための25項目診断"
       description="ケアラー疲労（支援者疲労）の消耗度を、身体・感情・関係性・意味の4軸・25項目で確認できるセルフチェックです。福祉職・看護師・介護士・相談員・教員など支援する立場の方向けです。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-fatigue-check"
+      url="https://www.ishizue-counseling.jp/articles/helper-fatigue-check"
       date="2026-04-01"
     >
       <p>
