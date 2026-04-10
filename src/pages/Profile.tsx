@@ -175,7 +175,7 @@ export default function Profile() {
         {/* ================================================================
             HERO — ダーク背景・2カラム（Home.tsxのヒーローと統一感）
         ================================================================ */}
-        <section className="relative bg-stone-950 overflow-hidden">
+        <section className="relative bg-[#1A110A] overflow-hidden">
           {/* 背景テクスチャ */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/60 to-stone-950" />
 
@@ -412,7 +412,7 @@ export default function Profile() {
               <motion.div variants={fadeUp} className="text-center pt-2">
                 <Link
                   to="/#contact"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-stone-900 text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all shadow-md"
+                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md"
                 >
                   今の状態を整理してみる（初回無料）
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -485,7 +485,7 @@ export default function Profile() {
         {/* ================================================================
             QUALIFICATIONS — 資格・経歴（ダーク背景で締め）
         ================================================================ */}
-        <section className="py-16 md:py-24 px-5 md:px-6 bg-stone-950">
+        <section className="py-16 md:py-24 px-5 md:px-6 bg-[#1A110A]">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial="hidden" whileInView="visible"
@@ -622,7 +622,7 @@ export default function Profile() {
             <motion.div variants={fadeUp} className="space-y-2">
               <Link
                 to="/#contact"
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-stone-900 text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all shadow-md"
+                className="group inline-flex items-center gap-2 px-8 py-4 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md"
               >
                 松本に、今の状態を整理してもらう（無料）
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
