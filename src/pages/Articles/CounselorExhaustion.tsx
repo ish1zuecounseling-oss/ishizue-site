@@ -4,7 +4,7 @@ export default function CounselorExhaustion() {
     <ArticleLayout
       title="相談員が「疲れた」と感じる理由とは｜聴き続けることの消耗を正しく理解する"
       description="話を聴くだけなのに、なぜこんなに消耗するのか。相談員の疲れの構造的な背景と、「聴くこと」が持つ深い心理的負荷を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/counselor-exhaustion"
+      url="https://www.ishizue-counseling.jp/articles/counselor-exhaustion"
       date="2026-03-29"
       audio="/audio/counselor-exhaustion.mp3"
     >
