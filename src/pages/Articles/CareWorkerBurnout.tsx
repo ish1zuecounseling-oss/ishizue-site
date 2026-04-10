@@ -4,7 +4,7 @@ export default function CareWorkerBurnout() {
     <ArticleLayout
       title="介護職の燃え尽き（バーンアウト）とは｜なぜ「好きな仕事」で消耗しきってしまうのか"
       description="好きで選んだ仕事なのに、もう限界かもしれない。介護職のバーンアウトの構造的な背景と、その消耗を生むメカニズムを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/care-worker-burnout"
+      url="https://www.ishizue-counseling.jp/articles/care-worker-burnout"
       date="2026-03-29"
       audio="/audio/care-worker-burnout.mp3"
     >
