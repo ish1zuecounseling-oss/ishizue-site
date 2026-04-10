@@ -5,7 +5,7 @@ export default function HelperBurnout() {
     <ArticleLayout
       title="支援職のバーンアウトとは｜燃え尽き症候群の構造と回復の視点"
       description="支援職に起こりやすいバーンアウト（燃え尽き症候群）の構造と心理的背景、回復に向けた視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout"
+      url="https://www.ishizue-counseling.jp/articles/helper-burnout"
       date="2026-03-20"
     >
 
