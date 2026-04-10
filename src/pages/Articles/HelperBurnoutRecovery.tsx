@@ -4,7 +4,7 @@ export default function HelperBurnoutRecovery() {
     <ArticleLayout
       title="支援職のバーンアウトからの回復方法｜段階的に自分を取り戻すためのプロセス"
       description="バーンアウトからの回復は「がんばり直す」ことではありません。消耗の構造を理解し、段階的に自分を取り戻すプロセスを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-burnout-recovery"
+      url="https://www.ishizue-counseling.jp/articles/helper-burnout-recovery"
       date="2026-03-29"
       audio="/audio/helper-burnout-recovery.mp3"
     >
