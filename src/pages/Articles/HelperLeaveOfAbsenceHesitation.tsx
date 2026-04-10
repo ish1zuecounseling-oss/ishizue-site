@@ -4,7 +4,7 @@ export default function HelperLeaveOfAbsenceHesitation() {
     <ArticleLayout
       title="支援職が休職するか迷うとき｜「まだ大丈夫」が危険なサインである理由"
       description="休職を迷っているなら、それはすでに限界に近いサインかもしれません。「まだ大丈夫」という感覚が過小評価を生む構造と、迷いを整理するための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-leave-of-absence-hesitation"
+      url="https://www.ishizue-counseling.jp/articles/helper-leave-of-absence-hesitation"
       date="2026-03-29"
       audio="/audio/helper-leave-of-absence-hesitation.mp3"
     >
