@@ -4,7 +4,7 @@ export default function NurseEmotionalExhaustion() {
     <ArticleLayout
       title="看護師が抱える感情的消耗とは｜「ケアする人」がケアされない構造を理解する"
       description="患者のそばにいるほど、自分が削られていく。看護師の感情的消耗の構造的な背景と、ケアする側がケアされるための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nurse-emotional-exhaustion"
+      url="https://www.ishizue-counseling.jp/articles/nurse-emotional-exhaustion"
       date="2026-03-29"
       audio="/audio/nurse-emotional-exhaustion.mp3"
     >
