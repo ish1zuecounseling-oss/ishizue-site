@@ -4,7 +4,7 @@ export default function NurseEmotionalLaborHard() {
     <ArticleLayout
       title="看護師の感情労働がしんどい理由とは｜「感情を使う仕事」の消耗を正しく理解するために"
       description="看護の仕事が「しんどい」のは、気持ちの問題ではありません。看護師の感情労働がしんどさを生む構造と、その消耗を正しく理解するための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nurse-emotional-labor-hard"
+      url="https://www.ishizue-counseling.jp/articles/nurse-emotional-labor-hard"
       date="2026-04-05"
       audio="/audio/nurse-emotional-labor-hard.mp3"
     >
