@@ -5,7 +5,7 @@ export default function HelperStressCoping() {
     <ArticleLayout
       title="支援職のストレス対処とは｜共感疲労・境界線・感情労働から理解するケアの方法"
       description="支援職のストレス対処とは、共感疲労・感情労働・境界線といった心理的負担の仕組みを理解し、適切に距離を取りながら関わる力のことを指します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-stress-coping"
+      url="https://www.ishizue-counseling.jp/articles/helper-stress-coping"
       date="2026-03-22"
       audio="/audio/helper-stress.mp3"
     >
