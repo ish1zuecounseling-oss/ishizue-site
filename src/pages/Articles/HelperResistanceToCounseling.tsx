@@ -4,7 +4,7 @@ export default function HelperResistanceToCounseling() {
     <ArticleLayout
       title="支援職がカウンセリングに抵抗を感じる理由とは｜「助けを求める側」になることの難しさ"
       description="利用者にはカウンセリングを勧める立場でありながら、自分では行けない。その逆説の背景にある心理的な構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-resistance-to-counseling"
+      url="https://www.ishizue-counseling.jp/articles/helper-resistance-to-counseling"
       date="2026-03-29"
       audio="/audio/helper-resistance-to-counseling.mp3"
     >
