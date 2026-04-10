@@ -4,7 +4,7 @@ export default function HelperBossStress() {
     <ArticleLayout
       title="支援職が抱える上司関係のストレス心理とは｜「管理される側」の消耗を理解する"
       description="上司との関係は選ぶことも距離を置くことも難しく、支援職の消耗の大きな源になることがあります。その心理的な構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-boss-stress"
+      url="https://www.ishizue-counseling.jp/articles/helper-boss-stress"
       date="2026-03-29"
       audio="/audio/helper-boss-stress.mp3"
     >
