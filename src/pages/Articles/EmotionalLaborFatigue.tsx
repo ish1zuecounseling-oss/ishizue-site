@@ -4,7 +4,7 @@ export default function EmotionalLaborFatigue() {
     <ArticleLayout
       title="感情労働の疲れとは｜「感情を使う仕事」が人をどのように消耗させるのかを理解する"
       description="なぜ「話を聴くだけ」でこんなに疲れるのか。感情労働の疲れの構造と、感情をコントロールしながら働くことが生む消耗のメカニズムを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/emotional-labor-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/emotional-labor-fatigue"
       date="2026-03-29"
       audio="/audio/emotional-labor-fatigue.mp3"
     >
