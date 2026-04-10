@@ -239,7 +239,7 @@ export default function Articles() {
         {/* ================================================================
             1. HERO
         ================================================================ */}
-        <section className="relative bg-stone-950 overflow-hidden">
+        <section className="relative bg-[#1A110A] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/50 to-stone-950" />
           <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-20 md:py-24">
             <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 max-w-2xl">
@@ -511,7 +511,7 @@ export default function Articles() {
             <motion.div variants={fadeUp} className="space-y-2">
               <Link
                 to="/#contact"
-                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-stone-900 text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-stone-800 transition-all shadow-md"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md"
               >
                 初回無料で相談する
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
