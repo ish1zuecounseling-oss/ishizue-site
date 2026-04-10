@@ -4,7 +4,7 @@ export default function NurseCompassionFatigue() {
     <ArticleLayout
       title="看護師の共感疲労とは｜患者に寄り添い続けることで「何も感じなくなる」前に知っておきたいこと"
       description="患者のそばにいるほど、自分が削られていく。看護師の共感疲労の構造と、「何も感じなくなる」前に知っておきたい心理的背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nurse-compassion-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/nurse-compassion-fatigue"
       date="2026-03-29"
       audio="/audio/nurse-compassion-fatigue.mp3"
     >
