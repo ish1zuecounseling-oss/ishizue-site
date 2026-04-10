@@ -4,7 +4,7 @@ export default function NurseryTeacherRelationshipStress() {
     <ArticleLayout
       title="保育士の人間関係ストレスに悩んだとき相談できる場所とは｜職場の消耗を一人で抱えないために"
       description="子どもとの関係より、大人との関係のほうがつらい。保育士の人間関係ストレスの構造と、消耗を一人で抱えないための相談先を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nursery-teacher-relationship-stress"
+      url="https://www.ishizue-counseling.jp/articles/nursery-teacher-relationship-stress"
       date="2026-03-29"
       audio="/audio/nursery-teacher-relationship-stress.mp3"
     >
