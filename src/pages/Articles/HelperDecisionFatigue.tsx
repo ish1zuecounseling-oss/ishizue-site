@@ -4,7 +4,7 @@ export default function HelperDecisionFatigue() {
     <ArticleLayout
       title="支援職の意思決定疲労とは｜「もう考えたくない」の正体を理解する"
       description="「些細なことを決めるのも億劫になってきた」という感覚の背景に、判断コストの蓄積が関与していることがあります。支援職に判断コストが蓄積しやすい構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-decision-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/helper-decision-fatigue"
       date="2026-04-07"
       audio="/audio/helper-decision-fatigue.mp3"
     >
