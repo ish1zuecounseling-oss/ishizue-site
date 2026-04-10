@@ -4,7 +4,7 @@ export default function HelperCaseManagerBurden() {
     <ArticleLayout
       title="相談支援専門員が抱える精神的負荷とは｜見えにくい消耗の構造を理解する"
       description="利用者・家族・関係機関・行政など多方面との調整を担う相談支援専門員。その見えにくい消耗の構造と心理的背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-case-manager-burden"
+      url="https://www.ishizue-counseling.jp/articles/helper-case-manager-burden"
       date="2026-03-29"
       audio="/audio/helper-case-manager-burden.mp3"
     >
