@@ -131,7 +131,7 @@ export default function HelperEmpathyCheck() {
     <ArticleLayout
       title="共感疲労チェック｜支援職のための20項目診断【3分】"
       description="利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——それは共感疲労のサインかもしれません。支援職に多い20項目から消耗度を3分で確認できるセルフチェックです。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-empathy-check"
+      url="https://www.ishizue-counseling.jp/articles/helper-empathy-check"
       date="2026-03-22"
       audio="/audio/helper-fatigue-check.mp3"
       tags={["compassion", "check"]}
