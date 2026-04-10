@@ -4,7 +4,7 @@ export default function HelperCaseOverload() {
     <ArticleLayout
       title="ケースを抱え込みすぎてつらい支援職へ｜「一人で持ちすぎること」が生む消耗の正体を理解する"
       description="抱え込みすぎているとわかっているのに、やめられない。ケースを一人で持ちすぎる状態の心理的な構造と、その消耗を緩めるための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-case-overload"
+      url="https://www.ishizue-counseling.jp/articles/helper-case-overload"
       date="2026-04-05"
       audio="/audio/helper-case-overload.mp3"
     >
