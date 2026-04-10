@@ -4,7 +4,7 @@ export default function HelperSelfCare() {
     <ArticleLayout
       title="支援職のセルフケア方法とは｜「自分を後回しにしてきた人」が回復するために知っておきたいこと"
       description="セルフケアが続かないのは意志の問題ではありません。支援職の消耗の構造に合った7つのアプローチと、セルフケアを妨げる心理的な背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-self-care"
+      url="https://www.ishizue-counseling.jp/articles/helper-self-care"
       date="2026-03-29"
       audio="/audio/helper-self-care.mp3"
     >
