@@ -4,7 +4,7 @@ export default function HelperBoundary() {
     <ArticleLayout
       title="支援職のバウンダリーの引き方とは｜「冷たくならずに」自分を守る境界線の考え方"
       description="バウンダリーを引くことは、冷たさではなく誠実さです。支援職がバウンダリーを引きにくい心理的な構造と、長く誠実に関わり続けるための具体的な視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-boundary-how-to"
+      url="https://www.ishizue-counseling.jp/articles/helper-boundary-how-to"
       date="2026-04-05"
       audio="/audio/helper-boundary-how-to.mp3"
     >
