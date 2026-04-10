@@ -4,7 +4,7 @@ export default function HelperMentalRecovery() {
     <ArticleLayout
       title="支援職がメンタルを崩したときの立て直し方とは｜「壊れた」のではなく「限界を超えた」と理解するために"
       description="メンタルを崩したことは、失敗ではありません。支援職が限界を超えたときの段階的な立て直しのプロセスと、回復を支える心理的な視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-mental-recovery"
+      url="https://www.ishizue-counseling.jp/articles/helper-mental-recovery"
       date="2026-03-29"
       audio="/audio/helper-mental-recovery.mp3"
     >
