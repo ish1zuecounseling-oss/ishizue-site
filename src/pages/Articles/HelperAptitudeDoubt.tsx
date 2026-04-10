@@ -4,7 +4,7 @@ export default function HelperAptitudeDoubt() {
     <ArticleLayout
       title="人を支える仕事に向いていないかもと感じたとき｜「適性の問題」ではなく「消耗のサイン」かもしれない"
       description="「向いていないかも」は、本当に適性の問題なのか。消耗・バーンアウト・共感疲労のサインとして現れていることが多い、この感覚の構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-aptitude-doubt"
+      url="https://www.ishizue-counseling.jp/articles/helper-aptitude-doubt"
       date="2026-03-29"
       audio="/audio/helper-aptitude-doubt.mp3"
     >
