@@ -130,8 +130,8 @@ export default function Profile() {
             "alternateName": "まつもと りゅうじ",
             "jobTitle": "公認心理師",
             "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・消耗に特化した構造整理型カウンセリングを提供。",
-            "url": "https://ishizue-site-ker9.vercel.app/profile",
-            "image": "https://ishizue-site-ker9.vercel.app/profile.jpg",
+            "url": "https://www.ishizue-counseling.jp/profile",
+            "image": "https://www.ishizue-counseling.jp/profile.jpg",
             "sameAs": [
               "https://x.com/ish1zue",
               "https://www.instagram.com/ishizue_counseling/"
@@ -139,7 +139,7 @@ export default function Profile() {
             "worksFor": {
               "@type": "ProfessionalService",
               "name": "こころの相談室 いしずえ",
-              "url": "https://ishizue-site-ker9.vercel.app",
+              "url": "https://www.ishizue-counseling.jp",
               "description": "支援職・対人援助職の燃え尽き・消耗を構造的に整理するカウンセリングサービス",
               "areaServed": "JP",
               "serviceType": "心理カウンセリング"
