@@ -5,7 +5,7 @@ export default function EmpathyFatigueVsSecondaryTrauma() {
     <ArticleLayout
       title="共感疲労と二次受傷の違い｜支援職が知るべき区別"
       description="共感疲労（Compassion Fatigue）と二次受傷（Secondary Traumatic Stress）は混同されやすいですが、原因・症状・対処法に違いがあります。支援職が自分の状態を正確に理解するための解説です。"
-      url="https://ishizue-site-ker9.vercel.app/articles/empathy-fatigue-vs-secondary-trauma"
+      url="https://www.ishizue-counseling.jp/articles/empathy-fatigue-vs-secondary-trauma"
       date="2026-03-30"
     >
       <p>
