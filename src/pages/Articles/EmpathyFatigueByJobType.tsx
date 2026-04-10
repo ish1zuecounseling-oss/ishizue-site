@@ -5,7 +5,7 @@ export default function EmpathyFatigueByJobType() {
     <ArticleLayout
       title="共感疲労が起こる職種別の特徴｜介護・看護・教員・福祉"
       description="共感疲労は職種によって原因や現れ方が異なります。介護職・看護師・教員・社会福祉士・保育士など、支援職ごとの共感疲労の特徴と対処のポイントを解説します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/empathy-fatigue-by-job-type"
+      url="https://www.ishizue-counseling.jp/articles/empathy-fatigue-by-job-type"
       date="2026-03-30"
     >
       <p>
