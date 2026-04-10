@@ -4,7 +4,7 @@ export default function TeacherOnlineCounseling() {
     <ArticleLayout
       title="教師のストレスにオンラインカウンセリングは役立つのか｜忙しい教員が「話せる場所」を持つために"
       description="相談したいのに、時間も場所も確保できない。多忙な教員が抱える固有の障壁と、オンラインカウンセリングがどのような場所になり得るかを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/teacher-online-counseling"
+      url="https://www.ishizue-counseling.jp/articles/teacher-online-counseling"
       date="2026-04-05"
       audio="/audio/teacher-online-counseling.mp3"
     >
