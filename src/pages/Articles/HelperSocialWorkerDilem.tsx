@@ -4,7 +4,7 @@ export default function HelperSocialWorkerDilemma() {
     <ArticleLayout
       title="社会福祉士が抱えるジレンマとは｜価値観と現実の間で揺れる心理を理解する"
       description="専門職としての価値観・倫理・理念と、現実の制度・職場環境・資源の限界との間に生じる葛藤。社会福祉士のジレンマの構造と心理的背景を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-social-worker-dilemma"
+      url="https://www.ishizue-counseling.jp/articles/helper-social-worker-dilemma"
       date="2026-03-29"
       audio="/audio/helper-social-worker-dilemma.mp3"
     >
