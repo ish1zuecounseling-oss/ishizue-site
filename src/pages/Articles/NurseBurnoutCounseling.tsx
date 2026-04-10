@@ -4,7 +4,7 @@ export default function NurseBurnoutCounseling() {
     <ArticleLayout
       title="看護師のバーンアウトにカウンセリングは役立つのか｜「燃え尽きた看護師」が回復するための選択肢"
       description="バーンアウトした看護師に、カウンセリングという選択肢があるとしたら。看護師のバーンアウトの背景と、カウンセリングがどのような場所として機能しうるかを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/nurse-burnout-counseling"
+      url="https://www.ishizue-counseling.jp/articles/nurse-burnout-counseling"
       date="2026-04-05"
       audio="/audio/nurse-burnout-counseling.mp3"
     >
