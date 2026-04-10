@@ -4,7 +4,7 @@ export default function CareWorkerMentalFatigue() {
     <ArticleLayout
       title="介護職の「心が疲れた」という感覚とは｜身体の疲れと違う「見えない消耗」を理解するために"
       description="身体は動いているのに、心がついてこない。介護職における心の疲れの構造と、身体の疲れとは異なる「見えない消耗」を正しく理解するための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/care-worker-mental-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/care-worker-mental-fatigue"
       date="2026-04-05"
       audio="/audio/care-worker-mental-fatigue.mp3"
     >
