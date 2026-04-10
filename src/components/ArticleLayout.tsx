@@ -127,13 +127,13 @@ export default function ArticleLayout({
                 "@type": "ListItem",
                 "position": 1,
                 "name": "ホーム",
-                "item": "https://ishizue-site-ker9.vercel.app/",
+                "item": "https://www.ishizue-counseling.jp/",
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "心理記事",
-                "item": "https://ishizue-site-ker9.vercel.app/articles",
+                "item": "https://www.ishizue-counseling.jp/articles",
               },
               {
                 "@type": "ListItem",
@@ -156,8 +156,8 @@ export default function ArticleLayout({
             "name": "松本 龍児",
             "alternateName": "まつもと りゅうじ",
             "jobTitle": "公認心理師",
-            "url": "https://ishizue-site-ker9.vercel.app/profile",
-            "image": "https://ishizue-site-ker9.vercel.app/profile.jpg",
+            "url": "https://www.ishizue-counseling.jp/profile",
+            "image": "https://www.ishizue-counseling.jp/profile.jpg",
             "sameAs": [
               "https://x.com/ish1zue",
               "https://www.instagram.com/ishizue_counseling/",
@@ -166,7 +166,7 @@ export default function ArticleLayout({
             "worksFor": {
               "@type": "ProfessionalService",
               "name": "こころの相談室 いしずえ",
-              "url": "https://ishizue-site-ker9.vercel.app",
+              "url": "https://www.ishizue-counseling.jp",
             },
             "hasCredential": {
               "@type": "EducationalOccupationalCredential",
