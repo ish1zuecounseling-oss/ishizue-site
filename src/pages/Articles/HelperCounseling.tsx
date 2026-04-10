@@ -6,7 +6,7 @@ export default function HelperCounseling() {
     <ArticleLayout
       title="支援職のためのカウンセリング"
       description="支援する側が立ち止まれる場所として、構造整理の視点からカウンセリングの役割を解説します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-counseling"
+      url="https://www.ishizue-counseling.jp/articles/helper-counseling"
       date="2026-03-22"
       audio="/audio/helper-counseling.mp3"
     >
