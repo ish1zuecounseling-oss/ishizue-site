@@ -4,7 +4,7 @@ export default function HelperGuiltAboutLeaving() {
     <ArticleLayout
       title="支援職が感じる「辞めることへの罪悪感」とは｜立ち去ることを自分に許せない心理を理解する"
       description="辞めたいのに辞めることが「悪いこと」に感じられる。その罪悪感の構造と、自分を守る選択を妨げる心理的メカニズムを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-guilt-about-leaving"
+      url="https://www.ishizue-counseling.jp/articles/helper-guilt-about-leaving"
       date="2026-03-29"
       audio="/audio/helper-guilt-about-leaving.mp3"
     >
