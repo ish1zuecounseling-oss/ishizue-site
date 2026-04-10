@@ -4,7 +4,7 @@ export default function HelperCannotSayNo() {
     <ArticleLayout
       title="支援職が「No」と言えない心理とは｜断れない背景にある構造を理解する"
       description="支援職が断れないのは意志の弱さではありません。過剰適応・バウンダリーの曖昧さ・見捨てられ不安など、その心理的な構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-cannot-say-no"
+      url="https://www.ishizue-counseling.jp/articles/helper-cannot-say-no"
       date="2026-03-29"
       audio="/audio/helper-cannot-say-no.mp3"
     >
