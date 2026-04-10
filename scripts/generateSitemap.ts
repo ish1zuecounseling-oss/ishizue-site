@@ -6,7 +6,7 @@ import { articles } from "../src/data/articles.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
-const BASE_URL = "https://ishizue-site-ker9.vercel.app";
+const BASE_URL = "https://www.ishizue-counseling.jp";
 
 function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
