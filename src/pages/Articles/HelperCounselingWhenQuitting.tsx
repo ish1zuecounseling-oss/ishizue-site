@@ -4,7 +4,7 @@ export default function HelperCounselingWhenQuitting() {
     <ArticleLayout
       title="仕事を辞めたいときにカウンセリングは役に立つのか｜支援職が「限界」を感じたときの選択肢"
       description="「辞めたい」という気持ちを一人で抱えていませんか。カウンセリングが「答えを出す場所」ではなく「気持ちを整理する場所」として機能する理由を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-counseling-when-quitting"
+      url="https://www.ishizue-counseling.jp/articles/helper-counseling-when-quitting"
       date="2026-03-29"
       audio="/audio/helper-counseling-when-quitting.mp3"
     >
