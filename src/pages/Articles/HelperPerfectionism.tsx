@@ -4,7 +4,7 @@ export default function HelperPerfectionism() {
     <ArticleLayout
       title="完璧主義が支援職を追い詰める理由｜「もっとできるはず」という思考の正体"
       description="支援職における完璧主義は、誠実さの表れである一方で、静かに消耗を生む要因になります。その心理的な構造と向き合い方を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-perfectionism"
+      url="https://www.ishizue-counseling.jp/articles/helper-perfectionism"
       date="2026-03-29"
       audio="/audio/helper-perfectionism.mp3"
     >
