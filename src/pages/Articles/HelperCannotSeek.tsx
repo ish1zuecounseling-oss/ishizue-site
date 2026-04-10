@@ -4,7 +4,7 @@ export default function HelperCannotSeek() {
     <ArticleLayout
       title="支援者が「相談できない・つらい」と感じる理由とは｜助けを求めることを阻むものの正体を理解する"
       description="相談することが仕事なのに、自分のことは相談できない。支援者が援助を求めることを阻む心理的な構造と、孤立から抜け出すための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-cannot-seek"
+      url="https://www.ishizue-counseling.jp/articles/helper-cannot-seek"
       date="2026-04-05"
       audio="/audio/helper-cannot-seek.mp3"
     >
