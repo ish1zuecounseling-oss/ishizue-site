@@ -4,7 +4,7 @@ export default function HelperStopSelfSacrifice() {
     <ArticleLayout
       title="支援職の自己犠牲をやめたいと感じたとき｜「自分を後回しにすること」が当然になっていませんか"
       description="「自己犠牲をやめたい」と思えたこと自体が、大切な気づきです。支援職の自己犠牲がなぜ生まれ、なぜやめにくいのか、その心理的な構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-stop-self-sacrifice"
+      url="https://www.ishizue-counseling.jp/articles/helper-stop-self-sacrifice"
       date="2026-04-05"
       audio="/audio/helper-stop-self-sacrifice.mp3"
     >
