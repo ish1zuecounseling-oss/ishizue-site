@@ -4,7 +4,7 @@ export default function HelperRumination() {
     <ArticleLayout
       title="仕事のことが頭から離れない支援職へ｜「考え続けてしまう」心理の正体を理解する"
       description="休んでいるのに、頭の中では仕事が続いている。支援職が仕事のことを考え続けてしまう心理の構造と、その状態を緩めるための視点を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-rumination"
+      url="https://www.ishizue-counseling.jp/articles/helper-rumination"
       date="2026-03-29"
       audio="/audio/helper-rumination.mp3"
     >
