@@ -88,7 +88,7 @@ export default function HelperWorkplaceStressCheck() {
     <ArticleLayout
       title="職場ストレスチェック｜支援職のための13項目"
       description="介護・福祉・保育などの支援職に多い職場ストレスをセルフチェック。人間関係・業務量・ハラスメントなど、今の職場環境を客観的に確認しましょう。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-workplace-stress-check"
+      url="https://www.ishizue-counseling.jp/articles/helper-workplace-stress-check"
       date="2026-03-29"
       audio="/audio/helper-workplace-stress-check.mp3"
     >
