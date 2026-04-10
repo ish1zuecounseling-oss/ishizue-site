@@ -5,7 +5,7 @@ export default function HelperFatigue() {
     <ArticleLayout
       title="支援職が疲れる理由とは"
       description="支援職が疲れやすい背景には、感情労働や共感疲労などの構造的な要因があります。その仕組みを整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-empathy-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/helper-empathy-fatigue"
       date="2026-03-22"
       audio="/audio/helper-fatigue.mp3"
     >
