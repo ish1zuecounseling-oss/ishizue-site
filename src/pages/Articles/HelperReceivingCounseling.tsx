@@ -4,7 +4,7 @@ export default function HelperReceivingCounseling() {
     <ArticleLayout
       title="支援職がカウンセリングを受けることの意味とは｜「支援する人」が支援される場所を持つために"
       description="支援する立場の人が、支援を受けてもいい。支援職がカウンセリングを受けることの意味と、その一歩を妨げる心理的な障壁を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-receiving-counseling"
+      url="https://www.ishizue-counseling.jp/articles/helper-receiving-counseling"
       date="2026-03-29"
       audio="/audio/helper-receiving-counseling.mp3"
     >
