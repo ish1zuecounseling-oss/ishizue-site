@@ -4,7 +4,7 @@ export default function HelperJobHopping() {
     <ArticleLayout
       title="支援職が転職を繰り返す心理的背景とは｜「またここも違う」と感じる理由を理解する"
       description="職場を変えても同じような困難が繰り返される。転職の繰り返しの背景にある心理的パターンと構造を整理します。"
-      url="https://ishizue-site-ker9.vercel.app/articles/helper-job-hopping"
+      url="https://www.ishizue-counseling.jp/articles/helper-job-hopping"
       date="2026-03-29"
       audio="/audio/helper-job-hopping.mp3"
     >
