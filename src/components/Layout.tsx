@@ -347,8 +347,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* ブランド */}
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <LogoMark size={22} />
+              <div className="flex items-center gap-2.5 mb-3">
+                <img
+                  src="/logo.png"
+                  alt="いしずえ ロゴ"
+                  style={{ height: "28px", width: "auto" }}
+                />
                 <p
                   className="text-sm text-stone-800 tracking-wide font-medium"
                   style={{ fontFamily: "'Noto Serif JP', serif" }}
