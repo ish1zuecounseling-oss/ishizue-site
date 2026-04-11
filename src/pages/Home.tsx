@@ -329,12 +329,14 @@ function Home() {
           >
             <div className="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
               {/* ロゴ */}
-              {/* ロゴ画像 — デスクトップ・モバイル共通 */}
+              {/* デスクトップ: テキスト表示 */}
+              <p className="text-stone-700 text-sm font-medium hidden sm:block flex-shrink-0" style={{ fontFamily: "'Noto Serif JP', serif" }}>こころの相談室 いしずえ</p>
+              {/* モバイル: ロゴ画像 */}
               <img
                 src="/logo.png"
                 alt="こころの相談室 いしずえ"
-                className="flex-shrink-0 transition-opacity"
-                style={{ height: "28px", width: "auto" }}
+                className="flex-shrink-0 sm:hidden"
+                style={{ height: "26px", width: "auto" }}
               />
 
               {/* アンカーリンク — モバイルは短縮ラベル、デスクトップはフルラベル */}
