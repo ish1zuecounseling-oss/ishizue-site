@@ -146,6 +146,14 @@ const TOOLS = [
     color:   "#c084fc",
     icon:    "🪞",
   },
+  {
+    path:    "/articles/helper-attachment-check",
+    title:   "「人との距離感」現在地チェック",
+    desc:    "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",
+    tag:     "愛着スタイル",
+    color:   "#f472b6",
+    icon:    "🤝",
+  },
 ] as const;
 
 const TABS = [
