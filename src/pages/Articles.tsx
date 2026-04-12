@@ -92,8 +92,49 @@ function getCategoryForArticle(path: string): Category {
 /*  タブ定義                                                                    */
 /* -------------------------------------------------------------------------- */
 
+
+/* -------------------------------------------------------------------------- */
+/*  診断ツール定義                                                              */
+/* -------------------------------------------------------------------------- */
+
+const TOOLS = [
+  {
+    path:    "/articles/helper-status-check",
+    title:   "支援職のための現在地チェック",
+    desc:    "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",
+    tag:     "4軸・12問",
+    color:   "#7EB8A4",
+    icon:    "🌿",
+  },
+  {
+    path:    "/articles/helper-boundary-board",
+    title:   "境界線・脱フュージョンボード",
+    desc:    "感情の巻き込まれ度と自責・罪悪感をスライダーで調整。ベン図で境界線の状態をリアルタイム可視化。",
+    tag:     "スライダー式",
+    color:   "#c084fc",
+    icon:    "🔵",
+  },
+  {
+    path:    "/articles/helper-jdr-balance",
+    title:   "JD-Rバランスシミュレーター",
+    desc:    "仕事の要求と資源のバランスをシーソーで可視化。バーンアウトリスクと具体的な対処法を確認できます。",
+    tag:     "JD-Rモデル",
+    color:   "#fb923c",
+    icon:    "⚖️",
+  },
+  {
+    path:    "/articles/helper-mabi-radar",
+    title:   "MABI-HPレーダーアセスメント",
+    desc:    "共感疲労・過剰適応・組織葛藤・身体消耗の4軸をレーダーチャートで可視化。消耗の震源地を特定します。",
+    tag:     "レーダーチャート",
+    color:   "#60a5fa",
+    icon:    "📊",
+  },
+] as const;
+
 const TABS = [
   { id: "shindo",  label: "今のしんどさから探す" },
+  { id: "tools",   label: "診断ツール" },
   { id: "theme",   label: "テーマ別" },
   { id: "all",     label: "すべて" },
 ] as const;
@@ -470,6 +511,66 @@ export default function Articles() {
                     </div>
                   );
                 })()}
+              </div>
+            )}
+
+            {/* ============================================================
+                診断ツール
+            ============================================================ */}
+            {activeTab === "tools" && (
+              <div>
+                <p className="text-xs text-stone-400 mb-6 leading-relaxed">
+                  スライダー・チェック・レーダーチャートなど、インタラクティブな形式で今の状態を可視化できるツールです。
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {TOOLS.map((tool) => (
+                    <Link
+                      key={tool.path}
+                      to={tool.path}
+                      className="group flex flex-col gap-3 p-5 rounded-2xl border border-stone-100 bg-white hover:shadow-md transition-all duration-200"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = tool.color + "80"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
+                    >
+                      {/* ヘッダー */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                          style={{ background: tool.color + "18" }}
+                        >
+                          {tool.icon}
+                        </div>
+                        <span
+                          className="text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full"
+                          style={{ color: tool.color, background: tool.color + "15" }}
+                        >
+                          {tool.tag}
+                        </span>
+                      </div>
+
+                      {/* テキスト */}
+                      <div className="space-y-1">
+                        <p
+                          className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors"
+                          style={{ fontFamily: "'Noto Serif JP', serif" }}
+                        >
+                          {tool.title}
+                        </p>
+                        <p className="text-xs text-stone-400 leading-relaxed">
+                          {tool.desc}
+                        </p>
+                      </div>
+
+                      {/* フッター */}
+                      <div
+                        className="flex items-center gap-1 text-xs font-medium mt-auto pt-2 border-t border-stone-50"
+                        style={{ color: tool.color }}
+                      >
+                        ツールを使う
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
 
