@@ -352,11 +352,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* ブランド */}
             <div>
-              <div className="flex items-center gap-2.5 mb-3">
+              <Link
+                to="/"
+                className="flex items-center gap-2.5 mb-3"
+                aria-label="トップページへ"
+                style={{ WebkitTapHighlightColor: "transparent" }}
+              >
                 <img
                   src="/logo.png"
                   alt="いしずえ ロゴ"
-                  style={{ height: "28px", width: "auto" }}
+                  style={{ height: "28px", width: "auto", pointerEvents: "none" }}
                 />
                 <p
                   className="text-sm text-stone-800 tracking-wide font-medium"
@@ -364,7 +369,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 >
                   こころの相談室 いしずえ
                 </p>
-              </div>
+              </Link>
               <p className="text-xs text-stone-500 leading-relaxed">
                 公認心理師によるカウンセリング。<br />
                 支援職・対人援助職の方を中心に、<br />
