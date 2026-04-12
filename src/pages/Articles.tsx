@@ -130,6 +130,22 @@ const TOOLS = [
     color:   "#60a5fa",
     icon:    "📊",
   },
+  {
+    path:    "/articles/helper-thinking-check",
+    title:   "「考え方のクセ」現在地チェック",
+    desc:    "完璧主義・すべき思考・自己関連づけなど、支援職に多い8つの認知のクセを24項目で確認。リフレーミング付き。",
+    tag:     "8カテゴリ・24問",
+    color:   "#a78bfa",
+    icon:    "🧠",
+  },
+  {
+    path:    "/articles/helper-impostor-check",
+    title:   "「自分の頑張りを認められない」現在地チェック",
+    desc:    "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",
+    tag:     "インポスター現象",
+    color:   "#c084fc",
+    icon:    "🪞",
+  },
 ] as const;
 
 const TABS = [
