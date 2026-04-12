@@ -94,38 +94,48 @@ function BoundaryBoard() {
         flexDirection: "column",
         alignItems: "center",
       }}>
-        <svg width="280" height="140" viewBox="0 0 280 140">
+        {/* ラベル行（SVG外に出す） */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", padding: "0 8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <span style={{ fontSize: "16px" }}>👤</span>
+            <span style={{ fontSize: "12px", color: "#c084fc", fontWeight: 600 }}>あなた</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <span style={{ fontSize: "12px", color: "#fb923c", fontWeight: 600 }}>対象者</span>
+            <span style={{ fontSize: "16px" }}>👥</span>
+          </div>
+        </div>
+
+        <svg width="100%" height="130" viewBox="0 0 280 120" style={{ maxWidth: "320px" }}>
           {/* グリッド */}
           {[...Array(8)].map((_, i) => (
-            <line key={i} x1={i * 40} y1="0" x2={i * 40} y2="140"
+            <line key={i} x1={i * 40} y1="0" x2={i * 40} y2="120"
               stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
           ))}
           {[...Array(4)].map((_, i) => (
-            <line key={i} x1="0" y1={i * 40} x2="280" y2={i * 40}
+            <line key={i} x1="0" y1={i * 35} x2="280" y2={i * 35}
               stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
           ))}
 
           {/* 自分の円 */}
-          <circle cx={selfX} cy="70" r={r}
+          <circle cx={selfX} cy="60" r={r}
             fill="rgba(192,132,252,0.15)"
             stroke="rgba(192,132,252,0.6)"
-            strokeWidth="1.5" />
+            strokeWidth="2" />
 
           {/* 対象者の円 */}
-          <circle cx={clientX} cy="70" r={r}
+          <circle cx={clientX} cy="60" r={r}
             fill="rgba(251,146,60,0.12)"
             stroke="rgba(251,146,60,0.5)"
-            strokeWidth="1.5" />
+            strokeWidth="2" />
 
-          {/* アイコン：自分 */}
-          <text x={selfX - 14} y="75" fontSize="22" fill="rgba(192,132,252,0.8)">👤</text>
-
-          {/* アイコン：対象者 */}
-          <text x={clientX - 2} y="75" fontSize="22" fill="rgba(251,146,60,0.8)">👥</text>
-
-          {/* ラベル */}
-          <text x={selfX} y="128" textAnchor="middle" fontSize="9" fill="#94a3b8">あなた (SELF)</text>
-          <text x={clientX} y="128" textAnchor="middle" fontSize="9" fill="#94a3b8">対象者 (WORK/CLIENT)</text>
+          {/* 重なり具合の数値 */}
+          <text x="140" y="65" textAnchor="middle" fontSize="13" fill="rgba(255,255,255,0.5)" fontWeight="700">
+            {Math.round(overlap * 100)}%
+          </text>
+          <text x="140" y="80" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.3)">
+            重なり
+          </text>
         </svg>
       </div>
 
@@ -137,10 +147,10 @@ function BoundaryBoard() {
         marginBottom: "14px",
         borderLeft: `3px solid ${msg.color}`,
       }}>
-        <p style={{ fontSize: "11px", color: msg.color, fontWeight: 700, marginBottom: "4px" }}>
+        <p style={{ fontSize: "13px", color: msg.color, fontWeight: 700, marginBottom: "4px" }}>
           【{msg.tag}】
         </p>
-        <p style={{ fontSize: "11px", color: "#cbd5e1", lineHeight: 1.75 }}>{msg.body}</p>
+        <p style={{ fontSize: "13px", color: "#cbd5e1", lineHeight: 1.75 }}>{msg.body}</p>
       </div>
 
       {/* スライダー */}
@@ -148,8 +158,8 @@ function BoundaryBoard() {
         {/* 感情の巻き込まれ度 */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-            <p style={{ fontSize: "11px", color: "#94a3b8" }}>感情の巻き込まれ度</p>
-            <p style={{ fontSize: "11px", color: "#c084fc", fontWeight: 600 }}>{fusion}</p>
+            <p style={{ fontSize: "13px", color: "#94a3b8" }}>感情の巻き込まれ度</p>
+            <p style={{ fontSize: "13px", color: "#c084fc", fontWeight: 600 }}>{fusion}</p>
           </div>
           <input
             type="range" min="0" max="100" value={fusion}
@@ -161,8 +171,8 @@ function BoundaryBoard() {
         {/* 自責・罪悪感の強さ */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-            <p style={{ fontSize: "11px", color: "#94a3b8" }}>自責・罪悪感の強さ</p>
-            <p style={{ fontSize: "11px", color: "#fb923c", fontWeight: 600 }}>{guilt}</p>
+            <p style={{ fontSize: "13px", color: "#94a3b8" }}>自責・罪悪感の強さ</p>
+            <p style={{ fontSize: "13px", color: "#fb923c", fontWeight: 600 }}>{guilt}</p>
           </div>
           <input
             type="range" min="0" max="100" value={guilt}
