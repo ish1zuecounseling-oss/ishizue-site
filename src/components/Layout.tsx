@@ -146,13 +146,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-5xl mx-auto flex items-center justify-between px-5 h-16">
 
           {/* ロゴ */}
-          <Link to="/" className="flex items-center gap-3 group" aria-label="こころの相談室 いしずえ トップへ">
+          <Link
+            to="/"
+            className="flex items-center gap-3 group"
+            aria-label="こころの相談室 いしずえ トップへ"
+            style={{ WebkitTapHighlightColor: "transparent", minHeight: "44px", minWidth: "44px" }}
+          >
             {/* 筆書きロゴ画像 */}
             <img
               src="/logo.png"
               alt="いしずえ ロゴ"
               className="flex-shrink-0 transition-opacity group-hover:opacity-75"
-              style={{ height: "36px", width: "auto" }}
+              style={{ height: "36px", width: "auto", pointerEvents: "none" }}
             />
             <div className="leading-tight">
               <p
