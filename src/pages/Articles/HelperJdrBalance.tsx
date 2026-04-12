@@ -2,19 +2,38 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 
 const DEMANDS = [
-  { id: "caseload",  label: "事務作業・業務量",   color: "#f87171" },
-  { id: "emotional", label: "感情労働の負荷",      color: "#fb923c" },
-  { id: "role",      label: "役割の葛藤・無力感",  color: "#fbbf24" },
+  {
+    id: "caseload",  label: "事務作業・業務量", color: "#f87171",
+    hint: "0＝余裕がある　5＝こなせてはいる　10＝処理しきれないほど多い",
+  },
+  {
+    id: "emotional", label: "感情労働の負荷",   color: "#fb923c",
+    hint: "0＝感情的な負担はほぼない　5＝疲れを感じることがある　10＝毎日感情的に消耗している",
+  },
+  {
+    id: "role",      label: "役割の葛藤・無力感", color: "#fbbf24",
+    hint: "0＝役割が明確で迷いがない　5＝ときどき葛藤がある　10＝何をすべきか常に迷っている",
+  },
 ]
 const RESOURCES = [
-  { id: "autonomy",  label: "業務の裁量権",        color: "#7EB8A4" },
-  { id: "peer",      label: "ピアサポート",         color: "#6BA89A" },
-  { id: "selfcare",  label: "睡眠・セルフケア",     color: "#8FAF9F" },
+  {
+    id: "autonomy",  label: "業務の裁量権",     color: "#7EB8A4",
+    hint: "0＝自分では何も決められない　5＝少しは自分で決められる　10＝十分な裁量がある",
+  },
+  {
+    id: "peer",      label: "ピアサポート",      color: "#6BA89A",
+    hint: "0＝相談できる人が誰もいない　5＝たまに話せる人がいる　10＝十分なサポートがある",
+  },
+  {
+    id: "selfcare",  label: "睡眠・セルフケア",  color: "#8FAF9F",
+    hint: "0＝全く眠れず休めていない　5＝なんとか休めている　10＝十分に休息できている",
+  },
 ]
 
 function JdrBalance() {
-  const [demands,   setDemands]   = useState<Record<string,number>>({ caseload:5, emotional:5, role:3 })
-  const [resources, setResources] = useState<Record<string,number>>({ autonomy:3, peer:3, selfcare:3 })
+  const [demands,    setDemands]    = useState<Record<string,number>>({ caseload:5, emotional:5, role:3 })
+  const [resources,  setResources]  = useState<Record<string,number>>({ autonomy:3, peer:3, selfcare:3 })
+  const [showResult, setShowResult] = useState(false)
 
   const totalD  = Object.values(demands).reduce((a,b)=>a+b,0)
   const totalR  = Object.values(resources).reduce((a,b)=>a+b,0)
@@ -147,41 +166,43 @@ function JdrBalance() {
         ))}
       </div>
 
-      {/* タイプ診断結果 */}
-      <div style={{
-        padding: "16px", marginBottom: "16px",
-        background: currentType.color + "15",
-        border: `1px solid ${currentType.color}40`,
-        borderLeft: `4px solid ${currentType.color}`,
-        borderRadius: "12px",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-          <span style={{ fontSize: "18px" }}>{currentType.icon}</span>
-          <div>
-            <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "2px" }}>
-              あなたの消耗タイプ
+      {/* タイプ診断結果 — 確定後のみ表示 */}
+      {showResult && (
+        <div style={{
+          padding: "16px", marginBottom: "16px",
+          background: currentType.color + "15",
+          border: `1px solid ${currentType.color}40`,
+          borderLeft: `4px solid ${currentType.color}`,
+          borderRadius: "12px",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+            <span style={{ fontSize: "18px" }}>{currentType.icon}</span>
+            <div>
+              <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "2px" }}>
+                あなたの消耗タイプ
+              </p>
+              <p style={{ fontSize: "16px", fontWeight: 700, color: "#f1f5f9" }}>
+                {currentType.type}
+              </p>
+            </div>
+          </div>
+          <p style={{ fontSize: "13px", color: "#cbd5e1", lineHeight: 1.8, marginBottom: "10px" }}>
+            {currentType.desc}
+          </p>
+          <div style={{
+            padding: "10px 12px",
+            background: "rgba(0,0,0,0.2)",
+            borderRadius: "8px",
+          }}>
+            <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "4px" }}>
+              💊 処方箋
             </p>
-            <p style={{ fontSize: "16px", fontWeight: 700, color: "#f1f5f9" }}>
-              {currentType.type}
+            <p style={{ fontSize: "13px", color: "#e2e8f0", lineHeight: 1.75 }}>
+              {currentType.prescription}
             </p>
           </div>
         </div>
-        <p style={{ fontSize: "13px", color: "#cbd5e1", lineHeight: 1.8, marginBottom: "10px" }}>
-          {currentType.desc}
-        </p>
-        <div style={{
-          padding: "10px 12px",
-          background: "rgba(0,0,0,0.2)",
-          borderRadius: "8px",
-        }}>
-          <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "4px" }}>
-            💊 処方箋
-          </p>
-          <p style={{ fontSize: "13px", color: "#e2e8f0", lineHeight: 1.75 }}>
-            {currentType.prescription}
-          </p>
-        </div>
-      </div>
+      )}
 
       {/* シーソー */}
       <div style={{
@@ -202,8 +223,8 @@ function JdrBalance() {
         </svg>
       </div>
 
-      {/* アドバイス — 内容がある場合のみ表示 */}
-      {(getDemandAdvice() || getResourceAdvice()) && (
+      {/* アドバイス — 確定後かつ内容がある場合のみ表示 */}
+      {showResult && (getDemandAdvice() || getResourceAdvice()) && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
           {getDemandAdvice() && (
             <div style={{
@@ -238,7 +259,7 @@ function JdrBalance() {
         </div>
       )}
       {/* バランスが良い場合のメッセージ */}
-      {!getDemandAdvice() && !getResourceAdvice() && (
+      {showResult && !getDemandAdvice() && !getResourceAdvice() && (
         <div style={{ padding: "14px", background: "rgba(126,184,164,0.1)",
           border: "1px solid rgba(126,184,164,0.25)", borderRadius: "12px", marginBottom: "20px" }}>
           <p style={{ fontSize: "13px", color: "#7EB8A4", lineHeight: 1.7 }}>
@@ -254,14 +275,15 @@ function JdrBalance() {
             🔴 仕事の要求
           </p>
           {DEMANDS.map((d) => (
-            <div key={d.id} style={{ marginBottom: "12px" }}>
+            <div key={d.id} style={{ marginBottom: "14px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
                 <p style={{ fontSize: "12px", color: "#94a3b8" }}>{d.label}</p>
-                <p style={{ fontSize: "12px", color: d.color, fontWeight: 600 }}>{demands[d.id]}</p>
+                <p style={{ fontSize: "14px", color: d.color, fontWeight: 700 }}>{demands[d.id].toFixed(1)}</p>
               </div>
               <input type="range" min="0" max="10" step="0.1" value={demands[d.id]}
                 onChange={(e) => setDemands(p=>({...p,[d.id]:Number(e.target.value)}))}
                 style={{ width: "100%", accentColor: d.color }} />
+              <p style={{ fontSize: "10px", color: "#334155", marginTop: "3px", lineHeight: 1.5 }}>{d.hint}</p>
             </div>
           ))}
         </div>
@@ -270,32 +292,51 @@ function JdrBalance() {
             🌿 職場・個人の資源
           </p>
           {RESOURCES.map((r) => (
-            <div key={r.id} style={{ marginBottom: "12px" }}>
+            <div key={r.id} style={{ marginBottom: "14px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
                 <p style={{ fontSize: "12px", color: "#94a3b8" }}>{r.label}</p>
-                <p style={{ fontSize: "12px", color: r.color, fontWeight: 600 }}>{resources[r.id]}</p>
+                <p style={{ fontSize: "14px", color: r.color, fontWeight: 700 }}>{resources[r.id].toFixed(1)}</p>
               </div>
               <input type="range" min="0" max="10" step="0.1" value={resources[r.id]}
                 onChange={(e) => setResources(p=>({...p,[r.id]:Number(e.target.value)}))}
                 style={{ width: "100%", accentColor: r.color }} />
+              <p style={{ fontSize: "10px", color: "#334155", marginTop: "3px", lineHeight: 1.5 }}>{r.hint}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* ボタン */}
-      <div style={{ display: "flex", gap: "10px" }}>
-        <button onClick={() => { setDemands({caseload:5,emotional:5,role:3}); setResources({autonomy:3,peer:3,selfcare:3}) }}
-          style={{ padding: "12px 16px", background: "rgba(255,255,255,0.08)", color: "#94a3b8",
-            border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", fontSize: "13px", cursor: "pointer" }}>
-          リセット
-        </button>
-        <a href="/#contact" style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
-          borderRadius:"10px", fontSize:"14px", fontWeight:600, textDecoration:"none",
-          textAlign:"center" as const, display:"block" }}>
-          ✉ バランスを整える相談をする（初回無料）
-        </a>
-      </div>
+      {!showResult ? (
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={() => { setDemands({caseload:5,emotional:5,role:3}); setResources({autonomy:3,peer:3,selfcare:3}); setShowResult(false) }}
+            style={{ padding: "12px 16px", background: "rgba(255,255,255,0.08)", color: "#94a3b8",
+              border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", fontSize: "13px", cursor: "pointer" }}>
+            リセット
+          </button>
+          <button
+            onClick={() => setShowResult(true)}
+            style={{ flex: 1, padding: "12px", background: "#7EB8A4", color: "#fff",
+              border: "none", borderRadius: "10px", fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
+            消耗タイプを診断する
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={() => { setDemands({caseload:5,emotional:5,role:3}); setResources({autonomy:3,peer:3,selfcare:3}); setShowResult(false) }}
+            style={{ padding: "12px 16px", background: "rgba(255,255,255,0.08)", color: "#94a3b8",
+              border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", fontSize: "13px", cursor: "pointer" }}>
+            やり直す
+          </button>
+          <a href="/#contact" style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
+            borderRadius:"10px", fontSize:"14px", fontWeight:600, textDecoration:"none",
+            textAlign:"center" as const, display:"block" }}>
+            ✉ バランスを整える相談をする（初回無料）
+          </a>
+        </div>
+      )}
     </div>
   )
 }
