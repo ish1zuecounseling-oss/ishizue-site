@@ -328,16 +328,18 @@ function Home() {
             className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-100 shadow-sm"
           >
             <div className="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
-              {/* ロゴ */}
-              {/* デスクトップ: テキスト表示 */}
-              <p className="text-stone-700 text-sm font-medium hidden sm:block flex-shrink-0" style={{ fontFamily: "'Noto Serif JP', serif" }}>こころの相談室 いしずえ</p>
-              {/* モバイル: ロゴ画像 */}
-              <img
-                src="/logo.png"
-                alt="こころの相談室 いしずえ"
-                className="flex-shrink-0 sm:hidden"
-                style={{ height: "26px", width: "auto" }}
-              />
+              {/* ロゴ — クリック/タップでトップへ */}
+              <Link to="/" aria-label="トップページへ" style={{ WebkitTapHighlightColor: "transparent" }}>
+                {/* デスクトップ: テキスト表示 */}
+                <p className="text-stone-700 text-sm font-medium hidden sm:block flex-shrink-0" style={{ fontFamily: "'Noto Serif JP', serif" }}>こころの相談室 いしずえ</p>
+                {/* モバイル: ロゴ画像 */}
+                <img
+                  src="/logo.png"
+                  alt="こころの相談室 いしずえ"
+                  className="flex-shrink-0 sm:hidden"
+                  style={{ height: "26px", width: "auto", pointerEvents: "none" }}
+                />
+              </Link>
 
               {/* アンカーリンク — モバイルは短縮ラベル、デスクトップはフルラベル */}
               <nav className="flex items-center gap-1 text-xs text-stone-500">
@@ -397,6 +399,10 @@ function Home() {
                     支援職の「消耗」を、<br />
                     <span className="text-stone-200">構造から整理する。</span>
                   </h1>
+                  {/* 対象者明示ライン — 3秒理解のための1行 */}
+                  <p className="text-[#8FAF9F] text-xs md:text-sm tracking-wide">
+                    看護師・介護士・福祉職・教員など対人援助職の方へ｜公認心理師によるオンラインカウンセリング
+                  </p>
                   <p className="text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
                     「まだ大丈夫」と思いながら、頭が休まらない日が続いていませんか？<br />
                     頑張ってきたからこそ、今の消耗は「あなたのせい」ではありません。<br />
