@@ -51,8 +51,8 @@ const AXES: Axis[] = [
 /* -------------------------------------------------------------------------- */
 
 function RadarChart({ scores }: { scores: Record<AxisId, number> }) {
-  const cx = 130
-  const cy = 130
+  const cx = 150
+  const cy = 140
   const maxR = 100
   const maxScore = 15
 
@@ -76,7 +76,7 @@ function RadarChart({ scores }: { scores: Record<AxisId, number> }) {
   const scoreD = scorePoints.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ") + " Z"
 
   return (
-    <svg width="260" height="260" viewBox="0 0 260 260">
+    <svg width="100%" height="260" viewBox="0 0 300 280" style={{ maxWidth: "300px" }}>
       {/* グリッドライン */}
       {gridLevels.map((level) => {
         const r = (level / maxScore) * maxR
@@ -119,15 +119,15 @@ function RadarChart({ scores }: { scores: Record<AxisId, number> }) {
       {/* 軸ラベル */}
       {axisIds.map((id, i) => {
         const axis = AXES.find((a) => a.id === id)!
-        const labelPos = toXY(angles[i], maxR + 18)
+        const labelPos = toXY(angles[i], maxR + 24)
         return (
           <text key={id}
             x={labelPos.x} y={labelPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize="10"
+            fontSize="12"
             fill={axis.color}
-            fontWeight="600"
+            fontWeight="700"
           >
             {axis.short}
           </text>
@@ -253,8 +253,8 @@ function MabiRadar() {
         {AXES.map((axis) => (
           <div key={axis.id}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "3px" }}>
-              <p style={{ fontSize: "10px", color: axis.color, fontWeight: 600 }}>{axis.label}</p>
-              <p style={{ fontSize: "10px", color: axis.color, fontWeight: 700 }}>{scores[axis.id]}</p>
+              <p style={{ fontSize: "12px", color: axis.color, fontWeight: 600 }}>{axis.label}</p>
+              <p style={{ fontSize: "12px", color: axis.color, fontWeight: 700 }}>{scores[axis.id]}</p>
             </div>
             <input
               type="range" min="0" max="15" step="1"
