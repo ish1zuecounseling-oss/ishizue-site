@@ -127,20 +127,26 @@ function BoundaryBoard() {
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
             <p style={{ fontSize: "14px", color: "#94a3b8" }}>感情の巻き込まれ度</p>
-            <p style={{ fontSize: "14px", color: "#c084fc", fontWeight: 600 }}>{fusion}</p>
+            <p style={{ fontSize: "16px", color: "#c084fc", fontWeight: 700 }}>{fusion}</p>
           </div>
           <input type="range" min="0" max="100" value={fusion}
             onChange={(e) => setFusion(Number(e.target.value))}
             style={{ width: "100%", accentColor: "#c084fc" }} />
+          <p style={{ fontSize: "10px", color: "#334155", marginTop: "4px", lineHeight: 1.5 }}>
+            0＝相手の感情に全く影響されない　50＝引きずることがある　100＝相手の感情が自分のものになってしまう
+          </p>
         </div>
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
             <p style={{ fontSize: "14px", color: "#94a3b8" }}>自責・罪悪感の強さ</p>
-            <p style={{ fontSize: "14px", color: "#fb923c", fontWeight: 600 }}>{guilt}</p>
+            <p style={{ fontSize: "16px", color: "#fb923c", fontWeight: 700 }}>{guilt}</p>
           </div>
           <input type="range" min="0" max="100" value={guilt}
             onChange={(e) => setGuilt(Number(e.target.value))}
             style={{ width: "100%", accentColor: "#fb923c" }} />
+          <p style={{ fontSize: "10px", color: "#334155", marginTop: "4px", lineHeight: 1.5 }}>
+            0＝自責はほとんどない　50＝「もっとできたのでは」と思うことがある　100＝常に自分を責め続けている
+          </p>
         </div>
       </div>
 
