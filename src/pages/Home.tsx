@@ -25,6 +25,7 @@ import {
   Minus,
   MessageCircle,
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import { Helmet } from "react-helmet-async";
 
