@@ -21,13 +21,74 @@ function JdrBalance() {
   const balance = totalR - totalD
   const tiltDeg = Math.max(-28, Math.min(28, -balance * 2))
 
-  const getStatus = () => {
-    if (balance >= 5)  return { label:"余裕あり",   color:"#7EB8A4", icon:"🌿" }
-    if (balance >= 0)  return { label:"均衡",       color:"#a0c0a0", icon:"⚖️" }
-    if (balance >= -8) return { label:"要注意",     color:"#fb923c", icon:"⚠️" }
-    return               { label:"危険ゾーン",     color:"#e07070", icon:"🔴" }
+  const getType = () => {
+    // 要求の特徴を判定
+    const maxDval = Math.max(...Object.values(demands))
+    const maxDkeys = Object.entries(demands).filter(([,v])=>v===maxDval).map(([k])=>k)
+    const topD = maxDkeys.length === 1 ? maxDkeys[0] : "mixed"
+
+    // バランスに応じてタイプを決定
+    if (balance >= 5) return {
+      label: "安定型",
+      icon: "🌿",
+      color: "#7EB8A4",
+      type: "安定した支援者",
+      desc: "要求と資源のバランスが取れています。今の状態を維持するために、日々のセルフケアを意識的に続けましょう。",
+      prescription: "予防的セルフケアとして、週に1回「今週の自分の状態」を5分振り返る時間を作ってみましょう。",
+    }
+    if (balance >= 0) return {
+      label: "均衡型",
+      icon: "⚖️",
+      color: "#a0c0a0",
+      type: "ギリギリ均衡の支援者",
+      desc: "今はバランスが保たれていますが、少しの変化で崩れやすい状態です。資源を意識的に増やしておくことが大切です。",
+      prescription: "今週できる小さなセルフケアを一つだけ決めて、確実に実行しましょう。",
+    }
+    if (balance >= -8) {
+      if (topD === "emotional") return {
+        label: "要注意",
+        icon: "⚠️",
+        color: "#fb923c",
+        type: "感情労働消耗型",
+        desc: "感情労働の負荷が資源を上回っています。相手の感情を引き受けすぎている可能性があります。",
+        prescription: "仕事終わりに「今日感じた感情」を3つだけ紙に書き出す習慣を作りましょう。感情を外に出すことで、引きずりにくくなります。",
+      }
+      if (topD === "caseload") return {
+        label: "要注意",
+        icon: "⚠️",
+        color: "#fb923c",
+        type: "業務過多消耗型",
+        desc: "業務量の重さが資源を上回っています。こなすだけで精一杯の状態が続いています。",
+        prescription: "今日のタスクを「やる・やらない・誰かに頼む」の3つに仕分けしてみましょう。全部自分でやろうとしないことが回復の第一歩です。",
+      }
+      if (topD === "role") return {
+        label: "要注意",
+        icon: "⚠️",
+        color: "#fb923c",
+        type: "役割葛藤消耗型",
+        desc: "役割の葛藤や無力感が資源を上回っています。「自分の支援でいいのか」という迷いが続いている状態です。",
+        prescription: "「自分にできること・できないこと」を紙に書き出してみましょう。できないことを手放す視点が、葛藤を和らげます。",
+      }
+      return {
+        label: "要注意",
+        icon: "⚠️",
+        color: "#fb923c",
+        type: "複合消耗型",
+        desc: "複数の要求が重なり、資源を上回っています。一つ一つは小さくても、積み重なると大きな消耗になります。",
+        prescription: "今一番「しんどい」と感じる要求を一つだけ選んで、そこに絞って対策を考えてみましょう。",
+      }
+    }
+    return {
+      label: "危険",
+      icon: "🔴",
+      color: "#e07070",
+      type: "限界超過型",
+      desc: "要求が資源を大きく上回っており、バーンアウトのリスクが高い状態です。今すぐ環境調整が必要です。",
+      prescription: "一人で抱え込まず、今の状態を信頼できる人に話してみてください。話すことで「整理できること」と「助けを求められること」が見えてきます。",
+    }
   }
-  const status = getStatus()
+  const currentType = getType()
+  const status = { label: currentType.label, color: currentType.color, icon: currentType.icon }
 
   const getDemandAdvice = (): string | null => {
     // 要求が全て0なら助言不要
@@ -86,19 +147,41 @@ function JdrBalance() {
         ))}
       </div>
 
-      {/* 警告 */}
-      {balance < 0 && (
+      {/* タイプ診断結果 */}
+      <div style={{
+        padding: "16px", marginBottom: "16px",
+        background: currentType.color + "15",
+        border: `1px solid ${currentType.color}40`,
+        borderLeft: `4px solid ${currentType.color}`,
+        borderRadius: "12px",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+          <span style={{ fontSize: "18px" }}>{currentType.icon}</span>
+          <div>
+            <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "2px" }}>
+              あなたの消耗タイプ
+            </p>
+            <p style={{ fontSize: "16px", fontWeight: 700, color: "#f1f5f9" }}>
+              {currentType.type}
+            </p>
+          </div>
+        </div>
+        <p style={{ fontSize: "13px", color: "#cbd5e1", lineHeight: 1.8, marginBottom: "10px" }}>
+          {currentType.desc}
+        </p>
         <div style={{
-          display: "flex", alignItems: "center", gap: "8px",
-          padding: "10px 14px", background: "rgba(224,112,112,0.12)",
-          border: "1px solid rgba(224,112,112,0.3)", borderRadius: "10px", marginBottom: "14px",
+          padding: "10px 12px",
+          background: "rgba(0,0,0,0.2)",
+          borderRadius: "8px",
         }}>
-          <span>{status.icon}</span>
-          <p style={{ fontSize: "13px", color: status.color, fontWeight: 600 }}>
-            {status.label}（即時の環境調整が必要です）
+          <p style={{ fontSize: "11px", color: currentType.color, fontWeight: 600, marginBottom: "4px" }}>
+            💊 処方箋
+          </p>
+          <p style={{ fontSize: "13px", color: "#e2e8f0", lineHeight: 1.75 }}>
+            {currentType.prescription}
           </p>
         </div>
-      )}
+      </div>
 
       {/* シーソー */}
       <div style={{
