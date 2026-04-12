@@ -4,14 +4,26 @@ import ArticleLayout from "../../components/ArticleLayout"
 type AxisId = "compassion" | "overload" | "moral" | "body"
 
 const AXES = [
-  { id:"compassion" as AxisId, label:"共感疲労 (A)", short:"共感疲労", color:"#c084fc",
-    advice:"他者のトラウマを疑似体験しすぎています。「私は今、相手の感情を観察している」と実況中継する視点を持つことが助けになります。" },
-  { id:"overload" as AxisId,   label:"過剰適応 (B)", short:"過剰適応", color:"#fb923c",
-    advice:"「支援者」以外のアイデンティティに意識的に時間を配分しましょう。断ることは相手の力を信じることでもあります。" },
-  { id:"moral" as AxisId,      label:"組織葛藤 (C)", short:"組織葛藤", color:"#fbbf24",
-    advice:"「変えられること」と「変えられないこと」を紙に書き出し、変えられないことへの執着を少しずつ手放していきましょう。" },
-  { id:"body" as AxisId,       label:"身体的消耗 (D)", short:"身体消耗", color:"#60a5fa",
-    advice:"自律神経系が疲弊しています。まず睡眠と食事を優先し、知的活動は後回しにして体を休めることが最優先です。" },
+  {
+    id:"compassion" as AxisId, label:"共感疲労 (A)", short:"共感疲労", color:"#c084fc",
+    hint: "0＝影響なし　5＝仕事後も引きずることがある　10＝常に相手の感情が頭から離れない　15＝感覚が麻痺し始めている",
+    advice:"他者のトラウマを疑似体験しすぎています。「私は今、相手の感情を観察している」と実況中継する視点を持つことが助けになります。",
+  },
+  {
+    id:"overload" as AxisId, label:"過剰適応 (B)", short:"過剰適応", color:"#fb923c",
+    hint: "0＝影響なし　5＝断れないことがある　10＝常に責任を一人で抱えている　15＝限界を超えても止められない",
+    advice:"「支援者」以外のアイデンティティに意識的に時間を配分しましょう。断ることは相手の力を信じることでもあります。",
+  },
+  {
+    id:"moral" as AxisId, label:"組織葛藤 (C)", short:"組織葛藤", color:"#fbbf24",
+    hint: "0＝影響なし　5＝ときどき組織への不満がある　10＝環境への怒りや無力感が強い　15＝諦めや冷笑が生じている",
+    advice:"「変えられること」と「変えられないこと」を紙に書き出し、変えられないことへの執着を少しずつ手放していきましょう。",
+  },
+  {
+    id:"body" as AxisId, label:"身体的消耗 (D)", short:"身体消耗", color:"#60a5fa",
+    hint: "0＝影響なし　5＝慢性的な疲労感がある　10＝朝起きるのが辛い・睡眠に問題がある　15＝身体症状が出ている",
+    advice:"自律神経系が疲弊しています。まず睡眠と食事を優先し、知的活動は後回しにして体を休めることが最優先です。",
+  },
 ]
 
 function RadarChart({ scores }: { scores: Record<AxisId,number> }) {
@@ -138,11 +150,12 @@ function MabiRadar() {
           <div key={axis.id}>
             <div style={{ display:"flex", justifyContent:"space-between", marginBottom:"4px" }}>
               <p style={{ fontSize:"13px", color:axis.color, fontWeight:600 }}>{axis.label}</p>
-              <p style={{ fontSize:"13px", color:axis.color, fontWeight:700 }}>{scores[axis.id]}</p>
+              <p style={{ fontSize:"15px", color:axis.color, fontWeight:700 }}>{scores[axis.id]}<span style={{fontSize:"10px", color:"#475569"}}>/15</span></p>
             </div>
             <input type="range" min="0" max="15" step="1" value={scores[axis.id]}
               onChange={(e)=>setScores(p=>({...p,[axis.id]:Number(e.target.value)}))}
               style={{ width:"100%", accentColor:axis.color }} />
+            <p style={{ fontSize:"10px", color:"#334155", marginTop:"3px", lineHeight:1.5 }}>{axis.hint}</p>
           </div>
         ))}
       </div>
