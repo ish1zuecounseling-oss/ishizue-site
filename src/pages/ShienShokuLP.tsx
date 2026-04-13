@@ -1,5 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string | undefined;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string | undefined;
+
+type FormStatus = "idle" | "submitting" | "success" | "error";
 
 const T = {
   brown:      "#2C1F14",
@@ -58,7 +66,7 @@ function Label({ text }: { text: string }) {
 
 function CtaButton({ label = "まずは無料メール相談" }: { label?: string }) {
   return (
-    <a href="/#contact" style={{
+    <a href="#contact-lp" style={{
       display: "inline-block",
       fontSize: "15px", fontWeight: 500,
       color: T.cream, background: T.brown,
@@ -306,11 +314,11 @@ function ProfileSection() {
           borderRadius: "4px", padding: "1.5rem",
         }}>
           <div style={{
-            width: "56px", height: "56px", borderRadius: "50%",
-            background: T.creamDeep, border: `0.5px solid ${T.borderMid}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "16px", color: T.brownMid, flexShrink: 0, fontFamily: "sans-serif",
-          }}>松</div>
+            width: "64px", height: "64px", borderRadius: "50%",
+            overflow: "hidden", border: `0.5px solid ${T.borderMid}`,
+            flexShrink: 0,
+          }}>
+            <img src="/profile.jpg" alt="松本龍児" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} /></div>
           <div>
             <h3 style={{ fontSize: "16px", fontWeight: 500, color: T.brown, marginBottom: "6px" }}>
               松本 龍児（まつもと りゅうじ）
@@ -370,10 +378,45 @@ function FAQSection() {
 }
 
 function CTASection() {
+  const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+  const [formError,  setFormError]  = useState("");
+
+  useEffect(() => {
+    if (EMAILJS_PUBLIC_KEY) emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }, []);
+
+  const getVal = (fd: FormData, k: string) => String(fd.get(k) ?? "").trim();
+
+  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormStatus("submitting");
+    setFormError("");
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setFormStatus("error");
+      setFormError("フォーム設定が未完了です。管理者にお問い合わせください。");
+      return;
+    }
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID,
+        { user_name: getVal(fd, "name"), user_email: getVal(fd, "email"), job: getVal(fd, "job"), message: getVal(fd, "message") },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+      form.reset();
+      setFormStatus("success");
+    } catch {
+      setFormStatus("error");
+      setFormError("送信に失敗しました。時間をおいて再度お試しください。");
+    }
+  }, []);
+
   return (
-    <section style={{ padding: "4rem 1.5rem", textAlign: "center" }}>
+    <section id="contact-lp" style={{ padding: "4rem 1.5rem", borderBottom: `0.5px solid ${T.border}` }}>
       <FadeIn>
-        <h2 style={{ fontSize: "clamp(18px,3vw,22px)", fontWeight: 400, lineHeight: 1.7, marginBottom: "0.8rem", color: T.brown }}>
+        <Label text="無料相談" />
+        <h2 style={{ fontSize: "clamp(18px,3vw,22px)", fontWeight: 400, lineHeight: 1.7, marginBottom: "0.6rem", color: T.brown }}>
           まず、話してみることから<br />始めませんか。
         </h2>
         <p style={{ fontSize: "14px", color: T.muted, lineHeight: 1.9, marginBottom: "2rem", fontFamily: "sans-serif" }}>
@@ -381,10 +424,123 @@ function CTASection() {
           カウンセリングが合うかどうかをお伝えします。<br />
           相談したこと自体が、誰かに知られることはありません。
         </p>
-        <CtaButton label="無料メール相談を申し込む" />
-        <p style={{ fontSize: "12px", color: T.faint, marginTop: "12px", fontFamily: "sans-serif" }}>
-          返信目安：2営業日以内　／　守秘義務あり　／　勧誘なし
+
+        {/* 3ステップ */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px", marginBottom: "2rem" }}>
+          {[
+            { step: "1", label: "フォームを送る",  sub: "2分・キャンセル可" },
+            { step: "2", label: "メールが届く",    sub: "2営業日以内" },
+            { step: "3", label: "状況を整理する",  sub: "初回・無料" },
+          ].map(({ step, label, sub }) => (
+            <div key={step} style={{
+              padding: "12px", borderRadius: "6px", background: T.creamDeep,
+              border: `0.5px solid ${T.border}`, textAlign: "center" as const,
+            }}>
+              <p style={{ fontSize: "10px", color: T.accentLight, letterSpacing: "0.15em", marginBottom: "4px", fontFamily: "sans-serif" }}>{step}</p>
+              <p style={{ fontSize: "13px", fontWeight: 500, color: T.brown, marginBottom: "2px" }}>{label}</p>
+              <p style={{ fontSize: "11px", color: T.muted, fontFamily: "sans-serif" }}>{sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* 送信成功 */}
+        {formStatus === "success" ? (
+          <div style={{ padding: "1.5rem", background: T.creamDeep, border: `0.5px solid ${T.borderMid}`, borderRadius: "6px", textAlign: "center" as const }}>
+            <p style={{ fontSize: "15px", fontWeight: 500, color: T.brown, marginBottom: "8px" }}>送信完了しました</p>
+            <p style={{ fontSize: "13px", color: T.muted, fontFamily: "sans-serif", lineHeight: 1.8 }}>
+              2営業日以内にご連絡いたします。<br />まずは送ってくださったこと、ありがとうございます。
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }} noValidate>
+            {/* 職種 */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", letterSpacing: "0.15em", color: T.muted, marginBottom: "6px", fontFamily: "sans-serif", textTransform: "uppercase" as const }}>
+                ご職種
+              </label>
+              <input name="job" type="text" placeholder="社会福祉士、看護師 など"
+                style={{ width: "100%", padding: "12px 14px", border: `0.5px solid ${T.borderMid}`, borderRadius: "4px", background: T.creamDark, color: T.brown, fontSize: "14px", fontFamily: "sans-serif", boxSizing: "border-box" as const }} />
+            </div>
+            {/* 名前 */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", letterSpacing: "0.15em", color: T.muted, marginBottom: "6px", fontFamily: "sans-serif", textTransform: "uppercase" as const }}>
+                お名前 <span style={{ color: "#e07070" }}>* 必須</span>
+              </label>
+              <input name="name" type="text" required placeholder="山田 花子"
+                style={{ width: "100%", padding: "12px 14px", border: `0.5px solid ${T.borderMid}`, borderRadius: "4px", background: T.creamDark, color: T.brown, fontSize: "14px", fontFamily: "sans-serif", boxSizing: "border-box" as const }} />
+            </div>
+            {/* メール */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", letterSpacing: "0.15em", color: T.muted, marginBottom: "6px", fontFamily: "sans-serif", textTransform: "uppercase" as const }}>
+                メールアドレス <span style={{ color: "#e07070" }}>* 必須</span>
+              </label>
+              <input name="email" type="email" required placeholder="example@email.com"
+                style={{ width: "100%", padding: "12px 14px", border: `0.5px solid ${T.borderMid}`, borderRadius: "4px", background: T.creamDark, color: T.brown, fontSize: "14px", fontFamily: "sans-serif", boxSizing: "border-box" as const }} />
+            </div>
+            {/* メッセージ */}
+            <div>
+              <label style={{ display: "block", fontSize: "11px", letterSpacing: "0.15em", color: T.muted, marginBottom: "6px", fontFamily: "sans-serif", textTransform: "uppercase" as const }}>
+                ご相談内容 <span style={{ color: T.faint, fontWeight: 400 }}>任意</span>
+              </label>
+              <textarea name="message" rows={4} placeholder="例：「最近頭が休まらない」「誰にも言えない」など"
+                style={{ width: "100%", padding: "12px 14px", border: `0.5px solid ${T.borderMid}`, borderRadius: "4px", background: T.creamDark, color: T.brown, fontSize: "14px", fontFamily: "sans-serif", resize: "none", boxSizing: "border-box" as const }} />
+              <p style={{ fontSize: "12px", color: T.faint, marginTop: "4px", fontFamily: "sans-serif" }}>まとまっていなくて大丈夫です。</p>
+            </div>
+            {formStatus === "error" && formError && (
+              <p style={{ fontSize: "13px", color: "#e07070", fontFamily: "sans-serif" }}>{formError}</p>
+            )}
+            <button type="submit" disabled={formStatus === "submitting"} style={{
+              padding: "14px", background: T.brown, color: T.cream,
+              border: "none", borderRadius: "4px", fontSize: "15px", fontWeight: 500,
+              cursor: formStatus === "submitting" ? "not-allowed" : "pointer",
+              opacity: formStatus === "submitting" ? 0.6 : 1,
+              fontFamily: "sans-serif", letterSpacing: "0.04em",
+            }}>
+              {formStatus === "submitting" ? "送信中..." : "松本に、今の状態を整理してもらう（無料）"}
+            </button>
+            <p style={{ fontSize: "12px", color: T.faint, textAlign: "center" as const, fontFamily: "sans-serif" }}>
+              無理な継続案内なし　／　1回のみでもOK　／　守秘義務あり
+            </p>
+          </form>
+        )}
+      </FadeIn>
+    </section>
+  );
+}
+
+function ArticleLinks() {
+  const articles = [
+    { href: "/articles/helper-empathy-check", label: "共感疲労チェック｜支援職のための20項目診断" },
+    { href: "/articles/helper-burnout", label: "支援職のバーンアウトとは" },
+    { href: "/articles/helper-boundary", label: "支援職の境界線（バウンダリー）とは" },
+    { href: "/articles/helper-status-check", label: "支援職のための現在地チェック" },
+  ];
+  return (
+    <section style={{ padding: "3rem 1.5rem", background: T.creamDeep }}>
+      <FadeIn>
+        <Label text="関連記事" />
+        <p style={{ fontSize: "14px", color: T.muted, marginBottom: "1.2rem", fontFamily: "sans-serif" }}>
+          支援職のメンタルに関する記事・診断ツールを無料で公開しています。
         </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          {articles.map((a) => (
+            <Link key={a.href} to={a.href} style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "12px 16px", background: T.cream,
+              border: `0.5px solid ${T.border}`, borderRadius: "4px",
+              textDecoration: "none", color: T.brown, fontSize: "13px",
+              fontFamily: "sans-serif",
+            }}>
+              {a.label}
+              <span style={{ color: T.accentLight, fontSize: "16px", flexShrink: 0 }}>→</span>
+            </Link>
+          ))}
+        </div>
+        <div style={{ textAlign: "center" as const, marginTop: "1rem" }}>
+          <Link to="/articles" style={{ fontSize: "13px", color: T.accentLight, fontFamily: "sans-serif" }}>
+            すべての記事を見る →
+          </Link>
+        </div>
       </FadeIn>
     </section>
   );
@@ -410,6 +566,7 @@ export default function ShienShokuLP() {
           <ProfileSection />
           <FAQSection />
           <CTASection />
+          <ArticleLinks />
         </div>
       </div>
     </>
