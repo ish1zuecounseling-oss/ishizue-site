@@ -104,7 +104,6 @@ const TOOLS = [
     desc:    "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",
     tag:     "4軸・12問",
     color:   "#7EB8A4",
-    icon:    "🌿",
   },
   {
     path:    "/articles/helper-boundary-board",
@@ -112,7 +111,6 @@ const TOOLS = [
     desc:    "感情の巻き込まれ度と自責・罪悪感をスライダーで調整。ベン図で境界線の状態をリアルタイム可視化。",
     tag:     "スライダー式",
     color:   "#c084fc",
-    icon:    "🔵",
   },
   {
     path:    "/articles/helper-jdr-balance",
@@ -120,7 +118,6 @@ const TOOLS = [
     desc:    "仕事の要求と資源のバランスをシーソーで可視化。バーンアウトリスクと具体的な対処法を確認できます。",
     tag:     "JD-Rモデル",
     color:   "#fb923c",
-    icon:    "⚖️",
   },
   {
     path:    "/articles/helper-mabi-radar",
@@ -128,7 +125,6 @@ const TOOLS = [
     desc:    "共感疲労・過剰適応・組織葛藤・身体消耗の4軸をレーダーチャートで可視化。消耗の震源地を特定します。",
     tag:     "レーダーチャート",
     color:   "#60a5fa",
-    icon:    "📊",
   },
   {
     path:    "/articles/helper-thinking-check",
@@ -136,7 +132,6 @@ const TOOLS = [
     desc:    "完璧主義・すべき思考・自己関連づけなど、支援職に多い8つの認知のクセを24項目で確認。リフレーミング付き。",
     tag:     "8カテゴリ・24問",
     color:   "#a78bfa",
-    icon:    "🧠",
   },
   {
     path:    "/articles/helper-impostor-check",
@@ -144,7 +139,6 @@ const TOOLS = [
     desc:    "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",
     tag:     "インポスター現象",
     color:   "#c084fc",
-    icon:    "🪞",
   },
   {
     path:    "/articles/helper-attachment-check",
@@ -152,7 +146,6 @@ const TOOLS = [
     desc:    "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",
     tag:     "愛着スタイル",
     color:   "#f472b6",
-    icon:    "🤝",
   },
 ] as const;
 
@@ -558,10 +551,11 @@ export default function Articles() {
                       {/* ヘッダー */}
                       <div className="flex items-start justify-between gap-2">
                         <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                          style={{ background: tool.color + "18" }}
+                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                          style={{ background: tool.color + "18", border: `1.5px solid ${tool.color}30` }}
                         >
-                          {tool.icon}
+                          <div style={{ width: "18px", height: "18px", borderRadius: "4px",
+                            background: tool.color, opacity: 0.85 }} />
                         </div>
                         <span
                           className="text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full"
