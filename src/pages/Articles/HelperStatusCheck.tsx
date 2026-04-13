@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Heart, Layers, Building2, Moon, ArrowRight } from "lucide-react"
 import ArticleLayout from "../../components/ArticleLayout"
 
 type AxisId = "emotion" | "overload" | "workplace" | "body"
@@ -6,7 +7,7 @@ type AxisId = "emotion" | "overload" | "workplace" | "body"
 type Axis = {
   id:      AxisId
   label:   string
-  emoji:   string
+  icon:    React.ReactNode
   color:   string
   items:   string[]
   result:  string
@@ -17,7 +18,7 @@ const AXES: Axis[] = [
   {
     id:    "emotion",
     label: "感情の疲れ",
-    emoji: "🫀",
+    icon: <Heart size={16} />,
     color: "#7EB8A4",
     items: [
       "相手の辛い気持ちを、自分のことのように引きずってしまう",
@@ -30,7 +31,7 @@ const AXES: Axis[] = [
   {
     id:    "overload",
     label: "抱え込み",
-    emoji: "🪨",
+    icon: <Layers size={16} />,
     color: "#a78bfa",
     items: [
       "頼まれごとをすると、キャパシティを超えていても断りにくい",
@@ -43,7 +44,7 @@ const AXES: Axis[] = [
   {
     id:    "workplace",
     label: "職場のしんどさ",
-    emoji: "🏢",
+    icon: <Building2 size={16} />,
     color: "#fb923c",
     items: [
       "職場のルールや人員不足のせいで、思うようなサポートができず歯がゆい",
@@ -56,7 +57,7 @@ const AXES: Axis[] = [
   {
     id:    "body",
     label: "体と心の疲れ",
-    emoji: "🌙",
+    icon: <Moon size={16} />,
     color: "#60a5fa",
     items: [
       "朝起きたとき、「今日も仕事か…」と体が重く感じることが増えた",
@@ -109,7 +110,7 @@ function StatusCheckWidget() {
           <div key={axis.id}>
             {/* 軸ラベル */}
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-              <span style={{ fontSize: "16px" }}>{axis.emoji}</span>
+              <span style={{ color: axis.color }}>{axis.icon}</span>
               <p style={{ fontSize: "14px", fontWeight: 600, color: axis.color }}>{axis.label}</p>
               <span style={{
                 fontSize: "11px",
@@ -228,7 +229,7 @@ function StatusCheckWidget() {
                   alignItems: "center",
                   gap: "10px",
                 }}>
-                  <span style={{ fontSize: "18px" }}>{axis.emoji}</span>
+                  <span style={{ color: topAxis.color, display: "flex" }}>{topAxis.icon}</span>
                   <div>
                     <p style={{ fontSize: "11px", color: "#94a3b8", marginBottom: "2px" }}>{axis.label}</p>
                     <p style={{ fontSize: "20px", fontWeight: 700, color: count > 0 ? axis.color : "#334155", lineHeight: 1 }}>
@@ -264,7 +265,7 @@ function StatusCheckWidget() {
               borderRadius: "12px",
             }}>
               <p style={{ fontSize: "12px", color: topAxis.color, fontWeight: 600, marginBottom: "6px" }}>
-                {topAxis.emoji} 今最もサインが出ている場所：{topAxis.label}
+                今最もサインが出ている場所：{topAxis.label}
               </p>
               <p style={{ fontSize: "14px", color: "#e2e8f0", lineHeight: 1.8, marginBottom: "12px" }}>
                 {topAxis.result}
