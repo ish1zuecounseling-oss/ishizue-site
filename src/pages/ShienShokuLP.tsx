@@ -133,9 +133,11 @@ export default function ShienShokuLP() {
                 <span key={c} style={{ fontSize: "12px", color: T.brownMid, background: T.creamDeep, border: `0.5px solid ${T.border}`, borderRadius: "20px", padding: "4px 13px", fontFamily: "sans-serif" }}>{c}</span>
               ))}
             </div>
-            <a href="#contact-lp" style={{ display: "inline-block", fontSize: "15px", fontWeight: 500, color: T.cream, background: T.brown, borderRadius: "4px", padding: "13px 32px", textDecoration: "none", fontFamily: "sans-serif" }}>
+            <button
+              onClick={() => document.getElementById("contact-lp")?.scrollIntoView({ behavior: "smooth" })}
+              style={{ display: "inline-block", fontSize: "15px", fontWeight: 500, color: T.cream, background: T.brown, border: "none", borderRadius: "4px", padding: "13px 32px", cursor: "pointer", fontFamily: "sans-serif" }}>
               まずは無料メール相談
-            </a>
+            </button>
           </section>
 
           {/* こんな方へ */}
