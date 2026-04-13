@@ -32,7 +32,7 @@ function useFadeIn() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.12 }
+      { threshold: 0.05, rootMargin: "0px 0px -50px 0px" }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -414,7 +414,7 @@ function CTASection() {
 
   return (
     <section id="contact-lp" style={{ padding: "4rem 1.5rem", borderBottom: `0.5px solid ${T.border}` }}>
-      <FadeIn>
+      <div>
         <Label text="無料相談" />
         <h2 style={{ fontSize: "clamp(18px,3vw,22px)", fontWeight: 400, lineHeight: 1.7, marginBottom: "0.6rem", color: T.brown }}>
           まず、話してみることから<br />始めませんか。
@@ -503,7 +503,7 @@ function CTASection() {
             </p>
           </form>
         )}
-      </FadeIn>
+      </div>
     </section>
   );
 }
@@ -517,7 +517,7 @@ function ArticleLinks() {
   ];
   return (
     <section style={{ padding: "3rem 1.5rem", background: T.creamDeep }}>
-      <FadeIn>
+      <div>
         <Label text="関連記事" />
         <p style={{ fontSize: "14px", color: T.muted, marginBottom: "1.2rem", fontFamily: "sans-serif" }}>
           支援職のメンタルに関する記事・診断ツールを無料で公開しています。
@@ -541,7 +541,7 @@ function ArticleLinks() {
             すべての記事を見る →
           </Link>
         </div>
-      </FadeIn>
+      </div>
     </section>
   );
 }
@@ -557,8 +557,9 @@ export default function ShienShokuLP() {
         background: T.cream, color: T.brown,
         fontFamily: "'Noto Serif JP', 'Hiragino Mincho ProN', serif",
         lineHeight: 1.8,
+        minHeight: "100vh",
       }}>
-        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "760px", margin: "0 auto", paddingBottom: "4rem" }}>
           <Hero />
           <ForWhom />
           <Approach />
