@@ -9,6 +9,7 @@ import { ArrowRight, Home as HomeIcon } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
+import ShienShokuLP from "./pages/ShienShokuLP";
 import Articles from "./pages/Articles";
 import Profile from "./pages/Profile";
 import ScrollToTop from "./components/ScrollToTop";
@@ -166,6 +167,7 @@ function App() {
         <Routes>
           {/* メインページ */}
           <Route path="/"         element={<Home />} />
+          <Route path="/for-helpers" element={<ShienShokuLP />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/profile"  element={<Profile />} />
 
