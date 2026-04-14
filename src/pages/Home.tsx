@@ -452,17 +452,22 @@ function Home() {
                   <p className="text-[#8FAF9F] text-xs md:text-sm tracking-wide">
                     看護師・介護士・福祉職・教員など対人援助職の方へ｜公認心理師によるオンラインカウンセリング
                   </p>
-                  <p className="text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
+                  <p className="hidden md:block text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
                     「まだ大丈夫」と思いながら、頭が休まらない日が続いていませんか？<br />
                     頑張ってきたからこそ、今の消耗は「あなたのせい」ではありません。<br />
                     <span className="text-stone-200">ここは、支援する人が自分を後回しにしなくていい場所です。</span>
                   </p>
-                  <p className="text-stone-400 text-xs md:text-sm italic leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                  <p className="hidden md:block text-stone-400 text-xs md:text-sm italic leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     「整理してみたら、役割が3つ重なっていた。私が弱かったんじゃなかった」— 介護福祉士・50代
+                  </p>
+                  {/* モバイルのみ：1行のキャッチ */}
+                  <p className="md:hidden text-stone-300 text-sm leading-[1.9]">
+                    感情労働の疲れは、休んだだけでは回復しません。<br />
+                    <span className="text-stone-200">「なぜそうなるのか」を、一緒に整理します。</span>
                   </p>
                 </motion.div>
 
-                <motion.div variants={fadeUp} className="flex flex-col gap-2 text-xs text-stone-400">
+                <motion.div variants={fadeUp} className="hidden md:flex flex-col gap-2 text-xs text-stone-400">
                   {["感情の共感だけで終わらせない", "「なぜ消耗するか」を構造で整理", "消耗を減らし、続けられる土台へ"].map((item) => (
                     <span key={item} className="flex items-center gap-2">
                       <span className="w-1 h-1 rounded-full bg-[#8FAF9F] flex-shrink-0" />
