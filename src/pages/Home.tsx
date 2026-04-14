@@ -612,8 +612,8 @@ function Home() {
           </div>
         </section>
 
-        {/* ── MINI VOICES ── 広告ユーザー向け：浅いスクロール位置に証言2件 */}
-        <section className="py-12 md:py-14 px-5 md:px-6 bg-white">
+        {/* ── MINI VOICES ── 広告ユーザー向け：浅いスクロール位置に証言2件（モバイルは非表示） */}
+        <section className="hidden md:block py-12 md:py-14 px-5 md:px-6 bg-white">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial="hidden" whileInView="visible"
