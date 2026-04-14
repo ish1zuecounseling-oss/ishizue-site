@@ -218,6 +218,54 @@ function ProfileExpand({ children }: { children: ReactNode }) {
   );
 }
 
+function VoiceCard({ v }: { v: { role: string; before: string; after: string } }) {
+  return (
+    <motion.div variants={fadeUp} className="bg-white border border-stone-100 rounded-2xl p-5 space-y-4">
+      <p className="text-stone-400 text-xs italic" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.before}</p>
+      <div className="border-t border-stone-100 pt-3">
+        <div className="text-[#8FAF9F] opacity-50 mb-2">
+          <svg width="20" height="15" viewBox="0 0 24 18" fill="currentColor" aria-hidden="true">
+            <path d="M0 18V11.5C0 8.167 .833 5.417 2.5 3.25 4.167 1.083 6.5 0 9.5 0L10.5 1.5C8.833 1.833 7.458 2.625 6.375 3.875 5.292 5.125 4.75 6.5 4.75 8H9V18H0ZM14 18V11.5C14 8.167 14.833 5.417 16.5 3.25 18.167 1.083 20.5 0 23.5 0L24.5 1.5C22.833 1.833 21.458 2.625 20.375 3.875 19.292 5.125 18.75 6.5 18.75 8H23V18H14Z" />
+          </svg>
+        </div>
+        <p className="text-stone-700 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.after}</p>
+      </div>
+      <p className="text-stone-400 text-xs">{v.role}</p>
+    </motion.div>
+  );
+}
+
+function VoicesGrid() {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? voices : voices.slice(0, 2);
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {visible.map((v) => <VoiceCard key={v.role} v={v} />)}
+        {/* PCのみ：CTAカード */}
+        <motion.div variants={fadeUp} className="hidden md:flex flex-col items-center justify-center bg-[#2C1F14] rounded-2xl p-6 text-center space-y-4">
+          <p className="text-stone-300 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+            「相談するほどじゃない」と思っている方ほど、<br />実は一番必要としていることが多いです。
+          </p>
+          <a href="#contact" className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-white transition-colors underline underline-offset-4">
+            まず話してみる<ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+      </div>
+      {/* モバイルのみ：展開ボタン */}
+      {!expanded && (
+        <button
+          onClick={() => setExpanded(true)}
+          className="md:hidden w-full py-3 rounded-2xl border border-stone-200 text-stone-500 text-sm flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors"
+        >
+          残り{voices.length - 2}件の声を見る
+          <span className="text-stone-300">+</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
 function BlockQuote({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <div className={`border-l-2 pl-4 md:pl-6 py-1 ${light ? "border-stone-600 text-stone-300" : "border-[#8FAF9F] text-stone-700"}`}>
@@ -827,31 +875,7 @@ function Home() {
                 <p className="text-stone-400 text-xs mt-2">※ 掲載にあたりご本人の同意を得ています。個人が特定されないよう一部を変更しています。</p>
               </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {voices.map((v) => (
-                  <motion.div key={v.role} variants={fadeUp} className="bg-white border border-stone-100 rounded-2xl p-5 space-y-4">
-                    <p className="text-stone-400 text-xs italic" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.before}</p>
-                    <div className="border-t border-stone-100 pt-3">
-                      <div className="text-[#8FAF9F] opacity-50 mb-2">
-                        <svg width="20" height="15" viewBox="0 0 24 18" fill="currentColor" aria-hidden="true">
-                          <path d="M0 18V11.5C0 8.167 .833 5.417 2.5 3.25 4.167 1.083 6.5 0 9.5 0L10.5 1.5C8.833 1.833 7.458 2.625 6.375 3.875 5.292 5.125 4.75 6.5 4.75 8H9V18H0ZM14 18V11.5C14 8.167 14.833 5.417 16.5 3.25 18.167 1.083 20.5 0 23.5 0L24.5 1.5C22.833 1.833 21.458 2.625 20.375 3.875 19.292 5.125 18.75 6.5 18.75 8H23V18H14Z" />
-                        </svg>
-                      </div>
-                      <p className="text-stone-700 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>{v.after}</p>
-                    </div>
-                    <p className="text-stone-400 text-xs">{v.role}</p>
-                  </motion.div>
-                ))}
-
-                <motion.div variants={fadeUp} className="hidden md:flex flex-col items-center justify-center bg-[#2C1F14] rounded-2xl p-6 text-center space-y-4">
-                  <p className="text-stone-300 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                    「相談するほどじゃない」と思っている方ほど、<br />実は一番必要としていることが多いです。
-                  </p>
-                  <a href="#contact" className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-white transition-colors underline underline-offset-4">
-                    まず話してみる<ArrowRight className="w-3.5 h-3.5" />
-                  </a>
-                </motion.div>
-              </div>
+              <VoicesGrid />
 
               {/* ③ 声のあとに「だからあなたも」の橋渡し文を追加 */}
               <motion.div variants={fadeUp} className="text-center space-y-6">
