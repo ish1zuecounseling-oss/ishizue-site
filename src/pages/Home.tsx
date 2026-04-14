@@ -176,17 +176,20 @@ function ExpandableCard({ feeling, detail, tag }: { feeling: string; detail: str
     >
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full text-left p-5 flex items-start justify-between gap-2"
+        className="w-full text-left px-4 py-3.5 md:p-5 flex items-center justify-between gap-2"
       >
-        <div className="flex-1">
-          <p className="text-stone-800 font-semibold text-sm leading-snug">{feeling}</p>
-          <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full mt-1.5 inline-block">{tag}</span>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#8FAF9F] flex-shrink-0" />
+          <p className="text-stone-800 font-medium text-sm leading-snug truncate">{feeling}</p>
         </div>
-        <span className={`text-stone-400 text-lg flex-shrink-0 mt-0.5 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>+</span>
+        <span className={`text-stone-300 text-base flex-shrink-0 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>+</span>
       </button>
       {open && (
-        <div className="px-5 pb-5">
-          <p className="text-stone-500 text-sm leading-[1.85] border-t border-stone-100 pt-3">{detail}</p>
+        <div className="px-4 md:px-5 pb-4 md:pb-5">
+          <div className="border-t border-stone-100 pt-3 space-y-2">
+            <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full inline-block">{tag}</span>
+            <p className="text-stone-500 text-sm leading-[1.85]">{detail}</p>
+          </div>
         </div>
       )}
     </motion.div>
@@ -532,26 +535,31 @@ function Home() {
 
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
               <motion.div variants={fadeUp} className="space-y-3 max-w-xl">
-                {/* 感情的な入り口 — 言語化できていない人への橋渡し */}
-                <p
-                  className="text-stone-400 text-sm italic leading-[2] mb-1"
-                  style={{ fontFamily: "'Noto Serif JP', serif" }}
-                >
-                  なぜこんなに疲れているのか、わからないまま今日も出勤した。
-                </p>
+                {/* モバイル：コンパクト表示 */}
                 <span className="text-[10px] tracking-[0.2em] uppercase text-[#8FAF9F] font-medium">あなたの話ではないですか</span>
                 <h2 className="text-xl md:text-3xl font-light text-stone-900 leading-[1.65] tracking-wide" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                   支援職ほど、<br />
                   <span className="text-stone-500">自分の消耗に一番気づきにくい。</span>
                 </h2>
-                <p className="text-stone-500 text-sm leading-[1.9]">
+                {/* PCのみ表示 */}
+                <p
+                  className="hidden md:block text-stone-400 text-sm italic leading-[2]"
+                  style={{ fontFamily: "'Noto Serif JP', serif" }}
+                >
+                  なぜこんなに疲れているのか、わからないまま今日も出勤した。
+                </p>
+                <p className="hidden md:block text-stone-500 text-sm leading-[1.9]">
                   他者の痛みに寄り添うことが仕事だからこそ、自分自身の疲れは「たいしたことない」と後回しにしてしまう。「自分だけが弱い」という感覚は、そうやって積み重なります。
+                </p>
+                {/* モバイルのみ：短い補足 */}
+                <p className="md:hidden text-stone-400 text-xs leading-[1.8]">
+                  当てはまるものをタップして確認してみてください。
                 </p>
               </motion.div>
             </motion.div>
 
             {/* ④ 見出しから「──」記号を除去し、タイトルとして明確に */}
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger} className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger} className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
               {[
                 { feeling: "頭が休まらない",          detail: "仕事が終わっても利用者のことが頭から離れない。「もっとできることがあったはず」という声が止まらない。",            tag: "二次受傷・思考のループ" },
                 { feeling: "感情が動かなくなってきた",  detail: "以前は感じていたやりがいが薄れた。利用者の話を聞きながら、何も感じない自分に気づいて怖くなる。",               tag: "燃え尽き症候群の初期" },
