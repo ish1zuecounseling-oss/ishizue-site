@@ -167,6 +167,54 @@ function SectionLabel({ en, ja, light = false }: { en: string; ja: string; light
   );
 }
 
+// モバイルで折りたたみ可能なしんどさカード
+function ExpandableCard({ feeling, detail, tag }: { feeling: string; detail: string; tag: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div variants={fadeUp}
+      className="rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 transition-all duration-300 overflow-hidden"
+    >
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full text-left p-5 flex items-start justify-between gap-2"
+      >
+        <div className="flex-1">
+          <p className="text-stone-800 font-semibold text-sm leading-snug">{feeling}</p>
+          <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full mt-1.5 inline-block">{tag}</span>
+        </div>
+        <span className={`text-stone-400 text-lg flex-shrink-0 mt-0.5 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>+</span>
+      </button>
+      {open && (
+        <div className="px-5 pb-5">
+          <p className="text-stone-500 text-sm leading-[1.85] border-t border-stone-100 pt-3">{detail}</p>
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// モバイルでプロフィール本文を折りたたむ
+function ProfileExpand({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className="hidden md:block space-y-6">{children}</div>
+      <div className="md:hidden space-y-4">
+        {open ? (
+          <div className="space-y-6">{children}</div>
+        ) : (
+          <button
+            onClick={() => setOpen(true)}
+            className="text-sm text-[#8FAF9F] underline underline-offset-4 mt-1"
+          >
+            続きを読む →
+          </button>
+        )}
+      </div>
+    </>
+  );
+}
+
 function BlockQuote({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <div className={`border-l-2 pl-4 md:pl-6 py-1 ${light ? "border-stone-600 text-stone-300" : "border-[#8FAF9F] text-stone-700"}`}>
@@ -507,14 +555,7 @@ function Home() {
                 { feeling: "休むことへの罪悪感がある", detail: "休んでいても「休んでいていいのか」という気持ちが消えない。本当には休めていない。",                            tag: "境界の曖昧さ" },
                 { feeling: "このまま続けられるか不安", detail: "続けたい気持ちはある。でも「いつか限界が来るかも」という予感が、ずっと頭の片隅を占めている。",                  tag: "バーンアウト予兆" },
               ].map((item) => (
-                <motion.div key={item.feeling} variants={fadeUp} className="p-5 rounded-2xl border border-stone-100 bg-stone-50 hover:border-[#8FAF9F]/40 hover:bg-white transition-all duration-300">
-                  <div className="flex items-start justify-between mb-2 gap-2">
-                    {/* ④ 見出しを明確なタイトルスタイルに */}
-                    <p className="text-stone-800 font-semibold text-sm leading-snug">{item.feeling}</p>
-                    <span className="text-[10px] text-[#8FAF9F] bg-[#8FAF9F]/10 px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">{item.tag}</span>
-                  </div>
-                  <p className="text-stone-500 text-sm leading-[1.85]">{item.detail}</p>
-                </motion.div>
+                <ExpandableCard key={item.feeling} feeling={item.feeling} detail={item.detail} tag={item.tag} />
               ))}
             </motion.div>
 
@@ -639,11 +680,13 @@ function Home() {
                       <p className="text-stone-800 font-medium text-base md:text-lg leading-[1.8]">支援者自身が、誰にも頼れていない。</p>
                     </BlockQuote>
 
-                    <p>責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、何度も目の前で見てきました。</p>
+                    <ProfileExpand>
+                      <p>責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、何度も目の前で見てきました。</p>
 
-                    <p>正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という無言の圧力を感じながら、気づかないふりをしていた時期があります。だから今、その構造を外から見てほしいと思っています。</p>
+                      <p>正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という無言の圧力を感じながら、気づかないふりをしていた時期があります。だから今、その構造を外から見てほしいと思っています。</p>
 
-                    <p>感情を吐き出す場所ではなく、<strong className="text-stone-800 font-medium">整理して、持続可能な状態に戻す</strong>ための時間を作ること。それがこのカウンセリングです。</p>
+                      <p>感情を吐き出す場所ではなく、<strong className="text-stone-800 font-medium">整理して、持続可能な状態に戻す</strong>ための時間を作ること。それがこのカウンセリングです。</p>
+                    </ProfileExpand>
 
                     <div className="pt-4 border-t border-stone-200">
                       <p className="text-xs tracking-[0.2em] uppercase text-stone-400 mb-3">資格・経歴</p>
