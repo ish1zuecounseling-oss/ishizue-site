@@ -96,12 +96,13 @@ function calcResult(answers: Record<string, number>): { type: ResultType; scores
 /* -------------------------------------------------------------------------- */
 
 function RadarChart({ scores }: { scores: Record<Axis, number> }) {
-  const cx = 100, cy = 100, r = 75
+  // viewBoxを広げてラベルが収まるようにする
+  const cx = 110, cy = 110, r = 70
   const max = 20
   const axes: { axis: Axis; label: string; color: string; angle: number }[] = [
-    { axis: "life",  label: "ライフ",  color: "#7EB8A4", angle: -90 },
-    { axis: "light", label: "ライト",  color: "#f59e0b", angle: 30 },
-    { axis: "rice",  label: "ライス",  color: "#94a3b8", angle: 150 },
+    { axis: "life",  label: "ライフワーク", color: "#7EB8A4", angle: -90 },
+    { axis: "light", label: "ライトワーク", color: "#f59e0b", angle: 30 },
+    { axis: "rice",  label: "ライスワーク", color: "#94a3b8", angle: 150 },
   ]
 
   const toXY = (angle: number, val: number) => {
@@ -113,13 +114,19 @@ function RadarChart({ scores }: { scores: Record<Axis, number> }) {
   const points = axes.map((a) => toXY(a.angle, scores[a.axis]))
   const polygon = points.map((p) => `${p.x},${p.y}`).join(" ")
 
-  // グリッド（5段階）
   const grids = [4, 8, 12, 16, 20].map((v) =>
     axes.map((a) => toXY(a.angle, v)).map((p) => `${p.x},${p.y}`).join(" ")
   )
 
+  // ラベル位置：軸の先端から少し外側
+  const labelOffset = (angle: number) => {
+    const rad = (angle * Math.PI) / 180
+    const dist = r + 22
+    return { x: cx + dist * Math.cos(rad), y: cy + dist * Math.sin(rad) }
+  }
+
   return (
-    <svg viewBox="0 0 200 200" style={{ width: "100%", maxWidth: "240px", margin: "0 auto", display: "block" }}>
+    <svg viewBox="0 0 220 220" style={{ width: "100%", maxWidth: "260px", margin: "0 auto", display: "block" }}>
       {/* グリッド */}
       {grids.map((pts, i) => (
         <polygon key={i} points={pts} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
@@ -127,29 +134,33 @@ function RadarChart({ scores }: { scores: Record<Axis, number> }) {
       {/* 軸線 */}
       {axes.map((a) => {
         const end = toXY(a.angle, max)
-        return <line key={a.axis} x1={cx} y1={cy} x2={end.x} y2={end.y} stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" />
+        return <line key={a.axis} x1={cx} y1={cy} x2={end.x} y2={end.y} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
       })}
       {/* データ */}
-      <polygon points={polygon} fill="rgba(126,184,164,0.25)" stroke="#7EB8A4" strokeWidth="1.5" />
+      <polygon points={polygon} fill="rgba(126,184,164,0.2)" stroke="#7EB8A4" strokeWidth="1.5" />
       {points.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="3" fill={axes[i].color} />
+        <circle key={i} cx={p.x} cy={p.y} r="4" fill={axes[i].color} />
       ))}
       {/* ラベル */}
       {axes.map((a) => {
-        const pos = toXY(a.angle, max + 10)
+        const pos = labelOffset(a.angle)
         return (
-          <text key={a.axis} x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle"
-            style={{ fontSize: "11px", fill: a.color, fontFamily: "sans-serif", fontWeight: 600 }}>
+          <text key={a.axis} x={pos.x} y={pos.y}
+            textAnchor="middle" dominantBaseline="middle"
+            style={{ fontSize: "10px", fill: a.color, fontFamily: "sans-serif", fontWeight: 700 }}>
             {a.label}
           </text>
         )
       })}
-      {/* スコア */}
+      {/* スコア（データ点の近く） */}
       {axes.map((a, i) => {
         const pos = toXY(a.angle, scores[a.axis])
+        const offset = i === 0 ? { x: 0, y: -10 } : i === 1 ? { x: 12, y: 0 } : { x: -12, y: 0 }
         return (
-          <text key={a.axis + "s"} x={pos.x + (i === 0 ? 0 : i === 1 ? 8 : -8)} y={pos.y - 6}
-            textAnchor="middle" style={{ fontSize: "9px", fill: a.color, fontFamily: "sans-serif" }}>
+          <text key={a.axis + "s"}
+            x={pos.x + offset.x} y={pos.y + offset.y}
+            textAnchor="middle"
+            style={{ fontSize: "10px", fill: "#f1f5f9", fontFamily: "sans-serif", fontWeight: 600 }}>
             {scores[a.axis]}
           </text>
         )
@@ -314,16 +325,7 @@ function WorkingOsWidget() {
               あなたの3軸バランス
             </p>
             <RadarChart scores={result.scores} />
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "12px" }}>
-              {(["life", "light", "rice"] as Axis[]).map((axis) => (
-                <div key={axis} style={{ textAlign: "center" as const }}>
-                  <p style={{ fontSize: "10px", color: axisColors[axis], marginBottom: "2px" }}>{axisLabels[axis]}</p>
-                  <p style={{ fontSize: "16px", fontWeight: 700, color: "#f1f5f9" }}>
-                    {result.scores[axis]}<span style={{ fontSize: "10px", color: "#475569" }}>/20</span>
-                  </p>
-                </div>
-              ))}
-            </div>
+
           </div>
 
           {/* CTA */}
