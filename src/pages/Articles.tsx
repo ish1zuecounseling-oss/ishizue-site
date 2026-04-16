@@ -147,6 +147,13 @@ const TOOLS = [
     tag:     "愛着スタイル",
     color:   "#f472b6",
   },
+  {
+    path:    "/articles/working-os-check",
+    title:   "「働き方のOS」診断",
+    desc:    "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",
+    tag:     "3軸・12問",
+    color:   "#7EB8A4",
+  },
 ] as const;
 
 const TABS = [
