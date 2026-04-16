@@ -99,6 +99,13 @@ function getCategoryForArticle(path: string): Category {
 
 const TOOLS = [
   {
+    path:    "/articles/big-five-check",
+    title:   "ビッグファイブ診断｜あなたの「消耗パターン」を知る",
+    desc:    "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",
+    tag:     "5因子・10問",
+    color:   "#c084fc",
+  },
+  {
     path:    "/articles/helper-status-check",
     title:   "支援職のための現在地チェック",
     desc:    "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",
