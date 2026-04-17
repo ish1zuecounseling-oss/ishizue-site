@@ -99,6 +99,13 @@ function getCategoryForArticle(path: string): Category {
 
 const TOOLS = [
   {
+    path:    "/articles/self-value-check",
+    title:   "自己価値の置き場所診断｜あなたの「存在許可証」を可視化する",
+    desc:    "「何者かにならないと不安」「役に立たないと罪悪感」——あなたが自分に課している存在の条件を4軸24問で可視化。",
+    tag:     "4軸・24問",
+    color:   "#f59e0b",
+  },
+  {
     path:    "/articles/big-five-check",
     title:   "ビッグファイブ診断｜あなたの「消耗パターン」を知る",
     desc:    "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",
