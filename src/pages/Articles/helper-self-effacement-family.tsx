@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperSelfEffacementFamily() {
   return (
     <ArticleLayout
-title="自分を後回しにする癖が抜けないのはなぜ？｜家族関係と自己抑制の心理学"
-description="気づくと自分の気持ちを後回しにしてしまう——この癖はどこから来るのか。家族関係の中で培われた自己抑制パターンの正体と、どう変えていくかを心理学から解説します。"
+      title="自分を後回しにしてしまう人の対処法｜自己犠牲の心理学"
+      description="気づくと自分の気持ちを後回しにしてしまう——この癖はどこから来るのか。家族関係の中で培われた自己抑制パターンの正体と、どう変えていくかを心理学から解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -136,6 +137,7 @@ description="気づくと自分の気持ちを後回しにしてしまう——�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：村本由紀子・山口勧（2003）「"自己卑下"が消えるとき——内集団の関係性に応じた個人と集団の成功の語り方」心理学研究，74(3), 253-262 ／ Muramoto, Y., & Yamaguchi, S.（1997）Another type of self-serving bias. Japanese Journal of Experimental Social Psychology, 37, 65-75 ／ Markus, H. R., & Kitayama, S.（1991）Culture and the self. Psychological Review, 98, 224-253
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
