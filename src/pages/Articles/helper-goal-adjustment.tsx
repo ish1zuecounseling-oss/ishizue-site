@@ -20,6 +20,10 @@ export default function HelperGoalAdjustment() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（目標を調整して消耗を減らす具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「諦めたら負け」という感覚が続いているうちは、目標への固執が消耗を深めているサインかもしれません。
+      </p>
       <p>
         「もっと頑張れば利用者の状態が改善するはずだ」<br />
         「こんなことで諦めてはいけない」<br />
@@ -115,13 +119,13 @@ export default function HelperGoalAdjustment() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-reality-shock" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-reality-shock" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「こんなはずじゃなかった」——リアリティショックと消耗
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
-          <Link to="/tools/helper-quit-timing-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-quit-timing-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 辞め時チェック｜今の状況を整理する
           </Link>
         </div>
@@ -130,6 +134,24 @@ export default function HelperGoalAdjustment() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：外山美樹・長峯聖人（2022）「人は困難な目標にどう対処すべきか？——困難な目標への対処方略尺度を作成して——」心理学研究，92(6), 543-553 ／ Wrosch, C., Scheier, M. F., Carver, C. S., & Schulz, R.（2003）The importance of goal disengagement in adaptive self-regulation: When giving up is beneficial. Self and Identity, 2, 1-20 ／ Brandtstädter, J., & Renner, G.（1990）Tenacious goal pursuit and flexible goal adjustment. Psychology and Aging, 5, 58-67
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>やめたいと思っているのに、「諦めることへの罪悪感」でやめられない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>続けることで消耗しているのに、止まり方がわからない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「もう少し頑張れば」と思い続けて、もう何年も経つ</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの意志が弱いのではなく、<strong className="text-stone-700">「諦めない」という信念そのものが消耗の燃料になっている</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
