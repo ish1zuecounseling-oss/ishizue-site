@@ -20,6 +20,10 @@ export default function HelperSelfEffacementFamily() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（自分を後回しにする癖を変えていく方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「自分のことを後回しにするのが当たり前」になっているうちは、その癖の根がまだ整理されていないサインかもしれません。
+      </p>
       <p>
         大変なケースをなんとか乗り越えた。
         家族に話すときは「今日うまくいった」と素直に言える。
@@ -131,13 +135,13 @@ export default function HelperSelfEffacementFamily() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか｜日本人の自己批判傾向と支援者の消耗
           </Link>
-          <Link to="/articles/helper-cannot-seek" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-cannot-seek" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援者なのに、誰にも相談できない
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
         </div>
@@ -146,6 +150,24 @@ export default function HelperSelfEffacementFamily() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：村本由紀子・山口勧（2003）「"自己卑下"が消えるとき——内集団の関係性に応じた個人と集団の成功の語り方」心理学研究，74(3), 253-262 ／ Muramoto, Y., & Yamaguchi, S.（1997）Another type of self-serving bias. Japanese Journal of Experimental Social Psychology, 37, 65-75 ／ Markus, H. R., & Kitayama, S.（1991）Culture and the self. Psychological Review, 98, 224-253
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>自分の気持ちより相手の気持ちを優先するのが「普通」になっている</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「自分のことを考えると罪悪感がある」という感覚がある</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「No」と言おうとすると、体が固まる感じがする</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたが自己中心的でないということではなく、<strong className="text-stone-700">自分を後回しにすることが生存戦略として身についてしまっている</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
