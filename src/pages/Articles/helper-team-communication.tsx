@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperTeamCommunication() {
   return (
     <ArticleLayout
-title="チームで働くほど疲れる理由と対処｜支援職のコミュニケーション消耗"
-description="報告・連絡・相談・会議——チームワークそのものが消耗の原因になることがあります。なぜ関係疲れが起きるのか、心理学で構造を解説し、職場での消耗を減らすヒントを紹介します。"
+      title="職場の人間関係で疲れるときの対処法｜コミュニケーション消耗の心理学"
+      description="報告・連絡・相談・会議——チームワークそのものが消耗の原因になることがあります。なぜ関係疲れが起きるのか、心理学で構造を解説し、職場での対処法を紹介します。"
       url="https://www.ishizue-counseling.jp/articles/helper-team-communication"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -118,6 +119,7 @@ description="報告・連絡・相談・会議——チームワークそのも�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：縄田健悟・山口裕幸・波多野徹・青島未佳（2015）「企業組織において高業績を導くチーム・プロセスの解明」心理学研究，85(6), 529-539 ／ Dickinson, T. L., & McIntyre, R. M.（1997）A conceptual framework for teamwork measurement. In Brannick, Salas, & Prince (Eds.), Team performance assessment and measurement. pp.19-43 ／ 三沢良・佐相邦英・山口裕幸（2009）看護師チームのチームワーク測定尺度の作成 社会心理学研究，24, 219-232
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
