@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperStressMindset() {
   return (
     <ArticleLayout
-title="「ストレスは有害だ」と思うほど消耗しやすい理由と対処｜ストレスマインドセットの心理学"
-description="ストレスをどう信じるかで、同じ量のストレスへの心身の反応が変わることが研究で示されています。なぜ信念が消耗に影響するのか、心理学で理由と変え方を解説します。"
+      title="ストレスで疲れやすい人の対処法｜ストレスマインドセットの心理学"
+      description="「ストレスは有害だ」と信じるほど、同じ量のストレスでも消耗しやすくなることが研究で示されています。なぜ信念が消耗に影響するのか、心理学で理由と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-stress-mindset"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -117,6 +118,7 @@ description="ストレスをどう信じるかで、同じ量のストレスへ�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：岩本（大久保）慧悟・竹橋洋毅・高史明（2020）「ストレスマインドセット尺度の邦訳および信頼性・妥当性の検討」心理学研究，90(6), 592-602 ／ Crum, A. J., Salovey, P., & Achor, S.（2013）Rethinking stress: The role of mindsets in determining the stress response. Journal of Personality and Social Psychology, 104, 716-733
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
