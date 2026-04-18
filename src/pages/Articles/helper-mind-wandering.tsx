@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperMindWandering() {
   return (
     <ArticleLayout
-      title="仕事中、頭が「どこか別の場所」にいる｜支援職のマインドワンダリングと消耗の関係"
-      description="起きている時間の30〜50%、私たちの注意は目の前のことから離れています。支援職に多い「頭が離れられない」「別のことを考えてしまう」という状態を、マインドワンダリング研究から読み解きます。"
+title="気づくと仕事のことを考えてしまうのはなぜ？｜マインドワンダリングと支援職の消耗"
+description="休んでいるはずなのに、頭の中で利用者のことや職場のことが繰り返される——これはマインドワンダリングと呼ばれる現象です。梶村・野村（2016）の研究から、その正体と対処を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-mind-wandering"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
