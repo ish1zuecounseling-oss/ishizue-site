@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperOrganizationUnsafe() {
   return (
     <ArticleLayout
-      title="支援職が「やってはいけないとわかっていても」やってしまう理由｜組織が消耗を作る構造"
-      description="手を抜くつもりはないのに、確認が甘くなる。ルールを守りたいのに、守れない。これは個人の問題ではなく、組織の構造が生み出している可能性があります。三沢・稲富・山口（2006）の研究から、支援職の「不安全行動」の背景を読み解きます。"
-      url="https://www.ishizue-counseling.jp/articles/helper-organization-unsafe"
+title="この職場、なんとなく危ないと感じる理由｜心理的安全性が低い環境の特徴"
+description="「ミスを報告しにくい」「本音が言えない」——そういう職場では、消耗が静かに積み重なります。三沢ら（2006）の研究から、不安全な組織の構造と支援職への影響を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-organization-unsafe"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
