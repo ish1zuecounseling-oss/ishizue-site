@@ -20,6 +20,10 @@ export default function HelperNaiveRealismConflict() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（すれ違いを減らすための具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「なぜわかってくれないのか」という感覚が続いているうちは、認知のズレが対立を深めているサインかもしれません。
+      </p>
       <p>
         「あのスタッフはわかっていない」「なぜ利用者はこちらの言っていることが伝わらないのか」——
         支援職の現場では、こうした感覚が消耗の大きな源になることがあります。
@@ -153,13 +157,13 @@ export default function HelperNaiveRealismConflict() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-boundary" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の境界線（バウンダリー）とは
           </Link>
-          <Link to="/articles/helper-thinking-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-thinking-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の「考え方のクセ」現在地チェック
           </Link>
-          <Link to="/articles/helper-status-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-status-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職のための現在地チェック
           </Link>
         </div>
@@ -168,6 +172,24 @@ export default function HelperNaiveRealismConflict() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：神原歩（2021）「態度が相反する他者への過度なバイアス認知を錯視経験が緩和する効果」心理学研究，92(1), 12-20 ／ Ross, L., & Ward, A.（1995）Psychological barriers to dispute resolution. In M. P. Zanna (Ed.), Advances in experimental social psychology, 255-304 ／ Kennedy, K. A., & Pronin, E.（2008）When disagreement gets ugly: Perceptions of bias and the escalation of conflict. Personality and Social Psychology Bulletin, 34, 833-848 ／ Pronin, E., Gilovich, T., & Ross, L.（2004）Objectivity in the eye of the beholders: Divergent perceptions of bias in self versus others. Psychological Review, 111, 781-799
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「自分の言っていることは正しいのに、伝わらない」という場面が繰り返される</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>相手の言動が理解できず、怒りや孤立感を感じる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>説明すればするほど、関係が悪化する気がする</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたのコミュニケーション能力の問題ではなく、<strong className="text-stone-700">認知のズレが双方向に起きている構造</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
