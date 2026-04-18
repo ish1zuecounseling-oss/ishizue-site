@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperOrganizationUnsafe() {
   return (
     <ArticleLayout
-title="職場がなんとなく危ないと感じる理由と対処｜心理的安全性が低い環境の特徴"
-description="「ミスを報告しにくい」「本音が言えない」——そういう職場ではなぜ消耗が積み重なるのか。心理的安全性が低い組織の特徴を心理学から解説し、自分を守る対処法を紹介します。"
+      title="職場が危ないと感じるときの対処法｜心理的安全性が低い環境の特徴"
+      description="「ミスを報告しにくい」「本音が言えない」——そういう職場ではなぜ消耗するのか、そしてどう身を守るかを心理学から解説します。心理的安全性が低い環境の特徴と対処法を紹介。"
       url="https://www.ishizue-counseling.jp/articles/helper-organization-unsafe"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -139,6 +140,7 @@ description="「ミスを報告しにくい」「本音が言えない」——�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：三沢良・稲富健・山口裕幸（2006）「鉄道運転士の不安全行動を誘発する心理学的要因」心理学研究，77(2), 132-140 ／ Reason, J.（1997）Managing the risks of organizational accidents. Brookfield, VT: Ashgate ／ 芳賀繁（2000）失敗のメカニズム 日本出版サービス
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
