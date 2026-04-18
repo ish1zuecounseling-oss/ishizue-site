@@ -11,6 +11,15 @@ export default function HelperRetellingMemory() {
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
+
+      <div className="mb-8 p-4 rounded-xl" style={ background: "#f5f0eb", border: "1px solid #e8ddd4" }>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={ color: "#8FAF9F" }>この記事でわかること</p>
+        <ul className="space-y-1.5">
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ嫌な記憶が繰り返し頭に浮かぶのか（記憶と反すうの心理学）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（思い出し続けることが消耗を深める理由）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（記憶を「語り直す」ことで回復する方法）</li>
+        </ul>
+      </div>
       <p>
         「あの時期はしんどかったけど、あの経験があったから今の自分がある」<br />
         「あの利用者との関わりは消耗したけど、振り返れば学びだったと思う」——
