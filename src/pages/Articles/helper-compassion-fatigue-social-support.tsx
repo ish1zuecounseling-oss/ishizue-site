@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperCompassionFatigueSocialSupport() {
   return (
     <ArticleLayout
-      title="心理職の共感疲労とソーシャルサポート｜「期待」と「現実」のズレが消耗を深める"
-      description="東北学院大学の研究をもとに、心理職・支援職の共感疲労とソーシャルサポートの関係を解説。「助けてほしかったのに、助けてもらえなかった」というズレが、共感疲労を悪化させるメカニズムとは。"
-      url="https://www.ishizue-counseling.jp/articles/helper-compassion-fatigue-social-support"
+title="「どうせまた嫌なことが起きる」と考えてしまうのはなぜ？｜コントラスト回避の心理学"
+description="悪いことを先取りして不安でいる方が、裏切られるよりマシ——そう感じていませんか。コントラスト回避という心理メカニズムから、支援職に多い「慢性的な不安」の正体を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-compassion-fatigue-social-support"
       date="2026-04-18"
       tags={["compassion", "burnout", "boundary"]}
     >
