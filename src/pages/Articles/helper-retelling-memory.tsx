@@ -20,6 +20,10 @@ export default function HelperRetellingMemory() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（記憶を「語り直す」ことで回復する方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「あの記憶がまた出てきた」と繰り返し感じているうちは、体験の整理がまだ続いているサインかもしれません。
+      </p>
       <p>
         「あの時期はしんどかったけど、あの経験があったから今の自分がある」<br />
         「あの利用者との関わりは消耗したけど、振り返れば学びだったと思う」——
@@ -124,13 +128,13 @@ export default function HelperRetellingMemory() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-cannot-seek" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-cannot-seek" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援者なのに、誰にも相談できない
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
         </div>
@@ -139,6 +143,24 @@ export default function HelperRetellingMemory() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：池田和浩・仁平義明（2009）「ネガティブな体験の肯定的な語り直しによる自伝的記憶の変容」心理学研究，79(6), 481-489 ／ White, M., & Epston, D.（1990）Narrative means to therapeutic ends. New York: W.W. Norton ／ Tversky, B., & Marsh, E. J.（2000）Biased retellings of events yield biased memories. Cognitive Psychology, 40, 1-38 ／ King, L. A., & Miner, K. N.（2000）Writing about the perceived benefits of traumatic events. Personality and Social Psychology Bulletin, 26, 220-230
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>ふとした瞬間に、過去のしんどい場面が浮かんでくる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「もう終わったこと」なのに、気持ちがその場に引き戻される感覚がある</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>思い出さないようにしようとするほど、かえって浮かびやすくなる</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、記憶力の問題でも意志の問題でもなく、<strong className="text-stone-700">体験がまだ「過去のこと」として整理されていない状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
