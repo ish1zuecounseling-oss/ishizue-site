@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperImplicitTheory() {
   return (
     <ArticleLayout
-title="「自分には向いていない」と感じるのはなぜ？｜暗黙の信念と支援職の消耗"
-description="「自分は変われない」「支援者に向いていない」という固定的な信念が、ストレス下での消耗を加速させることが研究で示されています。竹橋ら（2021）の暗黙理論研究から解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-implicit-theory"
+title="「自分は変われない」と感じるのはなぜ？｜暗黙の信念と支援職の消耗"
+description="「自分には向いていない」「これ以上成長できない」——固定的な自己観がストレス下での消耗を加速させることが研究で示されています。なぜそう感じるのか、心理学で理由と対処を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-implicit-theory"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
