@@ -1,6 +1,6 @@
 /**
  * ArticleBottomCTA.tsx
- * 全記事の末尾に入れる固定導線コンポーネント（行動理由型）
+ * 全記事の末尾に入れる固定導線コンポーネント
  */
 
 import { Link } from "react-router-dom"
@@ -35,9 +35,9 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
             <Link
               key={path}
               to={path}
-              className="group inline-flex items-center gap-1.5 text-sm text-[#7EB8A4] hover:text-[#5a9986] transition-colors"
+              className="group inline-flex items-center gap-1.5 text-sm text-stone-600 hover:text-stone-900 transition-colors"
             >
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0 text-stone-400" />
               {label}
             </Link>
           ))}
@@ -46,22 +46,25 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
 
       {/* 行動理由型CTA */}
       <div className="p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
-        <p className="text-sm text-stone-200 leading-relaxed mb-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+        <p className="text-sm font-light text-stone-200 leading-relaxed mb-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
           「まだ大丈夫」と思っているうちに、消耗は蓄積します
         </p>
-        <p className="text-xs text-stone-400 leading-relaxed mb-4">
+        <p className="text-xs text-stone-400 leading-relaxed mb-5">
           共感疲労はじわじわと深まるため、気づいたときには回復に時間がかかることがあります。<br />
-          今の状態を一度整理しておくことで、<strong>消耗が深くなる前に対処できる</strong>こともあります。<br />
+          今の状態を一度整理しておくことで、消耗が深くなる前に対処できることもあります。<br />
           言葉にならなくても大丈夫です。
         </p>
         <Link
           to="/#contact"
-          className="group inline-flex items-center gap-2 px-5 py-2.5 bg-[#7EB8A4] text-white text-xs font-medium tracking-[0.08em] rounded-full hover:bg-[#5a9986] transition-all"
+          className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
+          style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
         >
           初回無料で相談する
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
-        <p className="text-[10px] text-stone-500 mt-2">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+        <p className="text-[10px] text-stone-600 mt-3">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
       </div>
 
     </div>
