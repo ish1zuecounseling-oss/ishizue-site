@@ -20,6 +20,10 @@ export default function HelperSelfComplexity() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（複数の自分を育てる具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「仕事を離れると自分が何者かわからなくなる」——それは、まだ「支援者以外の自分」が育っていないサインかもしれません。
+      </p>
       <p>
         「仕事でうまくいかないと、全部がダメな気がする」<br />
         「休日も利用者のことが頭から離れない」<br />
@@ -129,13 +133,13 @@ export default function HelperSelfComplexity() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-burnout-signs" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-burnout-signs" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトの前兆（サイン）とは
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
         </div>
@@ -144,6 +148,24 @@ export default function HelperSelfComplexity() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：川人潤子・堀匡・大塚泰正（2010）「大学生の抑うつ予防のための自己複雑性介入プログラムの効果」心理学研究，81(2), 140-148 ／ Linville, P. W.（1987）Self-complexity as cognitive buffer against stress-related illness and depression. Journal of Personality and Social Psychology, 52, 663-676 ／ Morgan, H. J., & Janoff-Bulman, R.（1994）Positive and negative self-complexity. Journal of Social and Clinical Psychology, 13, 63-85
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>仕事でうまくいかないと、全部がダメな気がしてくる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>休日に何をしていいかわからず、結局仕事のことを考えてしまう</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「自分」がどこにいるかわからない感覚がある</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの努力が足りないのではなく、<strong className="text-stone-700">自分の置き場所が「仕事」しかなくなっている状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
