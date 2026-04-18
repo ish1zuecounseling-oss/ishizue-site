@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperContrastAvoidance() {
   return (
     <ArticleLayout
-title="「どうせまた嫌なことが起きる」と考えてしまう理由と対処｜コントラスト回避の心理学"
-description="悪いことを先取りして不安でいる方が楽——そう感じていませんか。コントラスト回避という心理メカニズムから、支援職に多い「慢性的な不安が止まらない」状態の正体と対処を解説します。"
+      title="不安が止まらないときの対処法｜最悪を考えてしまう心理の正体"
+      description="「どうせまた嫌なことが起きる」と考えてしまう——これはコントラスト回避という心理メカニズムです。なぜ不安が止まらないのか、心理学で正体と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-contrast-avoidance"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -123,6 +124,7 @@ description="悪いことを先取りして不安でいる方が楽——そう�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：松本昇・津藤央亘・Llera, S. J.・Newman, M. G.（2026）「不安と心配はなぜ生じるのか？——日本語版コントラスト回避質問紙の作成——」心理学研究，96(6), 428-438 ／ Newman, M. G., & Llera, S. J.（2011）A novel theory of experiential avoidance in generalized anxiety disorder. Clinical Psychology Review, 31(3), 371-382 ／ Kim, H., & Newman, M. G.（2019）The paradox of relaxation training: Relaxation induced anxiety and mediation effects of negative contrast sensitivity. Journal of Affective Disorders, 259, 271-278
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
