@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperSelfComplexity() {
   return (
     <ArticleLayout
-title="仕事だけの自分になると壊れやすい理由と対処｜自己複雑性の心理学"
-description="「支援者である自分」しかなくなったとき、職場でのダメージが全部に響いてしまう。なぜそうなるのか、自己複雑性の心理学から理由を解説し、消耗しにくい自分の作り方を考えます。"
+      title="仕事しかないと辛いときの対処法｜自己複雑性の心理学"
+      description="「支援者である自分」しかなくなったとき、職場でのダメージが全部に響いてしまう——なぜそうなるのか、どう対処するかを自己複雑性の心理学から解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-self-complexity"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -134,6 +135,7 @@ description="「支援者である自分」しかなくなったとき、職場�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：川人潤子・堀匡・大塚泰正（2010）「大学生の抑うつ予防のための自己複雑性介入プログラムの効果」心理学研究，81(2), 140-148 ／ Linville, P. W.（1987）Self-complexity as cognitive buffer against stress-related illness and depression. Journal of Personality and Social Psychology, 52, 663-676 ／ Morgan, H. J., & Janoff-Bulman, R.（1994）Positive and negative self-complexity. Journal of Social and Clinical Psychology, 13, 63-85
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
