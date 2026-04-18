@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperRetellingMemory() {
   return (
     <ArticleLayout
-      title="「あの経験があったから今がある」と語り直すと、記憶が変わる｜支援職の消耗体験の再解釈"
-      description="つらかった過去を「良かった」と語り直すと、記憶そのものがポジティブな方向に変容することが実験で示されています。池田・仁平（2009）の研究から、支援職が消耗体験を語り直す意味を解説します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-retelling-memory"
+title="同じつらい記憶を何度も思い出してしまうのはなぜ？｜記憶の再語りと回復の心理学"
+description="繰り返し頭に浮かぶ出来事——それを「語り直す」ことで、記憶の持つ意味が変わることが研究で示されています。池田・仁平（2009）の研究から、支援職の反すうと回復の関係を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-retelling-memory"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
