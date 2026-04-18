@@ -447,6 +447,31 @@ export default function Articles() {
             {/* 心理学から読む */}
             {activeTab === "research" && (
               <div>
+                {/* 対処優先ユーザー向け露骨導線 */}
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+                  className="mb-5 p-5 rounded-2xl" style={{ background: "#2C1F14" }}
+                >
+                  <p className="text-xs text-stone-400 mb-1">原因より、今すぐどうにかしたい方へ</p>
+                  <p className="text-sm text-stone-200 leading-relaxed mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    まず対処法を知りたい方は、こちらをご覧ください。
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { label: "共感疲労の対処法を見る",              path: "/articles/helper-compassion-fatigue-practice" },
+                      { label: "バウンダリー（境界線）の作り方を見る", path: "/articles/helper-boundary-how-to" },
+                      { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
+                    ].map(({ label, path }) => (
+                      <Link key={path} to={path}
+                        className="group inline-flex items-center gap-1.5 text-sm text-[#7EB8A4] hover:text-[#9fcfbf] transition-colors"
+                      >
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
+                        {label}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* 研究記事イントロ */}
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
                   className="mb-8 p-5 rounded-2xl" style={{ background: "#e0f2fe", border: "1px solid #bae6fd" }}
                 >
