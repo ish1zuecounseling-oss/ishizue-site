@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperWellbeingNotFromContribution() {
   return (
     <ArticleLayout
-title="「ストレスは有害だ」という思い込みが消耗を深める理由｜ストレスマインドセットの心理学"
-description="ストレスをどう信じるかで、同じ量のストレスへの心身の反応が変わることが研究で示されています。岩本ら（2020）のストレスマインドセット研究から、支援職の消耗と回復の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-wellbeing-not-from-contribution"
+title="役に立てないと価値がないと感じるのはなぜ？｜貢献依存とウェルビーイングの心理学"
+description="利用者の役に立てていないと、自分の存在意義まで揺らいでしまう——なぜそうなるのか。貢献とウェルビーイングの関係を心理学から解説し、「役割依存」からの回復を考えます。"
+      url="https://www.ishizue-counseling.jp/articles/helper-wellbeing-not-from-contribution"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
