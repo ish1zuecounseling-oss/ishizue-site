@@ -20,6 +20,10 @@ export default function HelperOrganizationUnsafe() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう身を守るか（環境が変わらなくても使える対処法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「この職場、なんとなくおかしい」と感じているうちは、その感覚はまだ正確に機能しているサインかもしれません。
+      </p>
       <p>
         「記録を丁寧に書くべきとわかっていても、時間がない」<br />
         「利用者への対応は本当はもっと丁寧にしたいけど、余裕がない」<br />
@@ -134,13 +138,13 @@ export default function HelperOrganizationUnsafe() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-workplace-stress-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-workplace-stress-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の職場ストレスチェック
           </Link>
-          <Link to="/articles/helper-burnout-signs" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-burnout-signs" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトの前兆（サイン）とは
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
         </div>
@@ -149,6 +153,24 @@ export default function HelperOrganizationUnsafe() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：三沢良・稲富健・山口裕幸（2006）「鉄道運転士の不安全行動を誘発する心理学的要因」心理学研究，77(2), 132-140 ／ Reason, J.（1997）Managing the risks of organizational accidents. Brookfield, VT: Ashgate ／ 芳賀繁（2000）失敗のメカニズム 日本出版サービス
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>職場を離れても、なんとなく気が抜けない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「自分が気にしすぎなのかも」と思うが、しんどさは変わらない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>改善しようとするほど疲れて、諦めてしまう</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの感受性の問題ではなく、<strong className="text-stone-700">環境の構造そのものが消耗を生んでいる</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
