@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperRealityShock() {
   return (
     <ArticleLayout
-title="「こんなはずじゃなかった」と感じるのはなぜ？｜リアリティショックと支援職の消耗"
-description="転職・異動後に「思っていたのと違う」と感じ、消耗してしまう——これはリアリティショックと呼ばれる現象です。片山・藤（2023）の研究から、その正体と回復のヒントを解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-reality-shock"
+title="つらい記憶が何度も頭に浮かぶのはなぜ？｜反すうと記憶の再語りの心理学"
+description="繰り返し思い出してしまう出来事——それを「語り直す」ことで、記憶の持つ意味が変わることが研究で示されています。なぜ止まらないのか、どう対処するかを心理学から解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-reality-shock"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
