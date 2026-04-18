@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperGoalAdjustment() {
   return (
     <ArticleLayout
-title="諦められないのに続けると消耗する理由｜目標調整の心理学と対処法"
-description="達成できない目標にしがみつくことが、抑うつにつながることが研究で示されています。「やめたいのにやめられない」状態から抜け出すために、心理学で理由と対処を解説します。"
+      title="やめたいのにやめられないときの対処法｜目標調整の心理学"
+      description="達成できない目標にしがみつくことが、抑うつにつながることが研究で示されています。「諦められない」状態から抜け出すために、心理学で理由と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-goal-adjustment"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -120,6 +121,7 @@ description="達成できない目標にしがみつくことが、抑うつに�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：外山美樹・長峯聖人（2022）「人は困難な目標にどう対処すべきか？——困難な目標への対処方略尺度を作成して——」心理学研究，92(6), 543-553 ／ Wrosch, C., Scheier, M. F., Carver, C. S., & Schulz, R.（2003）The importance of goal disengagement in adaptive self-regulation: When giving up is beneficial. Self and Identity, 2, 1-20 ／ Brandtstädter, J., & Renner, G.（1990）Tenacious goal pursuit and flexible goal adjustment. Psychology and Aging, 5, 58-67
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
