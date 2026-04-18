@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperNaiveRealismConflict() {
   return (
     <ArticleLayout
-      title="「あの人はわかっていない」と感じるとき、何が起きているのか｜支援職の対立と認知バイアス"
-      description="同僚や利用者との意見の食い違いが生じたとき、なぜ私たちは相手が偏っていると感じてしまうのか。ナイーブリアリズム理論をもとに、支援職の職場対立と利用者との認識のズレを心理学から読み解きます。"
-      url="https://www.ishizue-counseling.jp/articles/helper-naive-realism-conflict"
+title="「なぜあの人はわかってくれないのか」と感じる理由｜ナイーブ・リアリズムの心理学"
+description="自分の見え方が「正しい現実」だと思い込んでしまう——この認知の歪みがチームの対立や職場のすれ違いを生みます。神原（2021）の研究から、支援職の人間関係ストレスの構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-naive-realism-conflict"
       date="2026-04-18"
       tags={["boundary", "burnout", "compassion"]}
     >
