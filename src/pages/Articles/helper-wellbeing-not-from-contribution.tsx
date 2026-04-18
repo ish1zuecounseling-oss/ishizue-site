@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperWellbeingNotFromContribution() {
   return (
     <ArticleLayout
-      title="「人の役に立てている」のに、なぜ満たされないのか｜支援職の幸福感を心理学から考える"
-      description="社会貢献や「ありがとう」の言葉が、必ずしも支援職の幸福感につながらない理由を心理学の視点から解説します。主観的幸福感研究をもとに、支援職が「満たされない感覚」の正体を整理します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-wellbeing-not-from-contribution"
+title="「ストレスは有害だ」という思い込みが消耗を深める理由｜ストレスマインドセットの心理学"
+description="ストレスをどう信じるかで、同じ量のストレスへの心身の反応が変わることが研究で示されています。岩本ら（2020）のストレスマインドセット研究から、支援職の消耗と回復の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-wellbeing-not-from-contribution"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
