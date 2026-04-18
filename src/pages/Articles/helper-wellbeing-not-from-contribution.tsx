@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperWellbeingNotFromContribution() {
   return (
     <ArticleLayout
-title="役に立てないと価値がないと感じるのはなぜ？｜貢献依存とウェルビーイングの心理学"
-description="利用者の役に立てていないと、自分の存在意義まで揺らいでしまう——なぜそうなるのか。貢献とウェルビーイングの関係を心理学から解説し、「役割依存」からの回復を考えます。"
+      title="役に立てないと辛いときの対処法｜自己価値と貢献の心理学"
+      description="利用者の役に立てていないと、自分の存在意義まで揺らいでしまう——なぜそうなるのか。貢献とウェルビーイングの関係を心理学から解説し、「役割依存」からの対処法を紹介します。"
       url="https://www.ishizue-counseling.jp/articles/helper-wellbeing-not-from-contribution"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -155,6 +156,7 @@ description="利用者の役に立てていないと、自分の存在意義ま�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：伊藤裕子・相良順子・池田政子・川浦康至（2003）「主観的幸福感尺度の作成と信頼性・妥当性の検討」心理学研究 ／ Diener, E., Suh, E. M., Lucas, R. E., & Smith, H. L.（1999）Subjective well-being: Three decades of progress. Psychological Bulletin, 125, 276-302 ／ WHO（1992）Subjective Well-Being Inventory（SUBI）
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
