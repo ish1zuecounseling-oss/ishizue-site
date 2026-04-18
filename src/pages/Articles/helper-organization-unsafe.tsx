@@ -11,6 +11,15 @@ export default function HelperOrganizationUnsafe() {
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
+
+      <div className="mb-8 p-4 rounded-xl" style={ background: "#f5f0eb", border: "1px solid #e8ddd4" }>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={ color: "#8FAF9F" }>この記事でわかること</p>
+        <ul className="space-y-1.5">
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜこの職場で消耗するのか（心理的安全性の低い環境の特徴）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（バーンアウト・離職リスクの構造）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう身を守るか（環境が変わらなくても使える対処法）</li>
+        </ul>
+      </div>
       <p>
         「記録を丁寧に書くべきとわかっていても、時間がない」<br />
         「利用者への対応は本当はもっと丁寧にしたいけど、余裕がない」<br />
