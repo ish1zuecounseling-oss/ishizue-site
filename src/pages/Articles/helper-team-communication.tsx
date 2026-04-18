@@ -20,6 +20,10 @@ export default function HelperTeamCommunication() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（職場での消耗を減らす現実的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「人と話すことが億劫になってきた」——それは、職場のコミュニケーションそのものが消耗源になっているサインかもしれません。
+      </p>
       <p>
         「自分だけ頑張っている気がする」<br />
         「チームなのに、誰も助けてくれない」<br />
@@ -113,13 +117,13 @@ export default function HelperTeamCommunication() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-organization-unsafe" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-organization-unsafe" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職が「やってはいけないとわかっていても」やってしまう理由
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
         </div>
@@ -128,6 +132,24 @@ export default function HelperTeamCommunication() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：縄田健悟・山口裕幸・波多野徹・青島未佳（2015）「企業組織において高業績を導くチーム・プロセスの解明」心理学研究，85(6), 529-539 ／ Dickinson, T. L., & McIntyre, R. M.（1997）A conceptual framework for teamwork measurement. In Brannick, Salas, & Prince (Eds.), Team performance assessment and measurement. pp.19-43 ／ 三沢良・佐相邦英・山口裕幸（2009）看護師チームのチームワーク測定尺度の作成 社会心理学研究，24, 219-232
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>会議や報告のあとに、どっと疲れるようになった</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>同僚と話すのが以前より苦痛になってきた</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>一人でいる時間を意識的に増やそうとしている</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの人間関係能力の問題ではなく、<strong className="text-stone-700">職場のコミュニケーション構造が消耗を生んでいる</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
