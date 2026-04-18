@@ -44,7 +44,13 @@ const resultConfig = {
       { href: "/articles/helper-stress-coping",   text: "支援職のストレス対処｜共感疲労・感情労働から理解する" },
       { href: "/articles/helper-boundary",        text: "境界線（バウンダリー）とは｜支援職が抱え込みやすい理由" },
     ],
-    cvBlock: null,
+    cvBlock: {
+      heading: "今の状態を、予防のうちに整理しませんか",
+      body: "今は安定しています。ただ、支援職の消耗は「気づかないうちに蓄積する」ことが多いです。余裕があるうちに一度整理しておくことが、長く働き続ける土台になります。",
+      buttonText: "今の状態を整理してみる（初回無料）",
+      href: "/#contact",
+      sub: "勧誘なし ／ 1回のみでもOK ／ 支援職専門",
+    },
   },
   mid: {
     label: "共感疲労が蓄積している可能性があります",
@@ -216,7 +222,7 @@ export default function HelperEmpathyCheck() {
                 href={result.cvBlock.href}
                 style={{
                   display: "inline-block",
-                  background: "#1c1917",
+                  background: "#2C1F14",
                   color: "#fff",
                   borderRadius: "99px",
                   padding: "13px 24px",
