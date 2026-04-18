@@ -83,7 +83,7 @@ const CATEGORIES: Category[] = [
 
 function getCategoryForArticle(path: string): Category {
   const p = path.toLowerCase();
-  if (isResearchArticle(p)) return { id: "research", label: "心理学研究", keywords: [], isResearch: true };
+  if (isResearchArticle(p)) return { id: "research", label: "しんどさの正体", keywords: [], isResearch: true };
   for (const cat of CATEGORIES) {
     if (cat.keywords.some((kw) => p.includes(kw))) return cat;
   }
@@ -149,18 +149,18 @@ type ResearchSection = { label: string; desc: string; paths: string[] };
 
 const RESEARCH_SECTIONS: ResearchSection[] = [
   {
-    label: "消耗・燃え尽きの構造",
-    desc:  "なぜ消耗が起きるのか、心理学が明らかにしたメカニズム",
+    label: "消耗の正体｜なぜ疲れるのか",
+    desc:  "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事",
     paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication"],
   },
   {
-    label: "感情・思考のクセ",
-    desc:  "「やめられない」「抜け出せない」思考パターンの正体",
+    label: "抜け出せない思考｜やめられない・考えすぎ",
+    desc:  "「頭から離れない」「自分を責めてしまう」——抜け出せない思考パターンの正体",
     paths: ["helper-contrast-avoidance", "helper-self-criticism-culture", "helper-implicit-theory", "helper-naive-realism", "helper-self-effacement-family", "helper-wellbeing-not-from"],
   },
   {
-    label: "回復・意味づけの心理",
-    desc:  "つらい経験から回復し、意味を見出すプロセス",
+    label: "回復と立て直し｜どう戻るか",
+    desc:  "つらい経験から回復し、意味を見出し、立て直していくプロセス",
     paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock"],
   },
 ];
