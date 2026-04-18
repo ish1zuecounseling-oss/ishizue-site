@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperSelfEffacementFamily() {
   return (
     <ArticleLayout
-title="「自分を後回しにする癖」が抜けない理由｜家族関係と自己抑制の心理学"
-description="気づくと自分の気持ちを後回しにしてしまう——この癖の背景に、家族関係の中で培われた自己抑制パターンがあることがあります。村本・山口（2003）の研究から解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
+title="自分を後回しにする癖が抜けないのはなぜ？｜家族関係と自己抑制の心理学"
+description="気づくと自分の気持ちを後回しにしてしまう——この癖はどこから来るのか。家族関係の中で培われた自己抑制パターンの正体と、どう変えていくかを心理学から解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
