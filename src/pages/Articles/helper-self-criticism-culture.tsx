@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperSelfCriticismCulture() {
   return (
     <ArticleLayout
-title="自分を責めてしまうのが止まらない理由｜支援職の自己批判と文化的背景"
-description="「もっとできるはずだ」「自分が悪い」——自己批判が止まらない状態には、文化的な背景があります。なぜ支援職は自分を責めやすいのか、心理学から理由と抜け出し方を解説します。"
+      title="自分を責めるのをやめたいときの対処法｜自己批判の心理学"
+      description="「もっとできたはずだ」「自分が悪い」——自己批判が止まらない背景には文化的な要因があります。なぜ支援職は自分を責めやすいのか、心理学で理由と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-self-criticism-culture"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -152,6 +153,7 @@ description="「もっとできるはずだ」「自分が悪い」——自己�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：唐澤真弓（2001）「日本人における自他の認識——自己批判バイアスと他者高揚バイアス」心理学研究，72(3), 195-203 ／ Markus, H. R., & Kitayama, S.（1991）Culture and the self: Implications for cognition, emotion, and motivation. Psychological Review, 98, 224-253 ／ Kitayama, S., Markus, H. R., Matsumoto, H., & Norasakkunkit, V.（1997）The cultural origin of self-esteem. Journal of Personality and Social Psychology, 72, 1245-1267
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
