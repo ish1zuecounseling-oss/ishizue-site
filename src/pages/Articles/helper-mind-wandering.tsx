@@ -20,6 +20,10 @@ export default function HelperMindWandering() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>今すぐできる対処法（注意の切り替え方と神経系の整え方）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「休もうとしても頭が切り替わらない」——それは意志の問題ではなく、まだ消耗の途中にいるサインかもしれません。
+      </p>
       <p>
         記録を書きながら、さっきの利用者のことが頭から離れない。
         会議中なのに、昨日のケースのことを考えている。
@@ -153,13 +157,13 @@ export default function HelperMindWandering() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-rumination" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-rumination" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の「思考の反すう」——頭から離れられない理由
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
-          <Link to="/articles/helper-rest-types" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-rest-types" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職に必要な「休み方」の種類
           </Link>
         </div>
@@ -168,6 +172,24 @@ export default function HelperMindWandering() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：梶村昇吾・野村理朗（2016）「日本語版DDFSおよびMWQの作成」心理学研究，87(1), 79-88 ／ Killingsworth, M. A., & Gilbert, D. T.（2010）A wandering mind is an unhappy mind. Science, 330, 932 ／ Smallwood, J., & Schooler, J. W.（2015）The science of mind wandering. Annual Review of Psychology, 66, 487-518 ／ Mrazek, M. D., et al.（2013）Young and restless: Validation of the Mind-Wandering Questionnaire. Frontiers in Psychology ／ Mrazek, M. D., Smallwood, J., & Schooler, J. W.（2012）Mindfulness and mind-wandering. Emotion, 12, 442-448 ／ 藤野正寛・梶村昇吾・野村理朗（2015）日本語版Mindful Attention Awareness Scaleの開発 パーソナリティ研究，24, 61-76
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>休日にも仕事のことが浮かんで、本当に休めた感じがしない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「考えないようにしよう」と思うほど、逆に頭から離れなくなる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>睡眠を取っても、翌朝からまた同じ状態が続く</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、意志が弱いのではなく、<strong className="text-stone-700">神経系がまだ「安全」を感じられていない状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
