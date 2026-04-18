@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperSupervisionCompassionFatigue() {
   return (
     <ArticleLayout
-title="スーパービジョンは共感疲労に効くのか？研究から見た理由と限界"
-description="「スーパービジョンを受ければ楽になる」は本当か。支援職の共感疲労に対するスーパービジョンの効果を研究から検証し、どんな条件で効くのか、現場で活かせる対処を解説します。"
+      title="スーパービジョンは意味ある？｜共感疲労への効果と対処の使い方"
+      description="「スーパービジョンを受ければ楽になる」は本当か。支援職の共感疲労に対する効果を研究から検証し、どんな条件で効くのか、現場で活かせる対処の使い方を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-supervision-compassion-fatigue"
       date="2026-04-18"
       tags={["compassion", "burnout", "boundary"]}
@@ -144,6 +145,7 @@ description="「スーパービジョンを受ければ楽になる」は本当�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：竹下亜美（2017）「セラピストの共感疲労についての研究——スーパーヴィジョンの効果を中心に——」大妻女子大学大学院人間文化研究科 ／ Figley, C.R.（1995）Compassion fatigue as secondary traumatic stress disorder ／ 鑪幹八郎・滝口俊子（2001）スーパーヴィジョンを考える 誠信書房 ／ 樽澤百合（2016）カウンセラーの共感不全経験についての検討 ／ 黒川こころ（2017）初学者のスーパーヴィジョンプロセスについて ／ 金沢吉展（2011）スーパーヴィジョンに関する問題 ／ 竹下亜美（2017）初心者セラピストの共感疲労についての研究 日本心理臨床学会第36回大会発表論文
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
