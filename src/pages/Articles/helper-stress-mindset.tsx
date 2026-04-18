@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperStressMindset() {
   return (
     <ArticleLayout
-      title="「ストレスは有害だ」という思い込みが消耗を深める｜支援職のストレスマインドセット"
-      description="ストレスを「有害なもの」と信じるか「成長の糧」と信じるかで、同じストレッサーへの心身の反応が変わることが研究で示されています。岩本ら（2020）のストレスマインドセット研究から、支援職の消耗と回復を考えます。"
+title="「ストレスは有害だ」と思うほど消耗しやすい理由と対処｜ストレスマインドセットの心理学"
+description="ストレスをどう信じるかで、同じ量のストレスへの心身の反応が変わることが研究で示されています。なぜ信念が消耗に影響するのか、心理学で理由と変え方を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-stress-mindset"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
