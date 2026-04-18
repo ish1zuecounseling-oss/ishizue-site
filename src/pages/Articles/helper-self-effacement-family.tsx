@@ -11,6 +11,15 @@ export default function HelperSelfEffacementFamily() {
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
+
+      <div className="mb-8 p-4 rounded-xl" style={ background: "#f5f0eb", border: "1px solid #e8ddd4" }>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={ color: "#8FAF9F" }>この記事でわかること</p>
+        <ul className="space-y-1.5">
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ自分を後回しにしてしまうのか（家族関係と自己抑制の心理学）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（自己犠牲が慢性化すると起きること）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（自分を後回しにする癖を変えていく方法）</li>
+        </ul>
+      </div>
       <p>
         大変なケースをなんとか乗り越えた。
         家族に話すときは「今日うまくいった」と素直に言える。
