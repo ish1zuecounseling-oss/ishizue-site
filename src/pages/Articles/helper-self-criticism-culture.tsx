@@ -20,6 +20,10 @@ export default function HelperSelfCriticismCulture() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（自己批判のループから抜け出す具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「自分が悪い」と思い続けているうちは、自己批判のループがまだ続いているサインかもしれません。
+      </p>
       <p>
         「もっとうまく支援できたはず」<br />
         「私の力が足りなかった」<br />
@@ -147,13 +151,13 @@ export default function HelperSelfCriticismCulture() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-thinking-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-thinking-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の「考え方のクセ」現在地チェック
           </Link>
-          <Link to="/articles/helper-rumination" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-rumination" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職の「思考の反すう」——頭から離れられない理由
           </Link>
-          <Link to="/articles/self-value-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/self-value-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 自己価値の置き場所診断｜あなたの「存在許可証」を可視化する
           </Link>
         </div>
@@ -162,6 +166,24 @@ export default function HelperSelfCriticismCulture() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：唐澤真弓（2001）「日本人における自他の認識——自己批判バイアスと他者高揚バイアス」心理学研究，72(3), 195-203 ／ Markus, H. R., & Kitayama, S.（1991）Culture and the self: Implications for cognition, emotion, and motivation. Psychological Review, 98, 224-253 ／ Kitayama, S., Markus, H. R., Matsumoto, H., & Norasakkunkit, V.（1997）The cultural origin of self-esteem. Journal of Personality and Social Psychology, 72, 1245-1267
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>うまくいかないと、すぐ「自分のせいだ」と思う</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>他の人への批判よりも、自分への批判の方がずっと厳しい</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「もっとできるはず」という声が、休んでいる間も続く</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたが本当にダメなのではなく、<strong className="text-stone-700">自己批判が自動化・習慣化している状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
