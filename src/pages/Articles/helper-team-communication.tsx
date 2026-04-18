@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperTeamCommunication() {
   return (
     <ArticleLayout
-title="チームで働くほど疲れるのはなぜ？｜支援職のコミュニケーション消耗の構造"
-description="報告・連絡・相談・会議——チームワークそのものが消耗の原因になることがあります。縄田ら（2015）の企業チーム研究から、支援職の職場における「関係疲れ」の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-team-communication"
+title="チームで働くほど疲れる理由と対処｜支援職のコミュニケーション消耗"
+description="報告・連絡・相談・会議——チームワークそのものが消耗の原因になることがあります。なぜ関係疲れが起きるのか、心理学で構造を解説し、職場での消耗を減らすヒントを紹介します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-team-communication"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
