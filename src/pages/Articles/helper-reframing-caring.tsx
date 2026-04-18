@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperReframingCaring() {
   return (
     <ArticleLayout
-title="困難な支援経験が自分を育てる理由｜ケアリングの相互性と回復の心理学"
-description="しんどい支援経験が、なぜ自分の支援観を確立する力に変わるのか。困難を「受け継ぐもの」として捉え直すプロセスの心理学から、支援者自身の回復と成長の理由と対処を解説します。"
+      title="困難な支援経験が自分を育てる理由と対処法｜ケアリングの相互性"
+      description="しんどい支援経験が、なぜ自分の支援観を確立する力に変わるのか。困難を「受け継ぐもの」として捉え直すプロセスを心理学から解説し、支援者自身の回復と立て直しを考えます。"
       url="https://www.ishizue-counseling.jp/articles/helper-reframing-caring"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -128,6 +129,7 @@ description="しんどい支援経験が、なぜ自分の支援観を確立す�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：平野智子・藤桂（2020）「訪問看護師の困難の捉え直しがケアリングの相互性を経て看護観に及ぼす影響」心理学研究，90(6), 551-561 ／ Mayeroff, M.（1971）On caring. Harper Collins Publishers（田村真・向野宣之訳（1987）ケアの本質 ゆみる出版）／ Benner, P.（2001）From novice to expert. Prentice Hall（井部俊子監訳（2005）ベナー看護論 医学書院）
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
