@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperMindWandering() {
   return (
     <ArticleLayout
-title="仕事のことが頭から離れないのはなぜ？｜マインドワンダリングと支援職の消耗"
-description="休んでいるはずなのに、利用者のことや職場のことが繰り返し頭に浮かぶ——これはマインドワンダリングと呼ばれる現象です。なぜ止められないのか、心理学で理由と対処を解説します。"
+      title="仕事のことが頭から離れない原因と対処法｜マインドワンダリングの心理学"
+      description="休んでいるのに、利用者のことや職場のことが繰り返し頭に浮かぶ——なぜ止まらないのか、どう対処するかを心理学から解説します。「考えないようにしよう」が逆効果になる理由も紹介。"
       url="https://www.ishizue-counseling.jp/articles/helper-mind-wandering"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -158,6 +159,7 @@ description="休んでいるはずなのに、利用者のことや職場のこ�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：梶村昇吾・野村理朗（2016）「日本語版DDFSおよびMWQの作成」心理学研究，87(1), 79-88 ／ Killingsworth, M. A., & Gilbert, D. T.（2010）A wandering mind is an unhappy mind. Science, 330, 932 ／ Smallwood, J., & Schooler, J. W.（2015）The science of mind wandering. Annual Review of Psychology, 66, 487-518 ／ Mrazek, M. D., et al.（2013）Young and restless: Validation of the Mind-Wandering Questionnaire. Frontiers in Psychology ／ Mrazek, M. D., Smallwood, J., & Schooler, J. W.（2012）Mindfulness and mind-wandering. Emotion, 12, 442-448 ／ 藤野正寛・梶村昇吾・野村理朗（2015）日本語版Mindful Attention Awareness Scaleの開発 パーソナリティ研究，24, 61-76
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
