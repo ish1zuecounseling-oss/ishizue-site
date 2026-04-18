@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperContrastAvoidance() {
   return (
     <ArticleLayout
-title="「諦められない」が消耗を深める理由｜目標調整の心理学"
-description="達成できない目標にしがみつき続けることが、抑うつにつながることが研究で示されています。外山・長峯（2022）の目標調整理論から、支援職の「やめられない消耗」の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-contrast-avoidance"
+title="「どうせまた嫌なことが起きる」と考えてしまう理由と対処｜コントラスト回避の心理学"
+description="悪いことを先取りして不安でいる方が楽——そう感じていませんか。コントラスト回避という心理メカニズムから、支援職に多い「慢性的な不安が止まらない」状態の正体と対処を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-contrast-avoidance"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
