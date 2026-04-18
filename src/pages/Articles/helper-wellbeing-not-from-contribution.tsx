@@ -20,6 +20,10 @@ export default function HelperWellbeingNotFromContribution() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（貢献以外に自己価値を置く具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「役に立てていないと不安でたまらない」と感じているうちは、自己価値が貢献に依存しているサインかもしれません。
+      </p>
       <p>
         「人の役に立てているのに、なぜか空虚だ」<br />
         「感謝されているのに、満たされている気がしない」
@@ -150,13 +154,13 @@ export default function HelperWellbeingNotFromContribution() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
-          <Link to="/articles/working-os-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/working-os-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「働き方のOS」診断｜ライス・ライフ・ライト 3軸チェック
           </Link>
-          <Link to="/articles/self-value-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/self-value-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 自己価値の置き場所診断｜あなたの「存在許可証」を可視化する
           </Link>
         </div>
@@ -165,6 +169,24 @@ export default function HelperWellbeingNotFromContribution() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：伊藤裕子・相良順子・池田政子・川浦康至（2003）「主観的幸福感尺度の作成と信頼性・妥当性の検討」心理学研究 ／ Diener, E., Suh, E. M., Lucas, R. E., & Smith, H. L.（1999）Subjective well-being: Three decades of progress. Psychological Bulletin, 125, 276-302 ／ WHO（1992）Subjective Well-Being Inventory（SUBI）
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>利用者の状態が改善しないと、自分が失敗したような気がする</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「今日は役に立てたか」を基準に、1日の満足度が決まる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>休んでいると「何もしていない」という罪悪感が出てくる</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの責任感が強いからではなく、<strong className="text-stone-700">存在の価値を「役割」でしか感じられなくなっている状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
