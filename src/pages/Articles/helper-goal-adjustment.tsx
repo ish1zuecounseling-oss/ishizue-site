@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperGoalAdjustment() {
   return (
     <ArticleLayout
-      title="「諦めない」が消耗を深める｜支援職の目標調整と抑うつの心理学"
-      description="諦めずに頑張り続けることが美徳とされる支援職の世界で、「達成できない目標への固執」が抑うつにつながることが研究で示されています。外山・長峯（2022）の目標調整研究から、消耗の構造を読み解きます。"
+title="諦められないのに続けると消耗する理由｜目標調整の心理学と対処法"
+description="達成できない目標にしがみつくことが、抑うつにつながることが研究で示されています。「やめたいのにやめられない」状態から抜け出すために、心理学で理由と対処を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-goal-adjustment"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
