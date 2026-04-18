@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperBenefitFinding() {
   return (
     <ArticleLayout
-      title="「こんな経験、意味があったのか」と思える日が来る｜支援職の消耗体験からの意味づけ"
-      description="つらい体験の中に何らかのプラスを見出すことで、高ストレス状態でも消耗が和らぐことが研究で示されています。山根（2014）のbenefit finding研究から、支援職が自分の経験を意味づける力について解説します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
+title="つらい経験に「意味を見出そうとしてしまう」のはなぜ？｜ベネフィットファインディングの心理学"
+description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは弱さではなく、回復を助ける自然なプロセスです。山根（2014）の研究から、意味づけと心理的健康の関係を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
