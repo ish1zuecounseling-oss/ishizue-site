@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperNaiveRealismConflict() {
   return (
     <ArticleLayout
-title="「なぜわかってくれないのか」が止まらない理由｜ナイーブ・リアリズムと職場の対立"
-description="自分の見え方が「正しい現実」だという思い込みが、チームのすれ違いを生みます。なぜ「わかってもらえない」と感じてしまうのか、心理学で理由と職場での対処を解説します。"
+      title="わかってもらえないストレスの対処法｜ナイーブ・リアリズムの心理学"
+      description="「なぜあの人はわかってくれないのか」——自分の見え方が「正しい現実」だという思い込みが、職場の対立を生みます。なぜ起きるのか、心理学で正体と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-naive-realism-conflict"
       date="2026-04-18"
       tags={["boundary", "burnout", "compassion"]}
@@ -158,6 +159,7 @@ description="自分の見え方が「正しい現実」だという思い込み�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：神原歩（2021）「態度が相反する他者への過度なバイアス認知を錯視経験が緩和する効果」心理学研究，92(1), 12-20 ／ Ross, L., & Ward, A.（1995）Psychological barriers to dispute resolution. In M. P. Zanna (Ed.), Advances in experimental social psychology, 255-304 ／ Kennedy, K. A., & Pronin, E.（2008）When disagreement gets ugly: Perceptions of bias and the escalation of conflict. Personality and Social Psychology Bulletin, 34, 833-848 ／ Pronin, E., Gilovich, T., & Ross, L.（2004）Objectivity in the eye of the beholders: Divergent perceptions of bias in self versus others. Psychological Review, 111, 781-799
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
