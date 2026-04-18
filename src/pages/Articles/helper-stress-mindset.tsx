@@ -20,6 +20,10 @@ export default function HelperStressMindset() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう変えるか（マインドセットを書き換える具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「ストレスがあること自体が怖い」——その感覚は、ストレスの信念が消耗をさらに深めているサインかもしれません。
+      </p>
       <p>
         「こんなにストレスが多い職場では、体が持たない」<br />
         「支援職はストレスが多くて当たり前、でも限界だ」<br />
@@ -112,13 +116,13 @@ export default function HelperStressMindset() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-implicit-theory" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-implicit-theory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「自分には向いていない」が消耗を深める——暗黙理論と燃え尽き
           </Link>
-          <Link to="/articles/helper-reframing-caring" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-reframing-caring" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 困難な支援経験を「受け継ぐもの」に変える
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>
@@ -127,6 +131,24 @@ export default function HelperStressMindset() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：岩本（大久保）慧悟・竹橋洋毅・高史明（2020）「ストレスマインドセット尺度の邦訳および信頼性・妥当性の検討」心理学研究，90(6), 592-602 ／ Crum, A. J., Salovey, P., & Achor, S.（2013）Rethinking stress: The role of mindsets in determining the stress response. Journal of Personality and Social Psychology, 104, 716-733
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>ストレスを感じるたびに「またダメだ」と思ってしまう</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「強くならなければ」と思うほど、かえって消耗する</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>ストレスがない状態を目指しているのに、むしろ増えている気がする</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの弱さではなく、<strong className="text-stone-700">ストレスへの「信念」そのものが消耗を加速させている</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
