@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperBenefitFinding() {
   return (
     <ArticleLayout
-title="つらい経験に意味を見出そうとするのはなぜ？回復との関係を心理学から解説"
-description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは弱さではなく、回復を助ける自然なプロセスです。なぜ意味づけが起きるのか、心理学で理由と対処を解説します。"
+      title="つらい経験から立ち直る方法｜意味づけの心理と回復のプロセス"
+      description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは回復を助ける自然なプロセスです。なぜ意味づけが起きるのか、心理学で理由と立ち直り方を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -138,6 +139,7 @@ description="しんどい経験のあとに「これにも意味があった」�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：山根隆宏（2014）「Benefit findingが発達障害児・者の母親の心理的ストレス反応に与える効果」心理学研究，85(4), 335-344 ／ Davis, C. G., Nolen-Hoeksema, S., & Larson, J.（1998）Making sense of loss and benefiting from the experience. Journal of Personality and Social Psychology, 75, 561-574 ／ Tedeschi, R. G., & Calhoun, L. G.（2006）Expert companion: Posttraumatic growth in clinical practice. In Calhoun & Tedeschi (Eds.), Handbook of posttraumatic growth. pp.291-310
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
