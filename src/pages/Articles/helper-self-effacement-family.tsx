@@ -12,8 +12,8 @@ export default function HelperSelfEffacementFamily() {
       tags={["burnout", "boundary", "compassion"]}
     >
 
-      <div className="mb-8 p-4 rounded-xl" style={ background: "#f5f0eb", border: "1px solid #e8ddd4" }>
-        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={ color: "#8FAF9F" }>この記事でわかること</p>
+      <div className="mb-8 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ自分を後回しにしてしまうのか（家族関係と自己抑制の心理学）</li>
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（自己犠牲が慢性化すると起きること）</li>
