@@ -11,6 +11,15 @@ export default function HelperContrastAvoidance() {
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
+
+      <div className="mb-8 p-4 rounded-xl" style={ background: "#f5f0eb", border: "1px solid #e8ddd4" }>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={ color: "#8FAF9F" }>この記事でわかること</p>
+        <ul className="space-y-1.5">
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ「どうせまた嫌なことが起きる」と考えてしまうのか（コントラスト回避の正体）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（慢性的な不安が消耗を深めるプロセス）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（不安の先取りをやめるための具体的な方法）</li>
+        </ul>
+      </div>
       <p>
         休日なのに仕事のことが頭から離れない。<br />
         「今うまくいっているのが怖い」と感じる。<br />
