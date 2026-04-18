@@ -20,6 +20,10 @@ export default function HelperRealityShock() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう乗り越えるか（リアリティショックへの具体的な対処法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「こんなはずじゃなかった」という感覚がまだ続いているうちは、リアリティショックからの回復がまだ途中かもしれません。
+      </p>
       <p>
         「この仕事、こんなにしんどいとは思っていなかった」<br />
         「利用者のことは好きなのに、職場の雰囲気が思っていたのと全然違う」<br />
@@ -125,13 +129,13 @@ export default function HelperRealityShock() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-quit-timing" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-quit-timing" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「辞め時」を考えるための視点｜支援職の転職判断
           </Link>
-          <Link to="/articles/helper-team-communication" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-team-communication" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 職場の構造が消耗を作る｜チームワーク研究から
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>
@@ -140,6 +144,24 @@ export default function HelperRealityShock() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：片山まゆみ・藤桂（2023）「転職時のリアリティショックと離転職意思——自己概念明確性の効果に着目して——」心理学研究，93(6), 495-505 ／ Hultell, D., & Gustavsson, J. P.（2011）Factors affecting burnout and work engagement in teachers when entering employment. Work, 40, 85-98 ／ Kodama, M.（2017）Functions of career resilience against reality shock. Japanese Psychological Research, 59, 255-265
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「理想」と「現実」のギャップが、毎日のように頭に浮かぶ</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「自分がおかしいのか、職場がおかしいのか」がわからなくなってきた</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>転職や異動を考えるが、どこに行っても同じかもと思う</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの期待が高すぎたのではなく、<strong className="text-stone-700">事前の情報と現実の乖離が生んだ、自然な心理的反応</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
