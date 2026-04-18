@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperOrganizationUnsafe() {
   return (
     <ArticleLayout
-title="この職場、なんとなく危ないと感じる理由｜心理的安全性が低い環境の特徴"
-description="「ミスを報告しにくい」「本音が言えない」——そういう職場では、消耗が静かに積み重なります。三沢ら（2006）の研究から、不安全な組織の構造と支援職への影響を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-organization-unsafe"
+title="職場がなんとなく危ないと感じる理由と対処｜心理的安全性が低い環境の特徴"
+description="「ミスを報告しにくい」「本音が言えない」——そういう職場ではなぜ消耗が積み重なるのか。心理的安全性が低い組織の特徴を心理学から解説し、自分を守る対処法を紹介します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-organization-unsafe"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
