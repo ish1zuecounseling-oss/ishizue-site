@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperRealityShock() {
   return (
     <ArticleLayout
-      title="「こんなはずじゃなかった」——支援職のリアリティショックと消耗の関係"
-      description="理想と現実のギャップで消耗するのは意志の弱さではありません。片山・藤（2023）のリアリティショック研究から、支援職が「続けられなくなる」メカニズムを読み解きます。"
-      url="https://www.ishizue-counseling.jp/articles/helper-reality-shock"
+title="「こんなはずじゃなかった」と感じるのはなぜ？｜リアリティショックと支援職の消耗"
+description="転職・異動後に「思っていたのと違う」と感じ、消耗してしまう——これはリアリティショックと呼ばれる現象です。片山・藤（2023）の研究から、その正体と回復のヒントを解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-reality-shock"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
