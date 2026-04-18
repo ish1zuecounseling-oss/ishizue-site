@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperSelfCriticismCulture() {
   return (
     <ArticleLayout
-      title="なぜ支援職は自分を責めやすいのか｜日本人の自己批判傾向と支援者の消耗"
-      description="「もっとうまくできたはず」「私が弱いから」——支援職に多い自己批判の背景には、日本文化に根ざした心理的傾向があります。唐澤（2001）の研究をもとに、支援職が自分を責めやすい構造を解説します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-self-criticism-culture"
+title="自分に厳しくしすぎてしまうのはなぜ？｜支援職に多い自己批判の文化的背景"
+description="「もっとできるはずだ」「自分が悪い」——支援職が自分を責めやすい背景には、文化的な自己批判傾向があります。唐澤（2001）の研究から、その構造と対処を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-self-criticism-culture"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
