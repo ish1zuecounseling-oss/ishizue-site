@@ -1,11 +1,13 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperRetellingMemory() {
   return (
     <ArticleLayout
-title="同じつらい記憶を何度も思い出してしまうのはなぜ？｜記憶の再語りと回復の心理学"
-description="繰り返し頭に浮かぶ出来事——それを「語り直す」ことで、記憶の持つ意味が変わることが研究で示されています。池田・仁平（2009）の研究から、支援職の反すうと回復の関係を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-retelling-memory"
+      title="嫌な記憶が頭から離れないときの対処法｜記憶の心理と回復方法"
+      description="繰り返し思い出してしまう出来事——それを「語り直す」ことで、記憶の持つ意味が変わることが研究で示されています。なぜ止まらないのか、心理学で理由と対処法を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-retelling-memory"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
@@ -128,6 +130,7 @@ description="繰り返し頭に浮かぶ出来事——それを「語り直す�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：池田和浩・仁平義明（2009）「ネガティブな体験の肯定的な語り直しによる自伝的記憶の変容」心理学研究，79(6), 481-489 ／ White, M., & Epston, D.（1990）Narrative means to therapeutic ends. New York: W.W. Norton ／ Tversky, B., & Marsh, E. J.（2000）Biased retellings of events yield biased memories. Cognitive Psychology, 40, 1-38 ／ King, L. A., & Miner, K. N.（2000）Writing about the perceived benefits of traumatic events. Personality and Social Psychology Bulletin, 26, 220-230
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
