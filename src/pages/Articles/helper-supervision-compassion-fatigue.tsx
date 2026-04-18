@@ -20,6 +20,10 @@ export default function HelperSupervisionCompassionFatigue() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう活用するか（現場で使えるスーパービジョンの受け方）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「スーパービジョンを受けているのに楽にならない」と感じているうちは、何かがまだ噛み合っていないサインかもしれません。
+      </p>
       <p>
         「スーパービジョンを受けると、頭がいっぱいになってしまって、
         あえて受けないようにした」——
@@ -139,13 +143,13 @@ export default function HelperSupervisionCompassionFatigue() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-compassion-fatigue-social-support" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-compassion-fatigue-social-support" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 心理職の共感疲労とソーシャルサポート｜「期待」と「現実」のズレが消耗を深める
           </Link>
-          <Link to="/articles/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
-          <Link to="/articles/helper-cannot-seek" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-cannot-seek" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援者なのに、誰にも相談できない
           </Link>
         </div>
@@ -154,6 +158,24 @@ export default function HelperSupervisionCompassionFatigue() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：竹下亜美（2017）「セラピストの共感疲労についての研究——スーパーヴィジョンの効果を中心に——」大妻女子大学大学院人間文化研究科 ／ Figley, C.R.（1995）Compassion fatigue as secondary traumatic stress disorder ／ 鑪幹八郎・滝口俊子（2001）スーパーヴィジョンを考える 誠信書房 ／ 樽澤百合（2016）カウンセラーの共感不全経験についての検討 ／ 黒川こころ（2017）初学者のスーパーヴィジョンプロセスについて ／ 金沢吉展（2011）スーパーヴィジョンに関する問題 ／ 竹下亜美（2017）初心者セラピストの共感疲労についての研究 日本心理臨床学会第36回大会発表論文
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>スーパービジョンを受けても、職場に戻ると同じ状態に戻る</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「受けた方がいい」とわかっているのに、何となく足が向かない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>スーパービジョンで何を話せばいいのかわからない</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの取り組み方の問題ではなく、<strong className="text-stone-700">スーパービジョンの効果が出る条件がまだ整っていない</strong>可能性があります。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
