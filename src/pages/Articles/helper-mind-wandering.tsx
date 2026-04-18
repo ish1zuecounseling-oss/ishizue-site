@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperMindWandering() {
   return (
     <ArticleLayout
-title="気づくと仕事のことを考えてしまうのはなぜ？｜マインドワンダリングと支援職の消耗"
-description="休んでいるはずなのに、頭の中で利用者のことや職場のことが繰り返される——これはマインドワンダリングと呼ばれる現象です。梶村・野村（2016）の研究から、その正体と対処を解説します。"
+title="仕事のことが頭から離れないのはなぜ？｜マインドワンダリングと支援職の消耗"
+description="休んでいるはずなのに、利用者のことや職場のことが繰り返し頭に浮かぶ——これはマインドワンダリングと呼ばれる現象です。なぜ止められないのか、心理学で理由と対処を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-mind-wandering"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
