@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperImplicitTheory() {
   return (
     <ArticleLayout
-title="「自分は変われない」と感じるのはなぜ？｜暗黙の信念と支援職の消耗"
-description="「自分には向いていない」「これ以上成長できない」——固定的な自己観がストレス下での消耗を加速させることが研究で示されています。なぜそう感じるのか、心理学で理由と対処を解説します。"
+      title="自分は変われないと感じるときの対処法｜思い込みの心理学"
+      description="「自分には向いていない」「もう変われない」——固定的な思い込みがストレス下での消耗を加速させることが研究で示されています。なぜそう感じるのか、心理学で理由と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-implicit-theory"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -115,6 +116,7 @@ description="「自分には向いていない」「これ以上成長できな�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：竹橋洋毅・高史明・尾崎由佳（2021）「小中学生の子どもをもつ親の暗黙理論と子育てストレスの関係」心理学研究，91(6), 388-397 ／ Dweck, C. S.（2012）Implicit theories. In Van Lange, Kruglanski, & Higgins (Eds.), Handbook of theories of social psychology (Vol. 2, pp. 43-61). Sage ／ Romero, C., Master, A., Paunesku, D., Dweck, C. S., & Gross, J. J.（2014）Academic and emotional functioning in middle school: The role of implicit theories. Emotion, 14, 227-234
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
