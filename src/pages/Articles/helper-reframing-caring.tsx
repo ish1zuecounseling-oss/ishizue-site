@@ -20,6 +20,10 @@ export default function HelperReframingCaring() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう実践するか（困難を「受け継ぐもの」として捉え直す具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「支援して得たものより、失ったものの方が多い」と感じているうちは、ケアリングの相互性がまだ見えていないサインかもしれません。
+      </p>
       <p>
         「あの利用者への支援は、本当によかったのだろうか」<br />
         「こんなに消耗して、私は何のためにこの仕事をしているのか」<br />
@@ -123,13 +127,13 @@ export default function HelperReframingCaring() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-benefit-finding" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-benefit-finding" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「こんな経験、意味があったのか」と思える日が来る
           </Link>
-          <Link to="/articles/helper-retelling-memory" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 体験を語り直すと記憶が変わる
           </Link>
-          <Link to="/tools/helper-empathy-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
         </div>
@@ -138,6 +142,24 @@ export default function HelperReframingCaring() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：平野智子・藤桂（2020）「訪問看護師の困難の捉え直しがケアリングの相互性を経て看護観に及ぼす影響」心理学研究，90(6), 551-561 ／ Mayeroff, M.（1971）On caring. Harper Collins Publishers（田村真・向野宣之訳（1987）ケアの本質 ゆみる出版）／ Benner, P.（2001）From novice to expert. Prentice Hall（井部俊子監訳（2005）ベナー看護論 医学書院）
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>利用者のために動いているのに、なぜか自分が空っぽになっていく感覚がある</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「もらえるもの」があるはずなのに、どこにあるのかわからない</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>困難な事例を振り返っても、「消耗した」という記憶しか残っていない</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの支援が間違っているのではなく、<strong className="text-stone-700">困難の「捉え直し」がまだ起きていない状態</strong>だからです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
