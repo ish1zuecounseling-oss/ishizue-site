@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperContrastAvoidance() {
   return (
     <ArticleLayout
-      title="「ずっと不安でいる方が楽」の心理学｜コントラスト回避と支援職の慢性的な消耗"
-      description="休めない、リラックスできない、常に最悪を想定してしまう——それは意志の弱さではなく、感情調整のメカニズムが働いているからかもしれません。コントラスト回避モデルから支援職の慢性不安を読み解きます。"
-      url="https://www.ishizue-counseling.jp/articles/helper-contrast-avoidance"
+title="「諦められない」が消耗を深める理由｜目標調整の心理学"
+description="達成できない目標にしがみつき続けることが、抑うつにつながることが研究で示されています。外山・長峯（2022）の目標調整理論から、支援職の「やめられない消耗」の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-contrast-avoidance"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
