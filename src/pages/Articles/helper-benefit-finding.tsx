@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperBenefitFinding() {
   return (
     <ArticleLayout
-title="つらい経験に「意味を見出そうとしてしまう」のはなぜ？｜ベネフィットファインディングの心理学"
-description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは弱さではなく、回復を助ける自然なプロセスです。山根（2014）の研究から、意味づけと心理的健康の関係を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
+title="つらい経験に意味を見出そうとするのはなぜ？回復との関係を心理学から解説"
+description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは弱さではなく、回復を助ける自然なプロセスです。なぜ意味づけが起きるのか、心理学で理由と対処を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
