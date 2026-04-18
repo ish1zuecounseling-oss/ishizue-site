@@ -20,6 +20,10 @@ export default function HelperImplicitTheory() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（思い込みを変えるための具体的なアプローチ）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「自分はもう変われない」と感じているうちは、固定的な自己観が消耗を加速させているサインかもしれません。
+      </p>
       <p>
         「自分は支援者に向いていないのかもしれない」<br />
         「これだけ経験を積んでも変われないなら、もう無理だ」<br />
@@ -110,13 +114,13 @@ export default function HelperImplicitTheory() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
-          <Link to="/articles/helper-goal-adjustment" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-goal-adjustment" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「諦めない」が消耗を深める——目標調整の心理学
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>
@@ -125,6 +129,24 @@ export default function HelperImplicitTheory() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：竹橋洋毅・高史明・尾崎由佳（2021）「小中学生の子どもをもつ親の暗黙理論と子育てストレスの関係」心理学研究，91(6), 388-397 ／ Dweck, C. S.（2012）Implicit theories. In Van Lange, Kruglanski, & Higgins (Eds.), Handbook of theories of social psychology (Vol. 2, pp. 43-61). Sage ／ Romero, C., Master, A., Paunesku, D., Dweck, C. S., & Gross, J. J.（2014）Academic and emotional functioning in middle school: The role of implicit theories. Emotion, 14, 227-234
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>成長しようとするほど、「どうせ無理」という声が邪魔をする</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>失敗すると「やっぱり自分はダメだ」という確信が強まる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「向いていない」という感覚が、ずっと頭の隅にある</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、あなたの能力の問題ではなく、<strong className="text-stone-700">「変われない」という信念そのものが変化を阻んでいる</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
