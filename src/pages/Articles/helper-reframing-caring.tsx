@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperReframingCaring() {
   return (
     <ArticleLayout
-title="困難な支援経験を「受け継ぐもの」に変えられる理由｜ケアリングの相互性と看護観の研究"
-description="しんどい支援経験が、自分の支援観を確立する力に変わる——平野・藤（2020）の訪問看護師研究から、困難の「捉え直し」が支援者自身の回復につながるプロセスを解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-reframing-caring"
+title="困難な支援経験が自分を育てる理由｜ケアリングの相互性と回復の心理学"
+description="しんどい支援経験が、なぜ自分の支援観を確立する力に変わるのか。困難を「受け継ぐもの」として捉え直すプロセスの心理学から、支援者自身の回復と成長の理由と対処を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-reframing-caring"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
     >
