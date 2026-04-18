@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperSelfCriticismCulture() {
   return (
     <ArticleLayout
-title="自分に厳しくしすぎてしまうのはなぜ？｜支援職に多い自己批判の文化的背景"
-description="「もっとできるはずだ」「自分が悪い」——支援職が自分を責めやすい背景には、文化的な自己批判傾向があります。唐澤（2001）の研究から、その構造と対処を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-self-criticism-culture"
+title="自分を責めてしまうのが止まらない理由｜支援職の自己批判と文化的背景"
+description="「もっとできるはずだ」「自分が悪い」——自己批判が止まらない状態には、文化的な背景があります。なぜ支援職は自分を責めやすいのか、心理学から理由と抜け出し方を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-self-criticism-culture"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
