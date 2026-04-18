@@ -20,6 +20,10 @@ export default function HelperContrastAvoidance() {
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（不安の先取りをやめるための具体的な方法）</li>
         </ul>
       </div>
+
+      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
+        「期待して裏切られるよりマシ」と感じているうちは、不安の先取りが慢性化しているサインかもしれません。
+      </p>
       <p>
         休日なのに仕事のことが頭から離れない。<br />
         「今うまくいっているのが怖い」と感じる。<br />
@@ -118,13 +122,13 @@ export default function HelperContrastAvoidance() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-mind-wandering" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-mind-wandering" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「仕事のことが頭から離れない」のはなぜか
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>
@@ -133,6 +137,24 @@ export default function HelperContrastAvoidance() {
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：松本昇・津藤央亘・Llera, S. J.・Newman, M. G.（2026）「不安と心配はなぜ生じるのか？——日本語版コントラスト回避質問紙の作成——」心理学研究，96(6), 428-438 ／ Newman, M. G., & Llera, S. J.（2011）A novel theory of experiential avoidance in generalized anxiety disorder. Clinical Psychology Review, 31(3), 371-382 ／ Kim, H., & Newman, M. G.（2019）The paradox of relaxation training: Relaxation induced anxiety and mediation effects of negative contrast sensitivity. Journal of Affective Disorders, 259, 271-278
       </p>
+
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          原因がわかっても、しんどさが残るとき
+        </p>
+        <p className="text-xs text-stone-500 leading-relaxed mb-3">
+          頭では理解できていても——
+        </p>
+        <ul className="space-y-1.5 mb-4">
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「どうせうまくいかない」と考えることが増えた</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>良いことが起きても、すぐ「でも…」と思ってしまう</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>不安でいる方が楽、という感覚がある</li>
+        </ul>
+        <p className="text-xs text-stone-500 leading-relaxed">
+          こうした状態はよく起こります。<br />
+          これは、理解が足りないのではなく、これは、性格が悲観的なのではなく、<strong className="text-stone-700">失望を避けるための心理的な防衛が習慣化している</strong>からです。
+        </p>
+      </div>
       <ArticleBottomCTA />
     </ArticleLayout>
   )
