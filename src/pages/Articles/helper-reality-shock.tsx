@@ -1,11 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
 export default function HelperRealityShock() {
   return (
     <ArticleLayout
-title="「こんなはずじゃなかった」が止まらない理由と対処｜リアリティショックの心理学"
-description="転職・異動後に「思っていたのと違う」と感じ消耗してしまう——これはリアリティショックと呼ばれる現象です。なぜ起きるのか、どう乗り越えるかを心理学から理由と対処を解説します。"
+      title="仕事が思っていたのと違うときの対処法｜リアリティショックの心理学"
+      description="転職・異動後に「こんなはずじゃなかった」と感じ消耗してしまう——これはリアリティショックと呼ばれる現象です。なぜ起きるのか、どう乗り越えるかを心理学から解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-reality-shock"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -130,6 +131,7 @@ description="転職・異動後に「思っていたのと違う」と感じ消�
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
         参考文献：片山まゆみ・藤桂（2023）「転職時のリアリティショックと離転職意思——自己概念明確性の効果に着目して——」心理学研究，93(6), 495-505 ／ Hultell, D., & Gustavsson, J. P.（2011）Factors affecting burnout and work engagement in teachers when entering employment. Work, 40, 85-98 ／ Kodama, M.（2017）Functions of career resilience against reality shock. Japanese Psychological Research, 59, 255-265
       </p>
+      <ArticleBottomCTA />
     </ArticleLayout>
   )
 }
