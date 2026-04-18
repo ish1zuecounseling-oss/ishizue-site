@@ -4,9 +4,8 @@ import { Link } from "react-router-dom"
 export default function HelperSelfEffacementFamily() {
   return (
     <ArticleLayout
-      title="職場では謙遜するのに、家族には素直に喜べる理由｜支援職の「自己卑下」の構造"
-      description="「うまくいきました」と家族には言えるのに、職場では「まだまだです」と言ってしまう。この使い分けは日本人の自己卑下と他者配慮の心理構造から説明できます。村本・山口（2003）の研究をもとに解説します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
+title="「自分を後回しにする癖」が抜けない理由｜家族関係と自己抑制の心理学"
+description="気づくと自分の気持ちを後回しにしてしまう——この癖の背景に、家族関係の中で培われた自己抑制パターンがあることがあります。村本・山口（2003）の研究から解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
