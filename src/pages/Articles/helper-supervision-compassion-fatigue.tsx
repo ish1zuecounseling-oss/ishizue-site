@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperSupervisionCompassionFatigue() {
   return (
     <ArticleLayout
-title="スーパービジョンは共感疲労に本当に効くのか？｜研究から見た効果と限界"
-description="「スーパービジョンを受ければ楽になる」は本当か。支援職の共感疲労に対するスーパービジョンの効果を研究から検証し、現場で活かせる条件と限界を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-supervision-compassion-fatigue"
+title="スーパービジョンは共感疲労に効くのか？研究から見た理由と限界"
+description="「スーパービジョンを受ければ楽になる」は本当か。支援職の共感疲労に対するスーパービジョンの効果を研究から検証し、どんな条件で効くのか、現場で活かせる対処を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/helper-supervision-compassion-fatigue"
       date="2026-04-18"
       tags={["compassion", "burnout", "boundary"]}
     >
