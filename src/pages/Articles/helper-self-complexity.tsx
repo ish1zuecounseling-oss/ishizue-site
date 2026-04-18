@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 export default function HelperSelfComplexity() {
   return (
     <ArticleLayout
-title="仕事だけの自分になると壊れやすい理由｜自己複雑性の心理学"
-description="「支援者である自分」しかなくなったとき、職場でのダメージが全部に響いてしまう——これは自己複雑性の低さによるものです。川人ら（2010）の研究から、消耗への脆弱性の構造を解説します。"      url="https://www.ishizue-counseling.jp/articles/helper-self-complexity"
+title="仕事だけの自分になると壊れやすい理由と対処｜自己複雑性の心理学"
+description="「支援者である自分」しかなくなったとき、職場でのダメージが全部に響いてしまう。なぜそうなるのか、自己複雑性の心理学から理由を解説し、消耗しにくい自分の作り方を考えます。"
+      url="https://www.ishizue-counseling.jp/articles/helper-self-complexity"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
     >
