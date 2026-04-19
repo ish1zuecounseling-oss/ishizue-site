@@ -46,6 +46,9 @@ const RESEARCH_PATHS = [
   "helper-team-communication",
   "helper-wellbeing-not-from",
   "helper-stress-mindset",
+  "helper-burnout-scale-validity",
+  "helper-burnout-occupation",
+  "helper-self-compassion-burnout",
 ];
 
 function isResearchArticle(path: string): boolean {
@@ -161,7 +164,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   {
     label: "回復と立て直し｜どう戻るか",
     desc:  "つらい経験から回復し、意味を見出し、立て直していくプロセス",
-    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock"],
+    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout"],
   },
 ];
 
