@@ -288,14 +288,28 @@ export default function Articles() {
 
             {/* タブ */}
             <div className="flex gap-0 mb-8 border-b border-stone-100 overflow-x-auto">
-              {TABS.map((tab) => (
-                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
-                  style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
-                >
-                  {tab.label}
-                </button>
-              ))}
+              {TABS.map((tab) => {
+                const count =
+                  tab.id === "all" ? articles.length :
+                  tab.id === "tools" ? TOOLS.length :
+                  tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
+                  tab.id === "shindo" ? articles.length :
+                  articles.filter((a) => !isResearchArticle(a.path)).length;
+                return (
+                  <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                    className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
+                    style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
+                  >
+                    {tab.label}
+                    {tab.id !== "shindo" && (
+                      <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full"
+                        style={{ background: activeTab === tab.id ? (tab.id === "research" ? "#e0f2fe" : `${SAGE}18`) : "rgb(245,244,243)", color: activeTab === tab.id ? (tab.id === "research" ? "#0369a1" : SAGE) : "rgb(168,162,158)" }}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* 今のしんどさから探す */}
