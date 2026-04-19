@@ -53,6 +53,7 @@ const RESEARCH_PATHS = [
   "helper-attachment-self-compassion",
   "helper-self-compassion-resistance",
   "helper-self-compassion-behavior",
+  "helper-msc-program",
 ];
 
 function isResearchArticle(path: string): boolean {
@@ -159,7 +160,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   {
     label: "消耗の正体｜なぜ疲れるのか",
     desc:  "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事",
-    paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication"],
+    paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what"],
   },
   {
     label: "抜け出せない思考｜やめられない・考えすぎ",
@@ -169,7 +170,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   {
     label: "回復と立て直し｜どう戻るか",
     desc:  "つらい経験から回復し、意味を見出し、立て直していくプロセス",
-    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior"],
+    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability"],
   },
 ];
 
