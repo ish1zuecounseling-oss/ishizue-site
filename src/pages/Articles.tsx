@@ -49,6 +49,10 @@ const RESEARCH_PATHS = [
   "helper-burnout-scale-validity",
   "helper-burnout-occupation",
   "helper-self-compassion-burnout",
+  "helper-nurse-self-compassion",
+  "helper-attachment-self-compassion",
+  "helper-self-compassion-resistance",
+  "helper-self-compassion-behavior",
 ];
 
 function isResearchArticle(path: string): boolean {
@@ -103,6 +107,7 @@ const TOOLS = [
   { path: "/articles/helper-thinking-check", title: "「考え方のクセ」現在地チェック",                                  desc: "完璧主義・すべき思考・自己関連づけなど、支援職に多い8つの認知のクセを24項目で確認。リフレーミング付き。",            tag: "8カテゴリ・24問",  color: "#a78bfa" },
   { path: "/articles/helper-impostor-check", title: "「自分の頑張りを認められない」現在地チェック",                    desc: "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",            tag: "インポスター現象", color: "#c084fc" },
   { path: "/articles/helper-attachment-check", title: "「人との距離感」現在地チェック",                               desc: "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",          tag: "愛着スタイル",     color: "#f472b6" },
+  { path: "/articles/helper-self-compassion-check", title: "セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する", desc: "つらい場面で自分をどう扱うか——8つの困難場面で4択2つ選ぶ形式で、自然な反応パターンを確認。SCRI-Jをもとに作成。", tag: "8場面・選択式", color: "#8FAF9F" },
   { path: "/articles/working-os-check",      title: "「働き方のOS」診断",                                             desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",       color: "#7EB8A4" },
 ] as const;
 
@@ -164,7 +169,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   {
     label: "回復と立て直し｜どう戻るか",
     desc:  "つらい経験から回復し、意味を見出し、立て直していくプロセス",
-    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout"],
+    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior"],
   },
 ];
 
