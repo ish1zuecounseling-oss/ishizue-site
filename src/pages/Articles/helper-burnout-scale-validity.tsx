@@ -5,7 +5,7 @@ import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 export default function HelperBurnoutScaleValidity() {
   return (
     <ArticleLayout
-      title="バーンアウト（燃え尽き症候群）とは？症状チェック・原因・対処法・回復方法｜仕事で消耗する人へ"
+      title="仕事で消耗している人へ｜バーンアウトの症状・原因・回復方法を心理学から解説"
       description="仕事終わりに何もしたくない、人と関わるのがしんどい——それはバーンアウトのサインかもしれません。放置すると回復に時間がかかる状態に進むこともあります。支援職だけでなく、営業・接客などすべての対人職に共通する消耗の構造と対処法を心理学研究から解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-burnout-scale-validity"
       date="2026-04-19"
@@ -25,16 +25,21 @@ export default function HelperBurnoutScaleValidity() {
         </ul>
       </div>
 
+      <p className="text-sm text-stone-600 mb-6 p-3 rounded-lg" style={{ background: "#f5f0eb" }}>
+        今の状態をすぐ確認したい方は → <a href="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-700 hover:text-stone-900">3分チェックはこちら</a>
+      </p>
+
       {/* 目次 */}
       <div className="mb-8 p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-2">目次</p>
         <ul className="text-xs text-stone-600 space-y-1.5">
           <li><a href="#burnout-definition" className="hover:underline underline-offset-2">・バーンアウト（燃え尽き症候群）とは何か</a></li>
+          <li><a href="#burnout-cause" className="hover:underline underline-offset-2">・バーンアウトの原因とは？</a></li>
           <li><a href="#burnout-not-only-care" className="hover:underline underline-offset-2">・支援職以外でも起きる理由</a></li>
           <li><a href="#burnout-factors" className="hover:underline underline-offset-2">・消耗を決める2つの要因</a></li>
           <li><a href="#burnout-characteristics" className="hover:underline underline-offset-2">・バーンアウトになりやすい人の特徴</a></li>
           <li><a href="#burnout-risk" className="hover:underline underline-offset-2">・支援職がリスクが高い理由</a></li>
-          <li><a href="#burnout-treatment" className="hover:underline underline-offset-2">・具体的な対処法</a></li>
+          <li><a href="#burnout-treatment" className="hover:underline underline-offset-2">・バーンアウトの回復方法・対処法</a></li>
         </ul>
       </div>
 
@@ -80,7 +85,7 @@ export default function HelperBurnoutScaleValidity() {
         バーンアウトが起きることを示しています。
       </p>
 
-      <h2 id="burnout-definition">バーンアウトとは何か</h2>
+      <h2 id="burnout-definition">バーンアウト（燃え尽き症候群）とは何か</h2>
       <p>
         バーンアウトは、人にサービスを提供する職業（ヒューマンサービス職）に
         典型的に見られるストレス症状として研究が蓄積されてきました。
@@ -110,6 +115,12 @@ export default function HelperBurnoutScaleValidity() {
           仕事への有能感・充実感が失われていく状態。
         </p>
       </div>
+
+      <h2 id="burnout-cause">バーンアウトの原因とは？</h2>
+      <p>
+        バーンアウトは「個人の弱さ」ではなく、職場の構造が生み出す消耗です。
+        以下の2つの要因が重なるとき、バーンアウトのリスクは大きく上がります。
+      </p>
 
       <h2 id="burnout-not-only-care">バーンアウトは支援職以外でも起きる</h2>
       <p>
@@ -221,7 +232,7 @@ export default function HelperBurnoutScaleValidity() {
         回復に時間がかかる状態になっていることがあります。
       </p>
 
-      <h2 id="burnout-treatment">では、どうすればいいのか</h2>
+      <h2 id="burnout-treatment">バーンアウトの回復方法・対処法</h2>
       <p>
         すぐに職場環境を変えることは難しい場合でも、小さな調整が消耗の進行を止めるきっかけになります。
       </p>
@@ -329,13 +340,13 @@ export default function HelperBurnoutScaleValidity() {
         <p className="text-xs text-stone-500 mb-3">その他、状態に合わせて確認できます。</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 回復が必要な状態か診断する（3分チェック）
+            → 今の消耗度をチェックする（3分）
           </Link>
-          <Link to="/articles/helper-empathy-fatigue" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 共感疲労とバーンアウトの違いを知る
+          <Link to="/articles/helper-burnout-occupation" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → バーンアウトの原因は情熱ではない｜職種別に見る消耗の構造
           </Link>
           <Link to="/articles/helper-jdr-balance" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 今のストレス構造を整理する（JD-Rモデル）
+            → 職場のストレス構造を整理する（JD-Rモデル）
           </Link>
           <Link to="/articles/helper-boundary-how-to" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バウンダリー（境界線）の作り方を見る
