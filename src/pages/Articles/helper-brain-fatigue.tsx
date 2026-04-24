@@ -337,6 +337,9 @@ export default function HelperBrainFatigue() {
       <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
+          <Link to="/articles/helper-brain-fatigue-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → 脳疲労セルフチェック（20項目・3分）
+          </Link>
           <Link to="/articles/helper-burnout-scale-validity" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトとは？症状・原因・回復方法
           </Link>
