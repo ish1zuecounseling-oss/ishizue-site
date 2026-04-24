@@ -319,19 +319,19 @@ export default function HelperBrainFatigue() {
         </p>
       </div>
 
-      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
-        <p className="text-sm font-medium text-stone-800 mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+      <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
           脳疲労の背景にある消耗を整理したいとき
         </p>
-        <p className="text-xs text-stone-500 leading-relaxed mb-4">
+        <p className="text-xs text-stone-400 leading-relaxed mb-4">
           脳疲労は、感情労働・共感疲労・バーンアウトと深く関連しています。
           「休んでも回復しない」「考えること自体がしんどい」と感じている場合、
           消耗の構造を整理することが回復の近道になります。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4" }}>
+        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4", textDecoration: "none" }}>
           支援職専門カウンセリングに相談する（初回無料）
         </a>
-        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+        <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
       <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200">
