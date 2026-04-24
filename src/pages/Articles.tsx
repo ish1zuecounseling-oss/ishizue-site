@@ -54,6 +54,13 @@ const RESEARCH_PATHS = [
   "helper-self-compassion-resistance",
   "helper-self-compassion-behavior",
   "helper-msc-program",
+  "helper-self-care-ability",
+  "helper-emotional-labor-what",
+  "helper-helplessness",
+  "helper-brain-fatigue",
+  "helper-want-to-quit",
+  "helper-caregiver-burnout",
+  "helper-consider-leave",
 ];
 
 function isResearchArticle(path: string): boolean {
@@ -109,6 +116,8 @@ const TOOLS = [
   { path: "/articles/helper-impostor-check", title: "「自分の頑張りを認められない」現在地チェック",                    desc: "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",            tag: "インポスター現象", color: "#c084fc" },
   { path: "/articles/helper-attachment-check", title: "「人との距離感」現在地チェック",                               desc: "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",          tag: "愛着スタイル",     color: "#f472b6" },
   { path: "/articles/helper-self-compassion-check", title: "セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する", desc: "つらい場面で自分をどう扱うか——8つの困難場面で4択2つ選ぶ形式で、自然な反応パターンを確認。SCRI-Jをもとに作成。", tag: "8場面・選択式", color: "#8FAF9F" },
+  { path: "/articles/helper-empathy-check",      title: "共感疲労チェック｜支援職のための20項目診断",                      desc: "利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——20項目から共感疲労の消耗度を3分で確認。",                tag: "20問・3分",       color: "#8FAF9F" },
+  { path: "/articles/helper-brain-fatigue-check",   title: "脳疲労セルフチェック｜支援職のための20項目診断",                    desc: "「頭が回らない」「休んでも疲れが抜けない」——脳疲労の症状20項目から今の状態を3分で確認できます。",                      tag: "20問・3分",       color: "#7EB8A4" },
   { path: "/articles/working-os-check",      title: "「働き方のOS」診断",                                             desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",       color: "#7EB8A4" },
 ] as const;
 
@@ -160,7 +169,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   {
     label: "消耗の正体｜なぜ疲れるのか",
     desc:  "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事",
-    paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what"],
+    paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue", "helper-want-to-quit", "helper-caregiver-burnout", "helper-consider-leave"],
   },
   {
     label: "抜け出せない思考｜やめられない・考えすぎ",
