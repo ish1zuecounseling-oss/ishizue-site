@@ -138,12 +138,13 @@ const SHINDO_CARDS: ShindoCard[] = [
   { label: "人間関係がつらい",         icon: "Users",       keywords: ["workplace", "team", "boss", "harassment", "human"] },
   { label: "休みたいのに休めない",     icon: "Moon",        keywords: ["rest", "absence", "leave", "return", "guilt"] },
   { label: "復職・続けるか迷う",       icon: "RotateCcw",   keywords: ["return", "transfer", "repeat", "suitable", "absence"] },
-  { label: "なぜこうなるか理解したい", icon: "FlaskConical", keywords: [] },
+  { label: "なぜこうなるか理解したい", icon: "FlaskConical", keywords: ["research"] },
 ];
 
 type Category = { id: string; label: string; keywords: string[]; isCheck?: boolean; isResearch?: boolean };
 
 const CATEGORIES: Category[] = [
+  { id: "research",   label: "研究から読む",   keywords: ["research"],                                        isResearch: true },
   { id: "check",      label: "セルフチェック", keywords: ["check"],                                           isCheck: true },
   { id: "compassion", label: "共感疲労",       keywords: ["empathy", "compassion", "secondary", "fatigue"] },
   { id: "burnout",    label: "バーンアウト",   keywords: ["burnout", "burn-out", "signs"] },
@@ -278,10 +279,31 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
     paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling",
             "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"],
   },
-];
 
+  {
+    label: "研究から読む｜心理学・論文ベースの解説",
+    desc:  "バーンアウト・感情労働・セルフコンパッションなど、研究論文をもとに消耗の構造を深く解説した記事",
+    paths: [
+      "helper-burnout-scale-validity", "helper-burnout-occupation",
+      "helper-emotional-labor-what", "helper-helplessness",
+      "helper-self-compassion-burnout", "helper-self-compassion-resistance",
+      "helper-self-compassion-behavior", "helper-attachment-self-compassion",
+      "helper-nurse-self-compassion", "helper-msc-program",
+      "helper-self-care-ability", "helper-brain-fatigue",
+      "helper-organization-unsafe", "helper-self-complexity",
+      "helper-mind-wandering", "helper-stress-mindset",
+      "helper-team-communication", "helper-self-criticism-culture",
+      "helper-self-effacement-family", "helper-contrast-avoidance",
+      "helper-implicit-theory", "helper-goal-adjustment",
+      "helper-benefit-finding", "helper-reality-shock",
+      "helper-reframing-caring", "helper-retelling-memory",
+      "helper-wellbeing-not-from", "helper-supervision-compassion",
+      "helper-naive-realism-conflict",
+    ],
+  },
+];
 function getArticlesForSection(keywords: string[]) {
-  return articles.filter((a) => keywords.some((kw) => a.path.toLowerCase().includes(kw)));
+  return articles.filter((a) => !isResearchArticle(a.path) && keywords.some((kw) => a.path.toLowerCase().includes(kw)));
 }
 
 function getResearchArticlesForSection(paths: string[]) {
