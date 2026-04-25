@@ -189,8 +189,11 @@ export default function HelperConsiderLeave() {
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜今の消耗度を確認する（3分）
           </Link>
-          <Link to="/articles/helper-self-care-ability" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → セルフケア能力とは？「無理をしない」ための視点
+          <Link to="/articles/helper-brain-fatigue" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → 脳疲労とは？原因・症状・回復方法
+          </Link>
+          <Link to="/articles/helper-emotional-labor-what" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → 感情労働とは？支援職が疲れる本当の理由
           </Link>
         </div>
       </div>
@@ -201,8 +204,8 @@ export default function HelperConsiderLeave() {
 
       <ArticleBottomCTA
         links={[
-          { label: "今の消耗度をチェックする（3分）",       path: "/articles/helper-empathy-check" },
-          { label: "バーンアウトの症状・原因を知る",         path: "/articles/helper-burnout-scale-validity" },
+          { label: "脳疲労チェックをする（3分）",           path: "/articles/helper-brain-fatigue-check" },
+          { label: "共感疲労チェックをする（3分）",          path: "/articles/helper-empathy-check" },
           { label: "辞めたいと思ったときの視点",            path: "/articles/helper-want-to-quit" },
         ]}
       />
