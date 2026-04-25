@@ -137,7 +137,7 @@ const SHINDO_CARDS: ShindoCard[] = [
   { label: "利用者を抱え込みすぎる",   icon: "Layers",      keywords: ["overwork", "boundary", "sacrifice", "involve"] },
   { label: "人間関係がつらい",         icon: "Users",       keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
   { label: "休みたいのに休めない",     icon: "Moon",        keywords: ["rest", "absence", "leave", "return", "guilt"] },
-  { label: "復職・続けるか迷う",       icon: "RotateCcw",   keywords: ["return", "transfer", "repeat", "suitable", "absence"] },
+  { label: "復職・続けるか迷う",       icon: "RotateCcw",   keywords: ["return", "transfer", "repeat", "suitable", "absence", "career-stagnation", "job-hopping", "aptitude-doubt", "consider-leave", "want-to-quit", "counseling-when-quitting", "burnout-vs-depression", "burnout-recovery", "signs-to-rest", "guilt-about-leaving", "social-worker-dilem", "burnout-what-to-do"] },
   { label: "なぜこうなるか理解したい", icon: "FlaskConical", keywords: ["research"] },
 ];
 
@@ -220,7 +220,7 @@ const THEME_LAYERS: ThemeLayer[] = [
     id: "career", label: "辞めたい・続けられない", desc: "辞めたい・休職・復職の葛藤に向き合う記事",
     sections: [
       { label: "辞めたい・退職",   keywords: ["quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage", "want-to-quit"] },
-      { label: "休職・復職",       keywords: ["absence", "return", "leave"] },
+      { label: "休職・復職",       keywords: ["absence", "return", "leave", "consider-leave", "signs-to-rest", "guilt-about-leaving", "counseling-when-quitting", "burnout-recovery", "burnout-what-to-do"] },
       { label: "キャリア・閉塞感", keywords: ["career", "closure", "repeat", "suitable"] },
     ],
   },
