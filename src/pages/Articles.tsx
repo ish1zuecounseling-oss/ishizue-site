@@ -138,14 +138,14 @@ const THEME_LAYERS: ThemeLayer[] = [
       { label: "セルフチェック",    keywords: ["check"] },
       { label: "共感疲労・二次受傷",keywords: ["empathy", "secondary", "compassion", "fatigue", "feels-tired", "counselor-exhaustion", "aptitude-doubt"] },
       { label: "バーンアウト",      keywords: ["burnout", "burn-out", "signs"] },
-      { label: "感情労働・過重負担", keywords: ["emotional-labor", "labor", "case-overload", "case-manager", "night-shift", "overwork"] },
+      { label: "感情労働・過重負担", keywords: ["emotional-labor", "labor", "case-overload", "case-manager", "night-shift", "overwork", "emotional-labor-fatigue"] },
       { label: "休息・回復・思考",  keywords: ["rest", "recovery", "self-care", "coping", "rumination", "thinking-patterns", "jdr-balance", "rest-importance", "rest-types"] },
     ],
   },
   {
     id: "relationship", label: "抱え込み・境界線・職場", desc: "断れない、職場の人間関係による消耗を整理した記事",
     sections: [
-      { label: "境界線・抱え込み",  keywords: ["boundary", "overwork", "sacrifice", "cannot-say-no", "pulled-by-client", "guilt-about-suffering", "perfectionism", "social-worker-dilem"] },
+      { label: "境界線・抱え込み",  keywords: ["boundary", "overwork", "sacrifice", "cannot-say-no", "pulled-by-client", "guilt-about-suffering", "perfectionism", "social-worker-dilem", "boundary-how-to"] },
       { label: "職場・人間関係",    keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
       { label: "職種別",            keywords: ["nurse", "caregiver", "teacher", "school", "nursery", "welfare"] },
       { label: "カウンセリング活用", keywords: ["counseling", "counselling", "cannot-seek"] },
