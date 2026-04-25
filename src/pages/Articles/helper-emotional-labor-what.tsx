@@ -297,16 +297,19 @@ export default function HelperEmotionalLaborWhat() {
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 共感疲労チェック｜今の消耗度を確認する（3分）
+            → 共感疲労チェック（3分）
           </Link>
-          <Link to="/articles/helper-compassion-fatigue-practice" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 共感疲労の対処法｜支援職が実践できる5つのケア
+          <Link to="/articles/helper-brain-fatigue-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → 脳疲労チェック（3分）
+          </Link>
+          <Link to="/articles/helper-helplessness" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → 「何とかしてあげたいのにできない」無力感・やり残し感の正体
           </Link>
           <Link to="/articles/helper-burnout-scale-validity" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトとは？症状・原因・対処法を研究から解説
           </Link>
-          <Link to="/articles/helper-self-care-ability" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → セルフケア能力とは？｜「無理をしない」ための5つの視点
+          <Link to="/articles/helper-self-compassion-behavior" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → セルフ・コンパッションを行動として実践する方法
           </Link>
         </div>
       </div>
