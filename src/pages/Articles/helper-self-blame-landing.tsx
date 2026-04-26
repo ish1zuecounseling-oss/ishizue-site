@@ -12,6 +12,15 @@ export default function HelperSelfBlameLanding() {
     >
 
       {/* ① 共感（深めに） */}
+      <div className="mb-6 p-4 rounded-xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 leading-relaxed mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          何かあるたびに「自分のせいだ」と感じてしまう方へ。
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed">
+          支援職は、人の役に立つことが評価される仕事です。<br />
+          その中で、自分を責めることが"当たり前"になっているケースは少なくありません。
+        </p>
+      </div>
       <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
         このページは、「また自分を責めてしまった」と気づいている方に向けて書いています。
       </p>
