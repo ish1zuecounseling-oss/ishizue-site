@@ -14,12 +14,12 @@ export default function HelperWantToQuitLanding() {
       {/* ① 共感 */}
       <div className="mb-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
         <p className="text-base font-medium text-stone-100 leading-relaxed mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          もう限界かもしれない——<br />
-          そう思い始めているなら、このページを読んでください。
+          「もう限界かもしれない」と感じながらも、<br />
+          辞めていいのか分からない支援職の方へ。
         </p>
         <p className="text-sm text-stone-400 leading-relaxed">
-          「辞めていいのか」「周りに迷惑をかける」「自分が弱いだけ」——<br />
-          その言葉が頭をぐるぐるしているなら、まず一つだけ伝えます。
+          人のために働く仕事ほど、「自分が抜けたら困る」という思いが強くなります。<br />
+          その中で「辞めたい」と感じているなら、それは甘えではなく<strong className="text-stone-300">状態のサイン</strong>かもしれません。
         </p>
         <p className="text-sm font-medium text-stone-200 mt-3">
           辞めるべきかどうかを、今すぐ決める必要はありません。
