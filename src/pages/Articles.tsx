@@ -423,12 +423,12 @@ export default function Articles() {
                   心理記事
                 </h1>
                 <p className="text-stone-300 text-sm md:text-base leading-[2]">
-                  支援職・対人援助職が抱えやすい心理的負担を、<br className="hidden md:block" />
-                  共感疲労・バーンアウト・境界線・休職判断まで構造的に整理しています。
+                  今のしんどさから、少しずつ整理していきたい方へ。<br className="hidden md:block" />
+                  感情・状態・悩みのテーマから、今の自分に近いものを選んでください。無理に答えを出さなくて大丈夫です。
                 </p>
               </motion.div>
               <motion.div variants={fadeUp} className="space-y-2">
-                <p className="text-[11px] text-white/50 tracking-wide">まず今の状態を確認したい方はこちら</p>
+                <p className="text-[11px] text-white/50 tracking-wide">「休んでも回復しない」「人と関わるのがしんどい」方はまずこちら</p>
                 <div className="flex flex-wrap gap-2">
                   {[
                     { label: "共感疲労チェック",    path: "/articles/helper-empathy-check" },
