@@ -127,8 +127,8 @@ const WORRY_CATEGORIES: WorryCategory[] = [
     desc: "もっとできたはず、自分が弱い、無力感が続く",
     icon: "Heart",
     keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame"],
-    exitPath: "/articles/helper-self-compassion-check",
-    exitLabel: "セルフ・コンパッション反応チェック（8場面）",
+    exitPath: "/articles/helper-self-blame-landing",
+    exitLabel: "自分を責めてしまう理由を知る",
   },
   {
     id: "quit",
