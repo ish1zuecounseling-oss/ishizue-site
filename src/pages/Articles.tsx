@@ -106,8 +106,8 @@ const WORRY_CATEGORIES: WorryCategory[] = [
     desc: "NOが言えない、いつも自分が我慢している",
     icon: "Layers",
     keywords: ["boundary", "sacrifice", "cannot-say-no", "pulled-by-client", "perfectionism", "boundary-how-to"],
-    exitPath: "/articles/helper-boundary-how-to",
-    exitLabel: "罪悪感なく断るための方法を見る",
+    exitPath: "/articles/helper-cannot-say-no",
+    exitLabel: "断れない人の特徴7つ｜なぜNOが言えないのか",
   },
   {
     id: "workplace",
@@ -244,7 +244,7 @@ const THEME_LAYERS: ThemeLayer[] = [
   {
     id: "relationship", label: "抱え込み・境界線・職場", desc: "断れない、職場の人間関係による消耗を整理した記事",
     sections: [
-      { label: "境界線・抱え込み",  keywords: ["boundary", "overwork", "sacrifice", "cannot-say-no", "pulled-by-client", "guilt-about-suffering", "perfectionism", "social-worker-dilem", "boundary-how-to"] },
+      { label: "境界線・抱え込み",  keywords: ["boundary", "overwork", "sacrifice", "cannot-say-no", "pulled-by-client", "guilt-about-suffering", "perfectionism", "social-worker-dilem", "boundary-how-to", "helper-cannot-say-no"] },
       { label: "職場・人間関係",    keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
       { label: "職種別",            keywords: ["nurse", "caregiver", "teacher", "school", "nursery", "welfare"] },
       { label: "カウンセリング活用", keywords: ["counseling", "counselling", "cannot-seek"] },
