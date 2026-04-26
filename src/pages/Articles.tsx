@@ -148,8 +148,8 @@ const WORRY_CATEGORIES: WorryCategory[] = [
     desc: "戻るべきか、別の道を探すべきか迷っている",
     icon: "RotateCcw",
     keywords: ["return", "absence", "consider-leave", "career-stagnation", "aptitude-doubt", "burnout-recovery", "signs-to-rest"],
-    exitPath: "/articles/helper-consider-leave",
-    exitLabel: "休職・復職を考えたときの判断ポイント",
+    exitPath: "/articles/helper-career-decision",
+    exitLabel: "続けるか・離れるかで迷っているときに読む",
   },
   {
     id: "counseling",
