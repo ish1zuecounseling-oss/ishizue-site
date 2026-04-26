@@ -8,6 +8,7 @@ import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Minus, ShieldCheck, BookOpen, Heart, Users } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import AudioPlayer from "../components/AudioPlayer";
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 24 },
