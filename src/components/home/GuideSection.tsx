@@ -1,6 +1,6 @@
 /**
  * GuideSection.tsx — 料金・ご利用案内
- * cotreeメールカウンセリング対応版
+ * いしずえメールカウンセリング直接受付版
  */
 
 import { motion } from "motion/react";
@@ -35,23 +35,6 @@ export default function GuideSection() {
               <span className="text-3xl font-light text-emerald-400">無料</span>
             </div>
 
-            {/* cotree導線バナー */}
-            <div className="p-4 rounded-xl border border-stone-800 bg-stone-900/30 flex items-center justify-between gap-3">
-              <div className="text-xs text-stone-500 leading-relaxed">
-                <p className="text-stone-400 font-medium mb-0.5">まず文章で試したい方</p>
-                <p>cotreeのメールカウンセリング（お試し2週間）も選択肢の一つです</p>
-              </div>
-              <a
-                href="https://cotree.jp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0 px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap"
-                style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F", border: "1px solid rgba(143,175,159,0.25)" }}
-              >
-                見てみる →
-              </a>
-            </div>
-
             {/* 2カード */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
@@ -76,20 +59,19 @@ export default function GuideSection() {
                 </div>
               </div>
 
-              {/* メールカウンセリング（cotree） */}
+              {/* メールカウンセリング（いしずえ） */}
               <div className="p-5 md:p-7 rounded-2xl border border-stone-800 bg-[#2C1F14]/50 space-y-4">
                 <div className="flex items-center gap-3 text-stone-300">
                   <Mail className="w-5 h-5 text-stone-500" />
-                  <h3 className="text-sm md:text-base font-medium tracking-wider">メールカウンセリング（cotree）</h3>
+                  <h3 className="text-sm md:text-base font-medium tracking-wider">メールカウンセリング</h3>
                 </div>
                 <p className="text-stone-500 text-xs leading-relaxed">
-                  いきなり話すのが不安な方へ。文章を書いて送るだけ。自分のペースでやりとりできます。
+                  いきなり話すのが不安な方へ。文章を書いて送るだけ。自分のペースで整理できます。
                 </p>
                 <div className="divide-y divide-stone-800">
                   {[
-                    { label: "お試しプラン（初回）", sub: "2週間 ／ 最大週5往復", price: "8,800円" },
-                    { label: "継続プラン",           sub: "2〜4週間 ／ 週1〜5往復", price: "5,500円〜" },
-                    { label: "形式",                sub: "",                      price: "cotreeメッセージ" },
+                    { label: "3往復",  sub: "2週間以内 ／ 1往復ごとに返信", price: "8,000円（税込）" },
+                    { label: "形式",   sub: "",                             price: "メール" },
                   ].map(({ label, sub, price }) => (
                     <div key={label} className="flex justify-between items-start gap-2 py-2.5">
                       <div>
@@ -101,13 +83,11 @@ export default function GuideSection() {
                   ))}
                 </div>
                 <a
-                  href="https://cotree.jp"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact"
                   className="block text-center py-2 rounded-lg text-xs font-medium transition-colors"
                   style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F", border: "1px solid rgba(143,175,159,0.3)" }}
                 >
-                  cotreeでメールカウンセリングを見る →
+                  メールカウンセリングを申し込む →
                 </a>
               </div>
             </div>
