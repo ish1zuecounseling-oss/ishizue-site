@@ -12,8 +12,17 @@ export default function HelperCounselingLanding() {
     >
 
       {/* 入口：不安を先取りする */}
+      <div className="mb-6 p-4 rounded-xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 leading-relaxed mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          カウンセリングを受けるべきか迷っている方へ。
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed">
+          「本当に意味があるのか」「何を話せばいいのか」——<br />
+          そうした不安を感じるのは自然なことです。<br />
+          ここでは、実際にどんな時間になるのかを具体的にお伝えします。
+        </p>
+      </div>
       <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
-        このページは、「カウンセリングを受けようか迷っている」という方に向けて書いています。<br />
         説得しようとしているのではありません。判断材料を渡します。
       </p>
 
