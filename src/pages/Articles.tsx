@@ -85,8 +85,8 @@ const WORRY_CATEGORIES: WorryCategory[] = [
     desc: "休んでも回復しない、何をしても疲れが抜けない",
     icon: "BatteryLow",
     keywords: ["fatigue", "burnout", "empathy", "brain", "feels-tired", "case-overload", "night-shift"],
-    exitPath: "/articles/helper-empathy-check",
-    exitLabel: "まず今の消耗度を確認する（3分）",
+    exitPath: "/articles/helper-fatigue-diagnosis",
+    exitLabel: "その疲れ、3タイプのどれ？（10問診断）",
   },
   {
     id: "emotion",
