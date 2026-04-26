@@ -12,6 +12,15 @@ export default function HelperCareerDecision() {
     >
 
       {/* ① 共感（浅め・広め） */}
+      <div className="mb-6 p-4 rounded-xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 leading-relaxed mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          このまま続けるか、離れるかで迷っている方へ。
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed">
+          「辞めたいほどではないけれど、このままでいいのか分からない」<br />
+          その感覚は、判断の前に整理が必要な状態かもしれません。
+        </p>
+      </div>
       <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
         「今すぐ辞める」でも「このまま続ける」でもない。<br />
         その中間で止まっている方へ。
