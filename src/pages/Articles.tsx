@@ -64,6 +64,105 @@ function isResearchArticle(path: string): boolean {
   return RESEARCH_PATHS.some((p) => path.includes(p));
 }
 
+
+type WorryCategory = {
+  id: string;
+  phase: string;
+  label: string;       // 一般語（入口）
+  desc: string;
+  icon: string;
+  keywords: string[];  // THEME_LAYERSと同じキーワードマッチ
+  exitPath: string;    // 出口：1つだけ
+  exitLabel: string;
+};
+
+const WORRY_CATEGORIES: WorryCategory[] = [
+  // フェーズ1：崩壊初期（気づいてない）
+  {
+    id: "fatigue",
+    phase: "フェーズ1",
+    label: "疲れが取れない・ずっとしんどい",
+    desc: "休んでも回復しない、何をしても疲れが抜けない",
+    icon: "BatteryLow",
+    keywords: ["fatigue", "burnout", "empathy", "brain", "feels-tired", "case-overload", "night-shift"],
+    exitPath: "/articles/helper-empathy-check",
+    exitLabel: "まず今の消耗度を確認する（3分）",
+  },
+  {
+    id: "emotion",
+    phase: "フェーズ1",
+    label: "感情がコントロールできない",
+    desc: "イライラが止まらない、何も感じなくなった、感情が不安定",
+    icon: "Waves",
+    keywords: ["emotional-labor", "labor", "rumination", "irritab", "emotional-labor-fatigue", "decision-fatigue"],
+    exitPath: "/articles/helper-emotional-labor-what",
+    exitLabel: "感情労働が消耗させている理由を知る",
+  },
+  // フェーズ2：中期（自覚し始める）
+  {
+    id: "boundary",
+    phase: "フェーズ2",
+    label: "断れない・抱え込んでしまう",
+    desc: "NOが言えない、いつも自分が我慢している",
+    icon: "Layers",
+    keywords: ["boundary", "sacrifice", "cannot-say-no", "pulled-by-client", "perfectionism", "boundary-how-to"],
+    exitPath: "/articles/helper-boundary-how-to",
+    exitLabel: "罪悪感なく断るための方法を見る",
+  },
+  {
+    id: "workplace",
+    phase: "フェーズ2",
+    label: "職場の人間関係がつらい",
+    desc: "上司・同僚との関係、ハラスメント、職場の空気",
+    icon: "Users",
+    keywords: ["workplace", "team", "boss", "harassment", "complaint", "human", "boss-stress"],
+    exitPath: "/articles/helper-empathy-check",
+    exitLabel: "今の消耗度を確認する（3分）",
+  },
+  // フェーズ3：後期（限界）
+  {
+    id: "selfblame",
+    phase: "フェーズ3",
+    label: "自分を責めてしまう",
+    desc: "もっとできたはず、自分が弱い、無力感が続く",
+    icon: "Heart",
+    keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame"],
+    exitPath: "/articles/helper-self-compassion-check",
+    exitLabel: "セルフ・コンパッション反応チェック（8場面）",
+  },
+  {
+    id: "quit",
+    phase: "フェーズ3",
+    label: "仕事を辞めたい・続けられない",
+    desc: "限界かもしれない、辞めていいのかわからない",
+    icon: "LogOut",
+    keywords: ["quit", "want-to-quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage"],
+    exitPath: "/articles/helper-want-to-quit-landing",
+    exitLabel: "辞めたいと思ったとき、最初に読むページ",
+  },
+  // フェーズ4：意思決定
+  {
+    id: "career",
+    phase: "フェーズ4",
+    label: "復職・転職を考えている",
+    desc: "戻るべきか、別の道を探すべきか迷っている",
+    icon: "RotateCcw",
+    keywords: ["return", "absence", "consider-leave", "career-stagnation", "aptitude-doubt", "burnout-recovery", "signs-to-rest"],
+    exitPath: "/articles/helper-consider-leave",
+    exitLabel: "休職・復職を考えたときの判断ポイント",
+  },
+  {
+    id: "counseling",
+    phase: "フェーズ4",
+    label: "カウンセリングを考えている",
+    desc: "相談してみたいけど迷っている、どこに行けばいいか",
+    icon: "MessageCircle",
+    keywords: ["counseling", "counselling", "cannot-seek", "resistance-to-counseling", "receiving-counseling"],
+    exitPath: "/articles/helper-counseling",
+    exitLabel: "カウンセリングを検討している方へ",
+  },
+];
+
 type ShindoCard = { label: string; icon: string; keywords: string[] };
 
 const SHINDO_CARDS: ShindoCard[] = [
@@ -381,6 +480,37 @@ export default function Articles() {
                 );
               })}
             </div>
+
+
+            {/* お悩みから探す（WORRY_CATEGORIES） */}
+            {activeTab === "shindo" && !activeShindo && (
+              <div className="mb-10">
+                <div className="mb-4">
+                  <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>
+                    お悩みから探す
+                  </p>
+                  <p className="text-xs text-stone-500">今の状態に近いものを選んでください</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                  {WORRY_CATEGORIES.map((cat) => (
+                    <a
+                      key={cat.id}
+                      href={cat.exitPath}
+                      className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
+                    >
+                      <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>
+                        {cat.phase}
+                      </p>
+                      <p className="text-xs font-medium text-stone-800 leading-snug">{cat.label}</p>
+                      <p className="text-[10px] text-stone-500 leading-relaxed">{cat.desc}</p>
+                      <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>
+                        {cat.exitLabel} →
+                      </p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 今のしんどさから探す */}
             {activeTab === "shindo" && (
