@@ -111,6 +111,15 @@ export default function HelperFatigueDiagnosis() {
     >
 
       {/* 共感（入口） */}
+      <div className="mb-6 p-4 rounded-xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 leading-relaxed mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          休んでも疲れが取れない、以前より人と関わるのがしんどいと感じている方へ。
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed">
+          それは単なる疲れではなく、「脳疲労」や「感情疲労」が積み重なっている状態かもしれません。<br />
+          まずは今の状態を整理してみてください。
+        </p>
+      </div>
       <p>
         「寝ても疲れが抜けない」「休日でも回復しない」「仕事のことを考えるだけで重くなる」——<br />
         その疲れ、<strong>種類によって対処法が変わります</strong>。
