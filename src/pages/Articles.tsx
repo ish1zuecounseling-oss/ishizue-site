@@ -158,8 +158,8 @@ const WORRY_CATEGORIES: WorryCategory[] = [
     desc: "相談してみたいけど迷っている、どこに行けばいいか",
     icon: "MessageCircle",
     keywords: ["counseling", "counselling", "cannot-seek", "resistance-to-counseling", "receiving-counseling"],
-    exitPath: "/articles/helper-counseling",
-    exitLabel: "カウンセリングを検討している方へ",
+    exitPath: "/articles/helper-counseling-landing",
+    exitLabel: "受ける前に知っておきたいこと",
   },
 ];
 
