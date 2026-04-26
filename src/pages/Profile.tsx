@@ -1,6 +1,6 @@
 /**
  * Profile.tsx — いしずえカウンセリング
- * CTAコピー統一・cotree導線追加・FV明示・こんな方強化版
+ * CTAコピー統一・メールカウンセリング導線・FV明示・こんな方強化版
  */
 
 import { type ReactNode } from "react";
@@ -409,21 +409,22 @@ export default function Profile() {
                 </div>
               </motion.div>
 
-              {/* ② cotree導線 */}
+              {/* ② メールカウンセリング導線 */}
               <motion.div variants={fadeUp}>
                 <div className="p-5 rounded-2xl border border-stone-200 bg-stone-50 space-y-3">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">いきなり話すのが不安な方へ</p>
                   <p className="text-sm text-stone-600 leading-relaxed">
-                    まずは文章で整理したい方は、オンラインカウンセリングサービス「cotree」も選択肢の一つです。<br />
+                    まずは文章で整理したい方は、メールカウンセリングも選択肢の一つです。<br />
                     自分のペースでやり取りができるため、「まだ話すほどではないかも」と感じている方にも向いています。
                   </p>
+                  <p className="text-xs text-stone-400">
+                    2週間プラン：8,000円 ／ 4週間プラン：15,000円（税込）
+                  </p>
                   <a
-                    href="https://cotree.jp"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/#contact"
                     className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-700 underline underline-offset-2 transition-colors"
                   >
-                    cotreeでメールカウンセリングを見る →
+                    メールカウンセリングを申し込む →
                   </a>
                 </div>
               </motion.div>
