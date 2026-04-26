@@ -70,8 +70,9 @@ export default function GuideSection() {
                 </p>
                 <div className="divide-y divide-stone-800">
                   {[
-                    { label: "3往復",  sub: "2週間以内 ／ 1往復ごとに返信", price: "8,000円（税込）" },
-                    { label: "形式",   sub: "",                             price: "メール" },
+                    { label: "お試しプラン（初回）", sub: "2週間 ／ 最大週5往復", price: "8,000円（税込）" },
+                    { label: "継続プラン",           sub: "2〜4週間 ／ 週1〜5往復", price: "8,000円（税込）" },
+                    { label: "形式",                sub: "",                       price: "メール" },
                   ].map(({ label, sub, price }) => (
                     <div key={label} className="flex justify-between items-start gap-2 py-2.5">
                       <div>
