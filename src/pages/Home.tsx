@@ -137,7 +137,7 @@ function Home() {
         <ClosingSection    />
         <GuideSection      />
         <FaqSection        />
-        <ContactSection    formStatus={formStatus} formError={formError} handleSubmit={handleSubmit} />
+        <ContactSection    />
         <FooterSection     openModal={openModal} modalTitleMap={modalTitleMap} />
       </main>
 
