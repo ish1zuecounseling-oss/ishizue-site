@@ -11,7 +11,12 @@ export default function CompassionFatigueCoping() {
       audio="/audio/compassion-fatigue-coping.mp3"
     >
 
-      {/* ① チェック導入 */}
+      {/* ① 検索ニーズ直撃の導入 */}
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「共感疲労かもしれないけど、どう対処すればいいかわからない」——そんな方へ向けて書いています。
+      </p>
+
+      {/* ② チェック導入 */}
       <h2>まずはチェック：あなたは共感疲労の状態？</h2>
       <ul className="space-y-1">
         <li>・仕事後も利用者のことが頭から離れない</li>
@@ -22,6 +27,9 @@ export default function CompassionFatigueCoping() {
       <p>→ 2つ以上当てはまる場合、気づかないまま消耗が進んでいる可能性があります。</p>
       <p className="text-sm text-stone-500">
         より詳しく確認したい方は→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
+      </p>
+      <p className="text-sm text-stone-600 leading-relaxed">
+        まず状態を把握することが、適切な対処の第一歩になります。
       </p>
 
       <p>
@@ -182,19 +190,44 @@ export default function CompassionFatigueCoping() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      {/* 内部リンク */}
+      {/* 内部リンク（クラスター順番設計：チェック→原因→対処→回復） */}
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
-        <p className="text-xs font-medium text-stone-600 mb-2">関連する記事・チェックツール</p>
+        <p className="text-xs font-medium text-stone-600 mb-3">共感疲労クラスター——あわせて読む</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 共感疲労チェック（20項目・3分）
+            ① 共感疲労チェック（20項目・3分）——まず今の状態を確認する
           </Link>
-          <Link to="/articles/helper-burnout-scale-validity" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → バーンアウトとは？症状・原因・回復を解説
+          <Link to="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ② 共感疲労の原因7つ——なぜ支援職がなりやすいのか
+          </Link>
+          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ④ 共感疲労からの回復方法——長期的な回復プロセス
           </Link>
           <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → バウンダリー（境界線）とは？支援職が抱え込みやすい理由
+            → バウンダリー（境界線）とは——断れない支援職の対処法
           </Link>
+        </div>
+      </div>
+
+      {/* 共感疲労クラスター導線 */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6">
+        <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>
+          共感疲労を深く知る
+        </p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← チェック——今の消耗度を確認する
+          </a>
+          <a href="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← 原因——なぜ支援職がなりやすいのか
+          </a>
+          <span className="text-sm text-stone-400 flex items-center gap-2">
+            <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#8FAF9F", color: "#fff" }}>今ここ</span>
+            対処——今日からできるケア
+          </span>
+          <a href="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            次に読む → 共感疲労からの回復方法——対処しても回復しない方へ
+          </a>
         </div>
       </div>
 
