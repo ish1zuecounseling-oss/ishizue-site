@@ -5,6 +5,74 @@
 
 const LINE_URL = "https://lin.ee/NL0PnYR";
 
+/**
+ * LineCtaSmall — 冒頭・中盤用（感情直撃型・コンパクト）
+ */
+export function LineCtaSmall() {
+  return (
+    <div
+      style={{
+        borderLeft: "3px solid #8FAF9F",
+        paddingLeft: "1rem",
+        margin: "1.5rem 0",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+      }}
+    >
+      <p
+        style={{
+          fontSize: "14px",
+          color: "#2C1F14",
+          lineHeight: 1.7,
+          fontFamily: "'Noto Serif JP', serif",
+          margin: 0,
+        }}
+      >
+        「休んでも回復しない状態」を<br />
+        一人で整理しようとしなくて大丈夫です。
+      </p>
+      <a
+        href={LINE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "6px",
+          background: "#06C755",
+          color: "#fff",
+          borderRadius: "5px",
+          padding: "9px 16px",
+          fontSize: "13px",
+          fontWeight: 700,
+          textDecoration: "none",
+          fontFamily: "sans-serif",
+          alignSelf: "flex-start",
+        }}
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
+        </svg>
+        PDF特典をLINEで受け取る（無料）
+      </a>
+      <p
+        style={{
+          fontSize: "11px",
+          color: "rgba(44,31,20,0.35)",
+          fontFamily: "sans-serif",
+          margin: 0,
+        }}
+      >
+        勧誘なし ／ いつでも解除OK
+      </p>
+    </div>
+  );
+}
+
+/**
+ * LineCta — CV前用（フル版）
+ */
 export default function LineCta() {
   return (
     <div
