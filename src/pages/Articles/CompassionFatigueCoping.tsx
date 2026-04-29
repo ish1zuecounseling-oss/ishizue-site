@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import LineCta from "../../components/LineCta"
+import LineCta, { LineCtaSmall } from "../../components/LineCta"
 
 export default function CompassionFatigueCoping() {
   return (
@@ -27,11 +27,13 @@ export default function CompassionFatigueCoping() {
       </ul>
       <p>→ 2つ以上当てはまる場合、気づかないまま消耗が進んでいる可能性があります。</p>
       <p className="text-sm text-stone-500">
-        より詳しく確認したい方は→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
+        まず状態を確認したい方は→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
       </p>
       <p className="text-sm text-stone-600 leading-relaxed">
         まず状態を把握することが、適切な対処の第一歩になります。
       </p>
+
+      <LineCtaSmall />
 
       <p>
         共感疲労の対処法とは、他者の苦しみに共感し続けることで生じる心理的・感情的・身体的な消耗に対して、
@@ -157,6 +159,8 @@ export default function CompassionFatigueCoping() {
         カウンセリングや専門家への相談を検討することが助けになります。
         専門家に相談することは、弱さではなく、適切な対処を選んだということです。
       </p>
+
+      <LineCtaSmall />
 
       <h2>まとめ</h2>
       <ul className="space-y-2">
