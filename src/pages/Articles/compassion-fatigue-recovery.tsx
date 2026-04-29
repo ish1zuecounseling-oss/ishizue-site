@@ -41,6 +41,11 @@ export default function CompassionFatigueRecovery() {
         感情・神経系・自己認識のレベルで消耗が起きているため、
         身体を休めるだけでは回復しきれないのです。
       </p>
+      <p>
+        神経科学的な観点から見ると、慢性的な疲労状態では
+        前頭葉のグルコース利用能が低下し、セロトニン系の働きにも変化が起きます。
+        「気合いで回復する」のではなく、<strong>脳の回復機構が自然に働けるような状態を作ること</strong>が重要です。
+      </p>
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">回復しにくい理由</p>
@@ -168,30 +173,35 @@ export default function CompassionFatigueRecovery() {
         </ul>
       </div>
 
-      {/* CV導線 */}
-      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
-        <p className="text-sm font-medium text-stone-800 mb-2">回復の構造を一緒に整理したいとき</p>
-        <p className="text-xs text-stone-600 leading-relaxed mb-4">
-          「何をすれば回復するのかわからない」「セルフケアを試しても続かない」——
-          消耗の構造を外から整理することで、回復の入口が見えてくることがあります。
+      {/* CV導線（回復記事：最強版） */}
+      <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          一人での回復に限界を感じているなら
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed mb-4">
+          「何ヶ月も回復した感覚がない」「セルフケアを試しても続かない」「意欲が戻らない」——<br />
+          その状態では、消耗の構造を外から整理することが、回復の近道になることがあります。<br />
           支援職として働く中での消耗を前提にした相談を行っています。
+        </p>
+        <p className="text-xs text-stone-500 text-center mb-3">
+          ※まだ決めなくていいです。今の状態を言語化するだけでも変わります。
         </p>
         <a
           href="/#contact"
-          className="block text-center py-2.5 rounded-xl text-sm font-medium text-white"
+          className="block text-center py-3 rounded-xl text-sm font-medium text-white"
           style={{ background: "#7EB8A4", textDecoration: "none" }}
         >
-          支援職専門カウンセリングに相談する（初回無料）
+          今の状態を整理してみる（初回無料）
         </a>
-        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+        <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      {/* 内部リンク（クラスター順番設計） */}
+      {/* 内部リンク（クラスター順番設計：チェック→原因→対処→回復） */}
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-600 mb-3">共感疲労クラスター——あわせて読む</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ① 共感疲労チェック（20項目・3分）——今の状態を確認する
+            ① 共感疲労チェック（20項目・3分）——まず今の状態を確認する
           </Link>
           <Link to="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             ② 共感疲労の原因7つ——なぜ支援職がなりやすいのか
@@ -200,7 +210,7 @@ export default function CompassionFatigueRecovery() {
             ③ 共感疲労の対処法7つ——今日からできるケア
           </Link>
           <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ④ バウンダリー（境界線）とは——断れない支援職の対処法
+            → バウンダリー（境界線）とは——断れない支援職の対処法
           </Link>
         </div>
       </div>
@@ -208,6 +218,28 @@ export default function CompassionFatigueRecovery() {
       <p className="text-xs text-stone-400 mt-4 leading-relaxed">
         ※筆者は支援職専門カウンセラーとして300名以上・6,000時間以上の相談対応経験があります。
       </p>
+
+      {/* 共感疲労クラスター導線 */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6">
+        <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>
+          共感疲労を深く知る
+        </p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← チェック——今の消耗度を確認する
+          </a>
+          <a href="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← 原因——なぜ支援職がなりやすいのか
+          </a>
+          <a href="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← 対処法——今日からできるケア
+          </a>
+          <span className="text-sm text-stone-400 flex items-center gap-2">
+            <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#8FAF9F", color: "#fff" }}>今ここ</span>
+            回復——長期的な視点で整える
+          </span>
+        </div>
+      </div>
 
     </ArticleLayout>
   )
