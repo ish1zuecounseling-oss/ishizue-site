@@ -29,8 +29,8 @@ export function LineCtaSmall() {
           margin: 0,
         }}
       >
-        「休んでも回復しない状態」を<br />
-        一人で整理しようとしなくて大丈夫です。
+        今の状態を言葉にできるだけで、<br />
+        回復の入口が見えてきます。
       </p>
       <a
         href={LINE_URL}
