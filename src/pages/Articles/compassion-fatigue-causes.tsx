@@ -160,21 +160,21 @@ export default function CompassionFatigueCauses() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      {/* 内部リンク（クラスター順番設計） */}
+      {/* 内部リンク（クラスター順番設計：チェック→原因→対処→回復） */}
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-600 mb-3">共感疲労クラスター——あわせて読む</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ① 共感疲労チェック（20項目・3分）——今の状態を確認する
+            ① 共感疲労チェック（20項目・3分）——まず今の状態を確認する
           </Link>
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ② 共感疲労の対処法7つ——今日からできる回復とケア
+            ③ 共感疲労の対処法7つ——今日からできるケア
+          </Link>
+          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ④ 共感疲労からの回復方法——長期的な回復プロセス
           </Link>
           <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ③ バウンダリー（境界線）とは——断れない支援職の対処法
-          </Link>
-          <Link to="/articles/helper-burnout-scale-validity" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ④ バーンアウトとは——共感疲労との違いと回復方法
+            → バウンダリー（境界線）とは——断れない支援職の対処法
           </Link>
         </div>
       </div>
@@ -182,6 +182,28 @@ export default function CompassionFatigueCauses() {
       <p className="text-xs text-stone-400 mt-4 leading-relaxed">
         ※筆者は支援職専門カウンセラーとして300名以上・6,000時間以上の相談対応経験があります。
       </p>
+
+      {/* 共感疲労クラスター導線 */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6">
+        <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>
+          共感疲労を深く知る
+        </p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← チェック——今の消耗度を確認する
+          </a>
+          <span className="text-sm text-stone-400 flex items-center gap-2">
+            <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#8FAF9F", color: "#fff" }}>今ここ</span>
+            原因——なぜ支援職がなりやすいのか
+          </span>
+          <a href="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            次に読む → 共感疲労の対処法7つ——今日からできるケア
+          </a>
+          <a href="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労からの回復方法——長期的な視点で整える
+          </a>
+        </div>
+      </div>
 
     </ArticleLayout>
   )
