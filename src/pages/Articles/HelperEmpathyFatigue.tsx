@@ -39,8 +39,6 @@ export default function HelperEmpathyFatigue() {
         詳しく確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
       </p>
 
-      <LineCtaSmall />
-
       <h2>共感疲労とは何か</h2>
       <p>
         共感疲労（Compassion Fatigue）とは、支援者が他者の苦しみ・痛み・トラウマに
