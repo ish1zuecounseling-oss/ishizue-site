@@ -120,8 +120,8 @@ function Home() {
   return (
     <>
       <Helmet>
-        <title>支援職のためのカウンセリング｜燃え尽き・疲労を構造的に整理｜こころの相談室 いしずえ</title>
-        <meta name="description" content="「もう限界かもしれない」と感じている支援職の方へ。燃え尽き・疲弊の構造を整理し、消耗を減らすためのカウンセリング。公認心理師・障害福祉15年・初回メール相談無料。" />
+        <title>支援職のためのカウンセリング｜燃え尽き・共感疲労を構造から整理｜こころの相談室 いしずえ</title>
+        <meta name="description" content="看護師・介護士・福祉職・教員など対人援助職の方向け。公認心理師が、燃え尽き・共感疲労・感情労働による消耗を構造から整理します。オンライン対応。" />
         <link rel="canonical" href="https://www.ishizue-counseling.jp/" />
       </Helmet>
 
