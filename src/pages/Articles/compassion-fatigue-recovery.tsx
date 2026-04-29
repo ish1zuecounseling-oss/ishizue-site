@@ -1,5 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import LineCta from "../../components/LineCta"
 
 export default function CompassionFatigueRecovery() {
   return (
@@ -174,6 +175,8 @@ export default function CompassionFatigueRecovery() {
       </div>
 
       {/* CV導線（回復記事：最強版） */}
+
+      <LineCta />
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
           一人での回復に限界を感じているなら
