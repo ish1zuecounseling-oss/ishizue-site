@@ -5,8 +5,8 @@ import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 export default function HelperBrainFatigue() {
   return (
     <ArticleLayout
-      title="支援職に多い脳疲労とは？原因・症状・回復方法を解説"
-      description="脳疲労とは、過剰な情報処理や持続的なストレスによって脳の機能が低下した状態です。集中できない・判断が遅い・イライラするなどの症状が続く場合、脳疲労が進んでいる可能性があります。支援職に多い原因と、今日からできる回復方法を解説します。"
+      title="脳疲労とは何か｜「休んでも回復しない」の神経科学的な理由と回復方法"
+      description="「しっかり休んだのに疲れが取れない」——それは脳そのものが疲れているサインかもしれません。疲労の神経メカニズム研究をもとに、脳疲労の原因・症状・回復方法を支援職向けに解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-brain-fatigue"
       date="2026-04-24"
       tags={["burnout", "boundary", "compassion"]}
@@ -366,6 +366,12 @@ export default function HelperBrainFatigue() {
           { label: "感情労働の構造を理解する",              path: "/articles/helper-emotional-labor-what" },
         ]}
       />
+    
+      <p className="text-xs text-stone-400 mt-4 leading-relaxed">
+        参考文献：渡辺恭良（2007）「疲労の分子神経メカニズムと疲労克服」日本薬理学雑誌，129，94-98．
+        ※本記事は疲労の神経科学研究の知見を支援職向けに解説したものです。医学的診断ではありません。
+      </p>
+
     </ArticleLayout>
   )
 }
