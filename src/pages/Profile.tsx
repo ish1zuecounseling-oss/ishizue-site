@@ -100,6 +100,7 @@ export default function Profile() {
     <>
       <Helmet>
         <title>プロフィール｜松本 龍児（公認心理師）｜こころの相談室 いしずえ</title>
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/profile" />
         <meta
           name="description"
           content="障害福祉15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師・松本龍児のプロフィール。支援職の燃え尽きに特化した構造整理型カウンセリング。"
