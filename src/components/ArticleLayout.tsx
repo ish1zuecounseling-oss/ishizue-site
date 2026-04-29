@@ -382,63 +382,6 @@ export default function ArticleLayout({
             </motion.section>
 
             {/* ============================================================
-                著者カード
-            ============================================================ */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-14 flex items-start gap-4 bg-stone-50 rounded-2xl border border-stone-100 p-5"
-            >
-              {/* アバター */}
-              <div className="flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border border-stone-200 shadow-sm">
-                <img
-                  src="/profile.jpg"
-                  alt="松本 龍児"
-                  className="w-full h-full object-cover object-top"
-                  width={56}
-                  height={56}
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                    const p = e.currentTarget.parentElement;
-                    if (p) p.classList.add("bg-stone-200");
-                  }}
-                />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <p
-                    className="text-sm font-medium text-stone-900"
-                    style={{ fontFamily: "'Noto Serif JP', serif" }}
-                  >
-                    松本 龍児
-                  </p>
-                  <span className="text-xs text-stone-400 bg-white border border-stone-100 rounded-full px-2 py-0.5">
-                    公認心理師
-                  </span>
-                </div>
-                <p className="text-xs text-stone-400 mb-2">
-                  こころの相談室 いしずえ｜支援者支援専門
-                </p>
-                <p className="text-xs text-stone-500 leading-relaxed mb-3">
-                  障害福祉分野で15年、累計300名以上・6,000時間以上の支援に携わる。
-                  CBT・ACT・MIなどを統合的に用い、支援職の消耗・燃え尽きに特化したカウンセリングを提供。
-                </p>
-                <Link
-                  to="/profile"
-                  className="inline-flex items-center gap-1 text-xs font-medium transition-colors hover:underline underline-offset-2"
-                  style={{ color: SAGE }}
-                >
-                  プロフィール詳細を見る
-                  <ArrowRight className="w-3 h-3" aria-hidden="true" />
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* ============================================================
                 王様記事（タグから自動表示）
             ============================================================ */}
             {(() => {
