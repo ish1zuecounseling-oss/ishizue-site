@@ -122,6 +122,7 @@ function Home() {
       <Helmet>
         <title>支援職のためのカウンセリング｜燃え尽き・疲労を構造的に整理｜こころの相談室 いしずえ</title>
         <meta name="description" content="「もう限界かもしれない」と感じている支援職の方へ。燃え尽き・疲弊の構造を整理し、消耗を減らすためのカウンセリング。公認心理師・障害福祉15年・初回メール相談無料。" />
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/" />
       </Helmet>
 
       <a href="#main-content" className="sr-only focus:not-sr-only px-4 py-2 bg-white text-blue-600">メインコンテンツへスキップ</a>
