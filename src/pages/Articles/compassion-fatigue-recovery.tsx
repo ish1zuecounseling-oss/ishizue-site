@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import LineCta from "../../components/LineCta"
+import LineCta, { LineCtaSmall } from "../../components/LineCta"
 
 export default function CompassionFatigueRecovery() {
   return (
@@ -35,6 +35,8 @@ export default function CompassionFatigueRecovery() {
       <p className="text-sm text-stone-500">
         消耗の程度を詳しく確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
       </p>
+
+      <LineCtaSmall />
 
       <h2>「ただ休む」だけでは回復しない理由</h2>
       <p>
