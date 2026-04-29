@@ -1,13 +1,29 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+
 export default function CompassionFatigueCoping() {
   return (
     <ArticleLayout
-      title="共感疲労の対処法7つ｜支援職が今日からできる回復と予防のケア"
-      description="休んでも回復しない、セルフケアが続かない——共感疲労の対処が難しい理由と、支援職が今日から実践できる7つの対処法を解説します。"
+      title="共感疲労の対処法7つ｜セルフチェック・原因・回復方法を支援職向けに解説"
+      description="休んでも回復しない、セルフケアが続かない——共感疲労のチェック・原因・対処法を支援職向けに解説します。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-coping"
       date="2026-03-29"
       audio="/audio/compassion-fatigue-coping.mp3"
     >
+
+      {/* ① チェック導入 */}
+      <h2>まずはチェック：あなたは共感疲労の状態？</h2>
+      <ul className="space-y-1">
+        <li>・仕事後も利用者のことが頭から離れない</li>
+        <li>・感情が麻痺している、または過敏になっている</li>
+        <li>・以前より共感できなくなっている</li>
+        <li>・休んでも回復しない</li>
+      </ul>
+      <p>→ 2つ以上当てはまる場合、気づかないまま消耗が進んでいる可能性があります。</p>
+      <p className="text-sm text-stone-500">
+        より詳しく確認したい方は→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
+      </p>
+
       <p>
         共感疲労の対処法とは、他者の苦しみに共感し続けることで生じる心理的・感情的・身体的な消耗に対して、
         回復と予防のために取り組むことのできる、具体的なアプローチのことです。ただし、対処法を
@@ -108,6 +124,9 @@ export default function CompassionFatigueCoping() {
       </p>
       <h3>④ バウンダリー（境界線）を意識的に引く</h3>
       <p>
+        バウンダリーとは、「他者と自分を分ける心理的な境界線」のことです。
+      </p>
+      <p>
         「利用者の問題」と「自分の問題」の境界を意識することが、共感疲労の予防に重要な役割を果たします。
         バウンダリーを引くことは冷たさではなく、長く誠実に関わり続けるための技術です。
         「今日の支援は終わった」という心理的な区切りを、意識的に持つことが助けになります。
@@ -144,10 +163,41 @@ export default function CompassionFatigueCoping() {
         完璧な対処を目指すより、「今の自分にできることから少しずつ」という視点を持つことが、
         長く支援を続けるための現実的な力になるかもしれません。
       </p>
-      <p>
-        こころの相談室 いしずえ では、共感疲労・バーンアウトでお悩みの支援職・対人援助職の方の
-        ご相談を承っています。一人で抱え込まず、まずお話しだけでもお気軽にどうぞ。
-      </p>
+
+      {/* CV導線 */}
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-2">回復しない消耗を整理したいとき</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「休んでも回復しない」「仕事のことが頭から離れない」「セルフケアが続かない」——
+          そういった状態が続いているなら、消耗の構造を整理することが回復の近道になることがあります。<br />
+        支援職として働く中での消耗を前提にした相談を行っています。
+        </p>
+        <a
+          href="/#contact"
+          className="block text-center py-2.5 rounded-xl text-sm font-medium text-white"
+          style={{ background: "#7EB8A4", textDecoration: "none" }}
+        >
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      {/* 内部リンク */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-600 mb-2">関連する記事・チェックツール</p>
+        <div className="flex flex-col gap-2">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労チェック（20項目・3分）
+          </Link>
+          <Link to="/articles/helper-burnout-scale-validity" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → バーンアウトとは？症状・原因・回復を解説
+          </Link>
+          <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → バウンダリー（境界線）とは？支援職が抱え込みやすい理由
+          </Link>
+        </div>
+      </div>
+
     </ArticleLayout>
   )
 }
