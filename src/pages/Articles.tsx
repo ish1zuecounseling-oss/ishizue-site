@@ -77,85 +77,89 @@ type WorryCategory = {
 };
 
 const WORRY_CATEGORIES: WorryCategory[] = [
-  // フェーズ1：崩壊初期（気づいてない）
+  // フェーズ1：状態を知りたい（入口・最重要）
+  {
+    id: "check",
+    phase: "フェーズ1",
+    label: "まず自分の状態を知りたい",
+    desc: "共感疲労チェック・バーンアウト診断・消耗度の確認",
+    icon: "ClipboardList",
+    keywords: ["empathy", "check", "burnout", "fatigue", "compassion", "diagnosis", "brain"],
+    exitPath: "/articles/helper-empathy-check",
+    exitLabel: "共感疲労チェック（20項目・3分）",
+  },
+  // フェーズ1：疲れをどうにかしたい
   {
     id: "fatigue",
     phase: "フェーズ1",
-    label: "疲れが取れない・ずっとしんどい",
-    desc: "休んでも回復しない、何をしても疲れが抜けない",
+    label: "疲れ・消耗をどうにかしたい",
+    desc: "休んでも回復しない、疲れが抜けない",
     icon: "BatteryLow",
-    keywords: ["fatigue", "burnout", "empathy", "brain", "feels-tired", "case-overload", "night-shift"],
+    keywords: ["fatigue", "burnout", "feels-tired", "case-overload", "night-shift", "brain", "emotional-labor-fatigue"],
     exitPath: "/articles/helper-fatigue-diagnosis",
     exitLabel: "その疲れ、3タイプのどれ？（10問診断）",
   },
+  // フェーズ2：感情がしんどい
   {
     id: "emotion",
-    phase: "フェーズ1",
-    label: "感情がコントロールできない",
-    desc: "イライラが止まらない、何も感じなくなった、感情が不安定",
+    phase: "フェーズ2",
+    label: "感情がしんどい・コントロールできない",
+    desc: "イライラ・無感情・感情の波が大きい",
     icon: "Waves",
     keywords: ["emotional-labor", "labor", "rumination", "irritab", "emotional-labor-fatigue", "decision-fatigue"],
     exitPath: "/articles/helper-emotional-labor-what",
     exitLabel: "感情労働が消耗させている理由を知る",
   },
-  // フェーズ2：中期（自覚し始める）
+  // フェーズ2：抱え込み・断れない
   {
     id: "boundary",
     phase: "フェーズ2",
-    label: "断れない・抱え込んでしまう",
-    desc: "NOが言えない、いつも自分が我慢している",
+    label: "抱え込み・断れないがつらい",
+    desc: "バウンダリーとは？NOが言えない、いつも我慢",
     icon: "Layers",
     keywords: ["boundary", "sacrifice", "cannot-say-no", "pulled-by-client", "perfectionism", "boundary-how-to"],
     exitPath: "/articles/helper-cannot-say-no",
     exitLabel: "断れない人の特徴7つ｜なぜNOが言えないのか",
   },
-  {
-    id: "workplace",
-    phase: "フェーズ2",
-    label: "職場の人間関係がつらい",
-    desc: "上司・同僚との関係、ハラスメント、職場の空気",
-    icon: "Users",
-    keywords: ["workplace", "team", "boss", "harassment", "complaint", "human", "boss-stress"],
-    exitPath: "/articles/helper-empathy-check",
-    exitLabel: "今の消耗度を確認する（3分）",
-  },
-  // フェーズ3：後期（限界）
-  {
-    id: "selfblame",
-    phase: "フェーズ3",
-    label: "自分を責めてしまう",
-    desc: "もっとできたはず、自分が弱い、無力感が続く",
-    icon: "Heart",
-    keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame"],
-    exitPath: "/articles/helper-self-blame-landing",
-    exitLabel: "自分を責めてしまう理由を知る",
-  },
+  // フェーズ3：仕事が限界
   {
     id: "quit",
     phase: "フェーズ3",
-    label: "仕事を辞めたい・続けられない",
-    desc: "限界かもしれない、辞めていいのかわからない",
+    label: "仕事が限界・辞めたい",
+    desc: "辞めていいのか、休職すべきか迷っている",
     icon: "LogOut",
     keywords: ["quit", "want-to-quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage"],
     exitPath: "/articles/helper-want-to-quit-landing",
     exitLabel: "辞めたいと思ったとき、最初に読むページ",
   },
-  // フェーズ4：意思決定
+  // フェーズ3：自分を責めてしまう
+  {
+    id: "selfblame",
+    phase: "フェーズ3",
+    label: "自分を責めてしまう",
+    desc: "インポスター症候群・自己否定・無力感",
+    icon: "Heart",
+    keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame", "impostor"],
+    exitPath: "/articles/helper-self-blame-landing",
+    exitLabel: "自分を責めてしまう理由を知る",
+  },
+  // フェーズ4：次どうするか
   {
     id: "career",
     phase: "フェーズ4",
-    label: "復職・転職を考えている",
-    desc: "戻るべきか、別の道を探すべきか迷っている",
+    label: "続けるか・離れるか迷っている",
+    desc: "復職・転職・このままでいいのか",
     icon: "RotateCcw",
     keywords: ["return", "absence", "consider-leave", "career-stagnation", "aptitude-doubt", "burnout-recovery", "signs-to-rest"],
     exitPath: "/articles/helper-career-decision",
     exitLabel: "続けるか・離れるかで迷っているときに読む",
   },
+  // フェーズ4：相談を考えている
   {
     id: "counseling",
     phase: "フェーズ4",
     label: "カウンセリングを考えている",
-    desc: "相談してみたいけど迷っている、どこに行けばいいか",
+    desc: "相談したいけど迷っている、どんな時間になるか",
     icon: "MessageCircle",
     keywords: ["counseling", "counselling", "cannot-seek", "resistance-to-counseling", "receiving-counseling"],
     exitPath: "/articles/helper-counseling-landing",
