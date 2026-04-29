@@ -4,4 +4,4 @@ Allow: /
 # 404ページはインデックスさせない（Helmetのnoindexで制御済みだが念のため）
 Disallow: /404
 
-Sitemap: https://ishizue.com/sitemap.xml
+Sitemap: https://www.ishizue-counseling.jp/sitemap.xml
