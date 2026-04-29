@@ -1,5 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import LineCta from "../../components/LineCta"
 
 export default function CompassionFatigueCoping() {
   return (
@@ -172,6 +173,8 @@ export default function CompassionFatigueCoping() {
         長く支援を続けるための現実的な力になるかもしれません。
       </p>
 
+
+      <LineCta />
       {/* CV導線 */}
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-800 mb-2">回復しない消耗を整理したいとき</p>
