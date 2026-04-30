@@ -1,9 +1,14 @@
 // src/pages/admin/Chronicle.tsx
 // 管理画面 — 成長の書
-// ルーティング例: <Route path="/admin/chronicle" element={<Chronicle />} />
+// ルーティング: <Route path="/admin/chronicle" element={<Chronicle />} />
 
 import { useState, useCallback } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
+
+// ── パスワード設定 ──────────────────────────────────────
+// 自分用・非公開ページなので簡易実装。変更はこの1行だけ。
+const ADMIN_PASS = 'ishizue'
 
 // ── ローカルストレージ ──────────────────────────────────
 const STORAGE_KEY = 'ishizue_chronicle_v1'
@@ -350,6 +355,109 @@ function LevelCard({ lv, idx, state, unlocked, onToggle }: LevelCardProps) {
 // ── メインコンポーネント ───────────────────────────────
 
 export default function Chronicle() {
+  // パスワード認証（sessionStorage = タブを閉じるまで有効）
+  const [authed, setAuthed] = useState(
+    () => sessionStorage.getItem('cc_auth') === ADMIN_PASS
+  )
+  const [pw, setPw] = useState('')
+  const [pwErr, setPwErr] = useState(false)
+
+  if (!authed) {
+    return (
+      <>
+        <Helmet>
+          <title>管理ページ | こころの相談室 いしずえ</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div style={{
+          minHeight: '100vh', background: '#0a0702',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: "'Noto Serif JP', serif",
+        }}>
+          <div style={{
+            background: '#0d0a05', border: '1px solid #3d2a12',
+            borderRadius: 4, padding: '40px 32px', width: '100%', maxWidth: 320,
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 20, color: '#e6b555', letterSpacing: '0.2em', marginBottom: 8 }}>
+              ✦
+            </div>
+            <div style={{
+              fontFamily: "'Shippori Mincho', serif",
+              fontSize: 14, color: '#c9933a', letterSpacing: '0.15em', marginBottom: 24,
+            }}>
+              成長の書
+            </div>
+            <input
+              type="password"
+              value={pw}
+              placeholder="パスワード"
+              onChange={e => { setPw(e.target.value); setPwErr(false) }}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  if (pw === ADMIN_PASS) {
+                    sessionStorage.setItem('cc_auth', ADMIN_PASS)
+                    setAuthed(true)
+                  } else {
+                    setPwErr(true)
+                    setPw('')
+                  }
+                }
+              }}
+              style={{
+                width: '100%', padding: '10px 14px',
+                background: '#080502', border: `1px solid ${pwErr ? '#8a3a3a' : '#3d2a12'}`,
+                borderRadius: 2, color: '#c9933a', fontSize: 14,
+                fontFamily: "'Noto Serif JP', serif",
+                outline: 'none', textAlign: 'center',
+                letterSpacing: '0.2em',
+              }}
+              autoFocus
+            />
+            {pwErr && (
+              <div style={{ fontSize: 11, color: '#8a3a3a', marginTop: 8, letterSpacing: '0.1em' }}>
+                パスワードが違います
+              </div>
+            )}
+            <button
+              onClick={() => {
+                if (pw === ADMIN_PASS) {
+                  sessionStorage.setItem('cc_auth', ADMIN_PASS)
+                  setAuthed(true)
+                } else {
+                  setPwErr(true)
+                  setPw('')
+                }
+              }}
+              style={{
+                marginTop: 16, width: '100%',
+                padding: '10px', background: '#2a1f0e',
+                border: '1px solid #6b4f28', borderRadius: 2,
+                color: '#c9933a', fontSize: 12, letterSpacing: '0.2em',
+                cursor: 'pointer', fontFamily: "'Noto Serif JP', serif",
+              }}
+            >
+              入る
+            </button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>成長の書 | こころの相談室 いしずえ</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <ChronicleInner />
+    </>
+  )
+}
+
+// 認証後の本体（Chronicle のロジックを分離）
+function ChronicleInner() {
   const [checkState, setCheckState] = useState<CheckState>(loadState)
 
   const handleToggle = useCallback((lvId: string, key: string) => {
@@ -363,18 +471,15 @@ export default function Chronicle() {
     })
   }, [])
 
-  // グローバル集計
   const totalAll = LEVELS.reduce((s, lv) => s + countAll(lv), 0)
   const doneAll = LEVELS.reduce((s, lv) => s + countDone(lv, checkState), 0)
   const globalPct = Math.round((doneAll / totalAll) * 100)
 
   return (
     <>
-      {/* パルスアニメ用キーフレーム */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Serif+JP:wght@400;500;700&display=swap');
         @keyframes cc-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-        .chronicle-sup-card b { color: #e6b555; font-weight: 500; }
       `}</style>
 
       <div style={{
@@ -491,4 +596,4 @@ export default function Chronicle() {
       </div>
     </>
   )
-}
+} // ChronicleInner
