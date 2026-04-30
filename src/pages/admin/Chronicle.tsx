@@ -158,50 +158,123 @@ function TasksBlock({ lv, state, unlocked, onToggle }: TasksBlockProps) {
             {cat}
             <span style={{ flex: 1, borderBottom: '1px solid #3d2a1233' }} />
           </div>
-          {items.map((text, i) => {
+          {items.map((item, i) => {
             const key = `${cat}_${i}`
             const checked = !!(state[lv.id]?.[key])
+            // TaskItem か string かを両対応
+            const label = typeof item === 'string' ? item : item.label
+            const answer = typeof item === 'string' ? '' : (item.answer || '')
+            const answerKey = `${lv.id}_${cat}_${i}_ans`
             return (
-              <div
+              <TaskRow
                 key={key}
-                onClick={() => unlocked && onToggle(lv.id, key)}
-                style={{
-                  display: 'flex', alignItems: 'flex-start', gap: 9,
-                  padding: '5px 3px',
-                  cursor: unlocked ? 'pointer' : 'default',
-                  borderRadius: 2,
-                  opacity: unlocked ? 1 : 0.4,
-                  transition: 'background 0.1s',
-                }}
-                onMouseEnter={e => unlocked && (e.currentTarget.style.background = '#1a1208')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-              >
-                {/* チェックボックス */}
-                <div style={{
-                  width: 16, height: 16, flexShrink: 0, marginTop: 2,
-                  border: `1.5px solid ${checked ? '#c9933a' : '#3d2a12'}`,
-                  background: checked ? '#8a6030' : '#080502',
-                  borderRadius: 2,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.15s',
-                  fontSize: 10, color: '#f5d080', fontWeight: 700, lineHeight: 1,
-                }}>
-                  {checked ? '✓' : ''}
-                </div>
-                {/* ラベル */}
-                <div style={{
-                  fontSize: 12, lineHeight: 1.65,
-                  color: checked ? '#4a3820' : '#a08050',
-                  textDecoration: checked ? 'line-through' : 'none',
-                  transition: 'color 0.15s',
-                }}>
-                  {text}
-                </div>
-              </div>
+                id={answerKey}
+                label={label}
+                answer={answer}
+                checked={checked}
+                unlocked={unlocked}
+                accent={lv.accent}
+                onToggle={() => unlocked && onToggle(lv.id, key)}
+              />
             )
           })}
         </div>
       ))}
+    </div>
+  )
+}
+
+// ── TaskRow: チェック行 + 答え折りたたみ ─────────────────
+interface TaskRowProps {
+  id: string
+  label: string
+  answer: string
+  checked: boolean
+  unlocked: boolean
+  accent: string
+  onToggle: () => void
+}
+
+function TaskRow({ id, label, answer, checked, unlocked, accent, onToggle }: TaskRowProps) {
+  const [ansOpen, setAnsOpen] = useState(false)
+  const hasAnswer = answer.trim().length > 0
+
+  return (
+    <div style={{ borderBottom: '1px solid #1a140833', paddingBottom: 2, marginBottom: 1 }}>
+      {/* チェック行 */}
+      <div
+        style={{
+          display: 'flex', alignItems: 'flex-start', gap: 9,
+          padding: '6px 3px 4px',
+          cursor: unlocked ? 'pointer' : 'default',
+          borderRadius: 2,
+          opacity: unlocked ? 1 : 0.4,
+          transition: 'background 0.1s',
+        }}
+        onClick={() => unlocked && onToggle()}
+        onMouseEnter={e => unlocked && (e.currentTarget.style.background = '#1a1208')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+      >
+        {/* チェックボックス */}
+        <div style={{
+          width: 16, height: 16, flexShrink: 0, marginTop: 2,
+          border: `1.5px solid ${checked ? '#c9933a' : '#3d2a12'}`,
+          background: checked ? '#8a6030' : '#080502',
+          borderRadius: 2,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'all 0.15s',
+          fontSize: 10, color: '#f5d080', fontWeight: 700, lineHeight: 1,
+        }}>
+          {checked ? '✓' : ''}
+        </div>
+        {/* ラベル */}
+        <div style={{
+          flex: 1,
+          fontSize: 12, lineHeight: 1.65,
+          color: checked ? '#4a3820' : '#a08050',
+          textDecoration: checked ? 'line-through' : 'none',
+          transition: 'color 0.15s',
+        }}>
+          {label}
+        </div>
+        {/* 答えを見るボタン */}
+        {hasAnswer && unlocked && (
+          <button
+            onClick={e => { e.stopPropagation(); setAnsOpen(v => !v) }}
+            style={{
+              flexShrink: 0,
+              fontSize: 9, letterSpacing: '0.08em',
+              color: ansOpen ? accent : '#6a5030',
+              background: ansOpen ? `${accent}22` : '#1a140855',
+              border: `1px solid ${ansOpen ? accent : '#3d2a1244'}`,
+              borderRadius: 3, padding: '2px 6px',
+              cursor: 'pointer', lineHeight: 1.6,
+              transition: 'all 0.15s',
+              marginTop: 1,
+            }}
+          >
+            {ansOpen ? '閉じる' : '答えを見る'}
+          </button>
+        )}
+      </div>
+
+      {/* 答えパネル */}
+      {hasAnswer && ansOpen && (
+        <div style={{
+          margin: '2px 6px 8px 25px',
+          padding: '10px 14px',
+          background: '#0c0905',
+          border: `1px solid ${accent}44`,
+          borderLeft: `3px solid ${accent}`,
+          borderRadius: '0 4px 4px 0',
+          fontSize: 11.5,
+          color: '#b09060',
+          lineHeight: 1.85,
+          letterSpacing: '0.03em',
+        }}>
+          {answer}
+        </div>
+      )}
     </div>
   )
 }
