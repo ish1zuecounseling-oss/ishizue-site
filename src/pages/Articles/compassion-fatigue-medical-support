@@ -20,6 +20,15 @@ export default function CompassionFatigueMedicalSupport() {
         結論から言うと、<strong>状態の深刻さによって選ぶ場所が変わります</strong>。
       </p>
 
+      <div className="card">
+        <ul className="text-sm text-stone-700 space-y-2">
+          <li>・日常生活は送れている → <strong>カウンセリング</strong></li>
+          <li>・不眠や身体症状が強い → <strong>心療内科</strong></li>
+          <li>・休職・診断書が必要 → <strong>精神科／心療内科</strong></li>
+          <li>・希死念慮がある → <strong>医療機関を優先</strong></li>
+        </ul>
+      </div>
+
       <h2>まず確認：今の状態はどのレベルか</h2>
       <div className="card space-y-3">
         <div>
@@ -52,6 +61,8 @@ export default function CompassionFatigueMedicalSupport() {
           診断・投薬の処方ができます。
         </p>
       </div>
+
+      <p className="text-sm text-stone-500">※ 共感疲労自体は医学的な正式診断名ではありません。医療機関では適応障害・うつ病・PTSDなどとして診断されることがあります。</p>
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-3">精神科</p>
@@ -122,6 +133,7 @@ export default function CompassionFatigueMedicalSupport() {
 
       {/* CV導線 */}
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-xs text-stone-500 mb-2">うまく話せなくても大丈夫です。</p>
         <p className="text-sm font-medium text-stone-800 mb-1">相談するか迷っている段階でも大丈夫です。</p>
         <p className="text-xs text-stone-600 leading-relaxed mb-4">
           「病院に行くほどではないが、このままでもいられない」——そういった段階での相談が、
