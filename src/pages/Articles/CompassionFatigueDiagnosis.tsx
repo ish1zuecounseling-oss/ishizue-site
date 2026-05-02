@@ -1,19 +1,44 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+
 export default function CompassionFatigueDiagnosis() {
   return (
     <ArticleLayout
-      title="共感疲労の診断とは｜「自分は共感疲労なのか」を判断するための理解と視点"
-      description="「共感疲労かもしれない」と思ったとき、まず知っておいてほしいこと。共感疲労の状態を理解するための基準と、自分の状態にどう向き合えばよいかを整理します。"
+      title="共感疲労の診断｜自分が共感疲労かどうかを判断するための基準と視点"
+      description="「共感疲労かもしれない」と思ったとき、まず知っておいてほしいこと。共感疲労の診断的基準・バーンアウト・うつとの違い・専門家への相談の判断基準を支援職向けに解説します。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-diagnosis"
       date="2026-04-05"
       audio="/audio/compassion-fatigue-diagnosis.mp3"
     >
-      <p>
-        共感疲労の診断とは、他者の苦しみへの共感から生じる心理的・感情的・身体的な消耗が、共感疲労（二次受傷）
-        として現れているかどうかを確認し、自分の状態を理解するためのプロセスのことです。共感疲労は医学的な正式
-        診断名ではないため、「共感疲労と診断される」という形ではなく、自分の状態を理解し、必要なサポートを検討
-        するための「気づきの枠組み」として活用することが重要です。
+
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「共感疲労なのかもしれない」と感じながら、どう判断すればいいかわからない方へ向けて書いています。
       </p>
+
+      <p>
+        共感疲労は医学的な正式診断名ではありませんが、心理的・身体的な消耗状態を理解するための重要な概念として扱われています。
+      </p>
+      <p>
+        共感疲労の診断とは、他者の苦しみへの共感から生じる心理的・感情的・身体的な消耗が、
+        共感疲労（二次受傷）として現れているかどうかを確認し、自分の状態を理解するためのプロセスのことです。
+      </p>
+      <p>
+        共感疲労は医学的な正式診断名ではないため、「共感疲労と診断される」という形ではなく、
+        自分の状態を理解し、必要なサポートを検討するための<strong>「気づきの枠組み」</strong>として活用することが重要です。
+      </p>
+
+      <h2>まずセルフチェック：今の状態を確認する</h2>
+      <ul className="space-y-1">
+        <li>・仕事後も利用者のことが頭から離れない</li>
+        <li>・以前より感情が動きにくくなった、または過敏になった</li>
+        <li>・常に緊張しているような感覚がある</li>
+        <li>・休んでも疲れが回復しない</li>
+      </ul>
+      <p>→ 2つ以上当てはまる場合、共感疲労のサインである可能性があります。</p>
+      <p className="text-sm text-stone-500">
+        詳しく確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
+      </p>
+
       <p>
         現場でこんな声を聞くことがあります。
       </p>
@@ -88,12 +113,16 @@ export default function CompassionFatigueDiagnosis() {
       <p>
         感情的エネルギーが枯渇した状態では、他者の苦しみへの共感がより深い傷つきをもたらしやすくなります。
         共感疲労と感情労働の消耗は、互いを悪化させる悪循環を生みやすい関係にあります。
+        共感疲労が起きる背景の構造については、<Link to="/articles/compassion-fatigue-causes" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">原因の記事</Link>で詳しく整理しています。
       </p>
       <h3>■ 「自分は共感疲労なのか」という問いへの向き合い方</h3>
       <p>
         「共感疲労かどうか」を確定させることより、「今の自分の状態はどうか」を理解することが先決です。
         自己診断には限界があるため、「共感疲労かもしれない」と感じているなら、専門家（カウンセラー・臨床心理士・
         公認心理師・精神科医・心療内科医）への相談が、より正確な状態の理解と適切なサポートにつながります。
+      </p>
+      <p className="text-sm text-stone-500">
+        どこへ相談すべきか整理したい方へ→ <Link to="/articles/compassion-fatigue-medical-support" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労は何科に相談すべきか</Link>
       </p>
 
       <h2>「共感疲労かもしれない」と感じたときの具体的な対応</h2>
@@ -124,10 +153,46 @@ export default function CompassionFatigueDiagnosis() {
         処理するより、「今の自分の状態を理解し、適切なサポートを求めるサイン」として受け取ることが、
         回復への第一歩になるかもしれません。
       </p>
-      <p>
-        こころの相談室 いしずえ では、「共感疲労かもしれない」「自分の状態を理解したい」という支援職・対人援助職の
-        方のご相談を承っています。まずお話しだけでもお気軽にご連絡ください。
-      </p>
+
+      {/* CV導線 */}
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-2">「自分の状態を整理したい」と感じた方へ</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-1">
+          相談するか迷っている段階でも大丈夫です。
+        </p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「共感疲労かもしれない」という気づきがあるなら、その状態を言語化することが回復の入口になります。
+          支援職として働く中での消耗を前提にした相談を行っています。
+        </p>
+        <a
+          href="/#contact"
+          className="block text-center py-2.5 rounded-xl text-sm font-medium text-white"
+          style={{ background: "#7EB8A4", textDecoration: "none" }}
+        >
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      {/* 内部リンク */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-600 mb-3">共感疲労クラスター——あわせて読む</p>
+        <div className="flex flex-col gap-2">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ① 共感疲労チェック（20項目・3分）——今の状態を確認する
+          </Link>
+          <Link to="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ② 共感疲労の原因7つ——なぜ支援職がなりやすいのか
+          </Link>
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ③ 共感疲労の対処法7つ——今日からできるケア
+          </Link>
+          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ④ 共感疲労からの回復方法——長期的な回復プロセス
+          </Link>
+        </div>
+      </div>
+
     </ArticleLayout>
   )
 }
