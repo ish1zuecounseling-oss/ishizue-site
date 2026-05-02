@@ -131,6 +131,28 @@ export default function CompassionFatigueMedicalSupport() {
         </ul>
       </div>
 
+
+      <h2>よくある質問</h2>
+
+      <div className="card space-y-4">
+        <div>
+          <p className="text-sm font-medium text-stone-700 mb-1">心療内科と精神科、どちらに行けばいいですか？</p>
+          <p className="text-sm text-stone-600 leading-[1.9]">どちらでも対応可能なことが多いです。身体症状（不眠・頭痛・胃腸の不調）が強い場合は心療内科、気分・思考・意欲の変化が主な場合は精神科が入り口になりやすいです。迷う場合はどちらを受診しても問題ありません。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-sm font-medium text-stone-700 mb-1">保険は使えますか？</p>
+          <p className="text-sm text-stone-600 leading-[1.9]">心療内科・精神科は健康保険が使えます。カウンセリングは医療機関内で行われる場合は保険適用になることがありますが、民間のカウンセリングは基本的に自費です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-sm font-medium text-stone-700 mb-1">休職・診断書が必要な場合はどうすればいいですか？</p>
+          <p className="text-sm text-stone-600 leading-[1.9]">診断書は医療機関（心療内科・精神科）でのみ発行できます。カウンセラーは診断書を発行できません。休職を検討している場合は、まず医療機関を受診することが必要です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-sm font-medium text-stone-700 mb-1">オンラインで相談できますか？</p>
+          <p className="text-sm text-stone-600 leading-[1.9]">オンラインカウンセリングは利用可能です。移動不要で、職場や家族に知られずに利用できます。精神科・心療内科もオンライン診療を行っているクリニックが増えています。</p>
+        </div>
+      </div>
+
       {/* CV導線 */}
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-xs text-stone-500 mb-2">うまく話せなくても大丈夫です。</p>
@@ -148,6 +170,11 @@ export default function CompassionFatigueMedicalSupport() {
           支援職専門カウンセリングに相談する（初回無料）
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と、共感疲労・二次受傷・感情労働に関する心理学的知見をもとに作成しています。
       </div>
 
       {/* 内部リンク */}
