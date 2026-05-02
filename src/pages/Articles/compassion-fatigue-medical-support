@@ -1,0 +1,162 @@
+import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+
+export default function CompassionFatigueMedicalSupport() {
+  return (
+    <ArticleLayout
+      title="共感疲労は何科に相談すべきか｜心療内科・精神科・カウンセリングの選び方"
+      description="「共感疲労かもしれない」と思ったとき、病院に行くべきか、カウンセリングを使うべきか。心療内科・精神科・カウンセリングの違いと、状態別の選び方を解説します。"
+      url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-medical-support"
+      date="2026-04-29"
+      tags={["compassion", "burnout"]}
+    >
+
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「病院に行くべきか、カウンセリングに行くべきか、そもそも行くほどのことなのか」——迷っている方へ向けて書いています。
+      </p>
+
+      <p>
+        共感疲労の状態にあるとき、「どこに相談すればいいか」がわからないまま放置してしまうことが多いです。
+        結論から言うと、<strong>状態の深刻さによって選ぶ場所が変わります</strong>。
+      </p>
+
+      <h2>まず確認：今の状態はどのレベルか</h2>
+      <div className="card space-y-3">
+        <div>
+          <p className="text-sm font-medium text-stone-700 mb-1">軽〜中程度（日常生活は送れている）</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>・仕事後に疲れが残るが、翌日には動ける</li>
+            <li>・気分の落ち込みや無力感が続いているが、仕事には行けている</li>
+            <li>・「このままでいいのか」という漠然とした不安がある</li>
+          </ul>
+          <p className="text-xs text-[#8FAF9F] mt-1">→ カウンセリングが適している段階</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-sm font-medium text-stone-700 mb-1">中〜重度（日常生活に支障が出ている）</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>・眠れない、食欲がない状態が2週間以上続いている</li>
+            <li>・仕事を休むことが増えた、または休職を考えている</li>
+            <li>・死にたい気持ちや消えてしまいたいという感覚がある</li>
+          </ul>
+          <p className="text-xs text-stone-500 mt-1">→ まず医療機関（心療内科・精神科）への受診を優先する</p>
+        </div>
+      </div>
+
+      <h2>心療内科・精神科・カウンセリングの違い</h2>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-3">心療内科</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          身体症状（不眠・頭痛・胃腸の不調・動悸など）を伴う心理的な問題を扱います。
+          「身体に出ている」という場合は心療内科が入り口になりやすいです。
+          診断・投薬の処方ができます。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-3">精神科</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          気分・思考・行動に関わる精神的な問題全般を扱います。
+          うつ病・適応障害・PTSDなどの診断が必要な場合は精神科が適しています。
+          「診断書が必要」「休職を考えている」という場合は精神科・心療内科のどちらかで診断を受けることが必要です。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-3">カウンセリング</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          診断・投薬は行いません。「なぜそうなっているのか」の構造を整理し、
+          消耗の原因を言語化・理解することを通じて回復を支えます。
+          「話して整理したい」「原因を理解したい」「日常は送れているがしんどい」という段階に向いています。
+        </p>
+      </div>
+
+      <h2>「病院に行くほどじゃないかも」と思っている方へ</h2>
+      <p>
+        支援職に多いのが、「この程度で病院に行くのは大げさ」という感覚です。
+        しかしこの感覚自体が、支援職に多い消耗のサインです。
+      </p>
+      <p>
+        共感疲労は、日常生活を送れている段階でも、放置すると深刻化しやすい特徴があります。
+        「まだ大丈夫」と思っているうちに整理しておくことが、長く支援を続けるための現実的な選択です。
+      </p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">カウンセリングが向いているのはこんな方</p>
+        <ul className="text-sm text-stone-600 space-y-1.5">
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>「なぜこんなに疲れているのか、自分でもわからない」</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>「職場や家族には話せない。誰かに話したい」</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>「病院に行くほどではないが、このままでいいとも思えない」</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>「消耗の構造を理解して、変えていきたい」</li>
+        </ul>
+      </div>
+
+      <h2>医療機関とカウンセリングは併用できる</h2>
+      <p>
+        医療機関に通院中の方がカウンセリングを利用することも可能です。
+        ただし、精神科・心療内科に通院中の方は、カウンセリング利用について
+        <strong>かかりつけ医に事前に確認することをおすすめします</strong>。
+      </p>
+
+      <h2>まとめ：状態別の選び方</h2>
+      <div className="my-4 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
+        <ul className="text-sm text-stone-700 space-y-2.5">
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-[#8FAF9F] font-medium">日常は送れている</span>
+            <span className="text-stone-600">→ カウンセリングから始める</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-[#8FAF9F] font-medium">身体症状が強い</span>
+            <span className="text-stone-600">→ 心療内科へ</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-[#8FAF9F] font-medium">診断書・休職が必要</span>
+            <span className="text-stone-600">→ 精神科・心療内科へ</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="flex-shrink-0 text-[#8FAF9F] font-medium">死にたい気持ちがある</span>
+            <span className="text-stone-600">→ 今すぐ医療機関または相談窓口へ</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* CV導線 */}
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-800 mb-1">相談するか迷っている段階でも大丈夫です。</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「病院に行くほどではないが、このままでもいられない」——そういった段階での相談が、
+          消耗が深刻化する前に整理できる最もよいタイミングです。
+          支援職として働く中での消耗を前提にした相談を行っています。
+        </p>
+        <a
+          href="/#contact"
+          className="block text-center py-2.5 rounded-xl text-sm font-medium text-white"
+          style={{ background: "#7EB8A4", textDecoration: "none" }}
+        >
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      {/* 内部リンク */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-600 mb-3">あわせて読む</p>
+        <div className="flex flex-col gap-2">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労チェック（20項目・3分）
+          </Link>
+          <Link to="/articles/compassion-fatigue-diagnosis" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労の診断——正式診断名ではない状態をどう理解するか
+          </Link>
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労の対処法7つ——今日からできるケア
+          </Link>
+          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労からの回復方法
+          </Link>
+        </div>
+      </div>
+
+    </ArticleLayout>
+  )
+}
