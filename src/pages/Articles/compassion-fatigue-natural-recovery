@@ -20,6 +20,15 @@ export default function CompassionFatigueNaturalRecovery() {
         ただし「ただ休む」「時間が経てば治る」だけでは不十分なことが多いです。
       </p>
 
+      <div className="card">
+        <ul className="text-sm text-stone-700 space-y-2">
+          <li>・軽度なら休息で自然回復することもある</li>
+          <li>・中程度以上は「休むだけ」では戻りにくい</li>
+          <li>・放置するほど回復期間は長くなりやすい</li>
+          <li>・適切な対処で回復は可能</li>
+        </ul>
+      </div>
+
       <h2>共感疲労は自然に治るのか</h2>
       <p>
         軽度の共感疲労であれば、環境が変わったり十分な休息が取れたりすることで
@@ -29,6 +38,10 @@ export default function CompassionFatigueNaturalRecovery() {
         しかし中程度以上の共感疲労——「休んでも回復しない」「何ヶ月も続いている」
         「感情が麻痺している」といった状態——では、
         放置するほど回復に時間がかかる傾向があります。
+      </p>
+      <p>
+        「休日に寝ても月曜には戻ってしまう」「何もしていないのに疲労感だけが残る」——
+        そういった状態が続いているなら、休息だけでは回復しにくい段階に入っている可能性があります。
       </p>
 
       <div className="card" style={{ borderLeft: "3px solid #9f3a3a" }}>
@@ -50,11 +63,16 @@ export default function CompassionFatigueNaturalRecovery() {
       <p>
         神経科学的な観点から見ると、慢性的な消耗状態では前頭葉のグルコース利用能が低下し、
         セロトニン系にも変化が起きます。
+        つまり、「気合で戻せる疲れ」ではなく、脳と神経系そのものが疲弊している状態です。
         「休もうとしても身体がオフにならない」「眠れない」という状態の背景には、
         意志の問題ではなく神経系の生理的な変化が関係しています。
       </p>
 
       <h2>回復にかかる期間の目安</h2>
+      <p>
+        早めに対処するほど、必要な回復期間を短くしやすくなります。
+      </p>
+
       <div className="card">
         <div className="space-y-4 text-sm">
           {[
