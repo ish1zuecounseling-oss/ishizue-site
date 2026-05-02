@@ -76,9 +76,9 @@ export default function CompassionFatigueNaturalRecovery() {
       <div className="card">
         <div className="space-y-4 text-sm">
           {[
-            { stage: "軽度", period: "数週間〜1〜2ヶ月", desc: "適切な休息と環境調整で回復しやすい。気づいた段階で対処できれば最も早く回復できる段階。" },
-            { stage: "中程度", period: "2〜6ヶ月程度", desc: "意識的なセルフケアと消耗の構造理解が必要。一人での対処に限界を感じる場合は外部サポートを活用するとよい。" },
-            { stage: "重度", period: "半年〜1年以上", desc: "専門家のサポートが必要な段階。早めに動くほど回復期間を短くできる。" },
+            { stage: "軽度", period: "数週間〜数ヶ月単位", desc: "適切な休息と環境調整で回復しやすい段階です。支援現場では、早期に気づいて対処できた方ほど回復が早い傾向があります。" },
+            { stage: "中程度", period: "数ヶ月単位", desc: "意識的なセルフケアと消耗の構造理解が必要です。支援現場では、一人での対処に限界を感じた時点で外部サポートを活用した方が回復が早まる傾向があります。" },
+            { stage: "重度", period: "長期にわたることも", desc: "専門家のサポートが必要な段階です。支援現場では、早めに動くほど回復に必要な期間が短くなりやすい傾向があります。" },
           ].map(({ stage, period, desc }) => (
             <div key={stage} className="flex gap-3">
               <span className="flex-shrink-0 text-xs font-medium text-[#8FAF9F] w-14 pt-0.5">{stage}</span>
@@ -154,6 +154,11 @@ export default function CompassionFatigueNaturalRecovery() {
           支援職専門カウンセリングに相談する（初回無料）
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と、共感疲労・二次受傷・感情労働に関する心理学的知見をもとに作成しています。
       </div>
 
       {/* 内部リンク */}
