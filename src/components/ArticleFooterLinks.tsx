@@ -40,20 +40,29 @@ const CHECKS = [
 
 // 症状記事（体感語・CV近い順）
 const SYMPTOMS = [
-  { href: "/articles/helper-client-stuck-in-head",    text: "利用者の話が頭から離れない" },
-  { href: "/articles/helper-emotional-numbness",      text: "感情が麻痺している" },
-  { href: "/articles/helper-cannot-sleep",            text: "仕事のことが頭から離れず眠れない" },
-  { href: "/articles/helper-cannot-rest-on-days-off", text: "休日も休まらない" },
-  { href: "/articles/helper-irritated-at-client",     text: "利用者にイライラしてしまう" },
-  { href: "/articles/helper-aptitude-doubt",          text: "支援職に向いていないと感じる" },
-  { href: "/articles/helper-want-to-quit",            text: "支援職を辞めたい" },
+  { href: "/articles/helper-client-stuck-in-head",      text: "利用者の話が頭から離れない" },
+  { href: "/articles/helper-emotional-numbness",        text: "感情が麻痺している" },
+  { href: "/articles/helper-cannot-sleep",              text: "仕事のことが頭から離れず眠れない" },
+  { href: "/articles/helper-cannot-rest-on-days-off",   text: "休日も休まらない" },
+  { href: "/articles/helper-irritated-at-client",       text: "利用者にイライラしてしまう" },
+  { href: "/articles/helper-cannot-say-no",             text: "断れない・NOと言えない" },
+  { href: "/articles/helper-carrying-clients",          text: "利用者を背負ってしまう" },
+  { href: "/articles/helper-cannot-switch-off",         text: "仕事と感情が切り離せない" },
+  { href: "/articles/helper-responsibility-burnout",    text: "責任感が強すぎて潰れそう" },
+  { href: "/articles/helper-pulled-by-client",          text: "利用者に引っ張られる" },
+  { href: "/articles/helper-self-blame",                text: "「自分のせいだ」が止まらない" },
+  { href: "/articles/helper-guilt-about-suffering",     text: "もっとできたはずという罪悪感" },
+  { href: "/articles/helper-aptitude-doubt",            text: "支援職に向いていないと感じる" },
+  { href: "/articles/helper-want-to-quit",              text: "支援職を辞めたい" },
+  { href: "/articles/helper-consider-leave",            text: "休職したくなる" },
 ]
 
 // 概念記事（テーマ理解）
 const CONCEPTS = [
-  { href: "/articles/compassion-fatigue-complete",         text: "共感疲労とは（総合解説・ピラー）" },
-  { href: "/articles/helper-empathy-overload",             text: "共感しすぎて疲れる" },
-  { href: "/articles/empathy-fatigue-vs-secondary-trauma", text: "二次受傷とは？｜共感疲労・PTSDとの違い" },
+  { href: "/articles/compassion-fatigue-complete",          text: "共感疲労とは（総合解説・ピラー）" },
+  { href: "/articles/helper-empathy-overload",              text: "共感しすぎて疲れる" },
+  { href: "/articles/empathy-fatigue-vs-secondary-trauma",  text: "二次受傷とは？｜共感疲労・PTSDとの違い" },
+  { href: "/articles/compassion-fatigue-vs-depression",     text: "共感疲労とうつ病の違い" },
 ]
 
 // 回復・相談
