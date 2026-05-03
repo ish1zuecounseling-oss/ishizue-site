@@ -25,7 +25,7 @@ export default function SchoolCounselorCompassionFatigue() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">こんなスクールカウンセラーの方へ</p>
         <ul className="text-sm text-stone-600 space-y-1">
-          <li>・相談内容が頭から離れず、帰宅後も考え続けてしまう</li>
+          <li>・<a href="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">相談内容が頭から離れず、帰宅後も考え続けてしまう</a></li>
           <li>・子どもの深刻な話を聞くことが怖くなってきた</li>
           <li>・「自分が何とかしなければ」という感覚が強く、消耗している</li>
           <li>・学校の中で相談できる相手がいなくて孤立感がある</li>
@@ -73,7 +73,7 @@ export default function SchoolCounselorCompassionFatigue() {
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-[#8FAF9F] mb-1">回避・消耗</p>
           <ul className="text-sm text-stone-600 space-y-1">
-            <li>・子どもの話を聞くことが怖くなってきた</li>
+            <li>・子どもの話を聞くことが怖くなってきた（<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>のサインかもしれません）</li>
             <li>・重い相談のある日が憂鬱になってきた</li>
             <li>・以前感じていた「子どもの力になりたい」という気持ちが薄れた</li>
           </ul>
