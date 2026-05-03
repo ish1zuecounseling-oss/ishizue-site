@@ -36,6 +36,14 @@ export function LineCtaSmall() {
         href={LINE_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => {
+          if (typeof window !== "undefined" && (window as any).gtag) {
+            (window as any).gtag("event", "line_cta_click", {
+              event_category: "CTA",
+              event_label: "LineCtaSmall",
+            });
+          }
+        }}
         style={{
           display: "inline-flex",
           alignItems: "center",
