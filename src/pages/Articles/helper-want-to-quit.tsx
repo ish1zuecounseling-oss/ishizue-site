@@ -5,7 +5,7 @@ import { LineCtaSmall } from "../../components/LineCta"
 export default function HelperWantToQuit() {
   return (
     <ArticleLayout
-      title="支援職を辞めたい｜辞める前に整理したいこと・消耗と限界のサイン"
+      title="支援職を辞めたい｜消耗が限界のサイン・辞める前に整理したいこと"
       description="支援職を辞めたいと感じたとき、まず整理したいこと。「消耗しているから辞めたい」と「本当に方向性が合わない」の違い、今の状態で判断すべきでない理由を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-want-to-quit"
       date="2026-05-03"
