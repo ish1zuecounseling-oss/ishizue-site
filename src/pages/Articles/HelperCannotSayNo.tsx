@@ -1,9 +1,12 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { LineCtaSmall } from "../../components/LineCta"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+
 export default function HelperCannotSayNo() {
   return (
     <ArticleLayout
-      title="支援職が「No」と言えない心理とは｜断れない背景にある構造を理解する"
-      description="支援職が断れないのは意志の弱さではありません。過剰適応・バウンダリーの曖昧さ・見捨てられ不安など、その心理的な構造を整理します。"
+      title="支援職が断れない理由｜NOと言えない心理的構造と対処法"
+      description="支援職が断れない・NOと言えないのは意志の弱さではありません。過剰適応・バウンダリーの曖昧さ・見捨てられ不安など、断れない心理的な構造と今日からできる対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-cannot-say-no"
       date="2026-03-29"
       audio="/audio/helper-cannot-say-no.mp3"
@@ -164,6 +167,27 @@ export default function HelperCannotSayNo() {
         断れない自分を責めるより、まずその背景にある心理を理解することが、
         変化の出発点になるかもしれません。
       </p>
+
+      <LineCtaSmall />
+
+      <div className="my-6 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-xs text-stone-500 mb-2">「断れない」パターンを外から整理したいとき。</p>
+        <p className="text-sm font-medium text-stone-800 mb-2">断れない構造を一緒に整理する</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「なぜ断れないのか」——消耗の構造を外から整理することで、自分のパターンが見えてきます。
+          支援職の消耗を前提にした相談を行っています。
+        </p>
+        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      <ArticleFooterLinks type="symptom" exclude={["/articles/helper-cannot-say-no"]} />
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
+      </div>
     </ArticleLayout>
   )
 }
