@@ -5,7 +5,7 @@ import { LineCtaSmall } from "../../components/LineCta"
 export default function HelperCannotSleep() {
   return (
     <ArticleLayout
-      title="支援職が眠れない｜仕事のことが頭から離れない原因と回復法"
+      title="支援職が眠れない｜仕事のことが頭から離れず眠れない原因【共感疲労・二次受傷】"
       description="仕事のことが頭から離れず眠れない——支援職に多い睡眠障害の原因は共感疲労・二次受傷による神経系の緊張です。侵入型・過覚醒型の違いと、今日からできる回復法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-cannot-sleep"
       date="2026-05-03"
