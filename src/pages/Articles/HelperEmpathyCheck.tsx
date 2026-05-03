@@ -90,10 +90,6 @@ const resultConfig = {
   },
 }
 
-/* -------------------------------------------------------------------------- */
-/*  FAQ データ                                                                  */
-/* -------------------------------------------------------------------------- */
-
 const FAQ_ITEMS = [
   {
     q: "共感疲労は甘えですか？",
@@ -113,10 +109,6 @@ const FAQ_ITEMS = [
   },
 ]
 
-/* -------------------------------------------------------------------------- */
-/*  Component                                                                  */
-/* -------------------------------------------------------------------------- */
-
 export default function HelperEmpathyCheck() {
   const [checked, setChecked] = useState<boolean[]>(new Array(20).fill(false))
 
@@ -135,8 +127,8 @@ export default function HelperEmpathyCheck() {
 
   return (
     <ArticleLayout
-      title="共感疲労チェック｜支援職のための20項目診断【3分】"
-      description="利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——それは共感疲労のサインかもしれません。支援職に多い20項目から消耗度を3分で確認できるセルフチェックです。"
+      title="共感疲労チェック・診断｜20項目でわかるセルフチェック【3分】"
+      description="共感疲労のセルフチェック・診断ツール。看護師・介護士・福祉職など支援職に多い20項目から消耗度・バーンアウト傾向を3分で確認できます。眠れない・感情麻痺・二次受傷など結果別の次のステップも解説。"
       url="https://www.ishizue-counseling.jp/articles/helper-empathy-check"
       date="2026-03-22"
       audio="/audio/helper-fatigue-check.mp3"
@@ -144,7 +136,6 @@ export default function HelperEmpathyCheck() {
       faq={FAQ_ITEMS}
     >
 
-      {/* ── 導入文（症状語・検索語を自然に含む） ── */}
       <p>
         利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——
         それは<strong>共感疲労（Compassion Fatigue）</strong>のサインかもしれません。
@@ -157,7 +148,6 @@ export default function HelperEmpathyCheck() {
         以下の項目を読んで、当てはまると感じるものをタップしてください。
       </p>
 
-      {/* ── チェックリスト ── */}
       <h2>共感疲労セルフチェック（20項目）</h2>
 
       <div className="score-header">
@@ -193,7 +183,6 @@ export default function HelperEmpathyCheck() {
         ))}
       </div>
 
-      {/* ── 結果 ── */}
       {result && (
         <div>
           <div className={`result-box ${result.color}`}>
@@ -202,7 +191,6 @@ export default function HelperEmpathyCheck() {
             <p className="result-message">{result.message}</p>
           </div>
 
-          {/* CV ブロック */}
           {result.cvBlock && (
             <div style={{
               background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)",
@@ -243,7 +231,6 @@ export default function HelperEmpathyCheck() {
             </div>
           )}
 
-          {/* 結果別の次導線（内部リンク強化） */}
           <p className="next-section-label">{result.nextLabel}</p>
           {result.links.map((link) => (
             <a key={link.href} href={link.href} className="next-link">
@@ -254,7 +241,6 @@ export default function HelperEmpathyCheck() {
         </div>
       )}
 
-      {/* ── 共感疲労が起こる理由 ── */}
       <h2>共感疲労が支援職に起こる理由</h2>
       <div className="card">
         <p className="font-medium mb-4">
@@ -272,11 +258,9 @@ export default function HelperEmpathyCheck() {
         真剣に利用者と向き合ってきたからこそ起こる消耗です。
       </p>
       <p>
-        支援を続けるためには、利用者だけでなく「支援する側のケア」も重要になります。
-        早めに気づき、適切なサポートを受けることが回復への近道です。
+        チェックの結果に関わらず、<a href="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者の話が頭から離れない</a>・<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情が麻痺している</a>・<a href="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</a>といった症状が続いている場合は、早めに状態を整理することをおすすめします。
       </p>
 
-      {/* ── FAQ ── */}
       <h2>共感疲労についてよくある質問</h2>
       <div className="space-y-5">
         {FAQ_ITEMS.map((item, i) => (
@@ -285,6 +269,43 @@ export default function HelperEmpathyCheck() {
             <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
           </div>
         ))}
+      </div>
+
+      {/* ハブリンク：症状別・職種別 */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6">
+        <p className="text-xs font-medium text-stone-600 mb-3">チェック後に読む——症状別ガイド</p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/helper-client-stuck-in-head" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 利用者の話が頭から離れない（侵入症状）
+          </a>
+          <a href="/articles/helper-emotional-numbness" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 感情が麻痺している・以前のように感じられない
+          </a>
+          <a href="/articles/helper-cannot-sleep" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 仕事のことが頭から離れず眠れない
+          </a>
+          <a href="/articles/secondary-trauma-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 二次受傷チェック（15項目）
+          </a>
+          <a href="/articles/empathy-fatigue-vs-secondary-trauma" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 二次受傷とは？｜共感疲労・PTSDとの違い
+          </a>
+          <a href="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労とは——症状・原因・回復を総合解説（ピラー記事）
+          </a>
+        </div>
+        <p className="text-xs font-medium text-stone-600 mt-4 mb-2">職種別ガイド</p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/nurse-compassion-fatigue" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 看護師の共感疲労
+          </a>
+          <a href="/articles/care-worker-compassion-fatigue" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 介護士の共感疲労
+          </a>
+          <a href="/articles/school-counselor-compassion-fatigue" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → スクールカウンセラーの共感疲労
+          </a>
+        </div>
       </div>
 
       <p className="check-disclaimer">
