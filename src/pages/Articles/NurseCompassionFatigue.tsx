@@ -1,138 +1,215 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+import { LineCtaSmall } from "../../components/LineCta"
+
 export default function NurseCompassionFatigue() {
   return (
     <ArticleLayout
-      title="看護師の共感疲労とは｜患者に寄り添い続けることで「何も感じなくなる」前に知っておきたいこと"
-      description="患者のそばにいるほど、自分が削られていく。看護師の共感疲労の構造と、「何も感じなくなる」前に知っておきたい心理的背景を整理します。"
+      title="看護師の共感疲労｜なぜ看護職はなりやすいのか・症状・対処法を解説"
+      description="看護師に多い共感疲労の症状・原因・対処法を解説します。夜勤・感情労働・死への関与など看護職特有の消耗構造と、今日からできる回復のアプローチ。"
       url="https://www.ishizue-counseling.jp/articles/nurse-compassion-fatigue"
-      date="2026-03-29"
-      audio="/audio/nurse-compassion-fatigue.mp3"
+      date="2026-05-03"
+      tags={["compassion", "burnout", "boundary"]}
     >
+
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「患者さんのことが頭から離れない」「感情が麻痺してきた気がする」——それは看護師に多い共感疲労のサインです。
+      </p>
+
       <p>
-        看護師の共感疲労とは、患者・家族の苦しみや痛みに継続的に共感し続けることで、
-        看護師自身の心が二次的に傷つき、感情的・身体的に消耗していく状態のことです。
-        「患者のために」という誠実な気持ちが強いほど、共感疲労は静かに、しかし確実に進んでいきます。
+        看護師は共感疲労が起きやすい職種の筆頭です。
+        患者の苦痛・死・家族の悲嘆に継続的に関わりながら、
+        感情を「仕事の道具」として管理し続ける感情労働の負荷が重なります。
       </p>
       <p>
-        現場でこんな声を聞くことがあります。
+        この記事では、<strong>看護職に特有の共感疲労の構造と、今日からできる対処</strong>を整理します。
       </p>
-      <div className="card space-y-2">
-        <p>「患者さんが亡くなるたびに、何かが削られていく感じがある」</p>
-        <p>「以前は患者さんの話に心が動いていたのに、最近は何も感じなくなってきた」</p>
-        <p>「家に帰っても、あの患者さんのことが頭から離れない」</p>
-        <p>「感情を出せないまま何年も続けてきて、自分がどこにいるのかわからない感覚がある」</p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">こんな看護師の方へ</p>
+        <ul className="text-sm text-stone-600 space-y-1">
+          <li>・患者さんの状態が気になって、休日も頭から離れない</li>
+          <li>・以前は感じていたやりがいが薄れてきた</li>
+          <li>・夜勤明けでも気持ちが切り替わらない</li>
+          <li>・感情が麻痺している、または些細なことで崩れやすくなった</li>
+        </ul>
       </div>
+
+      <h2>看護師が共感疲労になりやすい理由</h2>
       <p>
-        これらは、看護師として誠実に向き合い続けてきた人が経験しやすい、共感疲労のサインです。
-        「強くなければならない」というプレッシャーの中で、これらのサインは見逃されやすく、
-        気づいたときには深刻な消耗が蓄積していることがあります。
+        共感疲労は意志の弱さや看護職への適性不足ではありません。
+        <strong>看護という仕事の構造そのもの</strong>が、消耗を生み出しています。
       </p>
 
-      <h2>看護師の共感疲労とは：定義と背景</h2>
-      <p>
-        共感疲労（Compassion Fatigue）とは、支援者が他者の苦しみや痛みに共感し続けることで生じる、
-        心理的・感情的・身体的な消耗状態のことです。1990年代にアメリカの看護師研究者ジョインソンによって
-        初めて言語化され、その後心理士チャールズ・フィグリーらの研究によって広く知られるようになりました。
-        共感疲労は二次受傷（Secondary Traumatic Stress）とも呼ばれます。
-        直接的なトラウマ体験ではなく、他者のトラウマや苦痛に継続的にさらされることで生じる
-        「二次的な傷つき」です。
-      </p>
-      <p>
-        看護師の共感疲労が特に深刻な形をとりやすいのは、患者の苦痛・死・喪失という極限の体験に、
-        日常的かつ高頻度で関わるという職種の特性によるものです。一人の患者との別れを十分に悲しむ間もなく、
-        次の患者のケアに向かわなければならない構造が、悲嘆を蓄積させます。
-        また、処置などの技術的な業務をこなしながら同時に患者の感情的なニーズにも応えるという
-        複合的な消耗も生じます。
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">看護職特有の消耗構造</p>
+        <div className="space-y-3 text-sm text-stone-600">
+          <div>
+            <p className="font-medium text-stone-700">① 死・苦痛・悲嘆への継続的な関与</p>
+            <p className="leading-[1.9]">患者の死・臨終の場面・家族の悲嘆に繰り返し立ち会うことで、二次受傷（PTSD様反応）が蓄積しやすい環境にあります。</p>
+          </div>
+          <div className="border-t border-stone-100 pt-3">
+            <p className="font-medium text-stone-700">② 感情規則の強さ</p>
+            <p className="leading-[1.9]">「プロとして動揺を見せてはいけない」という規範が、内側の感情を抑圧し続けることにつながります。感情を「管理する」ことのコストが蓄積します。</p>
+          </div>
+          <div className="border-t border-stone-100 pt-3">
+            <p className="font-medium text-stone-700">③ 夜勤による自律神経の慢性的な乱れ</p>
+            <p className="leading-[1.9]">不規則な生活リズムは神経系の回復を妨げます。共感疲労の回復には神経系の安定が必要ですが、夜勤がその妨げになります。</p>
+          </div>
+          <div className="border-t border-stone-100 pt-3">
+            <p className="font-medium text-stone-700">④ 人手不足・業務過多</p>
+            <p className="leading-[1.9]">1人あたりの患者数が多く、十分に関わりたくても関われない状況が無力感と消耗を深めます。</p>
+          </div>
+          <div className="border-t border-stone-100 pt-3">
+            <p className="font-medium text-stone-700">⑤ 弱音を言えない文化</p>
+            <p className="leading-[1.9]">「看護師なのだから耐えるべき」という規範が、消耗のサインに気づくことを妨げます。</p>
+          </div>
+        </div>
+      </div>
+
+      <h2>看護師に多い共感疲労の症状</h2>
+
+      <div className="card space-y-3">
+        <div>
+          <p className="text-xs font-medium text-[#8FAF9F] mb-1">仕事中・仕事後に出やすいサイン</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>・患者の状態が気になって勤務時間外も頭から離れない</li>
+            <li>・特定の患者やケースを思い出したくない</li>
+            <li>・患者の死の場面がフラッシュバックする</li>
+            <li>・夜勤明けでも気持ちが休まらない</li>
+          </ul>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-medium text-[#8FAF9F] mb-1">感情・意欲の変化</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>・以前感じていたやりがいが薄れてきた</li>
+            <li>・患者に共感できなくなってきた（または過度に感情移入する）</li>
+            <li>・仕事に行くのがつらくなってきた</li>
+            <li>・「もう看護師を続けられないかも」と感じることがある</li>
+          </ul>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-medium text-[#8FAF9F] mb-1">身体・睡眠の変化</p>
+          <ul className="text-sm text-stone-600 space-y-1">
+            <li>・休んでも疲れが回復しない</li>
+            <li>・眠れない・夢で仕事の場面が出てくる</li>
+            <li>・頭痛・胃腸の不調・動悸が続いている</li>
+          </ul>
+        </div>
+      </div>
+
+      <p className="text-sm text-stone-500">
+        今の状態を詳しく確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
       </p>
 
-      <h2>現場で起こること：共感疲労が形を変えて現れる場面</h2>
-      <h3>■ 「何も感じなくなってきた」という感覚</h3>
+      <LineCtaSmall />
+
+      <h2>看護師の共感疲労：今日からできる対処</h2>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① 勤務後の「切り替え儀式」を作る</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          着替え・シャワー・決まった音楽など、「仕事モードを終える合図」を作ることが、
+          神経系の切り替えを助けます。ルーティン化することで効果が安定します。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② 「書き出す」習慣をつける</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          「今日の自分が揺れた場面」「気になっていること」を3行だけ書き出す。
+          正しく書かなくていい。頭の中から外に出すことで、脳の処理負荷が軽くなります。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">③ 「話せる場所」を一つ持つ</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          同僚・先輩・スーパーバイザーなど、仕事の消耗を安全に話せる場所を意識的に持つことが、
+          孤立した消耗からの回復を助けます。
+          職場内で難しい場合は、外部のカウンセリングが選択肢になります。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">④ 夜勤後の「回復時間」を設計する</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          夜勤明けは身体・神経系ともに消耗しています。
+          「すぐに予定を入れない」「最低4〜6時間の睡眠を確保する」など、
+          夜勤後の回復時間を意識的に確保することが慢性的な消耗を防ぎます。
+        </p>
+      </div>
+
+      <h2>看護師が「限界サイン」を見逃しやすい理由</h2>
       <p>
-        以前は患者の話に心が動いていたのに、最近は聞き流してしまっている。
-        患者が亡くなっても、涙が出なくなった。「冷たい看護師になってしまった」と自分を責めているが、
-        実はこれは感情的エネルギーが枯渇したことによる感情の麻痺のサインである可能性があります。
+        看護師は共感疲労が深まっても「まだ仕事はできている」という状態が続くことが多いです。
+        これは、<strong>高い使命感と責任感が消耗のサインを覆い隠す</strong>からです。
       </p>
-      <h3>■ 家に帰っても仕事が頭から離れない</h3>
       <p>
-        あの患者さんの状態は大丈夫だろうか。あの対応でよかったのか。夜中に目が覚めて、患者の顔が浮かぶ。
-        仕事が終わっても「完結」しない感覚が続くのは、共感疲労の典型的なサインのひとつです。
-      </p>
-      <h3>■ 突然、些細なことで感情があふれる</h3>
-      <p>
-        普段は感情を抑えているのに、ふとしたときに涙が止まらなくなる。
-        これは抑圧されてきた感情が、別の出口から流れ出している状態です。
-      </p>
-      <h3>■ 患者・家族への関心が薄れていく</h3>
-      <p>
-        以前は患者一人ひとりの背景や気持ちに関心を持てていたのに、最近は「業務をこなすこと」が優先になっている。
-        これは怠慢ではなく、感情的リソースの枯渇による脱人格化のサインです。
-      </p>
-      <h3>■ 「十分にケアできていない」という慢性的な罪悪感</h3>
-      <p>
-        人手不足の中で、一人ひとりの患者に「十分に」関われないという感覚が続く。
-        「もっと話を聞いてあげたかった」という気持ちが積み重なり、自己批判が止まらない。
-        この罪悪感は共感疲労の消耗をさらに深めます。
-      </p>
-      <h3>■ 身体症状として現れる</h3>
-      <p>
-        頭痛・胃の不調・睡眠障害・慢性的な疲労感など、身体症状として消耗が現れることがあります。
-        感情と身体は深くつながっており、感情的な消耗が身体に影響することは珍しくありません。
+        「この程度で弱音を言うのは甘え」という感覚自体が、消耗のサインです。
+        消耗している自分に気づけたなら、それはすでに大切な一歩です。
       </p>
 
-      <h2>心理的背景：看護師の共感疲労を生む構造</h2>
-      <h3>■ 共感のメカニズムと消耗</h3>
-      <p>
-        共感とは、他者の感情・体験・苦痛を「自分のこととして感じる」能力のことです。
-        神経科学の観点から見ると、他者の苦痛に共感するとき、脳内では自分が苦痛を感じているときと
-        類似した反応が起きることがわかっています。患者の痛みに共感し続けることは、ある意味で
-        自分自身も痛みを感じ続けることと近い状態です。この共感の蓄積が、共感疲労の生理学的な背景にあります。
-      </p>
-      <h3>■ 悲嘆の剥奪（Disenfranchised Grief）</h3>
-      <p>
-        「プロとして感情をコントロールすべき」「患者の死に慣れるべき」という暗黙の規範が、
-        悲しみを「許されない感情」として扱います。悲しんでよいと認められない悲嘆を
-        悲嘆の剥奪（Disenfranchised Grief）と呼びます。悲嘆の剥奪が続くと、悲しみが処理されないまま
-        蓄積し、共感疲労・抑うつ・バーンアウトへのリスクが高まります。
-      </p>
-      <h3>■ 感情労働の高強度</h3>
-      <p>
-        「患者に安心感を与える」「苦痛を目の前にしても穏やかに対応する」「家族の不安を受け止める」という
-        感情管理を、一日に何度も繰り返します。社会学者ホックシールドの感情労働理論では、
-        求められる感情表現と実際の感情との乖離が大きいほど消耗が深まるとされています。
-        この乖離が蓄積することで、自分の本当の感情がわからなくなる感情の自己疎外につながることがあります。
-      </p>
-      <h3>■ モラルディストレスと共感疲労の相互作用</h3>
-      <p>
-        「この処置に疑問を感じる」「延命治療を続けることが本当に本人のためになるのか」という
-        倫理的なジレンマに繰り返し直面する体験は、モラルディストレス（道徳的苦悩）として消耗を深めます。
-        モラルディストレスと共感疲労は互いに影響し合い、どちらか一方が深まるともう一方も悪化しやすくなります。
-      </p>
-      <h3>■ 夜勤・不規則勤務との相乗効果</h3>
-      <p>
-        夜勤・交代制勤務による睡眠の乱れと体内リズムの崩れは、感情調節に関わる脳の機能を低下させます。
-        感情をコントロールするための心理的リソースが低下した状態で共感疲労のリスクが高い業務を続けることは、
-        消耗を加速させます。
-      </p>
+      <h2>医療機関への相談を検討するサイン</h2>
+      <div className="card" style={{ borderLeft: "3px solid #9f3a3a" }}>
+        <ul className="text-sm text-stone-600 space-y-1.5">
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>症状が2週間以上続いている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>休職・異動を考えている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>死にたい・消えてしまいたいという気持ちがある</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>動悸・過呼吸・強い身体症状がある</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-2">
+          該当する場合は、カウンセリングより先に心療内科・精神科の受診を優先してください。
+        </p>
+      </div>
 
-      <h2>まとめ</h2>
-      <ul className="space-y-2">
-        <li>共感の蓄積による二次受傷：患者の苦痛・死・喪失への継続的な共感が、自分自身を二次的に傷つける</li>
-        <li>悲嘆の剥奪：「プロとして感情を切り替えるべき」という規範が、悲しみを処理できない状態を生む</li>
-        <li>感情労働の高強度：求められる感情表現と実際の感情との乖離が、感情の自己疎外につながる</li>
-        <li>モラルディストレスとの相互作用：倫理的ジレンマの繰り返しが、共感疲労をさらに深める</li>
-        <li>夜勤・不規則勤務との相乗効果：身体的疲労が感情調節の力を奪い、消耗を加速させる</li>
-      </ul>
-      <p>
-        「何も感じなくなってきた」「以前のように患者に関われていない気がする」という感覚は、
-        あなたが弱くなったのではありません。それだけ深く、誠実に患者と向き合い続けてきた結果として
-        生まれた、共感疲労のサインです。
-      </p>
-      <p>
-        その感覚を「プロとして乗り越えるべきもの」として処理するより、
-        まず「今の自分の状態を知ること」が、回復への出発点になります。
-        一人で抱え込まず、安心して話せる場所を持つことが、
-        長く患者のそばに立ち続けるための力になるかもしれません。
-      </p>
+      {/* CV導線 */}
+      <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-xs text-stone-500 mb-2">相談するか迷っている段階でも大丈夫です。</p>
+        <p className="text-sm font-medium text-stone-800 mb-2">看護職の消耗を整理したいとき</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「職場では弱音を言えない」「でもこのままでいいとも思えない」——
+          看護職として働く中での消耗を前提にした相談を行っています。
+          うまく話せなくても大丈夫です。
+        </p>
+        <a
+          href="/#contact"
+          className="block text-center py-2.5 rounded-xl text-sm font-medium text-white"
+          style={{ background: "#7EB8A4", textDecoration: "none" }}
+        >
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      {/* 内部リンク */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-600 mb-3">あわせて読む</p>
+        <div className="flex flex-col gap-2">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労チェック（20項目・3分）
+          </Link>
+          <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労とは｜症状・原因・診断・対処法・回復を総合解説
+          </Link>
+          <Link to="/articles/empathy-fatigue-vs-secondary-trauma" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 二次受傷とは？｜共感疲労・PTSDとの違い
+          </Link>
+          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労からの回復方法
+          </Link>
+          <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 共感疲労は何科に相談すべきか
+          </Link>
+        </div>
+      </div>
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と、
+        共感疲労・二次受傷に関する心理学的知見をもとに作成しています。
+        医学的な診断ではありません。
+      </div>
+
     </ArticleLayout>
   )
 }
