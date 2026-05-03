@@ -98,6 +98,21 @@ export default function HelperRumination() {
         「自分が考え続けることで利用者を守っている」という無意識の感覚が、思考の切り替えを妨げることがあります。
       </p>
 
+
+      <h2>仕事のことが頭から離れない状態が続くとどうなるか</h2>
+      <p>放置すると、消耗が段階的に深まります。</p>
+      <div className="card space-y-1.5 text-sm text-stone-600">
+        <p>・<a href="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">睡眠障害</a>——夜中に目が覚める・夢に仕事が出る・眠れない</p>
+        <p>・<a href="/articles/helper-brain-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">脳疲労の慢性化</a>——休んでも回復しない・判断力の低下</p>
+        <p>・<a href="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</a>——感情的消耗が深まる</p>
+        <p>・<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>——利用者への感情が動かなくなる</p>
+        <p>・<a href="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</a>——やりがいの喪失・燃え尽き</p>
+      </div>
+      <p>
+        「頭から離れない」という状態は、放置するほど消耗が深まります。
+        早めに気づいて対処するほど、回復に必要な時間が短くなります。
+      </p>
+
       <h2>状態を緩めるための視点</h2>
       <p>
         「切り替えの儀式」を持つことが助けになります。退勤前の深呼吸・着替え・日記への記録など、
