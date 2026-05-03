@@ -73,7 +73,7 @@ export default function NurseCompassionFatigue() {
         <div>
           <p className="text-xs font-medium text-[#8FAF9F] mb-1">仕事中・仕事後に出やすいサイン</p>
           <ul className="text-sm text-stone-600 space-y-1">
-            <li>・患者の状態が気になって勤務時間外も頭から離れない</li>
+            <li>・<a href="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">患者の状態が気になって勤務時間外も頭から離れない</a></li>
             <li>・特定の患者やケースを思い出したくない</li>
             <li>・患者の死の場面がフラッシュバックする</li>
             <li>・夜勤明けでも気持ちが休まらない</li>
