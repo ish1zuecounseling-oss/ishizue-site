@@ -32,11 +32,11 @@ export default function HelperCannotSleep() {
       <div className="card space-y-3 text-sm">
         <div>
           <p className="font-medium text-stone-700">① 神経系が「緊張モード」のままになっている</p>
-          <p className="text-stone-600 leading-[1.9]">慢性的なストレス状態では、自律神経系が交感神経優位（緊張モード）のまま固まります。「休もうとしても身体がオフにならない」状態です。これは意志の問題ではなく、神経系の生理的な変化です。</p>
+          <p className="text-stone-600 leading-[1.9]">慢性的なストレス状態では、自律神経系が交感神経優位（緊張モード）のまま固まります。「休もうとしても身体がオフにならない」状態です。これは意志の問題ではなく、神経系の生理的な変化です。同じ消耗から<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>が起きることもあります。</p>
         </div>
         <div className="border-t border-stone-100 pt-3">
           <p className="font-medium text-stone-700">② 未処理の記憶が夜に浮き上がる</p>
-          <p className="text-stone-600 leading-[1.9]">日中は仕事・業務で意識が占有されているため、処理しきれなかった感情・記憶が就寝前の静かな時間に浮き上がります。「利用者のことが寝る前に浮かぶ」のはこのメカニズムです。</p>
+          <p className="text-stone-600 leading-[1.9]">日中は仕事・業務で意識が占有されているため、処理しきれなかった感情・記憶が就寝前の静かな時間に浮き上がります。「利用者のことが寝る前に浮かぶ」のはこのメカニズムです。この状態について詳しくは<a href="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者の話が頭から離れない</a>で整理しています。</p>
         </div>
         <div className="border-t border-stone-100 pt-3">
           <p className="font-medium text-stone-700">③ 「また明日も頑張らなければ」という予期的緊張</p>
