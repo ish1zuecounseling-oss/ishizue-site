@@ -31,7 +31,7 @@ export default function CareWorkerCompassionFatigue() {
         <ul className="text-sm text-stone-600 space-y-1">
           <li>・利用者のことが気になって、休みの日も頭から離れない</li>
           <li>・以前は感じていたやりがいがなくなってきた</li>
-          <li>・「もう限界かも」と思うことが増えた</li>
+          <li>・「もう限界かも」と思うことが増えた（<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>のサインかもしれません）</li>
           <li>・身体は動けるのに、気持ちが回復しない</li>
         </ul>
       </div>
@@ -72,7 +72,7 @@ export default function CareWorkerCompassionFatigue() {
         <div>
           <p className="text-xs font-medium text-[#8FAF9F] mb-1">感情・思考の変化</p>
           <ul className="text-sm text-stone-600 space-y-1">
-            <li>・利用者への共感が薄れてきた（または逆に抱え込みすぎる）</li>
+            <li>・<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者への共感が薄れてきた</a>（または逆に抱え込みすぎる）</li>
             <li>・「もう介護はしたくない」と感じることがある</li>
             <li>・仕事のことを考えると憂鬱になる</li>
             <li>・小さなことでイライラしやすくなった</li>
