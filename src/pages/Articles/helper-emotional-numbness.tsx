@@ -16,6 +16,16 @@ export default function HelperEmotionalNumbness() {
         「利用者の話を聞いても、何も感じなくなった」——これは冷たくなったのではありません。消耗のサインです。
       </p>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">こんなふうに感じていませんか？</p>
+        <ul className="text-sm text-stone-600 space-y-1">
+          <li>・利用者の話に以前ほど心が動かない</li>
+          <li>・「頑張らなきゃ」と思うのに感情がついてこない</li>
+          <li>・仕事以外でも感情が平坦になった感じがする</li>
+          <li>・急に涙が出たりイライラすることがある</li>
+        </ul>
+      </div>
+
       <p>
         <strong>感情が麻痺している状態とは、以前は感じられていた共感・やりがい・喜びが薄れ、感情的な反応が鈍くなった状態です。</strong>
         支援職・医療職・介護職に多く見られ、共感疲労・二次受傷の代表的な症状の一つです。
