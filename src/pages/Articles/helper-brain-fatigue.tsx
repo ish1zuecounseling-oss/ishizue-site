@@ -71,8 +71,8 @@ export default function HelperBrainFatigue() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">デフォルトモードネットワーク（DMN）</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          休息時やぼんやりしているときに働くネットワークです。脳疲労が進むとDMNが過活動になり、
-          「何もしていないのに頭が休まらない」「ぐるぐる思考」が起きやすくなります。
+          ぼーっとしているときに動く脳の回路（デフォルトモードネットワーク・DMN）です。脳疲労が進むとこの回路が過活動になり、
+          「何もしていないのに頭が休まらない」「ぐるぐる思考が止まらない」が起きやすくなります。
           このDMNの過活動自体が脳のエネルギーを大量に消費します。
         </p>
       </div>
@@ -138,6 +138,19 @@ export default function HelperBrainFatigue() {
           ストレスや自律神経の乱れによって睡眠の質が低下すると、
           脳の老廃物を洗い流すノンレム睡眠が不足します。疲労が翌日に持ち越され慢性化します。
         </p>
+      </div>
+
+
+      <h2>脳疲労になりやすい人の特徴</h2>
+      <div className="card">
+        <ul className="text-sm text-stone-600 space-y-2">
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span><strong>真面目で責任感が強い</strong>——「自分がやらなければ」が止まらない</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span><strong>人の感情を読みすぎる</strong>——相手の状態に常にアンテナを張っている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span><strong>休むことに罪悪感がある</strong>——「まだできる」で動き続けてしまう</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span><strong>考え続けるクセがある</strong>——「もっと考えれば解決できる」から抜けられない</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span><strong>「もっとできたはず」を繰り返す</strong>——自責と反省がループする</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-3">これらは支援職に多い特徴であり、脳疲労になりやすい構造と深く関連しています。</p>
       </div>
 
       <h2>支援職はなぜ脳が止まらなくなるのか</h2>
