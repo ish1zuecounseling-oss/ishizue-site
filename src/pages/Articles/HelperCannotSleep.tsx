@@ -5,8 +5,8 @@ import { LineCtaSmall } from "../../components/LineCta"
 export default function HelperCannotSleep() {
   return (
     <ArticleLayout
-      title="支援職が眠れない｜仕事のことが頭から離れず眠れない原因と対処法"
-      description="仕事後も頭が休まらず眠れない——支援職に多い睡眠障害の原因は共感疲労・二次受傷による神経系の緊張です。今日からできる睡眠回復のアプローチを解説します。"
+      title="支援職が眠れない｜仕事のことが頭から離れない原因と回復法"
+      description="仕事のことが頭から離れず眠れない——支援職に多い睡眠障害の原因は共感疲労・二次受傷による神経系の緊張です。侵入型・過覚醒型の違いと、今日からできる回復法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-cannot-sleep"
       date="2026-05-03"
       tags={["compassion", "burnout", "check"]}
@@ -114,6 +114,26 @@ export default function HelperCannotSleep() {
         </ul>
         <p className="text-xs text-stone-400 mt-2">該当する場合は、心療内科・精神科の受診を優先してください。</p>
       </div>
+
+
+      <h2>よくある質問</h2>
+
+      <details className="rounded-xl border border-stone-200 overflow-hidden mb-2">
+        <summary className="px-4 py-3 text-sm font-medium text-stone-700 cursor-pointer hover:bg-stone-50">共感疲労で眠れなくなることはありますか？</summary>
+        <div className="px-4 pb-4 pt-2 text-sm text-stone-600 leading-[1.9]">はい。共感疲労・二次受傷による神経系の慢性的な緊張が、睡眠障害の主な原因になります。「休もうとしても身体がオフにならない」「寝る前に利用者のことが浮かぶ」という状態は、共感疲労の典型的なサインです。</div>
+      </details>
+      <details className="rounded-xl border border-stone-200 overflow-hidden mb-2">
+        <summary className="px-4 py-3 text-sm font-medium text-stone-700 cursor-pointer hover:bg-stone-50">夢に仕事の場面が出てくるのは危険ですか？</summary>
+        <div className="px-4 pb-4 pt-2 text-sm text-stone-600 leading-[1.9]">夢に仕事の場面が繰り返し出てくる状態は、二次受傷・共感疲労の侵入症状の一つです。それ自体は即座に危険ではありませんが、2週間以上続く・日常生活に支障が出ている場合は専門家への相談を検討してください。</div>
+      </details>
+      <details className="rounded-xl border border-stone-200 overflow-hidden mb-2">
+        <summary className="px-4 py-3 text-sm font-medium text-stone-700 cursor-pointer hover:bg-stone-50">夜になると利用者のことを思い出してしまいます</summary>
+        <div className="px-4 pb-4 pt-2 text-sm text-stone-600 leading-[1.9]">これは「侵入症状」と呼ばれる共感疲労・二次受傷のサインです。日中は仕事で意識が占有されているため、静かな夜に未処理の記憶が浮かびやすくなります。就寝前の「書き出す」習慣が有効です。</div>
+      </details>
+      <details className="rounded-xl border border-stone-200 overflow-hidden mb-2">
+        <summary className="px-4 py-3 text-sm font-medium text-stone-700 cursor-pointer hover:bg-stone-50">睡眠薬を飲むべきですか？</summary>
+        <div className="px-4 pb-4 pt-2 text-sm text-stone-600 leading-[1.9]">睡眠薬の使用については医師の判断が必要です。2週間以上眠れない状態が続いている場合は、心療内科・精神科への相談をおすすめします。薬を使うかどうかは医師と相談の上で決めることが重要です。</div>
+      </details>
 
       {/* CV導線 */}
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
