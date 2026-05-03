@@ -5,7 +5,7 @@ import { LineCtaSmall } from "../../components/LineCta"
 export default function HelperAptitudeDoubt() {
   return (
     <ArticleLayout
-      title="支援職に向いていないと感じる｜それは適性の問題ではなく消耗のサインです"
+      title="支援職に向いていないと感じる｜それは消耗のサインかもしれない【共感疲労】"
       description="「自分は支援職に向いていないのかも」と感じたとき、まず知っておいてほしいこと。向いていないと感じる状態の多くは、共感疲労・燃え尽きによる消耗から来ています。"
       url="https://www.ishizue-counseling.jp/articles/helper-aptitude-doubt"
       date="2026-05-03"
