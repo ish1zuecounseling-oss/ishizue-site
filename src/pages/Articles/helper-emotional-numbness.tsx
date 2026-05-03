@@ -5,8 +5,8 @@ import { LineCtaSmall } from "../../components/LineCta"
 export default function HelperEmotionalNumbness() {
   return (
     <ArticleLayout
-      title="感情が麻痺している｜支援職に多い感情麻痺の原因と回復のアプローチ"
-      description="利用者の話に心が動かなくなった、以前のように感じられない——支援職に多い感情麻痺の原因・状態・回復方法を解説します。これは冷たくなったのではなく、消耗のサインです。"
+      title="利用者の話に何も感じない｜支援職の感情麻痺の原因と回復のアプローチ"
+      description="利用者の話に以前のように心が動かない、感情が麻痺している——支援職に多い感情麻痺の原因・状態・回復方法を解説します。冷たくなったのではなく、共感疲労・二次受傷による消耗のサインです。"
       url="https://www.ishizue-counseling.jp/articles/helper-emotional-numbness"
       date="2026-05-03"
       tags={["compassion", "burnout", "check"]}
