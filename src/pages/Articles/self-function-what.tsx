@@ -274,7 +274,7 @@ export default function SelfFunctionWhat() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="concept" exclude={["/articles/self-function-what"]} />
+      <ArticleFooterLinks type="self-function" exclude={["/articles/self-function-what"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と自己心理学・愛着理論・感情労働研究をもとに作成しています。「自己機能」の概念は特定の学派の専門用語ではなく、実践的な自己理解モデルとして使用しています。医学的な診断ではありません。
