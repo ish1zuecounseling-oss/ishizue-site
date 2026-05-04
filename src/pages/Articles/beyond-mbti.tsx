@@ -125,7 +125,7 @@ export default function BeyondMbti() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="self-function" exclude={["/articles/beyond-mbti"]} />
+      <ArticleFooterLinks type="mbti" exclude={["/articles/beyond-mbti"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事はMBTIを自己理解のモデルとして活用しています。MBTIは科学的性格検査ではなく自己理解のためのフレームワークであり、特定のタイプへの断定には使用していません。公認心理師・障害福祉15年の臨床経験をもとに作成しています。
