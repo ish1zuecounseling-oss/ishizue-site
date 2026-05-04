@@ -15,7 +15,7 @@
 import { Link } from "react-router-dom"
 
 type Props = {
-  type?: "check" | "concept" | "symptom" | "jobtype" | "self-function"
+  type?: "check" | "concept" | "symptom" | "jobtype" | "self-function" | "mbti" | "mbti"
   exclude?: string[]
 }
 
@@ -73,6 +73,15 @@ const RECOVERY = [
 ]
 
 // 職種別
+
+
+// MBTI・認知機能クラスター（流入→自己理解への変換）
+const MBTI_CLUSTER = [
+  { href: "/articles/infj-living",              text: "INFJは本当に生きづらいのか" },
+  { href: "/articles/ni-ti-loop",               text: "Ni-Tiループとは何か" },
+  { href: "/articles/empathy-brain-fatigue",    text: "共感しすぎる人はなぜ脳疲労しやすいのか" },
+  { href: "/articles/beyond-mbti",              text: "MBTIを超えた自己理解（統合・到達点）" },
+]
 
 // 自己機能クラスター（Pillar → Hub → Cluster の循環）
 const SELF_FUNCTION = [
@@ -157,7 +166,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       </div>
 
       {/* 症状記事 */}
-      {(type === "check" || type === "symptom" || type === "jobtype" || type === "self-function") && (
+      {(type === "check" || type === "symptom" || type === "jobtype" || type === "self-function" || type === "mbti") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">症状から読む</p>
           <div className="flex flex-col gap-1.5">
@@ -175,7 +184,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       </div>
 
       {/* 自己機能クラスター */}
-      {(type === "concept" || type === "self-function") && (
+      {(type === "concept" || type === "self-function" || type === "mbti") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">自己機能・自己理解</p>
           <div className="flex flex-col gap-1.5">
@@ -184,8 +193,18 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
         </div>
       )}
 
+      {/* MBTI・認知機能クラスター */}
+      {(type === "self-function" || type === "mbti" || type === "concept") && (
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-medium text-stone-600 mb-2">性格診断を超えた自己理解</p>
+          <div className="flex flex-col gap-1.5">
+            <LinkList items={MBTI_CLUSTER} exclude={exclude} />
+          </div>
+        </div>
+      )}
+
       {/* 回復・相談 */}
-      {(type === "check" || type === "concept" || type === "symptom" || type === "self-function") && (
+      {(type === "check" || type === "concept" || type === "symptom" || type === "self-function" || type === "mbti") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">回復・相談</p>
           <div className="flex flex-col gap-1.5">
