@@ -15,7 +15,7 @@
 import { Link } from "react-router-dom"
 
 type Props = {
-  type?: "check" | "concept" | "symptom" | "jobtype"
+  type?: "check" | "concept" | "symptom" | "jobtype" | "self-function"
   exclude?: string[]
 }
 
@@ -73,6 +73,20 @@ const RECOVERY = [
 ]
 
 // 職種別
+
+// 自己機能クラスター（Pillar → Hub → Cluster の循環）
+const SELF_FUNCTION = [
+  { href: "/articles/self-function-what",           text: "自己機能とは何か（ピラー）" },
+  { href: "/articles/self-function-decline",        text: "自己機能が低下するとどうなるか（症状ハブ）" },
+  { href: "/articles/other-centered-living",        text: "他人軸で生きてしまう" },
+  { href: "/articles/emotion-unknown",              text: "感情がわからない" },
+  { href: "/articles/what-do-i-want",               text: "やりたいことがわからない" },
+  { href: "/articles/tired-but-cannot-rest",        text: "疲れているのに休めない" },
+  { href: "/articles/feeling-nothing",              text: "何も感じない・感情が動かない" },
+  { href: "/articles/overthinking-needs-sensation", text: "考えすぎる人に必要なのは感覚" },
+  { href: "/articles/afraid-to-leave-role",         text: "役割を降りるのが怖い（到達点）" },
+]
+
 const JOBTYPES = [
   { href: "/articles/nurse-compassion-fatigue",            text: "看護師の共感疲労" },
   { href: "/articles/care-worker-compassion-fatigue",      text: "介護士の共感疲労" },
@@ -143,7 +157,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       </div>
 
       {/* 症状記事 */}
-      {(type === "check" || type === "symptom" || type === "jobtype") && (
+      {(type === "check" || type === "symptom" || type === "jobtype" || type === "self-function") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">症状から読む</p>
           <div className="flex flex-col gap-1.5">
@@ -160,8 +174,18 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
         </div>
       </div>
 
+      {/* 自己機能クラスター */}
+      {(type === "concept" || type === "self-function") && (
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-medium text-stone-600 mb-2">自己機能・自己理解</p>
+          <div className="flex flex-col gap-1.5">
+            <LinkList items={SELF_FUNCTION} exclude={exclude} />
+          </div>
+        </div>
+      )}
+
       {/* 回復・相談 */}
-      {(type === "check" || type === "concept" || type === "symptom") && (
+      {(type === "check" || type === "concept" || type === "symptom" || type === "self-function") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">回復・相談</p>
           <div className="flex flex-col gap-1.5">
@@ -171,7 +195,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       )}
 
       {/* 職種別 */}
-      {(type === "concept" || type === "jobtype") && (
+      {(type === "concept" || type === "jobtype" || type === "self-function") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">職種別</p>
           <div className="flex flex-col gap-1.5">
