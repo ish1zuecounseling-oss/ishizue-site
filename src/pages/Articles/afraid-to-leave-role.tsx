@@ -164,7 +164,7 @@ export default function AfraidToLeaveRole() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="concept" exclude={["/articles/afraid-to-leave-role"]} />
+      <ArticleFooterLinks type="self-function" exclude={["/articles/afraid-to-leave-role"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
