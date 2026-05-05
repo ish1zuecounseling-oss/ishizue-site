@@ -116,8 +116,14 @@ const CLUSTERS: Record<string, LinkItem[]> = {
     { href: "/articles/school-counselor-compassion-fatigue", text: "スクールカウンセラーの共感疲労" },
   ],
 
+  nervousSystem: [
+    { href: "/articles/always-tense",           text: "常に気が張っている——慢性緊張の正体" },
+    { href: "/articles/safety-makes-sleepy",    text: "安心すると眠くなる理由" },
+    { href: "/articles/body-sensation-unknown", text: "身体感覚がわからない" },
+    { href: "/articles/recovering-feeling",     text: "感情・感覚を取り戻す方法" },
+  ],
+
   // 将来追加予定
-  // nervousSystem: [...],
   // trauma: [...],
   // emotionalLabor: [...],
 }
@@ -134,7 +140,7 @@ const SHOW_RULES: Record<TypeKey, string[]> = {
   "self-function": ["checks", "symptoms", "selfFunction", "mbti", "attachment", "recovery", "jobtypes"],
   "mbti":          ["checks", "symptoms", "selfFunction", "mbti", "recovery"],
   "attachment":    ["checks", "symptoms", "selfFunction", "attachment", "recovery"],
-  "recovery":      ["checks", "symptoms", "concepts", "recovery", "selfFunction"],
+  "recovery":      ["checks", "symptoms", "concepts", "recovery", "nervousSystem", "selfFunction"],
   "jobtype":       ["checks", "symptoms", "concepts", "jobtypes"],
 }
 
@@ -146,7 +152,8 @@ const SECTION_LABELS: Record<string, string> = {
   selfFunction: "自己機能・自己理解",
   mbti:         "性格診断を超えた自己理解",
   attachment:   "愛着・対人パターン",
-  jobtypes:     "職種別",
+  jobtypes:      "職種別",
+  nervousSystem: "神経系・身体感覚",
 }
 
 /* -------------------------------------------------------------------------- */
