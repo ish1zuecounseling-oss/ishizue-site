@@ -15,7 +15,7 @@
 import { Link } from "react-router-dom"
 
 type Props = {
-  type?: "check" | "concept" | "symptom" | "jobtype" | "self-function" | "mbti" | "mbti"
+  type?: "check" | "concept" | "symptom" | "jobtype" | "self-function" | "mbti" | "attachment" | "mbti"
   exclude?: string[]
 }
 
@@ -166,7 +166,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       </div>
 
       {/* 症状記事 */}
-      {(type === "check" || type === "symptom" || type === "jobtype" || type === "self-function" || type === "mbti") && (
+      {(type === "check" || type === "symptom" || type === "jobtype" || type === "self-function" || type === "mbti" || type === "attachment") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">症状から読む</p>
           <div className="flex flex-col gap-1.5">
@@ -184,7 +184,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       </div>
 
       {/* 自己機能クラスター */}
-      {(type === "concept" || type === "self-function" || type === "mbti") && (
+      {(type === "concept" || type === "self-function" || type === "mbti" || type === "attachment") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">自己機能・自己理解</p>
           <div className="flex flex-col gap-1.5">
@@ -203,8 +203,18 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
         </div>
       )}
 
+      {/* 愛着・対人パターン */}
+      {(type === "concept" || type === "self-function" || type === "attachment") && (
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-medium text-stone-600 mb-2">愛着・対人パターン</p>
+          <div className="flex flex-col gap-1.5">
+            <LinkList items={ATTACHMENT} exclude={exclude} />
+          </div>
+        </div>
+      )}
+
       {/* 回復・相談 */}
-      {(type === "check" || type === "concept" || type === "symptom" || type === "self-function" || type === "mbti") && (
+      {(type === "check" || type === "concept" || type === "symptom" || type === "self-function" || type === "mbti" || type === "attachment") && (
         <div className="border-t border-stone-100 pt-3">
           <p className="text-xs font-medium text-stone-600 mb-2">回復・相談</p>
           <div className="flex flex-col gap-1.5">
