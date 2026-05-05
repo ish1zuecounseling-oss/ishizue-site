@@ -96,6 +96,14 @@ const SELF_FUNCTION = [
   { href: "/articles/afraid-to-leave-role",         text: "役割を降りるのが怖い（到達点）" },
 ]
 
+// 愛着・対人パターンクラスター
+const ATTACHMENT = [
+  { href: "/articles/working-model",       text: "ワーキングモデルとは何か" },
+  { href: "/articles/avoidant-attachment", text: "回避型愛着と支援職" },
+  { href: "/articles/anxious-attachment",  text: "不安型愛着とNOが言えない" },
+  { href: "/articles/over-adaptation",     text: "過剰適応と見捨てられ不安" },
+]
+
 const JOBTYPES = [
   { href: "/articles/nurse-compassion-fatigue",            text: "看護師の共感疲労" },
   { href: "/articles/care-worker-compassion-fatigue",      text: "介護士の共感疲労" },
