@@ -152,7 +152,7 @@ export default function AvoidantAttachment() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="self-function" exclude={["/articles/avoidant-attachment"]} />
+      <ArticleFooterLinks type="attachment" exclude={["/articles/avoidant-attachment"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         参考：Ainsworth, M. D. S. et al. (1978). Patterns of Attachment. Erlbaum. / Main, M. & Solomon, J. (1986). Discovery of an insecure-disorganized/disoriented attachment pattern. In T. B. Brazelton & M. W. Yogman (Eds.), Affective development in infancy. Ablex.
