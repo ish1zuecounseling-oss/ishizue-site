@@ -10,7 +10,7 @@ export default function SelfComplexity() {
       description="自己複雑性とは、自己概念が複数の独立した側面を持つ程度のことです。なぜ役割が多い人はメンタルが安定しやすいのか、逆に消耗しやすい構造とは何か、自己機能との関係を解説します。"
       url="https://www.ishizue-counseling.jp/articles/self-complexity"
       date="2026-05-03"
-      tags={["burnout", "compassion", "boundary"]}
+      tags={["self-function", "self-complexity", "burnout"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         「自己複雑性が高い人はストレスに強い」——この概念が自己機能・役割依存と深くつながっています。
@@ -77,7 +77,7 @@ export default function SelfComplexity() {
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">① 「役割外の自分」を意識的に育てる</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">趣味・創作・自然・スポーツ・学びなど、「支援者」としての評価に関係しない活動が自己複雑性を高めます。「役に立たなくてもいい時間」がバッファとして機能します。</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">趣味・創作・自然・スポーツ・学びなど、「支援者」としての評価に関係しない活動が自己複雑性を高めます。「役に立たなくてもいい時間」がバッファとして機能します。なお自己複雑性の低下は<a href="/articles/impostor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群</a>とも深く関連します——一つの役割に自己価値が集中するほど、「その役割でバレることへの恐れ」が強まります。</p>
       </div>
 
       <div className="card">
