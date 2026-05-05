@@ -195,7 +195,7 @@ export default function WorkingModel() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="self-function" exclude={["/articles/working-model"]} />
+      <ArticleFooterLinks type="attachment" exclude={["/articles/working-model"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         参考：Bowlby, J. (1969). Attachment and Loss, Vol. 1. Basic Books. / Main, M. (1990). Cross-cultural studies of attachment organization. Human Development, 33, 48–61.
