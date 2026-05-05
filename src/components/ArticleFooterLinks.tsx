@@ -77,8 +77,11 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   recovery: [
     { href: "/articles/compassion-fatigue-recovery",        text: "共感疲労からの回復方法" },
     { href: "/articles/compassion-fatigue-recovery-period", text: "回復期間の目安" },
-    { href: "/articles/compassion-fatigue-medical-support", text: "何科に相談すべきか" },
+    { href: "/articles/why-self-care-doesnt-work",          text: "セルフケアが効かない理由" },
+    { href: "/articles/safe-base",                          text: "安全基地とは——回復の土台" },
+    { href: "/articles/recovering-feeling",                 text: "感情・感覚を取り戻す方法" },
     { href: "/articles/helper-mental-recovery",             text: "休んでも回復しない理由" },
+    { href: "/articles/compassion-fatigue-medical-support", text: "何科に相談すべきか" },
   ],
 
   selfFunction: [
