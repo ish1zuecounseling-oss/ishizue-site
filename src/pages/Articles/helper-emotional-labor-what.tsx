@@ -5,7 +5,7 @@ import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 export default function HelperEmotionalLaborWhat() {
   return (
     <ArticleLayout
-      title="感情労働とは？意味・具体例・疲れる理由と対処法【支援職向けにわかりやすく解説】"
+      title="感情労働とは｜仕事で演じ続けて疲れる理由・脳疲労・自己消耗への影響と回復"
       description="感情労働とは何かを、意味・具体例・種類（表層演技・深層演技）・疲れる理由・対処法までわかりやすく解説。看護師・介護職・福祉職など支援職が消耗しやすい構造を研究ベースで解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-emotional-labor-what"
       date="2026-04-20"
