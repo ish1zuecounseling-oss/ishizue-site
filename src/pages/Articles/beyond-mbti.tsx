@@ -13,7 +13,7 @@ export default function BeyondMbti() {
       tags={["burnout", "compassion"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「INFJです」で終わると、回復につながりません。タイプの先に何があるかが重要です。
+        MBTI診断を受けた。タイプがわかった。でも「で、どうすればいいの？」となっていませんか？タイプ名を知ることと、消耗から回復することは別の話です。この記事では、<strong>タイプの先にある自分の取扱説明書の作り方</strong>を解説します。
       </p>
 
       <p>
