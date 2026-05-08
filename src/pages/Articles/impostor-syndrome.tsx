@@ -32,6 +32,10 @@ export default function ImpostorSyndrome() {
         「できているのに自信がない」——それは性格の問題ではなく、構造として起きています。
       </p>
 
+      <div className="mb-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-500">
+        チェックで当てはまった方へ → この記事では、なぜそうなるのかを構造から解説します。
+      </div>
+
       <div className="mb-6 p-4 rounded-xl" style={{ background: "#fefce8", border: "1px solid #fde68a" }}>
         <p className="text-sm font-medium mb-2" style={{ color: "#92400e" }}>こんな感覚はありませんか？</p>
         <ul className="text-xs space-y-1.5" style={{ color: "#b45309" }}>
@@ -59,6 +63,25 @@ export default function ImpostorSyndrome() {
         しかし「自信の問題」「思い込み」として扱うアプローチは、多くの場合効果が限定的です。
         なぜなら、<strong>インポスター症候群は自信の量の問題ではなく、自己の構造の問題</strong>だからです。
       </p>
+
+
+      <h2>よくある誤解——「自信の問題」ではない</h2>
+      <div className="card space-y-2 text-sm">
+        {[
+          { wrong: "自信をつければ解決する",              right: "自信ではなく構造の問題。役割依存・自己複雑性低下が原因" },
+          { wrong: "能力が低いから仕方ない",              right: "客観的な実力とは無関係に起きる。高い実力を持つ人ほど強い" },
+          { wrong: "ポジティブに考えれば治る",            right: "思考パターンの変更だけでは根本的な構造は変わらない" },
+          { wrong: "経験を積めば自然に解消される",        right: "構造を変えなければ、成功体験を積んでもインポスター感は続く" },
+        ].map(({ wrong, right }) => (
+          <div key={wrong} className="flex gap-3">
+            <span className="text-stone-300 text-xs flex-shrink-0 mt-0.5">❌</span>
+            <div>
+              <p className="text-stone-500 line-through text-xs">{wrong}</p>
+              <p className="text-stone-700 text-xs mt-0.5">→ {right}</p>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <h2>本質：役割に自己が寄りすぎている</h2>
       <p>
