@@ -13,7 +13,7 @@ export default function LivingByExpectations() {
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「期待に応え続けること」が自分の価値を守る方法になっていませんか。
+        「期待に応えられた自分には価値がある」「失望させたら終わり」——そんな感覚で動いていませんか？他人の期待を価値の基準にして生きてきた人には、消耗しやすい<strong>特定の構造</strong>があります。
       </p>
 
       <p>
