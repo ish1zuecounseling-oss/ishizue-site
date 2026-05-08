@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function TryingTooHard() {
   return (
     <ArticleLayout
-      title="頑張りすぎる人の心理｜「もっと頑張らなければ」が止まらない構造"
-      description="「もっと頑張らなければ」が止まらない——頑張りすぎる人の心理には、ワーキングモデル・過剰適応・自己価値の条件付けという構造があります。止まれない理由と回復を解説します。"
+      title="頑張りすぎる人の心理｜止まれない・休めない理由と降りるための視点"
+      description="「まだ頑張れる」「十分ではない」が止まらない——頑張りすぎる人が止まれない構造・ワーキングモデルとの関係・降りるための最初の一手を解説します。"
       url="https://www.ishizue-counseling.jp/articles/trying-too-hard"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
