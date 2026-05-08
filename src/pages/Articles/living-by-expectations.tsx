@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function LivingByExpectations() {
   return (
     <ArticleLayout
-      title="他人の期待で生きてしまう｜「期待に応えることで価値を維持してきた人」へ"
-      description="「期待に応えなければ価値がない」という感覚で生きてきた人の消耗パターン。期待を価値基準にしてきた理由・消耗の構造・期待から自分を取り戻す方法を解説します。"
+      title="他人の期待で生きてしまう｜期待に応えることで消耗する構造と自分を取り戻す方法"
+      description="「期待に応えなければ価値がない」——この感覚はなぜ生まれるのか。見捨てられ不安・条件付き自己価値・ワーキングモデルとの関係と回復の方向を解説します。"
       url="https://www.ishizue-counseling.jp/articles/living-by-expectations"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
