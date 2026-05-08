@@ -188,6 +188,12 @@ export default function ImpostorCheck() {
         このチェックは医学的診断ではなく、自分の状態に気づくための目安です。
       </p>
 
+      <div className="my-4 p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2">
+        <p className="text-xs font-medium text-stone-600">チェック後に読む</p>
+        <a href="/articles/impostor-syndrome" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">→ インポスター症候群とは｜構造からの理解</a>
+        <a href="/articles/safe-base" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">→ 安全基地とは——回復の土台</a>
+      </div>
+
       <ArticleFooterLinks type="self-function" exclude={["/articles/impostor-check"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
