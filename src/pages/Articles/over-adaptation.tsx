@@ -13,7 +13,7 @@ export default function OverAdaptation() {
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「いい人でいること」は美徳ではなく、消耗の原因になっていることがあります。
+        「迷惑をかけてはいけない」「空気を壊したくない」「素の自分を出すのが怖い」——こんな感覚で毎日を過ごしていませんか？これは協調性の高さではなく、<strong>見捨てられ不安を背景にした過剰適応</strong>として起きています。
       </p>
 
       <p>
