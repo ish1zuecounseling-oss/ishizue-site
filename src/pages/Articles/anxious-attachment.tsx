@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function AnxiousAttachment() {
   return (
     <ArticleLayout
-      title="不安型愛着とNOが言えない｜見捨てられ不安と断れないパターンの関係"
-      description="「断ると嫌われる」「関係が壊れる気がして断れない」——不安型愛着の見捨てられ不安が断れないパターンを作る仕組みと、支援職での消耗との関係を解説します。"
+      title="不安型愛着とNOが言えない｜断れない・見捨てられ不安の仕組みと対処"
+      description="「断ると嫌われる」「関係が壊れる気がして断れない」——不安型愛着と見捨てられ不安が断れないパターンを作る仕組みと、支援職での消耗との関係を解説します。"
       url="https://www.ishizue-counseling.jp/articles/anxious-attachment"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
