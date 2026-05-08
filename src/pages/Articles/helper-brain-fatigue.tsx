@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function HelperBrainFatigue() {
   return (
     <ArticleLayout
-      title="脳疲労とは何か｜頭が休まらない・考えすぎる状態の原因と回復方法"
-      description="「しっかり休んだのに疲れが取れない」——それは脳そのものが疲れているサインかもしれません。DMN・感情労働・共感疲労と脳疲労の関係、支援職に多い理由・回復方法を解説します。"
+      title="脳疲労とは何か｜症状・原因・回復方法——「休んでも疲れが取れない」を解説"
+      description="脳疲労の症状・原因・回復方法を解説します。「しっかり休んだのに疲れが取れない」「頭が止まらない」「考えすぎる」——これは脳そのものが疲れているサインかもしれません。支援職向けに解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-brain-fatigue"
       date="2026-04-24"
       tags={["burnout", "boundary", "compassion"]}
