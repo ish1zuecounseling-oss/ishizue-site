@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function AvoidantAttachment() {
   return (
     <ArticleLayout
-      title="回避型愛着と支援職｜一人で抱え込む・助けを求められないパターンの背景"
-      description="回避型愛着スタイルを持つ支援職は、消耗しても助けを求めず一人で抱え込みやすい構造があります。なぜそのパターンが形成され、バーンアウトにつながるのかを解説します。"
+      title="回避型愛着と支援職｜一人で抱え込む・助けを求められない理由と変え方"
+      description="「助けを求めることへの強い抵抗がある」「弱さを見せてはいけない」——回避型愛着が支援職でバーンアウトにつながる構造と、少しずつ変える方法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/avoidant-attachment"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
