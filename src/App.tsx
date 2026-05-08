@@ -13,6 +13,9 @@ import ShienShokuLP from "./pages/ShienShokuLP";
 import Articles from "./pages/Articles";
 import Profile from "./pages/Profile";
 import Chronicle from "./pages/admin/Chronicle";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TokushoPage from "./pages/TokushoPage";
+import ServiceTerms from "./pages/ServiceTerms";
 import ScrollToTop from "./components/ScrollToTop";
 
 /* -------------------------------------------------------------------------- */
@@ -23,12 +26,6 @@ type ArticleModule = { default: React.ComponentType };
 
 const articlePages = import.meta.glob<ArticleModule>("./pages/Articles/*.tsx", { eager: true });
 
-/**
- * ファイル名 → URLスラッグ変換
- * BurnOut.tsx      → burn-out
- * SecondaryTrauma  → secondary-trauma
- * FAQ              → faq（連続大文字はまとめて小文字化）
- */
 function fileNameToSlug(filePath: string): string {
   const base = filePath
     .replace("./pages/Articles/", "")
@@ -158,6 +155,9 @@ function PublicPages() {
         <Route path="/for-helpers" element={<ShienShokuLP />} />
         <Route path="/articles"    element={<Articles />} />
         <Route path="/profile"     element={<Profile />} />
+        <Route path="/privacy"     element={<PrivacyPolicy />} />
+        <Route path="/tokusho"     element={<TokushoPage />} />
+        <Route path="/terms"       element={<ServiceTerms />} />
         {articleRoutes}
         <Route path="*"            element={<NotFound />} />
       </Routes>
@@ -174,16 +174,7 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        {/*
-         * 管理ページ — 成長の書
-         * Layout（ヘッダー・フッター）を外してフルスクリーン表示。
-         * URL: /admin/chronicle
-         * Chronicle コンポーネント内でパスワードガードを実装済み。
-         * meta robots: noindex のため検索エンジンには表示されない。
-         */}
         <Route path="/admin/chronicle" element={<Chronicle />} />
-
-        {/* 公開ページ（ヘッダー・フッターあり） */}
         <Route path="/*" element={<PublicPages />} />
       </Routes>
     </BrowserRouter>
