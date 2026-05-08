@@ -63,15 +63,16 @@ export default function ImpostorCheck20() {
 
   return (
     <ArticleLayout
-      title="インポスター症候群チェック（20項目）｜「できているのに自信がない」状態を確認する"
-      description="「いつかバレる」「運が良かっただけ」——インポスター症候群のセルフチェック。20項目で今の状態を確認し、なぜ起きるのか・どう変えるかを解説します。支援職向け。"
+      title="インポスター症候群チェック（20項目診断）｜「できているのに自信がない」は当てはまる？"
+      description="インポスター症候群の無料セルフ診断（20項目）。「いつかバレる」「たまたまうまくいっただけ」——YESの数を数えるだけで今の状態がわかります。なぜ起きるか・抜け出す方向も解説。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
       date="2026-05-08"
       tags={["burnout", "boundary", "check"]}
     >
-      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「評価されても自信がない」「いつかバレる気がする」——その感覚がどのくらいあるか確認してみてください。
-      </p>
+      <div className="mb-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-600">
+        <strong>今すぐチェックできます。</strong> 20項目にYES/NOで答えるだけ（約2分）。<br />
+        「いつかバレる」「評価されても自信がない」——その感覚がどのくらいあるかわかります。
+      </div>
 
       <p>
         インポスター症候群は「性格の問題」ではなく、<strong>役割依存・自己複雑性の低下・他人軸という構造</strong>から起きています。
