@@ -29,7 +29,7 @@ export default function AvoidantAttachment() {
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「弱さを見せてはいけない」「一人でやり遂げなければ」——それは回避型愛着パターンかもしれません。
+        「消耗しても誰にも言えない」「助けを求めることへの強い抵抗がある」「弱みを見せると価値が下がる気がする」——そんなパターンはありませんか？これは意志の強さではなく、<strong>幼少期から形成された回避型愛着パターン</strong>から来ています。
       </p>
 
       <p>
