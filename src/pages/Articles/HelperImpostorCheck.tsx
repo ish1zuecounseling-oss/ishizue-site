@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 type Category = {
   id:      string
@@ -133,7 +134,6 @@ function ImpostorCheckWidget() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 3)
 
-  // グループ別集計（A〜D）
   const groupCounts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 }
   CATEGORIES.forEach((cat) => { groupCounts[cat.group] += getCount(cat.id) })
   const topGroup = Object.entries(groupCounts).reduce((a, b) => a[1] >= b[1] ? a : b)[0]
@@ -144,8 +144,6 @@ function ImpostorCheckWidget() {
       borderRadius: "20px", padding: "24px 20px",
       color: "#e2e8f0", marginBottom: "2rem", fontFamily: "system-ui, sans-serif",
     }}>
-
-      {/* タイトル */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
         <div>
           <p style={{ fontSize: "16px", fontWeight: 700, color: "#f1f5f9", marginBottom: "4px" }}>
@@ -161,7 +159,6 @@ function ImpostorCheckWidget() {
         </div>
       </div>
 
-      {/* カテゴリ別チェックリスト */}
       <div style={{ display: "flex", flexDirection: "column", gap: "14px", marginBottom: "20px" }}>
         {CATEGORIES.map((cat) => {
           const count = getCount(cat.id)
@@ -226,7 +223,6 @@ function ImpostorCheckWidget() {
         })}
       </div>
 
-      {/* 確認ボタン */}
       {!showResult && (
         <button onClick={() => setShowResult(true)} style={{
           width: "100%", padding: "14px", background: "#7EB8A4", color: "#fff",
@@ -236,10 +232,8 @@ function ImpostorCheckWidget() {
         </button>
       )}
 
-      {/* 結果 */}
       {showResult && (
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-
           {totalChecked === 0 ? (
             <div style={{ padding: "16px", background: "rgba(126,184,164,0.12)",
               border: "1px solid rgba(126,184,164,0.3)", borderRadius: "12px" }}>
@@ -252,7 +246,6 @@ function ImpostorCheckWidget() {
             </div>
           ) : (
             <>
-              {/* グループ別メッセージ */}
               {groupCounts[topGroup] > 0 && (
                 <div style={{ padding: "16px", background: "rgba(255,255,255,0.06)",
                   borderLeft: "4px solid #7EB8A4", borderRadius: "12px" }}>
@@ -267,8 +260,6 @@ function ImpostorCheckWidget() {
                   </p>
                 </div>
               )}
-
-              {/* 上位カテゴリ */}
               <p style={{ fontSize: "13px", color: "#94a3b8" }}>
                 今よく出ているパターン（上位{topCategories.length}つ）
               </p>
@@ -293,8 +284,6 @@ function ImpostorCheckWidget() {
               ))}
             </>
           )}
-
-          {/* CTA */}
           <div style={{ padding: "16px", background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", textAlign: "center" as const }}>
             <p style={{ fontSize: "14px", color: "#f1f5f9", fontWeight: 600, marginBottom: "4px" }}>
@@ -312,7 +301,6 @@ function ImpostorCheckWidget() {
               勧誘なし ／ 1回のみでもOK
             </p>
           </div>
-
           <button onClick={() => { setAnswers({}); setShowResult(false) }}
             style={{ background: "none", border: "none", color: "#475569",
               fontSize: "12px", cursor: "pointer", textDecoration: "underline", padding: "4px" }}>
@@ -327,8 +315,8 @@ function ImpostorCheckWidget() {
 export default function HelperImpostorCheck() {
   return (
     <ArticleLayout
-      title="支援職の「自分の頑張りを認められない」現在地チェック｜インポスター現象8パターン"
-      description="「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。自分の努力を正当に評価できない思考のクセに気づくためのツールです。"
+      title="インポスター症候群 テスト｜「いつかバレる」「運が良かっただけ」は当てはまる？支援職向け24項目チェック"
+      description="インポスター症候群（詐欺師症候群）のセルフテスト。「いつかバレる」「成功は運のおかげ」——8パターン24項目で今の状態を確認。支援職に多い思考のクセとその背景・抜け出し方を解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-impostor-check"
       date="2026-04-12"
       tags={["burnout", "boundary", "check", "compassion"]}
@@ -361,6 +349,9 @@ export default function HelperImpostorCheck() {
         インポスター現象は「性格の問題」ではありません。
         気づいて、パターンに名前をつけることが、変化の第一歩になります。
       </p>
+
+      <ArticleFooterLinks type="self-function" exclude={["/articles/helper-impostor-check"]} />
+
       <p className="check-disclaimer">
         このチェックは診断ではなく、自分の思考パターンに気づくための目安です。
         気になることがあれば専門家への相談をおすすめします。
