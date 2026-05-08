@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function BeyondMbti() {
   return (
     <ArticleLayout
-      title="MBTIを超えた自己理解｜タイプ診断の先にある「自分の取扱説明書」"
-      description="MBTIは自己理解の入口として有用ですが、「タイプ固定」では回復につながりません。タイプの先にある疲れ方・消耗パターン・回復方法の理解が、本当の自己理解です。"
+      title="MBTIを超えた自己理解｜「タイプ名」の先にある消耗パターンと回復方法"
+      description="「INFJです」で終わると回復につながりません。タイプ診断の先にある、自分の疲れ方・消耗パターン・回復方法の理解が本当の自己理解です。"
       url="https://www.ishizue-counseling.jp/articles/beyond-mbti"
       date="2026-05-03"
       tags={["burnout", "compassion"]}
