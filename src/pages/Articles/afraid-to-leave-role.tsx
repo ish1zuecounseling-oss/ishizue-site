@@ -6,14 +6,14 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function AfraidToLeaveRole() {
   return (
     <ArticleLayout
-      title="役割を降りるのが怖い｜「役に立たない自分」への恐れと自己価値の話"
-      description="「役割がない自分には価値がない」という感覚はなぜ生まれるのか。支援職・真面目な人に多い役割依存の構造・降りることへの恐れの正体・自己価値の回復を解説します。"
+      title="役割を降りるのが怖い｜「役に立たない自分」への恐れと自己価値を取り戻す方法"
+      description="「何もしていない自分には価値がない」——この感覚はなぜ生まれるのか。役割依存・条件付き自己価値の構造と、役割なしでも存在できるようになる視点を解説します。"
       url="https://www.ishizue-counseling.jp/articles/afraid-to-leave-role"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「何もしていない自分には価値がない」——その感覚の正体を一緒に見ていきましょう。
+        「役に立っていない自分には価値がない」「何もしていないと不安になる」「支援者以外の自分がわからない」——そんな感覚はありませんか？役割を降りることへの恐れは、<strong>自己価値が役割に紐づいている状態</strong>から来ています。
       </p>
 
       <p>
