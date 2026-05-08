@@ -21,15 +21,15 @@ const FAQ_ITEMS = [
 export default function InfjLiving() {
   return (
     <ArticleLayout
-      title="INFJは本当に生きづらいのか｜生きづらさの正体と自己理解への入口"
-      description="INFJが生きづらいとされる理由・なぜINFJは疲れやすいのか・共感疲労や脳疲労との関係。MBTIを自己理解の入口として活用しながら、本質的な回復につなげる視点を解説します。"
+      title="INFJは本当に生きづらいのか｜疲れやすい理由・共感疲労・脳疲労との関係"
+      description="「INFJだから仕方ない」で終わらせず、なぜ生きづらいのかを理解することが回復の入口です。認知スタイル・感情労働・脳疲労との関係と対処法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/infj-living"
       date="2026-05-03"
       tags={["burnout", "compassion"]}
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「INFJだから生きづらい」ではなく「なぜ生きづらいのか」を理解することが、回復の入口になります。
+        「共感しすぎて消耗する」「考えすぎて動けない」「人と深く関わりたいのに疲れてしまう」——INFJの生きづらさを感じていませんか？「INFJだから仕方ない」で終わらせず、<strong>なぜそうなるのかを構造から理解する</strong>ことが回復の入口になります。
       </p>
 
       <p>
