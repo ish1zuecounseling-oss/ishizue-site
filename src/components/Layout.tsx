@@ -329,7 +329,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </motion.div>
         )}
       </AnimatePresence>
-
+{/* 法的情報リンク */}
+<div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] text-stone-400 mb-4">
+  <Link to="/privacy" className="hover:text-stone-600 transition-colors underline underline-offset-2">
+    プライバシーポリシー
+  </Link>
+  <span className="text-stone-300">|</span>
+  <Link to="/tokusho" className="hover:text-stone-600 transition-colors underline underline-offset-2">
+    特定商取引法に基づく表記
+  </Link>
+  <span className="text-stone-300">|</span>
+  <Link to="/terms" className="hover:text-stone-600 transition-colors underline underline-offset-2">
+    ご利用規約・緊急時対応
+  </Link>
+</div>
       {/* ================================================================
           PAGE CONTENT
       ================================================================ */}
