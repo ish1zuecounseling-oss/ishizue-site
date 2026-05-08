@@ -350,6 +350,19 @@ export default function HelperImpostorCheck() {
         気づいて、パターンに名前をつけることが、変化の第一歩になります。
       </p>
 
+      <div className="my-6 p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2">
+        <p className="text-xs font-medium text-stone-600">チェック後に読む</p>
+        <a href="/articles/impostor-syndrome" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
+          → インポスター症候群とは｜「できているのに自信がない」の正体と構造
+        </a>
+        <a href="/articles/impostor-check-20" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
+          → インポスター症候群チェック（20項目・別バージョン）
+        </a>
+        <a href="/articles/safe-base" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
+          → 安全基地とは——回復に必要な「安心できる場所」
+        </a>
+      </div>
+
       <ArticleFooterLinks type="self-function" exclude={["/articles/helper-impostor-check"]} />
 
       <p className="check-disclaimer">
