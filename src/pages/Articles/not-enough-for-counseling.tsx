@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function NotEnoughForCounseling() {
   return (
     <ArticleLayout
-      title="カウンセリングを受けるほどではないと思っている方へ"
-      description="「病院に行くほどではない」「カウンセリングは深刻な人が行くもの」——この思い込みが相談を遅らせます。どんな状態でカウンセリングを使えるのか、何ができるのかを解説します。"
+      title="カウンセリングを受けるほどではないと思っている方へ｜その「ほどではない」が消耗のサイン"
+      description="「このくらいで相談は大げさ」「もっとひどくなってから」——その判断が消耗を深めます。どんな状態で相談していいのか、何が得られるのかを解説します。"
       url="https://www.ishizue-counseling.jp/articles/not-enough-for-counseling"
       date="2026-05-03"
       tags={["burnout", "compassion"]}
