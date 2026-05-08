@@ -13,7 +13,7 @@ export default function TryingTooHard() {
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「頑張りすぎてしまう」のは意志の強さではなく、止まれない構造の問題です。
+        「まだ十分ではない」「もっとできるはず」「休んでいる場合じゃない」——こんな感覚が止まらない状態はありませんか？頑張りすぎてしまうのは意志の強さではなく、<strong>止まると何かを失うという感覚から来ている構造の問題</strong>です。
       </p>
 
       <p>
