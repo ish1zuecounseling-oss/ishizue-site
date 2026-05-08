@@ -13,7 +13,7 @@ export default function FeelingNothing() {
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「何も感じない」——それは感情がないのではなく、感情への回路が閉じているサインかもしれません。
+        「楽しいはずなのに楽しめない」「何も感じられない」——あなたにも心当たりはありませんか？これは冷たい性格でも感情が乏しいからでもなく、<strong>自己機能が消耗した状態</strong>から起きています。
       </p>
 
       <p>
