@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function TooConsiderate() {
   return (
     <ArticleLayout
-      title="人に気を遣いすぎて疲れる｜「気を遣う人」が消耗する構造と回復"
-      description="「人に気を遣いすぎて疲れる」「相手の反応が気になって仕方ない」——これは繊細さではなく自己機能・他人軸・感情労働の消耗から起きています。構造と回復方法を解説します。"
+      title="人に気を遣いすぎて疲れる｜「人といると消耗する」理由と回復方法"
+      description="「人に気を遣いすぎて疲れる」「一人になってやっとほっとする」——これは繊細さではなく、他者感情の常時モニタリングによる消耗です。構造と回復を解説します。"
       url="https://www.ishizue-counseling.jp/articles/too-considerate"
       date="2026-05-03"
       tags={["compassion", "burnout", "boundary"]}
