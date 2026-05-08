@@ -85,6 +85,8 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   ],
 
   selfFunction: [
+    { href: "/articles/impostor-syndrome",  text: "インポスター症候群とは（自信がない・バレる恐れ）" },
+    { href: "/articles/impostor-check-20", text: "インポスター症候群チェック（20項目）" },
     { href: "/articles/self-function-what",           text: "自己機能とは何か（ピラー）" },
     { href: "/articles/self-function-decline",        text: "自己機能が低下するとどうなるか（症状ハブ）" },
     { href: "/articles/other-centered-living",        text: "他人軸で生きてしまう" },
