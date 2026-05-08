@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function WorkingModel() {
   return (
     <ArticleLayout
-      title="ワーキングモデルとは何か｜「人との関係の前提」が自己機能・他人軸に与える影響"
-      description="ワーキングモデル（内的作業モデル）とは、幼少期の愛着体験から形成される「他者は信頼できるか」「自分には価値があるか」という対人テンプレートです。他人軸・自己機能低下・支援職消耗との関係を解説します。"
+      title="ワーキングモデル（内的作業モデル）とは何か｜断れない・他人軸・自己否定との関係"
+      description="ワーキングモデル（内的作業モデル）とは、幼少期の愛着から形成される「人との関係の前提」です。断れない・他人軸・自己否定はなぜ起きるのか。大人になっても変えられるかを解説します。"
       url="https://www.ishizue-counseling.jp/articles/working-model"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
