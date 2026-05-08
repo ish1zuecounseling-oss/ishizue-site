@@ -13,7 +13,7 @@ export default function TooConsiderate() {
       tags={["compassion", "burnout", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「気を遣いすぎる」のは優しさではなく、消耗の構造かもしれません。
+        「人といると疲れる」「一人になってやっとほっとする」「相手の機嫌が気になって仕方ない」——そんな状態が続いていませんか？これは繊細な性格の問題ではなく、<strong>他者感情を常時モニタリングしてしまう構造</strong>から起きています。
       </p>
 
       <p>
