@@ -13,7 +13,7 @@ export default function NotEnoughForCounseling() {
       tags={["burnout", "compassion"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        カウンセリングは「深刻な人が使うもの」ではありません。「整理したい人が使うもの」です。
+        「このくらいでカウンセリングは大げさ」「もっとひどくなってから行けばいい」——そう思っていませんか？実は、<strong>「ほどではない」と感じるほど消耗が深まっている</strong>ことがあります。カウンセリングは深刻な人が使うものではなく、整理したい人が使うものです。
       </p>
 
       <p>
