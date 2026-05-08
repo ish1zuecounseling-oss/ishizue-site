@@ -198,26 +198,30 @@ function Home() {
           </LegalModal>
         )}
 {activeModal === "cancel" && (
-  <LegalModal isOpen title={modalTitleMap.cancel} onClose={closeModal}>
-    <div className="space-y-6 text-stone-600 leading-loose text-sm">
-      <h2 ...>キャンセルポリシー</h2>
-      <ul className="divide-y divide-stone-100">
-        {[
-          { timing: "24時間前までのキャンセル", fee: "無料" },
-          { timing: "24時間以内のキャンセル",   fee: "料金の 50%" },
-          { timing: "当日・無断キャンセル",     fee: "料金の 100%" },
-        ].map(...)}
-      </ul>
-      <p className="text-stone-500">やむを得ない事情がある場合は個別にご相談ください。</p>
-      {/* ↓ 追加 */}
-      <div className="text-xs text-stone-400 space-y-1 pt-3 border-t border-stone-100">
-        <p>・日程変更は前日24時間前まで1回無料で承ります。</p>
-        <p>・通信トラブル等の不測の事態は個別対応いたします。</p>
-        <p>・メールカウンセリングは返信開始後のキャンセルは使用回数分を申し受けます。</p>
-      </div>
-    </div>
-  </LegalModal>
-)}
+          <LegalModal isOpen title={modalTitleMap.cancel} onClose={closeModal}>
+            <div className="space-y-6 text-stone-600 leading-loose text-sm">
+              <h2 className="text-lg font-medium text-stone-900 border-b border-stone-100 pb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>キャンセルポリシー</h2>
+              <ul className="divide-y divide-stone-100">
+                {[
+                  { timing: "24時間前までのキャンセル", fee: "無料" },
+                  { timing: "24時間以内のキャンセル",   fee: "料金の 50%" },
+                  { timing: "当日・無断キャンセル",     fee: "料金の 100%" },
+                ].map(({ timing, fee }) => (
+                  <li key={timing} className="flex justify-between py-3 gap-4">
+                    <span className="text-stone-500">{timing}</span>
+                    <span className="font-medium text-stone-800 flex-shrink-0">{fee}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-stone-500">やむを得ない事情がある場合は個別にご相談ください。</p>
+              <div className="text-xs text-stone-400 space-y-1 pt-3 border-t border-stone-100">
+                <p>・日程変更は前日24時間前まで1回無料で承ります。</p>
+                <p>・通信トラブル等の不測の事態は個別対応いたします。</p>
+                <p>・メールカウンセリングは返信開始後のキャンセルは使用回数分を申し受けます。</p>
+              </div>
+            </div>
+          </LegalModal>
+        )}
         {activeModal === "sent" && (
           <LegalModal isOpen title="送信完了" onClose={closeModal}>
             <div className="text-center space-y-6 py-3">
