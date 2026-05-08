@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function FeelingNothing() {
   return (
     <ArticleLayout
-      title="何も感じない・感情が動かない｜空虚感の正体と自己機能回復のアプローチ"
-      description="「何も感じない」「感情が動かない」「楽しいはずなのに楽しめない」——これは冷たさではなく自己機能の消耗サインです。空虚感の正体・なぜ起きるか・感覚を取り戻す方法を解説します。"
+      title="何も感じない・感情が動かない｜空虚感の原因と感覚を取り戻す方法"
+      description="「楽しいはずなのに楽しめない」「何も感じられない」——これは冷たさではなく自己機能の消耗サインです。なぜ起きるのか・どう取り戻すかを解説します。"
       url="https://www.ishizue-counseling.jp/articles/feeling-nothing"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
@@ -112,7 +112,7 @@ export default function FeelingNothing() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="concept" exclude={["/articles/feeling-nothing"]} />
+      <ArticleFooterLinks type="self-function" exclude={["/articles/feeling-nothing"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
