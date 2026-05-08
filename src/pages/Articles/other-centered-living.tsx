@@ -29,7 +29,7 @@ export default function OtherCenteredLiving() {
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「自分がない」「いつも人の期待で動いている」——それは自己軸が消えているサインかもしれません。
+        「本当はどうしたい？」と聞かれて答えが出てこない。誰かに喜ばれると安心するが、一人になると空虚になる——そんな状態はありませんか？これは自己軸が消え、<strong>他人軸だけで生きている状態</strong>から起きています。
       </p>
 
       <p>
