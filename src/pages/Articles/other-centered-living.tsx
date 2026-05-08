@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function OtherCenteredLiving() {
   return (
     <ArticleLayout
-      title="他人軸で生きてしまう｜人の期待で動く状態の仕組みと自分軸の取り戻し方"
-      description="他人の期待・評価・感情で動いてしまう「他人軸」の状態はなぜ生まれるのか。自己機能低下との関係・支援職に多い理由・自分軸を取り戻すためのアプローチを解説します。"
+      title="他人軸で生きてしまう｜「自分がない」状態の原因と自分軸を取り戻す方法"
+      description="「自分がない」「いつも人の期待で動いている」——他人軸の状態はなぜ生まれるのか。自己機能低下・愛着との関係・自分軸を取り戻すための視点を解説します。"
       url="https://www.ishizue-counseling.jp/articles/other-centered-living"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
@@ -133,6 +133,9 @@ export default function OtherCenteredLiving() {
       </div>
 
       <p className="text-sm text-stone-500">
+        愛着との関係→ <Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデルとは</Link> ／ <Link to="/articles/anxious-attachment" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">不安型愛着とNOが言えない</Link>
+      </p>
+      <p className="text-sm text-stone-500">
         自己機能について→ <Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能とは何か</Link>
       </p>
 
@@ -193,7 +196,7 @@ export default function OtherCenteredLiving() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="concept" exclude={["/articles/other-centered-living"]} />
+      <ArticleFooterLinks type="self-function" exclude={["/articles/other-centered-living"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
