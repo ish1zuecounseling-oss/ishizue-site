@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function OverAdaptation() {
   return (
     <ArticleLayout
-      title="過剰適応と見捨てられ不安｜「いい人でいる」の裏にある消耗の構造"
-      description="「迷惑をかけてはいけない」「期待に応えなければ」という過剰適応の裏には見捨てられ不安があります。支援職に多いこのパターンと自己機能消耗の関係を解説します。"
+      title="過剰適応と見捨てられ不安｜「いい人でいる」ことで消耗する理由と回復"
+      description="「迷惑をかけてはいけない」「期待に応えなければ」——その裏にある見捨てられ不安の構造と、支援職に多い過剰適応の消耗パターン・回復方法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/over-adaptation"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
