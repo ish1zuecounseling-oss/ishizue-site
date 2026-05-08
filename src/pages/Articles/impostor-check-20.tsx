@@ -168,6 +168,23 @@ export default function ImpostorCheck20() {
         </div>
       )}
 
+
+      {/* チェック→ピラー遷移ブリッジ */}
+      <div className="my-6 p-4 rounded-2xl border border-stone-200 bg-white">
+        <p className="text-xs font-medium text-stone-500 mb-1">多く当てはまった方へ</p>
+        <p className="text-sm text-stone-700 leading-[1.8] mb-3">
+          「なぜこうなるのか」を構造から整理すると、回復の方向が見えてきます。
+          インポスター症候群は<strong>自信の問題ではなく、役割依存・自己複雑性・他人軸という構造</strong>から起きています。
+        </p>
+        <a
+          href="/articles/impostor-syndrome"
+          className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-stone-800 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all bg-stone-50"
+        >
+          <span>→ インポスター症候群の仕組みを見る</span>
+          <span className="text-[#8FAF9F] text-xs">ピラー記事</span>
+        </a>
+      </div>
+
       <h2>インポスター症候群の正体——「構造」として理解する</h2>
       <p>
         多くの解説では「自信の問題」「思い込み」として扱われますが、
