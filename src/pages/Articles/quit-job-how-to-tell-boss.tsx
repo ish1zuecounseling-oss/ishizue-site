@@ -74,6 +74,24 @@ export default function QuitJobHowToTellBoss() {
 
       <LineCtaSmall />
 
+
+      <h2>本音を言う必要はない</h2>
+      <p>
+        「正直に伝えなければ」という感覚が、言い出せない原因になることがあります。
+        しかし退職理由は、<strong>必ずしも本音をそのまま伝える必要はありません。</strong>
+      </p>
+      <div className="card space-y-1.5 text-sm text-stone-600">
+        <p>・「一身上の都合」は正式な理由として成立する</p>
+        <p>・職場環境への不満は伝えなくていい</p>
+        <p>・「体調管理のため」「キャリアの見直し」でも十分</p>
+        <p>・詳しく説明するほど引き止めの余地が生まれる</p>
+      </div>
+      <p>
+        関係を悪化させない形で伝えることも、現実的かつ誠実な選択です。
+        <Link to="/articles/quit-job-fear-retention" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">引き止めを防ぐ</Link>ためにも、
+        シンプルに伝えることが有効です。
+      </p>
+
       <h2>スムーズに伝えるためのポイント</h2>
       <p>
         大事なのは「説得すること」ではなく、<strong>決定事項として伝えること</strong>です。
@@ -129,15 +147,15 @@ export default function QuitJobHowToTellBoss() {
       </div>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-[10px] text-stone-500 mb-1">まだ辞めると決めていない段階でも大丈夫です</p>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          どう伝えるかで止まっている方へ
+          伝え方より先に「止まっている理由」を整理したい方へ
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
-          言い方ではなく「なぜ止まっているのか」を整理することで、無理なく動ける状態を作ることができます。
-          まだ辞めると決めていない段階でも大丈夫です。
+          まだ辞めると決めていない段階でも大丈夫です。「どう言うか」より「なぜ止まっているのか」を整理することで、自然に動ける状態になります。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          今の状態を整理してみる（初回無料）
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
