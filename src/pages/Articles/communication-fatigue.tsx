@@ -120,6 +120,14 @@ export default function CommunicationFatigue() {
         今の消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
+      <div className="my-4 p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-500 mb-2">同じ状態の方に読まれています</p>
+        <div className="flex flex-col gap-1.5">
+          <a href="/articles/acting-fatigue" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事で演技して疲れる</a>
+          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事を辞めたいときカウンセリングは必要？</a>
+        </div>
+      </div>
+
       <LineCtaSmall />
 
       <h2>回復の方向</h2>
