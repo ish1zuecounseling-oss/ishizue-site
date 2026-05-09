@@ -140,16 +140,20 @@ export default function QuitJobCounseling() {
         ))}
       </div>
 
+      <div className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-100 text-sm text-stone-600">
+        一人で考え続けるとループしやすいですが、外から整理すると数回で方向が見えることもあります。
+      </div>
+
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-[10px] text-stone-500 mb-1">まだ辞めると決めていない段階でも大丈夫です</p>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          「辞めるべきか」を一人で抱え続けているとき
+          辞めるか迷っている状態を整理したい方へ
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
-          「辞める・続ける」を決める前に、まず状況と気持ちを整理することが助けになります。
-          答えを急かすことなく、一緒に整理します。
+          「決めてから相談」ではなく「整理するために相談」でOKです。一人でループしている状態から抜け出す整理の場として活用していただけます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          今の状態を整理してみる（初回無料）
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
