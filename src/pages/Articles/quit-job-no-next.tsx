@@ -82,6 +82,14 @@ export default function QuitJobNoNext() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト診断</Link>
       </p>
 
+      <div className="my-4 p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-500 mb-2">合わせて読む</p>
+        <div className="flex flex-col gap-1.5">
+          <a href="/articles/quit-job-cannot-say" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいのに言えない</a>
+          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ カウンセリングは必要？→ 相談で整理できること</a>
+        </div>
+      </div>
+
       <LineCtaSmall />
 
       <h2>今すぐ優先すべきこと</h2>
