@@ -99,6 +99,29 @@ export default function QuitJobTiming() {
 
       <LineCtaSmall />
 
+
+      <div className="my-6 p-4 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-sm font-medium text-stone-700 mb-3">迷いの原因がはっきりしている方へ</p>
+        <div className="flex flex-col gap-2">
+          <a href="/articles/quit-job-cannot-say" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+            <span>言い出せない・言えない</span>
+            <span className="text-stone-400 text-xs">→</span>
+          </a>
+          <a href="/articles/quit-job-no-next" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+            <span>次が決まっておらず不安で動けない</span>
+            <span className="text-stone-400 text-xs">→</span>
+          </a>
+          <a href="/articles/quit-job-fear-retention" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+            <span>引き止められるのが怖い</span>
+            <span className="text-stone-400 text-xs">→</span>
+          </a>
+          <a href="/articles/quit-job-not-quit" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+            <span>本当に辞めるべきか確かめたい</span>
+            <span className="text-stone-400 text-xs">→</span>
+          </a>
+        </div>
+      </div>
+
       <h2>後悔しにくい判断のための3つの視点</h2>
       <p>
         「正しいかどうか」で考えると答えは出ません。
