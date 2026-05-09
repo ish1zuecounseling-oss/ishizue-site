@@ -155,14 +155,15 @@ export default function QuitJobTiming() {
       </div>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-[10px] text-stone-500 mb-1">まだ辞めると決めていない段階でも大丈夫です</p>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          どう動くかを一緒に整理したい方へ
+          辞めるタイミングを一緒に整理したい方へ
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
-          「辞めるべきかどうか」ではなく「今どういう状態なのか」を整理することで、無理のない判断ができるようになります。
+          「辞めると決めてから相談」ではなく「迷っている状態で整理する」でOKです。外から整理すると方向が見えやすくなります。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          今の状態を整理してみる（初回無料）
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
