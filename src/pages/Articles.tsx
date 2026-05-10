@@ -27,156 +27,156 @@ const STARTER_PATHS = [
   "/articles/helper-rest-types",
 ];
 
+/* -------------------------------------------------------------------------- */
+/*  新着順 — pathリスト（新しい順に手動管理）                                   */
+/*  新記事追加時はここの先頭に追加するだけ                                       */
+/* -------------------------------------------------------------------------- */
+const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/quit-job-how-to-tell-boss",
+  "/articles/quit-job-not-quit",
+  "/articles/quit-job-timing",
+  "/articles/quit-job-fear-retention",
+  "/articles/quit-job-cannot-say",
+  "/articles/quit-job-no-next",
+  "/articles/quit-job-counseling",
+  "/articles/acting-fatigue",
+  "/articles/communication-fatigue",
+  "/articles/impostor-check-20",
+  "/articles/impostor-syndrome",
+  "/articles/why-support-workers-lose-themselves",
+  "/articles/kind-people-break-down",
+  "/articles/living-by-expectations",
+  "/articles/always-tense",
+  "/articles/safety-makes-sleepy",
+  "/articles/body-sensation-unknown",
+  "/articles/safe-base",
+  "/articles/why-self-care-doesnt-work",
+  "/articles/recovering-feeling",
+  "/articles/why-support-workers-cannot-ask-for-help",
+  "/articles/not-enough-for-counseling",
+  "/articles/afraid-to-leave-role",
+  "/articles/other-centered-living",
+  "/articles/self-function-decline",
+  "/articles/self-function-what",
+  "/articles/self-complexity",
+  "/articles/self-value-unknown",
+  "/articles/working-model",
+  "/articles/anxious-attachment",
+  "/articles/avoidant-attachment",
+  "/articles/over-adaptation",
+  "/articles/infj-living",
+  "/articles/ni-ti-loop",
+  "/articles/empathy-brain-fatigue",
+  "/articles/beyond-mbti",
+  "/articles/helper-brain-fatigue",
+  "/articles/emotion-unknown",
+  "/articles/feeling-nothing",
+  "/articles/tired-but-cannot-rest",
+  "/articles/what-do-i-want",
+  "/articles/overthinking-needs-sensation",
+  "/articles/hsp-compassion-fatigue",
+  "/articles/too-considerate",
+  "/articles/trying-too-hard",
+];
+
+/** NEWバッジ表示対象（直近20件） */
+const NEW_BADGE_PATHS = new Set(NEW_ARTICLE_PATHS.slice(0, 20));
+
+/* 新着順ソート：NEW_ARTICLE_PATHSの順 → それ以外はアルファベット順で末尾 */
+function getSortedByNew() {
+  const pathToIndex = new Map(NEW_ARTICLE_PATHS.map((p, i) => [p, i]));
+  return [...articles].sort((a, b) => {
+    const ia = pathToIndex.has(a.path) ? pathToIndex.get(a.path)! : NEW_ARTICLE_PATHS.length;
+    const ib = pathToIndex.has(b.path) ? pathToIndex.get(b.path)! : NEW_ARTICLE_PATHS.length;
+    if (ia !== ib) return ia - ib;
+    return a.path.localeCompare(b.path);
+  });
+}
+
 // 論文系記事のパスパターン
 const RESEARCH_PATHS = [
-  "helper-benefit-finding",
-  "helper-contrast-avoidance",
-  "helper-goal-adjustment",
-  "helper-implicit-theory",
-  "helper-mind-wandering",
-  "helper-naive-realism",
-  "helper-organization-unsafe",
-  "helper-reality-shock",
-  "helper-reframing-caring",
-  "helper-retelling-memory",
-  "helper-self-complexity",
-  "helper-self-criticism-culture",
-  "helper-self-effacement-family",
-  "helper-supervision-compassion",
-  "helper-team-communication",
-  "helper-wellbeing-not-from",
-  "helper-stress-mindset",
-  "helper-burnout-scale-validity",
-  "helper-burnout-occupation",
-  "helper-self-compassion-burnout",
-  "helper-nurse-self-compassion",
-  "helper-attachment-self-compassion",
-  "helper-self-compassion-resistance",
-  "helper-self-compassion-behavior",
-  "helper-msc-program",
-  "helper-self-care-ability",
-  "helper-emotional-labor-what",
-  "helper-helplessness",
-  "helper-brain-fatigue",
+  "helper-benefit-finding", "helper-contrast-avoidance", "helper-goal-adjustment",
+  "helper-implicit-theory", "helper-mind-wandering", "helper-naive-realism",
+  "helper-organization-unsafe", "helper-reality-shock", "helper-reframing-caring",
+  "helper-retelling-memory", "helper-self-complexity", "helper-self-criticism-culture",
+  "helper-self-effacement-family", "helper-supervision-compassion", "helper-team-communication",
+  "helper-wellbeing-not-from", "helper-stress-mindset", "helper-burnout-scale-validity",
+  "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion",
+  "helper-attachment-self-compassion", "helper-self-compassion-resistance",
+  "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability",
+  "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue",
 ];
 
 function isResearchArticle(path: string): boolean {
   return RESEARCH_PATHS.some((p) => path.includes(p));
 }
 
-
 type WorryCategory = {
-  id: string;
-  phase: string;
-  label: string;       // 一般語（入口）
-  desc: string;
-  icon: string;
-  keywords: string[];  // THEME_LAYERSと同じキーワードマッチ
-  exitPath: string;    // 出口：1つだけ
-  exitLabel: string;
+  id: string; phase: string; label: string; desc: string; icon: string;
+  keywords: string[]; exitPath: string; exitLabel: string;
 };
 
 const WORRY_CATEGORIES: WorryCategory[] = [
-  // フェーズ1：状態を知りたい（入口・最重要）
   {
-    id: "check",
-    phase: "フェーズ1",
-    label: "まず自分の状態を知りたい",
-    desc: "共感疲労チェック・バーンアウト診断・消耗度の確認",
-    icon: "ClipboardList",
+    id: "check", phase: "フェーズ1", label: "まず自分の状態を知りたい",
+    desc: "共感疲労チェック・バーンアウト診断・消耗度の確認", icon: "ClipboardList",
     keywords: ["empathy", "check", "burnout", "fatigue", "compassion", "diagnosis", "brain"],
-    exitPath: "/articles/helper-empathy-check",
-    exitLabel: "共感疲労チェック（20項目・3分）",
+    exitPath: "/articles/helper-empathy-check", exitLabel: "共感疲労チェック（20項目・3分）",
   },
-  // フェーズ1：疲れをどうにかしたい
   {
-    id: "fatigue",
-    phase: "フェーズ1",
-    label: "疲れ・消耗をどうにかしたい",
-    desc: "休んでも回復しない、疲れが抜けない",
-    icon: "BatteryLow",
+    id: "fatigue", phase: "フェーズ1", label: "疲れ・消耗をどうにかしたい",
+    desc: "休んでも回復しない、疲れが抜けない", icon: "BatteryLow",
     keywords: ["fatigue", "burnout", "feels-tired", "case-overload", "night-shift", "brain", "emotional-labor-fatigue"],
-    exitPath: "/articles/helper-fatigue-diagnosis",
-    exitLabel: "その疲れ、3タイプのどれ？（10問診断）",
+    exitPath: "/articles/helper-fatigue-diagnosis", exitLabel: "その疲れ、3タイプのどれ？（10問診断）",
   },
-  // フェーズ2：感情がしんどい
   {
-    id: "emotion",
-    phase: "フェーズ2",
-    label: "感情がしんどい・コントロールできない",
-    desc: "イライラ・無感情・感情の波が大きい",
-    icon: "Waves",
+    id: "emotion", phase: "フェーズ2", label: "感情がしんどい・コントロールできない",
+    desc: "イライラ・無感情・感情の波が大きい", icon: "Waves",
     keywords: ["emotional-labor", "labor", "rumination", "irritab", "emotional-labor-fatigue", "decision-fatigue"],
-    exitPath: "/articles/helper-emotional-labor-what",
-    exitLabel: "感情労働が消耗させている理由を知る",
+    exitPath: "/articles/helper-emotional-labor-what", exitLabel: "感情労働が消耗させている理由を知る",
   },
-  // フェーズ2：抱え込み・断れない
   {
-    id: "boundary",
-    phase: "フェーズ2",
-    label: "抱え込み・断れないがつらい",
-    desc: "バウンダリーとは？NOが言えない、いつも我慢",
-    icon: "Layers",
+    id: "boundary", phase: "フェーズ2", label: "抱え込み・断れないがつらい",
+    desc: "バウンダリーとは？NOが言えない、いつも我慢", icon: "Layers",
     keywords: ["boundary", "sacrifice", "cannot-say-no", "pulled-by-client", "perfectionism", "boundary-how-to"],
-    exitPath: "/articles/helper-cannot-say-no",
-    exitLabel: "断れない人の特徴7つ｜なぜNOが言えないのか",
+    exitPath: "/articles/helper-cannot-say-no", exitLabel: "断れない人の特徴7つ｜なぜNOが言えないのか",
   },
-  // フェーズ3：仕事が限界
   {
-    id: "quit",
-    phase: "フェーズ3",
-    label: "仕事が限界・辞めたい",
-    desc: "辞めていいのか、休職すべきか迷っている",
-    icon: "LogOut",
-    keywords: ["quit", "want-to-quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage"],
-    exitPath: "/articles/helper-want-to-quit-landing",
-    exitLabel: "辞めたいと思ったとき、最初に読むページ",
+    id: "quit", phase: "フェーズ3", label: "仕事が限界・辞めたい",
+    desc: "辞めていいのか、休職すべきか迷っている", icon: "LogOut",
+    keywords: ["quit", "want-to-quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage", "acting-fatigue", "communication-fatigue", "quit-job"],
+    exitPath: "/articles/quit-job-timing", exitLabel: "辞めるタイミングがわからないとき——判断の軸を整理する",
   },
-  // フェーズ3：自分を責めてしまう
   {
-    id: "selfblame",
-    phase: "フェーズ3",
-    label: "自分を責めてしまう",
-    desc: "インポスター症候群・自己否定・無力感",
-    icon: "Heart",
+    id: "selfblame", phase: "フェーズ3", label: "自分を責めてしまう",
+    desc: "インポスター症候群・自己否定・無力感", icon: "Heart",
     keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame", "impostor"],
-    exitPath: "/articles/helper-self-blame-landing",
-    exitLabel: "自分を責めてしまう理由を知る",
+    exitPath: "/articles/helper-self-blame-landing", exitLabel: "自分を責めてしまう理由を知る",
   },
-  // フェーズ4：次どうするか
   {
-    id: "career",
-    phase: "フェーズ4",
-    label: "続けるか・離れるか迷っている",
-    desc: "復職・転職・このままでいいのか",
-    icon: "RotateCcw",
+    id: "career", phase: "フェーズ4", label: "続けるか・離れるか迷っている",
+    desc: "復職・転職・このままでいいのか", icon: "RotateCcw",
     keywords: ["return", "absence", "consider-leave", "career-stagnation", "aptitude-doubt", "burnout-recovery", "signs-to-rest"],
-    exitPath: "/articles/helper-career-decision",
-    exitLabel: "続けるか・離れるかで迷っているときに読む",
+    exitPath: "/articles/helper-career-decision", exitLabel: "続けるか・離れるかで迷っているときに読む",
   },
-  // フェーズ4：相談を考えている
   {
-    id: "counseling",
-    phase: "フェーズ4",
-    label: "カウンセリングを考えている",
-    desc: "相談したいけど迷っている、どんな時間になるか",
-    icon: "MessageCircle",
+    id: "counseling", phase: "フェーズ4", label: "カウンセリングを考えている",
+    desc: "相談したいけど迷っている、どんな時間になるか", icon: "MessageCircle",
     keywords: ["counseling", "counselling", "cannot-seek", "resistance-to-counseling", "receiving-counseling"],
-    exitPath: "/articles/helper-counseling-landing",
-    exitLabel: "受ける前に知っておきたいこと",
+    exitPath: "/articles/helper-counseling-landing", exitLabel: "受ける前に知っておきたいこと",
   },
 ];
 
 type ShindoCard = { label: string; icon: string; keywords: string[] };
 
 const SHINDO_CARDS: ShindoCard[] = [
-  { label: "疲れが取れない",          icon: "BatteryLow",  keywords: ["fatigue", "empathy", "rest", "recovery", "burnout"] },
-  { label: "辞めたい",                icon: "LogOut",      keywords: ["quit", "resign", "guilty-leave", "career", "closure"] },
-  { label: "利用者を抱え込みすぎる",   icon: "Layers",      keywords: ["overwork", "boundary", "sacrifice", "involve"] },
-  { label: "人間関係がつらい",         icon: "Users",       keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
-  { label: "休みたいのに休めない",     icon: "Moon",        keywords: ["rest", "absence", "leave", "return", "guilt"] },
-  { label: "復職・続けるか迷う",       icon: "RotateCcw",   keywords: ["return", "transfer", "repeat", "suitable", "absence", "career-stagnation", "job-hopping", "aptitude-doubt", "consider-leave", "want-to-quit", "counseling-when-quitting", "burnout-vs-depression", "burnout-recovery", "signs-to-rest", "guilt-about-leaving", "social-worker-dilem", "burnout-what-to-do"] },
-  { label: "なぜこうなるか理解したい", icon: "FlaskConical", keywords: ["research"] },
+  { label: "疲れが取れない",          icon: "BatteryLow",   keywords: ["fatigue", "empathy", "rest", "recovery", "burnout"] },
+  { label: "辞めたい",                icon: "LogOut",       keywords: ["quit", "resign", "guilty-leave", "career", "closure", "acting-fatigue", "communication-fatigue", "quit-job"] },
+  { label: "利用者を抱え込みすぎる",   icon: "Layers",       keywords: ["overwork", "boundary", "sacrifice", "involve"] },
+  { label: "人間関係がつらい",         icon: "Users",        keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
+  { label: "休みたいのに休めない",     icon: "Moon",         keywords: ["rest", "absence", "leave", "return", "guilt"] },
+  { label: "復職・続けるか迷う",       icon: "RotateCcw",    keywords: ["return", "transfer", "repeat", "suitable", "absence", "career-stagnation", "job-hopping", "aptitude-doubt", "consider-leave", "want-to-quit", "counseling-when-quitting", "burnout-vs-depression", "burnout-recovery", "signs-to-rest", "guilt-about-leaving", "social-worker-dilem", "burnout-what-to-do"] },
+  { label: "なぜこうなるか理解したい", icon: "FlaskConical",  keywords: ["research"] },
 ];
 
 type Category = { id: string; label: string; keywords: string[]; isCheck?: boolean; isResearch?: boolean };
@@ -189,12 +189,12 @@ const CATEGORIES: Category[] = [
   { id: "labor",      label: "感情労働",       keywords: ["emotional-labor", "labor"] },
   { id: "boundary",   label: "境界線",         keywords: ["boundary", "overwork", "sacrifice"] },
   { id: "workplace",  label: "人間関係",       keywords: ["workplace", "team", "boss", "harassment", "human", "boss-stress"] },
-  { id: "quit",       label: "辞めたい",       keywords: ["quit", "resign", "guilty-leave"] },
-  { id: "absence",    label: "休職・復職",      keywords: ["absence", "return", "leave"] },
+  { id: "quit",       label: "辞めたい",       keywords: ["quit", "resign", "guilty-leave", "quit-job", "acting-fatigue", "communication-fatigue"] },
+  { id: "absence",    label: "休職・復職",     keywords: ["absence", "return", "leave"] },
   { id: "career",     label: "キャリア",       keywords: ["career", "closure", "repeat", "suitable"] },
-  { id: "recovery",   label: "回復・ケア",      keywords: ["recovery", "rest", "self-care", "coping"] },
+  { id: "recovery",   label: "回復・ケア",     keywords: ["recovery", "rest", "self-care", "coping"] },
   { id: "job",        label: "職種別",         keywords: ["nurse", "caregiver", "teacher", "school", "nursery", "welfare"] },
-  { id: "counseling", label: "カウンセリング",  keywords: ["counseling", "counselling"] },
+  { id: "counseling", label: "カウンセリング", keywords: ["counseling", "counselling"] },
 ];
 
 function getCategoryForArticle(path: string): Category {
@@ -207,19 +207,19 @@ function getCategoryForArticle(path: string): Category {
 }
 
 const TOOLS = [
-  { path: "/articles/self-value-check",      title: "自己価値の置き場所診断｜あなたの「存在許可証」を可視化する",        desc: "「何者かにならないと不安」「役に立たないと罪悪感」——あなたが自分に課している存在の条件を4軸24問で可視化。",              tag: "4軸・24問",       color: "#f59e0b" },
-  { path: "/articles/big-five-check",        title: "ビッグファイブ診断｜あなたの「消耗パターン」を知る",                desc: "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",    tag: "5因子・10問",     color: "#c084fc" },
-  { path: "/articles/helper-status-check",   title: "支援職のための現在地チェック",                                    desc: "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",                      tag: "4軸・12問",       color: "#7EB8A4" },
-  { path: "/articles/helper-boundary-board", title: "境界線・脱フュージョンボード",                                    desc: "感情の巻き込まれ度と自責・罪悪感をスライダーで調整。ベン図で境界線の状態をリアルタイム可視化。",                    tag: "スライダー式",     color: "#c084fc" },
-  { path: "/articles/helper-jdr-balance",    title: "JD-Rバランスシミュレーター",                                      desc: "仕事の要求と資源のバランスをシーソーで可視化。バーンアウトリスクと具体的な対処法を確認できます。",                  tag: "JD-Rモデル",      color: "#fb923c" },
-  { path: "/articles/helper-mabi-radar",     title: "MABI-HPレーダーアセスメント",                                     desc: "共感疲労・過剰適応・組織葛藤・身体消耗の4軸をレーダーチャートで可視化。消耗の震源地を特定します。",                tag: "レーダーチャート", color: "#60a5fa" },
-  { path: "/articles/helper-thinking-check", title: "「考え方のクセ」現在地チェック",                                  desc: "完璧主義・すべき思考・自己関連づけなど、支援職に多い8つの認知のクセを24項目で確認。リフレーミング付き。",            tag: "8カテゴリ・24問",  color: "#a78bfa" },
-  { path: "/articles/helper-impostor-check", title: "「自分の頑張りを認められない」現在地チェック",                    desc: "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",            tag: "インポスター現象", color: "#c084fc" },
-  { path: "/articles/helper-attachment-check", title: "「人との距離感」現在地チェック",                               desc: "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",          tag: "愛着スタイル",     color: "#f472b6" },
-  { path: "/articles/helper-self-compassion-check", title: "セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する", desc: "つらい場面で自分をどう扱うか——8つの困難場面で4択2つ選ぶ形式で、自然な反応パターンを確認。SCRI-Jをもとに作成。", tag: "8場面・選択式", color: "#8FAF9F" },
-  { path: "/articles/helper-empathy-check",      title: "共感疲労チェック｜支援職のための20項目診断",                      desc: "利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——20項目から共感疲労の消耗度を3分で確認。",                tag: "20問・3分",       color: "#8FAF9F" },
-  { path: "/articles/helper-brain-fatigue-check",   title: "脳疲労セルフチェック｜支援職のための20項目診断",                    desc: "「頭が回らない」「休んでも疲れが抜けない」——脳疲労の症状20項目から今の状態を3分で確認できます。",                      tag: "20問・3分",       color: "#7EB8A4" },
-  { path: "/articles/working-os-check",      title: "「働き方のOS」診断",                                             desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",       color: "#7EB8A4" },
+  { path: "/articles/self-value-check",            title: "自己価値の置き場所診断｜あなたの「存在許可証」を可視化する",                          desc: "「何者かにならないと不安」「役に立たないと罪悪感」——あなたが自分に課している存在の条件を4軸24問で可視化。",              tag: "4軸・24問",       color: "#f59e0b" },
+  { path: "/articles/big-five-check",              title: "ビッグファイブ診断｜あなたの「消耗パターン」を知る",                                  desc: "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",    tag: "5因子・10問",     color: "#c084fc" },
+  { path: "/articles/helper-status-check",         title: "支援職のための現在地チェック",                                                        desc: "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",                      tag: "4軸・12問",       color: "#7EB8A4" },
+  { path: "/articles/helper-boundary-board",       title: "境界線・脱フュージョンボード",                                                        desc: "感情の巻き込まれ度と自責・罪悪感をスライダーで調整。ベン図で境界線の状態をリアルタイム可視化。",                    tag: "スライダー式",     color: "#c084fc" },
+  { path: "/articles/helper-jdr-balance",          title: "JD-Rバランスシミュレーター",                                                          desc: "仕事の要求と資源のバランスをシーソーで可視化。バーンアウトリスクと具体的な対処法を確認できます。",                  tag: "JD-Rモデル",      color: "#fb923c" },
+  { path: "/articles/helper-mabi-radar",           title: "MABI-HPレーダーアセスメント",                                                         desc: "共感疲労・過剰適応・組織葛藤・身体消耗の4軸をレーダーチャートで可視化。消耗の震源地を特定します。",                tag: "レーダーチャート", color: "#60a5fa" },
+  { path: "/articles/helper-thinking-check",       title: "「考え方のクセ」現在地チェック",                                                      desc: "完璧主義・すべき思考・自己関連づけなど、支援職に多い8つの認知のクセを24項目で確認。リフレーミング付き。",            tag: "8カテゴリ・24問",  color: "#a78bfa" },
+  { path: "/articles/helper-impostor-check",       title: "「自分の頑張りを認められない」現在地チェック",                                        desc: "「いつかバレる」「運が良かっただけ」——支援職に多いインポスター現象の8つのパターンを24項目でチェック。",            tag: "インポスター現象", color: "#c084fc" },
+  { path: "/articles/helper-attachment-check",     title: "「人との距離感」現在地チェック",                                                      desc: "見捨てられ不安・自己犠牲・回避・境界線の曖昧さ——支援職に多い愛着スタイルの8パターンを24項目でチェック。",          tag: "愛着スタイル",     color: "#f472b6" },
+  { path: "/articles/helper-self-compassion-check",title: "セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する",           desc: "つらい場面で自分をどう扱うか——8つの困難場面で4択2つ選ぶ形式で、自然な反応パターンを確認。SCRI-Jをもとに作成。", tag: "8場面・選択式",    color: "#8FAF9F" },
+  { path: "/articles/helper-empathy-check",        title: "共感疲労チェック｜支援職のための20項目診断",                                          desc: "利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——20項目から共感疲労の消耗度を3分で確認。",                tag: "20問・3分",        color: "#8FAF9F" },
+  { path: "/articles/helper-brain-fatigue-check",  title: "脳疲労セルフチェック｜支援職のための20項目診断",                                      desc: "「頭が回らない」「休んでも疲れが抜けない」——脳疲労の症状20項目から今の状態を3分で確認できます。",                      tag: "20問・3分",        color: "#7EB8A4" },
+  { path: "/articles/working-os-check",            title: "「働き方のOS」診断",                                                                  desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",        color: "#7EB8A4" },
 ] as const;
 
 const TABS = [
@@ -227,6 +227,7 @@ const TABS = [
   { id: "tools",    label: "診断ツール" },
   { id: "theme",    label: "テーマ別" },
   { id: "research", label: "心理学から読む" },
+  { id: "new",      label: "新着順" },
   { id: "all",      label: "すべて" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
@@ -257,8 +258,8 @@ const THEME_LAYERS: ThemeLayer[] = [
   {
     id: "career", label: "辞めたい・続けられない", desc: "辞めたい・休職・復職の葛藤に向き合う記事",
     sections: [
-      { label: "辞めたい・退職",   keywords: ["quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage", "want-to-quit"] },
-      { label: "休職・復職",       keywords: ["absence", "return", "leave", "consider-leave", "signs-to-rest", "guilt-about-leaving", "counseling-when-quitting", "burnout-recovery", "burnout-what-to-do"] },
+      { label: "辞めたい・退職",   keywords: ["quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage", "want-to-quit", "acting-fatigue", "communication-fatigue", "quit-job"] },
+      { label: "休職・復職",       keywords: ["absence", "return", "leave", "consider-leave", "signs-to-rest", "counseling-when-quitting", "burnout-recovery", "burnout-what-to-do"] },
       { label: "キャリア・閉塞感", keywords: ["career", "closure", "repeat", "suitable"] },
     ],
   },
@@ -267,96 +268,31 @@ const THEME_LAYERS: ThemeLayer[] = [
 type ResearchSection = { label: string; desc: string; paths: string[] };
 
 const RESEARCH_SECTIONS: ResearchSection[] = [
-  {
-    label: "消耗の正体｜なぜ疲れるのか",
-    desc:  "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事",
-    paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue", "helper-empathy-fatigue", "helper-secondary-trauma", "helper-decision-fatigue", "helper-overwork", "helper-night-shift-mental-health", "helper-case-overload", "emotional-labor-fatigue", "care-worker-mental-fatigue", "empathy-fatigue-vs-secondary-trauma"],
-  },
-  {
-    label: "抜け出せない思考｜やめられない・考えすぎ",
-    desc:  "「頭から離れない」「自分を責めてしまう」——抜け出せない思考パターンの正体",
-    paths: ["helper-contrast-avoidance", "helper-self-criticism-culture", "helper-implicit-theory", "helper-naive-realism", "helper-self-effacement-family", "helper-wellbeing-not-from"],
-  },
-  {
-    label: "辞めたい・休職を考えたとき",
-    desc:  "「もう限界かもしれない」「休んでいいのか」——判断を整理するための記事",
-    paths: ["helper-want-to-quit", "helper-consider-leave", "helper-caregiver-burnout", "helper-guilt-about-leaving", "helper-leave-of-absence-hesitation", "helper-signs-to-rest", "helper-return-to-work-fear", "helper-counseling-when-quitting", "helper-career-stagnation"],
-  },
-  {
-    label: "回復と立て直し｜どう戻るか",
-    desc:  "つらい経験から回復し、意味を見出し、立て直していくプロセス",
-    paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability", "helper-burnout-recovery", "helper-mental-recovery", "helper-rest-types", "helper-rest-importance", "helper-stress-coping", "helper-compassion-fatigue-practice", "empathy-fatigue-recovery", "helper-burnout-what-to-do", "helper-burnout-signs", "compassion-fatigue-coping", "care-worker-burnout"],
-  },
-  {
-    label: "抱え込み・境界線",
-    desc:  "「断れない」「巻き込まれすぎる」——境界線が曖昧になる構造と、抜け出すための方法",
-    paths: ["helper-pulled-by-client", "helper-cannot-say-no", "helper-boundary",
-            "helper-boundary-how-to", "empathy-fatigue-boundary", "helper-guilt-about-suffering",
-            "helper-perfectionism", "helper-social-worker-dilem", "helper-stop-self-sacrifice"],
-  },
-  {
-    label: "人間関係・職場ストレス",
-    desc:  "上司・同僚・組織との関係で消耗しているとき",
-    paths: ["helper-boss-stress", "helper-complaint-damage", "helper-harassment-gray-zone",
-            "helper-workplace-stress", "helper-team-fatigue",
-            "nursery-teacher-relationship-stress", "welfare-worker-relationship-counseling"],
-  },
-  {
-    label: "職種別｜看護師・介護・保育・教師",
-    desc:  "職種特有の消耗と、それぞれに合った対処を解説した記事",
-    paths: ["nurse-compassion-fatigue", "nurse-emotional-exhaustion", "nurse-emotional-labor-hard",
-            "nursery-teacher-limit", "school-counselor-loneliness",
-            "teacher-mental-health", "teacher-mental-health-limit",
-            "empathy-fatigue-by-job-type", "compassion-fatigue-diagnosis",
-            "helper-aptitude-doubt", "helper-burnout-vs-depression",
-            "compassion-fatigue-vs-depression"],
-  },
-  {
-    label: "カウンセリング・相談を考えているとき",
-    desc:  "「相談してもいいのか」「どこに行けばいいか」——一歩を踏み出すための記事",
-    paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling",
-            "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"],
-  },
-
-  {
-    label: "研究から読む｜心理学・論文ベースの解説",
-    desc:  "バーンアウト・感情労働・セルフコンパッションなど、研究論文をもとに消耗の構造を深く解説した記事",
-    paths: [
-      "helper-burnout-scale-validity", "helper-burnout-occupation",
-      "helper-emotional-labor-what", "helper-helplessness",
-      "helper-self-compassion-burnout", "helper-self-compassion-resistance",
-      "helper-self-compassion-behavior", "helper-attachment-self-compassion",
-      "helper-nurse-self-compassion", "helper-msc-program",
-      "helper-self-care-ability", "helper-brain-fatigue",
-      "helper-organization-unsafe", "helper-self-complexity",
-      "helper-mind-wandering", "helper-stress-mindset",
-      "helper-team-communication", "helper-self-criticism-culture",
-      "helper-self-effacement-family", "helper-contrast-avoidance",
-      "helper-implicit-theory", "helper-goal-adjustment",
-      "helper-benefit-finding", "helper-reality-shock",
-      "helper-reframing-caring", "helper-retelling-memory",
-      "helper-wellbeing-not-from", "helper-supervision-compassion",
-      "helper-naive-realism-conflict",
-    ],
-  },
+  { label: "消耗の正体｜なぜ疲れるのか", desc: "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事", paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue", "helper-empathy-fatigue", "helper-secondary-trauma", "helper-decision-fatigue", "helper-overwork", "helper-night-shift-mental-health", "helper-case-overload", "emotional-labor-fatigue", "care-worker-mental-fatigue", "empathy-fatigue-vs-secondary-trauma"] },
+  { label: "抜け出せない思考｜やめられない・考えすぎ", desc: "「頭から離れない」「自分を責めてしまう」——抜け出せない思考パターンの正体", paths: ["helper-contrast-avoidance", "helper-self-criticism-culture", "helper-implicit-theory", "helper-naive-realism", "helper-self-effacement-family", "helper-wellbeing-not-from"] },
+  { label: "辞めたい・休職を考えたとき", desc: "「もう限界かもしれない」「休んでいいのか」——判断を整理するための記事", paths: ["helper-want-to-quit", "helper-consider-leave", "helper-caregiver-burnout", "helper-guilt-about-leaving", "helper-leave-of-absence-hesitation", "helper-signs-to-rest", "helper-return-to-work-fear", "helper-counseling-when-quitting", "helper-career-stagnation"] },
+  { label: "回復と立て直し｜どう戻るか", desc: "つらい経験から回復し、意味を見出し、立て直していくプロセス", paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability", "helper-burnout-recovery", "helper-mental-recovery", "helper-rest-types", "helper-rest-importance", "helper-stress-coping", "helper-compassion-fatigue-practice", "empathy-fatigue-recovery", "helper-burnout-what-to-do", "helper-burnout-signs", "compassion-fatigue-coping", "care-worker-burnout"] },
+  { label: "抱え込み・境界線", desc: "「断れない」「巻き込まれすぎる」——境界線が曖昧になる構造と、抜け出すための方法", paths: ["helper-pulled-by-client", "helper-cannot-say-no", "helper-boundary", "helper-boundary-how-to", "empathy-fatigue-boundary", "helper-guilt-about-suffering", "helper-perfectionism", "helper-social-worker-dilem", "helper-stop-self-sacrifice"] },
+  { label: "人間関係・職場ストレス", desc: "上司・同僚・組織との関係で消耗しているとき", paths: ["helper-boss-stress", "helper-complaint-damage", "helper-harassment-gray-zone", "helper-workplace-stress", "helper-team-fatigue", "nursery-teacher-relationship-stress", "welfare-worker-relationship-counseling"] },
+  { label: "職種別｜看護師・介護・保育・教師", desc: "職種特有の消耗と、それぞれに合った対処を解説した記事", paths: ["nurse-compassion-fatigue", "nurse-emotional-exhaustion", "nurse-emotional-labor-hard", "nursery-teacher-limit", "school-counselor-loneliness", "teacher-mental-health", "teacher-mental-health-limit", "empathy-fatigue-by-job-type", "compassion-fatigue-diagnosis", "helper-aptitude-doubt", "helper-burnout-vs-depression", "compassion-fatigue-vs-depression"] },
+  { label: "カウンセリング・相談を考えているとき", desc: "「相談してもいいのか」「どこに行けばいいか」——一歩を踏み出すための記事", paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling", "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"] },
+  { label: "研究から読む｜心理学・論文ベースの解説", desc: "バーンアウト・感情労働・セルフコンパッションなど、研究論文をもとに消耗の構造を深く解説した記事", paths: ["helper-burnout-scale-validity", "helper-burnout-occupation", "helper-emotional-labor-what", "helper-helplessness", "helper-self-compassion-burnout", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-attachment-self-compassion", "helper-nurse-self-compassion", "helper-msc-program", "helper-self-care-ability", "helper-brain-fatigue", "helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-self-criticism-culture", "helper-self-effacement-family", "helper-contrast-avoidance", "helper-implicit-theory", "helper-goal-adjustment", "helper-benefit-finding", "helper-reality-shock", "helper-reframing-caring", "helper-retelling-memory", "helper-wellbeing-not-from", "helper-supervision-compassion", "helper-naive-realism-conflict"] },
 ];
+
 function getArticlesForSection(keywords: string[]) {
   return articles.filter((a) => !isResearchArticle(a.path) && keywords.some((kw) => a.path.toLowerCase().includes(kw)));
 }
-
 function getResearchArticlesForSection(paths: string[]) {
   return articles.filter((a) => paths.some((p) => a.path.includes(p)));
 }
-
 function getUnclassified() {
   const all = THEME_LAYERS.flatMap((l) => l.sections.flatMap((s) => s.keywords));
-  return articles.filter((a) =>
-    !all.some((kw) => a.path.toLowerCase().includes(kw)) && !isResearchArticle(a.path)
-  );
+  return articles.filter((a) => !all.some((kw) => a.path.toLowerCase().includes(kw)) && !isResearchArticle(a.path));
 }
 
-function ArticleCard({ article }: { article: typeof articles[0] }) {
+function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNew?: boolean }) {
   const cat = getCategoryForArticle(article.path);
+  const isNew = showNew && NEW_BADGE_PATHS.has(article.path);
   return (
     <motion.div variants={fadeUp}>
       <Link
@@ -374,12 +310,14 @@ function ArticleCard({ article }: { article: typeof articles[0] }) {
           {cat.isResearch ? <FlaskConical className="w-4 h-4" /> : cat.isCheck ? <ClipboardList className="w-4 h-4" /> : <BookOpen className="w-4 h-4" />}
         </div>
         <div className="flex-1 min-w-0 space-y-1">
-          <span
-            className="inline-block text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full"
-            style={{ color: cat.isResearch ? "#0369a1" : SAGE, background: cat.isResearch ? "#e0f2fe" : `${SAGE}12` }}
-          >
-            {cat.label}
-          </span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="inline-block text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full" style={{ color: cat.isResearch ? "#0369a1" : SAGE, background: cat.isResearch ? "#e0f2fe" : `${SAGE}12` }}>
+              {cat.label}
+            </span>
+            {isNew && (
+              <span className="inline-block text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
+            )}
+          </div>
           <p className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }} itemProp="name">
             {article.title}
           </p>
@@ -405,6 +343,8 @@ export default function Articles() {
       : articles.filter((a) => activeShindo.keywords.some((kw) => a.path.toLowerCase().includes(kw)))
     : [];
 
+  const sortedByNew = getSortedByNew();
+
   return (
     <>
       <Helmet>
@@ -423,9 +363,7 @@ export default function Articles() {
                 <span className="text-[10px] tracking-[0.3em] uppercase font-medium" style={{ color: SAGE }}>Articles</span>
               </motion.div>
               <motion.div variants={fadeUp} className="space-y-3">
-                <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide leading-[1.5]" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>
-                  心理記事
-                </h1>
+                <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide leading-[1.5]" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>心理記事</h1>
                 <p className="text-stone-300 text-sm md:text-base leading-[2]">
                   今のしんどさから、少しずつ整理していきたい方へ。<br className="hidden md:block" />
                   感情・状態・悩みのテーマから、今の自分に近いものを選んでください。無理に答えを出さなくて大丈夫です。
@@ -463,10 +401,11 @@ export default function Articles() {
             <div className="flex gap-0 mb-8 border-b border-stone-100 overflow-x-auto">
               {TABS.map((tab) => {
                 const count =
-                  tab.id === "all" ? articles.length :
-                  tab.id === "tools" ? TOOLS.length :
+                  tab.id === "all"      ? articles.length :
+                  tab.id === "new"      ? articles.length :
+                  tab.id === "tools"    ? TOOLS.length :
                   tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
-                  tab.id === "shindo" ? articles.length :
+                  tab.id === "shindo"   ? articles.length :
                   articles.filter((a) => !isResearchArticle(a.path)).length;
                 return (
                   <button key={tab.id} onClick={() => setActiveTab(tab.id)}
@@ -485,31 +424,22 @@ export default function Articles() {
               })}
             </div>
 
-
-            {/* お悩みから探す（WORRY_CATEGORIES） */}
+            {/* お悩みから探す */}
             {activeTab === "shindo" && !activeShindo && (
               <div className="mb-10">
                 <div className="mb-4">
-                  <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>
-                    お悩みから探す
-                  </p>
+                  <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>お悩みから探す</p>
                   <p className="text-xs text-stone-500">今の状態に近いものを選んでください</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
                   {WORRY_CATEGORIES.map((cat) => (
-                    <a
-                      key={cat.id}
-                      href={cat.exitPath}
+                    <a key={cat.id} href={cat.exitPath}
                       className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
                     >
-                      <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>
-                        {cat.phase}
-                      </p>
+                      <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
                       <p className="text-xs font-medium text-stone-800 leading-snug">{cat.label}</p>
                       <p className="text-[10px] text-stone-500 leading-relaxed">{cat.desc}</p>
-                      <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>
-                        {cat.exitLabel} →
-                      </p>
+                      <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
                     </a>
                   ))}
                 </div>
@@ -523,14 +453,35 @@ export default function Articles() {
                   <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
                     className="mb-8 p-5 rounded-2xl" style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}40` }}
                   >
-                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>
-                      はじめての方へ｜まず読んでほしい記事
-                    </p>
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>はじめての方へ｜まず読んでほしい記事</p>
                     <div className="space-y-2">
                       {starterArticles.map((a, i) => (
                         <Link key={a.path} to={a.path} className="flex items-center gap-3 group">
                           <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold" style={{ background: SAGE, color: "white" }}>{i + 1}</span>
                           <span className="text-sm text-stone-700 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }}>{a.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* 新着・注目記事 */}
+                {!activeShindo && (
+                  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }}
+                    className="mb-8 p-5 rounded-2xl border border-stone-200 bg-stone-50"
+                  >
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>新着・注目記事</p>
+                    <div className="space-y-2">
+                      {[
+                        { path: "/articles/impostor-check-20",                  label: "インポスター症候群チェック（20項目）｜できているのに自信がない状態を確認" },
+                        { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか（総合ピラー）" },
+                        { path: "/articles/quit-job-timing",                    label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
+                        { path: "/articles/communication-fatigue",              label: "コミュニケーションで疲れるのはなぜ？｜消耗の構造と回復" },
+                        { path: "/articles/safe-base",                          label: "安全基地とは何か｜回復に必要な「安心できる場所」" },
+                      ].map((item) => (
+                        <Link key={item.path} to={item.path} className="flex items-center gap-2 group">
+                          <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
+                          <span className="text-xs text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
                         </Link>
                       ))}
                     </div>
@@ -545,10 +496,7 @@ export default function Articles() {
                     return (
                       <button key={card.label} onClick={() => setActiveShindo(isActive ? null : card)}
                         className="flex flex-col items-start gap-2 p-4 rounded-xl border text-left transition-all"
-                        style={{
-                          borderColor: isActive ? (isResearch ? "#0369a1" : SAGE) : "rgb(231,229,228)",
-                          background:  isActive ? (isResearch ? "#e0f2fe" : `${SAGE}0e`) : "white",
-                        }}
+                        style={{ borderColor: isActive ? (isResearch ? "#0369a1" : SAGE) : "rgb(231,229,228)", background: isActive ? (isResearch ? "#e0f2fe" : `${SAGE}0e`) : "white" }}
                       >
                         {card.icon === "BatteryLow"  && <BatteryLow  className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
                         {card.icon === "LogOut"       && <LogOut       className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />}
@@ -573,7 +521,7 @@ export default function Articles() {
                       <button onClick={() => setActiveShindo(null)} className="text-xs text-stone-400 hover:text-stone-600 transition-colors">✕ 閉じる</button>
                     </div>
                     {shindoArticles.length > 0
-                      ? shindoArticles.map((a) => <ArticleCard key={a.path} article={a} />)
+                      ? shindoArticles.map((a) => <ArticleCard key={a.path} article={a} showNew />)
                       : <p className="text-sm text-stone-400 py-4">関連記事を準備中です。</p>
                     }
                   </motion.div>
@@ -607,7 +555,7 @@ export default function Articles() {
                               <span className="text-xs text-stone-400">{items.length}本</span>
                             </div>
                             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} variants={stagger} className="space-y-2">
-                              {items.map((a) => <ArticleCard key={a.path} article={a} />)}
+                              {items.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
                             </motion.div>
                           </div>
                         );
@@ -627,7 +575,7 @@ export default function Articles() {
                         </div>
                       </div>
                       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} variants={stagger} className="space-y-2">
-                        {u.map((a) => <ArticleCard key={a.path} article={a} />)}
+                        {u.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
                       </motion.div>
                     </div>
                   );
@@ -668,31 +616,23 @@ export default function Articles() {
             {/* 心理学から読む */}
             {activeTab === "research" && (
               <div>
-                {/* 対処優先ユーザー向け露骨導線 */}
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
                   className="mb-5 p-5 rounded-2xl" style={{ background: "#2C1F14" }}
                 >
                   <p className="text-xs text-stone-400 mb-1">原因より、今すぐどうにかしたい方へ</p>
-                  <p className="text-sm text-stone-200 leading-relaxed mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                    まず対処法を知りたい方は、こちらをご覧ください。
-                  </p>
+                  <p className="text-sm text-stone-200 leading-relaxed mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>まず対処法を知りたい方は、こちらをご覧ください。</p>
                   <div className="flex flex-col gap-2">
                     {[
                       { label: "共感疲労の対処法を見る",              path: "/articles/helper-compassion-fatigue-practice" },
                       { label: "バウンダリー（境界線）の作り方を見る", path: "/articles/helper-boundary-how-to" },
                       { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
                     ].map(({ label, path }) => (
-                      <Link key={path} to={path}
-                        className="group inline-flex items-center gap-1.5 text-sm text-[#7EB8A4] hover:text-[#9fcfbf] transition-colors"
-                      >
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
-                        {label}
+                      <Link key={path} to={path} className="group inline-flex items-center gap-1.5 text-sm text-[#7EB8A4] hover:text-[#9fcfbf] transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0" />{label}
                       </Link>
                     ))}
                   </div>
                 </motion.div>
-
-                {/* 研究記事イントロ */}
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
                   className="mb-8 p-5 rounded-2xl" style={{ background: "#e0f2fe", border: "1px solid #bae6fd" }}
                 >
@@ -700,12 +640,8 @@ export default function Articles() {
                     <FlaskConical className="w-4 h-4 text-sky-700" />
                     <p className="text-[10px] tracking-[0.25em] uppercase font-medium text-sky-700">心理学研究から読む</p>
                   </div>
-                  <p className="text-sm text-sky-900 leading-relaxed">
-                    「なぜこうなるのか」を心理学の研究から解説した記事です。<br />
-                    現場の感覚を、エビデンスで言語化します。
-                  </p>
+                  <p className="text-sm text-sky-900 leading-relaxed">「なぜこうなるのか」を心理学の研究から解説した記事です。<br />現場の感覚を、エビデンスで言語化します。</p>
                 </motion.div>
-
                 {RESEARCH_SECTIONS.map((section) => {
                   const items = getResearchArticlesForSection(section.paths);
                   if (items.length === 0) return null;
@@ -725,10 +661,18 @@ export default function Articles() {
               </div>
             )}
 
+            {/* 新着順 */}
+            {activeTab === "new" && (
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
+                <p className="text-xs text-stone-400 mb-4">最近追加・更新された記事を新しい順に表示しています</p>
+                {sortedByNew.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
+              </motion.div>
+            )}
+
             {/* すべて */}
             {activeTab === "all" && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
-                {articles.map((a) => <ArticleCard key={a.path} article={a} />)}
+                {articles.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
               </motion.div>
             )}
 
