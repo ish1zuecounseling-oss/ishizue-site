@@ -6,7 +6,7 @@
 import { useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ClipboardList, ChevronRight, BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, ChevronRight, BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical, Search, X as XIcon } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
 
@@ -332,6 +332,7 @@ function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNe
 export default function Articles() {
   const [activeTab, setActiveTab] = useState<TabId>("shindo");
   const [activeShindo, setActiveShindo] = useState<ShindoCard | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const starterArticles = STARTER_PATHS
     .map((p) => articles.find((a) => a.path === p))
@@ -397,6 +398,29 @@ export default function Articles() {
         <section className="py-10 md:py-16 px-5 md:px-6" itemScope itemType="https://schema.org/CollectionPage">
           <div className="max-w-4xl mx-auto">
 
+            {/* 検索ボックス */}
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300 pointer-events-none" aria-hidden="true" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); }}
+                placeholder="記事を検索（キーワードを入力）"
+                className="w-full pl-9 pr-9 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-700 placeholder-stone-300 bg-white focus:outline-none focus:border-stone-400 transition-colors"
+                aria-label="記事を検索"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-600 transition-colors"
+                  aria-label="検索をクリア"
+                  type="button"
+                >
+                  <XIcon className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
             {/* タブ */}
             <div className="flex gap-0 mb-8 border-b border-stone-100 overflow-x-auto">
               {TABS.map((tab) => {
@@ -425,7 +449,7 @@ export default function Articles() {
             </div>
 
             {/* お悩みから探す */}
-            {activeTab === "shindo" && !activeShindo && (
+            {!searchQuery.trim() && activeTab === "shindo" && !activeShindo && (
               <div className="mb-10">
                 <div className="mb-4">
                   <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>お悩みから探す</p>
@@ -447,7 +471,7 @@ export default function Articles() {
             )}
 
             {/* 今のしんどさから探す */}
-            {activeTab === "shindo" && (
+            {!searchQuery.trim() && activeTab === "shindo" && (
               <div>
                 {!activeShindo && starterArticles.length > 0 && (
                   <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
@@ -530,7 +554,7 @@ export default function Articles() {
             )}
 
             {/* テーマ別 */}
-            {activeTab === "theme" && (
+            {!searchQuery.trim() && activeTab === "theme" && (
               <div>
                 {THEME_LAYERS.map((layer) => {
                   const layerArticles = layer.sections.flatMap((s) => getArticlesForSection(s.keywords));
@@ -584,7 +608,7 @@ export default function Articles() {
             )}
 
             {/* 診断ツール */}
-            {activeTab === "tools" && (
+            {!searchQuery.trim() && activeTab === "tools" && (
               <div>
                 <p className="text-xs text-stone-400 mb-6 leading-relaxed">スライダー・チェック・レーダーチャートなど、インタラクティブな形式で今の状態を可視化できるツールです。</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -614,7 +638,7 @@ export default function Articles() {
             )}
 
             {/* 心理学から読む */}
-            {activeTab === "research" && (
+            {!searchQuery.trim() && activeTab === "research" && (
               <div>
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
                   className="mb-5 p-5 rounded-2xl" style={{ background: "#2C1F14" }}
@@ -662,7 +686,7 @@ export default function Articles() {
             )}
 
             {/* 新着順 */}
-            {activeTab === "new" && (
+            {!searchQuery.trim() && activeTab === "new" && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
                 <p className="text-xs text-stone-400 mb-4">最近追加・更新された記事を新しい順に表示しています</p>
                 {sortedByNew.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
@@ -670,13 +694,47 @@ export default function Articles() {
             )}
 
             {/* すべて */}
-            {activeTab === "all" && (
+            {!searchQuery.trim() && activeTab === "all" && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
                 {articles.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
               </motion.div>
             )}
 
-            {articles.length === 0 && (
+            {/* 検索結果 */}
+            {searchQuery.trim() && (() => {
+              const q = searchQuery.trim().toLowerCase();
+              const results = articles.filter((a) =>
+                a.title.toLowerCase().includes(q) ||
+                a.description.toLowerCase().includes(q)
+              );
+              return (
+                <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
+                  <p className="text-xs text-stone-400 mb-4">
+                    「{searchQuery}」の検索結果：<span className="font-medium text-stone-600">{results.length}件</span>
+                  </p>
+                  {results.length > 0
+                    ? results.map((a) => <ArticleCard key={a.path} article={a} showNew />)
+                    : (
+                      <div className="text-center py-16 space-y-3">
+                        <Search className="w-8 h-8 text-stone-200 mx-auto" />
+                        <p className="text-stone-400 text-sm">「{searchQuery}」に一致する記事が見つかりませんでした。</p>
+                        <p className="text-stone-300 text-xs">別のキーワードをお試しください</p>
+                        <button
+                          onClick={() => setSearchQuery("")}
+                          className="text-xs underline underline-offset-2 transition-colors mt-2"
+                          style={{ color: "#8FAF9F" }}
+                          type="button"
+                        >
+                          検索をクリア
+                        </button>
+                      </div>
+                    )
+                  }
+                </motion.div>
+              );
+            })()}
+
+            {!searchQuery.trim() && articles.length === 0 && (
               <div className="text-center py-20 text-stone-400 text-sm">記事は準備中です。</div>
             )}
           </div>
