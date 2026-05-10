@@ -3,7 +3,7 @@
  * SEO・回遊率・CV を同時に高める"顧客目線UI"版
  */
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, ClipboardList, ChevronRight, BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical, Search, X as XIcon } from "lucide-react";
@@ -11,6 +11,9 @@ import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
 
 const SAGE = "#8FAF9F";
+
+// GA4 gtag型宣言
+declare function gtag(...args: unknown[]): void;
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
@@ -333,6 +336,7 @@ export default function Articles() {
   const [activeTab, setActiveTab] = useState<TabId>("shindo");
   const [activeShindo, setActiveShindo] = useState<ShindoCard | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const starterArticles = STARTER_PATHS
     .map((p) => articles.find((a) => a.path === p))
@@ -404,7 +408,17 @@ export default function Articles() {
               <input
                 type="search"
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); }}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setSearchQuery(val);
+                  // GA4カスタムイベント（500ms debounce・2文字以上）
+                  if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+                  if (val.trim().length >= 2) {
+                    searchTimerRef.current = setTimeout(() => {
+                      try { gtag("event", "site_search", { search_term: val.trim() }); } catch (_) {}
+                    }, 500);
+                  }
+                }}
                 placeholder="記事を検索（キーワードを入力）"
                 className="w-full pl-9 pr-9 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-700 placeholder-stone-300 bg-white focus:outline-none focus:border-stone-400 transition-colors"
                 aria-label="記事を検索"
