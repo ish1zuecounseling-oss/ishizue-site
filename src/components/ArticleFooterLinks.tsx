@@ -5,14 +5,14 @@
 //   <ArticleFooterLinks type="check" exclude={["/articles/helper-empathy-check"]} />
 //
 // type一覧:
-//   "check"       → チェック記事
-//   "symptom"     → 症状記事
-//   "concept"     → 概念記事
+//   "check"         → チェック記事
+//   "symptom"       → 症状記事
+//   "concept"       → 概念記事
 //   "self-function" → 自己機能クラスター
-//   "mbti"        → MBTI流入クラスター
-//   "attachment"  → 愛着・対人パターン
-//   "recovery"    → 回復クラスター（将来追加予定）
-//   "jobtype"     → 職種別記事
+//   "mbti"          → MBTI流入クラスター
+//   "attachment"    → 愛着・対人パターン
+//   "recovery"      → 回復クラスター
+//   "jobtype"       → 職種別記事
 
 import { Link } from "react-router-dom"
 
@@ -35,7 +35,81 @@ const FIRST_READ: LinkItem = {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  クラスター定義（追加はここに）                                               */
+/*  分岐ナビ定義                                                                */
+/*  type ごとに「今の状態から近い記事」を3〜4本表示                              */
+/*  読者の自己分類を促し、内部回遊を強化する                                     */
+/* -------------------------------------------------------------------------- */
+
+type BranchItem = { label: string; desc: string; href: string }
+
+const BRANCH_NAV: Partial<Record<TypeKey, { title: string; items: BranchItem[] }>> = {
+  "check": {
+    title: "今の状態に近いのはどれですか？",
+    items: [
+      { label: "人と話すだけで疲れる",         desc: "コミュニケーション疲れ・感情労働",     href: "/articles/communication-fatigue" },
+      { label: "仕事で演じている感覚がある",    desc: "感情労働・他人軸",                   href: "/articles/acting-fatigue" },
+      { label: "休んでも回復しない",            desc: "脳疲労・セルフケアが効かない理由",    href: "/articles/why-self-care-doesnt-work" },
+      { label: "辞めたいのに動けない",          desc: "退職の判断・ブロックの整理",          href: "/articles/quit-job-timing" },
+    ],
+  },
+  "symptom": {
+    title: "今の状態に近いのはどれですか？",
+    items: [
+      { label: "感情がわからない・動かない",    desc: "自己機能の消耗・感情麻痺",            href: "/articles/emotion-unknown" },
+      { label: "常に気が張っている",            desc: "慢性緊張・神経系の過活動",            href: "/articles/always-tense" },
+      { label: "自分がない・他人軸",            desc: "他人軸・自己喪失",                   href: "/articles/other-centered-living" },
+      { label: "「いつかバレる」感覚がある",    desc: "インポスター症候群・役割依存",         href: "/articles/impostor-syndrome" },
+    ],
+  },
+  "concept": {
+    title: "背景を深く理解したい方へ",
+    items: [
+      { label: "なぜ支援職ほど消耗するのか",    desc: "構造的消耗の全体像",                  href: "/articles/why-support-workers-lose-themselves" },
+      { label: "自己機能の低下とは何か",        desc: "感情・感覚・欲求が消える仕組み",      href: "/articles/self-function-what" },
+      { label: "ワーキングモデルとの関係",      desc: "幼少期から続くパターン",              href: "/articles/working-model" },
+      { label: "安全基地と回復の土台",          desc: "回復に何が必要か",                   href: "/articles/safe-base" },
+    ],
+  },
+  "self-function": {
+    title: "今の状態に近いのはどれですか？",
+    items: [
+      { label: "感情がわからない・空虚感がある", desc: "感情麻痺・何も感じない",             href: "/articles/feeling-nothing" },
+      { label: "何がしたいかわからない",         desc: "欲求・動機の消失",                  href: "/articles/what-do-i-want" },
+      { label: "「いつかバレる」が止まらない",   desc: "インポスター症候群・役割依存",        href: "/articles/impostor-check-20" },
+      { label: "役割を降りることが怖い",         desc: "役割依存・自己価値の回復",           href: "/articles/afraid-to-leave-role" },
+    ],
+  },
+  "mbti": {
+    title: "MBTIの先にある自己理解へ",
+    items: [
+      { label: "「自分がない」感覚がある",       desc: "他人軸・自己機能の消耗",             href: "/articles/other-centered-living" },
+      { label: "共感しすぎて消耗する",           desc: "共感疲労・感情労働との関係",          href: "/articles/hsp-compassion-fatigue" },
+      { label: "考えすぎて疲れる",              desc: "脳疲労・反芻思考",                   href: "/articles/overthinking-needs-sensation" },
+      { label: "「なぜこうなるのか」を知りたい", desc: "消耗の構造的理解",                   href: "/articles/why-support-workers-lose-themselves" },
+    ],
+  },
+  "attachment": {
+    title: "今の状態に近いのはどれですか？",
+    items: [
+      { label: "断れない・NOが言えない",         desc: "不安型愛着・境界線の消耗",            href: "/articles/anxious-attachment" },
+      { label: "弱さを見せられない",             desc: "回避型愛着・相談できない理由",        href: "/articles/avoidant-attachment" },
+      { label: "他人軸で生きてしまう",           desc: "過剰適応・役割依存",                 href: "/articles/over-adaptation" },
+      { label: "「役に立たないと不安」がある",    desc: "条件付き自己価値・ワーキングモデル",  href: "/articles/self-value-unknown" },
+    ],
+  },
+  "recovery": {
+    title: "回復の入口——今どこにいますか？",
+    items: [
+      { label: "セルフケアをしても回復しない",   desc: "消耗の種類と回復方法のズレ",          href: "/articles/why-self-care-doesnt-work" },
+      { label: "安心できる場所がない",           desc: "安全基地・弱さを出せる場所",          href: "/articles/safe-base" },
+      { label: "感情・感覚が戻ってこない",        desc: "感覚から始まる回復プロセス",          href: "/articles/recovering-feeling" },
+      { label: "身体が緊張したままほぐれない",   desc: "慢性緊張・神経系の回復",              href: "/articles/always-tense" },
+    ],
+  },
+}
+
+/* -------------------------------------------------------------------------- */
+/*  クラスター定義                                                               */
 /* -------------------------------------------------------------------------- */
 
 const CLUSTERS: Record<string, LinkItem[]> = {
@@ -85,8 +159,8 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   ],
 
   selfFunction: [
-    { href: "/articles/impostor-syndrome",  text: "インポスター症候群とは（自信がない・バレる恐れ）" },
-    { href: "/articles/impostor-check-20", text: "インポスター症候群チェック（20項目）" },
+    { href: "/articles/impostor-syndrome",            text: "インポスター症候群とは（自信がない・バレる恐れ）" },
+    { href: "/articles/impostor-check-20",            text: "インポスター症候群チェック（20項目）" },
     { href: "/articles/self-function-what",           text: "自己機能とは何か（ピラー）" },
     { href: "/articles/self-function-decline",        text: "自己機能が低下するとどうなるか（症状ハブ）" },
     { href: "/articles/other-centered-living",        text: "他人軸で生きてしまう" },
@@ -134,7 +208,6 @@ const CLUSTERS: Record<string, LinkItem[]> = {
 /*  表示ルール                                                                  */
 /* -------------------------------------------------------------------------- */
 
-// type ごとに表示するクラスターキーを定義
 const SHOW_RULES: Record<TypeKey, string[]> = {
   "check":         ["checks", "symptoms", "concepts", "recovery"],
   "symptom":       ["checks", "symptoms", "concepts", "recovery"],
@@ -154,12 +227,12 @@ const SECTION_LABELS: Record<string, string> = {
   selfFunction: "自己機能・自己理解",
   mbti:         "性格診断を超えた自己理解",
   attachment:   "愛着・対人パターン",
-  jobtypes:      "職種別",
+  jobtypes:     "職種別",
   nervousSystem: "神経系・身体感覚",
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Helper                                                                     */
+/*  Helpers                                                                    */
 /* -------------------------------------------------------------------------- */
 
 function LinkList({ items, exclude, max }: { items: LinkItem[]; exclude?: string[]; max?: number }) {
@@ -184,43 +257,71 @@ function LinkList({ items, exclude, max }: { items: LinkItem[]; exclude?: string
 export default function ArticleFooterLinks({ type = "check", exclude = [] }: Props) {
   const isFirstReadExcluded = exclude.includes(FIRST_READ.href)
   const sectionsToShow = SHOW_RULES[type] ?? SHOW_RULES["check"]
+  const branchNav = BRANCH_NAV[type]
 
   return (
-    <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6 space-y-4">
+    <div className="mt-6 space-y-3">
 
-      {/* 「初めての方へ」固定ブロック */}
-      {!isFirstReadExcluded && (
-        <div>
-          <p className="text-xs font-medium text-stone-600 mb-2">初めての方へ</p>
-          <Link
-            to={FIRST_READ.href}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#8FAF9F]/30 bg-white text-sm font-medium text-stone-700 hover:border-[#8FAF9F]/60 transition-colors"
-          >
-            <span style={{ color: "#8FAF9F" }}>✓</span>
-            {FIRST_READ.text}
-          </Link>
+      {/* ── 分岐ナビ（上部）──────────────────────────────── */}
+      {branchNav && (
+        <div className="p-4 rounded-xl border border-stone-200 bg-white">
+          <p className="text-xs font-medium text-stone-500 mb-3">{branchNav.title}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {branchNav.items
+              .filter((item) => !exclude.includes(item.href))
+              .map(({ label, desc, href }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  className="group flex flex-col gap-0.5 px-3 py-2.5 rounded-lg border border-stone-100 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all"
+                >
+                  <span className="text-xs font-medium text-stone-700 group-hover:text-stone-900 leading-snug">
+                    {label}
+                  </span>
+                  <span className="text-[10px] text-stone-400 leading-relaxed">{desc}</span>
+                </Link>
+              ))}
+          </div>
         </div>
       )}
 
-      {/* 動的セクション */}
-      {sectionsToShow.map((key, i) => {
-        const items = CLUSTERS[key]
-        if (!items) return null
-        const isFirst = i === 0
-        return (
-          <div key={key} className={isFirst && !isFirstReadExcluded ? "border-t border-stone-100 pt-3" : isFirst ? "" : "border-t border-stone-100 pt-3"}>
-            <p className="text-xs font-medium text-stone-600 mb-2">{SECTION_LABELS[key]}</p>
-            <div className="flex flex-col gap-1.5">
-              <LinkList
-                items={items}
-                exclude={exclude}
-                max={key === "symptoms" ? 5 : undefined}
-              />
-            </div>
-          </div>
-        )
-      })}
+      {/* ── クラスターリンク（下部）──────────────────────── */}
+      <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-4">
 
+        {/* 「初めての方へ」固定ブロック */}
+        {!isFirstReadExcluded && (
+          <div>
+            <p className="text-xs font-medium text-stone-600 mb-2">初めての方へ</p>
+            <Link
+              to={FIRST_READ.href}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#8FAF9F]/30 bg-white text-sm font-medium text-stone-700 hover:border-[#8FAF9F]/60 transition-colors"
+            >
+              <span style={{ color: "#8FAF9F" }}>✓</span>
+              {FIRST_READ.text}
+            </Link>
+          </div>
+        )}
+
+        {/* 動的セクション */}
+        {sectionsToShow.map((key, i) => {
+          const items = CLUSTERS[key]
+          if (!items) return null
+          const isFirst = i === 0
+          return (
+            <div key={key} className={isFirst && !isFirstReadExcluded ? "border-t border-stone-100 pt-3" : isFirst ? "" : "border-t border-stone-100 pt-3"}>
+              <p className="text-xs font-medium text-stone-600 mb-2">{SECTION_LABELS[key]}</p>
+              <div className="flex flex-col gap-1.5">
+                <LinkList
+                  items={items}
+                  exclude={exclude}
+                  max={key === "symptoms" ? 5 : undefined}
+                />
+              </div>
+            </div>
+          )
+        })}
+
+      </div>
     </div>
   )
 }
