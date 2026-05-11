@@ -43,10 +43,11 @@ const FIRST_READ: LinkItem = {
 type BranchItem = { label: string; desc: string; href: string; isCv?: boolean }
 
 type BranchSection = { heading: string; items: BranchItem[] }
-type BranchNav = { sections: BranchSection[] }
+type BranchNav = { hook: string; sections: BranchSection[] }
 
 const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
   "check": {
+    hook: "「なんとなくしんどい」状態のままだと、原因が分からないまま消耗が続きます。今の状態に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -69,6 +70,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "symptom": {
+    hook: "症状だけ見ていると、根本の構造が見えにくくなります。今感じていることに近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -91,6 +93,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "concept": {
+    hook: "「なぜこうなるのか」が見えると、消耗のパターンが変わります。今の関心に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -113,6 +116,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "self-function": {
+    hook: "自己機能の消耗は、気づかないうちに深まります。今の状態に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -135,6 +139,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "mbti": {
+    hook: "タイプ名を知るだけでは、消耗は変わりません。今の状態に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -157,6 +162,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "attachment": {
+    hook: "対人パターンは、気づくことで変えられます。今の状態に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -179,6 +185,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
     ],
   },
   "recovery": {
+    hook: "回復の入口は人によって違います。今の状態に近いものを選んでください。",
     sections: [
       {
         heading: "今しんどい",
@@ -359,6 +366,8 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
       {/* ── 分岐ナビ（上部・2層構造）─────────────────────── */}
       {branchNav && (
         <div className="p-4 rounded-xl border border-stone-200 bg-white space-y-4">
+          {/* 共感フック */}
+          <p className="text-xs text-stone-500 leading-relaxed">{branchNav.hook}</p>
           {branchNav.sections.map((section) => (
             <div key={section.heading}>
               <p className="text-[10px] font-medium tracking-[0.15em] uppercase mb-2" style={{ color: "#8FAF9F" }}>
@@ -375,7 +384,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
                     >
                       <span className="text-xs font-medium text-stone-700 group-hover:text-stone-900 leading-snug">
                         {label}
-                        {isCv && <span className="ml-1 text-[9px] px-1 py-0.5 rounded font-normal" style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F" }}>相談</span>}
+                        {isCv && <span className="ml-1 text-[9px] px-1.5 py-0.5 rounded font-normal" style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F" }}>相談・無理に決めなくていい</span>}
                       </span>
                       <span className="text-[10px] text-stone-400 leading-relaxed">{desc}</span>
                     </Link>
@@ -383,6 +392,19 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
               </div>
             </div>
           ))}
+          {/* フォールバック：取りこぼし防止 */}
+          <div className="pt-3 border-t border-stone-100">
+            <p className="text-xs text-stone-400 leading-relaxed mb-2">
+              どれにも当てはまらない場合は、今の状態を一緒に整理することもできます。
+            </p>
+            <a
+              href="/#contact"
+              className="inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition-colors"
+              style={{ color: "#8FAF9F" }}
+            >
+              → 今の状態を整理する（初回無料・無理に決めなくていい）
+            </a>
+          </div>
         </div>
       )}
 
