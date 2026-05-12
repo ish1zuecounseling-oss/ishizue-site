@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function CommunicationFatigue() {
@@ -128,7 +128,7 @@ export default function CommunicationFatigue() {
         </div>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
       <h2>回復の方向</h2>
       <p>
