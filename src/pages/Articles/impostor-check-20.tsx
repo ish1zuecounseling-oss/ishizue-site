@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import LineCta from "../../components/LineCta"
+import LineCta, { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const CHECK_ITEMS = [
