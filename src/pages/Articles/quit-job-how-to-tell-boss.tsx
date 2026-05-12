@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -72,7 +72,7 @@ export default function QuitJobHowToTellBoss() {
         <p>・口頭で伝えた後、退職届を提出する</p>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
 
       <h2>本音を言う必要はない</h2>
