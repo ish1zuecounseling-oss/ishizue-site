@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -131,7 +131,7 @@ export default function EmotionUnknown() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaImpostor />
 
       <h2>感情を取り戻すために：回復のアプローチ</h2>
       <p>
@@ -201,7 +201,7 @@ export default function EmotionUnknown() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="concept" exclude={["/articles/emotion-unknown"]} />
+      <ArticleFooterLinks type="self-function" exclude={["/articles/emotion-unknown"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と感情労働・共感疲労・脳疲労に関する心理学的知見をもとに作成しています。医学的な診断ではありません。
