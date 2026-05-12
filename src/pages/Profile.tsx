@@ -99,11 +99,11 @@ export default function Profile() {
   return (
     <>
       <Helmet>
-        <title>プロフィール｜松本 龍児（公認心理師）｜こころの相談室 いしずえ</title>
+        <title>松本 龍児（まつもと りゅうじ）｜公認心理師・こころの相談室 いしずえ代表</title>
         <link rel="canonical" href="https://www.ishizue-counseling.jp/profile" />
         <meta
           name="description"
-          content="障害福祉15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師・松本龍児のプロフィール。支援職の燃え尽きに特化した構造整理型カウンセリング。"
+          content="松本龍児（まつもと りゅうじ）は公認心理師。障害福祉15年・累計300名以上6,000時間以上の支援経験。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。"
         />
         <script type="application/ld+json">{`
           {
@@ -117,7 +117,8 @@ export default function Profile() {
             "image": "https://www.ishizue-counseling.jp/profile.jpg",
             "sameAs": [
               "https://x.com/ish1zue",
-              "https://www.instagram.com/ishizue_counseling/"
+              "https://www.instagram.com/ishizue_counseling/",
+              "https://note.com/ryuji_ishizue"
             ],
             "worksFor": {
               "@type": "ProfessionalService",
@@ -128,6 +129,15 @@ export default function Profile() {
               "@type": "EducationalOccupationalCredential",
               "credentialCategory": "国家資格",
               "name": "公認心理師"
+            },
+            "knowsAbout": [
+              "共感疲労", "バーンアウト", "感情労働", "二次受傷",
+              "支援職カウンセリング", "境界線", "自己機能", "他人軸",
+              "インポスター症候群", "自己複雑性", "ワーキングモデル",
+              "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
+              "セルフコンパッション", "構造整理型カウンセリング"
+            ],
+            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・感情労働・インポスター症候群・他人軸・自己機能低下に特化した構造整理型カウンセリングを提供。"
             }
           }
         `}</script>
