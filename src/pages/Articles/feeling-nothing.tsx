@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function FeelingNothing() {
@@ -74,7 +74,7 @@ export default function FeelingNothing() {
         状態を確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/helper-emotional-numbness-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺チェック</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaImpostor />
 
       <h2>感覚・感情を取り戻すために</h2>
       <p>
