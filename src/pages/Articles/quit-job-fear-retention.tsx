@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -107,7 +107,7 @@ export default function QuitJobFearRetention() {
         </div>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
       <h2>「説得に勝つ」必要はない——「離れること」が本質</h2>
       <p>
