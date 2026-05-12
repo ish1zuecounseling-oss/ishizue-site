@@ -447,6 +447,9 @@ export default function ArticleLayout({
                   <p className="text-[11px] text-stone-400 pt-1">
                     ※ 本記事は心理的な理解を深めるための情報提供を目的としており、医療行為・診断に代わるものではありません。気になる症状がある場合は専門機関にご相談ください。
                   </p>
+                  <p className="text-[11px] text-stone-400 pt-2 mt-2 border-t border-stone-100">
+  この記事は、こころの相談室 いしずえ（公認心理師・松本 龍児）が執筆しています。
+</p>
                 </div>
               </div>
             </div>
