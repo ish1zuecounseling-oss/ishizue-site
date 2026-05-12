@@ -6,8 +6,8 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function CommunicationFatigue() {
   return (
     <ArticleLayout
-      title="コミュニケーションで疲れるのはなぜ？｜人と話すだけで消耗する理由と回復のヒント"
-      description="人と話すだけで疲れる・気を遣いすぎて消耗するのはなぜか。共感疲労・他人軸・対人関係機能の過活動から構造的に解説し、回復の方向を示します。"
+      title="コミュニケーション疲れ｜人と話すと疲れる理由と消耗を減らす方法"
+      description="人と話すと疲れる・気を遣いすぎて消耗する——コミュニケーション疲れの原因を共感疲労・他人軸・感情労働から解説。構造的な理由と回復方法を示します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/communication-fatigue"
       date="2026-05-09"
       tags={["burnout", "compassion", "boundary"]}
