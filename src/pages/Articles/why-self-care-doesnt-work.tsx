@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function WhySelfCareDoesntWork() {
@@ -73,7 +73,7 @@ export default function WhySelfCareDoesntWork() {
         今の消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaFatigue />
 
       <h2>セルフケアが「効く」ようになるために</h2>
 
