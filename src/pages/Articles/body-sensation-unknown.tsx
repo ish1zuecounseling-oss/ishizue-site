@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function BodySensationUnknown() {
@@ -75,7 +75,7 @@ export default function BodySensationUnknown() {
         自己機能の状態→ <Link to="/articles/self-function-decline" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能が低下するとどうなるか</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaFatigue />
 
       <h2>身体感覚を取り戻すために</h2>
       <p>
