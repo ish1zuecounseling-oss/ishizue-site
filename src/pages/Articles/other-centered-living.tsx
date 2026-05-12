@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -139,7 +139,7 @@ export default function OtherCenteredLiving() {
         自己機能について→ <Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能とは何か</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaImpostor />
 
       <h2>自分軸を取り戻すために</h2>
       <p>
