@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function QuitJobNotQuit() {
@@ -74,7 +74,7 @@ export default function QuitJobNotQuit() {
         ※このような状態が続く場合は、退職の判断より先に医療機関への相談を優先してください。
       </p>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
       <h2>「辞めるべきか」を止めて、「今の状態」を整理する</h2>
       <p>
