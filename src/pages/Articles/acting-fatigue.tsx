@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -126,7 +126,7 @@ export default function ActingFatigue() {
         </div>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
       <h2>回復の方向——「やめる」ではなく「調整する」</h2>
       <p>
