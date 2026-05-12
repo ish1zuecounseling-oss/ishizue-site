@@ -41,12 +41,13 @@ export default function AboutMatsumoto() {
           "alternateName": "まつもと りゅうじ",
           "jobTitle": "公認心理師",
           "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。",
-          "url": "https://www.ishizue-counseling.jp/profile",
+          "url": "https://www.ishizue-counseling.jp/articles/about-matsumoto",
           "image": "https://www.ishizue-counseling.jp/profile.jpg",
           "sameAs": [
             "https://x.com/ish1zue",
             "https://www.instagram.com/ishizue_counseling/",
-            "https://note.com/ryuji_ishizue"
+            "https://note.com/ryuji_ishizue",
+            "https://www.ishizue-counseling.jp/articles/about-matsumoto"
           ],
           "worksFor": {
             "@type": "ProfessionalService",
@@ -64,6 +65,24 @@ export default function AboutMatsumoto() {
             "インポスター症候群", "自己複雑性", "ワーキングモデル",
             "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
             "セルフコンパッション", "構造整理型カウンセリング"
+          ]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "こころの相談室 いしずえ",
+          "url": "https://www.ishizue-counseling.jp",
+          "logo": "https://www.ishizue-counseling.jp/logo.png",
+          "founder": {
+            "@type": "Person",
+            "name": "松本 龍児",
+            "url": "https://www.ishizue-counseling.jp/articles/about-matsumoto"
+          },
+          "description": "支援職（看護師・介護士・福祉職・教員など対人援助職）の燃え尽き・共感疲労・自己機能消耗に特化したオンラインカウンセリング事業。公認心理師・松本龍児が代表。",
+          "sameAs": [
+            "https://x.com/ish1zue",
+            "https://www.instagram.com/ishizue_counseling/",
+            "https://note.com/ryuji_ishizue"
           ]
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
@@ -106,6 +125,9 @@ export default function AboutMatsumoto() {
               松本龍児とは——公認心理師・こころの相談室いしずえ代表
             </h1>
 
+            <p className="text-[11px] text-stone-400 mb-4">
+              この記事は、こころの相談室 いしずえ（公認心理師・松本 龍児）が執筆しています。
+            </p>
             <p className="text-stone-600 text-base sm:text-lg leading-[1.9] py-1 mb-10" style={{ borderLeft: `2px solid ${SAGE}`, paddingLeft: "1.25rem" }}>
               支援職の消耗を「構造」として整理する——その視点で、15年間対人援助職の支援に携わってきた公認心理師です。
             </p>
