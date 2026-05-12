@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function TryingTooHard() {
@@ -87,7 +87,11 @@ export default function TryingTooHard() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト診断</Link>
       </p>
 
-      <LineCtaSmall />
+      <p className="text-sm text-stone-500 mt-2">
+        インポスター症候群との関係→ <a href="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは｜「できているのに自信がない」の正体</a> ／ <a href="/articles/impostor-check-20" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群チェック（20項目）</a>
+      </p>
+
+      <LineCtaImpostor />
 
       <h2>「頑張りすぎる」から降りるために</h2>
 
