@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function RecoveringFeeling() {
@@ -114,7 +114,7 @@ export default function RecoveringFeeling() {
         <strong>「今日は昨日より少し感じられた」——それが回復です。</strong>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaFatigue />
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-xs text-stone-500 mb-2">「感情・感覚を取り戻したい」を外から整理したいとき。</p>
