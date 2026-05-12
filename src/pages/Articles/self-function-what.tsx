@@ -22,7 +22,7 @@ export default function SelfFunctionWhat() {
   return (
     <ArticleLayout
       title="自己機能とは何か｜「自分がわからない」「何がしたいかわからない」はなぜ起きるのか"
-      description="「自分がわからない」「何がしたいかわからない」「感情がわからない」——これは自己機能の消耗から起きています。なぜ頑張りすぎる人・支援職ほど自分を見失うのか、仕組みと回復を解説します。"
+      description="「自分がわからない」「何がしたいかわからない」「感情がわからない」——これは自己機能の消耗から起きています。なぜ頑張りすぎる人・支援職ほど自分を見失うのか、仕組みと回復を解説します。。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/self-function-what"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
