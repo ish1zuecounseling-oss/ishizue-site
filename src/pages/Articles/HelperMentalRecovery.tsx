@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function HelperMentalRecovery() {
@@ -125,7 +125,7 @@ export default function HelperMentalRecovery() {
         サポートを受けながら、自分のペースで回復のプロセスを歩んでいただけたらと思います。
       </p>
 
-      <LineCtaSmall />
+      <LineCtaFatigue />
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-xs text-stone-500 mb-2">立て直しを一人で抱えなくていいです。</p>
