@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -97,7 +97,7 @@ export default function QuitJobTiming() {
         </div>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
 
       <div className="my-6 p-4 rounded-2xl bg-stone-50 border border-stone-200">
