@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function WorkingModel() {
   return (
     <ArticleLayout
-      title="ワーキングモデル（内的作業モデル）とは何か｜断れない・他人軸・自己否定との関係"
-      description="ワーキングモデル（内的作業モデル）とは、幼少期の愛着から形成される「人との関係の前提」です。断れない・他人軸・自己否定はなぜ起きるのか。大人になっても変えられるかを解説します。"
+      title="ワーキングモデルとは何か｜断れない・他人軸・自己否定が続く理由と変えられる可能性"
+      description="ワーキングモデル（内的作業モデル）とは何か——幼少期の愛着から形成される「人との関係の前提」。断れない・他人軸・自己否定が続く理由と、大人になっても変えられる理由を解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/working-model"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
