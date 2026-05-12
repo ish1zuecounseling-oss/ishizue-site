@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -90,7 +90,7 @@ export default function QuitJobNoNext() {
         </div>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaQuit />
 
       <h2>今すぐ優先すべきこと</h2>
       <p>
