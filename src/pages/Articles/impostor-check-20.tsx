@@ -63,8 +63,8 @@ export default function ImpostorCheck20() {
 
   return (
     <ArticleLayout
-      title="インポスター症候群チェック（20項目診断）｜「できているのに自信がない」は当てはまる？"
-      description="インポスター症候群の無料セルフ診断（20項目）。「いつかバレる」「たまたまうまくいっただけ」——YESの数を数えるだけで今の状態がわかります。なぜ起きるか・抜け出す方向も解説。"
+      title="インポスター症候群 診断テスト（20項目）｜「できているのに自信がない」状態を今すぐ確認"
+      description="インポスター症候群の無料診断テスト（20項目）。YESの数を数えるだけ・約2分。「いつかバレる」「評価されても自信がない」状態がどのくらいあるかわかります。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
       date="2026-05-08"
       tags={["burnout", "boundary", "check"]}
