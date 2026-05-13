@@ -319,6 +319,17 @@ export default function CompassionFatiguePillar() {
         </div>
       </div>
 
+
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-sm text-stone-600 leading-relaxed mb-2">
+          「なぜこんなに疲れるのか」を構造から整理すると、感情労働の見え方が変わってきます。
+        </p>
+        <a href="/articles/emotional-labor-what-pillar"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 感情労働とは？仕事で消耗する構造と回復の考え方
+        </a>
+      </div>
+
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と、
         共感疲労・二次受傷・感情労働に関する心理学的知見（Figley, 1995; Stamm, 2010ほか）をもとに作成しています。
