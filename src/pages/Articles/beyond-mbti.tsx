@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function BeyondMbti() {
@@ -111,7 +111,7 @@ export default function BeyondMbti() {
         <p>・「自分がおかしい」ではなく「この構造が消耗を生んでいる」と理解できる</p>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaCompassion />
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-xs text-stone-500 mb-2">「自分の取扱説明書」を一緒に作りたいとき。</p>
