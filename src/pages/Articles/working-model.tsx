@@ -195,6 +195,33 @@ export default function WorkingModel() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
+
+      {/* ── ワーキングモデルが関係する状態 ── */}
+      <div className="my-6 p-4 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-xs font-medium text-stone-600 mb-3">ワーキングモデルが関係する状態</p>
+        <p className="text-xs text-stone-400 mb-3 leading-relaxed">
+          以下の状態は、ワーキングモデルが背景にあることが多いです。
+          「なぜこうなるのか」を構造から理解したい方はあわせて読んでください。
+        </p>
+        <div className="flex flex-col gap-2">
+          {[
+            { href: "/articles/other-centered-living",  text: "他人軸で生きてしまう——自分の感情より相手を優先する" },
+            { href: "/articles/impostor-syndrome",       text: "インポスター症候群——「いつかバレる」感覚の正体" },
+            { href: "/articles/over-adaptation",         text: "過剰適応——素の自分を出せない理由" },
+            { href: "/articles/anxious-attachment",      text: "不安型愛着——断れない・見捨てられ不安の構造" },
+            { href: "/articles/avoidant-attachment",     text: "回避型愛着——弱さを見せられない・助けを求められない" },
+            { href: "/articles/self-value-unknown",      text: "自己価値がわからない——役割がないと不安な理由" },
+            { href: "/articles/self-complexity",         text: "自己複雑性の低下——失敗が全否定になる構造" },
+            { href: "/articles/afraid-to-leave-role",   text: "役割を降りることへの恐れ——役割依存の正体" },
+          ].map(({ href, text }) => (
+            <a key={href} href={href}
+              className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+              → {text}
+            </a>
+          ))}
+        </div>
+      </div>
+
       <ArticleFooterLinks type="attachment" exclude={["/articles/working-model"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
