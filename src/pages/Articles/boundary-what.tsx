@@ -129,6 +129,18 @@ export default function BoundaryWhat() {
 
       <LineCtaCompassion />
 
+      {/* 他人軸への逆流リンク */}
+      <div className="p-4 rounded-xl mb-4" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          ここまで読んで、「断れない」「人に合わせすぎる」と感じている場合、<br />
+          それは境界線だけでなく<strong>「他人軸」とも深く関係しています。</strong>
+        </p>
+        <Link to="/articles/other-axis-check"
+          className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900 mb-1">
+          → 他人軸チェック（15項目）——どの程度影響を受けているか確認する
+        </Link>
+      </div>
+
       <h2>境界線を守るために必要なこと</h2>
       <p>
         境界線を「引けるようになる」ためには、HowToより先に<strong>構造を理解すること</strong>が重要です。
