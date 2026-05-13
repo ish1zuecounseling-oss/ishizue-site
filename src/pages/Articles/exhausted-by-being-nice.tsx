@@ -3,18 +3,23 @@ import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
-export default function Article_exhausted_by_being_nice() {
+export default function Article() {
   return (
     <ArticleLayout
-      title="優しすぎて疲れる理由｜いい人をやめられない人の消耗構造"
+      title="優しすぎて疲れるのはなぜ？いい人ほど消耗する心理と構造"
       description="優しすぎて疲れる——それは美徳ではなく、自己犠牲・他人軸・感情労働という消耗の構造から起きています。なぜいい人をやめられないのかを構造から解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/exhausted-by-being-nice"
       date="2026-05-13"
       tags={["boundary", "burnout", "compassion"]}
     >
-      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「もっと自分のことを考えればいい」とわかっているのに、なぜか「いい人」をやめられない——それは構造の問題です。
-      </p>
+      {/* 冒頭フック */}
+      <div className="mb-5 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          「もっと自分のことを考えればいい」とわかっているのに、やめられない。
+そう感じていませんか？
+        </p>
+        <p className="text-xs text-stone-500 mt-2">「優しすぎて疲れる」のは、意志の問題ではなく構造の問題です。</p>
+      </div>
 
       <div className="mb-6 p-4 rounded-xl" style={{ background: "#fefce8", border: "1px solid #fde68a" }}>
         <p className="text-sm font-medium mb-2" style={{ color: "#92400e" }}>こんな状態はありますか？</p>
@@ -23,7 +28,6 @@ export default function Article_exhausted_by_being_nice() {
           <li>・「自分さえ我慢すれば」とよく思う</li>
           <li>・人のために動いた後、消耗感が強い</li>
           <li>・「優しすぎる」と言われるが、やめ方がわからない</li>
-          <li>・自分のニーズを後回しにすることが習慣になっている</li>
         </ul>
       </div>
 
@@ -41,12 +45,19 @@ export default function Article_exhausted_by_being_nice() {
         </a>
       </div>
 
-      <h2>背景にある構造</h2>
-      <p className="text-sm text-stone-600 leading-[1.9]">
-        消耗が続く背景には、いくつかの構造的な理由があります。
-      </p>
+      {/* 中盤チェックリスト */}
+      <div className="my-6 p-4 rounded-xl border border-stone-200 bg-stone-50">
+        <p className="text-xs font-medium text-stone-600 mb-2">ここまで読んで、こんな感覚ありませんか？</p>
+        <ul className="text-xs space-y-1.5 text-stone-600">
+          <li>・自分のニーズを後回しにすることが習慣になっている</li>
+          <li>・「NO」と言うと関係が壊れる気がする</li>
+          <li>・自分を大切にすることに罪悪感がある</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-2">→ 2つ以上当てはまる場合、消耗が進んでいる可能性があります。</p>
+      </div>
 
-      <div className="space-y-3 mt-4">
+      <h2>背景にある構造</h2>
+      <div className="space-y-3">
         <div className="card">
           <p className="text-sm font-medium text-stone-700 mb-1">
             <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線（バウンダリー）の消耗</Link>
@@ -73,17 +84,22 @@ export default function Article_exhausted_by_being_nice() {
         </div>
       </div>
 
+      {/* LINE前振り */}
+      <p className="text-sm text-stone-500 leading-relaxed mt-6 mb-2">
+        この状態は、放っておくと「自分の消耗に気づけなくなる」ことがあります。段階ごとに整理した内容をLINEで送っています。
+      </p>
+
       <LineCtaCompassion />
 
       <h2>回復の方向</h2>
       <p>
         「もっと頑張らなければ」ではなく、<strong>なぜこうなっているのかを構造から理解すること</strong>が最初の一歩です。
       </p>
-      <div className="card text-sm text-stone-600 leading-[1.9]">
-        <p>・消耗の構造を整理する→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？</Link></p>
-        <p>・境界線の消耗を整理する→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？</Link></p>
-        <p>・他人軸の構造を整理する→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？</Link></p>
-        <p>・状態を確認する→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目）</Link></p>
+      <div className="card text-sm text-stone-600 space-y-1.5">
+        <p>→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？消耗する構造を整理する</Link></p>
+        <p>→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？抱え込みの構造を整理する</Link></p>
+        <p>→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？抜け出せない理由を整理する</Link></p>
+        <p>→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目・3分）</Link></p>
       </div>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
@@ -92,6 +108,7 @@ export default function Article_exhausted_by_being_nice() {
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           「なぜこんなに疲れるのか」を構造から整理することで、消耗を減らす方向が見えてきます。
+          まだ決めなくていいです。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
           支援職専門カウンセリングに相談する（初回無料）
