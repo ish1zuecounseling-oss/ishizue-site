@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
 
 const checkItems = [
   "利用者の問題が仕事後も頭から離れない",
@@ -38,11 +39,14 @@ const resultConfig = {
     label: "比較的安定している状態です",
     color: "result-low",
     message: "大きな消耗は見られませんが、支援職の疲れは『自覚がないまま蓄積する』のが特徴です。余裕がある今の段階で整えておくことが、後から崩れないための分かれ目になります。",
+    lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
+    lineLabel: "この状態がどう進むか知っておく（無料・読むだけOK）",
+    lineDesc: "共感疲労は「気づかないまま深まる」消耗です。今の段階別の整理をLINEで送っています。",
     nextLabel: "今の状態を予防に活かす記事",
     links: [
-      { href: "/articles/helper-rest-types",      text: "休息に必要な7つの要素｜ただ休むだけでは回復しない理由" },
-      { href: "/articles/helper-stress-coping",   text: "支援職のストレス対処｜共感疲労・感情労働から理解する" },
-      { href: "/articles/helper-boundary",        text: "境界線（バウンダリー）とは｜支援職が抱え込みやすい理由" },
+      { href: "/articles/helper-rest-types",   text: "休息に必要な7つの要素｜ただ休むだけでは回復しない理由" },
+      { href: "/articles/helper-boundary",     text: "境界線（バウンダリー）とは｜支援職が抱え込みやすい理由" },
+      { href: "/articles/boundary-what",       text: "境界線とは？人間関係で疲れやすい人のためのバウンダリーの基本" },
     ],
     cvBlock: {
       heading: "余裕がある今の状態を、崩れる前に整えておく",
@@ -56,15 +60,18 @@ const resultConfig = {
     label: "共感疲労が蓄積している可能性があります",
     color: "result-mid",
     message: "『まだ大丈夫』と思えているかもしれませんが、実際には共感疲労が静かに進みはじめている状態です。この段階で気づけるかどうかが、その後の消耗を大きく分けます。",
+    lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
+    lineLabel: "今どの段階か知っておく（無料・読むだけOK）",
+    lineDesc: "この段階からさらに深まると、回復に時間がかかることがあります。段階ごとの整理をLINEで送っています。",
     nextLabel: "6〜10項目の方に読んでほしい記事",
     links: [
-      { href: "/articles/helper-empathy-fatigue",       text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
-      { href: "/articles/helper-burnout-signs",         text: "バーンアウトの前兆（サイン）とは｜気づきたい心と体の変化" },
-      { href: "/articles/helper-boundary",              text: "境界線の引き方｜冷たくならずに自分を守る方法" },
+      { href: "/articles/helper-empathy-fatigue",  text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/helper-burnout-signs",    text: "バーンアウトの前兆（サイン）とは｜気づきたい心と体の変化" },
+      { href: "/articles/emotional-labor-what-pillar", text: "感情労働とは？仕事で消耗する構造と回復の考え方" },
     ],
     cvBlock: {
       heading: "この段階で止められるかどうかが分かれ目です",
-      body: "まだ日常は回せているかもしれませんが、共感疲労はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。逆に後回しにすると、回復に時間がかかることもあります。",
+      body: "まだ日常は回せているかもしれませんが、共感疲労はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。",
       buttonText: "今の状態を整理しておく（初回無料）",
       href: "/#contact",
       sub: "勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可",
@@ -74,15 +81,18 @@ const resultConfig = {
     label: "共感疲労が強くなっている可能性があります",
     color: "result-high",
     message: "共感疲労がかなり強くなっている可能性があります。『休めば戻る』段階を超えている場合もあり、一人で何とかしようとするほど回復が遅れることがあります。",
+    lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
+    lineLabel: "この状態から回復した人がどうしたか読む（無料）",
+    lineDesc: "一人で抱え続けると回復が遅くなります。回復の段階別の整理をLINEで送っています。",
     nextLabel: "11項目以上の方へ——まずこの記事を読んでください",
     links: [
-      { href: "/articles/compassion-fatigue-recovery",  text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
-      { href: "/articles/helper-empathy-fatigue",       text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
-      { href: "/articles/helper-burnout",               text: "バーンアウトとは｜燃え尽き症候群の構造と回復の視点" },
+      { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
+      { href: "/articles/helper-empathy-fatigue",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/why-self-care-doesnt-work",   text: "セルフケアが効かない理由｜休んでも回復しない構造" },
     ],
     cvBlock: {
       heading: "このまま抱え続けるより、外に出した方が早い状態です",
-      body: "今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。このまま抱え続けると、回復までに時間がかかることもあります。一度、そのままの状態を言葉にしてみませんか？",
+      body: "今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。一度、そのままの状態を言葉にしてみませんか？",
       buttonText: "今の状態をそのまま話してみる（初回無料）",
       href: "/#contact",
       sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
@@ -127,8 +137,8 @@ export default function HelperEmpathyCheck() {
 
   return (
     <ArticleLayout
-      title="共感疲労チェック・診断｜20項目でわかるセルフチェック【3分】"
-      description="共感疲労のセルフチェック・診断ツール。看護師・介護士・福祉職など支援職に多い20項目から消耗度・バーンアウト傾向を3分で確認できます。眠れない・感情麻痺・二次受傷など結果別の次のステップも解説。"
+      title="共感疲労チェック・診断｜支援職のための20項目セルフチェック【3分】"
+      description="共感疲労のセルフチェック・診断ツール。看護師・介護士・福祉職など支援職に多い20項目から消耗度を3分で確認。結果別に「なぜこうなるのか」の構造解説と次のステップを案内します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/helper-empathy-check"
       date="2026-03-22"
       audio="/audio/helper-fatigue-check.mp3"
@@ -191,6 +201,53 @@ export default function HelperEmpathyCheck() {
             <p className="result-message">{result.message}</p>
           </div>
 
+          {/* LINE誘導（診断結果の深掘り型） */}
+          <div style={{
+            borderLeft: "3px solid #8FAF9F",
+            paddingLeft: "1rem",
+            margin: "1.25rem 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}>
+            <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+              {result.lineDesc}
+            </p>
+            <a
+              href={result.lineHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", alignSelf: "flex-start" }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
+              </svg>
+              {result.lineLabel}
+            </a>
+            <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
+              読むだけOK ／ 勧誘なし ／ いつでも解除OK
+            </p>
+          </div>
+
+          {/* 構造理解への内部リンク */}
+          <div className="p-4 rounded-xl bg-stone-50 border border-stone-100 mb-4">
+            <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
+            <div className="flex flex-col gap-1.5">
+              <Link to="/articles/emotional-labor-what-pillar" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                → 感情労働とは？仕事で消耗する構造と回復の考え方
+              </Link>
+              <Link to="/articles/boundary-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                → 境界線とは？抱え込みの構造を理解する
+              </Link>
+              <Link to="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                → 他人軸とは？抜け出せない理由と原因
+              </Link>
+              <Link to="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                → ワーキングモデルとは？断れない・自己否定の構造的な理由
+              </Link>
+            </div>
+          </div>
+
           {result.cvBlock && (
             <div style={{
               background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)",
@@ -247,9 +304,9 @@ export default function HelperEmpathyCheck() {
           支援職では次のような構造が重なりやすいとされています。
         </p>
         <ul className="space-y-2">
-          <li>感情労働による継続的な心理的消耗</li>
+          <li><Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600">感情労働</Link>による継続的な心理的消耗</li>
           <li>利用者の痛みを「自分ごと」として引き受ける構造</li>
-          <li>境界線（バウンダリー）が曖昧になりやすい職場環境</li>
+          <li><Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600">境界線（バウンダリー）</Link>が曖昧になりやすい職場環境</li>
           <li>「弱音を言えない」という無言のプレッシャー</li>
         </ul>
       </div>
@@ -258,7 +315,7 @@ export default function HelperEmpathyCheck() {
         真剣に利用者と向き合ってきたからこそ起こる消耗です。
       </p>
       <p>
-        チェックの結果に関わらず、<a href="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者の話が頭から離れない</a>・<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情が麻痺している</a>・<a href="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</a>といった症状が続いている場合は、早めに状態を整理することをおすすめします。
+        チェックの結果に関わらず、<Link to="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600">利用者の話が頭から離れない</Link>・<Link to="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600">感情が麻痺している</Link>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600">眠れない</Link>といった症状が続いている場合は、早めに状態を整理することをおすすめします。
       </p>
 
       <h2>共感疲労についてよくある質問</h2>
