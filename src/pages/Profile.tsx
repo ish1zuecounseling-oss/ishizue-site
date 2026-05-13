@@ -105,7 +105,45 @@ export default function Profile() {
           name="description"
           content="松本龍児（まつもと りゅうじ）は公認心理師。障害福祉15年・累計300名以上6,000時間以上の支援経験。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。"
         />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "松本 龍児",
+            "alternateName": "まつもと りゅうじ",
+            "jobTitle": "公認心理師",
+            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。",
+            "url": "https://www.ishizue-counseling.jp/profile",
+            "image": "https://www.ishizue-counseling.jp/profile.jpg",
+            "sameAs": [
+              "https://x.com/ish1zue",
+              "https://www.instagram.com/ishizue_counseling/",
+              "https://note.com/ryuji_ishizue",
+              "https://www.ishizue-counseling.jp/articles/about-matsumoto"
+            ],
+            "worksFor": {
+              "@type": "ProfessionalService",
+              "name": "こころの相談室 いしずえ",
+              "url": "https://www.ishizue-counseling.jp"
+            },
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "国家資格",
+              "name": "公認心理師"
+            },
+            "knowsAbout": [
+              "共感疲労", "バーンアウト", "感情労働", "二次受傷",
+              "支援職カウンセリング", "境界線", "自己機能", "他人軸",
+              "インポスター症候群", "自己複雑性", "ワーキングモデル",
+              "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
+              "セルフコンパッション", "構造整理型カウンセリング"
+            ],
+            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。"
+          }
+        })}</script>
         <script type="application/ld+json">{`
+
           {
             "@context": "https://schema.org",
             "@type": "Person",
