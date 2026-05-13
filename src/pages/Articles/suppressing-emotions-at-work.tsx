@@ -3,18 +3,23 @@ import { Link } from "react-router-dom"
 import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
-export default function Article_suppressing_emotions_at_work() {
+export default function Article() {
   return (
     <ArticleLayout
-      title="感情を抑えすぎる仕事のストレス｜感情を押し殺して働く人の消耗"
+      title="感情を抑えすぎるとどうなる？仕事で消耗する人の共通点"
       description="感情を抑えて働くことの消耗——感情労働・感情の麻痺・自己機能低下という構造から起きています。「もう感情がよくわからない」状態になる前に読んでほしい記事です。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/suppressing-emotions-at-work"
       date="2026-05-13"
       tags={["boundary", "burnout", "compassion"]}
     >
-      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「感情を出してはいけない」「仕事だから我慢するのが当然」——そう思いながら働き続けると、感情そのものがわからなくなっていきます。
-      </p>
+      {/* 冒頭フック */}
+      <div className="mb-5 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          「感情を出してはいけない」「仕事だから我慢するのが当然」
+そう思いながら働き続けていませんか？
+        </p>
+        <p className="text-xs text-stone-500 mt-2">感情を抑え続けると、感情そのものがわからなくなっていきます。</p>
+      </div>
 
       <div className="mb-6 p-4 rounded-xl" style={{ background: "#fefce8", border: "1px solid #fde68a" }}>
         <p className="text-sm font-medium mb-2" style={{ color: "#92400e" }}>こんな状態はありますか？</p>
@@ -22,7 +27,6 @@ export default function Article_suppressing_emotions_at_work() {
           <li>・仕事中、感情を意識的に押し込めることが多い</li>
           <li>・「怒り」「悲しみ」を感じても、すぐ消そうとする</li>
           <li>・最近、何に感動したか思い出せない</li>
-          <li>・「感情を出す」ことへの強い抵抗がある</li>
           <li>・仕事後、感情が空っぽになる感覚がある</li>
         </ul>
       </div>
@@ -41,12 +45,19 @@ export default function Article_suppressing_emotions_at_work() {
         </a>
       </div>
 
-      <h2>背景にある構造</h2>
-      <p className="text-sm text-stone-600 leading-[1.9]">
-        消耗が続く背景には、いくつかの構造的な理由があります。
-      </p>
+      {/* 中盤チェックリスト */}
+      <div className="my-6 p-4 rounded-xl border border-stone-200 bg-stone-50">
+        <p className="text-xs font-medium text-stone-600 mb-2">ここまで読んで、こんな感覚ありませんか？</p>
+        <ul className="text-xs space-y-1.5 text-stone-600">
+          <li>・「感情を出す」ことへの強い抵抗がある</li>
+          <li>・楽しいはずのことが楽しくなくなってきた</li>
+          <li>・「今、自分はどう感じているか」がよくわからない</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-2">→ 2つ以上当てはまる場合、消耗が進んでいる可能性があります。</p>
+      </div>
 
-      <div className="space-y-3 mt-4">
+      <h2>背景にある構造</h2>
+      <div className="space-y-3">
         <div className="card">
           <p className="text-sm font-medium text-stone-700 mb-1">
             <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線（バウンダリー）の消耗</Link>
@@ -73,17 +84,22 @@ export default function Article_suppressing_emotions_at_work() {
         </div>
       </div>
 
+      {/* LINE前振り */}
+      <p className="text-sm text-stone-500 leading-relaxed mt-6 mb-2">
+        この状態は、放っておくと「感情・感覚へのアクセスがさらに難しくなる」ことがあります。段階ごとに整理した内容をLINEで送っています。
+      </p>
+
       <LineCtaFatigue />
 
       <h2>回復の方向</h2>
       <p>
         「もっと頑張らなければ」ではなく、<strong>なぜこうなっているのかを構造から理解すること</strong>が最初の一歩です。
       </p>
-      <div className="card text-sm text-stone-600 leading-[1.9]">
-        <p>・消耗の構造を整理する→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？</Link></p>
-        <p>・境界線の消耗を整理する→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？</Link></p>
-        <p>・他人軸の構造を整理する→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？</Link></p>
-        <p>・状態を確認する→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目）</Link></p>
+      <div className="card text-sm text-stone-600 space-y-1.5">
+        <p>→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？消耗する構造を整理する</Link></p>
+        <p>→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？抱え込みの構造を整理する</Link></p>
+        <p>→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？抜け出せない理由を整理する</Link></p>
+        <p>→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目・3分）</Link></p>
       </div>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
@@ -92,6 +108,7 @@ export default function Article_suppressing_emotions_at_work() {
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           「なぜこんなに疲れるのか」を構造から整理することで、消耗を減らす方向が見えてきます。
+          まだ決めなくていいです。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
           支援職専門カウンセリングに相談する（初回無料）
