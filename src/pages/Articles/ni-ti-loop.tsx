@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function NiTiLoop() {
@@ -80,7 +80,7 @@ export default function NiTiLoop() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaCompassion />
 
       <h2>Ni-Tiループから抜け出すために</h2>
       <p>
@@ -118,7 +118,7 @@ export default function NiTiLoop() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="self-function" exclude={["/articles/ni-ti-loop"]} />
+      <ArticleFooterLinks type="mbti" exclude={["/articles/ni-ti-loop"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事はMBTIの認知機能論を自己理解のモデルとして活用しています。認知機能論は科学的性格検査ではなく、自分の傾向を理解するためのヒントとして使用しています。公認心理師・障害福祉15年の臨床経験をもとに作成しています。
