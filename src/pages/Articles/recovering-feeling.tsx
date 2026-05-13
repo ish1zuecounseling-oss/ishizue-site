@@ -114,6 +114,17 @@ export default function RecoveringFeeling() {
         <strong>「今日は昨日より少し感じられた」——それが回復です。</strong>
       </p>
 
+      
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-sm text-stone-600 leading-relaxed mb-2">
+          「なぜこんなに疲れるのか」を構造から整理すると、感情労働の見え方が変わってきます。
+        </p>
+        <a href="/articles/emotional-labor-what-pillar"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 感情労働とは？仕事で消耗する構造と回復の考え方
+        </a>
+      </div>
+
       <LineCtaFatigue />
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
