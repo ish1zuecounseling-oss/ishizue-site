@@ -41,7 +41,7 @@ const resultConfig = {
     message: "大きな消耗は見られませんが、支援職の疲れは『自覚がないまま蓄積する』のが特徴です。余裕がある今の段階で整えておくことが、後から崩れないための分かれ目になります。",
     lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
     lineLabel: "この状態がどう進むか知っておく（無料・読むだけOK）",
-    lineDesc: "共感しすぎる人には「他人軸が強い・境界線が薄い」という共通パターンがあります。あなたのタイプ別の消耗パターンをLINEで解説しています。",
+    lineDesc: "あなたがどのタイプの消耗パターンなのか（他人軸・境界線のどこに偏っているか）をLINEで具体的に解説しています。",
     nextLabel: "今の状態を予防に活かす記事",
     links: [
       { href: "/articles/helper-rest-types",   text: "休息に必要な7つの要素｜ただ休むだけでは回復しない理由" },
@@ -62,7 +62,7 @@ const resultConfig = {
     message: "『まだ大丈夫』と思えているかもしれませんが、実際には共感疲労が静かに進みはじめている状態です。この段階で気づけるかどうかが、その後の消耗を大きく分けます。",
     lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
     lineLabel: "今どの段階か知っておく（無料・読むだけOK）",
-    lineDesc: "この段階の人に多いのが「他人軸の強さ」「境界線の薄さ」です。あなたのタイプ別の消耗パターンをLINEで解説しています。",
+    lineDesc: "この段階の人に多いのが「他人軸の強さ」「境界線の薄さ」です。あなたがどのタイプか、LINEで具体的に解説しています。",
     nextLabel: "6〜10項目の方に読んでほしい記事",
     links: [
       { href: "/articles/helper-empathy-fatigue",  text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
@@ -83,7 +83,7 @@ const resultConfig = {
     message: "共感疲労がかなり強くなっている可能性があります。『休めば戻る』段階を超えている場合もあり、一人で何とかしようとするほど回復が遅れることがあります。",
     lineHref: "https://lin.ee/6H8Pzo6?type=compassion",
     lineLabel: "この状態から回復した人がどうしたか読む（無料）",
-    lineDesc: "共感疲労が強い人の多くに「他人軸」「境界線の薄さ」が関係しています。あなたのタイプ別の整理をLINEで送っています。",
+    lineDesc: "共感疲労が強い人の多くに「他人軸」「境界線の薄さ」が関係しています。あなたがどのタイプか、LINEで具体的に解説しています。",
     nextLabel: "11項目以上の方へ——まずこの記事を読んでください",
     links: [
       { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
@@ -232,13 +232,12 @@ export default function HelperEmpathyCheck() {
           {/* 他人軸チェックへの気づき導線 */}
           <div className="p-4 rounded-xl mb-4" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
             <p className="text-sm text-stone-700 leading-[1.9] mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-              ここまでチェックしてみて、<br />
-              「人に気を使いすぎているかもしれない」<br />
-              「相手の反応を気にしすぎているかもしれない」<br />
-              と感じた方もいるかもしれません。
+              ここまで当てはまる場合、<br />
+              「共感しすぎ」ではなく、<br />
+              <strong>「他人軸がベースになっている状態」の可能性が高いです。</strong>
             </p>
             <p className="text-sm text-stone-600 leading-[1.9] mb-3">
-              この背景にあるのが<strong>「他人軸」</strong>という状態です。<br />
+              この状態は放っておくと、人間関係だけでなく<strong>「仕事の消耗」も強くなります。</strong><br />
               共感しすぎる人の多くは、他人軸が強く・境界線が薄いという共通点があります。
             </p>
             <Link to="/articles/other-axis-check"
