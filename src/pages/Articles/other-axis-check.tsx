@@ -173,6 +173,18 @@ export default function OtherAxisCheck() {
             </p>
           </div>
 
+          {/* 境界線への連鎖：確信度UP */}
+          <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+            <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              他人軸が強い人の多くは、<strong>「境界線の薄さ」も関係しています。</strong><br />
+              この状態が続くと、仕事の中での消耗がさらに深まります。
+            </p>
+            <Link to="/articles/boundary-what"
+              className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
+              → 境界線とは？「断れない・抱え込む」構造を確認する
+            </Link>
+          </div>
+
           {/* 構造理解リンク */}
           <div className="p-4 rounded-xl bg-stone-50 border border-stone-100 mb-4">
             <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
