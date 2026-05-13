@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function AnxiousAttachment() {
@@ -85,7 +85,7 @@ export default function AnxiousAttachment() {
         境界線の状態を確認→ <Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線セルフチェック（20項目）</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaImpostor />
 
       <h2>不安型パターンと向き合うために</h2>
 
