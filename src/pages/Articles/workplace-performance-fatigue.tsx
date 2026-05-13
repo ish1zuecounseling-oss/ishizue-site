@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
-export default function Article_workplace_performance_fatigue() {
+export default function Article() {
   return (
     <ArticleLayout
       title="職場で演技して疲れる理由｜「いい人」を続ける構造とは"
@@ -12,9 +12,14 @@ export default function Article_workplace_performance_fatigue() {
       date="2026-05-13"
       tags={["boundary", "burnout", "compassion"]}
     >
-      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「職場では常に演じている」「本当の自分を出せない」——これは感情労働という構造から起きています。
-      </p>
+      {/* 冒頭フック */}
+      <div className="mb-5 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          「職場では演じている」「本当の自分を出せない」
+そう感じていませんか？
+        </p>
+        <p className="text-xs text-stone-500 mt-2">これは感情労働という構造から起きています。意志の問題ではありません。</p>
+      </div>
 
       <div className="mb-6 p-4 rounded-xl" style={{ background: "#fefce8", border: "1px solid #fde68a" }}>
         <p className="text-sm font-medium mb-2" style={{ color: "#92400e" }}>こんな状態はありますか？</p>
@@ -23,7 +28,6 @@ export default function Article_workplace_performance_fatigue() {
           <li>・本当はしんどいのに「大丈夫です」と言ってしまう</li>
           <li>・帰宅後、どっと疲れる（エネルギーが空になる感覚）</li>
           <li>・「素の自分」を出したら嫌われる気がする</li>
-          <li>・感情を切り替えるのに時間がかかる</li>
         </ul>
       </div>
 
@@ -41,12 +45,19 @@ export default function Article_workplace_performance_fatigue() {
         </a>
       </div>
 
-      <h2>背景にある構造</h2>
-      <p className="text-sm text-stone-600 leading-[1.9]">
-        消耗が続く背景には、いくつかの構造的な理由があります。
-      </p>
+      {/* 中盤チェックリスト */}
+      <div className="my-6 p-4 rounded-xl border border-stone-200 bg-stone-50">
+        <p className="text-xs font-medium text-stone-600 mb-2">ここまで読んで、こんな感覚ありませんか？</p>
+        <ul className="text-xs space-y-1.5 text-stone-600">
+          <li>・職場では笑顔が「仕事」になっている</li>
+          <li>・感情を切り替えるのに時間がかかる</li>
+          <li>・休日でも職場の「顔」がなかなかオフにならない</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-2">→ 2つ以上当てはまる場合、消耗が進んでいる可能性があります。</p>
+      </div>
 
-      <div className="space-y-3 mt-4">
+      <h2>背景にある構造</h2>
+      <div className="space-y-3">
         <div className="card">
           <p className="text-sm font-medium text-stone-700 mb-1">
             <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線（バウンダリー）の消耗</Link>
@@ -73,17 +84,22 @@ export default function Article_workplace_performance_fatigue() {
         </div>
       </div>
 
+      {/* LINE前振り */}
+      <p className="text-sm text-stone-500 leading-relaxed mt-6 mb-2">
+        この状態は、放っておくと「感情が麻痺していく」ことがあります。段階ごとに整理した内容をLINEで送っています。
+      </p>
+
       <LineCtaImpostor />
 
       <h2>回復の方向</h2>
       <p>
         「もっと頑張らなければ」ではなく、<strong>なぜこうなっているのかを構造から理解すること</strong>が最初の一歩です。
       </p>
-      <div className="card text-sm text-stone-600 leading-[1.9]">
-        <p>・消耗の構造を整理する→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？</Link></p>
-        <p>・境界線の消耗を整理する→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？</Link></p>
-        <p>・他人軸の構造を整理する→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？</Link></p>
-        <p>・状態を確認する→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目）</Link></p>
+      <div className="card text-sm text-stone-600 space-y-1.5">
+        <p>→ <Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働とは？消耗する構造を整理する</Link></p>
+        <p>→ <Link to="/articles/boundary-what" className="underline underline-offset-2">境界線とは？抱え込みの構造を整理する</Link></p>
+        <p>→ <Link to="/articles/other-axis-what" className="underline underline-offset-2">他人軸とは？抜け出せない理由を整理する</Link></p>
+        <p>→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2">共感疲労チェック（20項目・3分）</Link></p>
       </div>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
@@ -92,6 +108,7 @@ export default function Article_workplace_performance_fatigue() {
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           「なぜこんなに疲れるのか」を構造から整理することで、消耗を減らす方向が見えてきます。
+          まだ決めなくていいです。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
           支援職専門カウンセリングに相談する（初回無料）
