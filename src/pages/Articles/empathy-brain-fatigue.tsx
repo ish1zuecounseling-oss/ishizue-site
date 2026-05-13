@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function EmpathyBrainFatigue() {
@@ -79,7 +79,7 @@ export default function EmpathyBrainFatigue() {
         詳しく→ <Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能とは何か</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaCompassion />
 
       <h2>共感能力を守りながら消耗を防ぐために</h2>
       <p>
@@ -112,7 +112,7 @@ export default function EmpathyBrainFatigue() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      <ArticleFooterLinks type="self-function" exclude={["/articles/empathy-brain-fatigue"]} />
+      <ArticleFooterLinks type="mbti" exclude={["/articles/empathy-brain-fatigue"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事はMBTIの認知機能論（Fe/Fi）を自己理解のモデルとして活用しています。科学的性格検査ではなく、傾向を理解するためのヒントとして使用しています。公認心理師・障害福祉15年の臨床経験をもとに作成しています。
