@@ -79,6 +79,17 @@ export default function EmpathyBrainFatigue() {
         詳しく→ <Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能とは何か</Link>
       </p>
 
+      
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-sm text-stone-600 leading-relaxed mb-2">
+          「なぜこんなに疲れるのか」を構造から整理すると、感情労働の見え方が変わってきます。
+        </p>
+        <a href="/articles/emotional-labor-what-pillar"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 感情労働とは？仕事で消耗する構造と回復の考え方
+        </a>
+      </div>
+
       <LineCtaCompassion />
 
       <h2>共感能力を守りながら消耗を防ぐために</h2>
