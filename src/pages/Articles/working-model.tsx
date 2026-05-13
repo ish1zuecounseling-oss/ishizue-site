@@ -21,14 +21,17 @@ const FAQ_ITEMS = [
 export default function WorkingModel() {
   return (
     <ArticleLayout
-      title="ワーキングモデルとは何か｜断れない・他人軸・自己否定が続く理由と変えられる可能性"
-      description="ワーキングモデル（内的作業モデル）とは何か——幼少期の愛着から形成される「人との関係の前提」。断れない・他人軸・自己否定が続く理由と、大人になっても変えられる理由を解説。公認心理師・松本龍児監修。"
+      title="ワーキングモデルとは？断れない・他人軸・自己否定の原因と変えられる可能性"
+      description="「人に嫌われたくない」「断れない」「自己否定が止まらない」——その背景にワーキングモデル（内的作業モデル）が関係しています。幼少期の愛着から形成される対人パターンの原因と変えられる可能性を解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/working-model"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「人に嫌われたくない」「断れない」「自己否定が止まらない」——その背景には、ワーキングモデル（内的作業モデル）が関係していることがあります。
+      </p>
+
         「なぜ人間関係でいつも同じパターンになるのか」——それはワーキングモデルが関係しているかもしれません。
       </p>
 
