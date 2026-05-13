@@ -4,12 +4,20 @@ import { Link } from "react-router-dom"
 export default function CompassionFatigueDiagnosis() {
   return (
     <ArticleLayout
-      title="共感疲労の診断｜自分が共感疲労かどうかを判断するための基準と視点"
-      description="「共感疲労かもしれない」と思ったとき、まず知っておいてほしいこと。共感疲労の診断的基準・バーンアウト・うつとの違い・専門家への相談の判断基準を支援職向けに解説します。"
+      title="共感疲労チェック・診断｜消耗度と原因を解説——支援職のための判断基準"
+      description="共感疲労チェック・診断——自分が共感疲労かどうかを確認したい方へ。消耗度のセルフチェック・バーンアウト・うつとの違い・原因の構造を支援職向けに解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-diagnosis"
       date="2026-04-05"
       audio="/audio/compassion-fatigue-diagnosis.mp3"
     >
+      <div className="mb-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
+        <p className="text-xs font-medium text-stone-600 mb-2">まず20項目でチェックする</p>
+        <a href="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2 block">
+          → 共感疲労チェック（20項目・3分）——今の消耗度を数字で確認する
+        </a>
+      </div>
+
+
 
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         「共感疲労なのかもしれない」と感じながら、どう判断すればいいかわからない方へ向けて書いています。
@@ -190,6 +198,24 @@ export default function CompassionFatigueDiagnosis() {
           <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             ④ 共感疲労からの回復方法——長期的な回復プロセス
           </Link>
+        </div>
+      </div>
+
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-xs font-medium text-stone-600 mb-2">共感疲労の背景にある構造を理解する</p>
+        <div className="flex flex-col gap-1.5">
+          <a href="/articles/boundary-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 境界線とは？人の感情を受け取りすぎる構造
+          </a>
+          <a href="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 他人軸とは？抜け出せない理由と原因
+          </a>
+          <a href="/articles/emotional-labor-what-pillar" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 感情労働とは？仕事で消耗する構造
+          </a>
+          <a href="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → ワーキングモデルとは？消耗の構造的な理由
+          </a>
         </div>
       </div>
 
