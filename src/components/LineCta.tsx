@@ -5,11 +5,16 @@
  * LINE登録時タグ分岐用パラメータ付き
  */
 
-const LINE_BASE = "https://lin.ee/NL0PnYR";
+const LINE_URLS: Record<string, string> = {
+  general:    "https://lin.ee/NL0PnYR",
+  fatigue:    "https://lin.ee/oLdXZe6",
+  quit:       "https://lin.ee/5ExkSZw",
+  impostor:   "https://lin.ee/TZxEE00",
+  compassion: "https://lin.ee/6H8Pzo6",
+};
 
-// タグ分岐用パラメータ付きURL生成
 function lineUrl(type: string) {
-  return `${LINE_BASE}?type=${type}`;
+  return LINE_URLS[type] ?? LINE_URLS.general;
 }
 
 const LINE_ICON = (
