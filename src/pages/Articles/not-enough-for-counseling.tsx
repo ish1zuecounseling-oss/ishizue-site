@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function NotEnoughForCounseling() {
@@ -105,7 +105,7 @@ export default function NotEnoughForCounseling() {
         <p className="text-xs text-stone-400 mt-2">迷う場合は両方に相談することができます。</p>
       </div>
 
-      <LineCtaSmall />
+      <LineCtaCompassion />
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
