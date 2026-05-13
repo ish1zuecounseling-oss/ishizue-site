@@ -1,219 +1,206 @@
 import ArticleLayout from "../../components/ArticleLayout"
-import { Link } from "react-router-dom"
-import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import { LineCtaSmall } from "../../components/LineCta"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 export default function HelperCannotSayNo() {
   return (
     <ArticleLayout
-      title="断れない人の特徴7つ｜なぜNOが言えないのか、支援職に多い理由と抜け出し方"
-      description="頼まれると断れない、引き受けてから後悔する——それは意志の弱さではありません。「断れない」状態になりやすい7つの特徴と、支援職に多い構造的な理由を解説します。"
+      title="断れない原因とは？NOが言えない人の心理と構造的な理由"
+      description="断れない・NOが言えない——それは性格や意志の弱さではなく、他人軸・過剰適応・見捨てられ不安という構造から起きています。断れない原因を心理構造から解説し、変化の方向を示します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/helper-cannot-say-no"
-      date="2026-04-26"
-      tags={["boundary", "burnout", "compassion"]}
+      date="2026-03-29"
+      audio="/audio/helper-cannot-say-no.mp3"
     >
-
-      <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
-        頼まれると断れない、と感じている方へ。
-      </p>
-
       <p>
-        本当は余裕がないのに、「いいですよ」と引き受けてしまう。<br />
-        あとで後悔するのに、その場では断れない。
+        支援職において「No」と言えない心理とは、断ることへの強い抵抗感・罪悪感・恐れによって、
+        自分の限界を超えても引き受け続けてしまうパターンのことです。
+        これは意志の弱さや優しすぎる性格の問題ではなく、支援職という仕事の構造と、
+        その人がこれまで培ってきた心理的なパターンが絡み合って生じるものです。
       </p>
       <p>
-        支援職の方ほど、こうした状態に陥りやすい傾向があります。<br />
-        それは意志の弱さではなく、<strong>そうなりやすい構造がある</strong>ためです。
+        現場でこんな声を聞くことがあります。
+      </p>
+      <p className="text-stone-600 text-sm leading-relaxed mb-4 pl-4 border-l-2 border-stone-200">
+        「本当は断りたいのに、断れない」——頼まれると引き受けてしまい、あとからしんどくなる。でも次もまた断れない。そんな状態を繰り返していませんか？断れないのは意志が弱いからではなく、<strong>そうなる構造がある</strong>からです。
       </p>
 
-      <h2 id="seven-traits">断れない人の特徴7つ</h2>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">① 相手を優先することが当たり前になっている</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「困っている人を助けるべき」という前提が強く、
-          自分のキャパシティより相手のニーズが先に来る。
-          断ることが「例外」ではなく、引き受けることが「デフォルト」になっています。
-        </p>
+      <div className="card space-y-2">
+        <p>「頼まれると断れなくて、気づいたら仕事を抱えすぎている」</p>
+        <p>「『No』と言いたいのに、言葉が出てこない」</p>
+        <p>「断った後に罪悪感がひどくて、結局引き受けてしまう」</p>
+        <p>「自分のキャパシティを超えているとわかっていても、止められない」</p>
       </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">② 断ることに強い罪悪感がある</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          NOと言う＝相手を傷つける、という感覚が強い。
-          断った後に「申し訳なかった」「冷たかったかもしれない」という後悔が続く。
-          罪悪感が、次の「引き受け」を呼びます。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">③ 評価を下げたくない気持ちがある</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「いい人でいたい」「信頼を失いたくない」「断ったら嫌われるかもしれない」——
-          他者からの評価が、断る・断らないの判断に大きく影響しています。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">④ 自分の限界に気づきにくい</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          感情を抑えて仕事をしてきた結果、
-          「疲れている」「もう無理」というサインが見えにくくなっています。
-          気づいたときには抱え込みすぎている——という状態になりやすい。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">⑤ 頼まれると反射的に引き受けてしまう</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          考える前に「はい」と言ってしまう。
-          断るかどうかを考える時間がない、あるいは、
-          「少し考えてから返事する」ことへの申し訳なさがある。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">⑥ 自分の優先順位が後回しになっている</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          自分の時間・体力・感情を後回しにすることが習慣になっている。
-          「自分のことは後でいい」という感覚が強く、
-          気づいたときには自分のためにできることが何もない状態になっています。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-1">⑦ 断り方が分からない</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「どう言えばいいか分からない」がブレーキになっている。
-          断り方のレパートリーがないと、
-          引き受けるか・完全に拒絶するかの二択になってしまいます。
-          その二択が、断ることをさらに難しくします。
-        </p>
-      </div>
-
-      <h2 id="why-helpers">なぜ支援職ほど断れなくなるのか</h2>
       <p>
-        支援職には、断れない状態になりやすい構造があります。
+        これらの声の背景には、いくつかの心理的なメカニズムが働いています。
+        そのメカニズムを理解することが、少しずつ変化を生む出発点になります。
       </p>
 
-      <div className="my-4 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
-        <ul className="text-sm text-stone-600 space-y-2">
-          <li className="flex items-start gap-2">
-            <span style={{ color: "#8FAF9F" }}>・</span>
-            <span>人の役に立つことが評価される職場文化</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span style={{ color: "#8FAF9F" }}>・</span>
-            <span>困っている人を優先することが「プロ」とされる規範</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span style={{ color: "#8FAF9F" }}>・</span>
-            <span>「断わることへの罪悪感」が職業的な責任感と結びつきやすい</span>
-          </li>
-        </ul>
-        <p className="text-xs text-stone-500 mt-2">
-          その結果、「断わらないこと」が正しい行動として長年強化されてきた可能性があります。
-        </p>
-      </div>
-
-      <h2 id="consequences">そのまま続けるとどうなるか</h2>
-
-      <div className="card">
-        <ul className="text-sm text-stone-600 space-y-1.5">
-          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>仕事量が増え続け、回復する時間がなくなる</li>
-          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>疲れが抜けない状態が慢性化する</li>
-          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>イライラ・無力感・感情の麻痺が出てくる</li>
-          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>「人と関わること自体がしんどい」状態になる</li>
-        </ul>
-        <p className="text-xs text-stone-500 mt-2">
-          これはバーンアウト・共感疲労のプロセスと重なります。
-        </p>
-      </div>
-
-      <h2 id="first-step">まず最初にやるべきこと</h2>
+      <h2>「No」と言えない心理の定義と背景</h2>
       <p>
-        いきなり断れるようになる必要はありません。
+        「No」と言えない心理とは、断ることへの過剰な抵抗感によって、
+        自分のニーズや限界よりも他者の要求を優先し続けるパターンを指します。
+        心理学的には、過剰適応や他者優先スキーマと関連して理解されることがあります。
       </p>
-
-      <div className="my-4 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
-        <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          「引き受ける前に、一度止まる」
-        </p>
-        <p className="text-xs text-stone-400 leading-relaxed">
-          頼まれた瞬間に「はい」と言わず、<br />
-          「少し確認してから返事します」と言うだけでいい。<br /><br />
-          この一歩が、断ることへの最初の練習になります。
-        </p>
-      </div>
-
-      <h2 id="deeper">それでも難しいと感じる場合</h2>
       <p>
-        断れない背景には、複数の要素が絡んでいることがあります。
+        断れないことは一見、他者への配慮や誠実さとして現れるため、
+        本人も周囲も問題として気づきにくいという特徴があります。
+        しかし慢性化すると、消耗・バーンアウト・自己尊重感の低下につながっていきます。
+      </p>
+      <p>
+        支援職には、「No」と言いにくくなる構造的な背景があります。
+        「困っている人を助ける」という職務の本質が、断ることを「使命への裏切り」のように
+        感じさせることがあります。また「みんな忙しい中でやっている」という職場の空気や、
+        慢性的な人員不足が、断ることをさらに難しくします。
       </p>
 
-      <div className="card">
-        <ul className="text-sm text-stone-600 space-y-1.5">
-          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>自分を責めやすいパターンがある</li>
-          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>感情を抑え込むことが習慣になっている</li>
-          <li className="flex items-start gap-2"><span style={{ color: "#8FAF9F" }}>・</span>すでに疲れが深く蓄積している</li>
-        </ul>
-        <p className="text-xs text-stone-500 mt-2">
-          これらが重なっているとき、断る練習だけでは変わりにくくなります。
-          まず今の状態を整理することが先です。
+      <h2>現場で起こること：「No」と言えないが形を変えて現れる場面</h2>
+      <h3>■ 頼まれると「はい」が先に出る</h3>
+      <p>
+        依頼された瞬間に、内容を吟味する前に「はい」と答えてしまう。
+        後から「あ、また引き受けてしまった」と気づくけれど、もう後には引けない。
+        これは断ることへの条件反射的な回避が起きている状態です。
+      </p>
+      <h3>■ 断った後の罪悪感が強すぎる</h3>
+      <p>
+        勇気を出して断っても、その後に「あの人を困らせてしまった」
+        「冷たい人だと思われたかもしれない」という罪悪感が長く続く。
+        結果として、次は断れなくなる。このサイクルが繰り返されます。
+      </p>
+      <h3>■ 「自分がやらなければ」という感覚</h3>
+      <p>
+        「自分以外に誰がやるのか」「自分がやらなければ利用者が困る」という感覚が、
+        限界を超えても引き受け続ける動機になっています。
+        これは責任感の強さでもありますが、同時に自分の代替不可能性を
+        過大評価している側面もあります。
+      </p>
+      <h3>■ 「少しくらい」が積み重なる</h3>
+      <p>
+        一つひとつの依頼は「少しくらいなら」と思えるものでも、積み重なると限界を超えます。
+        「No」と言えないことの消耗は、一度の大きな出来事より、
+        小さな引き受けの積み重ねによって生じることが多いです。
+      </p>
+      <h3>■ 断る言葉が見つからない</h3>
+      <p>
+        「No」と言いたいのに、適切な言葉が見つからず、曖昧な返答をしてしまう。
+        結果的に引き受けたことになってしまう。
+        断り方そのものを知らない・練習していないという側面もあります。
+      </p>
+
+      <h2>心理的背景：なぜ「No」がこれほど難しいのか</h2>
+      <h3>■ 見捨てられ不安と承認欲求</h3>
+      <p>
+        「No」と言うことへの恐れの根底には、しばしば見捨てられ不安があります。
+        「断ったら嫌われる」「断ったら関係が壊れる」という恐れが、
+        断ることを心理的に危険なものとして感じさせます。
+      </p>
+      <p>
+        アタッチメント理論の観点から見ると、幼少期に「期待に応えることで愛される」
+        「断ると関係を失う」という体験を重ねてきた場合、
+        大人になっても「No」が脅威として感じられやすくなります。
+      </p>
+      <h3>■ 過剰適応のパターン</h3>
+      <p>
+        過剰適応とは、自分のニーズや感情を抑えて、周囲の期待や要求に過度に合わせようとする
+        パターンです。支援職を選ぶ人の中には、幼少期から「いい子でいること」
+        「人の役に立つこと」で自分の居場所を作ってきた経緯を持つ方もいます。
+        支援という仕事は、そのパターンと非常に親和性が高い環境でもあります。
+      </p>
+      <h3>■ 境界線（バウンダリー）の未形成</h3>
+      <p>
+        「No」と言えない背景には、自他の境界線（バウンダリー）があいまいという状態が
+        関係していることがあります。他者の問題・感情・責任を自分のものとして引き受けやすく、
+        「相手が困っているなら自分が何とかしなければ」という感覚が自動的に生じます。
+      </p>
+      <p>
+        バウンダリーは、相手を拒絶するためのものではなく、
+        自分と他者をそれぞれ守るための心理的な輪郭です。
+        適切なバウンダリーを持つことは、冷たさではなく、健全な関係性の基盤になります。
+      </p>
+      <h3>■ 「No」と言うことへの誤った信念</h3>
+      <p>
+        断ることについての誤った信念が、無意識に内在化されていることがあります。
+      </p>
+      <ul className="space-y-2">
+        <li>「断ることは相手を傷つけることだ」</li>
+        <li>「断ることは自己中心的なことだ」</li>
+        <li>「支援者は断ってはいけない」</li>
+        <li>「断ったら、関係が終わる」</li>
+      </ul>
+      <h3>■ 感情労働と感情の抑圧</h3>
+      <p>
+        支援職は、自分の感情をコントロールしながら働く感情労働を日常的に行っています。
+        この文脈では、「断りたい」「しんどい」という自分の感情そのものを抑圧することに
+        慣れてしまいやすく、自分のニーズに気づく感度が下がっていることがあります。
+      </p>
+
+      <p className="text-sm text-stone-500">
+        断れないパターンの背景→ <Link to="/articles/anxious-attachment" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">不安型愛着とNOが言えない</Link> ／ <Link to="/articles/over-adaptation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">過剰適応と見捨てられ不安</Link>
+      </p>
+
+      <h2>「No」と言えるようになるための視点</h2>
+      <h3>① 「No」は関係を壊すのではなく、守る</h3>
+      <p>
+        適切な断りは、関係を壊すのではなく、長期的に関係を持続可能にします。
+        断れずに消耗し続けることのほうが、関係の質を下げることがあります。
+      </p>
+      <h3>② 自分のキャパシティは「資源」である</h3>
+      <p>
+        自分のエネルギー・時間・感情は有限の資源です。
+        その資源を守ることは、利用者への支援の質を守ることにもつながります。
+        「No」と言うことは、自己中心的な行為ではなく、資源管理です。
+      </p>
+      <h3>③ 「No」にも段階がある</h3>
+      <p>
+        「完全に断る」だけが「No」ではありません。
+        「今日は難しいですが、来週なら」「この部分はできますが、全部は難しいです」という
+        部分的な断りも、「No」の一形態です。
+      </p>
+      <h3>④ 断り方を練習する</h3>
+      <p>
+        断ることは、スキルです。スーパービジョン・信頼できる同僚との対話など
+        安全な場所で断る言葉を練習することが、実際の場面での助けになります。
+      </p>
+
+      <h2>まとめ</h2>
+      <ul className="space-y-2">
+        <li>見捨てられ不安と承認欲求：断ることが「関係を失う」恐れとつながっている</li>
+        <li>過剰適応のパターン：自分のニーズより他者の期待を優先することが習慣化している</li>
+        <li>バウンダリーのあいまいさ：他者の問題・感情・責任を自分のものとして引き受けやすい</li>
+        <li>断ることへの誤った信念：「No」は冷たい・自己中心的という思い込みが断ることを妨げる</li>
+        <li>感情労働による感情の抑圧：自分のしんどさに気づく感度が下がっている</li>
+      </ul>
+      <p>
+        「No」と言えるようになることは、他者への配慮を手放すことではありません。
+        自分を守ることと、他者を支えることを、同時に大切にするための一歩です。
+        断れない自分を責めるより、まずその背景にある心理を理解することが、
+        変化の出発点になるかもしれません。
+      </p>
+
+      
+      <p className="text-sm text-stone-500 mt-2 mb-1">
+        背景を理解する→ <a href="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは？抜け出せない理由と原因</a> ／ <a href="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデル（断れない前提の正体）</a>
+      </p>
+
+      <LineCtaSmall />
+
+      <div className="my-6 p-5 rounded-2xl bg-stone-50 border border-stone-200">
+        <p className="text-xs text-stone-500 mb-2">「断れない」パターンを外から整理したいとき。</p>
+        <p className="text-sm font-medium text-stone-800 mb-2">断れない構造を一緒に整理する</p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-4">
+          「なぜ断れないのか」——消耗の構造を外から整理することで、自分のパターンが見えてきます。
+          支援職の消耗を前提にした相談を行っています。
         </p>
+        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          支援職専門カウンセリングに相談する（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
-      {/* 3方向分岐 */}
-      <h2 id="next">今の状態に近いものから読んでみてください</h2>
+      <ArticleFooterLinks type="symptom" exclude={["/articles/helper-cannot-say-no"]} />
 
-      <div className="flex flex-col gap-3 mb-6">
-        <Link
-          to="/articles/helper-self-blame-landing"
-          className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
-          style={{ textDecoration: "none" }}
-        >
-          <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-1" style={{ color: "#8FAF9F" }}>
-            断れない＋自分を責めてしまう方へ
-          </p>
-          <p className="text-sm font-medium text-stone-800">「また自分のせいだ」が止まらない方へ</p>
-          <p className="text-xs text-stone-500 mt-1">自責のパターンを整理するページ</p>
-        </Link>
-
-        <Link
-          to="/articles/helper-fatigue-diagnosis"
-          className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
-          style={{ textDecoration: "none" }}
-        >
-          <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-1" style={{ color: "#d97706" }}>
-            断れない＋疲れが取れない方へ
-          </p>
-          <p className="text-sm font-medium text-stone-800">その疲れ、3タイプのどれ？（10問診断）</p>
-          <p className="text-xs text-stone-500 mt-1">脳疲労・感情疲労・バーンアウトのどれか確認する</p>
-        </Link>
-
-        <Link
-          to="/articles/helper-want-to-quit-landing"
-          className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
-          style={{ textDecoration: "none" }}
-        >
-          <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-1" style={{ color: "#9f3a3a" }}>
-            断れない＋すでに限界に近い方へ
-          </p>
-          <p className="text-sm font-medium text-stone-800">仕事を辞めたいと思ったときに読むページ</p>
-          <p className="text-xs text-stone-500 mt-1">辞めるべきかどうかを整理する3つの視点</p>
-        </Link>
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
       </div>
-
-      <p className="text-xs text-stone-400 mt-4 leading-relaxed">
-        ※筆者は支援職専門カウンセラーとして300名以上・6,000時間以上の相談対応経験があります。
-      </p>
-
-      <ArticleBottomCTA
-        links={[
-          { label: "疲れのタイプを診断する（10問）",         path: "/articles/helper-fatigue-diagnosis" },
-          { label: "自分を責めてしまう方へ",                 path: "/articles/helper-self-blame-landing" },
-          { label: "断り方の具体的な方法を見る",             path: "/articles/helper-boundary-how-to" },
-        ]}
-      />
     </ArticleLayout>
   )
 }
