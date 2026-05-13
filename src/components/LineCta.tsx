@@ -1,12 +1,16 @@
 /**
  * LineCta.tsx
  * 記事内LINE登録バナー（共通コンポーネント）
- * 信頼構築フェーズ最適化版
- * - 状態別CTA対応
- * - 「まだ相談じゃなくていい」心理ハードル最小化
+ * 「行動」ではなく「理解・納得」に寄せた文言
+ * LINE登録時タグ分岐用パラメータ付き
  */
 
-const LINE_URL = "https://lin.ee/NL0PnYR";
+const LINE_BASE = "https://lin.ee/NL0PnYR";
+
+// タグ分岐用パラメータ付きURL生成
+function lineUrl(type: string) {
+  return `${LINE_BASE}?type=${type}`;
+}
 
 const LINE_ICON = (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
@@ -23,148 +27,136 @@ function trackClick(label: string) {
   }
 }
 
+/* LINE登録の理由（記事内共通テキスト） */
+export function LineCtaReason({ text }: { text?: string }) {
+  return (
+    <p style={{ fontSize: "12px", color: "rgba(44,31,20,0.5)", fontFamily: "'Noto Serif JP', serif", lineHeight: 1.9, margin: "0 0 12px 0" }}>
+      {text ?? "この状態は、放っておくと気づかないまま悪化することが多いです。段階ごとに整理した内容をLINEで順番に送っています。"}
+    </p>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
-/*  LineCtaSmall — 記事冒頭・中盤用（コンパクト）                               */
+/*  LineCtaSmall — デフォルト（全記事共通）                                     */
 /* -------------------------------------------------------------------------- */
 
 export function LineCtaSmall() {
   return (
     <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.5rem 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-      <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-        まだ相談じゃなくていいです。<br />
-        しんどいとき、整理のヒントを受け取る場所として使ってください。
+      <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+        この状態が続くと、どうなっていくのか——<br />
+        段階ごとに整理した内容をLINEで送っています。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCtaSmall")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}
-      >
+      <a href={lineUrl("general")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaSmall")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
-        LINEで受け取る（無料・読むだけOK）
+        自分の状態をもう少し整理する（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        勧誘なし ／ いつでも解除OK
+        読むだけOK ／ 勧誘なし ／ いつでも解除OK
       </p>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LineCtaFatigue — 疲れ・回復しない系記事用                                   */
+/*  LineCtaFatigue — 疲れ・回復しない系                                         */
 /* -------------------------------------------------------------------------- */
 
 export function LineCtaFatigue() {
   return (
     <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.5rem 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-      <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-        「休んでも回復しない」状態が続いているなら、<br />
-        少しずつ整理できる情報をLINEで送っています。
+      <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+        「休んでも回復しない」状態は、放っておくと<br />
+        自己機能全体の消耗に進むことがあります。<br />
+        回復の段階別の整理をLINEで送っています。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCtaFatigue")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}
-      >
+      <a href={lineUrl("fatigue")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaFatigue")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
-        LINEで受け取る（無料・読むだけOK）
+        この状態がどう進むか知っておく（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        勧誘なし ／ いつでも解除OK
+        読むだけOK ／ 勧誘なし ／ いつでも解除OK
       </p>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LineCtaQuit — 辞めたい・仕事限界系記事用                                    */
+/*  LineCtaQuit — 辞めたい・仕事限界系                                           */
 /* -------------------------------------------------------------------------- */
 
 export function LineCtaQuit() {
   return (
     <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.5rem 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-      <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-        「辞めるべきか」を一人で考え続けているなら、<br />
-        整理のヒントをLINEで届けています。
+      <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+        「辞めたいのに動けない」状態のまま続けると、<br />
+        判断力がさらに落ちていきます。<br />
+        同じ状態の人がどう整理しているか、LINEで送っています。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCtaQuit")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}
-      >
+      <a href={lineUrl("quit")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaQuit")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
-        LINEで受け取る（まだ決めなくていい）
+        同じ状態の人がどうなるか読む（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        勧誘なし ／ いつでも解除OK
+        まだ決めなくていい ／ 勧誘なし ／ いつでも解除OK
       </p>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LineCtaImpostor — インポスター・自己機能系記事用                             */
+/*  LineCtaImpostor — インポスター・自己機能系                                   */
 /* -------------------------------------------------------------------------- */
 
 export function LineCtaImpostor() {
   return (
     <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.5rem 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-      <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-        「できているのに自信がない」「自分がない感覚」——<br />
-        その構造を少しずつ整理できる情報をLINEで送っています。
+      <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+        「いつかバレる」「自分がない」感覚は、<br />
+        構造が見えると少しずつ変わります。<br />
+        自己機能の回復ステップをLINEで整理して届けています。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCtaImpostor")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}
-      >
+      <a href={lineUrl("impostor")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaImpostor")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
-        LINEで受け取る（無料・読むだけOK）
+        自分の状態の構造を整理する（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        勧誘なし ／ いつでも解除OK
+        読むだけOK ／ 勧誘なし ／ いつでも解除OK
       </p>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LineCtaCompassion — 共感疲労・感情労働系記事用                               */
+/*  LineCtaCompassion — 共感疲労・感情労働系                                     */
 /* -------------------------------------------------------------------------- */
 
 export function LineCtaCompassion() {
   return (
     <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.5rem 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-      <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-        人の気持ちを受け取りすぎて消耗しているなら、<br />
-        その構造と回復の方向をLINEで届けています。
+      <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
+        共感疲労は、気づかないまま深まりやすい消耗です。<br />
+        「今どの段階か」を知るだけで回復の方向が変わります。<br />
+        段階別の整理をLINEで送っています。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCtaCompassion")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}
-      >
+      <a href={lineUrl("compassion")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaCompassion")}
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
-        LINEで受け取る（無料・読むだけOK）
+        今どの段階か知っておく（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        勧誘なし ／ いつでも解除OK
+        読むだけOK ／ 勧誘なし ／ いつでも解除OK
       </p>
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LineCta — 記事末尾・フル版（デフォルトexport）                               */
+/*  LineCta — 記事末尾フル版（デフォルトexport）                                 */
 /* -------------------------------------------------------------------------- */
 
 export default function LineCta() {
@@ -174,29 +166,24 @@ export default function LineCta() {
         無料LINE登録
       </p>
       <p style={{ fontSize: "15px", fontWeight: 500, color: "#2C1F14", marginBottom: "4px", lineHeight: 1.6, fontFamily: "'Noto Serif JP', serif" }}>
-        まだ相談じゃなくていいです。
+        この状態、放っておくとどうなるか——
       </p>
-      <p style={{ fontSize: "13px", color: "rgba(44,31,20,0.65)", fontFamily: "'Noto Serif JP', serif", marginBottom: "6px", lineHeight: 1.75 }}>
-        しんどいとき、整理のヒントを受け取る場所として使ってください。
+      <p style={{ fontSize: "13px", color: "rgba(44,31,20,0.65)", fontFamily: "'Noto Serif JP', serif", marginBottom: "6px", lineHeight: 1.8 }}>
+        段階ごとに整理した内容をLINEで順番に届けています。<br />
+        まだ相談じゃなくていいです。読むだけでも。
       </p>
       <p style={{ fontSize: "12px", color: "rgba(44,31,20,0.45)", fontFamily: "sans-serif", marginBottom: "14px", lineHeight: 1.75 }}>
-        共感疲労チェック完全版PDFを登録後すぐにお届けします。<br />
-        週1回、状態別の整理ヒントを届けています。
+        共感疲労チェック完全版PDFを登録後すぐにお届けします。
       </p>
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackClick("LineCta")}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", background: "#06C755", color: "#fff", borderRadius: "6px", padding: "12px 20px", fontSize: "14px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", boxShadow: "0 3px 10px rgba(6,199,85,0.3)" }}
-      >
+      <a href={lineUrl("general")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCta")}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", background: "#06C755", color: "#fff", borderRadius: "6px", padding: "12px 20px", fontSize: "14px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", boxShadow: "0 3px 10px rgba(6,199,85,0.3)" }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true">
           <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
         </svg>
-        LINEで受け取る（無料・読むだけOK）
+        自分の状態をもう少し整理する（無料）
       </a>
       <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", textAlign: "center", marginTop: "8px" }}>
-        勧誘なし ／ いつでも解除OK ／ 登録30秒
+        読むだけOK ／ 勧誘なし ／ いつでも解除OK ／ 登録30秒
       </p>
     </div>
   );
