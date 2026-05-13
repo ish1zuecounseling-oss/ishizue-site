@@ -193,6 +193,17 @@ export default function WhySupportWorkersLoseThemselves() {
         今の状態を確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link> ／ <Link to="/articles/self-function-decline" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能低下の症状一覧</Link>
       </p>
 
+      
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-sm text-stone-600 leading-relaxed mb-2">
+          「なぜこんなに疲れるのか」を構造から整理すると、感情労働の見え方が変わってきます。
+        </p>
+        <a href="/articles/emotional-labor-what-pillar"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 感情労働とは？仕事で消耗する構造と回復の考え方
+        </a>
+      </div>
+
       <LineCtaCompassion />
 
       <h2>回復への入口：「構造として消耗している」という理解から</h2>
