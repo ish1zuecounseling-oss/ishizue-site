@@ -322,7 +322,18 @@ export default function HelperEmotionalLaborWhat() {
         参考文献：崎山治男（2008）「感情労働と組織：感情労働への動員プロセスの解明にむけて」組織科学，41(4), 39-47 ／ Hochschild, A. R.（1983）The Managed Heart: Commercialization of Human Feeling. University of California Press. ／ 武井麻子（2001）感情と看護：人とのかかわりを職業とする意味 医学書院
       </p>
 
-      <ArticleBottomCTA
+    
+      <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
+        <p className="text-sm text-stone-600 leading-relaxed mb-2">
+          「なぜこんなに疲れるのか」を構造から整理すると、感情労働の見え方が変わってきます。
+        </p>
+        <a href="/articles/emotional-labor-what-pillar"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 感情労働とは？仕事で消耗する構造と回復の考え方
+        </a>
+      </div>
+
+  <ArticleBottomCTA
         links={[
           { label: "共感疲労チェックをする（3分）",          path: "/articles/helper-empathy-check" },
           { label: "バーンアウトの症状・原因を知る",         path: "/articles/helper-burnout-scale-validity" },
