@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaSmall } from "../../components/LineCta"
+import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
@@ -121,7 +121,7 @@ export default function HspCompassionFatigue() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
-      <LineCtaSmall />
+      <LineCtaCompassion />
 
       <h2>HSPが共感疲労から回復するために</h2>
       <p>
