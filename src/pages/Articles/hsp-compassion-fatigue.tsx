@@ -21,7 +21,7 @@ const FAQ_ITEMS = [
 export default function HspCompassionFatigue() {
   return (
     <ArticleLayout
-      title="HSPと共感疲労の違い｜繊細さと消耗の関係・支援職HSPの回復"
+      title="HSPと共感疲労の関係｜繊細な気質が共感疲労になりやすい理由と回復"
       description="HSP（敏感な気質）と共感疲労は混同されやすいですが、異なります。HSPの特性がなぜ共感疲労につながりやすいのか、支援職HSPの消耗パターンと回復方法を解説します。"
       url="https://www.ishizue-counseling.jp/articles/hsp-compassion-fatigue"
       date="2026-05-03"
@@ -29,7 +29,7 @@ export default function HspCompassionFatigue() {
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「HSPだから仕方ない」で終わらせず、消耗の構造を理解することが回復の入口になります。
+        HSP（高敏感な気質）と共感疲労は別の概念ですが、HSPが共感疲労になりやすい構造的な理由があります。
       </p>
 
       <p>
@@ -121,6 +121,13 @@ export default function HspCompassionFatigue() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
+      
+      <div className="mt-4 p-3 rounded-lg bg-stone-50 border border-stone-100">
+        <a href="/articles/exhausted-by-being-nice"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 優しすぎて疲れる理由
+        </a>
+      </div>
       <LineCtaCompassion />
 
       <h2>HSPが共感疲労から回復するために</h2>
