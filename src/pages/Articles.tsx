@@ -1047,10 +1047,10 @@ export default function Articles() {
               transition={{ duration: 0.25 }}
               className="md:hidden fixed bottom-5 right-5 z-30 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg"
               style={{ background: "#06C755", color: "white" }}
-              aria-label="LINEで相談"
+              aria-label="続きはこちら（LINE）"
             >
               <MessageCircle className="w-5 h-5" />
-              <span className="text-xs font-bold">LINEで相談</span>
+              <span className="text-xs font-bold">続きはこちら（LINE）</span>
             </motion.a>
           )}
         </AnimatePresence>
