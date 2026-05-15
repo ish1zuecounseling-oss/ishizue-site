@@ -6,14 +6,14 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function TryingTooHard() {
   return (
     <ArticleLayout
-      title="頑張りすぎる人の心理｜止まれない・休めない理由と降りるための視点"
-      description="「まだ頑張れる」「十分ではない」が止まらない——頑張りすぎる人が止まれない構造・ワーキングモデルとの関係・降りるための最初の一手を解説します。"
+      title="頑張りすぎてしまう心理｜完璧主義・強迫的努力が止まらない構造と降り方"
+      description="「まだ頑張れる」「十分ではない」——頑張りすぎて止まれない状態は、完璧主義・強迫的努力という心理構造から起きています。なぜ休めないのか、どう降りるかを解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/trying-too-hard"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「まだ十分ではない」「もっとできるはず」「休んでいる場合じゃない」——こんな感覚が止まらない状態はありませんか？頑張りすぎてしまうのは意志の強さではなく、<strong>止まると何かを失うという感覚から来ている構造の問題</strong>です。
+        「頑張りすぎてしまう」「止まれない」——それは完璧主義や強迫的努力という構造から起きています。意志の問題ではありません。
       </p>
 
       <p>
@@ -91,6 +91,13 @@ export default function TryingTooHard() {
         インポスター症候群との関係→ <a href="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは｜「できているのに自信がない」の正体</a> ／ <a href="/articles/impostor-check-20" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群チェック（20項目）</a>
       </p>
 
+      
+      <div className="mt-4 p-3 rounded-lg bg-stone-50 border border-stone-100">
+        <a href="/articles/exhausted-by-being-nice"
+          className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          → 優しすぎて疲れる理由
+        </a>
+      </div>
       <LineCtaImpostor />
 
       <h2>「頑張りすぎる」から降りるために</h2>
