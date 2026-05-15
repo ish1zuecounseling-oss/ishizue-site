@@ -17,6 +17,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TokushoPage from "./pages/TokushoPage";
 import ServiceTerms from "./pages/ServiceTerms";
 import ScrollToTop from "./components/ScrollToTop";
+import AIAssistant from "./pages/AIAssistant";
 
 /* -------------------------------------------------------------------------- */
 /*  記事の自動ルーティング                                                       */
@@ -158,6 +159,7 @@ function PublicPages() {
         <Route path="/privacy"     element={<PrivacyPolicy />} />
         <Route path="/tokusho"     element={<TokushoPage />} />
         <Route path="/terms"       element={<ServiceTerms />} />
+        <Route path="/ai-assistant" element={<AIAssistant />} />
         {articleRoutes}
         <Route path="*"            element={<NotFound />} />
       </Routes>
