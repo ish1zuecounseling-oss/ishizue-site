@@ -6,7 +6,7 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function Article() {
   return (
     <ArticleLayout
-      title="優しすぎて疲れるのはなぜ？いい人ほど消耗する心理と構造"
+      title="優しすぎて疲れる理由｜「いい人をやめられない」自己犠牲スキーマの構造"
       description="優しすぎて疲れる——それは美徳ではなく、自己犠牲・他人軸・感情労働という消耗の構造から起きています。なぜいい人をやめられないのかを構造から解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/exhausted-by-being-nice"
       date="2026-05-13"
