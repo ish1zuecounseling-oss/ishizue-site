@@ -21,7 +21,7 @@ const FAQ_ITEMS = [
 export default function KindPeopleBreakDown() {
   return (
     <ArticleLayout
-      title="優しい人ほど壊れる理由｜「いい人」が消耗する構造と回復"
+      title="優しい人ほど壊れやすい理由｜消耗が段階的に深まる4つの構造"
       description="「優しい人ほど損する」「いい人が壊れやすい」——これは性格の問題ではありません。対人関係機能の過活動・境界線の消耗・他人軸という構造から起きています。消耗の仕組みと回復を解説します。"
       url="https://www.ishizue-counseling.jp/articles/kind-people-break-down"
       date="2026-05-03"
@@ -29,7 +29,7 @@ export default function KindPeopleBreakDown() {
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「優しい人ほど壊れる」のは、優しさが弱さだからではありません。構造の問題です。
+        「優しい人ほど壊れやすい」——それは性格の問題ではなく、消耗が段階的に深まる4つの構造から起きています。
       </p>
 
       <p>
