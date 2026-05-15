@@ -6,14 +6,14 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function LivingByExpectations() {
   return (
     <ArticleLayout
-      title="他人の期待で生きてしまう｜期待に応えることで消耗する構造と自分を取り戻す方法"
-      description="「期待に応えなければ価値がない」——この感覚はなぜ生まれるのか。見捨てられ不安・条件付き自己価値・ワーキングモデルとの関係と回復の方向を解説します。"
+      title="他人の期待で生きてしまう理由｜見捨てられ不安・条件付き自己価値の構造"
+      description="「期待に応えられない自分には価値がない」——この感覚は見捨てられ不安・条件付き自己価値という心理構造から来ています。なぜ期待で動いてしまうのかを構造から解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/living-by-expectations"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「期待に応えられた自分には価値がある」「失望させたら終わり」——そんな感覚で動いていませんか？他人の期待を価値の基準にして生きてきた人には、消耗しやすい<strong>特定の構造</strong>があります。
+        「期待に応えられなければ価値がない」——それは見捨てられ不安・条件付き自己価値という構造から起きています。
       </p>
 
       <p>
