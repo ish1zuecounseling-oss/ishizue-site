@@ -290,6 +290,16 @@ export default function HelperEmpathyCheck() {
             </div>
           </div>
 
+          {/* AIアシスタント導線 */}
+          <div className="p-3 rounded-xl mb-3" style={{ background: "linear-gradient(135deg, #2C1F14 0%, #3D2B1F 100%)" }}>
+            <p className="text-xs text-stone-300 mb-1.5">言葉にしづらい・もう少し整理したい方へ</p>
+            <Link to="/ai-assistant"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-200 hover:text-amber-100 transition-colors">
+              → AIに今の状態を整理してもらう（無料）
+            </Link>
+            <p className="text-[10px] text-stone-500 mt-1">原因・現状・次の一歩を3点で整理します</p>
+          </div>
+
           {result.cvBlock && (
             <div style={{ background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)", border: "1.5px solid rgba(143,175,159,0.35)", borderRadius: "14px", padding: "1.5rem", marginBottom: "1.25rem", textAlign: "center" }}>
               <p style={{ fontWeight: 600, fontSize: "1rem", color: "#222", marginBottom: "0.6rem" }}>
