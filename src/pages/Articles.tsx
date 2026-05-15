@@ -1,16 +1,29 @@
 /**
  * Articles.tsx — いしずえ心理記事一覧
- * SEO・回遊率・CV を同時に高める"顧客目線UI"版
+ * UI改善・情報整理版
+ *
+ * 改修ポイント:
+ * - HEROを「3つの入口」に集約(状態を知る/構造を知る/言葉にできない)
+ * - タブを「いま整える / 知る / すべて見る」の3グループに再編、内部にサブタブ
+ * - お悩みカードはモバイルで縦1列に切り替え可能
+ * - LINE誘導の中段帯CTA + モバイルでフローティングLINEボタン
+ * - AIアシスタント入口セクション追加
+ * - スクロール深度に応じた上部スティッキーミニナビ(モバイル)
  */
 
-import { useState, useRef } from "react";
-import { motion, type Variants } from "motion/react";
+import { useState, useRef, useEffect } from "react";
+import { motion, type Variants, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ClipboardList, ChevronRight, BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical, Search, X as XIcon } from "lucide-react";
+import {
+  ArrowRight, BookOpen, ClipboardList, ChevronRight,
+  BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical,
+  Search, X as XIcon, MessageCircle, Sparkles, Compass,
+} from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
 
 const SAGE = "#8FAF9F";
+const LINE_URL = "https://lin.ee/6H8Pzo6";
 
 // GA4 gtag型宣言
 declare function gtag(...args: unknown[]): void;
@@ -31,8 +44,7 @@ const STARTER_PATHS = [
 ];
 
 /* -------------------------------------------------------------------------- */
-/*  新着順 — pathリスト（新しい順に手動管理）                                   */
-/*  新記事追加時はここの先頭に追加するだけ                                       */
+/*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
   "/articles/quit-job-how-to-tell-boss",
@@ -82,10 +94,8 @@ const NEW_ARTICLE_PATHS: string[] = [
   "/articles/trying-too-hard",
 ];
 
-/** NEWバッジ表示対象（直近20件） */
 const NEW_BADGE_PATHS = new Set(NEW_ARTICLE_PATHS.slice(0, 20));
 
-/* 新着順ソート：NEW_ARTICLE_PATHSの順 → それ以外はアルファベット順で末尾 */
 function getSortedByNew() {
   const pathToIndex = new Map(NEW_ARTICLE_PATHS.map((p, i) => [p, i]));
   return [...articles].sort((a, b) => {
@@ -96,7 +106,6 @@ function getSortedByNew() {
   });
 }
 
-// 論文系記事のパスパターン
 const RESEARCH_PATHS = [
   "helper-benefit-finding", "helper-contrast-avoidance", "helper-goal-adjustment",
   "helper-implicit-theory", "helper-mind-wandering", "helper-naive-realism",
@@ -115,56 +124,56 @@ function isResearchArticle(path: string): boolean {
 }
 
 type WorryCategory = {
-  id: string; phase: string; label: string; desc: string; icon: string;
+  id: string; phase: string; label: string; desc: string;
   keywords: string[]; exitPath: string; exitLabel: string;
 };
 
 const WORRY_CATEGORIES: WorryCategory[] = [
   {
     id: "check", phase: "フェーズ1", label: "まず自分の状態を知りたい",
-    desc: "共感疲労チェック・バーンアウト診断・消耗度の確認", icon: "ClipboardList",
+    desc: "共感疲労チェック・バーンアウト診断・消耗度の確認",
     keywords: ["empathy", "check", "burnout", "fatigue", "compassion", "diagnosis", "brain"],
-    exitPath: "/articles/helper-empathy-check", exitLabel: "共感疲労チェック（20項目・3分）",
+    exitPath: "/articles/helper-empathy-check", exitLabel: "共感疲労チェック(20項目・3分)",
   },
   {
     id: "fatigue", phase: "フェーズ1", label: "疲れ・消耗をどうにかしたい",
-    desc: "休んでも回復しない、疲れが抜けない", icon: "BatteryLow",
+    desc: "休んでも回復しない、疲れが抜けない",
     keywords: ["fatigue", "burnout", "feels-tired", "case-overload", "night-shift", "brain", "emotional-labor-fatigue"],
-    exitPath: "/articles/helper-fatigue-diagnosis", exitLabel: "その疲れ、3タイプのどれ？（10問診断）",
+    exitPath: "/articles/helper-fatigue-diagnosis", exitLabel: "その疲れ、3タイプのどれ?(10問診断)",
   },
   {
     id: "emotion", phase: "フェーズ2", label: "感情がしんどい・コントロールできない",
-    desc: "イライラ・無感情・感情の波が大きい", icon: "Waves",
+    desc: "イライラ・無感情・感情の波が大きい",
     keywords: ["emotional-labor", "labor", "rumination", "irritab", "emotional-labor-fatigue", "decision-fatigue"],
     exitPath: "/articles/helper-emotional-labor-what", exitLabel: "感情労働が消耗させている理由を知る",
   },
   {
     id: "boundary", phase: "フェーズ2", label: "抱え込み・断れないがつらい",
-    desc: "バウンダリーとは？NOが言えない、いつも我慢", icon: "Layers",
+    desc: "バウンダリーとは?NOが言えない、いつも我慢",
     keywords: ["boundary", "sacrifice", "cannot-say-no", "pulled-by-client", "perfectionism", "boundary-how-to"],
     exitPath: "/articles/helper-cannot-say-no", exitLabel: "断れない人の特徴7つ｜なぜNOが言えないのか",
   },
   {
     id: "quit", phase: "フェーズ3", label: "仕事が限界・辞めたい",
-    desc: "辞めていいのか、休職すべきか迷っている", icon: "LogOut",
+    desc: "辞めていいのか、休職すべきか迷っている",
     keywords: ["quit", "want-to-quit", "resign", "guilty-leave", "guilt-about-leaving", "job-hopping", "complaint-damage", "acting-fatigue", "communication-fatigue", "quit-job"],
     exitPath: "/articles/quit-job-timing", exitLabel: "辞めるタイミングがわからないとき——判断の軸を整理する",
   },
   {
     id: "selfblame", phase: "フェーズ3", label: "自分を責めてしまう",
-    desc: "インポスター症候群・自己否定・無力感", icon: "Heart",
+    desc: "インポスター症候群・自己否定・無力感",
     keywords: ["self-compassion", "helplessness", "self-criticism", "guilt", "self-blame", "impostor"],
     exitPath: "/articles/helper-self-blame-landing", exitLabel: "自分を責めてしまう理由を知る",
   },
   {
     id: "career", phase: "フェーズ4", label: "続けるか・離れるか迷っている",
-    desc: "復職・転職・このままでいいのか", icon: "RotateCcw",
+    desc: "復職・転職・このままでいいのか",
     keywords: ["return", "absence", "consider-leave", "career-stagnation", "aptitude-doubt", "burnout-recovery", "signs-to-rest"],
     exitPath: "/articles/helper-career-decision", exitLabel: "続けるか・離れるかで迷っているときに読む",
   },
   {
     id: "counseling", phase: "フェーズ4", label: "カウンセリングを考えている",
-    desc: "相談したいけど迷っている、どんな時間になるか", icon: "MessageCircle",
+    desc: "相談したいけど迷っている、どんな時間になるか",
     keywords: ["counseling", "counselling", "cannot-seek", "resistance-to-counseling", "receiving-counseling"],
     exitPath: "/articles/helper-counseling-landing", exitLabel: "受ける前に知っておきたいこと",
   },
@@ -225,15 +234,44 @@ const TOOLS = [
   { path: "/articles/working-os-check",            title: "「働き方のOS」診断",                                                                  desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",        color: "#7EB8A4" },
 ] as const;
 
-const TABS = [
-  { id: "shindo",   label: "今のしんどさから探す" },
-  { id: "tools",    label: "診断ツール" },
-  { id: "theme",    label: "テーマ別" },
-  { id: "research", label: "心理学から読む" },
-  { id: "new",      label: "新着順" },
-  { id: "all",      label: "すべて" },
-] as const;
-type TabId = typeof TABS[number]["id"];
+/* -------------------------------------------------------------------------- */
+/*  タブ構造を再編:3つの大グループに整理                                        */
+/*  - 整える(action指向): しんどさ / ツール / 新着                              */
+/*  - 知る(learning指向): テーマ / 研究                                         */
+/*  - 全部見る: 一覧                                                            */
+/* -------------------------------------------------------------------------- */
+type TabGroup = "action" | "learn" | "all";
+type TabId = "shindo" | "tools" | "new" | "theme" | "research" | "all";
+
+const TAB_GROUPS: { id: TabGroup; label: string; desc: string; subs: { id: TabId; label: string }[] }[] = [
+  {
+    id: "action",
+    label: "いま整える",
+    desc: "今のしんどさから探す・診断ツールで状態を可視化",
+    subs: [
+      { id: "shindo", label: "しんどさから" },
+      { id: "tools",  label: "診断ツール" },
+      { id: "new",    label: "新着" },
+    ],
+  },
+  {
+    id: "learn",
+    label: "知る・理解する",
+    desc: "テーマ別の解説・心理学研究から構造を理解する",
+    subs: [
+      { id: "theme",    label: "テーマ別" },
+      { id: "research", label: "心理学から" },
+    ],
+  },
+  {
+    id: "all",
+    label: "すべて見る",
+    desc: "記事一覧",
+    subs: [
+      { id: "all", label: "すべての記事" },
+    ],
+  },
+];
 
 type ThemeSection = { label: string; keywords: string[] };
 type ThemeLayer   = { id: string; label: string; desc: string; sections: ThemeSection[] };
@@ -279,7 +317,6 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   { label: "人間関係・職場ストレス", desc: "上司・同僚・組織との関係で消耗しているとき", paths: ["helper-boss-stress", "helper-complaint-damage", "helper-harassment-gray-zone", "helper-workplace-stress", "helper-team-fatigue", "nursery-teacher-relationship-stress", "welfare-worker-relationship-counseling"] },
   { label: "職種別｜看護師・介護・保育・教師", desc: "職種特有の消耗と、それぞれに合った対処を解説した記事", paths: ["nurse-compassion-fatigue", "nurse-emotional-exhaustion", "nurse-emotional-labor-hard", "nursery-teacher-limit", "school-counselor-loneliness", "teacher-mental-health", "teacher-mental-health-limit", "empathy-fatigue-by-job-type", "compassion-fatigue-diagnosis", "helper-aptitude-doubt", "helper-burnout-vs-depression", "compassion-fatigue-vs-depression"] },
   { label: "カウンセリング・相談を考えているとき", desc: "「相談してもいいのか」「どこに行けばいいか」——一歩を踏み出すための記事", paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling", "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"] },
-  { label: "研究から読む｜心理学・論文ベースの解説", desc: "バーンアウト・感情労働・セルフコンパッションなど、研究論文をもとに消耗の構造を深く解説した記事", paths: ["helper-burnout-scale-validity", "helper-burnout-occupation", "helper-emotional-labor-what", "helper-helplessness", "helper-self-compassion-burnout", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-attachment-self-compassion", "helper-nurse-self-compassion", "helper-msc-program", "helper-self-care-ability", "helper-brain-fatigue", "helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-self-criticism-culture", "helper-self-effacement-family", "helper-contrast-avoidance", "helper-implicit-theory", "helper-goal-adjustment", "helper-benefit-finding", "helper-reality-shock", "helper-reframing-caring", "helper-retelling-memory", "helper-wellbeing-not-from", "helper-supervision-compassion", "helper-naive-realism-conflict"] },
 ];
 
 function getArticlesForSection(keywords: string[]) {
@@ -333,10 +370,34 @@ function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNe
 }
 
 export default function Articles() {
+  // タブ状態:グループ+サブタブの2階層
+  const [activeGroup, setActiveGroup] = useState<TabGroup>("action");
   const [activeTab, setActiveTab] = useState<TabId>("shindo");
   const [activeShindo, setActiveShindo] = useState<ShindoCard | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [worryViewMode, setWorryViewMode] = useState<"grid" | "list">("grid");
+  const [showFloatingLine, setShowFloatingLine] = useState(false);
+  const [showStickyNav, setShowStickyNav] = useState(false);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // スクロール監視:フローティングLINE・スティッキーナビ
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setShowFloatingLine(y > 600 && y < document.body.scrollHeight - 800);
+      setShowStickyNav(y > 400);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // グループ切替時のサブタブ初期化
+  const switchGroup = (g: TabGroup) => {
+    setActiveGroup(g);
+    const firstSub = TAB_GROUPS.find((tg) => tg.id === g)?.subs[0]?.id;
+    if (firstSub) setActiveTab(firstSub);
+    setActiveShindo(null);
+  };
 
   const starterArticles = STARTER_PATHS
     .map((p) => articles.find((a) => a.path === p))
@@ -349,61 +410,161 @@ export default function Articles() {
     : [];
 
   const sortedByNew = getSortedByNew();
+  const currentGroup = TAB_GROUPS.find((tg) => tg.id === activeGroup)!;
 
   return (
     <>
       <Helmet>
-        <title>心理記事｜支援職のための構造的な視点｜こころの相談室 いしずえ</title>
-        <meta name="description" content="共感疲労・バーンアウト・境界線・休職判断まで、支援職が抱えやすい心理的負担を構造的に整理した記事一覧。公認心理師・松本龍児。" />
+        <title>心理記事｜支援職のメンタル・共感疲労・バーンアウト対策｜こころの相談室 いしずえ</title>
+        <meta name="description" content="看護師・介護士・福祉職・心理職など支援職向けの心理記事一覧。共感疲労・バーンアウト・境界線・休職判断を構造的に整理。無料セルフチェック・診断ツール多数。公認心理師・松本龍児監修。" />
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/articles" />
       </Helmet>
 
       <div className="bg-white min-h-screen">
 
-        {/* HERO */}
+        {/* ========== HERO:3つの入口に集約 ========== */}
         <section className="relative bg-[#1A110A] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/50 to-stone-950" />
-          <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-20 md:py-24">
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 max-w-2xl">
+          <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-14 md:py-20">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-6 max-w-3xl">
               <motion.div variants={fadeUp}>
                 <span className="text-[10px] tracking-[0.3em] uppercase font-medium" style={{ color: SAGE }}>Articles</span>
               </motion.div>
               <motion.div variants={fadeUp} className="space-y-3">
-                <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide leading-[1.5]" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>心理記事</h1>
+                <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide leading-[1.5]" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>
+                  心理記事
+                </h1>
                 <p className="text-stone-300 text-sm md:text-base leading-[2]">
-                  今のしんどさから、少しずつ整理していきたい方へ。<br className="hidden md:block" />
-                  感情・状態・悩みのテーマから、今の自分に近いものを選んでください。無理に答えを出さなくて大丈夫です。
+                  支援職のための心理記事を、3つの入口から探せます。<br className="hidden md:block" />
+                  今の自分に合った入口を選んでください。
                 </p>
               </motion.div>
-              <motion.div variants={fadeUp} className="space-y-2">
-                <p className="text-[11px] text-white/50 tracking-wide">「休んでも回復しない」「人と関わるのがしんどい」方はまずこちら</p>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { label: "共感疲労チェック",    path: "/articles/helper-empathy-check" },
-                    { label: "脳疲労チェック",      path: "/articles/helper-brain-fatigue-check" },
-                    { label: "バーンアウトチェック", path: "/articles/helper-burnout-check" },
-                    { label: "辞め時チェック",      path: "/articles/helper-quit-timing-check" },
-                  ].map(({ label, path }) => (
-                    <Link key={path} to={path}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium transition-all"
-                      style={{ background: `${SAGE}22`, color: "rgba(255,255,255,0.85)", border: `1px solid ${SAGE}50` }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = `${SAGE}40`; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = `${SAGE}22`; }}
-                    >
-                      <ClipboardList className="w-3.5 h-3.5" />{label}
-                    </Link>
-                  ))}
-                </div>
+
+              {/* 3つの入口カード */}
+              <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-2">
+                {/* 入口1:状態を知る */}
+                <a
+                  href="#group-action"
+                  onClick={() => switchGroup("action")}
+                  className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
+                  style={{ background: `${SAGE}18`, border: `1px solid ${SAGE}40` }}
+                >
+                  <div className="flex items-center gap-2">
+                    <ClipboardList className="w-4 h-4" style={{ color: SAGE }} />
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: SAGE }}>01 状態を知る</span>
+                  </div>
+                  <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    まず今の自分を可視化
+                  </p>
+                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                    チェック・診断ツール・しんどさ別の入口
+                  </p>
+                  <span className="text-[11px] mt-auto pt-1 flex items-center gap-1" style={{ color: SAGE }}>
+                    入口を開く <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </a>
+
+                {/* 入口2:構造を知る */}
+                <a
+                  href="#group-learn"
+                  onClick={() => switchGroup("learn")}
+                  className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
+                  style={{ background: "rgba(125,211,252,0.12)", border: "1px solid rgba(125,211,252,0.3)" }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Compass className="w-4 h-4 text-sky-300" />
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-medium text-sky-300">02 構造を知る</span>
+                  </div>
+                  <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    なぜこうなるのか理解する
+                  </p>
+                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                    テーマ別・心理学研究からの解説記事
+                  </p>
+                  <span className="text-[11px] text-sky-300 mt-auto pt-1 flex items-center gap-1">
+                    入口を開く <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </a>
+
+                {/* 入口3:言葉にできない */}
+                <a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
+                  style={{ background: "rgba(6,199,85,0.15)", border: "1px solid rgba(6,199,85,0.4)" }}
+                >
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-[#06C755]" />
+                    <span className="text-[10px] tracking-[0.2em] uppercase font-medium text-[#06C755]">03 言葉にできない</span>
+                  </div>
+                  <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    まず話を聞いてもらう
+                  </p>
+                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                    LINEで状態タイプを送ります(無料・読むだけOK)
+                  </p>
+                  <span className="text-[11px] text-[#06C755] mt-auto pt-1 flex items-center gap-1">
+                    LINEで受け取る <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </a>
+              </motion.div>
+
+              {/* 補足説明 */}
+              <motion.div variants={fadeUp}>
+                <p className="text-[11px] text-stone-400 leading-relaxed mt-1">
+                  ※ 全記事・全ツールは無料で読めます。今のしんどさを整理するための入口としてご活用ください。
+                </p>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* ARTICLES SECTION */}
-        <section className="py-10 md:py-16 px-5 md:px-6" itemScope itemType="https://schema.org/CollectionPage">
+        {/* ========== スティッキーミニナビ(モバイル) ========== */}
+        <AnimatePresence>
+          {showStickyNav && (
+            <motion.div
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -50, opacity: 0 }}
+              className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-stone-100"
+            >
+              <div className="flex items-center gap-1 px-3 py-2 overflow-x-auto">
+                {TAB_GROUPS.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => {
+                      switchGroup(g.id);
+                      document.getElementById(`group-${g.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                      activeGroup === g.id ? "text-white" : "text-stone-500 bg-stone-100"
+                    }`}
+                    style={activeGroup === g.id ? { background: SAGE } : {}}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+                <a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 ml-auto px-3 py-1.5 rounded-full text-xs font-bold text-white inline-flex items-center gap-1"
+                  style={{ background: "#06C755" }}
+                >
+                  <MessageCircle className="w-3 h-3" />LINE
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ========== メインコンテンツ ========== */}
+        <section className="py-8 md:py-12 px-5 md:px-6" itemScope itemType="https://schema.org/CollectionPage">
           <div className="max-w-4xl mx-auto">
 
             {/* 検索ボックス */}
-            <div className="relative mb-4">
+            <div className="relative mb-5">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300 pointer-events-none" aria-hidden="true" />
               <input
                 type="search"
@@ -411,15 +572,14 @@ export default function Articles() {
                 onChange={(e) => {
                   const val = e.target.value;
                   setSearchQuery(val);
-                  // GA4カスタムイベント（500ms debounce・2文字以上）
                   if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
                   if (val.trim().length >= 2) {
                     searchTimerRef.current = setTimeout(() => {
-                      try { gtag("event", "site_search", { search_term: val.trim() }); } catch (_) {}
+                      try { gtag("event", "site_search", { search_term: val.trim() }); } catch (_) { /* noop */ }
                     }, 500);
                   }
                 }}
-                placeholder="記事を検索（キーワードを入力）"
+                placeholder="記事を検索(例:共感疲労、境界線、辞めたい)"
                 className="w-full pl-9 pr-9 py-2.5 rounded-xl border border-stone-200 text-sm text-stone-700 placeholder-stone-300 bg-white focus:outline-none focus:border-stone-400 transition-colors"
                 aria-label="記事を検索"
               />
@@ -435,63 +595,101 @@ export default function Articles() {
               )}
             </div>
 
-            {/* タブ */}
-            <div className="flex gap-0 mb-8 border-b border-stone-100 overflow-x-auto">
-              {TABS.map((tab) => {
-                const count =
-                  tab.id === "all"      ? articles.length :
-                  tab.id === "new"      ? articles.length :
-                  tab.id === "tools"    ? TOOLS.length :
-                  tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
-                  tab.id === "shindo"   ? articles.length :
-                  articles.filter((a) => !isResearchArticle(a.path)).length;
-                return (
-                  <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                    className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
-                    style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
-                  >
-                    {tab.label}
-                    {tab.id !== "shindo" && (
-                      <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full"
-                        style={{ background: activeTab === tab.id ? (tab.id === "research" ? "#e0f2fe" : `${SAGE}18`) : "rgb(245,244,243)", color: activeTab === tab.id ? (tab.id === "research" ? "#0369a1" : SAGE) : "rgb(168,162,158)" }}>
-                        {count}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* お悩みから探す */}
-            {!searchQuery.trim() && activeTab === "shindo" && !activeShindo && (
-              <div className="mb-10">
-                <div className="mb-4">
-                  <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>お悩みから探す</p>
-                  <p className="text-xs text-stone-500">今の状態に近いものを選んでください</p>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                  {WORRY_CATEGORIES.map((cat) => (
-                    <a key={cat.id} href={cat.exitPath}
-                      className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
+            {/* グループタブ(大カテゴリ) */}
+            {!searchQuery.trim() && (
+              <div className="mb-3">
+                <div className="grid grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-stone-50 border border-stone-100">
+                  {TAB_GROUPS.map((g) => (
+                    <button
+                      key={g.id}
+                      onClick={() => switchGroup(g.id)}
+                      id={`group-${g.id}`}
+                      className={`px-3 py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all ${
+                        activeGroup === g.id ? "text-white shadow-sm" : "text-stone-500 hover:text-stone-700"
+                      }`}
+                      style={activeGroup === g.id ? { background: SAGE } : {}}
                     >
-                      <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
-                      <p className="text-xs font-medium text-stone-800 leading-snug">{cat.label}</p>
-                      <p className="text-[10px] text-stone-500 leading-relaxed">{cat.desc}</p>
-                      <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
-                    </a>
+                      {g.label}
+                    </button>
                   ))}
                 </div>
+                <p className="text-[11px] text-stone-400 mt-2 text-center md:text-left leading-relaxed">
+                  {currentGroup.desc}
+                </p>
               </div>
             )}
 
-            {/* 今のしんどさから探す */}
-            {!searchQuery.trim() && activeTab === "shindo" && (
-              <div>
-                {!activeShindo && starterArticles.length > 0 && (
+            {/* サブタブ(2階層目) */}
+            {!searchQuery.trim() && currentGroup.subs.length > 1 && (
+              <div className="flex gap-0 mb-6 border-b border-stone-100 overflow-x-auto">
+                {currentGroup.subs.map((tab) => {
+                  const count =
+                    tab.id === "all"      ? articles.length :
+                    tab.id === "new"      ? articles.length :
+                    tab.id === "tools"    ? TOOLS.length :
+                    tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
+                    tab.id === "shindo"   ? articles.length :
+                    articles.filter((a) => !isResearchArticle(a.path)).length;
+                  return (
+                    <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveShindo(null); }}
+                      className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
+                      style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
+                    >
+                      {tab.label}
+                      {tab.id !== "shindo" && (
+                        <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full"
+                          style={{ background: activeTab === tab.id ? (tab.id === "research" ? "#e0f2fe" : `${SAGE}18`) : "rgb(245,244,243)", color: activeTab === tab.id ? (tab.id === "research" ? "#0369a1" : SAGE) : "rgb(168,162,158)" }}>
+                          {count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ============ いま整える:しんどさから探す ============ */}
+            {!searchQuery.trim() && activeTab === "shindo" && !activeShindo && (
+              <div className="mb-8">
+                {/* お悩みから探す セクション */}
+                <div className="mb-7">
+                  <div className="flex items-end justify-between mb-3">
+                    <div>
+                      <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>STEP 1 ｜ お悩みから探す</p>
+                      <p className="text-xs text-stone-500">フェーズ別に、今の状態に近いものを選んでください</p>
+                    </div>
+                    {/* 表示切替(モバイルで見やすく) */}
+                    <button
+                      onClick={() => setWorryViewMode(worryViewMode === "grid" ? "list" : "grid")}
+                      className="md:hidden text-[10px] px-2.5 py-1 rounded-full border border-stone-200 text-stone-500"
+                    >
+                      {worryViewMode === "grid" ? "リスト表示" : "グリッド表示"}
+                    </button>
+                  </div>
+                  <div className={
+                    worryViewMode === "grid"
+                      ? "grid grid-cols-2 gap-2.5 sm:grid-cols-4"
+                      : "flex flex-col gap-2 md:grid md:grid-cols-4"
+                  }>
+                    {WORRY_CATEGORIES.map((cat) => (
+                      <a key={cat.id} href={cat.exitPath}
+                        className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
+                      >
+                        <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
+                        <p className="text-xs font-medium text-stone-800 leading-snug">{cat.label}</p>
+                        <p className="text-[10px] text-stone-500 leading-relaxed">{cat.desc}</p>
+                        <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* はじめての方へ */}
+                {starterArticles.length > 0 && (
                   <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-                    className="mb-8 p-5 rounded-2xl" style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}40` }}
+                    className="mb-7 p-5 rounded-2xl" style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}40` }}
                   >
-                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>はじめての方へ｜まず読んでほしい記事</p>
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>STEP 2 ｜ はじめての方へ・まず読んでほしい記事</p>
                     <div className="space-y-2">
                       {starterArticles.map((a, i) => (
                         <Link key={a.path} to={a.path} className="flex items-center gap-3 group">
@@ -503,31 +701,82 @@ export default function Articles() {
                   </motion.div>
                 )}
 
-                {/* 新着・注目記事 */}
-                {!activeShindo && (
-                  <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }}
-                    className="mb-8 p-5 rounded-2xl border border-stone-200 bg-stone-50"
+                {/* 中段LINE誘導帯(常時表示) */}
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+                  className="mb-7 p-4 rounded-2xl flex flex-col md:flex-row md:items-center gap-3 md:gap-5"
+                  style={{ background: "linear-gradient(135deg, rgba(6,199,85,0.08) 0%, rgba(143,175,159,0.08) 100%)", border: "1px solid rgba(6,199,85,0.25)" }}
+                >
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-stone-700 mb-1 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" style={{ color: "#06C755" }} />
+                      記事を読むより先に、今の状態を整理したい方へ
+                    </p>
+                    <p className="text-[11px] text-stone-500 leading-relaxed">
+                      4つの状態タイプ(疲れ/抱え込み/辞めたい/迷い)別の解説をLINEで送っています。読むだけOK。
+                    </p>
+                  </div>
+                  <a
+                    href={LINE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-bold text-white whitespace-nowrap"
+                    style={{ background: "#06C755" }}
                   >
-                    <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>新着・注目記事</p>
-                    <div className="space-y-2">
-                      {[
-                        { path: "/articles/impostor-check-20",                  label: "インポスター症候群チェック（20項目）｜できているのに自信がない状態を確認" },
-                        { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか（総合ピラー）" },
-                        { path: "/articles/quit-job-timing",                    label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
-                        { path: "/articles/communication-fatigue",              label: "コミュニケーションで疲れるのはなぜ？｜消耗の構造と回復" },
-                        { path: "/articles/safe-base",                          label: "安全基地とは何か｜回復に必要な「安心できる場所」" },
-                      ].map((item) => (
-                        <Link key={item.path} to={item.path} className="flex items-center gap-2 group">
-                          <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
-                          <span className="text-xs text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
+                    <MessageCircle className="w-4 h-4" />LINEで受け取る(無料)
+                  </a>
+                </motion.div>
 
-                <p className="text-xs text-stone-400 mb-3 tracking-wide">今のしんどさから記事を探す</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+                {/* AIアシスタント枠(新規追加) */}
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }}
+                  className="mb-7 p-5 rounded-2xl relative overflow-hidden"
+                  style={{ background: "linear-gradient(135deg, #2C1F14 0%, #3D2B1F 100%)" }}
+                >
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles className="w-4 h-4 text-amber-200" />
+                      <span className="text-[10px] tracking-[0.25em] uppercase font-medium text-amber-200">AI Assistant ｜ β版</span>
+                    </div>
+                    <p className="text-base text-stone-50 font-light leading-relaxed mb-1.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                      「何がしんどいか、言葉にできない」あなたへ
+                    </p>
+                    <p className="text-stone-300 text-xs leading-relaxed mb-4">
+                      AIと簡単な対話で、今の状態に合う記事・チェック・対処法を整理します。<br />
+                      会話内容は保存されません。誰にも見られません。
+                    </p>
+                    <Link to="/ai-assistant"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-amber-100 text-stone-900 rounded-lg text-sm font-medium transition-all hover:bg-amber-50"
+                    >
+                      <MessageCircle className="w-4 h-4" />AIに整理してもらう
+                    </Link>
+                  </div>
+                  <div className="absolute right-0 top-0 w-32 h-32 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #fbbf24 0%, transparent 70%)" }} />
+                </motion.div>
+
+                {/* 新着・注目記事 */}
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}
+                  className="mb-7 p-5 rounded-2xl border border-stone-200 bg-stone-50"
+                >
+                  <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>新着・注目記事</p>
+                  <div className="space-y-2">
+                    {[
+                      { path: "/articles/impostor-check-20",                  label: "インポスター症候群チェック(20項目)｜できているのに自信がない状態を確認" },
+                      { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか(総合ピラー)" },
+                      { path: "/articles/quit-job-timing",                    label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
+                      { path: "/articles/communication-fatigue",              label: "コミュニケーションで疲れるのはなぜ?｜消耗の構造と回復" },
+                      { path: "/articles/safe-base",                          label: "安全基地とは何か｜回復に必要な「安心できる場所」" },
+                    ].map((item) => (
+                      <Link key={item.path} to={item.path} className="flex items-center gap-2 group">
+                        <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
+                        <span className="text-xs text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* しんどさカード(より深く絞り込みたい人向け) */}
+                <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>STEP 3 ｜ さらに絞り込む</p>
+                <p className="text-xs text-stone-500 mb-3">具体的な悩みのキーワードから記事を探す</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                   {SHINDO_CARDS.map((card) => {
                     const isActive = activeShindo?.label === card.label;
                     const isResearch = card.icon === "FlaskConical";
@@ -548,26 +797,65 @@ export default function Articles() {
                     );
                   })}
                 </div>
-
-                {activeShindo && (
-                  <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-sm font-medium text-stone-700">
-                        「{activeShindo.label}」に関連する記事
-                        <span className="ml-2 text-xs text-stone-400">{shindoArticles.length}本</span>
-                      </p>
-                      <button onClick={() => setActiveShindo(null)} className="text-xs text-stone-400 hover:text-stone-600 transition-colors">✕ 閉じる</button>
-                    </div>
-                    {shindoArticles.length > 0
-                      ? shindoArticles.map((a) => <ArticleCard key={a.path} article={a} showNew />)
-                      : <p className="text-sm text-stone-400 py-4">関連記事を準備中です。</p>
-                    }
-                  </motion.div>
-                )}
               </div>
             )}
 
-            {/* テーマ別 */}
+            {/* しんどさカード結果表示 */}
+            {!searchQuery.trim() && activeTab === "shindo" && activeShindo && (
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2 mb-8">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm font-medium text-stone-700">
+                    「{activeShindo.label}」に関連する記事
+                    <span className="ml-2 text-xs text-stone-400">{shindoArticles.length}本</span>
+                  </p>
+                  <button onClick={() => setActiveShindo(null)} className="text-xs text-stone-400 hover:text-stone-600 transition-colors">✕ 閉じる</button>
+                </div>
+                {shindoArticles.length > 0
+                  ? shindoArticles.map((a) => <ArticleCard key={a.path} article={a} showNew />)
+                  : <p className="text-sm text-stone-400 py-4">関連記事を準備中です。</p>
+                }
+              </motion.div>
+            )}
+
+            {/* ============ いま整える:診断ツール ============ */}
+            {!searchQuery.trim() && activeTab === "tools" && (
+              <div>
+                <p className="text-xs text-stone-400 mb-6 leading-relaxed">スライダー・チェック・レーダーチャートなど、インタラクティブな形式で今の状態を可視化できるツールです。</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {TOOLS.map((tool) => (
+                    <Link key={tool.path} to={tool.path}
+                      className="group flex flex-col gap-3 p-5 rounded-2xl border border-stone-100 bg-white hover:shadow-md transition-all duration-200"
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = tool.color + "80"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: tool.color + "18", border: `1.5px solid ${tool.color}30` }}>
+                          <div style={{ width: "18px", height: "18px", borderRadius: "4px", background: tool.color, opacity: 0.85 }} />
+                        </div>
+                        <span className="text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full" style={{ color: tool.color, background: tool.color + "15" }}>{tool.tag}</span>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }}>{tool.title}</p>
+                        <p className="text-xs text-stone-400 leading-relaxed">{tool.desc}</p>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs font-medium mt-auto pt-2 border-t border-stone-50" style={{ color: tool.color }}>
+                        ツールを使う <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ============ いま整える:新着順 ============ */}
+            {!searchQuery.trim() && activeTab === "new" && (
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
+                <p className="text-xs text-stone-400 mb-4">最近追加・更新された記事を新しい順に表示しています</p>
+                {sortedByNew.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
+              </motion.div>
+            )}
+
+            {/* ============ 知る:テーマ別 ============ */}
             {!searchQuery.trim() && activeTab === "theme" && (
               <div>
                 {THEME_LAYERS.map((layer) => {
@@ -621,37 +909,7 @@ export default function Articles() {
               </div>
             )}
 
-            {/* 診断ツール */}
-            {!searchQuery.trim() && activeTab === "tools" && (
-              <div>
-                <p className="text-xs text-stone-400 mb-6 leading-relaxed">スライダー・チェック・レーダーチャートなど、インタラクティブな形式で今の状態を可視化できるツールです。</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {TOOLS.map((tool) => (
-                    <Link key={tool.path} to={tool.path}
-                      className="group flex flex-col gap-3 p-5 rounded-2xl border border-stone-100 bg-white hover:shadow-md transition-all duration-200"
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = tool.color + "80"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: tool.color + "18", border: `1.5px solid ${tool.color}30` }}>
-                          <div style={{ width: "18px", height: "18px", borderRadius: "4px", background: tool.color, opacity: 0.85 }} />
-                        </div>
-                        <span className="text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full" style={{ color: tool.color, background: tool.color + "15" }}>{tool.tag}</span>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }}>{tool.title}</p>
-                        <p className="text-xs text-stone-400 leading-relaxed">{tool.desc}</p>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs font-medium mt-auto pt-2 border-t border-stone-50" style={{ color: tool.color }}>
-                        ツールを使う <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* 心理学から読む */}
+            {/* ============ 知る:心理学から ============ */}
             {!searchQuery.trim() && activeTab === "research" && (
               <div>
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
@@ -662,7 +920,7 @@ export default function Articles() {
                   <div className="flex flex-col gap-2">
                     {[
                       { label: "共感疲労の対処法を見る",              path: "/articles/helper-compassion-fatigue-practice" },
-                      { label: "バウンダリー（境界線）の作り方を見る", path: "/articles/helper-boundary-how-to" },
+                      { label: "バウンダリー(境界線)の作り方を見る", path: "/articles/helper-boundary-how-to" },
                       { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
                     ].map(({ label, path }) => (
                       <Link key={path} to={path} className="group inline-flex items-center gap-1.5 text-sm text-[#7EB8A4] hover:text-[#9fcfbf] transition-colors">
@@ -699,15 +957,7 @@ export default function Articles() {
               </div>
             )}
 
-            {/* 新着順 */}
-            {!searchQuery.trim() && activeTab === "new" && (
-              <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
-                <p className="text-xs text-stone-400 mb-4">最近追加・更新された記事を新しい順に表示しています</p>
-                {sortedByNew.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
-              </motion.div>
-            )}
-
-            {/* すべて */}
+            {/* ============ すべて見る ============ */}
             {!searchQuery.trim() && activeTab === "all" && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
                 {articles.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
@@ -724,7 +974,7 @@ export default function Articles() {
               return (
                 <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
                   <p className="text-xs text-stone-400 mb-4">
-                    「{searchQuery}」の検索結果：<span className="font-medium text-stone-600">{results.length}件</span>
+                    「{searchQuery}」の検索結果:<span className="font-medium text-stone-600">{results.length}件</span>
                   </p>
                   {results.length > 0
                     ? results.map((a) => <ArticleCard key={a.path} article={a} showNew />)
@@ -736,7 +986,7 @@ export default function Articles() {
                         <button
                           onClick={() => setSearchQuery("")}
                           className="text-xs underline underline-offset-2 transition-colors mt-2"
-                          style={{ color: "#8FAF9F" }}
+                          style={{ color: SAGE }}
                           type="button"
                         >
                           検索をクリア
@@ -762,17 +1012,48 @@ export default function Articles() {
               <p className="text-stone-500 text-sm leading-relaxed">言葉にならなくても大丈夫です。今のしんどさを一緒に整理できます。</p>
               <p className="text-stone-400 text-xs">話す内容がまとまっていなくても大丈夫です。</p>
             </motion.div>
-            <motion.div variants={fadeUp} className="space-y-2">
+            <motion.div variants={fadeUp} className="space-y-3">
               <Link to="/#contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md">
                 初回無料で相談する <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
               <p className="text-stone-400 text-xs">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+              {/* LINE副CTA */}
+              <div className="pt-2">
+                <p className="text-stone-400 text-xs mb-2">あるいは、まず読むだけから</p>
+                <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium text-white"
+                  style={{ background: "#06C755" }}
+                >
+                  <MessageCircle className="w-4 h-4" />LINEで状態タイプを受け取る
+                </a>
+              </div>
             </motion.div>
             <motion.div variants={fadeUp}>
               <Link to="/" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">← トップページに戻る</Link>
             </motion.div>
           </motion.div>
         </section>
+
+        {/* ========== フローティングLINEボタン(モバイル右下固定) ========== */}
+        <AnimatePresence>
+          {showFloatingLine && (
+            <motion.a
+              href={LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden fixed bottom-5 right-5 z-30 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg"
+              style={{ background: "#06C755", color: "white" }}
+              aria-label="LINEで相談"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span className="text-xs font-bold">LINEで相談</span>
+            </motion.a>
+          )}
+        </AnimatePresence>
 
       </div>
     </>
