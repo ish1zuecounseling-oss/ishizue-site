@@ -36,12 +36,14 @@ export default function AboutMatsumoto() {
         <link rel="canonical" href="https://www.ishizue-counseling.jp/articles/about-matsumoto" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Person",
-          "name": "松本 龍児",
-          "alternateName": "まつもと りゅうじ",
-          "jobTitle": "公認心理師",
-          "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。",
-          "url": "https://www.ishizue-counseling.jp/articles/about-matsumoto",
+          "@type": "ProfilePage",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "松本 龍児",
+            "alternateName": "まつもと りゅうじ",
+            "jobTitle": "公認心理師",
+            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。",
+            "url": "https://www.ishizue-counseling.jp/articles/about-matsumoto",
           "image": "https://www.ishizue-counseling.jp/profile.jpg",
           "sameAs": [
             "https://x.com/ish1zue",
@@ -66,6 +68,7 @@ export default function AboutMatsumoto() {
             "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
             "セルフコンパッション", "構造整理型カウンセリング"
           ]
+          }
         })}</script>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
@@ -213,7 +216,7 @@ export default function AboutMatsumoto() {
             </h2>
             <p className="text-sm text-stone-600 leading-relaxed mb-6">
               「いしずえ」は、支援職の方が自分自身の消耗と向き合い、
-              構造を整理するための場として2026年に開設したオンラインカウンセリング事業です。
+              構造を整理するための場として2024年に開設したオンラインカウンセリング事業です。
               「構造として消耗している」「役割がなくても価値がある」という2つの哲学的軸を中心に、
               心理教育コンテンツとカウンセリングを提供しています。
             </p>
