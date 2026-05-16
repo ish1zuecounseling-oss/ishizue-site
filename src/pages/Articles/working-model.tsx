@@ -22,7 +22,7 @@ export default function WorkingModel() {
   return (
     <ArticleLayout
       title="ワーキングモデルとは？断れない・他人軸・自己否定の原因と変えられる可能性"
-      description="「人に嫌われたくない」「断れない」「自己否定が止まらない」——その背景にワーキングモデル（内的作業モデル）が関係しています。幼少期の愛着から形成される対人パターンの原因と変えられる可能性を解説。公認心理師・松本龍児監修。"
+      description="ワーキングモデルとは（内的作業モデル・インターナルワーキングモデル）——幼少期の愛着から形成される対人パターンの前提です。「断れない」「他人軸」「自己否定」がなぜ起きるのかを構造から解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/working-model"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
