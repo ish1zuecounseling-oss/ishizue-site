@@ -5,7 +5,7 @@ import LineCta, { LineCtaSmall } from "../../components/LineCta"
 export default function CompassionFatigueCoping() {
   return (
     <ArticleLayout
-      title="共感疲労の対処法7つ｜セルフチェック・原因・回復方法を支援職向けに解説"
+      title="共感疲労の対処法7つ｜今日からできるセルフケアと回復を支援職向けに解説"
       description="休んでも回復しない、セルフケアが続かない——共感疲労のチェック・原因・対処法を支援職向けに解説します。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-coping"
       date="2026-03-29"
