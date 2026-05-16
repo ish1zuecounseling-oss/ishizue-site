@@ -21,8 +21,8 @@ const FAQ_ITEMS = [
 export default function SelfFunctionWhat() {
   return (
     <ArticleLayout
-      title="自己機能とは何か｜「自分がわからない」「何がしたいかわからない」はなぜ起きるのか"
-      description="「自分がわからない」「何がしたいかわからない」「感情がわからない」——これは自己機能の消耗から起きています。なぜ頑張りすぎる人・支援職ほど自分を見失うのか、仕組みと回復を解説します。。公認心理師・松本龍児監修。"
+      title="自己機能とは？支援職に多い自己機能低下の原因と構造的な理由"
+      description="自己機能とは何か——感情・感覚・欲求にアクセスする心理的な機能です。なぜ支援職に自己機能の低下が起きるのか、自己機能が消耗するとどうなるかを構造から解説します。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/self-function-what"
       date="2026-05-03"
       tags={["burnout", "compassion", "boundary"]}
