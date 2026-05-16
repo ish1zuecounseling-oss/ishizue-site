@@ -19,7 +19,20 @@ export default function CompassionFatigueDiagnosis() {
 
 
 
-      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+      
+      {/* カニバリ解消：ピラー記事への誘導 */}
+      <div className="my-4 p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-[11px] text-stone-500 mb-1.5 tracking-wide">この記事は「共感疲労」シリーズの一部です</p>
+        <p className="text-xs text-stone-600 leading-relaxed">
+          共感疲労の症状・原因・診断・治し方の全体像は
+          <Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-700 hover:text-stone-900 mx-1 font-medium">
+            共感疲労とは（総合解説）
+          </Link>
+          にまとめています。本記事はそのうち「診断・消耗度の判断」を詳しく扱います。
+        </p>
+      </div>
+
+<p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         「共感疲労なのかもしれない」と感じながら、どう判断すればいいかわからない方へ向けて書いています。
       </p>
 
