@@ -1,14 +1,26 @@
 /**
  * Profile.tsx — いしずえカウンセリング
- * CTAコピー統一・メールカウンセリング導線・FV明示・こんな方強化版
+ *
+ * 改修ポイント(2026-05):
+ * - JSON-LD重複削除(Person Schemaが2重宣言されていた致命的SEOバグを修正)
+ * - title/OGP/Twitterメタ強化
+ * - ACCEPTING_NEW_CLIENTS フラグでCTAを動的切替(Home.tsxと連動)
+ * - メールカウンセリングブロックを「記事・AIアシスタントでまず試す」に置換
+ * - エンティティSEO拡張(構造整理型カウンセリング)
  */
 
 import { type ReactNode } from "react";
 import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Minus, ShieldCheck, BookOpen, Heart, Users } from "lucide-react";
+import { ArrowRight, Minus, ShieldCheck, BookOpen, Heart, Users, MessageCircle, Sparkles, ClipboardList } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import AudioPlayer from "../components/AudioPlayer";
+
+const SAGE = "#8FAF9F";
+const LINE_URL = "https://lin.ee/6H8Pzo6";
+
+// 受付ステータス制御(Home.tsxと同期させること)
+const ACCEPTING_NEW_CLIENTS = false;
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 24 },
@@ -19,10 +31,12 @@ const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.09 } },
 };
 
+declare function gtag(...args: unknown[]): void;
+
 const consultThemes = [
-  { icon: <ShieldCheck className="w-4 h-4" />, label: "支援職の燃え尽き（バーンアウト）" },
+  { icon: <ShieldCheck className="w-4 h-4" />, label: "支援職の燃え尽き(バーンアウト)" },
   { icon: <Heart className="w-4 h-4" />,        label: "感情労働による疲労・二次受傷" },
-  { icon: <Users className="w-4 h-4" />,        label: "支援者の境界線（バウンダリー）" },
+  { icon: <Users className="w-4 h-4" />,        label: "支援者の境界線(バウンダリー)" },
   { icon: <Minus className="w-3 h-3" />,        label: "役割過剰・責任の抱え込み" },
   { icon: <Minus className="w-3 h-3" />,        label: "対人援助職のストレス・消耗" },
   { icon: <Minus className="w-3 h-3" />,        label: "不安・抑うつ傾向・対人関係の悩み" },
@@ -31,10 +45,10 @@ const consultThemes = [
 
 const qualifications = [
   { label: "資格",       value: "公認心理師" },
-  { label: "経験年数",   value: "障害福祉分野での相談支援業務　15年" },
-  { label: "支援実績",   value: "個別カウンセリング　累計300名以上 ／ 6,000時間以上" },
+  { label: "経験年数",   value: "障害福祉分野での相談支援業務 15年" },
+  { label: "支援実績",   value: "個別カウンセリング 累計300名以上 ／ 6,000時間以上" },
   { label: "活動領域",   value: "医療・福祉・教育領域での実務経験" },
-  { label: "理論的背景", value: "CBT・ACT・動機づけ面接（MI）・BPSモデル・トラウマインフォームドケア・セルフコンパッション・SDT" },
+  { label: "理論的背景", value: "CBT・ACT・動機づけ面接(MI)・BPSモデル・トラウマインフォームドケア・セルフコンパッション・SDT" },
 ] as const;
 
 const approachPoints = [
@@ -48,13 +62,61 @@ const approachPoints = [
   },
   {
     title: "あなたの決定権を尊重する",
-    desc:  "CBT・ACT・動機づけ面接（MI）を統合的に用い、相談者が自分のペースで選択できる支援を一貫して重視しています。",
+    desc:  "CBT・ACT・動機づけ面接(MI)を統合的に用い、相談者が自分のペースで選択できる支援を一貫して重視しています。",
   },
   {
     title: "うまく話せなくても大丈夫",
     desc:  "整理されていない状態のままで来てください。何が負担なのかを一緒に言葉にすることが、この時間の目的です。",
   },
 ] as const;
+
+type CtaVariant = "dark" | "light";
+
+function PrimaryCTA({ variant = "dark", from }: { variant?: CtaVariant; from?: string }) {
+  if (ACCEPTING_NEW_CLIENTS) {
+    const baseClass = variant === "light"
+      ? "bg-white text-stone-900 hover:bg-stone-100"
+      : "bg-[#2C1F14] text-stone-50 hover:bg-[#3D2B1F]";
+    return (
+      <div className="space-y-2">
+        <Link
+          to="/#contact"
+          className={`group inline-flex items-center gap-2 px-7 py-3.5 ${baseClass} text-sm font-medium tracking-[0.06em] rounded-full transition-all shadow-lg`}
+          onClick={() => {
+            try { gtag("event", "profile_cta_click", { from, status: "accepting" }); } catch (_) { /* noop */ }
+          }}
+        >
+          今の状態を整理してみる（初回無料）
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+        <p className={`text-xs ${variant === "light" ? "text-stone-500" : "text-stone-400"}`}>
+          まだ決めなくていい ／ 1回のみでもOK ／ 勧誘なし
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      <a
+        href={LINE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-white tracking-[0.06em] transition-all shadow-lg"
+        style={{ background: "#06C755" }}
+        onClick={() => {
+          try { gtag("event", "profile_cta_click", { from, status: "paused" }); } catch (_) { /* noop */ }
+        }}
+      >
+        <MessageCircle className="w-4 h-4" />
+        LINEで再開通知を受け取る
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </a>
+      <p className={`text-xs ${variant === "light" ? "text-stone-500" : "text-stone-400"}`}>
+        現在、新規ご相談の受付を一時休止中です ／ 読むだけOK ／ 勧誘なし
+      </p>
+    </div>
+  );
+}
 
 function SectionLabel({ en, ja, light = false }: { en: string; ja: string; light?: boolean }) {
   return (
@@ -96,89 +158,74 @@ function SafeImg({ src, alt, className, fallbackBg = "bg-stone-200", ...rest }: 
 }
 
 export default function Profile() {
+  const profilePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "松本 龍児",
+      "alternateName": "まつもと りゅうじ",
+      "jobTitle": "公認心理師",
+      "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。",
+      "url": "https://www.ishizue-counseling.jp/profile",
+      "image": "https://www.ishizue-counseling.jp/profile.jpg",
+      "sameAs": [
+        "https://x.com/ish1zue",
+        "https://www.instagram.com/ishizue_counseling/",
+        "https://note.com/ryuji_ishizue",
+        "https://www.ishizue-counseling.jp/articles/about-matsumoto",
+      ],
+      "worksFor": {
+        "@type": "ProfessionalService",
+        "name": "こころの相談室 いしずえ",
+        "url": "https://www.ishizue-counseling.jp",
+      },
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "国家資格",
+        "name": "公認心理師",
+        "recognizedBy": {
+          "@type": "GovernmentOrganization",
+          "name": "厚生労働省",
+        },
+      },
+      "knowsAbout": [
+        "共感疲労", "バーンアウト", "感情労働", "二次受傷",
+        "支援職カウンセリング", "境界線", "自己機能", "他人軸",
+        "インポスター症候群", "自己複雑性", "ワーキングモデル",
+        "認知行動療法(CBT)", "アクセプタンス&コミットメント・セラピー(ACT)",
+        "動機づけ面接(MI)", "トラウマインフォームドケア",
+        "セルフコンパッション", "自己決定理論(SDT)",
+        "BPSモデル", "構造整理型カウンセリング",
+      ],
+      "knowsLanguage": ["ja"],
+      "memberOf": {
+        "@type": "Organization",
+        "name": "日本公認心理師協会",
+      },
+    },
+  };
+
   return (
     <>
       <Helmet>
-        <title>松本 龍児（まつもと りゅうじ）｜公認心理師・こころの相談室 いしずえ代表</title>
+        <title>松本 龍児｜公認心理師・構造整理型カウンセリング｜こころの相談室 いしずえ代表</title>
         <link rel="canonical" href="https://www.ishizue-counseling.jp/profile" />
-        <meta
-          name="description"
-          content="松本龍児（まつもと りゅうじ）は公認心理師。障害福祉15年・累計300名以上6,000時間以上の支援経験。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。"
-        />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ProfilePage",
-          "mainEntity": {
-            "@type": "Person",
-            "name": "松本 龍児",
-            "alternateName": "まつもと りゅうじ",
-            "jobTitle": "公認心理師",
-            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。",
-            "url": "https://www.ishizue-counseling.jp/profile",
-            "image": "https://www.ishizue-counseling.jp/profile.jpg",
-            "sameAs": [
-              "https://x.com/ish1zue",
-              "https://www.instagram.com/ishizue_counseling/",
-              "https://note.com/ryuji_ishizue",
-              "https://www.ishizue-counseling.jp/articles/about-matsumoto"
-            ],
-            "worksFor": {
-              "@type": "ProfessionalService",
-              "name": "こころの相談室 いしずえ",
-              "url": "https://www.ishizue-counseling.jp"
-            },
-            "hasCredential": {
-              "@type": "EducationalOccupationalCredential",
-              "credentialCategory": "国家資格",
-              "name": "公認心理師"
-            },
-            "knowsAbout": [
-              "共感疲労", "バーンアウト", "感情労働", "二次受傷",
-              "支援職カウンセリング", "境界線", "自己機能", "他人軸",
-              "インポスター症候群", "自己複雑性", "ワーキングモデル",
-              "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
-              "セルフコンパッション", "構造整理型カウンセリング"
-            ],
-            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。"
-          }
-        })}</script>
-        <script type="application/ld+json">{`
-
-          {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "松本 龍児",
-            "alternateName": "まつもと りゅうじ",
-            "jobTitle": "公認心理師",
-            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・消耗に特化した構造整理型カウンセリングを提供。",
-            "url": "https://www.ishizue-counseling.jp/profile",
-            "image": "https://www.ishizue-counseling.jp/profile.jpg",
-            "sameAs": [
-              "https://x.com/ish1zue",
-              "https://www.instagram.com/ishizue_counseling/",
-              "https://note.com/ryuji_ishizue"
-            ],
-            "worksFor": {
-              "@type": "ProfessionalService",
-              "name": "こころの相談室 いしずえ",
-              "url": "https://www.ishizue-counseling.jp"
-            },
-            "hasCredential": {
-              "@type": "EducationalOccupationalCredential",
-              "credentialCategory": "国家資格",
-              "name": "公認心理師"
-            },
-            "knowsAbout": [
-              "共感疲労", "バーンアウト", "感情労働", "二次受傷",
-              "支援職カウンセリング", "境界線", "自己機能", "他人軸",
-              "インポスター症候群", "自己複雑性", "ワーキングモデル",
-              "認知行動療法", "ACT", "動機づけ面接", "トラウマインフォームドケア",
-              "セルフコンパッション", "構造整理型カウンセリング"
-            ],
-            "description": "障害福祉分野15年・累計300名以上6,000時間以上の支援経験を持つ公認心理師。支援職の燃え尽き・共感疲労・感情労働・インポスター症候群・他人軸・自己機能低下に特化した構造整理型カウンセリングを提供。"
-            }
-          }
-        `}</script>
+        <meta name="description" content="松本龍児（まつもと りゅうじ）・公認心理師。障害福祉15年・累計300名以上6,000時間以上の臨床経験。支援職の燃え尽き・共感疲労・インポスター症候群・他人軸・自己機能低下に特化した「構造整理型カウンセリング」を提供。こころの相談室いしずえ代表。" />
+        <meta name="keywords" content="松本龍児, まつもと りゅうじ, 公認心理師, 構造整理型カウンセリング, 支援職カウンセリング, 共感疲労, バーンアウト" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:title" content="松本 龍児｜公認心理師・構造整理型カウンセラー" />
+        <meta property="og:description" content="支援職の燃え尽き・共感疲労を構造から整理する公認心理師。障害福祉15年・累計300名以上の臨床経験。" />
+        <meta property="og:url" content="https://www.ishizue-counseling.jp/profile" />
+        <meta property="og:image" content="https://www.ishizue-counseling.jp/profile.jpg" />
+        <meta property="og:site_name" content="こころの相談室 いしずえ" />
+        <meta property="profile:first_name" content="龍児" />
+        <meta property="profile:last_name" content="松本" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="松本 龍児｜公認心理師・構造整理型カウンセラー" />
+        <meta name="twitter:description" content="支援職の燃え尽き・共感疲労を構造から整理する公認心理師。" />
+        <meta name="twitter:image" content="https://www.ishizue-counseling.jp/profile.jpg" />
+        <script type="application/ld+json">{JSON.stringify(profilePageSchema)}</script>
       </Helmet>
 
       <div className="bg-white min-h-screen text-stone-800">
@@ -187,42 +234,29 @@ export default function Profile() {
         <section className="relative bg-[#1A110A] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/60 to-stone-950" />
           <div className="relative max-w-5xl mx-auto px-5 md:px-8 py-20 md:py-28">
-            <motion.div
-              initial="hidden" animate="visible" variants={stagger}
+            <motion.div initial="hidden" animate="visible" variants={stagger}
               className="flex flex-col md:flex-row md:items-center md:gap-14 lg:gap-20"
             >
               <div className="space-y-5 flex-1 min-w-0">
                 <motion.div variants={fadeUp}>
                   <span className="text-[10px] tracking-[0.3em] uppercase text-[#8FAF9F] font-medium">Profile</span>
                 </motion.div>
-
                 <motion.div variants={fadeUp} className="space-y-3">
-                  {/* ③ FV：誰向けか明示 */}
-                  <p className="text-stone-400 text-xs md:text-sm leading-relaxed">
-                    休んでも回復しない支援職の方へ
-                  </p>
-                  <h1
-                    className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide leading-[1.4]"
-                    style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
-                  >
+                  <p className="text-stone-400 text-xs md:text-sm leading-relaxed">休んでも回復しない支援職の方へ</p>
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-wide leading-[1.4]" style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}>
                     松本 龍児
                   </h1>
                   <p className="text-stone-400 text-sm md:text-base tracking-wide">
                     公認心理師 ／ 構造整理型カウンセラー・支援者支援専門
                   </p>
                 </motion.div>
-
                 <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
                   {["障害福祉15年", "累計300名以上", "6,000時間以上"].map((b) => (
-                    <span
-                      key={b}
-                      className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-[11px] tracking-[0.1em] text-white/75"
-                    >
+                    <span key={b} className="inline-flex items-center px-3 py-1.5 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-[11px] tracking-[0.1em] text-white/75">
                       {b}
                     </span>
                   ))}
                 </motion.div>
-
                 <motion.div variants={fadeUp} className="space-y-3">
                   <p className="text-stone-300 text-sm md:text-base leading-[2] max-w-lg">
                     支援職という役割の構造が、消耗を生み出しています。<br />
@@ -233,20 +267,10 @@ export default function Profile() {
                     <span className="text-sm font-medium text-white" style={{ fontFamily: "'Noto Serif JP', serif" }}>構造整理型カウンセリング</span>
                   </div>
                 </motion.div>
-
-                {/* ① CTA統一 */}
-                <motion.div variants={fadeUp} className="space-y-2">
-                  <Link
-                    to="/#contact"
-                    className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg"
-                  >
-                    今の状態を整理してみる（初回無料）
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <p className="text-stone-500 text-xs">まだ、辞めるかどうか決める必要はありません</p>
+                <motion.div variants={fadeUp}>
+                  <PrimaryCTA variant="light" from="hero" />
                 </motion.div>
               </div>
-
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -254,13 +278,7 @@ export default function Profile() {
                 className="hidden md:flex flex-col items-center gap-4 flex-shrink-0 mt-8 md:mt-0"
               >
                 <div className="w-52 h-52 lg:w-64 lg:h-64 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl ring-1 ring-white/10">
-                  <SafeImg
-                    src="/profile.jpg"
-                    alt="松本 龍児 — 公認心理師"
-                    className="w-full h-full object-cover object-top"
-                    fallbackBg="bg-stone-700"
-                    fetchPriority="high"
-                  />
+                  <SafeImg src="/profile.jpg" alt="松本 龍児 — 公認心理師" className="w-full h-full object-cover object-top" fallbackBg="bg-stone-700" fetchPriority="high" />
                 </div>
                 <div className="text-center space-y-1">
                   <p className="text-white text-sm font-medium tracking-wider" style={{ fontFamily: "'Noto Serif JP', serif" }}>松本 龍児</p>
@@ -309,7 +327,7 @@ export default function Profile() {
                       <p className="text-stone-800 font-medium text-base md:text-lg leading-[1.8]">支援者自身が、誰にも頼れていない。</p>
                     </BlockQuote>
                     <p>責任を抱え、感情を押し込め、疲弊しながらも「自分が弱いから」と思い込んでいる人を、何度も目の前で見てきました。</p>
-                    <p>正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という無言の圧力を感じながら、気づかないふりをしていた時期があります。支援者が消耗するのは弱さではなく、構造の問題だと気づくまでに、私自身も長い時間がかかりました。</p>
+                    <p>正直に言えば、かつての私自身もそうでした。「支援する側が頼ってはいけない」という無言の圧力を感じながら、気づかないふりをしていた時期があります。</p>
                     <p>それは弱さではなく、<strong className="text-stone-900 font-medium">構造の問題</strong>です。支援職という役割の構造が、消耗を生み出している。そう気づいたとき、私が次にやるべきことが見えました。</p>
                     <div className="pt-4 border-t border-stone-200">
                       <div className="p-5 rounded-2xl bg-stone-50 border border-stone-100">
@@ -339,21 +357,12 @@ export default function Profile() {
               <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {consultThemes.map(({ icon, label }) => (
                   <div key={label} className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-white border border-stone-100 text-stone-700 text-sm">
-                    <span className="text-[#8FAF9F] flex-shrink-0">{icon}</span>
-                    {label}
+                    <span className="text-[#8FAF9F] flex-shrink-0">{icon}</span>{label}
                   </div>
                 ))}
               </motion.div>
-              {/* ① CTA統一 */}
-              <motion.div variants={fadeUp} className="text-center pt-2 space-y-2">
-                <Link
-                  to="/#contact"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md"
-                >
-                  今の状態を整理してみる（初回無料）
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-                <p className="text-stone-400 text-xs">まだ決めなくていい ／ 1回のみでもOK ／ 勧誘なし</p>
+              <motion.div variants={fadeUp} className="text-center pt-2">
+                <PrimaryCTA variant="dark" from="themes" />
               </motion.div>
             </motion.div>
           </div>
@@ -433,7 +442,6 @@ export default function Profile() {
                 ))}
               </motion.div>
 
-              {/* ④ こんな方が来ています — 強化版 */}
               <motion.div variants={fadeUp}>
                 <div className="p-5 md:p-7 rounded-2xl border border-stone-200 bg-stone-50 space-y-4">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">こんな方が来ています</p>
@@ -447,7 +455,7 @@ export default function Profile() {
                       "断れない・抱え込みすぎで、誰にも話せなかった方",
                     ].map((text) => (
                       <div key={text} className="flex items-start gap-2.5 text-sm text-stone-600">
-                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2" style={{ background: "#8FAF9F" }} />
+                        <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2" style={{ background: SAGE }} />
                         {text}
                       </div>
                     ))}
@@ -458,23 +466,74 @@ export default function Profile() {
                 </div>
               </motion.div>
 
-              {/* ② メールカウンセリング導線 */}
+              {/* まず試せることブロック */}
               <motion.div variants={fadeUp}>
-                <div className="p-5 rounded-2xl border border-stone-200 bg-stone-50 space-y-3">
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">いきなり話すのが不安な方へ</p>
-                  <p className="text-sm text-stone-600 leading-relaxed">
-                    まずは文章で整理したい方は、メールカウンセリングも選択肢の一つです。<br />
-                    自分のペースでやり取りができるため、「まだ話すほどではないかも」と感じている方にも向いています。
-                  </p>
-                  <p className="text-xs text-stone-400">
-                    2週間プラン：8,000円 ／ 4週間プラン：15,000円（税込）
-                  </p>
-                  <a
-                    href="/#contact"
-                    className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-700 underline underline-offset-2 transition-colors"
-                  >
-                    メールカウンセリングを申し込む →
-                  </a>
+                <div className="p-5 md:p-6 rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-white space-y-4">
+                  <div>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium mb-1">
+                      {ACCEPTING_NEW_CLIENTS ? "いきなり予約するのが不安な方へ" : "受付再開を待ちながら、まず試せること"}
+                    </p>
+                    <p className="text-sm text-stone-700 leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                      個別カウンセリングの前に、自分の状態を整理する方法をご用意しています。<br />
+                      すべて無料・登録不要でお試しいただけます。
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                    <Link
+                      to="/ai-assistant"
+                      className="group flex items-start gap-3 p-4 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all"
+                      onClick={() => {
+                        try { gtag("event", "profile_try_first_click", { destination: "ai_assistant" }); } catch (_) { /* noop */ }
+                      }}
+                    >
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#2C1F14" }}>
+                        <Sparkles className="w-4 h-4 text-amber-200" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-stone-800 mb-0.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>AIで今の状態を整理する</p>
+                        <p className="text-[11px] text-stone-500 leading-relaxed">原因・現状・次の一歩を3点セットで整理</p>
+                        <p className="text-[10px] text-stone-400 mt-1 group-hover:text-stone-600 flex items-center gap-0.5 transition-colors">
+                          AIアシスタント <ArrowRight className="w-2.5 h-2.5" />
+                        </p>
+                      </div>
+                    </Link>
+                    <Link
+                      to="/articles"
+                      className="group flex items-start gap-3 p-4 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all"
+                      onClick={() => {
+                        try { gtag("event", "profile_try_first_click", { destination: "articles" }); } catch (_) { /* noop */ }
+                      }}
+                    >
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${SAGE}15` }}>
+                        <ClipboardList className="w-4 h-4" style={{ color: SAGE }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-stone-800 mb-0.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>診断ツール・記事で知る</p>
+                        <p className="text-[11px] text-stone-500 leading-relaxed">共感疲労・境界線など20以上のチェック</p>
+                        <p className="text-[10px] text-stone-400 mt-1 group-hover:text-stone-600 flex items-center gap-0.5 transition-colors">
+                          記事・診断一覧 <ArrowRight className="w-2.5 h-2.5" />
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                  {!ACCEPTING_NEW_CLIENTS && (
+                    <div className="pt-3 border-t border-stone-200">
+                      <p className="text-[11px] text-stone-500 leading-relaxed mb-2">受付再開時に先行してご案内します</p>
+                      <a
+                        href={LINE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                          try { gtag("event", "profile_try_first_click", { destination: "line" }); } catch (_) { /* noop */ }
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-white"
+                        style={{ background: "#06C755" }}
+                      >
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        LINEで再開通知を受け取る
+                      </a>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </motion.div>
@@ -501,16 +560,8 @@ export default function Profile() {
                   </p>
                 </BlockQuote>
               </motion.div>
-              {/* ① CTA統一 — クロージング */}
-              <motion.div variants={fadeUp} className="space-y-2">
-                <Link
-                  to="/#contact"
-                  className="group inline-flex items-center gap-2 px-8 py-4 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md"
-                >
-                  今の状態を整理してみる（初回無料）
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-                <p className="text-stone-400 text-xs">まだ決めなくていい ／ 1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+              <motion.div variants={fadeUp}>
+                <PrimaryCTA variant="dark" from="closing" />
               </motion.div>
               <motion.div variants={fadeUp}>
                 <Link to="/" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">
