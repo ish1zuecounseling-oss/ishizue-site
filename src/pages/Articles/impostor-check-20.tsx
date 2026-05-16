@@ -87,8 +87,8 @@ export default function ImpostorCheck20() {
 
   return (
     <ArticleLayout
-      title="インポスター症候群 診断テスト｜無料チェック20問【支援職向け・公認心理師監修】"
-      description="「いつかバレる」「評価されても自信がない」——インポスター症候群を20問・2分で無料セルフチェック。介護・看護・福祉など支援職に多い消耗の構造を、公認心理師が結果別に解説。インポスター症候群 診断テスト。"
+      title="インポスター症候群チェック・診断テスト20問｜無料セルフ診断【公認心理師監修】"
+      description="インポスター症候群のチェック・診断テスト（20問・無料・2分）。「いつかバレる」「評価されても自信がない」今の状態を確認できます。看護師・介護士・福祉職など支援職向け。結果別に原因と構造を解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
       date="2026-05-08"
       tags={["burnout", "boundary", "check"]}
