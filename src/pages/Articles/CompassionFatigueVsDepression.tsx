@@ -1,13 +1,70 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+
+const FAQ_ITEMS = [
+  {
+    q: "共感疲労とうつの一番大きな違いは何ですか？",
+    a: "影響が及ぶ範囲の違いです。共感疲労は仕事・支援という文脈に結びつきやすく、仕事を離れると症状が緩和される傾向があります。一方、うつは生活全般に影響が及び、休日や仕事以外の場面でも気分の重さや興味の喪失が続きます。",
+  },
+  {
+    q: "共感疲労はうつに進行しますか？",
+    a: "進行することがあります。共感疲労が放置されるとバーンアウト（燃え尽き症候群）へ移行し、さらに放置されるとうつへ移行するリスクが高まるという段階的な深刻化が起きることがあります。早めに気づいて対処することが重要です。",
+  },
+  {
+    q: "自分が共感疲労かうつかわかりません。どう判断すればいいですか？",
+    a: "消耗した状態では自己評価が難しくなるため、一人で正確に判断することには限界があります。「仕事を離れたときに楽になるか」「自己否定が『仕事の対応』へ向かうのか『自分という存在』へ向かうのか」を観察することがヒントになりますが、最終的には医療機関やカウンセラーへの相談が正確な理解を助けます。",
+  },
+  {
+    q: "共感疲労とうつの両方が同時に起きることはありますか？",
+    a: "あります。実際の支援現場では両方が重なって現れることは珍しくありません。担当ケースのことが頭から離れない（共感疲労的な側面）と、休日にも気分が晴れず自己否定が続く（うつ的な側面）が同時に起きている場合は、専門家への相談が重要になります。",
+  },
+  {
+    q: "共感疲労とうつでは相談先は変わりますか？",
+    a: "状態の深刻さによって変わります。共感疲労の段階で日常生活が送れているなら、カウンセリングで消耗の構造を整理することが助けになります。うつ症状が強く、強い自己否定や希死念慮、生活全般への影響がある場合は、精神科・心療内科などの医療機関での相談を優先することが重要です。",
+  },
+  {
+    q: "「自分はうつだ」と思い込んでいるが実は共感疲労、ということはありますか？",
+    a: "あります。支援職は自分の消耗を「この程度で」と過小評価しやすい一方で、深く消耗した状態では「自分はうつかもしれない」と感じることもあります。逆に、本当はうつの段階に入っているのに「ただの共感疲労だ」と過小評価してしまうケースもあります。どちらの方向の誤認も起こり得るため、専門家による評価が助けになります。",
+  },
+]
+
 export default function CompassionFatigueVsDepression() {
   return (
     <ArticleLayout
-      title="共感疲労とうつの違いとは｜支援職が「自分の状態」を正しく理解するために"
-      description="共感疲労とうつの違いを知ることが、回復の第一歩になります。消耗の原因・症状の範囲・回復プロセスにおける本質的な差異と、自分の状態を正しく理解するための視点を整理します。"
+      title="共感疲労とうつの違い｜「自分はどっち？」がわからない支援職へ【公認心理師】"
+      description="「ただの疲れ？それともうつ？」が判断できない状態が続いていませんか。共感疲労とうつの違い・両者が重なるケース・相談先までを、支援職15年・累計300名以上の公認心理師が整理します。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-vs-depression"
       date="2026-04-12"
       audio="/audio/compassion-fatigue-vs-depression.mp3"
+      faq={FAQ_ITEMS}
     >
+      {/* ▼ 監修者ボックス（E-E-A-T 強化） */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ▼ カニバリ解消：ピラー記事への誘導 */}
+      <div className="my-4 p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+        <p className="text-[11px] text-stone-500 mb-1.5 tracking-wide">この記事は「共感疲労」シリーズの一部です</p>
+        <p className="text-xs text-stone-600 leading-relaxed">
+          共感疲労の症状・原因・診断・治し方の全体像は
+          <Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-700 hover:text-stone-900 mx-1 font-medium">
+            共感疲労とは（総合解説）
+          </Link>
+          にまとめています。本記事はそのうち「うつとの違い」を詳しく扱います。
+        </p>
+      </div>
+
       <p>
         共感疲労とうつの違いとは、消耗の原因・症状の範囲・回復のプロセスにおける本質的な差異のことです。
         この二つは症状が似ており混同されやすいものですが、正しく区別することで、自分に必要なケアや相談先が
@@ -95,6 +152,18 @@ export default function CompassionFatigueVsDepression() {
         <li>段階的な深刻化のリスク：共感疲労が放置されるとバーンアウト・うつへと移行するリスクがある</li>
         <li>自己判断の限界：消耗した状態での自己評価は偏りやすく、専門家への相談が正確な理解を助ける</li>
       </ul>
+
+      {/* ▼ FAQ セクション（FAQPage Schema 取得） */}
+      <h2>よくある質問</h2>
+      <div className="space-y-2">
+        {FAQ_ITEMS.map((item, i) => (
+          <details key={i} className="rounded-xl border border-stone-200 overflow-hidden">
+            <summary className="px-4 py-3 text-sm font-medium text-stone-700 cursor-pointer hover:bg-stone-50">{item.q}</summary>
+            <div className="px-4 pb-4 pt-2 text-sm text-stone-600 leading-[1.9]">{item.a}</div>
+          </details>
+        ))}
+      </div>
+
       <p>
         こころの相談室 いしずえ では、「共感疲労かうつかわからない」「自分の状態を整理したい」という支援職・
         対人援助職の方のご相談を承っています。お気軽にご連絡ください。
