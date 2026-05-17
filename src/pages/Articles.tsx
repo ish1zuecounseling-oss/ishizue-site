@@ -97,11 +97,22 @@ const NEW_ARTICLE_PATHS: string[] = [
 const NEW_BADGE_PATHS = new Set(NEW_ARTICLE_PATHS.slice(0, 20));
 
 function getSortedByNew() {
+  // updatedAt の新しい順に自動ソート（手動管理不要）
+  // 同日付の場合：手動リスト（NEW_ARTICLE_PATHS）の順序を優先
+  // 手動リストにない場合：path のアルファベット順
   const pathToIndex = new Map(NEW_ARTICLE_PATHS.map((p, i) => [p, i]));
   return [...articles].sort((a, b) => {
+    // 1. updatedAt で比較（新しい順）
+    const dateA = (a as { updatedAt?: string }).updatedAt || "";
+    const dateB = (b as { updatedAt?: string }).updatedAt || "";
+    if (dateA !== dateB) {
+      return dateB.localeCompare(dateA); // 降順（新しい日付が先）
+    }
+    // 2. updatedAt が同じ場合、手動リストの順序を優先
     const ia = pathToIndex.has(a.path) ? pathToIndex.get(a.path)! : NEW_ARTICLE_PATHS.length;
     const ib = pathToIndex.has(b.path) ? pathToIndex.get(b.path)! : NEW_ARTICLE_PATHS.length;
     if (ia !== ib) return ia - ib;
+    // 3. それでも同じ場合、path のアルファベット順
     return a.path.localeCompare(b.path);
   });
 }
