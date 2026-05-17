@@ -94,7 +94,18 @@ const NEW_ARTICLE_PATHS: string[] = [
   "/articles/trying-too-hard",
 ];
 
-const NEW_BADGE_PATHS = new Set(NEW_ARTICLE_PATHS.slice(0, 20));
+// NEWバッジ:updatedAt が最新の20件に自動で付与
+const NEW_BADGE_PATHS = new Set(
+  [...articles]
+    .filter((a) => (a as { updatedAt?: string }).updatedAt)
+    .sort((a, b) => {
+      const dateA = (a as { updatedAt?: string }).updatedAt || "";
+      const dateB = (b as { updatedAt?: string }).updatedAt || "";
+      return dateB.localeCompare(dateA);
+    })
+    .slice(0, 20)
+    .map((a) => a.path)
+);
 
 function getSortedByNew() {
   // updatedAt の新しい順に自動ソート（手動管理不要）
