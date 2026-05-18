@@ -144,6 +144,11 @@ const RESEARCH_PATHS = [
 function isResearchArticle(path: string): boolean {
   return RESEARCH_PATHS.some((p) => path.includes(p));
 }
+function isCheckArticle(path: string): boolean {
+  // パスが "-check" で終わる、または "-check-" を含むものをチェック系と判定
+  // 例: helper-empathy-check, boundary-check, helper-stress-check-tool
+  return /-check(-|$)/.test(path.toLowerCase());
+}
 
 type WorryCategory = {
   id: string; phase: string; label: string; desc: string;
@@ -300,6 +305,25 @@ type ThemeLayer   = { id: string; label: string; desc: string; sections: ThemeSe
 
 const THEME_LAYERS: ThemeLayer[] = [
   {
+    id: "check",
+    label: "診断・チェック",
+    desc: "今の自分の状態を可視化する診断ツール・セルフチェック",
+    sections: [
+      {
+        label: "消耗・疲労のチェック",
+        keywords: ["empathy-check", "fatigue-check", "brain-fatigue-check", "burnout-check", "stress-check-tool", "depression-check", "emotional-numbness-check", "emotional-labor-check", "workplace-stress-check"],
+      },
+      {
+        label: "心理パターンのチェック",
+        keywords: ["impostor-check", "attachment-check", "thinking-check", "boundary-check", "self-compassion-check", "self-value-check", "abandonment-anxiety-check", "other-axis-check", "values-mismatch-check"],
+      },
+      {
+        label: "状況・適性のチェック",
+        keywords: ["quit-timing-check", "helper-status-check", "big-five-check", "working-os-check", "secondary-trauma-check"],
+      },
+    ],
+  },
+  {
     id: "exhaustion", label: "消耗を理解する", desc: "なぜ疲れるのか、消耗の構造を整理した記事",
     sections: [
       { label: "セルフチェック",    keywords: ["check"] },
@@ -341,8 +365,15 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   { label: "カウンセリング・相談を考えているとき", desc: "「相談してもいいのか」「どこに行けばいいか」——一歩を踏み出すための記事", paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling", "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"] },
 ];
 
-function getArticlesForSection(keywords: string[]) {
-  return articles.filter((a) => !isResearchArticle(a.path) && keywords.some((kw) => a.path.toLowerCase().includes(kw)));
+function getArticlesForSection(keywords: string[], isCheckSection: boolean = false) {
+  return articles.filter((a) => {
+    // リサーチ記事は常に除外
+    if (isResearchArticle(a.path)) return false;
+    // チェック記事は「診断・チェック」レイヤーでのみ表示
+    if (!isCheckSection && isCheckArticle(a.path)) return false;
+    // キーワードマッチ確認
+    return keywords.some((kw) => a.path.toLowerCase().includes(kw));
+  });
 }
 function getResearchArticlesForSection(paths: string[]) {
   return articles.filter((a) => paths.some((p) => a.path.includes(p)));
@@ -881,7 +912,7 @@ export default function Articles() {
             {!searchQuery.trim() && activeTab === "theme" && (
               <div>
                 {THEME_LAYERS.map((layer) => {
-                  const layerArticles = layer.sections.flatMap((s) => getArticlesForSection(s.keywords));
+                  const layerArticles = layer.sections.flatMap((s) => getArticlesForSection(s.keywords, layer.id === "check"));
                   const unique = Array.from(new Map(layerArticles.map((a) => [a.path, a])).values());
                   if (unique.length === 0) return null;
                   return (
@@ -894,7 +925,7 @@ export default function Articles() {
                         <p className="text-xs text-stone-400">{layer.desc}</p>
                       </div>
                       {layer.sections.map((section) => {
-                        const items = getArticlesForSection(section.keywords);
+                        const items = getArticlesForSection(section.keywords, layer.id === "check");
                         if (items.length === 0) return null;
                         return (
                           <div key={section.label} className="mb-7">
