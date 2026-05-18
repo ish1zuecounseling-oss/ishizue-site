@@ -38,7 +38,7 @@ const resultConfig = {
     border: "#bbf7d0",
     message: "今は比較的安定している状態です。ただし、ストレスや消耗が続くと潜在的な不安が表面に出やすくなります。今の状態を知っておくことが予防になります。",
     lineDesc: "見捨てられ不安は、気づかないうちに対人関係のパターンに影響しています。状態別の整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく（無料・読むだけOK）",
+    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
   },
   mid: {
     label: "見捨てられ不安の傾向が出ている可能性があります",
@@ -46,7 +46,7 @@ const resultConfig = {
     border: "#fde68a",
     message: "「嫌われたくない」「合わせなければ」という感覚が、対人関係や仕事の中で影響している可能性があります。この段階で構造を理解しておくと、消耗が深まる前に変化の方向が見えてきます。",
     lineDesc: "この状態が続くと、断れない・抱え込みがさらに強まることがあります。段階ごとの整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく（無料・読むだけOK）",
+    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
   },
   high: {
     label: "見捨てられ不安が強くなっている可能性があります",
@@ -54,7 +54,7 @@ const resultConfig = {
     border: "#fecaca",
     message: "対人関係の多くで「去られる恐れ」が影響している状態かもしれません。これは意志や性格の問題ではなく、幼少期から形成されたワーキングモデルという構造から来ています。構造を外から整理することが助けになります。",
     lineDesc: "見捨てられ不安が強い状態は、放っておくと消耗がさらに深まります。構造の整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく（無料・読むだけOK）",
+    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
   },
 }
 
@@ -62,23 +62,27 @@ const LINE_URL = "https://lin.ee/TZxEE00?type=impostor"
 
 const FAQ_ITEMS = [
   {
-    q: "見捨てられ不安とは何ですか？",
+    q: "見捨てられ不安とは何ですか?",
     a: "見捨てられ不安とは、親密な関係にある人から見捨てられる・拒絶されることへの強い恐れです。愛着理論では「不安型愛着」と関連しており、幼少期の養育体験の中で「自分は大切にされるか分からない」という体験が繰り返されることで形成されやすいとされています。",
   },
   {
-    q: "見捨てられ不安はなぜ起きるのですか？",
-    a: "幼少期に「安心できる愛着関係」が十分に形成されなかった場合に起きやすいとされています。「相手の反応が一定しない」「条件付きでしか愛してもらえなかった」などの体験が、「自分は見捨てられるかもしれない」という内的なパターン（ワーキングモデル）を作ります。大人になっても無意識にこのパターンが作動し、対人関係に影響します。",
+    q: "見捨てられ不安はなぜ起きるのですか?",
+    a: "幼少期に「安心できる愛着関係」が十分に形成されなかった場合に起きやすいとされています。「相手の反応が一定しない」「条件付きでしか愛してもらえなかった」などの体験が、「自分は見捨てられるかもしれない」という内的なパターン(ワーキングモデル)を作ります。大人になっても無意識にこのパターンが作動し、対人関係に影響します。",
   },
   {
-    q: "見捨てられ不安と他人軸の関係は？",
+    q: "見捨てられ不安と他人軸の関係は?",
     a: "深く関係しています。見捨てられ不安が強い人は「嫌われないために相手に合わせる」という行動をとりやすく、これが他人軸という状態につながります。「断ると去られる」という前提があると、自分の感覚より相手の反応を優先することが習慣化していきます。",
   },
   {
-    q: "見捨てられ不安は変えられますか？",
+    q: "見捨てられ不安は変えられますか?",
     a: "変えられます。ただし「意識して変える」というよりも、「安全な関係の中で、見捨てられないという体験を積み重ねる」というプロセスが重要です。カウンセリングなど第三者との関係の中で、ワーキングモデルが少しずつ更新されていきます。",
   },
   {
-    q: "このチェックは診断として使えますか？",
+    q: "「離れていかれる」感覚は、性格の問題ですか?",
+    a: "性格そのものではなく、幼少期から形成された心理的なパターン(ワーキングモデル)によるものです。「自分が弱いから」「気にしすぎる性格だから」と捉える必要はありません。これは適応の結果として身についた反応であり、構造を理解することで変化していくことができます。",
+  },
+  {
+    q: "このチェックは診断として使えますか?",
     a: "このチェックは医学的・心理学的な診断ではなく、今の状態に気づくための目安です。結果に関わらず、気になることがあれば専門家への相談をおすすめします。",
   },
 ]
@@ -101,31 +105,58 @@ export default function AbandonmentAnxietyCheck() {
 
   return (
     <ArticleLayout
-      title="見捨てられ不安チェック｜15項目セルフチェック【公認心理師監修・無料】"
-      description="見捨てられ不安のセルフチェック（15項目・無料）。「嫌われたくない」「断れない」「相手の反応が気になる」状態を確認できます。結果別に構造的な原因（ワーキングモデル・不安型愛着）を解説。公認心理師・松本龍児監修。"
+      title="「離れていかれる」が止まらない方へ｜見捨てられ不安チェック15項目【公認心理師】"
+      description="「嫌われたかも」「断ったら去っていく」が止まらない方へ。15項目で見捨てられ不安を可視化し、なぜ起きるのか・どう変えられるのかを公認心理師が解説します。3分・無料・登録不要。"
       url="https://www.ishizue-counseling.jp/articles/abandonment-anxiety-check"
-      date="2026-05-16"
+      date="2026-05-19"
       tags={["boundary", "check"]}
       faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「嫌われたくない」「断ったら去っていくかもしれない」「相手の反応が変わると不安になる」——それは<strong>見捨てられ不安</strong>という構造から起きています。
+        「嫌われたかもしれない」「離れていかれるかも」——その感覚が止まらないとき、それは性格や弱さではなく、見捨てられ不安という心理構造から起きています。
+      </p>
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        「嫌われたかもしれない」「離れていかれるかも」——その感覚が止まらないとき、
+        それは<strong>性格や弱さではなく、見捨てられ不安という心理構造</strong>から起きています。
       </p>
       <p>
-        以下の項目を読んで、当てはまると感じるものをタップしてください。直感で構いません。
+        この記事では、15項目のチェックで今の状態を可視化し、
+        <strong>なぜそうなるのか・どうすれば変えられるのか</strong>を、公認心理師の臨床経験から整理します。
+        意志で変えようとして変わらないのには理由があり、その構造を理解することが変化の入口になります。
       </p>
 
       <nav className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
         <p className="font-medium text-stone-500 mb-2">この記事でわかること</p>
         <ul className="space-y-1 text-stone-600 list-none pl-0">
-          <li>・15項目の無料セルフチェック（約2分）</li>
+          <li>・15項目の無料セルフチェック(約2分)</li>
           <li>・スコア別の状態解説と次のステップ</li>
-          <li>・見捨てられ不安が起きる<strong>構造的な理由</strong>（ワーキングモデル・不安型愛着）</li>
-          <li>・よくある質問（なぜ起きるか？変えられるか？他人軸との関係）</li>
+          <li>・見捨てられ不安が起きる<strong>構造的な理由</strong>(ワーキングモデル・不安型愛着)</li>
+          <li>・「なぜ止まらないのか」「どう変えられるのか」</li>
+          <li>・よくある質問(性格との関係・他人軸との関係)</li>
         </ul>
       </nav>
 
-      <h2>見捨てられ不安セルフチェック（15項目・無料）</h2>
+      <p className="text-sm text-stone-600 leading-relaxed">
+        以下の項目を読んで、当てはまると感じるものをタップしてください。直感で構いません。
+      </p>
+
+      <h2>見捨てられ不安セルフチェック(15項目・無料)</h2>
 
       <div className="score-header">
         <span className="score-label">選択した項目</span>
@@ -163,7 +194,7 @@ export default function AbandonmentAnxietyCheck() {
       {!result && (
         <div className="my-4 p-3 rounded-xl bg-white border border-stone-200 text-xs text-stone-600 leading-[1.8]">
           <p className="font-medium text-stone-700 mb-1">採点の目安</p>
-          <p>・1〜4項目：比較的安定 ／ ・5〜9項目：傾向が出ている可能性 ／ ・10項目以上：強くなっている可能性</p>
+          <p>・1〜4項目:比較的安定 ／ ・5〜9項目:傾向が出ている可能性 ／ ・10項目以上:強くなっている可能性</p>
         </div>
       )}
 
@@ -185,11 +216,11 @@ export default function AbandonmentAnxietyCheck() {
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/other-axis-check"
                 className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
-                → 他人軸チェック（15項目）——あわせて確認する
+                → 他人軸チェック(15項目)——あわせて確認する
               </Link>
               <Link to="/articles/boundary-check"
                 className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
-                → 境界線チェック（15項目）——断れない状態を確認する
+                → 境界線チェック(15項目)——断れない状態を確認する
               </Link>
             </div>
           </div>
@@ -216,13 +247,13 @@ export default function AbandonmentAnxietyCheck() {
             <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → ワーキングモデルとは？見捨てられ不安の構造的な理由
+                → ワーキングモデルとは?見捨てられ不安の構造的な理由
               </Link>
               <Link to="/articles/anxious-attachment" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
                 → 不安型愛着とは｜断れない・見捨てられ不安の仕組み
               </Link>
               <Link to="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 他人軸とは？抜け出せない理由と原因
+                → 他人軸とは?抜け出せない理由と原因
               </Link>
               <Link to="/articles/low-self-esteem-why" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
                 → 自己肯定感が低い原因｜頑張っても変わらない本当の理由
@@ -244,12 +275,12 @@ export default function AbandonmentAnxietyCheck() {
         <p>・「断ったら去っていくかもしれない」→ 断れない</p>
         <p>・「嫌われたら終わり」→ 本音を言えない</p>
         <p>・「自分を出したら去られる」→ 常に合わせ続ける</p>
-        <p>・「相手の反応の変化＝危険信号」→ 些細な変化に敏感になる</p>
+        <p>・「相手の反応の変化=危険信号」→ 些細な変化に敏感になる</p>
       </div>
 
       <h2>ワーキングモデルとの関係</h2>
       <p>
-        見捨てられ不安の背景には、<Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデル（内的作業モデル）</Link>という構造があります。
+        見捨てられ不安の背景には、<Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデル(内的作業モデル)</Link>という構造があります。
         幼少期の愛着体験から作られた「自分と他者についての無意識の前提」です。
       </p>
       <div className="card space-y-1.5 text-sm text-stone-600">
@@ -282,7 +313,7 @@ export default function AbandonmentAnxietyCheck() {
       <ArticleFooterLinks type="self-function" exclude={["/articles/abandonment-anxiety-check"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
-        この記事は、こころの相談室 いしずえ（公認心理師・松本 龍児）が執筆しています。
+        この記事は、こころの相談室 いしずえ(公認心理師・松本 龍児)が執筆しています。
       </div>
     </ArticleLayout>
   )
