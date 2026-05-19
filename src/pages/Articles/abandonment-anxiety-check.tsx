@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+
+const CHECK_NAME = "abandonment-anxiety-check"
 
 const checkItems = [
   "相手から連絡が来ないと「嫌われたのか」と不安になる",
@@ -102,6 +105,21 @@ export default function AbandonmentAnxietyCheck() {
   const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 15) * 100)
+
+  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
+  useEffect(() => {
+    if (level) {
+      trackCheckComplete(CHECK_NAME, score, level, 15)
+    }
+    // 注:scoreも依存配列に含めているため、レベル内のスコア変動も追跡される
+  }, [level, score])
+
+  // ▼ LINEクリック時のハンドラ
+  const handleLineClick = () => {
+    if (level) {
+      trackLineClickFromCheck(CHECK_NAME, level)
+    }
+  }
 
   return (
     <ArticleLayout
@@ -225,12 +243,13 @@ export default function AbandonmentAnxietyCheck() {
             </div>
           </div>
 
-          {/* LINE誘導 */}
+          {/* LINE誘導 - onClickハンドラで計測 */}
           <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.25rem 0", display: "flex", flexDirection: "column", gap: "8px" }}>
             <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
               {result.lineDesc}
             </p>
             <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+              onClick={handleLineClick}
               style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", alignSelf: "flex-start" }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
