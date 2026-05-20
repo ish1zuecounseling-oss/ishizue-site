@@ -1,14 +1,17 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import LineCta from "../../components/LineCta"
+import { trackCheckComplete } from "../../lib/analytics"
+
+const CHECK_NAME = "helper-burnout-check"
 
 /* -------------------------------------------------------------------------- */
-/*  チェック項目（既存15項目 + 新規5項目 = 20項目・3軸構成）                     */
+/*  チェック項目(既存15項目 + 新規5項目 = 20項目・3軸構成)                     */
 /* -------------------------------------------------------------------------- */
 
 const checkItems = [
-  // 情緒的消耗（7項目）
+  // 情緒的消耗(7項目)
   "以前は好きだった仕事に、やりがいを感じなくなった",
   "朝、仕事に行くのがつらいと感じることが増えた",
   "仕事をこなすだけで精一杯で、丁寧にできていない気がする",
@@ -16,14 +19,14 @@ const checkItems = [
   "体の疲れがとれず、慢性的にだるい",
   "感情が平坦になり、喜怒哀楽が薄くなった気がする",
   "以前より感情的に消耗していると感じる",
-  // 脱人格化（6項目）
+  // 脱人格化(6項目)
   "利用者や同僚に対して、以前より冷たくなったと感じる",
   "利用者のことを「面倒だ」と感じてしまい、自己嫌悪になる",
   "仕事上の相手を機械的に処理している感覚がある",
   "職場の人と話すのが億劫になってきた",
   "利用者の問題に感情的に関われなくなってきた",
   "「この人のことはどうでもいい」と感じることがある",
-  // 達成感の低下（7項目）
+  // 達成感の低下(7項目)
   "達成感や手応えをほとんど感じられなくなった",
   "「どうせ何をやっても変わらない」と感じることがある",
   "小さなミスや指摘で、強く落ち込むようになった",
@@ -45,15 +48,15 @@ const catRanges = [
 
 const FAQ_ITEMS = [
   {
-    q: "バーンアウトと共感疲労の違いは？",
+    q: "バーンアウトと共感疲労の違いは?",
     a: "バーンアウトは長期的な職業上の過負荷が主な原因で、情緒的消耗・脱人格化・達成感の低下が中核症状です。共感疲労は他者のトラウマへの共感が主な原因で、侵入症状・回避・過覚醒が特徴的です。両者は重なり合って現れることが多いです。",
   },
   {
-    q: "バーンアウトは休めば回復しますか？",
+    q: "バーンアウトは休めば回復しますか?",
     a: "軽度であれば休息と環境調整で回復することもあります。ただし中程度以上の場合、「ただ休む」だけでは不十分で、消耗の構造を理解した対処が必要です。早めに気づいて動くほど回復が早くなります。",
   },
   {
-    q: "バーンアウトとうつ病の違いは？",
+    q: "バーンアウトとうつ病の違いは?",
     a: "バーンアウトは仕事との関連が強く、「仕事を離れると少し楽になる」という特徴があります。うつ病は生活全般に影響が及び、休日でも回復しにくい点が異なります。ただし長期化すると区別が難しくなるため、気になる場合は専門家への相談をおすすめします。",
   },
 ]
@@ -133,10 +136,17 @@ export default function HelperBurnoutCheck() {
     max: end - start,
   }))
 
+  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
+  useEffect(() => {
+    if (level) {
+      trackCheckComplete(CHECK_NAME, score, level, 20)
+    }
+  }, [level, score])
+
   return (
     <ArticleLayout
       title="支援職バーンアウト診断｜燃え尽き症候群セルフチェック20項目【3分】"
-      description="支援職・看護師・介護士・福祉職向けのバーンアウト（燃え尽き症候群）セルフチェック。情緒的消耗・脱人格化・達成感の低下の3軸で今の状態を確認できます。"
+      description="支援職・看護師・介護士・福祉職向けのバーンアウト(燃え尽き症候群)セルフチェック。情緒的消耗・脱人格化・達成感の低下の3軸で今の状態を確認できます。"
       url="https://www.ishizue-counseling.jp/articles/helper-burnout-check"
       date="2026-03-29"
       audio="/audio/helper-burnout-check.mp3"
@@ -145,7 +155,7 @@ export default function HelperBurnoutCheck() {
 
       <p>
         支援職では、長期間にわたって感情を使い続けることで、徐々に心のエネルギーが枯渇していきます。
-        これを「バーンアウト（燃え尽き症候群）」と呼びます。
+        これを「バーンアウト(燃え尽き症候群)」と呼びます。
       </p>
       <p>
         バーンアウトは突然起こるのではなく、じわじわと進行するのが特徴です。
@@ -155,7 +165,7 @@ export default function HelperBurnoutCheck() {
       </p>
 
       {/* ── チェックリスト ── */}
-      <h2>バーンアウトセルフチェック（20項目）</h2>
+      <h2>バーンアウトセルフチェック(20項目)</h2>
 
       <div className="score-header">
         <span className="score-label">選択した項目</span>
@@ -277,9 +287,9 @@ export default function HelperBurnoutCheck() {
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 mt-6">
         <p className="text-xs font-medium text-stone-600 mb-3">診断クラスター——あわせて確認する</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労チェック（20項目・3分）</Link>
-          <Link to="/articles/secondary-trauma-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 二次受傷チェック（15項目）</Link>
-          <Link to="/articles/helper-emotional-numbness-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 感情麻痺チェック（15項目）</Link>
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労チェック(20項目・3分)</Link>
+          <Link to="/articles/secondary-trauma-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 二次受傷チェック(15項目)</Link>
+          <Link to="/articles/helper-emotional-numbness-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 感情麻痺チェック(15項目)</Link>
           <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労とは——症状・原因・診断・対処法・回復を総合解説</Link>
         </div>
       </div>
