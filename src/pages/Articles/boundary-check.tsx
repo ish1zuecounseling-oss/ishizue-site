@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+
+const CHECK_NAME = "boundary-check"
 
 const checkItems = [
   "頼まれると断れない・NOが言えない",
@@ -107,6 +110,20 @@ export default function BoundaryCheck() {
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 15) * 100)
 
+  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
+  useEffect(() => {
+    if (level) {
+      trackCheckComplete(CHECK_NAME, score, level, 15)
+    }
+  }, [level, score])
+
+  // ▼ LINEクリック時のハンドラ
+  const handleLineClick = () => {
+    if (level) {
+      trackLineClickFromCheck(CHECK_NAME, level)
+    }
+  }
+
   return (
     <ArticleLayout
       title="境界線チェック15項目｜バウンダリー無料セルフ診断【公認心理師監修】"
@@ -207,12 +224,13 @@ export default function BoundaryCheck() {
             </Link>
           </div>
 
-          {/* LINE誘導 */}
+          {/* LINE誘導 - onClickハンドラで計測 */}
           <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.25rem 0", display: "flex", flexDirection: "column", gap: "8px" }}>
             <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
               {result.lineDesc}
             </p>
             <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+              onClick={handleLineClick}
               style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", alignSelf: "flex-start" }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
@@ -229,16 +247,16 @@ export default function BoundaryCheck() {
             <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/boundary-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 境界線とは？バウンダリーが薄くなる構造(ピラー記事)
+                → 境界線とは?バウンダリーが薄くなる構造(ピラー記事)
               </Link>
               <Link to="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → ワーキングモデルとは？断れない・境界線の構造的な理由
+                → ワーキングモデルとは?断れない・境界線の構造的な理由
               </Link>
               <Link to="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 他人軸とは？抜け出せない理由と原因
+                → 他人軸とは?抜け出せない理由と原因
               </Link>
               <Link to="/articles/helper-cannot-say-no" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 断れない原因とは？NOが言えない人の心理と構造
+                → 断れない原因とは?NOが言えない人の心理と構造
               </Link>
             </div>
           </div>
@@ -302,7 +320,7 @@ export default function BoundaryCheck() {
         だからこそ、まず<strong>「構造として理解する」ことが第一歩</strong>になります。
       </p>
       <p>
-        詳しくは→ <Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線とは？バウンダリーの基本と構造(ピラー記事)</Link>
+        詳しくは→ <Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線とは?バウンダリーの基本と構造(ピラー記事)</Link>
       </p>
 
       <LineCtaCompassion />
