@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+
+const CHECK_NAME = "other-axis-check"
 
 const checkItems = [
   "「自分はどうしたいか」より「相手はどうしたいか」を先に考えてしまう",
@@ -39,7 +42,7 @@ const resultConfig = {
     border: "#bbf7d0",
     message: "今は自分軸がある程度保てている状態です。ただし支援職では、仕事を続けるうちに他人軸が強まっていくことがあります。今の状態を知っておくことが予防になります。",
     lineDesc: "他人軸のパターンは、気づかないうちに強まっていきます。状態別の整理をLINEで送っています。",
-    lineLabel: "自分の状態の構造を整理する（無料）",
+    lineLabel: "自分の状態の構造を整理する(無料)",
   },
   mid: {
     label: "他人軸の傾向が出始めている可能性があります",
@@ -48,7 +51,7 @@ const resultConfig = {
     border: "#fde68a",
     message: "「相手を優先する」パターンが習慣化しはじめている状態です。この段階で構造を理解しておくと、消耗が深まる前に変化の方向が見えてきます。",
     lineDesc: "この状態が続くと、「自分がどうしたいか」がわからなくなっていきます。段階ごとの整理をLINEで送っています。",
-    lineLabel: "自分の状態の構造を整理する（無料）",
+    lineLabel: "自分の状態の構造を整理する(無料)",
   },
   high: {
     label: "他人軸が強くなっている可能性があります",
@@ -57,7 +60,7 @@ const resultConfig = {
     border: "#fecaca",
     message: "自己評価の基準が「相手の反応」に強く依存している状態かもしれません。一人で変えようとすると難しいことがあります。構造から整理することが変化の入口になります。",
     lineDesc: "他人軸が強い状態は、構造が見えると変化し始めます。段階ごとの整理をLINEで送っています。",
-    lineLabel: "自分の状態の構造を整理する（無料）",
+    lineLabel: "自分の状態の構造を整理する(無料)",
   },
 }
 
@@ -65,15 +68,15 @@ const LINE_URL = "https://lin.ee/TZxEE00?type=impostor"
 
 const FAQ_ITEMS = [
   {
-    q: "他人軸とは何ですか？",
+    q: "他人軸とは何ですか?",
     a: "他人軸とは、自分の行動・感情・価値判断の基準が「相手がどう思うか」に偏っている状態です。自分の感覚や欲求より他者の反応を優先し続けることで、自己機能が消耗していきます。",
   },
   {
-    q: "他人軸はなぜ抜け出せないのですか？",
-    a: "他人軸は意志の問題ではなく、幼少期から形成されたワーキングモデル（内的作業モデル）という構造から来ています。「役に立つことで価値を保てる」「失望させると関係が終わる」というパターンが自動的に作動するため、意識的に変えようとしても難しいです。",
+    q: "他人軸はなぜ抜け出せないのですか?",
+    a: "他人軸は意志の問題ではなく、幼少期から形成されたワーキングモデル(内的作業モデル)という構造から来ています。「役に立つことで価値を保てる」「失望させると関係が終わる」というパターンが自動的に作動するため、意識的に変えようとしても難しいです。",
   },
   {
-    q: "このチェックは診断として使えますか？",
+    q: "このチェックは診断として使えますか?",
     a: "このチェックは医学的・心理学的な診断ではなく、今の状態に気づくための目安です。結果に関わらず、気になることがあれば専門家への相談をおすすめします。",
   },
 ]
@@ -94,10 +97,24 @@ export default function OtherAxisCheck() {
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 15) * 100)
 
+  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
+  useEffect(() => {
+    if (level) {
+      trackCheckComplete(CHECK_NAME, score, level, 15)
+    }
+  }, [level, score])
+
+  // ▼ LINEクリック時のハンドラ
+  const handleLineClick = () => {
+    if (level) {
+      trackLineClickFromCheck(CHECK_NAME, level)
+    }
+  }
+
   return (
     <ArticleLayout
       title="他人軸チェック｜15項目で「人の目が気になる・断れない」状態を確認"
-      description="他人軸のセルフチェック（15項目）。「断れない」「人の顔色が気になる」「自分がどうしたいかわからない」状態を確認できます。結果別に構造的な原因を解説。公認心理師・松本龍児監修。"
+      description="他人軸のセルフチェック(15項目)。「断れない」「人の顔色が気になる」「自分がどうしたいかわからない」状態を確認できます。結果別に構造的な原因を解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/other-axis-check"
       date="2026-05-13"
       tags={["boundary", "burnout", "compassion"]}
@@ -111,7 +128,7 @@ export default function OtherAxisCheck() {
         以下の項目を読んで、当てはまると感じるものをタップしてください。
       </p>
 
-      <h2>他人軸セルフチェック（15項目）</h2>
+      <h2>他人軸セルフチェック(15項目)</h2>
 
       {/* スコアバー */}
       <div className="score-header">
@@ -156,12 +173,13 @@ export default function OtherAxisCheck() {
             <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8 }}>{result.message}</p>
           </div>
 
-          {/* LINE誘導 */}
+          {/* LINE誘導 - onClickハンドラで計測 */}
           <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.25rem 0", display: "flex", flexDirection: "column", gap: "8px" }}>
             <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
               {result.lineDesc}
             </p>
             <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+              onClick={handleLineClick}
               style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", alignSelf: "flex-start" }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
@@ -173,7 +191,7 @@ export default function OtherAxisCheck() {
             </p>
           </div>
 
-          {/* 境界線への連鎖：確信度UP */}
+          {/* 境界線への連鎖:確信度UP */}
           <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
             <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
               他人軸が強い人の多くは、<strong>「境界線の薄さ」も関係しています。</strong><br />
@@ -181,7 +199,7 @@ export default function OtherAxisCheck() {
             </p>
             <Link to="/articles/boundary-what"
               className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
-              → 境界線とは？「断れない・抱え込む」構造を確認する
+              → 境界線とは?「断れない・抱え込む」構造を確認する
             </Link>
           </div>
 
@@ -190,13 +208,13 @@ export default function OtherAxisCheck() {
             <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 他人軸とは？抜け出せない理由と原因（ピラー記事）
+                → 他人軸とは?抜け出せない理由と原因(ピラー記事)
               </Link>
               <Link to="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → ワーキングモデルとは？断れない・他人軸の構造的な理由
+                → ワーキングモデルとは?断れない・他人軸の構造的な理由
               </Link>
               <Link to="/articles/boundary-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 境界線とは？人間関係で疲れやすい人のためのバウンダリー
+                → 境界線とは?人間関係で疲れやすい人のためのバウンダリー
               </Link>
               <Link to="/articles/low-self-esteem-why" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
                 → 自己肯定感が低い原因｜頑張っても変わらない本当の理由
@@ -209,7 +227,7 @@ export default function OtherAxisCheck() {
       <h2>他人軸はなぜ起きるのか</h2>
       <p>
         他人軸は「性格」や「意志の弱さ」ではなく、
-        <strong><Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600">ワーキングモデル（内的作業モデル）</Link>という構造</strong>から来ています。
+        <strong><Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600">ワーキングモデル(内的作業モデル)という構造</Link></strong>から来ています。
       </p>
       <div className="card space-y-1.5 text-sm text-stone-600">
         <p>・「役に立てる自分だけが受け入れてもらえる」という前提</p>
@@ -221,7 +239,7 @@ export default function OtherAxisCheck() {
         「もっと自分を大切に」と思っても変わりにくいです。
       </p>
       <p>
-        詳しくは→ <Link to="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは？抜け出せない理由と原因</Link>
+        詳しくは→ <Link to="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは?抜け出せない理由と原因</Link>
       </p>
 
       <LineCtaImpostor />
@@ -243,7 +261,7 @@ export default function OtherAxisCheck() {
       <ArticleFooterLinks type="self-function" exclude={["/articles/other-axis-check"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
-        この記事は、こころの相談室 いしずえ（公認心理師・松本 龍児）が執筆しています。
+        この記事は、こころの相談室 いしずえ(公認心理師・松本 龍児)が執筆しています。
       </div>
     </ArticleLayout>
   )
