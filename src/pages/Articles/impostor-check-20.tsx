@@ -3,6 +3,9 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import LineCta, { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { trackCheckComplete } from "../../lib/analytics"
+
+const CHECK_NAME = "impostor-check-20"
 
 const CHECK_ITEMS = [
   // 成功の外在化
@@ -41,6 +44,14 @@ function getLevel(score: number) {
   return             { label: "傾向が非常に強い状態",            color: "#9f3a3a", bg: "rgba(159,58,58,0.1)",   border: "rgba(159,58,58,0.3)" }
 }
 
+// スコアからレベルラベル(low/mid/high/very_high)を返す
+function getLevelLabel(score: number): string {
+  if (score <= 5)  return "low"
+  if (score <= 10) return "mid"
+  if (score <= 15) return "high"
+  return "very_high"
+}
+
 function getMessage(score: number): string {
   if (score <= 5)  return "現時点では大きな傾向は見られません。ただし真面目で責任感が強い人ほど、消耗が深まると強くなることがあります。"
   if (score <= 10) return "「自分だけが実力不足」「いつかバレる」という感覚が出始めています。これは自信の問題ではなく、役割に自己が寄りすぎているサインかもしれません。"
@@ -50,23 +61,23 @@ function getMessage(score: number): string {
 
 const FAQ_ITEMS = [
   {
-    q: "インポスター症候群は病気ですか？",
+    q: "インポスター症候群は病気ですか?",
     a: "医学的な疾患名ではなく、心理的な状態を表す概念です。1978年に心理学者ポーリン・クランスらが提唱しました。診断ではなく「自分の傾向に気づくための枠組み」として使われます。ただし放置すると抑うつや燃え尽きにつながることがあるため、強く出ている場合は早めの整理が推奨されます。"
   },
   {
-    q: "インポスター症候群は治りますか？",
+    q: "インポスター症候群は治りますか?",
     a: "「治す」というより「構造を整える」ことで楽になります。自信をつけようとする方向ではなく、役割依存・自己複雑性の低下・他人軸という背景を整理することで、評価に左右されにくくなります。一人で取り組むのが難しい場合は、専門家との対話で構造を可視化することが有効です。"
   },
   {
-    q: "支援職（介護・看護・福祉）に多いのはなぜですか？",
+    q: "支援職(介護・看護・福祉)に多いのはなぜですか?",
     a: "支援職は「役に立てた感覚」が自己評価に直結しやすく、また成果が見えにくい・正解がない仕事のため、「これでよかったのか」という不確実性が常にあります。さらに利用者や家族からの評価が変動しやすいため、「いつかバレる」という感覚が育ちやすい環境です。性格ではなく職業構造の問題でもあります。"
   },
   {
-    q: "チェックで多く当てはまりました。どうすればいいですか？",
-    a: "まず「自分はダメだ」ではなく「構造として起きている」と捉え直すことが第一歩です。次に、役割以外の自己側面（趣味・関係性・身体感覚など）を意識的に増やしていきます。それでも消耗が続く場合は、カウンセリングなど第三者と一緒に整理する方法もあります。"
+    q: "チェックで多く当てはまりました。どうすればいいですか?",
+    a: "まず「自分はダメだ」ではなく「構造として起きている」と捉え直すことが第一歩です。次に、役割以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やしていきます。それでも消耗が続く場合は、カウンセリングなど第三者と一緒に整理する方法もあります。"
   },
   {
-    q: "セルフチェックと正式な診断は何が違いますか？",
+    q: "セルフチェックと正式な診断は何が違いますか?",
     a: "このチェックは自分の状態を可視化するためのセルフリフレクションツールであり、医学的診断ではありません。スコアが高くても「異常」ではなく、低くても「問題ない」とは限りません。継続的に消耗を感じている場合は、医療機関や心理職への相談を検討してください。"
   },
 ]
@@ -85,10 +96,16 @@ export default function ImpostorCheck20() {
   const pct = Math.round((score / 20) * 100)
   const level = getLevel(score)
 
+  // ▼ GA4イベント送信:「今の状態を確認する」ボタン押下時にチェック完了イベントを送信
+  const handleShowResult = () => {
+    setShown(true)
+    trackCheckComplete(CHECK_NAME, score, getLevelLabel(score), 20)
+  }
+
   return (
     <ArticleLayout
       title="インポスター症候群チェック・診断テスト20問｜無料セルフ診断【公認心理師監修】"
-      description="インポスター症候群のチェック・診断テスト（20問・無料・2分）。「いつかバレる」「評価されても自信がない」今の状態を確認できます。看護師・介護士・福祉職など支援職向け。結果別に原因と構造を解説。公認心理師・松本龍児監修。"
+      description="インポスター症候群のチェック・診断テスト(20問・無料・2分)。「いつかバレる」「評価されても自信がない」今の状態を確認できます。看護師・介護士・福祉職など支援職向け。結果別に原因と構造を解説。公認心理師・松本龍児監修。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
       date="2026-05-08"
       tags={["burnout", "boundary", "check"]}
@@ -102,7 +119,7 @@ export default function ImpostorCheck20() {
       </p>
 
       <div className="mb-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-600">
-        <strong>所要時間：約2分</strong> / 20項目にチェックを入れるだけ / 登録・個人情報不要<br />
+        <strong>所要時間:約2分</strong> / 20項目にチェックを入れるだけ / 登録・個人情報不要<br />
         介護・看護・福祉・心理など<strong>支援職に多い傾向</strong>を踏まえた設問構成です。
       </div>
 
@@ -110,10 +127,10 @@ export default function ImpostorCheck20() {
       <nav className="mb-6 p-3 rounded-xl bg-white border border-stone-200 text-xs">
         <p className="font-medium text-stone-500 mb-2">この記事でわかること</p>
         <ul className="space-y-1 text-stone-600">
-          <li>・20問の無料セルフチェック（下にスクロール）</li>
+          <li>・20問の無料セルフチェック(下にスクロール)</li>
           <li>・スコア別の状態解説と次のステップ</li>
-          <li>・インポスター症候群が起きる<strong>3つの構造</strong>（役割依存・自己複雑性・他人軸）</li>
-          <li>・よくある質問（治る？病気？支援職に多い理由は？）</li>
+          <li>・インポスター症候群が起きる<strong>3つの構造</strong>(役割依存・自己複雑性・他人軸)</li>
+          <li>・よくある質問(治る?病気?支援職に多い理由は?)</li>
         </ul>
       </nav>
 
@@ -133,7 +150,7 @@ export default function ImpostorCheck20() {
       </div>
 
       {/* チェックリスト */}
-      <h2>インポスター症候群セルフチェック（20問）</h2>
+      <h2>インポスター症候群セルフチェック(20問)</h2>
       <p className="text-sm text-stone-600 mb-3">
         当てはまるものにチェックを入れてください。直感で構いません。
       </p>
@@ -166,14 +183,14 @@ export default function ImpostorCheck20() {
         ))}
       </div>
 
-      {/* 確認ボタン */}
+      {/* 確認ボタン - GA4イベント送信 */}
       {!shown && (
         <button
-          onClick={() => setShown(true)}
+          onClick={handleShowResult}
           className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all mb-6"
           style={{ background: "#7EB8A4" }}
         >
-          今の状態を確認する（{score}項目チェック済み）
+          今の状態を確認する({score}項目チェック済み)
         </button>
       )}
 
@@ -218,7 +235,7 @@ export default function ImpostorCheck20() {
             </p>
             <Link to="/articles/other-axis-check"
               className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
-              → 他人軸チェック（15項目）——あわせて確認する
+              → 他人軸チェック(15項目)——あわせて確認する
             </Link>
           </div>
 
@@ -243,7 +260,7 @@ export default function ImpostorCheck20() {
 
       <h2>インポスター症候群とは——「できているのに自信がない」感覚の正体</h2>
       <p>
-        インポスター症候群（impostor syndrome / インポスター現象）とは、
+        インポスター症候群(impostor syndrome / インポスター現象)とは、
         客観的に成果を出しているにもかかわらず「自分には実力がない」「評価は過大評価だ」「いつかバレる」と感じ続ける心理状態を指します。
         1978年に心理学者ポーリン・クランスらが提唱した概念で、
         近年は<strong>支援職・専門職・女性・若手リーダー</strong>に多く見られることが指摘されています。
@@ -256,7 +273,7 @@ export default function ImpostorCheck20() {
       <h2>インポスター症候群を生む3つの構造</h2>
 
       <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">① 役割依存——「できる自分＝価値がある自分」</p>
+        <p className="text-sm font-medium text-stone-700 mb-2">① 役割依存——「できる自分=価値がある自分」</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
           「支援者として役立てる自分」だけが自己価値の根拠になっていると、
           失敗・批判のとき自己全体が揺らぎます。
@@ -283,11 +300,11 @@ export default function ImpostorCheck20() {
       </div>
 
       <p className="text-sm text-stone-500">
-        詳しく→ <Link to="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは（ピラー記事）</Link>
+        詳しく→ <Link to="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは(ピラー記事)</Link>
       </p>
 
       {/* FAQ */}
-      <h2>よくある質問（FAQ）</h2>
+      <h2>よくある質問(FAQ)</h2>
       <div className="space-y-2 mb-6">
         {FAQ_ITEMS.map((item, i) => (
           <div key={i} className="rounded-xl border border-stone-200 bg-white overflow-hidden">
@@ -321,7 +338,7 @@ export default function ImpostorCheck20() {
       <ArticleFooterLinks type="self-function" exclude={["/articles/impostor-check-20"]} />
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
-        この記事は、こころの相談室 いしずえ（公認心理師・松本 龍児）が執筆しています。
+        この記事は、こころの相談室 いしずえ(公認心理師・松本 龍児)が執筆しています。
       </div>
     </ArticleLayout>
   )
