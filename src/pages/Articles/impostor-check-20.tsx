@@ -7,235 +7,237 @@ import { trackCheckComplete } from "../../lib/analytics"
 
 const CHECK_NAME = "impostor-check-20"
 
-const CHECK_ITEMS = [
-  // 成功の外在化
-  "うまくいったとき「たまたま運が良かっただけ」と思う",
-  "成功したとき「周りのおかげで、自分の実力ではない」と感じる",
-  "評価されると「相手が過大評価している」という感覚がある",
-  // バレる恐れ
-  "いつか「自分に実力がない」とバレるのではと不安になる",
-  "自分の支援方針を人前で話すとき、強い抵抗感がある",
-  "感謝されると「期待に応えられていないのに」と申し訳なくなる",
-  // 比較・劣等感
-  "周りの同僚はみんな自分より優秀に見える",
-  "他の人の成果はすごいと思えるのに、自分の成果は取るに足らない気がする",
-  "自分だけが「わかっていない」と感じることがある",
-  // 努力量でカバー
-  "実力がない分、人一倍頑張らないと価値がないと感じる",
-  "定時に帰ったり休んだりすることに強い罪悪感がある",
-  "自分でやり遂げたことより、チームの成果の方が価値があると感じる",
-  // 知識への不安
-  "資格や研修をいくら積んでも「まだ専門性が足りない」と自信につながらない",
-  "利用者や家族に「わかりません」と答えるのが強く恥ずかしい",
-  "新しいケースを担当するとき、ワクワクより「対応できるか」という不安が強い",
-  // 期待へのプレッシャー
-  "「期待しています」と言われると逃げ出したくなる",
-  "期待を裏切って失望されるくらいなら、目立たないポジションでいたい",
-  "失敗して失望されることへの恐れが、常にある",
-  // 自己評価の不安定さ
-  "褒められても素直に受け取れず、すぐに否定したくなる",
-  "自分の能力についての話題になると、強い不安や緊張を感じる",
+const checkItems = [
+  // 自己評価の歪み(5項目)
+  "「自分には実力がない」と感じることが多い",
+  "成功しても「運が良かっただけ」と思ってしまう",
+  "「いつか自分が偽物だとバレる」という不安がある",
+  "客観的に見て成果を出していても、自分では認められない",
+  "自分の能力を正確に評価できない感覚がある",
+  // 過剰な努力・完璧主義(4項目)
+  "完璧にできないと「不十分」と感じてしまう",
+  "周りより努力していないと不安になる",
+  "「もっと頑張らなければ」という焦りが常にある",
+  "休むことに罪悪感を感じる",
+  // 他者比較・過小評価(4項目)
+  "周りの人がみんな自分より優秀に見える",
+  "褒められても素直に受け取れない",
+  "他人の成功は実力、自分の成功は運だと感じる",
+  "「みんなはちゃんとできているのに、自分だけ…」と思う",
+  // 役割同一化・不安(4項目)
+  "「役に立たない自分」には価値がないと感じる",
+  "仕事や役割を失うことが、自分自身を失うことのように感じる",
+  "「期待に応えられないと見捨てられる」という感覚がある",
+  "肩書きや役割なしの自分には自信が持てない",
+  // 自己開示の困難(3項目)
+  "「実は自信がない」と人に言えない",
+  "弱みや失敗を見せることが極端に怖い",
+  "本当の自分を見せたら、評価が下がると感じる",
 ]
 
-function getLevel(score: number) {
-  if (score <= 5)  return { label: "傾向は比較的少ない",        color: "#8FAF9F", bg: "rgba(143,175,159,0.1)", border: "rgba(143,175,159,0.3)" }
-  if (score <= 10) return { label: "インポスター傾向が出ている", color: "#c4904a", bg: "rgba(196,144,74,0.1)",  border: "rgba(196,144,74,0.3)" }
-  if (score <= 15) return { label: "傾向がかなり強い",           color: "#d97706", bg: "rgba(217,119,6,0.1)",   border: "rgba(217,119,6,0.3)" }
-  return             { label: "傾向が非常に強い状態",            color: "#9f3a3a", bg: "rgba(159,58,58,0.1)",   border: "rgba(159,58,58,0.3)" }
+const catRanges = [
+  { label: "自己評価の歪み", start: 0, end: 5 },
+  { label: "過剰な努力・完璧主義", start: 5, end: 9 },
+  { label: "他者比較・過小評価", start: 9, end: 13 },
+  { label: "役割同一化・不安", start: 13, end: 17 },
+  { label: "自己開示の困難", start: 17, end: 20 },
+]
+
+type Level = "low" | "mid" | "high" | null
+
+function getLevel(score: number): Level {
+  if (score === 0) return null
+  if (score <= 6) return "low"
+  if (score <= 13) return "mid"
+  return "high"
 }
 
-// スコアからレベルラベル(low/mid/high/very_high)を返す
-function getLevelLabel(score: number): string {
-  if (score <= 5)  return "low"
-  if (score <= 10) return "mid"
-  if (score <= 15) return "high"
-  return "very_high"
-}
-
-function getMessage(score: number): string {
-  if (score <= 5)  return "現時点では大きな傾向は見られません。ただし真面目で責任感が強い人ほど、消耗が深まると強くなることがあります。"
-  if (score <= 10) return "「自分だけが実力不足」「いつかバレる」という感覚が出始めています。これは自信の問題ではなく、役割に自己が寄りすぎているサインかもしれません。"
-  if (score <= 15) return "インポスター感がかなり強く、日常的な消耗につながっている可能性があります。「自信をつけよう」より、構造を整理することが先決です。"
-  return "慢性的な「バレる恐れ」が消耗を深めている状態です。一人で抱え込まず、外から整理することが回復の近道になります。"
+const resultConfig = {
+  low: {
+    label: "インポスター症候群の傾向は比較的少ない状態です",
+    color: "result-low",
+    message: "今は安定した自己評価を保てている状態です。ただしストレスや消耗が続くと、いつでも変化が起き得ます。今の状態を知っておくことが予防になります。",
+  },
+  mid: {
+    label: "インポスター症候群の傾向が出ている可能性があります",
+    color: "result-mid",
+    message: "「自分は実力がない」「いつかバレる」という感覚が、日常の中で影響している状態かもしれません。この段階で構造を理解しておくと、消耗が深まる前に変化の方向が見えてきます。",
+  },
+  high: {
+    label: "インポスター症候群が強くなっている可能性があります",
+    color: "result-high",
+    message: "客観的に見ると成果を出していても、「自分は偽物だ」という感覚から抜け出せない状態かもしれません。これは性格や弱さの問題ではなく、自己複雑性の低下・役割同一化・他人軸という構造から来ています。",
+  },
 }
 
 const FAQ_ITEMS = [
   {
-    q: "インポスター症候群は病気ですか?",
-    a: "医学的な疾患名ではなく、心理的な状態を表す概念です。1978年に心理学者ポーリン・クランスらが提唱しました。診断ではなく「自分の傾向に気づくための枠組み」として使われます。ただし放置すると抑うつや燃え尽きにつながることがあるため、強く出ている場合は早めの整理が推奨されます。"
+    q: "インポスター症候群とは何ですか?",
+    a: "客観的にできているのに「自分には実力がない」「いつかバレる」と感じる状態を指す心理学的な概念です。1978年にポーリン・クランスらが提唱しました。本人の能力とは無関係に「自己評価が低い」「過剰評価されている」という感覚が続きます。これは性格や弱さではなく、心理的な構造から起きるものです。",
   },
   {
-    q: "インポスター症候群は治りますか?",
-    a: "「治す」というより「構造を整える」ことで楽になります。自信をつけようとする方向ではなく、役割依存・自己複雑性の低下・他人軸という背景を整理することで、評価に左右されにくくなります。一人で取り組むのが難しい場合は、専門家との対話で構造を可視化することが有効です。"
+    q: "20問版と15問版どちらをやればいいですか?",
+    a: "20問版(本記事)は、より細かい5軸で状態を分析できます。15問版はより簡易的なチェックです。「自分の状態をより正確に把握したい」「カテゴリ別に傾向を見たい」場合は20問版がおすすめです。「とりあえず簡単に確認したい」場合は15問版が向いています。",
   },
   {
-    q: "支援職(介護・看護・福祉)に多いのはなぜですか?",
-    a: "支援職は「役に立てた感覚」が自己評価に直結しやすく、また成果が見えにくい・正解がない仕事のため、「これでよかったのか」という不確実性が常にあります。さらに利用者や家族からの評価が変動しやすいため、「いつかバレる」という感覚が育ちやすい環境です。性格ではなく職業構造の問題でもあります。"
+    q: "インポスター症候群の原因は?",
+    a: "①自己複雑性の低下(役割以外の自己側面が乏しい)、②役割同一化(自分の価値が役割と一体化している)、③他人軸(自己評価の基準が外側にある)という3つの構造が背景にあります。能力が高い人ほど起こりやすいのが特徴です。",
   },
   {
-    q: "チェックで多く当てはまりました。どうすればいいですか?",
-    a: "まず「自分はダメだ」ではなく「構造として起きている」と捉え直すことが第一歩です。次に、役割以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やしていきます。それでも消耗が続く場合は、カウンセリングなど第三者と一緒に整理する方法もあります。"
+    q: "「自信をつければ治る」のですか?",
+    a: "残念ながら、自信をつけようとしても改善しないことが多いです。インポスター症候群の核心は「自己価値の置き場所が偏っている」ことにあり、頑張って成果を出すほど「次もできなければ」という不安が強まります。本質的な変化には、自己複雑性を増やす(役割以外の自己側面を育てる)アプローチが有効です。",
   },
   {
-    q: "セルフチェックと正式な診断は何が違いますか?",
-    a: "このチェックは自分の状態を可視化するためのセルフリフレクションツールであり、医学的診断ではありません。スコアが高くても「異常」ではなく、低くても「問題ない」とは限りません。継続的に消耗を感じている場合は、医療機関や心理職への相談を検討してください。"
+    q: "このチェックは診断として使えますか?",
+    a: "このチェックは医学的・心理学的な診断ではなく、今の状態に気づくための目安です。結果に関わらず、気になることがあれば専門家への相談をおすすめします。",
   },
 ]
 
 export default function ImpostorCheck20() {
   const [checked, setChecked] = useState<boolean[]>(new Array(20).fill(false))
   const [shown, setShown] = useState(false)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   const toggle = (i: number) => {
     if (shown) return
-    setChecked(prev => { const n = [...prev]; n[i] = !n[i]; return n })
+    setChecked((prev) => {
+      const next = [...prev]
+      next[i] = !next[i]
+      return next
+    })
   }
 
-  const score = checked.filter(Boolean).length
-  const pct = Math.round((score / 20) * 100)
-  const level = getLevel(score)
+  const score  = checked.filter(Boolean).length
+  const level  = getLevel(score)
+  const result = level ? resultConfig[level] : null
+  const barPct = Math.round((score / 20) * 100)
 
-  // ▼ GA4イベント送信:「今の状態を確認する」ボタン押下時にチェック完了イベントを送信
+  const catScores = catRanges.map(({ label, start, end }) => ({
+    label,
+    score: checked.slice(start, end).filter(Boolean).length,
+    max: end - start,
+  }))
+
+  // ▼ GA4イベント送信:「結果を見る」ボタン押下時にチェック完了イベントを送信
   const handleShowResult = () => {
     setShown(true)
-    trackCheckComplete(CHECK_NAME, score, getLevelLabel(score), 20)
+    if (level) {
+      trackCheckComplete(CHECK_NAME, score, level, 20)
+    }
   }
 
   return (
     <ArticleLayout
-      title="インポスター症候群チェック・診断テスト20問｜無料セルフ診断【公認心理師監修】"
-      description="インポスター症候群のチェック・診断テスト(20問・無料・2分)。「いつかバレる」「評価されても自信がない」今の状態を確認できます。看護師・介護士・福祉職など支援職向け。結果別に原因と構造を解説。公認心理師・松本龍児監修。"
+      title="インポスター症候群チェック20問｜5軸で詳細診断【公認心理師】"
+      description="「いつかバレる」「実力がない」と感じる方へ。20項目で自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難の5軸を詳細チェック。15問版より精度の高い構造分析。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
-      date="2026-05-08"
-      tags={["burnout", "boundary", "check"]}
+      date="2026-05-10"
+      tags={["impostor", "self-function", "check"]}
       faq={FAQ_ITEMS}
     >
-      {/* H1直下フック */}
-      <p className="text-base text-stone-700 leading-[1.95] mb-4">
-        「いつか実力がないとバレるのでは」「評価されても素直に受け取れない」——
-        その感覚は、<strong>性格や自信の問題ではなく、構造から起きています</strong>。
-        まずは今の状態を、20問のチェックで可視化してみてください。
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「いつかバレる」「実力がない」が止まらないとき——それは性格ではなく、インポスター症候群という心理構造から起きています。
       </p>
 
-      <div className="mb-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-600">
-        <strong>所要時間:約2分</strong> / 20項目にチェックを入れるだけ / 登録・個人情報不要<br />
-        介護・看護・福祉・心理など<strong>支援職に多い傾向</strong>を踏まえた設問構成です。
-      </div>
+      <p>
+        以下の項目を読んで、当てはまると感じるものをタップしてください。
+        5つのカテゴリ別に細かく状態を分析できます。
+      </p>
 
-      {/* 目次ナビ */}
-      <nav className="mb-6 p-3 rounded-xl bg-white border border-stone-200 text-xs">
-        <p className="font-medium text-stone-500 mb-2">この記事でわかること</p>
-        <ul className="space-y-1 text-stone-600">
-          <li>・20問の無料セルフチェック(下にスクロール)</li>
-          <li>・スコア別の状態解説と次のステップ</li>
-          <li>・インポスター症候群が起きる<strong>3つの構造</strong>(役割依存・自己複雑性・他人軸)</li>
-          <li>・よくある質問(治る?病気?支援職に多い理由は?)</li>
-        </ul>
-      </nav>
+      <h2>インポスター症候群セルフチェック(20項目)</h2>
 
-      {/* スコア表示 */}
-      <div className="flex items-center justify-between mb-2 mt-6">
-        <span className="text-xs text-stone-400">チェック済み</span>
-        <span className="text-lg font-bold text-stone-800">{score}<span className="text-sm font-normal text-stone-400"> / 20</span></span>
+      <div className="score-header">
+        <span className="score-label">選択した項目</span>
+        <span className="score-number">{score}<span className="score-total"> / 20</span></span>
       </div>
-      <div className="w-full h-2 bg-stone-100 rounded-full mb-6 overflow-hidden">
+      <div className="bar-bg">
         <div
-          className="h-full rounded-full transition-all duration-300"
-          style={{
-            width: `${pct}%`,
-            background: score <= 5 ? "#8FAF9F" : score <= 10 ? "#c4904a" : score <= 15 ? "#d97706" : "#9f3a3a"
-          }}
+          className={`bar-fill ${score <= 6 ? "bar-low" : score <= 13 ? "bar-mid" : "bar-high"}`}
+          style={{ width: `${barPct}%` }}
         />
       </div>
 
-      {/* チェックリスト */}
-      <h2>インポスター症候群セルフチェック(20問)</h2>
-      <p className="text-sm text-stone-600 mb-3">
-        当てはまるものにチェックを入れてください。直感で構いません。
-      </p>
-      <div className="space-y-2 mb-6">
-        {CHECK_ITEMS.map((text, i) => (
-          <div
-            key={i}
-            onClick={() => toggle(i)}
-            role="checkbox"
-            aria-checked={checked[i]}
-            tabIndex={0}
-            onKeyDown={(e) => e.key === " " && toggle(i)}
-            className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-              checked[i]
-                ? "bg-stone-50 border-stone-300"
-                : "bg-white border-stone-100 hover:border-stone-200"
-            }`}
-          >
-            <div className={`flex-shrink-0 mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-              checked[i] ? "border-stone-600 bg-stone-700" : "border-stone-200"
-            }`}>
-              {checked[i] && (
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                  <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
-            </div>
-            <p className={`text-sm leading-[1.7] ${checked[i] ? "text-stone-800" : "text-stone-500"}`}>{text}</p>
+      <div className="checklist">
+        {catRanges.map(({ label, start, end }) => (
+          <div key={label}>
+            <p className="text-xs font-medium text-stone-400 mt-4 mb-2 px-1">{label}</p>
+            {checkItems.slice(start, end).map((text, i) => {
+              const idx = start + i
+              return (
+                <div
+                  key={idx}
+                  className={`check-item${checked[idx] ? " checked" : ""}`}
+                  onClick={() => toggle(idx)}
+                  role="checkbox"
+                  aria-checked={checked[idx]}
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === " " && toggle(idx)}
+                >
+                  <div className="checkbox"><div className="checkmark" /></div>
+                  <p className="item-text">{text}</p>
+                </div>
+              )
+            })}
           </div>
         ))}
       </div>
 
-      {/* 確認ボタン - GA4イベント送信 */}
       {!shown && (
         <button
           onClick={handleShowResult}
-          className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all mb-6"
+          className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all mb-6 mt-4"
           style={{ background: "#7EB8A4" }}
         >
-          今の状態を確認する({score}項目チェック済み)
+          結果を見る({score}項目チェック済み)
         </button>
       )}
 
-      {/* 結果 */}
-      {shown && (
-        <div className="mb-6">
-          <div className="mb-4 p-5 rounded-2xl border" style={{ background: level.bg, borderColor: level.border }}>
-            <p className="text-xs font-medium mb-1" style={{ color: level.color }}>
-              {score}項目 / 20項目
-            </p>
-            <p className="text-base font-medium text-stone-800 mb-2">{level.label}</p>
-            <p className="text-sm text-stone-600 leading-[1.9] mb-4">{getMessage(score)}</p>
+      {shown && result && (
+        <div>
+          <div className={`result-box ${result.color}`}>
+            <p className="result-score-label">{score}項目 / 20項目</p>
+            <p className="result-title">{result.label}</p>
+            <p className="result-message">{result.message}</p>
+          </div>
 
-            {score >= 6 && (
-              <div className="space-y-2">
-                <p className="text-xs font-medium text-stone-500">この状態について詳しく読む</p>
-                <Link to="/articles/impostor-syndrome" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
-                  → インポスター症候群とは｜「できているのに自信がない」の正体と構造
-                </Link>
-                <Link to="/articles/self-complexity" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
-                  → 自己複雑性とは｜役割に自己が集中すると何が起きるか
-                </Link>
-                <Link to="/articles/working-model" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
-                  → ワーキングモデルとは｜「役に立たないと価値がない」はどこから来るか
-                </Link>
+          {/* 5軸の内訳 */}
+          <div className="card mb-4">
+            <p className="text-xs font-medium text-stone-600 mb-3">5軸の内訳</p>
+            {catScores.map(({ label, score: s, max }) => (
+              <div key={label} className="flex items-center gap-3 mb-2">
+                <span className="text-xs text-stone-500 w-32 flex-shrink-0">{label}</span>
+                <div className="flex-1 bg-stone-100 rounded-full h-1.5">
+                  <div className="h-1.5 rounded-full transition-all" style={{ width: `${Math.round((s / max) * 100)}%`, background: "#8FAF9F" }} />
+                </div>
+                <span className="text-xs text-stone-500 w-10 text-right">{s}/{max}</span>
               </div>
-            )}
-
-            <button
-              onClick={() => { setChecked(new Array(20).fill(false)); setShown(false) }}
-              className="mt-4 text-xs text-stone-400 underline underline-offset-2"
-            >
-              最初からやり直す
-            </button>
+            ))}
           </div>
 
           {/* 他人軸チェックへの連鎖 */}
           <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
             <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-              ここまで当てはまる場合、<strong>「他人軸がベースになっている状態」の可能性が高いです。</strong><br />
-              この状態は放っておくと、人間関係だけでなく仕事の消耗も強くなります。
+              インポスター症候群が強い人の多くは、<strong>「他人軸」とも深く関係しています。</strong><br />
+              「自己評価の基準が外側にある」状態が、インポスター症候群を強めます。
             </p>
             <Link to="/articles/other-axis-check"
               className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
               → 他人軸チェック(15項目)——あわせて確認する
+            </Link>
+          </div>
+
+          {/* ▼ 新規追加:マッチング誘導ブロック */}
+          <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+            <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
+            <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              いしずえカウンセリングが、あなたに合うかどうか
+            </p>
+            <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
+              カウンセリングは「合う・合わない」がはっきり分かれます。
+              10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
+            </p>
+            <Link to="/articles/counseling-matching-check"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
+              合う人・合わない人チェック(10項目)を見る →
             </Link>
           </div>
 
@@ -244,95 +246,46 @@ export default function ImpostorCheck20() {
         </div>
       )}
 
-      {/* チェック→ピラー遷移ブリッジ */}
-      <div className="my-6 p-4 rounded-2xl border border-stone-200 bg-white">
-        <p className="text-xs font-medium text-stone-500 mb-1">多く当てはまった方へ</p>
-        <p className="text-sm text-stone-700 leading-[1.8] mb-3">
-          「なぜこうなるのか」を構造から整理すると、回復の方向が見えてきます。
-          インポスター症候群は<strong>自信の問題ではなく、役割依存・自己複雑性・他人軸という構造</strong>から起きています。
-        </p>
-        <a href="/articles/impostor-syndrome"
-          className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-stone-800 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all bg-stone-50">
-          <span>→ インポスター症候群の仕組みを見る</span>
-          <span className="text-xs" style={{ color: "#8FAF9F" }}>ピラー記事</span>
-        </a>
-      </div>
-
-      <h2>インポスター症候群とは——「できているのに自信がない」感覚の正体</h2>
+      <h2>インポスター症候群が起きる理由</h2>
       <p>
-        インポスター症候群(impostor syndrome / インポスター現象)とは、
-        客観的に成果を出しているにもかかわらず「自分には実力がない」「評価は過大評価だ」「いつかバレる」と感じ続ける心理状態を指します。
-        1978年に心理学者ポーリン・クランスらが提唱した概念で、
-        近年は<strong>支援職・専門職・女性・若手リーダー</strong>に多く見られることが指摘されています。
+        インポスター症候群は「自信のなさ」ではなく、<strong>3つの構造</strong>から起きています。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">① 自己複雑性の低下</p>
+          <p className="text-stone-600 leading-[1.9]">役割以外の自己側面(趣味・関係性・身体感覚など)が乏しい状態。自己評価が一点に集中しているため、その一点で失敗すると「全部ダメ」と感じます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">② 役割同一化</p>
+          <p className="text-stone-600 leading-[1.9]">「支援者としての自分」が「自分」全体と一体化している状態。役割上の失敗が「自分全体の否定」として感じられます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">③ 他人軸</p>
+          <p className="text-stone-600 leading-[1.9]">自己評価の基準が「他者の評価」「客観的成果」に偏っている状態。「自分はどう感じるか」より「他者からどう見えるか」が優先されます。</p>
+        </div>
+      </div>
+
+      <p>
+        この3つは互いに強化し合います。「もっと自信を持とう」と意志で頑張っても変わりにくいのは、この構造があるからです。
       </p>
       <p>
-        多くの解説では「自信の問題」「思い込み」として扱われますが、
-        このチェックで当てはまる人が体験しているのは、もっと深い構造から来ています。
+        詳しくは→ <Link to="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは｜構造から理解する(ピラー記事)</Link>
       </p>
 
-      <h2>インポスター症候群を生む3つの構造</h2>
+      <LineCta />
 
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">① 役割依存——「できる自分=価値がある自分」</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「支援者として役立てる自分」だけが自己価値の根拠になっていると、
-          失敗・批判のとき自己全体が揺らぎます。
-          <Link to="/articles/afraid-to-leave-role" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">役割依存</Link>の状態では「役割でバレること」が極度に怖くなります。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">② <Link to="/articles/self-complexity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己複雑性の低下</Link>——失敗が「全否定」になる</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「支援者としての自分」しか自己概念を占めていないとき、
-          その役割での失敗が「全部ダメな自分」という感覚になります。
-          役割以外の自己側面が少ないほど、インポスター感は強まります。
-        </p>
-      </div>
-
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">③ <Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸</Link>——外側の評価だけが自己判断の根拠</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          自分の内側の感覚へのアクセスが薄れ、他者の評価だけが「自分はどうか」の判断基準になっているとき、
-          評価が良いと安心・悪いと全否定という不安定さが生まれます。
-          「演じている感覚」「バレる恐れ」の正体です。
-        </p>
-      </div>
-
-      <p className="text-sm text-stone-500">
-        詳しく→ <Link to="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは(ピラー記事)</Link>
-      </p>
-
-      {/* FAQ */}
-      <h2>よくある質問(FAQ)</h2>
-      <div className="space-y-2 mb-6">
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (
-          <div key={i} className="rounded-xl border border-stone-200 bg-white overflow-hidden">
-            <button
-              onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              className="w-full text-left p-4 flex items-start justify-between gap-3 hover:bg-stone-50 transition-colors"
-              aria-expanded={openFaq === i}
-            >
-              <span className="text-sm font-medium text-stone-800 leading-[1.7]">Q. {item.q}</span>
-              <span className={`flex-shrink-0 text-stone-400 transition-transform mt-0.5 ${openFaq === i ? "rotate-180" : ""}`}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
-            {openFaq === i && (
-              <div className="px-4 pb-4 text-sm text-stone-600 leading-[1.95] border-t border-stone-100 pt-3">
-                A. {item.a}
-              </div>
-            )}
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
           </div>
         ))}
       </div>
 
-      <LineCta />
-
-      <p className="check-disclaimer text-xs text-stone-400 mt-4">
-        このチェックは診断ではなく、自分の状態に気づくための目安です。当てはまる項目が多くても、それ自体が「問題」ではありません。
+      <p className="check-disclaimer">
+        このチェックは診断ではなく、自分の状態に気づくための目安として活用してください。
       </p>
 
       <ArticleFooterLinks type="self-function" exclude={["/articles/impostor-check-20"]} />
