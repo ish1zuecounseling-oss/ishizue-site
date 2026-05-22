@@ -260,6 +260,22 @@ export default function BoundaryCheck() {
               </Link>
             </div>
           </div>
+
+          {/* ▼ 新規追加:マッチング誘導ブロック */}
+          <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+            <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
+            <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              いしずえカウンセリングが、あなたに合うかどうか
+            </p>
+            <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
+              カウンセリングは「合う・合わない」がはっきり分かれます。
+              10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
+            </p>
+            <Link to="/articles/counseling-matching-check"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
+              合う人・合わない人チェック(10項目)を見る →
+            </Link>
+          </div>
         </div>
       )}
 
