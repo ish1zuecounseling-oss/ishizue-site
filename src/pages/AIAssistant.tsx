@@ -42,7 +42,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "fatigue",
     label: "疲れ・消耗",
-    description: "今、体や心にどんな疲れがありますか？",
+    description: "今、体や心にどんな疲れがありますか?",
     items: [
       { text: "休んでも疲れが取れない",                    weights: { compassion: 2, quit: 1 } },
       { text: "利用者・相手のことが頭から離れない",        weights: { compassion: 3, boundary: 1 } },
@@ -54,7 +54,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "boundary",
     label: "抱え込み・断れない",
-    description: "他者との関係でどう感じていますか？",
+    description: "他者との関係でどう感じていますか?",
     items: [
       { text: "頼まれると断れない・NOが言えない",                weights: { boundary: 3, "other-axis": 1 } },
       { text: "相手の感情をそのまま受け取ってしまう",            weights: { boundary: 3, compassion: 1 } },
@@ -66,7 +66,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "self-loss",
     label: "自分がわからない",
-    description: "自分自身についてどう感じていますか？",
+    description: "自分自身についてどう感じていますか?",
     items: [
       { text: "自分が本当はどうしたいのかわからない",            weights: { "other-axis": 3 } },
       { text: "人に合わせすぎて自分の本音が見えない",            weights: { "other-axis": 3, boundary: 1 } },
@@ -78,7 +78,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "self-doubt",
     label: "自分への不信・自己否定",
-    description: "自分の能力や価値について感じていることは？",
+    description: "自分の能力や価値について感じていることは?",
     items: [
       { text: "「いつかバレる」「実力がない」と感じる",          weights: { impostor: 3 } },
       { text: "成功しても「運が良かっただけ」と思う",            weights: { impostor: 3 } },
@@ -90,7 +90,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "career",
     label: "仕事・将来",
-    description: "仕事や将来についての気持ちは？",
+    description: "仕事や将来についての気持ちは?",
     items: [
       { text: "仕事を辞めたいけど踏み切れない",                  weights: { quit: 3 } },
       { text: "辞めたら次がないという不安が強い",                weights: { quit: 2, impostor: 1 } },
@@ -102,7 +102,7 @@ const CATEGORIES: CheckCategory[] = [
   {
     id: "relational",
     label: "人間関係・職場",
-    description: "職場や周りの人との関係は？",
+    description: "職場や周りの人との関係は?",
     items: [
       { text: "上司や同僚の機嫌に振り回される",                  weights: { "other-axis": 2, boundary: 1 } },
       { text: "本音を言える人がいない",                          weights: { "other-axis": 2, boundary: 1 } },
@@ -129,31 +129,31 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "共感疲労タイプ",
     title: "利用者の感情を引き受けすぎている状態",
     summary: "他者の痛みを「自分ごと」として抱え込み続けることで、心理的・身体的に消耗が深まっている状態です。",
-    cause: "共感疲労（compassion fatigue）は、支援職に起こりやすい心理的消耗です。1995年にチャールズ・フィグレーが提唱した概念で、英語では「cost of caring（ケアすることの代償）」とも呼ばれます。真剣に利用者と向き合ってきたからこそ起こるもので、性格や能力の問題ではありません。背景には「感情労働」「共感的引き受け」「境界線の曖昧化」という3つの構造が重なっています。",
+    cause: "共感疲労(compassion fatigue)は、支援職に起こりやすい心理的消耗です。1995年にチャールズ・フィグレーが提唱した概念で、英語では「cost of caring(ケアすることの代償)」とも呼ばれます。真剣に利用者と向き合ってきたからこそ起こるもので、性格や能力の問題ではありません。背景には「感情労働」「共感的引き受け」「境界線の曖昧化」という3つの構造が重なっています。",
     current: "今は「休んでも回復しない」「利用者のことが頭から離れない」「感情が麻痺してきた」など、ケアの蓄積が限界に近づいているサインが出ている状態かもしれません。この段階で気づけたことは、消耗をこれ以上深めないための大きな分岐点になります。",
     nextStep: "まず、「自分はもう十分にやっている」と認める時間を作ってください。次に、利用者の感情と自分の感情を意識的に分ける練習を始めます。①一日の終わりに「今日引き受けすぎた感情は何か」を書き出す、②「これは私の感情／これは相手の感情」と区別する習慣をつける、③休日に仕事の話を一切しない時間を確保する、の3つから始めるのが現実的です。",
     relatedArticles: [
-      { path: "/articles/helper-empathy-check", label: "共感疲労チェック（20項目）で今の状態を確認" },
+      { path: "/articles/helper-empathy-check", label: "共感疲労チェック(20項目)で今の状態を確認" },
       { path: "/articles/helper-empathy-fatigue", label: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
       { path: "/articles/why-self-care-doesnt-work", label: "セルフケアが効かない理由｜休んでも回復しない構造" },
     ],
     lineType: "compassion",
-    lineMessage: "共感疲労タイプの方向けに、回復の段階ごとの整理をLINEで送っています（無料・読むだけOK）",
+    lineMessage: "共感疲労タイプの方向けに、回復の段階ごとの整理をLINEで送っています(無料・読むだけOK)",
   },
   boundary: {
     badge: "抱え込み・境界線タイプ",
     title: "「自分と他者の境界線」が薄くなっている状態",
     summary: "自分の責任とそうでないものの区別が曖昧になり、相手の問題まで引き受けてしまう状態です。",
-    cause: "境界線（バウンダリー）の薄さは、意志や性格の問題ではありません。背景には「ワーキングモデル（内的作業モデル）」という、幼少期から繰り返し強化されてきた無意識の前提があります。「断ると嫌われる」「相手に合わせないと関係が壊れる」という感覚が自動的に作動し、境界線を引くことへの強い抵抗を生みます。",
+    cause: "境界線(バウンダリー)の薄さは、意志や性格の問題ではありません。背景には「ワーキングモデル(内的作業モデル)」という、幼少期から繰り返し強化されてきた無意識の前提があります。「断ると嫌われる」「相手に合わせないと関係が壊れる」という感覚が自動的に作動し、境界線を引くことへの強い抵抗を生みます。",
     current: "今は「断れない」「相手の感情まで引き受けてしまう」「自分と相手の責任の区別がつかない」という状態が起きているかもしれません。これが続くと、慢性的な消耗・人間関係の疲れにつながっていきます。",
-    nextStep: "まず「断る練習」のような行動レベルではなく、構造の理解から始めるのが順序として正しいです。①4種類の境界線（身体的／感情的／時間的／責任の境界線）のうち、自分はどれが薄いかを見極める、②「これは私の問題か、相手の問題か」と日常的に問い直す習慣を作る、③「断ったら関係が壊れる」という前提が本当に正しいか、小さな場面で検証してみる、の3つです。",
+    nextStep: "まず「断る練習」のような行動レベルではなく、構造の理解から始めるのが順序として正しいです。①4種類の境界線(身体的／感情的／時間的／責任の境界線)のうち、自分はどれが薄いかを見極める、②「これは私の問題か、相手の問題か」と日常的に問い直す習慣を作る、③「断ったら関係が壊れる」という前提が本当に正しいか、小さな場面で検証してみる、の3つです。",
     relatedArticles: [
-      { path: "/articles/boundary-check", label: "境界線チェック（15項目）で今の状態を確認" },
+      { path: "/articles/boundary-check", label: "境界線チェック(15項目)で今の状態を確認" },
       { path: "/articles/boundary-what", label: "境界線とは｜バウンダリーの基本と4つの種類" },
       { path: "/articles/working-model", label: "ワーキングモデルとは｜断れない構造の根本原因" },
     ],
     lineType: "boundary",
-    lineMessage: "抱え込みタイプの方向けに、境界線の整理をLINEで段階的に送っています（無料・読むだけOK）",
+    lineMessage: "抱え込みタイプの方向けに、境界線の整理をLINEで段階的に送っています(無料・読むだけOK)",
   },
   "other-axis": {
     badge: "他人軸・自己喪失タイプ",
@@ -161,29 +161,29 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態です。",
     cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景には、幼少期に「自分の感情より、相手の感情を読むこと」が生存戦略として強化されてきた歴史があります。これは個人の性格ではなく、適応のために身につけた無意識のパターンです。",
     current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは意志の問題ではなく、まだ自分の感覚へのアクセスが回復していないからです。",
-    nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習（昼食を自分で選ぶなど）から始める、の3つです。",
+    nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習(昼食を自分で選ぶなど)から始める、の3つです。",
     relatedArticles: [
-      { path: "/articles/other-axis-check", label: "他人軸チェック（15項目）で今の状態を確認" },
+      { path: "/articles/other-axis-check", label: "他人軸チェック(15項目)で今の状態を確認" },
       { path: "/articles/other-axis-what", label: "他人軸とは｜抜け出せない理由と原因" },
       { path: "/articles/body-sensation-unknown", label: "身体感覚がわからない｜他人軸から抜ける入口" },
     ],
     lineType: "other-axis",
-    lineMessage: "他人軸タイプの方向けに、自分軸を取り戻す段階別ガイドをLINEで送っています（無料・読むだけOK）",
+    lineMessage: "他人軸タイプの方向けに、自分軸を取り戻す段階別ガイドをLINEで送っています(無料・読むだけOK)",
   },
   impostor: {
     badge: "インポスター・自己否定タイプ",
     title: "「自分には実力がない」と感じ続けている状態",
     summary: "客観的にできているのに「いつかバレる」「過大評価されている」と感じる状態です。",
-    cause: "インポスター症候群（impostor syndrome）は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」という3つの構造があります。能力が高い人ほど起こりやすいのが特徴です。",
+    cause: "インポスター症候群(impostor syndrome)は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」という3つの構造があります。能力が高い人ほど起こりやすいのが特徴です。",
     current: "今は「いつかバレる」「成功しても運が良かっただけ」という感覚が出ている状態かもしれません。この感覚は自信の問題ではなく、「自己価値の置き場所」が役割や評価に偏っていることから来ています。さらに頑張ろうとしても解決しません。",
-    nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が本質的です。①支援者としての自分以外の自己側面（趣味・関係性・身体感覚など）を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
+    nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が本質的です。①支援者としての自分以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
     relatedArticles: [
-      { path: "/articles/impostor-check-20", label: "インポスター症候群チェック（20項目）で今の状態を確認" },
+      { path: "/articles/impostor-check-20", label: "インポスター症候群チェック(20項目)で今の状態を確認" },
       { path: "/articles/impostor-syndrome", label: "インポスター症候群とは｜構造から理解する" },
       { path: "/articles/self-complexity", label: "自己複雑性とは｜役割に自己が集中すると何が起きるか" },
     ],
     lineType: "impostor",
-    lineMessage: "インポスタータイプの方向けに、自己価値の置き場所を整える段階別ガイドをLINEで送っています（無料・読むだけOK）",
+    lineMessage: "インポスタータイプの方向けに、自己価値の置き場所を整える段階別ガイドをLINEで送っています(無料・読むだけOK)",
   },
   quit: {
     badge: "辞めたい・限界タイプ",
@@ -191,29 +191,29 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     summary: "仕事を辞めたい・休みたいという気持ちが強くなっている状態です。",
     cause: "「辞めたい」という気持ちが強くなるのは、意志の弱さではなく消耗が限界に近づいているサインです。背景には、長期間続いた共感疲労・抱え込み・自己否定の積み重ねがあります。「辞めるのは逃げ」「次がない」という思いが重なり、辞めたいのに辞められない状態に入ります。",
     current: "今は「判断が難しい状態」にあると考えるのが現実的です。極度の消耗状態では、辞めても辞めなくても後悔しやすいため、まず消耗を緩和することが優先順位として上です。",
-    nextStep: "「辞めるかどうか」より先に、3つの判断軸を整理することが有効です。①今は「判断できる状態」にあるか（極度の疲労時には判断しない）、②辞めたい理由は「仕事そのもの」か「今の状態」か、③辞めた後の現実的な選択肢があるか。休職・転職・継続の3つを並列の選択肢として置いてみてください。",
+    nextStep: "「辞めるかどうか」より先に、3つの判断軸を整理することが有効です。①今は「判断できる状態」にあるか(極度の疲労時には判断しない)、②辞めたい理由は「仕事そのもの」か「今の状態」か、③辞めた後の現実的な選択肢があるか。休職・転職・継続の3つを並列の選択肢として置いてみてください。",
     relatedArticles: [
       { path: "/articles/quit-job-timing", label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
       { path: "/articles/quit-job-fear-retention", label: "辞めるのが怖い｜次がないという不安の正体" },
       { path: "/articles/quit-job-counseling", label: "辞めたいときのカウンセリング活用法" },
     ],
     lineType: "quit",
-    lineMessage: "辞めたいタイプの方向けに、判断の段階別ガイドをLINEで送っています（無料・読むだけOK）",
+    lineMessage: "辞めたいタイプの方向けに、判断の段階別ガイドをLINEで送っています(無料・読むだけOK)",
   },
   complex: {
     badge: "複合タイプ",
     title: "複数の状態が重なっている状態",
-    summary: "複数の要素（消耗・抱え込み・自己否定など）が重なって絡み合っている状態です。",
+    summary: "複数の要素(消耗・抱え込み・自己否定など)が重なって絡み合っている状態です。",
     cause: "複数の状態が重なっているとき、「どこから手をつけていいかわからない」という感覚になりがちです。共感疲労が他人軸を強化し、他人軸が抱え込みを生み、抱え込みが自己否定を深める、というように、それぞれが互いを強化し合います。",
     current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。複合的な状態の人ほど、外から構造を整理してもらうことで一気に楽になることが多い段階です。",
     nextStep: "一人で全部解決しようとしないのが、複合タイプの最も現実的な打ち手です。①最もつらい一つの要素だけを特定して、そこから取り組む、②信頼できる第三者と一緒に状態を言語化する、③「全部解決しなくていい」「順番に整理していい」と自分に許可を出す、の3つです。",
     relatedArticles: [
-      { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか（総合ピラー）" },
+      { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか(総合ピラー)" },
       { path: "/articles/why-self-care-doesnt-work", label: "セルフケアが効かない理由｜休んでも回復しない構造" },
       { path: "/articles/not-enough-for-counseling", label: "「カウンセリングするほどじゃない」と感じる方へ" },
     ],
     lineType: "complex",
-    lineMessage: "複数の状態が重なっている方向けに、整理の順序のガイドをLINEで送っています（無料・読むだけOK）",
+    lineMessage: "複数の状態が重なっている方向けに、整理の順序のガイドをLINEで送っています(無料・読むだけOK)",
   },
 };
 
@@ -280,6 +280,14 @@ export default function AIAssistant() {
     setChecked(new Set()); setFreeText(""); setAnalyzed(false); setResult(null);
   };
 
+  // ▼ マッチング記事クリック計測
+  const handleMatchingClick = () => {
+    if (!result) return;
+    try {
+      gtag("event", "ai_assistant_matching_click", { type: result.lineType });
+    } catch (_) { /* noop */ }
+  };
+
   const totalChecked = checked.size;
   const lineUrl = result ? `${LINE_BASE}?type=${result.lineType}` : LINE_BASE;
 
@@ -340,8 +348,8 @@ export default function AIAssistant() {
               >
                 <p className="text-xs font-medium text-stone-700 mb-2">使い方</p>
                 <ol className="space-y-1.5 text-xs text-stone-600 leading-relaxed">
-                  <li>① 6つのカテゴリから、今当てはまるものをタップ（複数選択可）</li>
-                  <li>② 任意で、自由記述に状況を追記（空欄でもOK）</li>
+                  <li>① 6つのカテゴリから、今当てはまるものをタップ(複数選択可)</li>
+                  <li>② 任意で、自由記述に状況を追記(空欄でもOK)</li>
                   <li>③ 「分析する」をタップすると、3点セットで整理されます</li>
                 </ol>
               </motion.div>
@@ -380,13 +388,13 @@ export default function AIAssistant() {
 
                 <div className="space-y-2 pt-2">
                   <div>
-                    <h2 className="text-sm font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>もう少し詳しく（任意）</h2>
+                    <h2 className="text-sm font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>もう少し詳しく(任意)</h2>
                     <p className="text-[11px] text-stone-400 mt-0.5">今の状況や気持ちを自由に書いてください。空欄でも大丈夫です。</p>
                   </div>
                   <textarea
                     value={freeText}
                     onChange={(e) => setFreeText(e.target.value)}
-                    placeholder="例：利用者の対応が頭から離れず、休日も気が休まらない。同僚にも本音を言えず…"
+                    placeholder="例:利用者の対応が頭から離れず、休日も気が休まらない。同僚にも本音を言えず…"
                     rows={4}
                     className="w-full p-3 rounded-xl border border-stone-200 text-sm text-stone-700 placeholder-stone-300 bg-white focus:outline-none focus:border-stone-400 transition-colors leading-relaxed"
                     maxLength={500}
@@ -491,6 +499,30 @@ export default function AIAssistant() {
                       </Link>
                     ))}
                   </div>
+                </div>
+
+                {/* ▼ 新規追加:マッチング誘導ブロック(全タイプ共通) */}
+                <div className="p-5 rounded-2xl" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Compass className="w-4 h-4" style={{ color: "#c4904a" }} />
+                    <span className="text-[10px] tracking-[0.25em] uppercase font-medium" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</span>
+                  </div>
+                  <p className="text-sm text-stone-800 leading-[1.95] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    いしずえカウンセリングが、あなたに合うかどうか
+                  </p>
+                  <p className="text-xs text-stone-600 leading-relaxed mb-3">
+                    カウンセリングは「合う・合わない」がはっきり分かれるサービスです。
+                    「自分は申し込むべきか」と迷う前に、10項目で相性を確認できます。
+                    合わないと出たら別の選択肢も案内しています。
+                  </p>
+                  <Link to="/articles/counseling-matching-check"
+                    onClick={handleMatchingClick}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white"
+                  >
+                    合う人・合わない人チェック(10項目)を見る
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <p className="text-[10px] text-stone-400 mt-2">無料 ／ 1分で確認できます</p>
                 </div>
 
                 {(result.lineType === "complex" || result.lineType === "quit") && (
