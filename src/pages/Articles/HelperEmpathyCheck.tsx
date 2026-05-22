@@ -332,6 +332,22 @@ export default function HelperEmpathyCheck() {
             <p className="text-[10px] text-stone-500 mt-1">原因・現状・次の一歩を3点で整理します</p>
           </div>
 
+          {/* ▼ 新規追加:マッチング誘導ブロック */}
+          <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+            <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
+            <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              いしずえカウンセリングが、あなたに合うかどうか
+            </p>
+            <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
+              カウンセリングは「合う・合わない」がはっきり分かれます。
+              10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
+            </p>
+            <Link to="/articles/counseling-matching-check"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
+              合う人・合わない人チェック(10項目)を見る →
+            </Link>
+          </div>
+
           {result.cvBlock && (
             <div style={{ background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)", border: "1.5px solid rgba(143,175,159,0.35)", borderRadius: "14px", padding: "1.5rem", marginBottom: "1.25rem", textAlign: "center" }}>
               <p style={{ fontWeight: 600, fontSize: "1rem", color: "#222", marginBottom: "0.6rem" }}>
