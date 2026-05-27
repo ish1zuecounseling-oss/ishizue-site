@@ -76,6 +76,10 @@ const FAQ_ITEMS = [
     a: "客観的にできているのに「自分には実力がない」「いつかバレる」と感じる状態を指す心理学的な概念です。1978年にポーリン・クランスらが提唱しました。本人の能力とは無関係に「自己評価が低い」「過剰評価されている」という感覚が続きます。これは性格や弱さではなく、心理的な構造から起きるものです。",
   },
   {
+    q: "このテストはどんなものですか?",
+    a: "本記事のインポスター症候群テスト(20問版)は、自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難という5軸で詳細に状態を分析できる無料セルフチェックです。約3分で完了し、結果は3段階(傾向少ない/傾向あり/強い)で表示されます。医学的な診断ではなく、自分の状態に気づくための目安として活用してください。",
+  },
+  {
     q: "20問版と15問版どちらをやればいいですか?",
     a: "20問版(本記事)は、より細かい5軸で状態を分析できます。15問版はより簡易的なチェックです。「自分の状態をより正確に把握したい」「カテゴリ別に傾向を見たい」場合は20問版がおすすめです。「とりあえず簡単に確認したい」場合は15問版が向いています。",
   },
@@ -86,6 +90,10 @@ const FAQ_ITEMS = [
   {
     q: "「自信をつければ治る」のですか?",
     a: "残念ながら、自信をつけようとしても改善しないことが多いです。インポスター症候群の核心は「自己価値の置き場所が偏っている」ことにあり、頑張って成果を出すほど「次もできなければ」という不安が強まります。本質的な変化には、自己複雑性を増やす(役割以外の自己側面を育てる)アプローチが有効です。",
+  },
+  {
+    q: "インポスター症候群とうつ病の違いは何ですか?",
+    a: "インポスター症候群は「客観的にはできているのに、自分の能力を認められない」という認知の偏りが中核で、診断名ではなく心理学的な概念です。うつ病は気分の落ち込み・興味の喪失・身体症状などが2週間以上続く医学的疾患です。両者は重なることもあり、インポスター症候群の状態が長期化することでうつ病に発展するケースもあります。気になる場合は心療内科・精神科への相談を検討してください。",
   },
   {
     q: "このチェックは診断として使えますか?",
@@ -127,10 +135,10 @@ export default function ImpostorCheck20() {
 
   return (
     <ArticleLayout
-      title="インポスター症候群チェック20問｜5軸で詳細診断【公認心理師】"
-      description="「いつかバレる」「実力がない」と感じる方へ。20項目で自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難の5軸を詳細チェック。15問版より精度の高い構造分析。"
+      title="インポスター症候群 テスト・チェック20問——5軸で詳細診断【公認心理師】"
+      description="「いつかバレる」「実力がない」と感じる方への、インポスター症候群テスト・チェック。20項目で自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難の5軸を詳細診断。公認心理師監修、3分でできる無料セルフチェック。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
-      date="2026-05-10"
+      date="2026-05-27"
       tags={["impostor", "self-function", "check"]}
       faq={FAQ_ITEMS}
     >
@@ -138,12 +146,44 @@ export default function ImpostorCheck20() {
         「いつかバレる」「実力がない」が止まらないとき——それは性格ではなく、インポスター症候群という心理構造から起きています。
       </p>
 
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
+
       <p>
-        以下の項目を読んで、当てはまると感じるものをタップしてください。
-        5つのカテゴリ別に細かく状態を分析できます。
+        <strong>インポスター症候群</strong>(impostor syndrome / インポスター現象)は、
+        客観的に成果を出しているのに「自分には実力がない」「いつかバレる」と感じる心理状態を指します。
+        1978年に心理学者ポーリン・クランスらが提唱した概念で、能力が高い人ほど起こりやすいのが特徴です。
       </p>
 
-      <h2>インポスター症候群セルフチェック(20項目)</h2>
+      <p>
+        このインポスター症候群テストは、<strong>5つのカテゴリ別</strong>に詳細な状態を分析できる<strong>20項目の無料セルフチェック</strong>です。
+        以下の項目を読んで、当てはまると感じるものをタップしてください。
+      </p>
+
+      <nav className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+        <p className="font-medium text-stone-500 mb-2">この記事でわかること</p>
+        <ul className="space-y-1 text-stone-600 list-none pl-0">
+          <li>・20項目の無料セルフチェック・テスト(下にスクロール)</li>
+          <li>・<strong>5軸</strong>(自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難)の詳細診断</li>
+          <li>・スコア別の状態解説と次のステップ</li>
+          <li>・インポスター症候群が起きる<strong>3つの構造</strong></li>
+          <li>・よくある質問(20問版と15問版の違い・原因・治し方など)</li>
+        </ul>
+      </nav>
+
+      <h2>インポスター症候群セルフチェック・テスト(20項目・無料)</h2>
 
       <div className="score-header">
         <span className="score-label">選択した項目</span>
@@ -182,13 +222,19 @@ export default function ImpostorCheck20() {
       </div>
 
       {!shown && (
-        <button
-          onClick={handleShowResult}
-          className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all mb-6 mt-4"
-          style={{ background: "#7EB8A4" }}
-        >
-          結果を見る({score}項目チェック済み)
-        </button>
+        <>
+          <div className="my-4 p-3 rounded-xl bg-white border border-stone-200 text-xs text-stone-600 leading-[1.8]">
+            <p className="font-medium text-stone-700 mb-1">採点の目安</p>
+            <p>・0〜6項目:傾向は比較的少ない ／ ・7〜13項目:傾向が出ている可能性 ／ ・14項目以上:強く出ている可能性</p>
+          </div>
+          <button
+            onClick={handleShowResult}
+            className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all mb-6 mt-4"
+            style={{ background: "#7EB8A4" }}
+          >
+            結果を見る({score}項目チェック済み)
+          </button>
+        </>
       )}
 
       {shown && result && (
@@ -225,7 +271,7 @@ export default function ImpostorCheck20() {
             </Link>
           </div>
 
-          {/* ▼ 新規追加:マッチング誘導ブロック */}
+          {/* マッチング誘導ブロック */}
           <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
             <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
             <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
@@ -246,7 +292,18 @@ export default function ImpostorCheck20() {
         </div>
       )}
 
-      <h2>インポスター症候群が起きる理由</h2>
+      <h2>インポスター症候群とは——「いつかバレる」の心理学</h2>
+      <p>
+        インポスター症候群(impostor syndrome / インポスター現象)は、
+        1978年に臨床心理学者<strong>ポーリン・クランス</strong>とスザンヌ・アイムスが提唱した概念です。
+        客観的に成果を出していても「自分は周りが評価しているほどの実力はない」「いつか偽物だとバレる」と感じる状態を指します。
+      </p>
+      <p>
+        英語では<strong>「impostor phenomenon(インポスター現象)」</strong>とも呼ばれ、医学的な診断名ではなく心理学的な概念です。
+        特徴として、能力が高い人・努力家の人・責任感が強い人ほど起こりやすいことが知られています。
+      </p>
+
+      <h2>インポスター症候群が起きる理由——3つの構造</h2>
       <p>
         インポスター症候群は「自信のなさ」ではなく、<strong>3つの構造</strong>から起きています。
       </p>
@@ -287,6 +344,16 @@ export default function ImpostorCheck20() {
       <p className="check-disclaimer">
         このチェックは診断ではなく、自分の状態に気づくための目安として活用してください。
       </p>
+
+      <div className="text-xs text-stone-700 mt-3 p-3.5 rounded-lg" style={{ background: "#FFF8E7", border: "1px solid #F0E0B0" }}>
+        <p className="font-medium text-stone-800 mb-1">緊急時の相談窓口</p>
+        <ul className="space-y-0.5 leading-relaxed">
+          <li>・<strong>よりそいホットライン</strong>:0120-279-338(24時間・無料・年中無休)</li>
+          <li>・<strong>いのちの電話</strong>:0570-783-556(10時〜22時)</li>
+          <li>・お住まいの地域の<strong>精神保健福祉センター</strong></li>
+          <li>・心療内科・精神科</li>
+        </ul>
+      </div>
 
       <ArticleFooterLinks type="self-function" exclude={["/articles/impostor-check-20"]} />
 
