@@ -3,6 +3,25 @@ import { Link } from "react-router-dom"
 import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
+const FAQ_ITEMS = [
+  {
+    q: "支援職がメンタルを崩すのは、弱さや失格の証拠ですか?",
+    a: "違います。「メンタルを崩した」という体験は、支援者としての失敗でも弱さの証明でもありません。それだけ誠実に、真剣に仕事と向き合い続けてきた結果として生まれた、限界のサインです。実際には突然崩れるのではなく、長期間にわたる消耗の蓄積の末に訪れます。「支援職なのに」という恥の感覚を持つ方が多いですが、その恥が相談や助けの要請を妨げ、孤立を深めてしまいます。",
+  },
+  {
+    q: "立て直しは「元の状態に戻ること」ですか?",
+    a: "いいえ。「崩れる前の状態に戻ること」をゴールにすると、回復が遠く感じられ、しかも危険です。崩れる前とは「消耗が限界まで蓄積した状態」であることが多く、そこに戻ることは再び崩れるリスクを抱えることを意味します。立て直しとは「元に戻る」ことではなく、自分の限界を知ったうえで、持続可能な在り方を新しく構築することです。",
+  },
+  {
+    q: "「休んでいるのに回復している気がしない」のはなぜですか?",
+    a: "回復は直線的ではなく、波があるためです。「今日は少し楽だった」「翌日はまた落ち込んだ」という経過が一般的で、この揺らぎは「また悪化した」のではなく「回復しながら揺らいでいる」状態です。また、休職中も「利用者はどうなっているか」という罪悪感が続くと、心が休まらず立て直しが妨げられます。自己犠牲的なパターンが休職中にも作動していることがあります。",
+  },
+  {
+    q: "立て直しのために、まず何をすればいいですか?",
+    a: "4段階で考えます。①保護と安定(これ以上消耗しない環境を整える・必要なら医療機関へ)、②受け入れと理解(なぜ崩れたかを責めずに振り返る)、③小さな回復の積み重ね(今日の小さな一歩を拾う)、④持続可能な在り方の再構築。意志で頑張るより、まず神経系を安全モードに戻すこと(ゆっくりした呼吸・日光・軽い散歩)が初期段階では優先されます。",
+  },
+];
+
 export default function HelperMentalRecovery() {
   return (
     <ArticleLayout
@@ -11,7 +30,25 @@ export default function HelperMentalRecovery() {
       url="https://www.ishizue-counseling.jp/articles/helper-mental-recovery"
       date="2026-03-29"
       audio="/audio/helper-mental-recovery.mp3"
+      tags={["burnout", "compassion", "self-function"]}
+      faq={FAQ_ITEMS}
     >
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
+
       <p>
         支援職がメンタルを崩したときの立て直しとは、心理的・感情的・身体的な健康が著しく損なわれた状態から、
         段階的に自分を取り戻していくプロセスのことです。「メンタルを崩した」という体験は、支援者としての
@@ -30,10 +67,12 @@ export default function HelperMentalRecovery() {
         支援職がメンタルを崩した状態とは、心理的・感情的・身体的な健康が日常生活や仕事を継続することが
         困難な程度まで損なわれた状態のことです。<Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</Link>・適応障害・抑うつ状態・不安障害などとして現れることが多く、
         医学的な診断名がつく場合もあれば、診断の手前の状態として続く場合もあります。
+        バーンアウトとうつの違いについては<Link to="/articles/helper-burnout-vs-depression" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウトとうつの違い</Link>を参照してください。
       </p>
       <p>
         「メンタルを崩す」という体験は突然訪れるように感じられますが、実際には長期間にわたる消耗の蓄積の結果です。
         <Link to="/articles/helper-emotional-labor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>による消耗・「強くあるべき」という抑圧・職場文化の中での孤立した消耗が複合的に重なります。
+        消耗の全体像は<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは（完全ガイド）</Link>にまとめています。
       </p>
 
       <h2>メンタルを崩す前後に起きること</h2>
@@ -70,6 +109,7 @@ export default function HelperMentalRecovery() {
         メンタルを崩した後の回復は直線的には進みません。「今日は少し楽だった」「翌日はまた落ち込んだ」
         という波のある経過をたどることが一般的です。この波を「また悪化した」と解釈するより、
         「回復しながら揺らいでいる」と理解することが焦りや自己批判を緩める助けになります。
+        回復にかかる期間の目安は<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link>を参照してください。
       </p>
       <h3>■ 神経系の「安全モード」への回帰</h3>
       <p>
@@ -124,6 +164,16 @@ export default function HelperMentalRecovery() {
         結果として生まれた限界のサインです。立て直しを一人で抱えず、医療・カウンセリング・信頼できる人の
         サポートを受けながら、自分のペースで回復のプロセスを歩んでいただけたらと思います。
       </p>
+
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
+      </div>
 
       <LineCtaFatigue />
 
