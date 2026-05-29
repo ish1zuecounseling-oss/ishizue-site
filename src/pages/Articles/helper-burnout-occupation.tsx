@@ -2,6 +2,25 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
 
+const FAQ_ITEMS = [
+  {
+    q: "バーンアウトとうつ病の違いは?",
+    a: "バーンアウトは仕事に関連した消耗状態であり、職場から離れることで回復することが多いです。うつ病は職場以外の場面でも気分の落ち込みが続き、より広範な生活機能の低下を伴います。ただし、バーンアウトが長引くとうつ状態に移行することもあるため、早めの対処が重要です。",
+  },
+  {
+    q: "休めば回復しますか?",
+    a: "軽度であれば十分な休息で回復することがあります。ただし、職場の構造(裁量の低さ・報酬不足・サポート不足)が変わっていない場合、復帰後に同じ消耗が再発しやすいため、休息と並行して構造の整理が必要です。",
+  },
+  {
+    q: "バーンアウトになりやすい職種はありますか?",
+    a: "研究では、精神保健福祉士・看護師・医療事務従事者が高バーンアウト群として示されています。共通するのは「高い要求度・低い裁量・報酬の少なさ」という構造的な要因です。",
+  },
+  {
+    q: "この仕事に向いていないということですか?",
+    a: "そうではありません。バーンアウトは「適性の問題」ではなく「構造の問題」です。研究が示す通り、同じ情熱を持っていても、職場環境によって消耗の度合いは大きく変わります。「向いていない」と感じるのは、職場の構造が消耗を生んでいるサインである可能性があります。",
+  },
+];
+
 export default function HelperBurnoutOccupation() {
   return (
     <ArticleLayout
@@ -10,11 +29,27 @@ export default function HelperBurnoutOccupation() {
       url="https://www.ishizue-counseling.jp/articles/helper-burnout-occupation"
       date="2026-04-19"
       tags={["burnout", "compassion", "boundary"]}
+      faq={FAQ_ITEMS}
     >
 
       <p className="text-xs text-stone-500 mb-4">
         ※この記事では、バーンアウトの症状・原因・なりやすい人の特徴・回復方法を体系的に解説しています。
       </p>
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="mb-8 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
@@ -39,6 +74,10 @@ export default function HelperBurnoutOccupation() {
 
       <p className="text-sm text-stone-600 mb-8 p-3 rounded-lg" style={{ background: "#f5f0eb" }}>
         まずは今の状態を確認したい方は → <Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-700 hover:text-stone-900">3分チェックはこちら</Link>
+      </p>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        バーンアウト全体の構造は<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは（完全ガイド）</Link>に、原因を構造から見る視点は<Link to="/articles/burnout-causes" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の原因</Link>にまとめています。
       </p>
 
       {/* ② 症状チェック（検索意図①） */}
@@ -288,6 +327,11 @@ export default function HelperBurnoutOccupation() {
           「これ以上無理して続けること」が必ずしも正解ではありません。
         </p>
       </div>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        回復にかかる期間の目安は<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link>、
+        より体系的な回復アプローチは<Link to="/articles/burnout-recovery-methods" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の回復方法</Link>を参照してください。
+      </p>
 
       {/* ⑨ FAQ（リッチリザルト狙い） */}
       <h2 id="burnout-faq">よくある質問</h2>
