@@ -2,6 +2,21 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaSmall } from "../../components/LineCta"
 
+const FAQ_ITEMS = [
+  {
+    q: "休職すれば回復しますか?",
+    a: "休職は回復のための重要な選択肢ですが、休職するだけで自動的に回復するわけではありません。休職中に消耗の構造を整理し、適切なケアをすることが重要です。休職を検討している場合は、まず医療機関(心療内科・精神科)への相談が必要です。",
+  },
+  {
+    q: "何ヶ月も続いているのに回復しません。どうすればいいですか?",
+    a: "何ヶ月も続いている場合、一人でのセルフケアだけでは限界があるサインです。カウンセリングや医療機関への相談を検討してください。長期間続いていても回復は可能ですが、一人で抱え込むほど回復に時間がかかります。",
+  },
+  {
+    q: "回復後また同じ仕事を続けられますか?",
+    a: "回復後に同じ仕事を続けられるかどうかは、回復してから判断することをおすすめします。消耗している状態での判断は後悔につながりやすいです。回復後に改めて、環境・働き方・職種を含めて考えることが重要です。",
+  },
+];
+
 export default function CompassionFatigueRecoveryPeriod() {
   return (
     <ArticleLayout
@@ -10,11 +25,27 @@ export default function CompassionFatigueRecoveryPeriod() {
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-recovery-period"
       date="2026-05-03"
       tags={["compassion", "burnout"]}
+      faq={FAQ_ITEMS}
     >
 
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         「いつになったら回復するのか」「このまま回復しないのか」——そんな不安を持つ方へ向けて整理します。
       </p>
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="card">
         <ul className="text-sm text-stone-700 space-y-2">
@@ -24,6 +55,10 @@ export default function CompassionFatigueRecoveryPeriod() {
           <li>・<strong>早めに気づいて動くほど、回復期間は短くなります</strong></li>
         </ul>
       </div>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        共感疲労と近い概念である燃え尽き症候群の回復期間については<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link>もあわせて参考になります。両者の違いは<Link to="/articles/compassion-fatigue-vs-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とバーンアウトの違い</Link>で解説しています。
+      </p>
 
       <h2>共感疲労の回復期間の目安</h2>
       <p>
@@ -183,6 +218,7 @@ export default function CompassionFatigueRecoveryPeriod() {
           <Link to="/articles/compassion-fatigue-natural-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労は自然に治るのか</Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労チェック（20項目・3分）</Link>
           <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労は何科に相談すべきか</Link>
+          <Link to="/articles/burnout-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 燃え尽き症候群はどれくらいで治る?（回復期間）</Link>
         </div>
       </div>
 
