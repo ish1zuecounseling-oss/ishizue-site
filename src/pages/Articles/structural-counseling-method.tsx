@@ -203,6 +203,7 @@ export default function StructuralCounselingMethod() {
           「どんな場面で・どんな感情が・どう作動するか」のパターン。
           例:「断ろうとすると罪悪感」「人前で意見を求められると緊張」「相手の不機嫌を感じると不安」など、感情の発生パターンを整理します。
           一見「性格」に見えるものが、実は構造の結果だとわかってきます。
+          その背景には「条件を満たさないと自分に価値がない」という<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">条件付き自己価値</Link>が関わっていることもあります。
         </p>
       </div>
 
@@ -236,6 +237,7 @@ export default function StructuralCounselingMethod() {
       <p className="text-sm text-stone-600 leading-relaxed">
         この5軸を統合的に見ることで、「自分一人の問題」と捉えていた状態が、実は<strong>複数の構造が重なって起きている</strong>ことが見えてきます。
         見えること自体が、消耗を和らげる効果があります。
+        なお、これらの軸は「自分はどんな側面を持っているか」という<Link to="/articles/self-complexity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己複雑性</Link>とも深く関わっており、自己理解を多面的にすること自体が回復の支えになります。
       </p>
 
       <h2>統合的アプローチ——5つの心理療法を統合する</h2>
@@ -456,6 +458,8 @@ export default function StructuralCounselingMethod() {
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデルとは</Link></li>
           <li>・<Link to="/articles/self-function-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能とは</Link></li>
+          <li>・<Link to="/articles/self-complexity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己複雑性とは</Link></li>
+          <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない(条件付き自己価値)</Link></li>
           <li>・<Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線(バウンダリー)とは</Link></li>
           <li>・<Link to="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは</Link></li>
         </ul>
