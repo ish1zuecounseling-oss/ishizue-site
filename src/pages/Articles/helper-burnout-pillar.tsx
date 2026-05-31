@@ -116,6 +116,10 @@ export default function HelperBurnoutPillar() {
         情緒的消耗が進むと脱人格化が起き、達成感が低下する——という流れです。
       </p>
 
+      <p className="text-sm text-stone-600 leading-relaxed">
+        燃え尽き症候群そのものの定義・歴史・症状・うつ病との違いなど全体像は<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは（完全ガイド）</Link>にまとめています。本記事は支援職の現場目線での対処に絞って解説します。
+      </p>
+
       <h2>支援職のバーンアウト——3つの特徴</h2>
       <p>
         一般的なバーンアウト(オフィスワーカーや営業職など)と、支援職のバーンアウトには重要な違いがあります。
