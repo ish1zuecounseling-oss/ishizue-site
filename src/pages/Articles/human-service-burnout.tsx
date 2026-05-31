@@ -81,6 +81,10 @@ export default function HumanServiceBurnout() {
         公認心理師の臨床経験から整理します。
       </p>
 
+      <p className="text-sm text-stone-600 leading-relaxed">
+        燃え尽き症候群そのものの定義・症状・回復までの全体像は<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは（完全ガイド）</Link>にまとめています。本記事はそのうち「対人援助職」に絞って構造を掘り下げます。
+      </p>
+
       <nav className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
         <p className="font-medium text-stone-500 mb-2">この記事でわかること</p>
         <ul className="space-y-1 text-stone-600 list-none pl-0">
