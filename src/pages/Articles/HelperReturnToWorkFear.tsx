@@ -1,4 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+
 export default function HelperReturnToWorkFear() {
   return (
     <ArticleLayout
@@ -7,13 +10,35 @@ export default function HelperReturnToWorkFear() {
       url="https://www.ishizue-counseling.jp/articles/helper-return-to-work-fear"
       date="2026-03-29"
       audio="/audio/helper-return-to-work-fear.mp3"
+      tags={["burnout", "self-function"]}
     >
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
+
       <p>
         支援職が復職を怖いと感じる状態とは、休職・休養を経てある程度回復が進んでいるにもかかわらず、
         職場に戻ることへの強い不安・恐れ・抵抗感が続いている状態のことです。「戻りたい気持ちはある。
         でも怖い」という二つの感覚が同時に存在するこの状態は、意志の弱さや回復不足を示すものではありません。
         復職への恐れは、消耗した体験から自分を守ろうとする、自然な心理的反応です。
       </p>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        この記事は「復職が怖い」という感覚そのものに焦点を当てます。復職を具体的に進める手順は<Link to="/articles/burnout-back-to-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群からの復職</Link>、バーンアウト全体の構造は<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは（完全ガイド）</Link>にまとめています。
+      </p>
+
       <p>
         現場でこんな声を聞くことがあります。
       </p>
@@ -50,7 +75,8 @@ export default function HelperReturnToWorkFear() {
       <p>
         「一度崩れた自分は、また崩れやすいのではないか」という感覚が、復職への足取りを重くします。
         この再発への恐れは、回復が不十分であることを示すのではなく、以前の体験からの自然な学習反応として
-        理解できます。
+        理解できます。「治ったのにまた戻ってしまうのではないか」という慢性化・再発への不安については
+        <Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群が治らない</Link>もあわせてご覧ください。
       </p>
       <h3>■ 「休んでいた自分」を職場でどう説明するか</h3>
       <p>
@@ -66,6 +92,8 @@ export default function HelperReturnToWorkFear() {
       <p>
         休職期間の上限が近づいている・経済的な理由で早めに復職しなければならない。このプレッシャーが
         「本当は怖い」という感覚を押し込め、十分な準備のないまま復職を迫られることがあります。
+        そもそも休職に踏み切れない・ためらってしまうという段階の心理については
+        <Link to="/articles/helper-leave-of-absence-hesitation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休職をためらう心理</Link>で扱っています。
       </p>
 
       <h2>心理的背景：復職への恐れを生む構造</h2>
@@ -106,6 +134,7 @@ export default function HelperReturnToWorkFear() {
       <p>
         最初から以前と同じ形で戻ろうとするのではなく、時短・軽減業務・慣らし勤務など、段階的に職場に
         慣れていくプロセスが、神経系の慣れと自己効力感の回復を助けます。
+        段階的復職の具体的な進め方は<Link to="/articles/burnout-back-to-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群からの復職</Link>で詳しく解説しています。
       </p>
       <h3>③ 復職前に「何が変わったか」を整理する</h3>
       <p>
@@ -140,6 +169,52 @@ export default function HelperReturnToWorkFear() {
         こころの相談室 いしずえ では、復職が怖い・休職からの回復途中にある支援職・対人援助職の方の
         ご相談を承っています。「戻りたいけど怖い」という状態でも、一緒に考える場所として活用していただけます。
       </p>
+
+      {/* マッチング誘導ブロック */}
+      <div className="p-4 rounded-xl mb-3 mt-6" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+        <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          いしずえカウンセリングが、あなたに合うかどうか
+        </p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
+          「戻りたいけど怖い」という状態の整理は、相性によって進めやすさが変わります。
+          10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
+        </p>
+        <Link to="/articles/counseling-matching-check"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
+          合う人・合わない人チェック(10項目)を見る →
+        </Link>
+      </div>
+
+      <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-[10px] text-stone-500 mb-1">復職が怖い支援職の方へ</p>
+        <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          一人で抱え続けるより、外から整理する場を
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed mb-4">
+          「戻りたい」と「怖い」が同時にある状態は、弱さでも回復不足でもありません。どんな準備と条件があれば戻れるかを、構造を理解した専門家と一緒に整理することで、次の一歩が見えてきます。
+        </p>
+        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          今の状態を整理してみる(初回無料)
+        </a>
+        <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      <div className="text-xs text-stone-700 mt-3 p-3.5 rounded-lg" style={{ background: "#FFF8E7", border: "1px solid #F0E0B0" }}>
+        <p className="font-medium text-stone-800 mb-1">緊急時の相談窓口</p>
+        <ul className="space-y-0.5 leading-relaxed">
+          <li>・<strong>よりそいホットライン</strong>:0120-279-338(24時間・無料・年中無休)</li>
+          <li>・<strong>いのちの電話</strong>:0570-783-556(10時〜22時)</li>
+          <li>・お住まいの地域の<strong>精神保健福祉センター</strong></li>
+          <li>・心療内科・精神科</li>
+        </ul>
+      </div>
+
+      <ArticleFooterLinks type="burnout" exclude={["/articles/helper-return-to-work-fear"]} />
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        この記事は、こころの相談室 いしずえ(公認心理師・松本 龍児)が執筆しています。医学的な診断ではありません。
+      </div>
     </ArticleLayout>
   )
 }
