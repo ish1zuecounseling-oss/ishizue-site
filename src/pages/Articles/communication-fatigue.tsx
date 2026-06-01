@@ -3,6 +3,25 @@ import { Link } from "react-router-dom"
 import { LineCtaQuit } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
+const FAQ_ITEMS = [
+  {
+    q: "人と話すと疲れるのは、なぜですか?",
+    a: "人と関わるとき、私たちは同時に複数の処理をしています。相手の感情を読む・場の空気を調整する・言葉を選ぶ・自分の反応を抑える・「どう思われているか」を確認し続ける——これらはすべて対人関係機能を使う作業です。この処理が増えすぎると脳と神経系が疲労し、「話すだけで疲れる」状態になります。気のせいでも体力の問題でもなく、コミュニケーションそのものがエネルギーを消耗する構造になっているためです。",
+  },
+  {
+    q: "コミュニケーション疲れが起きやすいのは、どんな人ですか?",
+    a: "気を遣える人(相手の感情を鋭く感じ取るため処理量が多い)、断るのが苦手な人(消耗が蓄積する)、相手を優先してきた人(自己抑制が習慣化している)、考えすぎる人(会話後も反芻が続く)に起きやすい傾向があります。これは「優しさ」や「感受性の高さ」の裏側でもありますが、同時に構造的に消耗しやすい状態でもあります。",
+  },
+  {
+    q: "コミュニケーション疲れは、放っておくとどうなりますか?",
+    a: "「人と話すと疲れる」状態が続くと、徐々に回復しにくくなります。脳疲労が蓄積して休んでも回復しなくなる、自己機能が低下して「自分がどうしたいかわからない」状態になる、空虚感が続く、そしてバーンアウトへ移行する——という経過をたどることがあります。「疲れているのに回復しない」という感覚が出てきたら、構造的な消耗が進んでいるサインです。",
+  },
+  {
+    q: "どうすれば回復できますか?",
+    a: "「もっと頑張れるようになること」ではなく「消耗の構造を変えること」が回復の目標です。①関わる量を調整する(一人の時間・人の感情を読まなくていい環境を確保)、②思考から離れて身体感覚に戻る、③境界線を整える(相手の感情は相手のものと分ける)、④気を遣わなくていい安全な場所を持つ。これらで対人関係機能のアンテナを休める時間を作ることが、神経系の回復を助けます。",
+  },
+];
+
 export default function CommunicationFatigue() {
   return (
     <ArticleLayout
@@ -11,10 +30,26 @@ export default function CommunicationFatigue() {
       url="https://www.ishizue-counseling.jp/articles/communication-fatigue"
       date="2026-05-09"
       tags={["burnout", "compassion", "boundary"]}
+      faq={FAQ_ITEMS}
     >
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         「人と話した後ぐったりする」「何もしていないのに疲れる」——それは気のせいではありません。
       </p>
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
 
       <p>
         人と話したあと、どっと疲れていませんか。
@@ -179,6 +214,16 @@ export default function CommunicationFatigue() {
           そこで少しずつ「ありのままの自分」でいる時間を積み重ねることが、
           コミュニケーション疲れの根本的な回復につながります。
         </p>
+      </div>
+
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
       </div>
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
