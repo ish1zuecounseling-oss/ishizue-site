@@ -2,6 +2,29 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaSmall } from "../../components/LineCta"
 
+const FAQ_ITEMS = [
+  {
+    q: "休みの日も仕事のことが頭から離れないのは、なぜですか?",
+    a: "意志や根性の問題ではなく、神経系の慢性的な緊張が背景にあります。慢性的なストレス状態では、自律神経系が「緊張モード（交感神経優位）」のまま固まり、休日になってもオフに切り替わりません。さらに支援職は「いつでも利用者のことを考えられる」状態が続きやすく、意識的な切り替えの仕組みがないと、休日も脳が「まだ仕事中」と認識したまま過ごしてしまいます。",
+  },
+  {
+    q: "寝ても・休んでも疲れが取れないのは、どうしてですか?",
+    a: "身体的な休息（睡眠・横になる）だけでは、感情的・神経的な消耗は回復しないためです。支援職は感情を使う仕事で、身体だけでなく心も働き続けています。神経系が緊張モードのまま固まっていると、身体を休めても気持ちが回復しません。「休んでいるのに回復しない」のは、休み方が足りないのではなく、休息の種類が消耗に合っていない可能性があります。",
+  },
+  {
+    q: "「休む」ことに罪悪感があります。どうすればいいですか?",
+    a: "「休日もスキルアップしなければ」「休んでいる場合じゃない」という感覚は、本当の休息を妨げます。罪悪感を抱えながらの休息は、神経系の回復につながりません。まず「休んでいい」という許可を自分に出すことが最初の一手です。支援職として長く続けるために、休息は「サボり」ではなく必須の投資だと捉え直してみてください。",
+  },
+  {
+    q: "どうすれば休日に回復できますか?",
+    a: "①仕事終わりに「切り替え儀式」を作る（着替え・シャワー・決まった音楽など）、②感情を管理しなくていい時間を意識的に作る、③「何もしない5分」から始める、④散歩・入浴・料理など身体感覚に集中できる活動を選ぶ、⑤「休んでいい」と自分に許可を出す。スマートフォンを見ながらの休息は神経系を休めないため、意識的に手放す時間を作ることが助けになります。",
+  },
+  {
+    q: "休んでも回復しない状態が続くときは?",
+    a: "休日を過ごしても「全然回復しない」「むしろ疲れている」状態が続く場合は、一人のセルフケアだけでは限界があるサインです。中程度以上の消耗は「ただ休む」だけでは回復しにくく、消耗の構造を整理した上で取り組むことが重要です。信頼できる人や専門家と一緒に、何が消耗を生んでいるのかを整理することが、回復の入口になります。",
+  },
+]
+
 export default function HelperCannotRestOnDaysOff() {
   return (
     <ArticleLayout
@@ -10,11 +33,27 @@ export default function HelperCannotRestOnDaysOff() {
       url="https://www.ishizue-counseling.jp/articles/helper-cannot-rest-on-days-off"
       date="2026-05-03"
       tags={["compassion", "burnout", "check"]}
+      faq={FAQ_ITEMS}
     >
 
       <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
         休日なのに仕事のことが浮かぶ、身体は休んでいるのに気持ちが回復しない——それは消耗のサインです。
       </p>
+
+      {/* ▼ 監修者ボックス */}
+      <div className="my-4 p-4 rounded-2xl border border-stone-200 bg-white">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+            <span className="text-[10px] text-stone-500 tracking-wider">監修</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-stone-800 mb-0.5">公認心理師による解説</p>
+            <p className="text-[11px] text-stone-500 leading-relaxed">
+              障害福祉15年・カウンセリング累計300名以上の臨床経験／こころの相談室いしずえ運営
+            </p>
+          </div>
+        </div>
+      </div>
 
       <p>
         支援職に多い悩みの一つが「休みの日も休まらない」という感覚です。
@@ -125,6 +164,16 @@ export default function HelperCannotRestOnDaysOff() {
         中程度以上の消耗は「ただ休む」だけでは回復しにくく、
         消耗の構造を整理した上で取り組むことが重要です。
       </p>
+
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
+      </div>
 
       {/* CV導線 */}
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
