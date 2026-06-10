@@ -1,0 +1,489 @@
+// src/pages/admin/Coping.tsx
+// 管理画面 — こころの整理ガイド（自分用ストレスコーピングツール）
+// ルーティング: <Route path="/admin/coping" element={<Coping />} />
+
+import { useState, useCallback } from 'react'
+import { Helmet } from 'react-helmet-async'
+
+// ── パスワード設定 ──────────────────────────────────────
+// 自分用・非公開ページ。デプロイ前にここを書き換えること（'ishizue' 以外を推奨）。
+const ADMIN_PASS = 'CHANGE_ME'
+
+// ── ローカルストレージ ──────────────────────────────────
+const STORAGE_KEY = 'ishizue_coping_v1'
+
+interface LogEntry {
+  t: string
+  date: string
+  feelings: string[]
+  what: string
+  control: string
+}
+
+function loadLog(): LogEntry[] {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') } catch { return [] }
+}
+function saveLog(log: LogEntry[]) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(log)) } catch { /* noop */ }
+}
+
+// ── 定数 ───────────────────────────────────────────────
+const FEELINGS = [
+  { id: 'busy',  label: '頭がいっぱい・考えがぐるぐるする', sub: '情報・タスク・心配ごとが多すぎる' },
+  { id: 'check', label: '数字や結果が気になって、何度も確認したくなる', sub: '見ても変わらないと分かっているのに' },
+  { id: 'zawa',  label: '気持ちがざわつく・落ち着かない', sub: '不安・焦り・イライラ' },
+  { id: 'heavy', label: '重い・動けない・無気力', sub: 'エネルギーが切れている感じ' },
+  { id: 'night', label: '考えごとが止まらない（夜・休みの日）', sub: '休んでいるのに頭が働いている' },
+] as const
+
+const EXAMPLES = [
+  'サイト・SNSの数字のこと', '事業再開の準備のこと', '仕事（職場・マネジメント）のこと',
+  '家庭・育休のこと', '体調・疲れのこと', 'お金のこと', 'うまく言葉にならない何か',
+]
+
+// ── スタイル（共通トークン） ─────────────────────────────
+const C = {
+  bg: '#10211c', bg2: '#16302a', card: '#1c3a33',
+  ink: '#e9efe9', dim: '#9db5ac',
+  sage: '#7eb8a4', sageSoft: 'rgba(126,184,164,0.14)',
+  line: 'rgba(126,184,164,0.22)', amber: '#d9b27a',
+}
+const cardStyle: React.CSSProperties = {
+  background: C.card, border: `1px solid ${C.line}`, borderRadius: 20, padding: '26px 22px',
+}
+const qStyle: React.CSSProperties = {
+  fontFamily: "'Hiragino Mincho ProN','Yu Mincho',serif",
+  fontSize: 18, lineHeight: 1.7, marginBottom: 6, letterSpacing: '0.03em', color: C.ink,
+}
+const qSubStyle: React.CSSProperties = { color: C.dim, fontSize: 12.5, marginBottom: 18 }
+const optStyle = (sel: boolean): React.CSSProperties => ({
+  display: 'block', width: '100%', textAlign: 'left',
+  background: sel ? C.sageSoft : 'rgba(255,255,255,0.02)',
+  border: `1px solid ${sel ? C.sage : C.line}`, color: C.ink,
+  borderRadius: 13, padding: '14px 16px', marginBottom: 10,
+  fontSize: 14.5, fontFamily: 'inherit', lineHeight: 1.6, cursor: 'pointer',
+  position: 'relative', transition: '.22s',
+})
+const subStyle: React.CSSProperties = { display: 'block', color: C.dim, fontSize: 11.5, marginTop: 2 }
+const btnStyle: React.CSSProperties = {
+  display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
+  background: C.sage, color: '#0d1f1a', border: 'none', borderRadius: 999,
+  padding: '13px 26px', fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
+  cursor: 'pointer', marginTop: 6,
+}
+const ghostStyle: React.CSSProperties = {
+  ...btnStyle, background: 'transparent', border: `1px solid ${C.line}`, color: C.dim, fontWeight: 500,
+}
+const hintStyle: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.02)', border: `1px solid ${C.line}`, borderRadius: 12,
+  padding: '13px 15px', margin: '14px 0 6px', fontSize: 12, color: C.dim, lineHeight: 1.9,
+}
+const stepStyle: React.CSSProperties = { borderLeft: `2px solid ${C.sage}`, padding: '4px 0 4px 16px', margin: '13px 0' }
+const noteStyle: React.CSSProperties = {
+  color: C.dim, fontSize: 12, lineHeight: 1.9, marginTop: 16,
+  background: 'rgba(255,255,255,0.02)', border: `1px solid ${C.line}`, borderRadius: 12, padding: 14,
+}
+
+// ── 結果ブロック ────────────────────────────────────────
+function ControllableBlock() {
+  return (
+    <div>
+      <div style={{ fontSize: 11, letterSpacing: '0.2em', color: C.sage, textTransform: 'uppercase', marginBottom: 12, fontWeight: 600 }}>変えられること — 行動を一つ</div>
+      <div style={{ ...qStyle, fontSize: 18.5, marginBottom: 14 }}>「全部」ではなく、「次の小さな一つ」を決めます。</div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>① 一番小さな一歩に分解する</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>解決しようとしない。「次に取る、5分でできる行動」だけ決めます。</p></div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>② それ以外は、今は脇に置く</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>同時に全部は持てません。残りは「あとで」の箱へ。</p></div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>③ 一歩進めたら、自分に「やった」と言う</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>進んだ事実を、自分で認める。</p></div>
+    </div>
+  )
+}
+function UncontrollableBlock() {
+  return (
+    <div>
+      <div style={{ fontSize: 11, letterSpacing: '0.2em', color: C.sage, textTransform: 'uppercase', marginBottom: 12, fontWeight: 600 }}>変えられないこと — 気持ちをケアする</div>
+      <div style={{ ...qStyle, fontSize: 18.5, marginBottom: 14 }}>変えられないものは、「解決」ではなく「距離」で楽になります。</div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>① 「これは自分の管轄外」と区切る</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>「ここから先は、私の領域じゃない」と線を引く。</p></div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>② 感情を、否定せず流す</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>不安でいい、悔しくていい。感じきると、感情は通り過ぎます。</p></div>
+      <div style={stepStyle}><b style={{ fontSize: 14, color: C.ink }}>③ 今ここの感覚に戻る</b><p style={{ color: C.dim, fontSize: 12.5, marginTop: 4, lineHeight: 1.85 }}>手元のこと（温かい飲み物・呼吸・歩く）に意識を移す。</p></div>
+    </div>
+  )
+}
+
+// ── 呼吸サークル ────────────────────────────────────────
+function BreathCircle() {
+  return (
+    <>
+      <style>{`
+        @keyframes coping-breathe {
+          0%,100%{transform:scale(.78);opacity:.55}
+          18%{transform:scale(1.18);opacity:1}
+          45%{transform:scale(1.18);opacity:1}
+          82%{transform:scale(.78);opacity:.55}
+        }
+        @media(prefers-reduced-motion:reduce){.coping-breath{animation:none !important}}
+      `}</style>
+      <div className="coping-breath" style={{
+        width: 120, height: 120, borderRadius: '50%', margin: '18px auto',
+        background: `radial-gradient(circle, ${C.sageSoft} 0%, transparent 70%)`,
+        border: `1.5px solid ${C.sage}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 13, color: C.sage, letterSpacing: '0.1em',
+        animation: 'coping-breathe 11s ease-in-out infinite',
+      }}>ゆっくり</div>
+    </>
+  )
+}
+
+// ── メイン ─────────────────────────────────────────────
+type View =
+  | { name: 'start' } | { name: 'breath' } | { name: 'calmDone' }
+  | { name: 'what' } | { name: 'control' }
+  | { name: 'result'; kind: 'can' | 'cannot' | 'mix' }
+  | { name: 'done' } | { name: 'log' }
+
+export default function Coping() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem('coping_auth') === ADMIN_PASS)
+  const [pw, setPw] = useState('')
+  const [pwErr, setPwErr] = useState(false)
+
+  if (!authed) {
+    const tryAuth = () => {
+      if (pw === ADMIN_PASS) { sessionStorage.setItem('coping_auth', ADMIN_PASS); setAuthed(true) }
+      else { setPwErr(true); setPw('') }
+    }
+    return (
+      <>
+        <Helmet>
+          <title>管理ページ | こころの相談室 いしずえ</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div style={{
+          minHeight: '100vh', background: C.bg,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: "'Hiragino Sans',system-ui,sans-serif", padding: 20,
+        }}>
+          <div style={{ ...cardStyle, width: '100%', maxWidth: 320, textAlign: 'center' }}>
+            <div style={{ fontSize: 11, letterSpacing: '0.32em', color: C.sage, textTransform: 'uppercase', marginBottom: 14, fontWeight: 600 }}>for you</div>
+            <div style={{ ...qStyle, fontSize: 16, marginBottom: 22 }}>こころの整理ガイド</div>
+            <input
+              type="password" value={pw} placeholder="合言葉"
+              onChange={e => { setPw(e.target.value); setPwErr(false) }}
+              onKeyDown={e => e.key === 'Enter' && tryAuth()}
+              autoFocus
+              style={{
+                width: '100%', padding: '11px 14px', background: 'rgba(255,255,255,0.03)',
+                border: `1px solid ${pwErr ? '#a85b5b' : C.line}`, borderRadius: 12,
+                color: C.ink, fontSize: 14, fontFamily: 'inherit', outline: 'none',
+                textAlign: 'center', letterSpacing: '0.15em',
+              }}
+            />
+            {pwErr && <div style={{ fontSize: 11, color: '#c98686', marginTop: 8 }}>合言葉が違います</div>}
+            <button onClick={tryAuth} style={{ ...btnStyle, width: '100%', marginTop: 16 }}>ひらく</button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>こころの整理ガイド | こころの相談室 いしずえ</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <CopingInner />
+    </>
+  )
+}
+
+function CopingInner() {
+  const [view, setView] = useState<View>({ name: 'start' })
+  const [feelings, setFeelings] = useState<string[]>([])
+  const [what, setWhat] = useState('')
+  const [log, setLog] = useState<LogEntry[]>(loadLog)
+
+  const toggleFeel = useCallback((id: string) => {
+    setFeelings(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
+  }, [])
+
+  const feelingLabels = () =>
+    feelings.map(id => FEELINGS.find(f => f.id === id)?.label.split('・')[0] ?? id)
+
+  const finishAndSave = (controlLabel: string) => {
+    const now = new Date()
+    const entry: LogEntry = {
+      t: now.toISOString(),
+      date: `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+      feelings: feelingLabels(),
+      what: what.trim() || '（言葉にしなかった）',
+      control: controlLabel,
+    }
+    const next = [entry, ...log]
+    setLog(next); saveLog(next)
+    setView({ name: 'done' })
+  }
+
+  const resetFlow = () => { setFeelings([]); setWhat(''); setView({ name: 'start' }) }
+
+  const exportLog = () => {
+    let txt = '# こころの整理ガイド 記録\n\n'
+    log.forEach(e => {
+      txt += `【${e.date}】切り分け：${e.control}\n引っかかり：${e.what}\n状態：${e.feelings.join('／') || '—'}\n\n`
+    })
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(txt)
+        .then(() => alert('記録をコピーしました。メモアプリ等に貼り付けて保管できます。'))
+        .catch(() => prompt('以下をコピーしてください', txt))
+    } else { prompt('以下をコピーしてください', txt) }
+  }
+
+  const clearLog = () => {
+    if (confirm('本当に全部消しますか? この操作は戻せません。')) { setLog([]); saveLog([]) }
+  }
+
+  // ログ分析
+  const ctrlCount = { can: 0, cannot: 0, mix: 0 }
+  const feelCount: Record<string, number> = {}
+  log.forEach(e => {
+    if (e.control === '変えられる') ctrlCount.can++
+    else if (e.control === '変えられない') ctrlCount.cannot++
+    else ctrlCount.mix++
+    e.feelings.forEach(f => { feelCount[f] = (feelCount[f] || 0) + 1 })
+  })
+  const topFeel = Object.entries(feelCount).sort((a, b) => b[1] - a[1])[0]
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: `linear-gradient(170deg, ${C.bg} 0%, ${C.bg2} 100%)`,
+      color: C.ink, fontFamily: "'Hiragino Sans','Hiragino Kaku Gothic ProN',system-ui,sans-serif",
+      lineHeight: 1.9, display: 'flex', flexDirection: 'column', alignItems: 'center',
+      padding: '28px 20px 60px',
+    }}>
+      <div style={{ width: '100%', maxWidth: 560 }}>
+        <header style={{ textAlign: 'center', marginBottom: 8 }}>
+          <div style={{ fontSize: 11, letterSpacing: '0.32em', color: C.sage, textTransform: 'uppercase', marginBottom: 14, fontWeight: 600 }}>for you</div>
+          <h1 style={{ fontFamily: "'Hiragino Mincho ProN','Yu Mincho',serif", fontWeight: 500, fontSize: 23, lineHeight: 1.6, letterSpacing: '0.04em', margin: 0 }}>
+            {view.name === 'done' || view.name === 'calmDone' ? 'おつかれさまでした' : 'こころの整理ガイド'}
+          </h1>
+          {view.name === 'start' && (
+            <p style={{ color: C.dim, fontSize: 13.5, marginTop: 14, lineHeight: 1.95 }}>
+              しんどいとき、考えがまとまらないときに。<br />問いに答えていくだけで、今できることが見えてきます。
+            </p>
+          )}
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 22 }}>
+            <button onClick={resetFlow} style={{
+              background: view.name !== 'log' ? C.sageSoft : 'transparent',
+              border: `1px solid ${view.name !== 'log' ? C.sage : C.line}`,
+              color: view.name !== 'log' ? C.ink : C.dim,
+              borderRadius: 999, padding: '7px 18px', fontSize: 12.5, fontFamily: 'inherit', cursor: 'pointer',
+            }}>整理する</button>
+            <button onClick={() => setView({ name: 'log' })} style={{
+              background: view.name === 'log' ? C.sageSoft : 'transparent',
+              border: `1px solid ${view.name === 'log' ? C.sage : C.line}`,
+              color: view.name === 'log' ? C.ink : C.dim,
+              borderRadius: 999, padding: '7px 18px', fontSize: 12.5, fontFamily: 'inherit', cursor: 'pointer',
+            }}>記録をみる（{log.length}）</button>
+          </div>
+        </header>
+
+        <div style={{ marginTop: 26 }}>
+
+          {view.name === 'start' && (
+            <div style={cardStyle}>
+              <div style={qStyle}>今、どんな感じですか</div>
+              <div style={qSubStyle}>当てはまるものを<b>すべて</b>タップしてください（複数OK）。</div>
+              {FEELINGS.map(f => (
+                <button key={f.id} onClick={() => toggleFeel(f.id)} style={optStyle(feelings.includes(f.id))}>
+                  {f.label}{feelings.includes(f.id) && <span style={{ position: 'absolute', right: 15, top: 13, color: C.sage, fontWeight: 700 }}>✓</span>}
+                  <span style={subStyle}>{f.sub}</span>
+                </button>
+              ))}
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18, alignItems: 'center' }}>
+                <button disabled={feelings.length === 0} onClick={() => setView({ name: 'what' })}
+                  style={{ ...btnStyle, opacity: feelings.length === 0 ? 0.35 : 1, cursor: feelings.length === 0 ? 'default' : 'pointer' }}>次へ</button>
+                <button onClick={() => setView({ name: 'breath' })} style={ghostStyle}>まず、ひと呼吸つきたい</button>
+              </div>
+            </div>
+          )}
+
+          {view.name === 'breath' && (
+            <div style={{ ...cardStyle, textAlign: 'center' }}>
+              <div style={{ fontSize: 11, letterSpacing: '0.2em', color: C.sage, textTransform: 'uppercase', marginBottom: 12, fontWeight: 600 }}>ひと呼吸</div>
+              <BreathCircle />
+              <p style={{ color: C.dim, fontSize: 13.5, marginTop: 4, lineHeight: 1.95 }}>
+                円が広がるとき、ゆっくり吸って。<br />縮むとき、長く吐いて。3〜4回くりかえします。
+              </p>
+              <p style={{ ...qSubStyle, marginTop: 14, marginBottom: 0 }}>吐く時間を、吸う時間より長く。</p>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18, justifyContent: 'center' }}>
+                <button onClick={resetFlow} style={btnStyle}>落ち着いたら、整理する</button>
+                <button onClick={() => setView({ name: 'calmDone' })} style={ghostStyle}>今日はこれで十分</button>
+              </div>
+            </div>
+          )}
+
+          {view.name === 'calmDone' && (
+            <div style={cardStyle}>
+              <div style={{ ...qStyle, fontSize: 18.5 }}>ひと呼吸つけたなら、それで十分です。</div>
+              <p style={{ color: C.dim, fontSize: 13.5, lineHeight: 1.95 }}>無理に整理しなくていい。落ち着くことそのものが、立派な対処です。</p>
+              <div style={{ marginTop: 18 }}><button onClick={resetFlow} style={ghostStyle}>もう一度ひらく</button></div>
+            </div>
+          )}
+
+          {view.name === 'what' && (
+            <div style={cardStyle}>
+              <div style={qStyle}>何が、いちばん引っかかっていますか</div>
+              <div style={qSubStyle}>ひとことでいい。書くと、頭の外に出せます。下の例をタップしてもOK。</div>
+              <div style={{ marginBottom: 12 }}>
+                {EXAMPLES.map(e => (
+                  <button key={e} onClick={() => setWhat(w => w ? `${w}、${e}` : e)} style={{
+                    display: 'inline-block', background: 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${C.line}`, color: C.dim, borderRadius: 999,
+                    padding: '6px 14px', margin: '0 6px 8px 0', fontSize: 12, fontFamily: 'inherit', cursor: 'pointer',
+                  }}>{e}</button>
+                ))}
+              </div>
+              <textarea
+                value={what} onChange={e => setWhat(e.target.value)}
+                placeholder="例：数字が伸びなくて焦る／再開後にやっていけるか不安／○○さんへの対応…"
+                style={{
+                  width: '100%', background: 'rgba(255,255,255,0.03)', border: `1px solid ${C.line}`,
+                  borderRadius: 13, color: C.ink, fontFamily: 'inherit', fontSize: 15,
+                  padding: 14, resize: 'vertical', minHeight: 90, lineHeight: 1.8, outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
+                <button onClick={() => setView({ name: 'control' })} style={btnStyle}>次へ</button>
+                <button onClick={() => { setWhat(''); setView({ name: 'control' }) }} style={ghostStyle}>うまく言えない・とばす</button>
+              </div>
+            </div>
+          )}
+
+          {view.name === 'control' && (
+            <div style={cardStyle}>
+              <div style={qStyle}>それは、あなたが今、変えられることですか</div>
+              <div style={qSubStyle}>いちばん大事な切り分けです。直感で大丈夫。</div>
+              <button onClick={() => setView({ name: 'result', kind: 'can' })} style={optStyle(false)}>
+                自分の行動で、変えられる部分がある<span style={subStyle}>やれることが、少しはある</span>
+              </button>
+              <button onClick={() => setView({ name: 'result', kind: 'cannot' })} style={optStyle(false)}>
+                自分には、どうにもできないこと<span style={subStyle}>相手・時間・結果など、コントロール外</span>
+              </button>
+              <button onClick={() => setView({ name: 'result', kind: 'mix' })} style={optStyle(false)}>
+                どちらも混ざっている<span style={subStyle}>迷ったらこれでOK。次の画面で仕分けます</span>
+              </button>
+              <div style={hintStyle}>
+                <b style={{ color: C.sage, fontWeight: 600 }}>分け方のヒント</b><br />
+                ・<b>変えられる</b>＝自分の「行動」で動くもの（準備する、頼む、書く、決める、休む）<br />
+                ・<b>変えられない</b>＝「他人の気持ち・反応」「過去」「結果や数字」「時間の経過」<br />
+                ・例：「投稿する」は変えられる／「それが伸びるか」は変えられない。<br />
+                　　　「再開の準備をする」は変えられる／「うまくいくか」は変えられない。
+              </div>
+            </div>
+          )}
+
+          {view.name === 'result' && (
+            <div style={cardStyle}>
+              {view.kind === 'can' && <ControllableBlock />}
+              {view.kind === 'cannot' && <UncontrollableBlock />}
+              {view.kind === 'mix' && (
+                <div>
+                  <div style={{ fontSize: 11, letterSpacing: '0.2em', color: C.sage, textTransform: 'uppercase', marginBottom: 12, fontWeight: 600 }}>混ざっているとき — まず仕分ける</div>
+                  <div style={{ ...qStyle, fontSize: 18.5, marginBottom: 14 }}>「変えられること」と「変えられないこと」を、分けるだけで軽くなります。</div>
+                  <div style={{ marginTop: 14 }}><ControllableBlock /></div>
+                  <div style={{ marginTop: 20 }}><UncontrollableBlock /></div>
+                </div>
+              )}
+              {what.trim() && (
+                <div style={noteStyle}>
+                  あなたが書いたこと：<br />「{what.trim()}」<br />
+                  <span style={{ opacity: 0.7 }}>— これを、上の視点で見てみてください。</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
+                <button onClick={() => finishAndSave(view.kind === 'can' ? '変えられる' : view.kind === 'cannot' ? '変えられない' : '混在')} style={btnStyle}>記録して終わる</button>
+                <button onClick={() => setView({ name: 'breath' })} style={ghostStyle}>もう少し落ち着きたい</button>
+              </div>
+            </div>
+          )}
+
+          {view.name === 'done' && (
+            <div style={cardStyle}>
+              <div style={{ ...qStyle, fontSize: 18.5 }}>記録しました。頭の中を、一度外に出せましたね。</div>
+              <p style={{ color: C.dim, fontSize: 13.5, lineHeight: 1.95 }}>
+                整理できたこと自体が、前進です。記録が溜まると、「自分は何に引っかかりやすいか」が見えてきます。
+              </p>
+              <div style={noteStyle}>
+                あなたが支援職に伝えてきたことを、今日はあなた自身に。<br />
+                <span style={{ color: C.sage }}>「全部を抱えなくていい。あなたが休むことも、大切な仕事の一部です。」</span>
+              </div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
+                <button onClick={() => setView({ name: 'log' })} style={ghostStyle}>記録をみる</button>
+                <button onClick={resetFlow} style={ghostStyle}>もう一度ひらく</button>
+              </div>
+            </div>
+          )}
+
+          {view.name === 'log' && (
+            <div style={cardStyle}>
+              {log.length === 0 ? (
+                <div style={{ color: C.dim, fontSize: 13, textAlign: 'center', padding: '26px 0', lineHeight: 2 }}>
+                  まだ記録はありません。<br />「整理する」を使うと、ここに溜まっていきます。
+                </div>
+              ) : (
+                <>
+                  <div style={{ fontSize: 11, letterSpacing: '0.2em', color: C.sage, textTransform: 'uppercase', marginBottom: 12, fontWeight: 600 }}>
+                    これまでの記録（{log.length}件）
+                  </div>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 16 }}>
+                    {[
+                      { n: ctrlCount.can, l: '変えられる' },
+                      { n: ctrlCount.cannot, l: '変えられない' },
+                      { n: ctrlCount.mix, l: '混在' },
+                    ].map(s => (
+                      <div key={s.l} style={{ flex: 1, minWidth: 90, border: `1px solid ${C.line}`, borderRadius: 12, padding: '10px 12px', textAlign: 'center' }}>
+                        <div style={{ fontSize: 20, color: C.sage, fontWeight: 600 }}>{s.n}</div>
+                        <div style={{ fontSize: 10.5, color: C.dim, marginTop: 1 }}>{s.l}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {topFeel && log.length >= 3 && (
+                    <div style={hintStyle}>
+                      <b style={{ color: C.sage, fontWeight: 600 }}>パターンの気配</b><br />
+                      いちばん多い状態は「{topFeel[0]}」（{topFeel[1]}回）。
+                      {ctrlCount.cannot > ctrlCount.can
+                        ? '「変えられないこと」で消耗しがちかもしれません。距離を取る対処を増やすのが効きそうです。'
+                        : '「変えられること」に向かえています。小さな一歩の積み重ねが効いています。'}
+                    </div>
+                  )}
+                  {log.slice(0, 30).map((e, i) => (
+                    <div key={i} style={{ border: `1px solid ${C.line}`, borderRadius: 13, padding: '14px 16px', marginBottom: 11, background: 'rgba(255,255,255,0.015)' }}>
+                      <div style={{ fontSize: 11, color: C.sage, letterSpacing: '0.06em', marginBottom: 5 }}>
+                        {e.date}　<span style={{ color: C.amber }}>{e.control}</span>
+                      </div>
+                      <div style={{ fontSize: 13.5, lineHeight: 1.75, marginBottom: 5 }}>{e.what}</div>
+                      <div style={{ fontSize: 11, color: C.dim }}>状態：{e.feelings.join('／') || '—'}</div>
+                    </div>
+                  ))}
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 14 }}>
+                    <button onClick={exportLog} style={{ ...btnStyle, padding: '8px 16px', fontSize: 12 }}>記録をテキストで書き出す</button>
+                    <button onClick={clearLog} style={{ ...ghostStyle, padding: '8px 16px', fontSize: 12 }}>記録を全部消す</button>
+                  </div>
+                  <p style={{ ...qSubStyle, marginTop: 12, marginBottom: 0 }}>
+                    書き出したテキストはメモアプリに貼って保管できます。分析したいときは、そのテキストをAIに貼れば一緒にパターンを見られます。
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+
+        </div>
+
+        <footer style={{ color: C.dim, fontSize: 11, marginTop: 34, textAlign: 'center', lineHeight: 1.9, opacity: 0.7 }}>
+          あなた自身のためのツールです。記録はこの端末のブラウザ内にのみ保存され、外部には送られません。<br />
+          つらさが強いとき・続くときは、一人で抱えず、信頼できる人や専門機関に。
+        </footer>
+      </div>
+    </div>
+  )
+}
