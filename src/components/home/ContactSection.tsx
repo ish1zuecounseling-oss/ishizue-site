@@ -1,7 +1,10 @@
 import { motion } from "motion/react";
 import { fadeUp } from "./homeShared";
 
-const LINE_URL = "https://lin.ee/NL0PnYR";
+// LINE URL統一(2026-06): lin.ee/NL0PnYR → lin.ee/6H8Pzo6 (Home.tsx・記事内CTAと同一に)
+const LINE_URL = "https://lin.ee/6H8Pzo6";
+
+declare function gtag(...args: unknown[]): void;
 
 export default function ContactSection() {
   return (
@@ -14,7 +17,6 @@ export default function ContactSection() {
               新規受付の一時停止について
             </h2>
           </div>
-
           <div className="p-8 rounded-2xl border border-stone-200 bg-stone-50 space-y-4 text-left">
             <p className="text-stone-700 text-sm leading-[2]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
               現在、サービス内容の見直し・準備期間につき新規受付を一時停止しております。
@@ -26,7 +28,6 @@ export default function ContactSection() {
               再開時期は改めてこちらでお知らせします。
             </p>
           </div>
-
           {/* LINE導線 */}
           <div className="p-6 rounded-2xl border border-[#06C755]/20 bg-[#06C755]/[0.04] space-y-4 text-left">
             <div className="space-y-1">
@@ -42,6 +43,9 @@ export default function ContactSection() {
               href={LINE_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                try { gtag("event", "contact_line_click"); } catch (_) { /* noop */ }
+              }}
               className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white text-sm font-medium transition-opacity hover:opacity-90"
               style={{ background: "#06C755" }}
             >
@@ -54,7 +58,6 @@ export default function ContactSection() {
               登録のみでもOK ／ 無理なご案内はありません
             </p>
           </div>
-
           <div className="pt-2">
             <a href="/articles" className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-stone-200 text-stone-600 text-sm hover:bg-stone-50 transition-colors">
               記事・診断ツールを見る →
