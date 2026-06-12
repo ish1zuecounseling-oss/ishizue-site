@@ -1,13 +1,30 @@
 /**
  * HeroSection.tsx — ヒーロー + スティッキーナビ
+ * 改修(2026-06): 受付停止フラグ(accepting)対応
+ * - 停止中: ヒーローCTA「LINEで再開通知」+「状態チェック」に自動切替
+ * - 停止中: スティッキーナビのCTAもLINEに切替
+ * - LINEクリックのGA4計測を追加(hero_line_click / sticky_line_click)
+ * 使い方: Home.tsx側で <HeroSection heroCTARef={heroCTARef} accepting={ACCEPTING_NEW_CLIENTS} />
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fadeUp, fadeIn, stagger, SafeImg } from "./homeShared";
 
-export default function HeroSection({ heroCTARef }: { heroCTARef: React.RefObject<HTMLDivElement> }) {
+// ★要確認: lin.ee/6H8Pzo6 と lin.ee/NL0PnYR の2種類がコード内に存在していた。
+//   現役アカウントに繋がる方に統一すること(ContactSection側も同じURLに)。
+const LINE_URL = "https://lin.ee/6H8Pzo6";
+
+declare function gtag(...args: unknown[]): void;
+
+export default function HeroSection({
+  heroCTARef,
+  accepting = false,
+}: {
+  heroCTARef: React.RefObject<HTMLDivElement>;
+  accepting?: boolean;
+}) {
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
@@ -17,6 +34,10 @@ export default function HeroSection({ heroCTARef }: { heroCTARef: React.RefObjec
     obs.observe(el);
     return () => obs.disconnect();
   }, [heroCTARef]);
+
+  const trackLine = (eventName: string) => {
+    try { gtag("event", eventName); } catch (_) { /* noop */ }
+  };
 
   return (
     <>
@@ -36,7 +57,7 @@ export default function HeroSection({ heroCTARef }: { heroCTARef: React.RefObjec
                 {[
                   { href: "#voices",  label: "声",     labelMd: "相談された方の声" },
                   { href: "#guide",   label: "料金",   labelMd: "料金・流れ" },
-                  { href: "#contact", label: "相談する", labelMd: "相談する" },
+                  { href: "#contact", label: accepting ? "相談する" : "受付状況", labelMd: accepting ? "相談する" : "受付状況" },
                 ].map(({ href, label, labelMd }) => (
                   <a key={href} href={href} className="px-2.5 py-1.5 rounded-lg hover:bg-stone-100 hover:text-stone-800 transition-colors whitespace-nowrap">
                     <span className="md:hidden">{label}</span>
@@ -44,11 +65,27 @@ export default function HeroSection({ heroCTARef }: { heroCTARef: React.RefObjec
                   </a>
                 ))}
               </nav>
-              <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#2C1F14] text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-[#3D2B1F] transition-all">
-                <MessageCircle className="w-3.5 h-3.5" />
-                <span className="md:hidden">相談</span>
-                <span className="hidden md:inline">無料で相談する</span>
-              </a>
+
+              {accepting ? (
+                <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#2C1F14] text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-[#3D2B1F] transition-all">
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span className="md:hidden">相談</span>
+                  <span className="hidden md:inline">無料で相談する</span>
+                </a>
+              ) : (
+                <a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackLine("sticky_line_click")}
+                  className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 text-white text-xs font-bold tracking-[0.04em] rounded-full hover:opacity-90 transition-opacity"
+                  style={{ background: "#06C755" }}
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span className="md:hidden">再開通知</span>
+                  <span className="hidden md:inline">LINEで再開通知を受け取る</span>
+                </a>
+              )}
             </div>
           </motion.div>
         )}
@@ -101,12 +138,45 @@ export default function HeroSection({ heroCTARef }: { heroCTARef: React.RefObjec
                 ))}
               </motion.div>
 
+              {/* ▼ CTA: 受付状況で自動切替 */}
               <motion.div variants={fadeUp} className="space-y-3 pt-1" ref={heroCTARef}>
-                <a href="#contact" className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg">
-                  まず、話してみる（初回メール無料）
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <p className="text-stone-500 text-xs text-center sm:text-left">勧誘なし　／　1回のみでもOK　／　うまく言葉にできなくても大丈夫</p>
+                {accepting ? (
+                  <>
+                    <a href="#contact" className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white text-stone-900 text-sm font-medium tracking-[0.06em] rounded-full hover:bg-stone-100 transition-all shadow-lg">
+                      まず、話してみる（初回メール無料）
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <p className="text-stone-500 text-xs text-center sm:text-left">勧誘なし　／　1回のみでもOK　／　うまく言葉にできなくても大丈夫</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-stone-400 text-xs">
+                      現在、新規ご相談の受付を一時休止しています。再開のご案内は、LINEで先行してお届けします。
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <a
+                        href={LINE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackLine("hero_line_click")}
+                        className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 text-white text-sm font-bold tracking-[0.04em] rounded-full hover:opacity-90 transition-opacity shadow-lg"
+                        style={{ background: "#06C755" }}
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        LINEで再開通知を受け取る
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </a>
+                      <Link
+                        to="/articles?tab=tools"
+                        className="group flex sm:inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 bg-white/10 border border-white/25 text-white text-sm font-medium tracking-[0.06em] rounded-full hover:bg-white/15 transition-all backdrop-blur-sm"
+                      >
+                        <ClipboardList className="w-4 h-4" />
+                        いまの状態をチェックする（無料）
+                      </Link>
+                    </div>
+                    <p className="text-stone-500 text-xs text-center sm:text-left">登録のみでもOK　／　勧誘なし　／　いつでも解除できます</p>
+                  </>
+                )}
               </motion.div>
             </motion.div>
 
