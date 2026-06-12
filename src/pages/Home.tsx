@@ -9,6 +9,10 @@
  * - フォーム送信ロジック強化(バリデーション/honeypot/二重送信防止)
  * - モーダルコピー改善(受付停止フェーズに対応)
  * - LINE再開通知への誘導
+ *
+ * 改修ポイント(2026-06):
+ * - HeroSection に accepting prop を渡し、停止中CTAの自動切替に対応
+ * - 記事数表記を「250本以上」に更新(2箇所)
  */
 
 import {
@@ -107,7 +111,7 @@ function BridgeSection() {
     {
       icon: BookOpen,
       label: "記事から知る",
-      desc: "支援職の消耗を構造から整理した心理記事(約200本)",
+      desc: "支援職の消耗を構造から整理した心理記事(250本以上)",
       href: "/articles",
       cta: "記事一覧へ",
       bg: "#fff",
@@ -225,7 +229,7 @@ function CurrentStatusSection() {
             再開時期につきましては、LINEに登録いただいた方へ先行してお知らせいたします。
           </p>
           <p className="text-sm text-stone-600 leading-[1.95] mb-5">
-            受付再開までの間も、心理記事(約200本)・無料セルフチェック・AI構造整理アシスタント・LINEでの状態タイプ別解説は引き続きご利用いただけます。
+            受付再開までの間も、心理記事(250本以上)・無料セルフチェック・AI構造整理アシスタント・LINEでの状態タイプ別解説は引き続きご利用いただけます。
           </p>
           <div className="flex flex-wrap gap-2.5">
             <a
@@ -451,7 +455,8 @@ function Home() {
       <StatusBar />
 
       <main id="main-content">
-        <HeroSection       heroCTARef={heroCTARef} />
+        {/* ★ 2026-06: accepting prop追加 — 停止中はHeroのCTAがLINE/チェックに自動切替 */}
+        <HeroSection       heroCTARef={heroCTARef} accepting={ACCEPTING_NEW_CLIENTS} />
         <PainPointsSection />
         <TrustBarSection   />
 
@@ -664,8 +669,7 @@ function Home() {
       </AnimatePresence>
 
       {/* 開発者向け:handleSubmitとformStatus・formErrorは ContactSection 内のフォームに渡す前提 */}
-      {/* もし ContactSection 側で内部state管理している場合、本コンポーネントの handleSubmit は使われません */}
-      {/* 連携が必要な場合は ContactSection に props として渡すか、Context経由で渡してください */}
+      {/* 現状ContactSectionにフォームは無いため本ロジックは待機状態。受付再開時にフォーム復元+接続すること */}
       {formStatus === "error" && formError && (
         <div role="alert" className="sr-only" aria-live="assertive">{formError}</div>
       )}
