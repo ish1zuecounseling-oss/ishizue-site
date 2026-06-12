@@ -1,14 +1,19 @@
 /**
  * GuideSection.tsx — 料金・ご利用案内
  * いしずえメールカウンセリング直接受付版
+ * 改修(2026-06):
+ * - accepting prop対応: 停止中は「再開時の料金」と明示+申込CTAをLINEに切替
  */
 
 import { motion } from "motion/react";
-import { Monitor, Mail, Minus } from "lucide-react";
+import { Monitor, Mail, Minus, Info, MessageCircle } from "lucide-react";
 import { SectionLabel, stagger, fadeUp } from "./homeShared";
 import { flowItems, notes } from "./homeData";
 
-export default function GuideSection() {
+const LINE_URL = "https://lin.ee/6H8Pzo6";
+declare function gtag(...args: unknown[]): void;
+
+export default function GuideSection({ accepting = false }: { accepting?: boolean }) {
   return (
     <section id="guide" className="py-16 md:py-24 px-5 md:px-6 bg-[#1A110A]">
       <div className="max-w-4xl mx-auto">
@@ -25,10 +30,20 @@ export default function GuideSection() {
           <motion.div variants={fadeUp} className="space-y-6">
             <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">料金</p>
 
+            {/* 停止中の注記 */}
+            {!accepting && (
+              <div className="flex items-start gap-2.5 p-4 rounded-xl border border-stone-800 bg-[#2C1F14]/40">
+                <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }} />
+                <p className="text-stone-400 text-xs leading-relaxed">
+                  現在、新規ご相談の受付を一時休止しております。以下は<span className="text-stone-300">受付再開時</span>の料金・流れのご案内です。再開はLINEで先行してお知らせします。
+                </p>
+              </div>
+            )}
+
             {/* 無料バッジ */}
             <div className="p-5 rounded-2xl border border-emerald-900/40 bg-emerald-950/30 flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <p className="text-[10px] tracking-[0.2em] uppercase text-emerald-500 mb-1">まずはここから</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-emerald-500 mb-1">{accepting ? "まずはここから" : "再開時は、ここから"}</p>
                 <p className="text-base font-medium text-stone-100" style={{ fontFamily: "'Noto Serif JP', serif" }}>初回メール相談</p>
                 <p className="text-stone-500 text-xs mt-1">1往復・状況整理 ／ 返信目安 2営業日以内</p>
               </div>
@@ -83,13 +98,27 @@ export default function GuideSection() {
                     </div>
                   ))}
                 </div>
-                <a
-                  href="#contact"
-                  className="block text-center py-2 rounded-lg text-xs font-medium transition-colors"
-                  style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F", border: "1px solid rgba(143,175,159,0.3)" }}
-                >
-                  メールカウンセリングを申し込む →
-                </a>
+                {accepting ? (
+                  <a
+                    href="#contact"
+                    className="block text-center py-2 rounded-lg text-xs font-medium transition-colors"
+                    style={{ background: "rgba(143,175,159,0.15)", color: "#8FAF9F", border: "1px solid rgba(143,175,159,0.3)" }}
+                  >
+                    メールカウンセリングを申し込む →
+                  </a>
+                ) : (
+                  <a
+                    href={LINE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => { try { gtag("event", "guide_line_click"); } catch (_) { /* noop */ } }}
+                    className="flex items-center justify-center gap-1.5 text-center py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90"
+                    style={{ background: "#06C755" }}
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    再開通知をLINEで受け取る →
+                  </a>
+                )}
               </div>
             </div>
             <p className="text-stone-600 text-xs leading-relaxed">※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。</p>
