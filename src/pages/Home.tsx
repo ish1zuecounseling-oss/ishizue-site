@@ -13,6 +13,11 @@
  * 改修ポイント(2026-06):
  * - HeroSection に accepting prop を渡し、停止中CTAの自動切替に対応
  * - 記事数表記を「250本以上」に更新(2箇所)
+ *
+ * 改修ポイント(2026-06 レイアウト再構成):
+ * - FeaturesSection を ApproachSection に統合(セクション数 14→13)
+ * - ClosingSection を FAQ後・CurrentStatus直前に移動(締めを最終CVの直前へ)
+ * - Approach/Closing/Guide に accepting prop を追加(停止中CTAの自動切替)
  */
 
 import {
@@ -30,7 +35,6 @@ import HeroSection       from "../components/home/HeroSection";
 import PainPointsSection from "../components/home/PainPointsSection";
 import TrustBarSection   from "../components/home/TrustBarSection";
 import ProfileSection    from "../components/home/ProfileSection";
-import FeaturesSection   from "../components/home/FeaturesSection";
 import ApproachSection   from "../components/home/ApproachSection";
 import VoicesSection     from "../components/home/VoicesSection";
 import ClosingSection    from "../components/home/ClosingSection";
@@ -464,12 +468,14 @@ function Home() {
         <BridgeSection />
 
         <ProfileSection    />
-        <FeaturesSection   />
-        <ApproachSection   />
+        {/* ★ 2026-06: 旧Featuresを統合したApproach。停止中はCTA自動切替 */}
+        <ApproachSection   accepting={ACCEPTING_NEW_CLIENTS} />
         <VoicesSection     />
-        <ClosingSection    />
-        <GuideSection      />
+        <GuideSection      accepting={ACCEPTING_NEW_CLIENTS} />
         <FaqSection        />
+
+        {/* ★ 2026-06: Closingを最終CV直前に移動。停止中はCTA自動切替 */}
+        <ClosingSection    accepting={ACCEPTING_NEW_CLIENTS} />
 
         {/* ★ 現在の受付状況セクション(ContactSection直前) */}
         <CurrentStatusSection />
