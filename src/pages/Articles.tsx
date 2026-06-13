@@ -9,6 +9,12 @@
  * - LINE誘導の中段帯CTA + モバイルでフローティングLINEボタン
  * - AIアシスタント入口セクション追加
  * - スクロール深度に応じた上部スティッキーミニナビ(モバイル)
+ *
+ * 改修ポイント(2026-06):
+ * - モバイル可読性: カード説明文の文字サイズ・コントラストを引き上げ(10-12px→11.5-13px / stone-400→500)
+ * - フローティングLINEボタンを実装(stateのみ存在し未描画だったものを描画)
+ * - 受付停止対応: 下部CTAを停止中はLINE再開通知に自動切替(ACCEPTING_NEW_CLIENTSフラグ)
+ * - LINE導線5箇所にGA4イベント追加(articles_hero/sticky/midband/floating/bottom_line_click)
  */
 
 import { useState, useRef, useEffect } from "react";
@@ -25,8 +31,15 @@ import { articles } from "../data/articles";
 const SAGE = "#8FAF9F";
 const LINE_URL = "https://lin.ee/6H8Pzo6";
 
+// 受付ステータス: 再開時はtrueへ(Home.tsxのACCEPTING_NEW_CLIENTSと合わせて変更すること)
+const ACCEPTING_NEW_CLIENTS = false;
+
 // GA4 gtag型宣言
 declare function gtag(...args: unknown[]): void;
+
+const trackLine = (eventName: string) => {
+  try { gtag("event", eventName); } catch (_) { /* noop */ }
+};
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
@@ -411,10 +424,10 @@ function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNe
               <span className="inline-block text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
             )}
           </div>
-          <p className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }} itemProp="name">
+          <p className="text-[15px] font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }} itemProp="name">
             {article.title}
           </p>
-          <p className="text-xs text-stone-400 leading-relaxed line-clamp-2" itemProp="description">{article.description}</p>
+          <p className="text-[12.5px] text-stone-500 leading-relaxed line-clamp-2" itemProp="description">{article.description}</p>
         </div>
         <ChevronRight className="flex-shrink-0 w-4 h-4 text-stone-300 group-hover:text-[#8FAF9F] mt-1 transition-colors" />
       </Link>
@@ -509,7 +522,7 @@ export default function Articles() {
                   <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     まず今の自分を可視化
                   </p>
-                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                  <p className="text-stone-400 text-[12px] leading-relaxed">
                     チェック・診断ツール・しんどさ別の入口
                   </p>
                   <span className="text-[11px] mt-auto pt-1 flex items-center gap-1" style={{ color: SAGE }}>
@@ -531,7 +544,7 @@ export default function Articles() {
                   <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     なぜこうなるのか理解する
                   </p>
-                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                  <p className="text-stone-400 text-[12px] leading-relaxed">
                     テーマ別・心理学研究からの解説記事
                   </p>
                   <span className="text-[11px] text-sky-300 mt-auto pt-1 flex items-center gap-1">
@@ -544,6 +557,7 @@ export default function Articles() {
                   href={LINE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackLine("articles_hero_line_click")}
                   className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
                   style={{ background: "rgba(6,199,85,0.15)", border: "1px solid rgba(6,199,85,0.4)" }}
                 >
@@ -554,7 +568,7 @@ export default function Articles() {
                   <p className="text-white text-sm font-medium leading-snug" style={{ fontFamily: "'Noto Serif JP', serif" }}>
                     まず話を聞いてもらう
                   </p>
-                  <p className="text-stone-400 text-[11px] leading-relaxed">
+                  <p className="text-stone-400 text-[12px] leading-relaxed">
                     LINEで状態タイプを送ります(無料・読むだけOK)
                   </p>
                   <span className="text-[11px] text-[#06C755] mt-auto pt-1 flex items-center gap-1">
@@ -565,7 +579,7 @@ export default function Articles() {
 
               {/* 補足説明 */}
               <motion.div variants={fadeUp}>
-                <p className="text-[11px] text-stone-400 leading-relaxed mt-1">
+                <p className="text-[12px] text-stone-400 leading-relaxed mt-1">
                   ※ 全記事・全ツールは無料で読めます。今のしんどさを整理するための入口としてご活用ください。
                 </p>
               </motion.div>
@@ -602,6 +616,7 @@ export default function Articles() {
                   href={LINE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackLine("articles_sticky_line_click")}
                   className="flex-shrink-0 ml-auto px-3 py-1.5 rounded-full text-xs font-bold text-white inline-flex items-center gap-1"
                   style={{ background: "#06C755" }}
                 >
@@ -609,6 +624,28 @@ export default function Articles() {
                 </a>
               </div>
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ========== フローティングLINEボタン(モバイル) ========== */}
+        <AnimatePresence>
+          {showFloatingLine && (
+            <motion.a
+              href={LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackLine("articles_floating_line_click")}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden fixed bottom-5 right-4 z-40 inline-flex items-center gap-1.5 px-4 py-3 rounded-full text-white text-xs font-bold shadow-lg"
+              style={{ background: "#06C755" }}
+              aria-label={ACCEPTING_NEW_CLIENTS ? "LINEで受け取る" : "LINEで再開通知を受け取る"}
+            >
+              <MessageCircle className="w-4 h-4" />
+              {ACCEPTING_NEW_CLIENTS ? "LINEで受け取る" : "再開通知を受け取る"}
+            </motion.a>
           )}
         </AnimatePresence>
 
@@ -666,7 +703,7 @@ export default function Articles() {
                     </button>
                   ))}
                 </div>
-                <p className="text-[11px] text-stone-400 mt-2 text-center md:text-left leading-relaxed">
+                <p className="text-[12px] text-stone-400 mt-2 text-center md:text-left leading-relaxed">
                   {currentGroup.desc}
                 </p>
               </div>
@@ -729,9 +766,9 @@ export default function Articles() {
                         className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
                       >
                         <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
-                        <p className="text-xs font-medium text-stone-800 leading-snug">{cat.label}</p>
-                        <p className="text-[10px] text-stone-500 leading-relaxed">{cat.desc}</p>
-                        <p className="text-[10px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
+                        <p className="text-[13px] font-medium text-stone-800 leading-snug">{cat.label}</p>
+                        <p className="text-[11.5px] text-stone-500 leading-relaxed">{cat.desc}</p>
+                        <p className="text-[11px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
                       </a>
                     ))}
                   </div>
@@ -764,7 +801,7 @@ export default function Articles() {
                       <Sparkles className="w-3.5 h-3.5" style={{ color: "#06C755" }} />
                       記事を読むより先に、今の状態を整理したい方へ
                     </p>
-                    <p className="text-[11px] text-stone-500 leading-relaxed">
+                    <p className="text-[12px] text-stone-500 leading-relaxed">
                       4つの状態タイプ(疲れ/抱え込み/辞めたい/迷い)別の解説をLINEで送っています。読むだけOK。
                     </p>
                   </div>
@@ -772,6 +809,7 @@ export default function Articles() {
                     href={LINE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackLine("articles_midband_line_click")}
                     className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-bold text-white whitespace-nowrap"
                     style={{ background: "#06C755" }}
                   >
@@ -820,7 +858,7 @@ export default function Articles() {
                     ].map((item) => (
                       <Link key={item.path} to={item.path} className="flex items-center gap-2 group">
                         <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
-                        <span className="text-xs text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
+                        <span className="text-[13px] text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
                       </Link>
                     ))}
                   </div>
@@ -888,8 +926,8 @@ export default function Articles() {
                         <span className="text-[10px] tracking-[0.15em] font-medium px-2 py-0.5 rounded-full" style={{ color: tool.color, background: tool.color + "15" }}>{tool.tag}</span>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-sm font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }}>{tool.title}</p>
-                        <p className="text-xs text-stone-400 leading-relaxed">{tool.desc}</p>
+                        <p className="text-[15px] font-medium text-stone-800 group-hover:text-stone-900 leading-snug transition-colors" style={{ fontFamily: "'Noto Serif JP', serif" }}>{tool.title}</p>
+                        <p className="text-[12.5px] text-stone-500 leading-relaxed">{tool.desc}</p>
                       </div>
                       <div className="flex items-center gap-1 text-xs font-medium mt-auto pt-2 border-t border-stone-50" style={{ color: tool.color }}>
                         ツールを使う <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -1063,24 +1101,50 @@ export default function Articles() {
             <motion.div variants={fadeUp} className="space-y-2">
               <p className="text-stone-800 text-lg md:text-xl font-light leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>記事を読んで、自分のことかもしれないと思ったら。</p>
               <p className="text-stone-500 text-sm leading-relaxed">言葉にならなくても大丈夫です。今のしんどさを一緒に整理できます。</p>
-              <p className="text-stone-400 text-xs">話す内容がまとまっていなくても大丈夫です。</p>
+              {ACCEPTING_NEW_CLIENTS && (
+                <p className="text-stone-400 text-xs">話す内容がまとまっていなくても大丈夫です。</p>
+              )}
             </motion.div>
-            <motion.div variants={fadeUp} className="space-y-3">
-              <Link to="/#contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md">
-                初回無料で相談する <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <p className="text-stone-400 text-xs">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
-              {/* LINE副CTA */}
-              <div className="pt-2">
-                <p className="text-stone-400 text-xs mb-2">あるいは、まず読むだけから</p>
+            {ACCEPTING_NEW_CLIENTS ? (
+              <motion.div variants={fadeUp} className="space-y-3">
+                <Link to="/#contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md">
+                  初回無料で相談する <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+                <p className="text-stone-400 text-xs">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+                {/* LINE副CTA */}
+                <div className="pt-2">
+                  <p className="text-stone-400 text-xs mb-2">あるいは、まず読むだけから</p>
+                  <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+                    onClick={() => trackLine("articles_bottom_line_click")}
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium text-white"
+                    style={{ background: "#06C755" }}
+                  >
+                    <MessageCircle className="w-4 h-4" />LINEで状態タイプを受け取る
+                  </a>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div variants={fadeUp} className="space-y-3">
+                <p className="text-stone-400 text-xs leading-relaxed">
+                  現在、新規ご相談の受付を一時休止しています。<br />再開のご案内は、LINEで先行してお届けします。
+                </p>
                 <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium text-white"
+                  onClick={() => trackLine("articles_bottom_line_click")}
+                  className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-bold tracking-[0.04em] hover:opacity-90 transition-opacity shadow-md"
                   style={{ background: "#06C755" }}
                 >
-                  <MessageCircle className="w-4 h-4" />LINEで状態タイプを受け取る
+                  <MessageCircle className="w-4 h-4" />
+                  LINEで再開通知を受け取る
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
-              </div>
-            </motion.div>
+                <p className="text-stone-400 text-xs">読むだけOK ／ 勧誘なし ／ いつでも解除できます</p>
+                <div className="pt-1">
+                  <Link to="/#contact" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">
+                    受付状況の詳細を見る
+                  </Link>
+                </div>
+              </motion.div>
+            )}
             <motion.div variants={fadeUp}>
               <Link to="/" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">← トップページに戻る</Link>
             </motion.div>
