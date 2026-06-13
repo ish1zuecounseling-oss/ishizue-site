@@ -480,7 +480,13 @@ function Home() {
         {/* ★ 現在の受付状況セクション(ContactSection直前) */}
         <CurrentStatusSection />
 
-        <ContactSection    />
+        {/* ★ 2026-06: フォーム接続。停止中はContactSide内でLINE告知に自動切替 */}
+        <ContactSection
+          accepting={ACCEPTING_NEW_CLIENTS}
+          onSubmit={handleSubmit}
+          formStatus={formStatus}
+          formError={formError}
+        />
         <FooterSection     openModal={openModal} modalTitleMap={modalTitleMap} />
       </main>
 
@@ -674,8 +680,9 @@ function Home() {
         )}
       </AnimatePresence>
 
-      {/* 開発者向け:handleSubmitとformStatus・formErrorは ContactSection 内のフォームに渡す前提 */}
-      {/* 現状ContactSectionにフォームは無いため本ロジックは待機状態。受付再開時にフォーム復元+接続すること */}
+      {/* handleSubmit/formStatus/formError は ContactSection にprops接続済み。
+          停止中(accepting=false)はフォーム非表示・LINE告知のみ。
+          再開時は ACCEPTING_NEW_CLIENTS=true にするだけでフォームが出現し送信ロジックに繋がる。 */}
       {formStatus === "error" && formError && (
         <div role="alert" className="sr-only" aria-live="assertive">{formError}</div>
       )}
