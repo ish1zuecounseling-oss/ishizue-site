@@ -195,6 +195,8 @@ export default function ExhaustedByBeingNice() {
       <p className="text-sm text-stone-600 leading-relaxed">
         これら4つの背景には、さらに<Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデル(内的作業モデル)</Link>という根本的な構造があります。
         幼少期の体験から形成された「こう振る舞わないと受け入れてもらえない」という無意識の前提が、優しい人のパターンを支え続けています。
+        そしてこの4つに共通して流れているのが、「<strong>優しくしていないと、自分には価値がない</strong>」という感覚です。
+        この感覚そのものを掘り下げたのが<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「自分の価値がわからない(条件つき自己価値)」</Link>で、優しさが止まらない構造の“根っこ”にあたります。あわせて読むと、なぜ優しさをやめられないのかが見えてきます。
       </p>
 
       <LineCtaCompassion />
@@ -366,6 +368,7 @@ export default function ExhaustedByBeingNice() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">構造を理解する</p>
         <ul className="space-y-1.5 text-stone-600">
+          <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない(条件つき自己価値・根っこ)</Link></li>
           <li>・<Link to="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは?抜け出せない理由と原因</Link></li>
           <li>・<Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線(バウンダリー)とは</Link></li>
           <li>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働とは</Link></li>
