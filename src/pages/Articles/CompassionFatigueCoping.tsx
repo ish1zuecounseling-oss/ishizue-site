@@ -6,14 +6,22 @@ export default function CompassionFatigueCoping() {
   return (
     <ArticleLayout
       title="共感疲労の対処法7つ｜今日からできるセルフケアと回復を支援職向けに解説"
-      description="休んでも回復しない、セルフケアが続かない——共感疲労のチェック・原因・対処法を支援職向けに解説します。"
+      description="「セルフケアが続かない」「休んでも回復しない」——共感疲労の対処法を、7つの視点で支援職向けに解説。なぜ対処が難しいのかという構造から、今日からできるケアまで。公認心理師監修。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-coping"
       date="2026-03-29"
       audio="/audio/compassion-fatigue-coping.mp3"
     >
 
-      {/* ① 検索ニーズ直撃の導入 */}
-      
+      {/* ① 検索ニーズ直撃の導入（リード先出し） */}
+      <p>
+        共感疲労への対処法を調べて試してみたけれど、続かない。
+        休もうとしても、頭から仕事が離れない。
+        <strong>——それは、あなたのセルフケアが下手だからでも、意志が弱いからでもありません。</strong>
+        共感疲労が進むと、休んでも回復しにくい状態（神経系の慢性的な緊張）に入るからです。
+        だから対処は「テクニックを足す」より、<strong>まず何が起きているかを理解する</strong>ことから始まります。
+        この記事では、対処が難しくなる構造と、今日からできる<strong>7つの視点</strong>を整理します。
+      </p>
+
       {/* カニバリ解消：ピラー記事への誘導 */}
       <div className="my-4 p-3.5 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-[11px] text-stone-500 mb-1.5 tracking-wide">この記事は「共感疲労」シリーズの一部です</p>
@@ -25,10 +33,6 @@ export default function CompassionFatigueCoping() {
           にまとめています。本記事はそのうち「対処法」を詳しく扱います。
         </p>
       </div>
-
-<p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
-        「共感疲労かもしれないけど、どう対処すればいいかわからない」——そんな方へ向けて書いています。
-      </p>
 
       {/* ② チェック導入 */}
       <h2>まずはチェック：あなたは共感疲労の状態？</h2>
