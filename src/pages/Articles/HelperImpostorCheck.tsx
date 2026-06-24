@@ -347,11 +347,15 @@ export default function HelperImpostorCheck() {
       </div>
       <p>
         インポスター現象は「性格の問題」ではありません。
+        その根っこには、「<strong>評価されていないと、自分には価値がない</strong>」という条件つき自己価値があることが多く、
         気づいて、パターンに名前をつけることが、変化の第一歩になります。
       </p>
 
       <div className="my-6 p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2">
         <p className="text-xs font-medium text-stone-600">チェック後に読む</p>
+        <a href="/articles/self-value-unknown" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
+          → 自分の価値がわからない（条件つき自己価値・根っこ）
+        </a>
         <a href="/articles/impostor-syndrome" className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 underline underline-offset-2">
           → インポスター症候群とは｜「できているのに自信がない」の正体と構造
         </a>
