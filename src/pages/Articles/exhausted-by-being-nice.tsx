@@ -38,7 +38,7 @@ export default function ExhaustedByBeingNice() {
   return (
     <ArticleLayout
       title="優しい人が壊れる——なぜいい人ほど消耗するのか【公認心理師】"
-      description="「優しい人ほど壊れやすい」は気のせいではなく、自己犠牲スキーマ・他人軸・感情労働・境界線の薄さという構造から起きる正当な反応です。優しさを失わずに自分を守る、回復への3ステップを公認心理師が解説します。「壊れる前」に気づくための実用ガイド。"
+      description="「断れない」「つい相手を優先してしまう」——優しい人ほど疲れて壊れるのは、性格ではなく自己犠牲・他人軸・感情労働・境界線の薄さという構造のせいです。優しさを失わず自分も守る回復3ステップを、公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/exhausted-by-being-nice"
       date="2026-05-25"
       tags={["boundary", "burnout", "compassion", "self-function"]}
@@ -71,14 +71,16 @@ export default function ExhaustedByBeingNice() {
       </p>
 
       <p>
-        こうした感覚を持つ方は、決して少なくありません。
-        ただ、「<strong>優しい人</strong>」というラベルが強いほど、「<strong>疲れている自分</strong>」「<strong>もう限界の自分</strong>」を認めるのが難しくなります。
+        もし、いくつも当てはまったなら、先にお伝えしたいことがあります。
+        <strong>あなたが疲れて壊れそうなのは、優しさが足りないからでも、心が弱いからでもありません。</strong>
+        優しさを支えている<strong>4つの心理構造</strong>（自己犠牲スキーマ・他人軸・感情労働・境界線の薄さ）が、
+        消耗を止まらなくしているだけです。構造である以上、整理すれば変えられます。
       </p>
 
       <p>
-        この記事では、「<strong>優しい人ほど壊れる</strong>」という現象を心理学的に解剖します。
-        優しさそのものが悪いのではなく、その背景にある<strong>構造</strong>が消耗を生み続けています。
-        構造が見えると、「優しい自分」を保ちながら「自分を守る」道が見えてきます。
+        ただ、「<strong>優しい人</strong>」というラベルが強いほど、「<strong>疲れている自分</strong>」「<strong>もう限界の自分</strong>」を認めるのが難しくなります。
+        この記事では、「<strong>優しい人ほど壊れる</strong>」という現象を心理学的に解剖し、
+        「優しい自分」を保ちながら「自分を守る」道筋を、具体的に示していきます。
       </p>
 
       <p className="text-xs text-stone-700 leading-relaxed bg-stone-50 p-3 rounded-lg border border-stone-200 mt-2">
