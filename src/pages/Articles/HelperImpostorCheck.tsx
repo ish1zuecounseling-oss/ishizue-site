@@ -316,7 +316,7 @@ export default function HelperImpostorCheck() {
   return (
     <ArticleLayout
       title="インポスター症候群 テスト｜「いつかバレる」「運が良かっただけ」は当てはまる？支援職向け24項目チェック"
-      description="インポスター症候群（詐欺師症候群）のセルフテスト。「いつかバレる」「成功は運のおかげ」——8パターン24項目で今の状態を確認。支援職に多い思考のクセとその背景・抜け出し方を解説します。"
+      description="「評価されても運が良かっただけ」「いつかできないとバレる」——支援職に多いインポスター現象を、8パターン24項目でセルフチェック。あなたの思考のクセとその背景・抜け出し方を、公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-impostor-check"
       date="2026-04-12"
       tags={["burnout", "boundary", "check", "compassion"]}
@@ -332,6 +332,7 @@ export default function HelperImpostorCheck() {
       </p>
       <p>
         当てはまるものを選んで、今の自分のパターンをそっと確認してみてください。
+        どのクセが強く出ているかが、8パターンで見えてきます。
       </p>
 
       <ImpostorCheckWidget />
