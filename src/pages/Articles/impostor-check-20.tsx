@@ -136,7 +136,7 @@ export default function ImpostorCheck20() {
   return (
     <ArticleLayout
       title="インポスター症候群 テスト・チェック20問——5軸で詳細診断【公認心理師】"
-      description="「いつかバレる」「実力がない」と感じる方への、インポスター症候群テスト・チェック。20項目で自己評価の歪み・完璧主義・他者比較・役割同一化・自己開示の困難の5軸を詳細診断。公認心理師監修、3分でできる無料セルフチェック。"
+      description="客観的にはできているのに「いつかバレる」「実力がない」と感じてしまう——インポスター症候群を20項目でセルフチェック。自己評価の歪み・完璧主義・他者比較など5軸で詳細診断。公認心理師監修・3分・無料。"
       url="https://www.ishizue-counseling.jp/articles/impostor-check-20"
       date="2026-05-27"
       tags={["impostor", "self-function", "check"]}
@@ -162,14 +162,16 @@ export default function ImpostorCheck20() {
       </div>
 
       <p>
-        <strong>インポスター症候群</strong>(impostor syndrome / インポスター現象)は、
-        客観的に成果を出しているのに「自分には実力がない」「いつかバレる」と感じる心理状態を指します。
-        1978年に心理学者ポーリン・クランスらが提唱した概念で、能力が高い人ほど起こりやすいのが特徴です。
+        <strong>「いつかバレる」「自分には実力がない」</strong>——
+        客観的にはできているのに、そう感じてしまう。それは性格でも気のせいでもなく、
+        <strong>インポスター症候群</strong>(impostor syndrome)という心理構造から起きています。
+        まずは下の20項目で、今の自分の状態を確かめてみてください。
       </p>
 
       <p>
-        このインポスター症候群テストは、<strong>5つのカテゴリ別</strong>に詳細な状態を分析できる<strong>20項目の無料セルフチェック</strong>です。
-        以下の項目を読んで、当てはまると感じるものをタップしてください。
+        このインポスター症候群テストは、<strong>5つのカテゴリ別</strong>に状態を分析できる<strong>20項目の無料セルフチェック</strong>です。
+        当てはまると感じるものをタップすると、約3分で結果が出ます。
+        チェックのあとに、なぜそう感じてしまうのか——その構造もくわしく解説します。
       </p>
 
       <nav className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
