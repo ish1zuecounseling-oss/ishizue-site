@@ -134,7 +134,7 @@ export default function HelperCannotSayNo() {
       </p>
 
       <p className="text-sm text-stone-500">
-        断れないパターンの背景→ <Link to="/articles/anxious-attachment" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">不安型愛着とNOが言えない</Link> ／ <Link to="/articles/over-adaptation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">過剰適応と見捨てられ不安</Link>
+        断れないパターンの背景→ <a href="/articles/anxious-attachment" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">不安型愛着とNOが言えない</a> ／ <a href="/articles/over-adaptation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">過剰適応と見捨てられ不安</a>
       </p>
 
       <h2>「No」と言えるようになるための視点</h2>
@@ -179,6 +179,10 @@ export default function HelperCannotSayNo() {
       
       <p className="text-sm text-stone-500 mt-2 mb-1">
         背景を理解する→ <a href="/articles/other-axis-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸とは？抜け出せない理由と原因</a> ／ <a href="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデル（断れない前提の正体）</a>
+      </p>
+
+      <p className="text-sm text-stone-500 mt-1 mb-1">
+        さらに根っこを理解する→ <a href="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない（条件つき自己価値）</a>——「断ると価値が下がる・見捨てられる」という感覚の“根っこ”にあたります。
       </p>
 
       <LineCtaSmall />
