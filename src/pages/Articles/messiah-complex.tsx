@@ -110,6 +110,9 @@ export default function MessiahComplex() {
           そんな環境では、「存在するだけの自分」ではなく「<strong>役に立つ自分</strong>」に価値が置かれます。
           すると大人になっても、「救うこと」が自分の価値を確認する手段であり続けます。
           （<Link to="/articles/helper-self-effacement-family" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">家族の中で自分を消してきた支援職</Link>で詳しく扱っています）
+          この「役に立つ自分にしか価値を感じられない」感覚そのものを掘り下げたのが、
+          <Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「自分の価値がわからない（条件つき自己価値）」</Link>です。
+          メサイアの“根っこ”にあたる構造なので、あわせて読むと理解が深まります。
         </p>
       </div>
 
@@ -227,11 +230,11 @@ export default function MessiahComplex() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">この構造を深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">
+          <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない（条件つき自己価値・根っこ）</Link></li>
           <li>・<Link to="/articles/helper-wellbeing-not-from-contribution" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「役に立つこと」以外から幸福を得る</Link></li>
           <li>・<Link to="/articles/helper-self-effacement-family" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">家族の中で自分を消してきた支援職</Link></li>
           <li>・<Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸で生きてしまう理由</Link></li>
           <li>・<Link to="/articles/helper-carrying-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を抱え込んでしまう</Link></li>
-          <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない</Link></li>
         </ul>
       </div>
 
