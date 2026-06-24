@@ -326,6 +326,10 @@ export default function ImpostorCheck20() {
         この3つは互いに強化し合います。「もっと自信を持とう」と意志で頑張っても変わりにくいのは、この構造があるからです。
       </p>
       <p>
+        そしてこの3つの根っこには、「<strong>評価されていないと、自分には価値がない</strong>」という条件つき自己価値があります。
+        それを掘り下げたのが<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「自分の価値がわからない(条件つき自己価値)」</Link>で、インポスター症候群の“根っこ”にあたります。あわせて読むと理解が深まります。
+      </p>
+      <p>
         詳しくは→ <Link to="/articles/impostor-syndrome" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群とは｜構造から理解する(ピラー記事)</Link>
       </p>
 
