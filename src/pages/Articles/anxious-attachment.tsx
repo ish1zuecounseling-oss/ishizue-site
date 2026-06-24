@@ -41,6 +41,10 @@ export default function AnxiousAttachment() {
       <p className="text-sm text-stone-500">
         詳しく→ <Link to="/articles/working-model" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">ワーキングモデルとは何か</Link>
       </p>
+      <p className="text-sm text-stone-600 leading-[1.9]">
+        この「<strong>必要とされていないと、自分には価値がない</strong>」という感覚は、見捨てられ不安の核にあります。
+        それを掘り下げたのが<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「自分の価値がわからない（条件つき自己価値）」</Link>で、不安型パターンの“根っこ”にあたります。あわせて読むと、なぜ関係を失う恐れがこれほど強いのかが見えてきます。
+      </p>
 
       <h2>なぜ「断れない」につながるのか</h2>
 
