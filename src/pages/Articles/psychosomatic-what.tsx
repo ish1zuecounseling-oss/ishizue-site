@@ -127,7 +127,7 @@ export default function PsychosomaticWhat() {
         </div>
         <div className="border-t border-stone-100 pt-3">
           <p className="font-medium text-stone-700 mb-1">自律神経失調症</p>
-          <p className="text-stone-600 leading-[1.9]">だるさ・動悸・めまいなど、自律神経の乱れによるとされる不調をまとめた呼び方。よく使われますが、国際的な診断基準にある正式な病名ではありません。</p>
+          <p className="text-stone-600 leading-[1.9]">だるさ・動悸・めまいなど、自律神経の乱れによるとされる不調をまとめた呼び方。よく使われますが、国際的な診断基準にある正式な病名ではありません(<Link to="/articles/autonomic-dysfunction" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自律神経失調症とは</Link>)。</p>
         </div>
         <div className="border-t border-stone-100 pt-3">
           <p className="font-medium text-stone-700 mb-1">身体症状症</p>
@@ -235,6 +235,7 @@ export default function PsychosomaticWhat() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">ストレスが体に出るしくみ</p>
         <ul className="space-y-1.5 text-stone-600">
+          <li>・<Link to="/articles/autonomic-dysfunction" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自律神経失調症とは——支援職がまず確かめたいこと</Link></li>
           <li>・<Link to="/articles/helper-self-neglect" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のセルフネグレクト——自分の不調を後回しにし続ける心理</Link></li>
           <li>・<Link to="/articles/body-stays-tense" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">なぜ休んでも緊張が抜けないのか</Link></li>
           <li>・<Link to="/articles/always-tense" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">常に気が張っている</Link></li>
