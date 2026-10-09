@@ -255,6 +255,11 @@ export default function GlobusSensation() {
         </p>
       </div>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">ストレスが体のどこに出ているか、20項目で確認できます。</p>
+        <Link to="/articles/psychosomatic-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ ストレスによる体の症状チェック(20項目・3分)</Link>
+      </div>
+
       <h2>よくある質問</h2>
       <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (
