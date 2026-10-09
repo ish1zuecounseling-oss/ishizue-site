@@ -75,6 +75,16 @@ export default function SelfFunctionWhat() {
         逆に消耗・喪失すると「自分がわからない」「止まれない」「感情が麻痺する」という状態が起きます。
       </p>
 
+      <div className="p-4 rounded-xl my-5" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          自分の自己機能が今どのくらい保たれているか——感じる・望む・選ぶ・気づくの4つの働きから確かめられます。
+        </p>
+        <Link to="/articles/self-function-check"
+          className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
+          → 自己機能チェック(20項目・約3分)で確かめる
+        </Link>
+      </div>
+
       <h2>なぜ「自分」を失うのか——自己機能が消耗する仕組み</h2>
 
       <div className="card">
