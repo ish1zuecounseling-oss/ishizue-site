@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { trackCheckComplete } from "../../lib/analytics"
+
+const CHECK_NAME = "self-value-check"
 
 type Axis = "competence" | "needed" | "sacrifice" | "harmless"
 
@@ -194,6 +199,14 @@ export function SelfValueWidget() {
   const primary = topAxes[0]
   const q       = QUESTIONS[currentQ]
 
+  // 結果画面に到達した1回だけ計測する(level にはいちばん強い条件の軸を入れる)
+  useEffect(() => {
+    if (step !== "result" || !primary) return
+    const total = scores.competence + scores.needed + scores.sacrifice + scores.harmless
+    trackCheckComplete(CHECK_NAME, total, primary, QUESTIONS.length * 5)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step])
+
   return (
     <div style={{
       background: "linear-gradient(160deg, #1e2a3a 0%, #1a2332 60%, #162030 100%)",
@@ -203,7 +216,7 @@ export function SelfValueWidget() {
       {step === "welcome" && (
         <div style={{ textAlign: "center" as const }}>
           <p style={{ fontSize: "11px", color: "#7EB8A4", letterSpacing: "0.15em", marginBottom: "12px", fontWeight: 600 }}>
-            いしずえ版 自己価値の置き場所診断
+            いしずえ版 条件付き自己価値チェック
           </p>
           <h2 style={{ fontSize: "clamp(17px,4vw,22px)", fontWeight: 400, lineHeight: 1.75,
             color: "#f1f5f9", marginBottom: "14px", fontFamily: "'Noto Serif JP', serif" }}>
@@ -381,33 +394,59 @@ export function SelfValueWidget() {
   )
 }
 
+const FAQ_ITEMS = [
+  {
+    q: "条件付き自己価値とは何ですか?",
+    a: "「役に立っているときだけ」「成果を出しているときだけ」「迷惑をかけていないときだけ」自分には価値がある、と感じる心の状態です。心理学者カール・ロジャースが「価値の条件(conditions of worth)」として示し、その後ジェニファー・クロッカーらが「随伴的自己価値(contingent self-worth)」として研究してきました。条件を満たしている間は安心できても、満たせないときに自己価値が一気に揺らぐため、慢性的な不安と消耗につながります。",
+  },
+  {
+    q: "このチェックでは何がわかりますか?",
+    a: "あなたが自分に課している条件のうち、どれをいちばん強く握りしめているかがわかります。有能さ(成果・能力)、必要とされること(感謝・承認)、自己犠牲(苦労・我慢)、無害と正しさ(迷惑をかけない)の4軸24問に5段階で答えると、いちばん強い条件のタイプと、4軸のバランスが表示されます。所要時間は約5分です。",
+  },
+  {
+    q: "どの軸のスコアが高いと注意が必要ですか?",
+    a: "どの軸が高いかに良し悪しはありません。大切なのは、いちばん高い軸が「その条件を満たせないとき、自分がどう感じるか」を教えてくれる点です。たとえば有能さの軸が高い人は休むことに、必要とされる軸が高い人は頼られないことに、強い不安を感じやすくなります。",
+  },
+  {
+    q: "条件付き自己価値は、変えられますか?",
+    a: "変えられます。ただし「条件を持たないようにしよう」と頭で決めても変わりにくく、まず自分がどの条件で動いているかに気づくこと、そして条件を満たしていない自分でも受け入れられる体験を積み重ねることで、少しずつ緩んでいきます。回復への具体的な道筋は「自分の価値がわからない(条件付き自己価値)」の記事でくわしく解説しています。",
+  },
+  {
+    q: "このチェックは診断として使えますか?",
+    a: "このチェックは自分の傾向に気づくための簡易的なツールで、医学的・心理学的な診断ではありません。結果に関わらず、気になることがあれば専門家への相談をおすすめします。",
+  },
+]
+
 export default function SelfValueCheck() {
   return (
     <ArticleLayout
-      title="自己価値の置き場所診断｜あなたの「存在許可証」を可視化する"
-      description="「何者かにならないと不安」「役に立たないと罪悪感」——あなたが無意識に自分に課している存在条件を、4軸24問で可視化します。公認心理師監修。"
+      title="条件付き自己価値チェック24問｜あなたの「存在許可証」と自己価値の置き場所を診断【公認心理師監修】"
+      description="「役に立たないと価値がない」「何者かにならないと不安」——あなたが自分に課している条件付き自己価値を、有能さ・必要とされること・自己犠牲・無害と正しさの4軸24問で無料チェック。いちばん強い条件と、手放していく方向を公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/self-value-check"
       date="2026-04-17"
-      tags={["burnout", "boundary", "check", "compassion"]}
+      tags={["self-function", "burnout", "check", "compassion"]}
+      faq={FAQ_ITEMS}
     >
       <p>
-        「何者かにならないと不安になる」「誰かの役に立たないと罪悪感がある」——
-        こうした感覚の根底には、私たちが無意識に自分に課している
-        <strong>「ここにいてもいい」という条件</strong>が存在しています。
+        「役に立っていないと、ここにいてはいけない気がする」
+        「何者かにならないと不安になる」——
+        その感覚は性格ではなく、<strong>条件付き自己価値</strong>という心の構造から来ています。
+        「この条件を満たしているときだけ、自分には価値がある」という、無意識の<strong>存在許可証</strong>です。
       </p>
       <p>
-        このチェックでは、有能さ・必要とされること・自己犠牲・無害と正しさの4軸から、
-        あなたが今最も強く握りしめている「存在の条件」を可視化します。
+        このチェックでは、有能さ・必要とされること・自己犠牲・無害と正しさの4軸24問から、
+        あなたが今いちばん強く握りしめている条件を見える形にします。まずは下の診断で、自分の条件を確かめてみてください。
       </p>
 
       <SelfValueWidget />
 
-      <h2>「存在許可証」とは</h2>
+      <h2>条件付き自己価値と「存在許可証」</h2>
       <div className="card">
         <p className="text-sm text-stone-600 leading-[1.9]">
-          心理学では「条件付き自己価値（Contingent Self-Worth）」と呼ばれる概念があります。
-          これは「〇〇でなければ自分には価値がない」という思い込みのことです。
+          条件付き自己価値(conditions of worth / contingent self-worth)とは、
+          「〇〇でなければ自分には価値がない」という思い込みのことです。
           この条件が強いほど、その条件を満たすことに必死になり、満たせないときに強い苦痛を感じます。
+          このチェックでは、その条件を「ここにいてもいい」と自分に出している<strong>存在許可証</strong>と呼んでいます。
           まず「自分はどんな条件を自分に課しているか」に気づくことが、変化の出発点です。
         </p>
       </div>
@@ -416,10 +455,42 @@ export default function SelfValueCheck() {
         あなたがこれまで生き抜くために身につけてきたパターンです。
         気づくことで、少しずつ手放す選択ができるようになります。
       </p>
+      <p>
+        条件付き自己価値がどうやって形づくられ、どう緩めていけるのか——その全体像は
+        <Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「自分の価値がわからない(条件付き自己価値)」</Link>
+        でくわしく解説しています。
+      </p>
+
+      <div className="p-4 rounded-xl my-5" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          条件を握りしめて役割を優先し続けると、<strong>自分を「感じる・望む・選ぶ」働き(自己機能)</strong>が少しずつ縮んでいきます。
+        </p>
+        <Link to="/articles/self-function-check"
+          className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
+          → 自己機能チェック(20項目)——あわせて確認する
+        </Link>
+      </div>
+
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
+      </div>
+
       <p className="check-disclaimer">
         このチェックは簡易的な自己理解ツールであり、心理的な診断ではありません。
         気になることがあれば専門家への相談をおすすめします。
       </p>
+
+      <ArticleFooterLinks type="self-function" exclude={["/articles/self-value-check"]} />
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        この記事は、こころの相談室 いしずえ(公認心理師・松本 龍児)が執筆しています。
+      </div>
     </ArticleLayout>
   )
 }
