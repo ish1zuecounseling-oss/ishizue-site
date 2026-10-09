@@ -260,6 +260,8 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   ],
 
   selfFunction: [
+    { href: "/articles/self-function-check",          text: "自己機能チェック（20項目）" },
+    { href: "/articles/self-value-check",             text: "条件付き自己価値チェック（24問）" },
     { href: "/articles/impostor-syndrome",            text: "インポスター症候群とは（自信がない・バレる恐れ）" },
     { href: "/articles/impostor-check-20",            text: "インポスター症候群チェック（20項目）" },
     { href: "/articles/self-function-what",           text: "自己機能とは何か（ピラー）" },
