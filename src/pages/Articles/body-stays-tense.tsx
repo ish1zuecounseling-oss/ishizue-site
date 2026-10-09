@@ -220,6 +220,13 @@ export default function BodyStaysTense() {
         </p>
       </div>
 
+      <p className="text-sm text-stone-600 leading-[1.9]">
+        警戒モードが長く続くと、緊張は喉の違和感・胃腸の不調・頭痛など、体の症状として表れることがあります。
+        ストレスが体に出るしくみと受診の順番は
+        <Link to="/articles/psychosomatic-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">心身症とは</Link>
+        で整理しています。
+      </p>
+
       <h2>まとめ</h2>
       <ul className="space-y-2">
         <li>体には「安心・警戒・凍りつき」の3つのモードがある(多重迷走神経理論)</li>
