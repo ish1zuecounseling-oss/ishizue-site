@@ -126,7 +126,7 @@ export default function BurnoutWhichClinic() {
         <div>
           <p className="font-medium text-stone-700 mb-1">心療内科</p>
           <p className="text-stone-600 leading-[1.9]">
-            <strong>「ストレスからくる身体症状」</strong>を主に扱う科です。胃潰瘍・過敏性腸症候群・緊張型頭痛・自律神経失調症・心身症など、ストレスが身体に出ている状態を治療します。「心」よりも「体の症状」が前面に出ている方に向いています。
+            <strong>「ストレスからくる身体症状」</strong>を主に扱う科です。胃潰瘍・過敏性腸症候群・緊張型頭痛・自律神経失調症・<Link to="/articles/psychosomatic-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">心身症</Link>など、ストレスが身体に出ている状態を治療します。「心」よりも「体の症状」が前面に出ている方に向いています。
           </p>
         </div>
         <div className="border-t border-stone-100 pt-3">
