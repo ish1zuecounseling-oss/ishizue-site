@@ -219,6 +219,7 @@ export default function SelfValueUnknown() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           「役に立てていない時間=価値がない時間」と感じるため、休むこと自体に罪悪感を覚えます。
           休んでもリラックスできず、休みながら「もっと何かすべき」と焦り続けます。
+          これが続くと、受診や休息そのものを後回しにする状態(<Link to="/articles/helper-self-neglect" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のセルフネグレクト</Link>)につながります。
         </p>
       </div>
 
