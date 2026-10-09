@@ -44,6 +44,15 @@
           "value": "noindex, nofollow"
         }
       ]
+    },
+    {
+      "source": "/(.*)\\.pdf",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ]
 }
