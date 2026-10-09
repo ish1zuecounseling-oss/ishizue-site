@@ -46,6 +46,16 @@ export default function SelfFunctionDecline() {
         <p className="text-xs text-stone-400 mt-2">これらは性格や意志の問題ではなく、自己機能が消耗した状態から起きています。</p>
       </div>
 
+      <div className="p-4 rounded-xl my-5" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          まず、自分の自己機能がどのくらい縮んでいるかを確かめたい方へ。感じる・望む・選ぶ・気づくの4つの働きから、弱っている機能がわかります。
+        </p>
+        <Link to="/articles/self-function-check"
+          className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
+          → 自己機能チェック(20項目・約3分)で確かめる
+        </Link>
+      </div>
+
       <h2>症状別：詳しく見る</h2>
 
       {/* 症状1 */}
