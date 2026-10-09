@@ -187,12 +187,24 @@ export default function SelfValueUnknown() {
 
       <p className="text-sm text-stone-500">
         自己機能の状態 → <Link to="/articles/self-function-decline" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能が低下するとどうなるか</Link>
+        ／ <Link to="/articles/self-function-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能チェック(20項目)</Link>
       </p>
 
       <h2>条件付き自己価値の典型サイン</h2>
       <p>
         以下のような反応が頻繁に出る場合、条件付き自己価値が強く作動している可能性があります。
       </p>
+
+      <div className="p-4 rounded-xl my-4" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          自分がどの条件を握りしめているかは、チェックで確かめられます。
+          有能さ・必要とされること・自己犠牲・無害と正しさの4軸から、いちばん強い条件がわかります。
+        </p>
+        <Link to="/articles/self-value-check"
+          className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">
+          → 条件付き自己価値チェック(24問・約5分)
+        </Link>
+      </div>
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">① 褒められても受け取れない</p>
@@ -366,6 +378,11 @@ export default function SelfValueUnknown() {
           <li>・<Link to="/articles/afraid-to-leave-role" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">役割を降りるのが怖い</Link></li>
           <li>・<Link to="/articles/exhausted-by-being-nice" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">優しい人が壊れる</Link></li>
           <li>・<Link to="/articles/overthinking-needs-sensation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">考えすぎる人に必要なのは感覚</Link></li>
+        </ul>
+        <p className="font-medium text-stone-700 mb-2 mt-4">セルフチェック</p>
+        <ul className="space-y-1.5 text-stone-600">
+          <li>・<Link to="/articles/self-value-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">条件付き自己価値チェック(24問)</Link></li>
+          <li>・<Link to="/articles/self-function-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能チェック(20項目)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">回復への道筋</p>
         <ul className="space-y-1.5 text-stone-600">
