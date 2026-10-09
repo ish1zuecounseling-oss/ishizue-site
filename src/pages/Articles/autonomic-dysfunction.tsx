@@ -215,6 +215,9 @@ export default function AutonomicDysfunction() {
         <p className="font-medium text-stone-700 mb-2">ストレスが体に出るしくみ</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/psychosomatic-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">心身症とは——ストレスが体に出るしくみ</Link></li>
+          <li>・<Link to="/articles/ibs-stress" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">過敏性腸症候群とストレス</Link></li>
+          <li>・<Link to="/articles/tension-headache" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">緊張型頭痛とストレス</Link></li>
+          <li>・<Link to="/articles/globus-sensation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">咽喉頭異常感症とストレス</Link></li>
           <li>・<Link to="/articles/body-stays-tense" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">なぜ休んでも緊張が抜けないのか</Link></li>
           <li>・<Link to="/articles/helper-self-neglect" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のセルフネグレクト</Link></li>
           <li>・<Link to="/articles/always-tense" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">常に気が張っている</Link></li>
