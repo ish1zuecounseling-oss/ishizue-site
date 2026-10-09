@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 // 設定
 const SITE_URL = "https://www.ishizue-counseling.jp";
 const SITE_NAME = "こころの相談室 いしずえ";
-const OGP_IMAGE = SITE_URL + "/ogp.jpg";
+const OGP_IMAGE = SITE_URL + "/ogp.png"; // public/ogp.png に合わせる(ogp.jpg は存在しない)
 const DIST_DIR = join(__dirname, "..", "dist");
 const TEMPLATE_PATH = join(DIST_DIR, "index.html");
 
