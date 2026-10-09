@@ -1059,7 +1059,7 @@ export default function Articles() {
             {/* ============ すべて見る ============ */}
             {!searchQuery.trim() && activeTab === "all" && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2">
-                {articles.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
+                {sortedByNew.map((a) => <ArticleCard key={a.path} article={a} showNew />)}
               </motion.div>
             )}
 
