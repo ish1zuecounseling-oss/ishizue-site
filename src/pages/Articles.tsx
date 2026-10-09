@@ -60,6 +60,7 @@ const STARTER_PATHS = [
 /*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/self-function-check",
   "/articles/quit-job-how-to-tell-boss",
   "/articles/quit-job-not-quit",
   "/articles/quit-job-timing",
@@ -259,7 +260,8 @@ function getCategoryForArticle(path: string): Category {
 }
 
 const TOOLS = [
-  { path: "/articles/self-value-check",            title: "自己価値の置き場所診断｜あなたの「存在許可証」を可視化する",                          desc: "「何者かにならないと不安」「役に立たないと罪悪感」——あなたが自分に課している存在の条件を4軸24問で可視化。",              tag: "4軸・24問",       color: "#f59e0b" },
+  { path: "/articles/self-value-check",            title: "条件付き自己価値チェック｜あなたの「存在許可証」を可視化する",                        desc: "「役に立たないと価値がない」「何者かにならないと不安」——あなたが自分に課している条件を4軸24問で可視化。",              tag: "4軸・24問",       color: "#f59e0b" },
+  { path: "/articles/self-function-check",         title: "自己機能チェック｜「感じる・望む・選ぶ・気づく」の状態を確認",                        desc: "「自分が何を感じているかわからない」「何がしたいかわからない」——4つの働きを20項目で確認し、弱っている機能がわかります。",  tag: "4機能・20問",     color: "#7EB8A4" },
   { path: "/articles/big-five-check",              title: "ビッグファイブ診断｜あなたの「消耗パターン」を知る",                                  desc: "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",    tag: "5因子・10問",     color: "#c084fc" },
   { path: "/articles/helper-status-check",         title: "支援職のための現在地チェック",                                                        desc: "感情・抱え込み・職場・体の4軸12項目でトグル式に確認。今の自分の状態をそっと言語化できます。",                      tag: "4軸・12問",       color: "#7EB8A4" },
   { path: "/articles/helper-boundary-board",       title: "境界線・脱フュージョンボード",                                                        desc: "感情の巻き込まれ度と自責・罪悪感をスライダーで調整。ベン図で境界線の状態をリアルタイム可視化。",                    tag: "スライダー式",     color: "#c084fc" },
@@ -328,7 +330,7 @@ const THEME_LAYERS: ThemeLayer[] = [
       },
       {
         label: "心理パターンのチェック",
-        keywords: ["impostor-check", "attachment-check", "thinking-check", "boundary-check", "self-compassion-check", "self-value-check", "abandonment-anxiety-check", "other-axis-check", "values-mismatch-check"],
+        keywords: ["impostor-check", "attachment-check", "thinking-check", "boundary-check", "self-compassion-check", "self-value-check", "self-function-check", "abandonment-anxiety-check", "other-axis-check", "values-mismatch-check"],
       },
       {
         label: "状況・適性のチェック",
