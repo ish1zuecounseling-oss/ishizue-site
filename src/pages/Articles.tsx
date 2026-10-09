@@ -60,6 +60,7 @@ const STARTER_PATHS = [
 /*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/autonomic-dysfunction",
   "/articles/psychosomatic-what",
   "/articles/helper-self-neglect",
   "/articles/self-function-check",
