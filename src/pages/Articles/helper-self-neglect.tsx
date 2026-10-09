@@ -167,7 +167,7 @@ export default function HelperSelfNeglect() {
         <p>・動悸や息苦しさ</p>
       </div>
       <p>
-        体の病気のうち、発症や経過にストレスなどの心理社会的な要因が深く関わるものは<strong>心身症</strong>と呼ばれます。
+        体の病気のうち、発症や経過にストレスなどの心理社会的な要因が深く関わるものは<strong><Link to="/articles/psychosomatic-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">心身症</Link></strong>と呼ばれます。
         心身症は「気のせい」ではなく、実際に体に起きている不調です。
         同時に、これらの症状は体の病気が原因で起きることもあるため、
         <strong>まず医療機関で体の病気がないかを確かめる</strong>ことが出発点になります。
@@ -233,6 +233,7 @@ export default function HelperSelfNeglect() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">構造を理解する</p>
         <ul className="space-y-1.5 text-stone-600">
+          <li>・<Link to="/articles/psychosomatic-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">心身症とは——ストレスが体に出るしくみ</Link></li>
           <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない(条件付き自己価値・根っこ)</Link></li>
           <li>・<Link to="/articles/why-support-workers-cannot-ask-for-help" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職が助けを求められない理由</Link></li>
           <li>・<Link to="/articles/body-stays-tense" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">なぜ休んでも緊張が抜けないのか</Link></li>
