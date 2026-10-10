@@ -8,7 +8,7 @@
     "generate:articles": "tsx scripts/generateArticles.ts",
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
     "generate:static-html": "tsx scripts/generateStaticHtml.ts",
-    "build": "npm run generate:articles && npm run generate:sitemap && vite build && npm run generate:static-html",
+    "build": "npm run generate:articles && npm run generate:sitemap && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server && npm run generate:static-html",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
