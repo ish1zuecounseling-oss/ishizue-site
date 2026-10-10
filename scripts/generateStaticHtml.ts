@@ -43,6 +43,11 @@ function prerender(html: string, path: string, useHelmetHead = false): string {
     console.warn("⚠️ プリレンダリング失敗(本文なしで出力): " + path + " — " + (error as Error).message);
     return html;
   }
+  // ルートが見つからず 404 ページになった場合は、本文を入れない(URL とファイル名の食い違いなど)
+  if (out.html.includes("ページが見つかりません")) {
+    console.warn("⚠️ 404 として描画されたため本文なしで出力: " + path);
+    return html;
+  }
   if (useHelmetHead && out.head) {
     // テンプレートの既定 title / description / canonical を、そのページの Helmet の内容に置き換える
     html = html
@@ -61,7 +66,7 @@ function prerender(html: string, path: string, useHelmetHead = false): string {
 }
 
 // 記事以外でプリレンダリングするページ(title / description / canonical は各ページの Helmet から取る)
-const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers"];
+const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers", "/articles/about-matsumoto"];
 
 // 記事データ型
 interface Article {
