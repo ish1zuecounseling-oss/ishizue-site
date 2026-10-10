@@ -14,7 +14,7 @@ export const pillarMap: Record<string, string[]> = {
   /** 共感疲労クラスター */
   compassion: [
     "/articles/helper-empathy-check",        // 共感疲労セルフチェック
-    "/articles/helper-empathy-fatigue",      // 共感疲労とは
+    "/articles/compassion-fatigue-complete", // 共感疲労とは(統合先)
     "/articles/compassion-fatigue-coping",   // 共感疲労の対処法
   ],
 
