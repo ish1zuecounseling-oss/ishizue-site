@@ -157,6 +157,35 @@ function SafeImg({ src, alt, className, fallbackBg = "bg-stone-200", ...rest }: 
   );
 }
 
+const PROFILE_FAQ = [
+  {
+    q: "松本龍児はどんな専門家ですか?",
+    a: "公認心理師(国家資格)です。障害福祉分野での相談支援業務15年・累計300名以上6,000時間以上の支援経験があります。支援職(看護師・介護士・福祉職・教員・スクールカウンセラーなど)の燃え尽き・共感疲労・感情労働・インポスター症候群に特化したカウンセリングを提供しています。",
+  },
+  {
+    q: "どんなカウンセリングを提供していますか?",
+    a: "「構造整理型カウンセリング」という方法を用います。感情への共感だけで終わらせず、なぜ消耗するのかを構造から整理します。認知行動療法(CBT)・ACT・動機づけ面接・BPSモデル・トラウマインフォームドケア・セルフコンパッションを統合的に活用します。",
+  },
+  {
+    q: "こころの相談室いしずえとは何ですか?",
+    a: "松本龍児が運営するオンラインカウンセリングの相談室です。対人援助職(支援職)の燃え尽き・共感疲労・自己機能の消耗に特化したカウンセリングと心理教育コンテンツを提供しています。",
+  },
+  {
+    q: "どこで相談できますか?",
+    a: "オンライン完結(Google Meet)です。全国どこからでもご利用いただけます。初回メール相談は無料です。",
+  },
+]
+
+const profileFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": PROFILE_FAQ.map(({ q, a }) => ({
+    "@type": "Question",
+    "name": q,
+    "acceptedAnswer": { "@type": "Answer", "text": a },
+  })),
+}
+
 export default function Profile() {
   const profilePageSchema = {
     "@context": "https://schema.org",
@@ -173,7 +202,6 @@ export default function Profile() {
         "https://x.com/ish1zue",
         "https://www.instagram.com/ishizue_counseling/",
         "https://note.com/ryuji_ishizue",
-        "https://www.ishizue-counseling.jp/articles/about-matsumoto",
       ],
       "worksFor": {
         "@type": "ProfessionalService",
@@ -226,6 +254,7 @@ export default function Profile() {
         <meta name="twitter:description" content="支援職の燃え尽き・共感疲労を構造から整理する公認心理師。" />
         <meta name="twitter:image" content="https://www.ishizue-counseling.jp/profile.jpg" />
         <script type="application/ld+json">{JSON.stringify(profilePageSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(profileFaqSchema)}</script>
       </Helmet>
 
       <div className="bg-white min-h-screen text-stone-800">
@@ -537,6 +566,23 @@ export default function Profile() {
                 </div>
               </motion.div>
             </motion.div>
+          </div>
+        </section>
+
+        {/* FAQ(旧 /articles/about-matsumoto の内容を統合) */}
+        <section className="py-16 md:py-20 px-5 md:px-6 bg-stone-50">
+          <div className="max-w-xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-light text-stone-800 mb-8 text-center" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              よくある質問
+            </h2>
+            <div className="space-y-4">
+              {PROFILE_FAQ.map((item) => (
+                <div key={item.q} className="bg-white border border-stone-100 rounded-2xl p-5">
+                  <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+                  <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
