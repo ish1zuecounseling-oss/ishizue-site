@@ -100,6 +100,11 @@ export default function MessiahComplex() {
         </ul>
       </div>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">自分にどのくらい当てはまるか、4つの傾向・20項目で確かめられます。</p>
+        <Link to="/articles/messiah-complex-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ メサイアコンプレックス診断(20項目・3分)</Link>
+      </div>
+
       <h2>なぜ「救いたい」が止まらなくなるのか——形成の構造</h2>
       <p>
         メサイアコンプレックスは、生まれつきの性格ではありません。
@@ -219,6 +224,11 @@ export default function MessiahComplex() {
         一人で組み替えるのが難しいことも多いものです。
         その場合は、カウンセリングで「自分の援助動機の歴史」を一緒に整理することが、確かな近道になります。
       </p>
+
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">自分にどのくらい当てはまるか、4つの傾向・20項目で確かめられます。</p>
+        <Link to="/articles/messiah-complex-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ メサイアコンプレックス診断(20項目・3分)</Link>
+      </div>
 
       <h2>よくある質問</h2>
       <div className="space-y-4">
