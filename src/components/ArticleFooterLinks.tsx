@@ -101,7 +101,7 @@ const BRANCH_NAV: Partial<Record<TypeKey, BranchNav>> = {
           { label: "人と話すと疲れる → なぜ？",                  desc: "対人関係機能の過活動",               href: "/articles/communication-fatigue" },
           { label: "仕事で演技して疲れる → どうすれば？",         desc: "感情労働・他人軸の構造",             href: "/articles/acting-fatigue" },
           { label: "休んでも回復しない → 次の一手は？",           desc: "消耗の種類別の回復方法",             href: "/articles/why-self-care-doesnt-work" },
-          { label: "辞めるべきか整理したい",                      desc: "判断の軸を外から整理する",           href: "/articles/quit-job-counseling", isCv: true },
+          { label: "辞めるべきか整理したい",                      desc: "判断の軸を外から整理する",           href: "/articles/helper-counseling-when-quitting", isCv: true },
         ],
       },
       {
@@ -226,7 +226,7 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   symptoms: [
     { href: "/articles/helper-client-stuck-in-head",    text: "利用者の話が頭から離れない" },
     { href: "/articles/helper-emotional-numbness",      text: "感情が麻痺している" },
-    { href: "/articles/helper-cannot-sleep",            text: "仕事のことが頭から離れず眠れない" },
+    { href: "/articles/cannot-sleep-thinking-work",     text: "仕事のことが頭から離れず眠れない" },
     { href: "/articles/helper-cannot-rest-on-days-off", text: "休日も休まらない" },
     { href: "/articles/helper-irritated-at-client",     text: "利用者にイライラしてしまう" },
     { href: "/articles/helper-cannot-say-no",           text: "断れない・NOと言えない" },
@@ -237,8 +237,8 @@ const CLUSTERS: Record<string, LinkItem[]> = {
     { href: "/articles/helper-self-blame",              text: "「自分のせいだ」が止まらない" },
     { href: "/articles/helper-guilt-about-suffering",   text: "もっとできたはずという罪悪感" },
     { href: "/articles/helper-aptitude-doubt",          text: "支援職に向いていないと感じる" },
-    { href: "/articles/helper-want-to-quit",            text: "支援職を辞めたい" },
-    { href: "/articles/helper-consider-leave",          text: "休職したくなる" },
+    { href: "/articles/helper-want-to-quit-landing",    text: "支援職を辞めたい" },
+    { href: "/articles/helper-leave-of-absence-hesitation", text: "休職するか迷う" },
   ],
 
   concepts: [
