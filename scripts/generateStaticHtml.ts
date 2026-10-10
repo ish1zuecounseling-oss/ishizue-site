@@ -66,7 +66,7 @@ function prerender(html: string, path: string, useHelmetHead = false): string {
 }
 
 // 記事以外でプリレンダリングするページ(title / description / canonical は各ページの Helmet から取る)
-const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers", "/articles/about-matsumoto"];
+const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers"];
 
 // 記事データ型
 interface Article {
