@@ -39,8 +39,9 @@ export const pillarMap: Record<string, string[]> = {
 
   /** 二次受傷クラスター */
   secondary_trauma: [
-    "/articles/helper-secondary-trauma",     // 二次受傷とは
-    "/articles/secondary-trauma-coping",     // 二次受傷の対処法
+    "/articles/secondary-trauma-check",              // 二次受傷チェック
+    "/articles/empathy-fatigue-vs-secondary-trauma", // 二次受傷とは(統合先)
+    "/articles/secondary-trauma-coping",             // 二次受傷の対処法
   ],
 
   /** 境界線クラスター */
