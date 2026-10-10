@@ -6,7 +6,7 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 export default function FeelingNothing() {
   return (
     <ArticleLayout
-      title="何も感じない・感情が動かない｜空虚感の原因と感覚を取り戻す方法"
+      title="何も感じない・感情が動かない原因｜感情麻痺のしくみと、感覚を取り戻す方法【公認心理師】"
       description="「楽しいはずなのに楽しめない」「何も感じられない」——これは冷たさではなく自己機能の消耗サインです。なぜ起きるのか・どう取り戻すかを解説します。"
       url="https://www.ishizue-counseling.jp/articles/feeling-nothing"
       date="2026-05-03"
@@ -75,6 +75,12 @@ export default function FeelingNothing() {
       </p>
 
       <LineCtaImpostor />
+
+      <p className="text-sm text-stone-600">
+        感情が動かないことより、「心が空っぽで、何をしても満たされない」感覚のほうが近い場合は、
+        <Link to="/articles/existential-emptiness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">空虚感とは——心が空っぽな感じが続く状態</Link>
+        もあわせて読んでみてください。
+      </p>
 
       <h2>感覚・感情を取り戻すために</h2>
       <p>
