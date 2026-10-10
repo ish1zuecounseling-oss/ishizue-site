@@ -1,6 +1,31 @@
 {
   "redirects": [
     {
+      "source": "/articles/quit-job-counseling",
+      "destination": "/articles/helper-counseling-when-quitting",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-want-to-quit",
+      "destination": "/articles/helper-want-to-quit-landing",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-consider-leave",
+      "destination": "/articles/helper-leave-of-absence-hesitation",
+      "permanent": true
+    },
+    {
+      "source": "/articles/quit-job-fear-retention",
+      "destination": "/articles/quit-job-cannot-say",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-cannot-sleep",
+      "destination": "/articles/cannot-sleep-thinking-work",
+      "permanent": true
+    },
+    {
       "source": "/articles/helper-empathy-fatigue",
       "destination": "/articles/compassion-fatigue-complete",
       "permanent": true
