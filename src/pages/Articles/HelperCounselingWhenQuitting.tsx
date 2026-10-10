@@ -1,68 +1,230 @@
 import ArticleLayout from "../../components/ArticleLayout"
-export default function HelperCounselingWhenQuitting() {
+import { Link } from "react-router-dom"
+import { LineCtaQuit } from "../../components/LineCta"
+import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+
+const FAQ_ITEMS = [
+  {
+    q: "仕事を辞める前にカウンセリングは必要ですか？",
+    a: "必須ではありませんが、「辞めるかどうか判断できない」「感情が整理できない」状態であれば有効です。結論を急ぐ前に状況を整理することで、後悔の少ない選択につながります。",
+  },
+  {
+    q: "相談したら辞める方向に勧められますか？",
+    a: "一方的に方向を決められることはありません。カウンセリングは「辞める・続ける」を決める場ではなく、自分にとって納得できる選択を整理する場です。",
+  },
+  {
+    q: "1回だけでも意味はありますか？",
+    a: "あります。1回の対話でも思考や感情が整理され、「何に迷っているのか」「どこが限界なのか」が明確になることがあります。",
+  },
+  {
+    q: "仕事を辞めるタイミングはいつが正しいですか？",
+    a: "「辞めるタイミングがわからない」という状態そのものが、消耗のサインであることが多いです。明確な正解はありませんが、「判断できなくなっている」「感情がよくわからない」「休んでも回復しない」という状態が続いている場合は、判断の前に消耗を回復させることが先決です。",
+  },
+  {
+    q: "支援職（看護師・介護士・社会福祉士）でカウンセリングを受けるのは甘えですか？",
+    a: "甘えではありません。支援職は「感情労働」「共感疲労」という構造的な消耗が起きやすい職業です。消耗が深まると判断力が落ち、一人で考え続けてもループするだけになります。外から整理することは、弱さではなく合理的な選択です。",
+  },
+]
+
+export default function QuitJobCounseling() {
   return (
     <ArticleLayout
-      title="仕事を辞めたいときにカウンセリングは役に立つのか｜支援職が「限界」を感じたときの選択肢"
-      description="「辞めたい」という気持ちを一人で抱えていませんか。カウンセリングが「答えを出す場所」ではなく「気持ちを整理する場所」として機能する理由を整理します。"
+      title="仕事を辞めたいときカウンセリングは役に立つ？必要？支援職の限界サイン3段階と相談するタイミング【公認心理師監修】"
+      description="「辞めたいけど決めきれない」「誰にも言えない」——看護師・介護士・社会福祉士など支援職の方へ。一人で抱えて動けなくなっているなら整理するタイミングかもしれません。限界サイン3段階・判断フロー・相談で変わることを公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/helper-counseling-when-quitting"
-      date="2026-03-29"
-      audio="/audio/helper-counseling-when-quitting.mp3"
+      date="2026-05-09"
+      tags={["burnout", "compassion", "boundary"]}
+      faq={FAQ_ITEMS}
     >
+      <p className="text-stone-600 text-sm leading-relaxed mb-2 pl-4 border-l-2 border-stone-200">
+        「辞めたい」のに決めきれないとき、すでに一人で抱えきれない状態かもしれません。
+      </p>
+
       <p>
-        仕事を辞めたいと感じているとき、カウンセリングは「その気持ちを整理し、自分にとって本当に必要な
-        選択を見つけるための場所」として活用できます。カウンセリングは「辞めるべきか・続けるべきか」の
-        答えを出してくれる場所ではありませんが、消耗した状態では見えにくくなっている自分の気持ちや状況を、
-        少しずつ整理していく助けになります。
+        「もう無理かもしれない」と思う一方で、本当に辞めていいのかわからない。
+        誰かに相談したいけれど、こんなことで相談していいのか迷う——
       </p>
       <p>
-        支援職の方から、こんな言葉を聞くことがあります。
+        そんな状態が続いているとしたら、
+        それは<strong>判断力が落ちるほど消耗しているサイン</strong>かもしれません。
       </p>
-      <div className="card space-y-2">
-        <p>「仕事を辞めたいのに、誰に話せばいいかわからない」</p>
-        <p>「カウンセリングに行こうかと思ったけど、この程度で行っていいのか迷っている」</p>
-        <p>「辞めたいのか、ただ休みたいだけなのか、自分でもよくわからない」</p>
+
+      {/* セルフチェック誘導ブロック */}
+      <div className="my-5 p-4 rounded-2xl border border-stone-200 bg-stone-50/60">
+        <p className="text-[11px] text-stone-500 mb-1.5 tracking-wide">まず30秒で自分の状態を確認</p>
+        <p className="text-sm font-medium text-stone-800 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          今、自分がどの段階にいるかわからない方へ
+        </p>
+        <p className="text-xs text-stone-600 leading-relaxed mb-3">
+          「辞めるかどうか」を考える前に、消耗の深さを確認するセルフチェックがあります。記事を読み進める前にチェックしておくと、自分にとって必要な情報を整理しやすくなります。
+        </p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Link
+            to="/articles/helper-empathy-check"
+            className="flex-1 text-center py-2 px-3 rounded-xl text-xs font-medium bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 no-underline"
+          >
+            共感疲労チェック（20項目）→
+          </Link>
+          <Link
+            to="/articles/helper-burnout-check"
+            className="flex-1 text-center py-2 px-3 rounded-xl text-xs font-medium bg-white border border-stone-200 text-stone-700 hover:bg-stone-100 no-underline"
+          >
+            バーンアウト診断 →
+          </Link>
+        </div>
       </div>
 
-      <h2>カウンセリングとは何か：定義と背景</h2>
+      <h2>「仕事を辞めたい」は異常ではない</h2>
       <p>
-        カウンセリングとは、訓練を受けた専門家（カウンセラー）との対話を通じて、自分の気持ち・考え・
-        行動パターンを整理し、自己理解を深めていくプロセスのことです。問題を「解決する」場所というより、
-        「一緒に考える」場所として理解するのが近いかもしれません。
+        まず前提として、「辞めたい」と感じること自体は問題ではありません。
+        それは弱さではなく、<strong>限界に近づいていることを知らせるサイン</strong>です。
       </p>
       <p>
-        仕事を辞めたいという気持ちが生まれるとき、その背景には複数の要因が絡み合っていることがほとんどです。
-        職場環境の問題・人間関係のストレス・慢性的な疲弊・自分の価値観との齟齬など、それらを一人で整理
-        しようとすると、消耗した頭の中では「辞めるしかない」か「続けるしかない」という二択に追い詰められ
-        やすくなります。カウンセリングは、この二択の外側にある選択肢に気づくための場所として機能することが
-        あります。
+        特に次のような状態がある場合、無理に続けることで消耗がさらに深まる可能性があります。
+      </p>
+      <div className="card space-y-1.5 text-sm text-stone-600">
+        <p>・<Link to="/articles/acting-fatigue" className="underline underline-offset-2">仕事で演じ続けて疲れている</Link></p>
+        <p>・<Link to="/articles/communication-fatigue" className="underline underline-offset-2">人と関わるだけで消耗する</Link></p>
+        <p>・<Link to="/articles/tired-but-cannot-rest" className="underline underline-offset-2">疲れているのに止まれない</Link></p>
+        <p>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2">自分の価値がわからなくなっている</Link></p>
+      </div>
+
+      <h2>仕事を辞めるタイミング——判断できない状態そのものが限界サイン</h2>
+      <p>
+        「辞めるタイミングがわからない」と感じているとき、
+        それ自体が<strong>判断力が落ちるほど消耗しているサイン</strong>かもしれません。
+        消耗が深まると「続ける」「辞める」どちらも決められなくなります。
+        この状態でさらに一人で考え続けると、ループが深まるだけです。
       </p>
 
-      <h2>現場で起こること：「辞めたい」の声が出るまでの経緯</h2>
-      <h3>■ 「まだ大丈夫」と言い続けた結果</h3>
+      {/* 3段階の限界サイン */}
+      <h2>限界サインの3段階——今あなたはどの段階？</h2>
       <p>
-        支援職の方に多いのは、消耗のサインが出はじめても「まだ大丈夫」「もう少し頑張れば変わるかもしれない」
-        と思い続けるパターンです。利用者のために・仲間のために・使命感のために、自分の限界を後回しにして
-        きた末に、ある日突然「もう無理だ」と感じる。この「突然の限界」は、実際には長い時間をかけて蓄積
-        してきた消耗の結果です。
+        消耗には段階があります。段階によって必要なアクションが変わります。
+        まず自分がどの段階にいるかを把握することが、判断の出発点になります。
       </p>
-      <h3>■ 「辞めたいのか、休みたいのかわからない」</h3>
+
+      <div className="my-5 space-y-3">
+        <div className="rounded-2xl border border-stone-200 overflow-hidden">
+          <div className="px-4 py-2.5 bg-stone-100 border-b border-stone-200">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] text-stone-500 tracking-wider">LEVEL 1</span>
+              <span className="text-[11px] text-stone-500">違和感の段階</span>
+            </div>
+            <p className="text-sm font-medium text-stone-800 mt-0.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              「なんとなく辞めたい」と感じ始めている
+            </p>
+          </div>
+          <div className="p-4 text-xs text-stone-600 leading-relaxed space-y-1.5">
+            <p>・休日に仕事のことを考える時間が増えた</p>
+            <p>・朝、出勤が少し億劫になってきた</p>
+            <p>・以前ほどやりがいを感じない</p>
+            <p className="pt-2 mt-2 border-t border-stone-100 text-stone-700">
+              <strong className="text-stone-800">この段階で必要なこと：</strong>休息と環境調整。まだ自分で判断できる段階。
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-stone-300 overflow-hidden">
+          <div className="px-4 py-2.5 bg-stone-200 border-b border-stone-300">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] text-stone-600 tracking-wider font-medium">LEVEL 2</span>
+              <span className="text-[11px] text-stone-600">判断が鈍る段階</span>
+            </div>
+            <p className="text-sm font-medium text-stone-900 mt-0.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              「辞めたいけど決められない」状態が続いている
+            </p>
+          </div>
+          <div className="p-4 text-xs text-stone-700 leading-relaxed space-y-1.5 bg-stone-50/40">
+            <p>・休んでも疲れが抜けない</p>
+            <p>・「続ける」「辞める」どちらも決めきれない</p>
+            <p>・<Link to="/articles/emotion-unknown" className="underline underline-offset-2">感情がよくわからない</Link></p>
+            <p>・考えがループする（<Link to="/articles/helper-rumination" className="underline underline-offset-2">反芻思考</Link>）</p>
+            <p>・誰にも話せていない</p>
+            <p className="pt-2 mt-2 border-t border-stone-200 text-stone-800">
+              <strong className="text-stone-900">この段階で必要なこと：</strong>一人で考え続けるとループが深まります。外から整理する場（カウンセリング）が有効。
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border-2 border-stone-400 overflow-hidden">
+          <div className="px-4 py-2.5 bg-stone-700 border-b border-stone-700">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] text-stone-100 tracking-wider font-medium">LEVEL 3</span>
+              <span className="text-[11px] text-stone-200">回復優先の段階</span>
+            </div>
+            <p className="text-sm font-medium text-white mt-0.5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              判断より先に休む必要がある状態
+            </p>
+          </div>
+          <div className="p-4 text-xs text-stone-700 leading-relaxed space-y-1.5 bg-stone-50">
+            <p>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2">睡眠が崩れている</Link></p>
+            <p>・日常生活に支障が出ている</p>
+            <p>・強い無気力・<Link to="/articles/feeling-nothing" className="underline underline-offset-2">何も感じない</Link>状態が続く</p>
+            <p>・身体症状（頭痛・胃痛・動悸）が続いている</p>
+            <p className="pt-2 mt-2 border-t border-stone-200 text-stone-800">
+              <strong className="text-stone-900">この段階で必要なこと：</strong>「辞めるかどうか」を考えること自体が負担になっています。判断より先に医療機関への相談と休息を優先してください。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-xs text-stone-500 leading-relaxed">
+        ※段階は固定ではなく、状況や時期によって行き来します。「自分はLevel 3だ」と気づくこと自体が、回復の第一歩になります。
+      </p>
+
+      <LineCtaQuit />
+
+      {/* 判断フローチャート */}
+      <h2>辞める判断フローチャート——一人で抱え込まないための5ステップ</h2>
       <p>
-        消耗が深まると、自分の本当の気持ちがわからなくなることがあります。「仕事自体は嫌いではないのに、
-        もう続けられない」という感覚は、辞めたいというより休息を強く必要としているサインである可能性があります。
-        しかしその区別が、消耗した状態では自分ではつきにくくなります。
+        「辞める・続ける」を判断する前に、整理しておきたい順番があります。
+        いきなり結論を出そうとすると、消耗が深い状態では判断を誤りやすくなります。
       </p>
-      <h3>■ 「誰にも相談できない」という孤立</h3>
-      <p>
-        職場の同僚には「辞めたい」と言いにくい。家族には心配をかけたくない。友人には仕事の細かい事情を
-        説明するのが難しい。こうした孤立の中で「辞めたい」という気持ちを一人で抱え込み続けることが、
-        消耗をさらに深めます。
-      </p>
-      <h3>■ カウンセリングに行くことへの抵抗</h3>
-      <p>
-        「カウンセリングはもっと深刻な人が行く場所だ」「この程度で行くのは大げさかもしれない」という感覚が、
-        受診を妨げることがあります。しかし「仕事を辞めたいほど消耗している」という状態は、
-        カウンセリングを利用する十分な理由になります。深刻さに基準はありません。
-      </p>
+
+      <div className="my-5 space-y-2.5">
+        {[
+          {
+            step: "STEP 1",
+            title: "今の消耗の深さを把握する",
+            desc: "上の3段階のうち、自分がどこにいるかを確認する。Level 3なら、まず回復が優先。",
+          },
+          {
+            step: "STEP 2",
+            title: "睡眠・身体症状の有無を確認する",
+            desc: "眠れない・食欲がない・身体症状が続く場合は、医療機関への相談も並行して検討する。",
+          },
+          {
+            step: "STEP 3",
+            title: "「何がつらいのか」を分解する",
+            desc: "業務内容なのか、人間関係なのか、職場環境なのか、職業そのものなのか。要因を切り分ける。",
+          },
+          {
+            step: "STEP 4",
+            title: "「続ける・辞める」以外の選択肢を出す",
+            desc: "部署異動・時短勤務・休職・転職・職種変更など、二択以外の選択肢を広げる。",
+          },
+          {
+            step: "STEP 5",
+            title: "判断する（または、判断しないと決める）",
+            desc: "整理した上で判断する。Level 2以上なら、判断を一旦保留にして回復を優先するのも一つの選択。",
+          },
+        ].map(({ step, title, desc }) => (
+          <div key={step} className="flex gap-3 p-3 rounded-xl bg-white border border-stone-100">
+            <div className="flex-shrink-0">
+              <span className="inline-block text-[10px] tracking-wider text-stone-500 bg-stone-100 px-2 py-1 rounded-md">{step}</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-stone-800 mb-1">{title}</p>
+              <p className="text-xs text-stone-600 leading-relaxed">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-100 text-xs text-stone-600 leading-relaxed">
+        このフローを一人で進めるのが難しいときに、カウンセリングが整理の場として機能します。STEP 3〜4で詰まることが多いです。
+      </div>
 
       <h2>心理的背景：「辞めたい」の裏にある構造</h2>
       <h3>■ 消耗状態での認知の歪み</h3>
@@ -94,38 +256,90 @@ export default function HelperCounselingWhenQuitting() {
       </p>
 
       <h2>カウンセリングで整理できること</h2>
-      <h3>① 辞めたいのか・休みたいのかを分ける</h3>
       <p>
-        消耗した状態ではこの区別が難しくなります。カウンセリングを通じて、今の自分に本当に必要なことが
-        少しずつ見えてくることがあります。
+        カウンセリングは「答えを出す場」ではなく、<strong>整理するための場</strong>です。
+        一方的に「辞める・続ける」を決められることはありません。
       </p>
-      <h3>② 「この職場」が合わないのか「この仕事」が合わないのかを分ける</h3>
+      <div className="card space-y-2 text-sm text-stone-600">
+        <p>・今どの程度消耗しているのかを把握する</p>
+        <p>・何がつらさの原因になっているのかを整理する</p>
+        <p>・「続ける・辞める」以外の選択肢を検討する</p>
+        <p>・感情と判断を分けて考えられるようにする</p>
+      </div>
       <p>
-        職場環境・人間関係・労働条件の問題なのか、仕事の内容・職種そのものへの問い直しなのかを分けて
-        考えることが、次の選択をより自分に合ったものにします。
-      </p>
-      <h3>③ 今の自分が判断できる状態にあるかを確認する</h3>
-      <p>
-        消耗しているときの判断は、回復した状態での判断と異なることがあります。カウンセリングは、
-        判断の前に「今の自分の状態を確認する場所」としても使えます。
+        外から整理することで、頭の中でぐるぐる続いていたループが少し落ち着きます。
+        <Link to="/articles/safe-base" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">安全基地</Link>として機能する対話の場が、整理を助けます。
       </p>
 
-      <h2>まとめ</h2>
-      <ul className="space-y-2">
-        <li>カウンセリングは「答えを出す場所」ではなく「気持ちを整理する場所」：辞めるか続けるかの判断そのものより、その判断をするための土台を整えることができる</li>
-        <li>消耗状態での認知の歪みに気づく助けになる：対話を通じて、見えていなかった選択肢が少しずつ見えてくることがある</li>
-        <li>「辞めたい」の裏にある本当のニーズを整理できる：休息なのか・環境の変化なのか・仕事の見直しなのかを分けて考える場所になる</li>
-        <li>孤立した状態から「一人ではない」という感覚を取り戻せる：安心して話せる場所を持つこと自体が、消耗からの回復を助ける</li>
-      </ul>
+      <h2>支援職こそ、外から整理する場が必要な理由</h2>
       <p>
-        「仕事を辞めたい」という気持ちは、弱さでも失敗でもありません。
-        それだけ誠実に、真剣に仕事に向き合ってきた結果として生まれる、大切なサインです。
-        その気持ちを一人で抱えず、話せる場所を持つことが、次の一歩につながるかもしれません。
+        看護師・介護士・社会福祉士などの支援職は、
+        <strong>感情労働と共感疲労という構造的な消耗</strong>が常に起きている職業です。
+        他者の感情を受け止め続けること自体が、目に見えない疲労として蓄積していきます。
       </p>
       <p>
-        こころの相談室 いしずえ では、支援職・対人援助職の方の「辞めたい・続けるか悩む」という
-        お気持ちのご相談も承っています。一人で抱え込まず、まずお話しだけでも、お気軽にご連絡ください。
+        さらに支援職は、職業柄「相談される側」であることが多く、
+        自分が相談する側に回ることに抵抗を感じやすい傾向があります。
+        「自分はまだ大丈夫」「もっと大変な人がいる」と感じるうちに、
+        消耗が深まっていることに気づきにくくなります。
       </p>
+      <p>
+        だからこそ、支援職には<strong>支援職の構造を理解した相談者</strong>との対話が必要になります。
+        一般的な「仕事を辞めたい相談」とは違う層の整理が必要だからです。
+      </p>
+
+      <h2>よくある誤解</h2>
+      <div className="card space-y-2 text-sm">
+        {[
+          { wrong: "辞める前じゃないと相談できない",     right: "続けながらの相談が最も多いです" },
+          { wrong: "これくらいで相談するのは甘え",        right: "「このくらいで」と思うほど消耗が深まっていることがあります" },
+          { wrong: "何度も通わないと意味がない",          right: "1回でも状況の整理につながります" },
+          { wrong: "相談したら辞める方向に誘導される",    right: "方向性を決めるのはあなた自身です" },
+          { wrong: "支援職が相談するのは恥ずかしい",      right: "支援職こそ構造的に消耗しやすい職業です" },
+        ].map(({ wrong, right }) => (
+          <div key={wrong} className="flex gap-3">
+            <span className="text-stone-300 text-xs flex-shrink-0 mt-0.5">❌</span>
+            <div>
+              <p className="text-stone-400 line-through text-xs">{wrong}</p>
+              <p className="text-stone-700 text-xs mt-0.5">→ {right}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h2>よくある質問</h2>
+      <div className="space-y-4">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="card">
+            <p className="font-medium text-stone-900 mb-2 text-sm">Q. {item.q}</p>
+            <p className="text-stone-600 text-sm leading-[1.85]">A. {item.a}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="my-4 p-3 rounded-xl bg-stone-50 border border-stone-100 text-sm text-stone-600">
+        一人で考え続けるとループしやすいですが、外から整理すると数回で方向が見えることもあります。
+      </div>
+
+      <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
+        <p className="text-[10px] text-stone-500 mb-1">まだ辞めると決めていない段階でも大丈夫です</p>
+        <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+          辞めるか迷っている状態を整理したい方へ
+        </p>
+        <p className="text-xs text-stone-400 leading-relaxed mb-4">
+          「決めてから相談」ではなく「整理するために相談」でOKです。一人でループしている状態から抜け出す整理の場として活用していただけます。
+        </p>
+        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          今の状態を整理してみる（初回無料）
+        </a>
+        <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+      </div>
+
+      <ArticleFooterLinks type="concept" exclude={["/articles/helper-counseling-when-quitting"]} />
+
+      <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
+        本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）をもとに作成しています。医学的な診断ではありません。
+      </div>
     </ArticleLayout>
   )
 }
