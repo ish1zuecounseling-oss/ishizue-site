@@ -1,4 +1,5 @@
 import ArticleLayout from "../../components/ArticleLayout"
+import { Link } from "react-router-dom"
 export default function HelperLeaveOfAbsenceHesitation() {
   return (
     <ArticleLayout
@@ -27,6 +28,18 @@ export default function HelperLeaveOfAbsenceHesitation() {
         「休職するか迷っている」という事実そのものが、すでに休息を必要としているサインである可能性があります。
         消耗が浅い段階では、休職を「迷う」ほどの問いは生まれにくいものです。
       </p>
+
+      <h2>すぐに医療機関を受診すべきサイン</h2>
+      <div className="card" style={{ borderLeft: "3px solid #9f3a3a" }}>
+        <ul className="text-sm text-stone-600 space-y-1.5">
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>死にたい・消えてしまいたいという気持ちがある</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>動悸・過呼吸・強い身体症状がある</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>2週間以上、眠れない・食欲がない状態が続いている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>日常生活（食事・入浴・外出）が困難になっている</li>
+        </ul>
+        <p className="text-xs text-stone-400 mt-2">該当する場合は心療内科・精神科の受診を優先してください。</p>
+      </div>
+
 
       <h2>休職を迷う状態とは：定義と背景</h2>
       <p>
@@ -125,6 +138,39 @@ export default function HelperLeaveOfAbsenceHesitation() {
         休職は支援者としてのキャリアの終わりではなく、長く支援を続けるための回復期間として
         位置づけることができます。
       </p>
+
+      <h2>休職を検討するタイミングの目安</h2>
+      <div className="card space-y-3 text-sm">
+        {[
+          { label: "セルフケアで対処できる段階", desc: "疲れを感じるが休日に少し回復する。環境調整・セルフケアが先。" },
+          { label: "休職を検討する段階", desc: "休日も回復しない・朝が動けない・感情が平坦になってきた。医師への相談が必要。" },
+          { label: "休職が必要な段階", desc: "日常生活に支障が出ている・強い身体症状・消えたいという気持ちがある。医師の診断のもと休職が必要。" },
+        ].map(({ label, desc }) => (
+          <div key={label} className="flex gap-3">
+            <span className="text-xs font-medium text-[#8FAF9F] flex-shrink-0 w-32">{label}</span>
+            <p className="text-stone-600">{desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-sm text-stone-500">
+        消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト診断</Link>
+      </p>
+
+      <h2>休職前に整理しておくこと</h2>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① まず医療機関を受診する</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">休職には医師の診断書が必要です。心療内科・精神科を受診し、今の状態を医師に伝えてください。「休職したい」と伝えることは正当な相談です。</p>
+      </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② 「休職＝負け」という感覚を手放す</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">消耗した状態で支援を続けることは、利用者・自分・職場の誰の利益にもなりません。回復のために休むことは、長期的に支援を続けるための責任ある選択です。</p>
+      </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">③ 「辞める・続ける」の判断は休職後でいい</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">消耗が深い状態での判断は後悔につながりやすいです。まず休職して回復させてから、改めて判断することをおすすめします。詳しくは<Link to="/articles/helper-want-to-quit-landing" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職を辞めたい</Link>も参照してください。</p>
+      </div>
 
       <h2>まとめ</h2>
       <ul className="space-y-2">
