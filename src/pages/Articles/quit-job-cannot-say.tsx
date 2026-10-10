@@ -5,6 +5,10 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 
 const FAQ_ITEMS = [
   {
+    q: "引き止められたらどう断ればいいですか？",
+    a: "「考える時間をください」ではなく「決定事項として伝える」方が現実的です。詳細な理由説明は交渉の余地を生みやすいため、「一身上の都合」を基本に、すでに決めた事実として伝えることが有効です。",
+  },
+  {
     q: "辞めたいと言えないのは甘えですか？",
     a: "甘えではありません。「言えない」状態には他人軸・境界線の消耗・見捨てられ不安という構造的な理由があります。意志の問題ではなく、消耗による状態の問題です。",
   },
@@ -21,7 +25,7 @@ const FAQ_ITEMS = [
 export default function QuitJobCannotSay() {
   return (
     <ArticleLayout
-      title="仕事を辞めたいのに言えない｜言えない理由の構造と安全に抜けるための考え方"
+      title="仕事を辞めたいのに言えない・引き止めが怖い｜言えない理由の構造と、安全に抜けるための考え方【公認心理師】"
       description="「辞めたいのに言えない」「迷惑をかけるのが怖い」「引き止められそうで怖い」——言えない状態は意志の弱さではなく他人軸・境界線・見捨てられ不安という構造から起きています。"
       url="https://www.ishizue-counseling.jp/articles/quit-job-cannot-say"
       date="2026-05-09"
@@ -122,6 +126,30 @@ export default function QuitJobCannotSay() {
           まずは<Link to="/articles/safe-base" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">安全に整理できる場所</Link>を持つことが先決です。
           <Link to="/articles/recovering-feeling" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感覚・感情を取り戻す</Link>プロセスを通して、
           判断力そのものを回復させることが現実的なアプローチです。
+        </p>
+      </div>
+
+      <h2>引き止めが怖いとき——「説得に勝つ」必要はない</h2>
+      <p>
+        多くの人が「どうやって納得させるか」を考えますが、
+        <strong>引き止めに「正しく反論する」必要はありません。</strong>
+        必要なのは「説得」ではなく「離れること」です。
+      </p>
+
+      <div className="card space-y-2 text-sm text-stone-600">
+        <p>① 「相談」ではなく「決定事項の共有」として伝える</p>
+        <p>② 詳細な理由説明は避ける（交渉余地を生まない）</p>
+        <p>③ 引き止められることを前提に心の準備をする</p>
+        <p>④ 「困る」という言葉に責任を感じない練習をする</p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">それでも動けないとき</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          「気合で断る」は消耗が深い状態では機能しません。
+          まずは<Link to="/articles/safe-base" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">安全に整理できる場所</Link>で、
+          「引き止めへの恐れの正体」を外から整理することが先決です。
+          整理されると、「断れない」の構造が少し見えてきます。
         </p>
       </div>
 
