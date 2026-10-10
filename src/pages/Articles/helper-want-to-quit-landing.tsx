@@ -56,6 +56,25 @@ export default function HelperWantToQuitLanding() {
       </p>
 
       {/* ③ 辞める前の整理（3つの視点） */}
+      <h2 id="urgency">先に動いてほしい、限界のサイン</h2>
+      <p>
+        「辞める・続ける」の判断は難しいですが、
+        以下のような状態にある場合は、すぐに動くことを優先してください。
+      </p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">身体・精神の限界サイン（すぐに対処が必要）</p>
+        <ul className="text-sm text-stone-600 space-y-1 mt-1">
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>眠れない・食欲がない状態が2週間以上続いている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>職場のことを考えるだけで身体症状（動悸・吐き気・頭痛）が出る</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>「消えてしまいたい」という気持ちが出てきている</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>ハラスメントや違法な労働環境にさらされている</li>
+        </ul>
+        <p className="text-xs text-stone-500 mt-3">
+          これらの状態にある場合、「辞める判断」より先に、今日の安全を確保することを優先してください。医療機関への受診や、信頼できる人への相談を。
+        </p>
+      </div>
+
       <h2 id="three-views">辞める前に整理する3つの視点</h2>
       <p className="text-stone-500 text-sm leading-relaxed mb-4 pl-4 border-l-2 border-stone-200">
         「辞める・続ける」を今すぐ決めなくていい。まず今の状態を整理することが先です。
