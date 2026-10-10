@@ -236,9 +236,6 @@ export default function CompassionFatiguePillar() {
         </div>
       ))}
 
-      <p className="text-sm text-stone-500">
-        原因を詳しく知りたい方→ <Link to="/articles/compassion-fatigue-causes" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の原因7つ</Link>
-      </p>
 
       {/* ▼ 打ち手C-2：競合に薄い「3者の違い」を明確化 */}
       <h2 id="difference">バーンアウト・うつ・二次受傷との違い</h2>
@@ -308,7 +305,7 @@ export default function CompassionFatiguePillar() {
         「共感疲労かどうか」を確定させることより、「今の自分の状態はどうか」を理解することが先決です。
       </p>
       <p className="text-sm text-stone-500">
-        診断について詳しく→ <Link to="/articles/compassion-fatigue-diagnosis" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の診断——状態を理解するための視点</Link>
+        自分の状態を確かめる→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック(20項目・3分)</Link>
       </p>
 
       <h2 id="coping">共感疲労の治し方：7つの視点</h2>
@@ -340,10 +337,10 @@ export default function CompassionFatiguePillar() {
         支援現場では、早めに気づいて対処した方ほど回復が早い傾向があります。
       </p>
       <p className="text-sm text-stone-500">
-        回復について詳しく→ <Link to="/articles/compassion-fatigue-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労からの回復方法</Link> ／ <Link to="/articles/compassion-fatigue-natural-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自然に治るのか</Link>
+        回復について詳しく→ <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の対処法と回復方法</Link> ／ <Link to="/articles/compassion-fatigue-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">回復期間と、自然に治るのか</Link>
       </p>
 
-      <h2 id="where">どこに相談すればいいか</h2>
+      <h2 id="where">どこに相談すればいいか(何科か)</h2>
       <div className="card">
         <ul className="text-sm text-stone-700 space-y-2">
           <li>・日常生活は送れている → <strong>カウンセリング</strong></li>
@@ -352,8 +349,24 @@ export default function CompassionFatiguePillar() {
           <li>・希死念慮がある → <strong>医療機関を優先</strong></li>
         </ul>
       </div>
-      <p className="text-sm text-stone-500">
-        詳しく→ <Link to="/articles/compassion-fatigue-medical-support" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労は何科に相談すべきか</Link>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">心療内科</p>
+          <p className="text-stone-600 leading-[1.9]">不眠・頭痛・胃腸の不調・動悸など、体の症状を伴う心理的な不調を扱います。「体に出ている」場合の入口になりやすく、診断や薬の処方ができます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">精神科</p>
+          <p className="text-stone-600 leading-[1.9]">気分・思考・行動に関わる不調全般を扱います。うつ病・適応障害・PTSDなどの診断が必要な場合や、休職の診断書が必要な場合に適しています。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">カウンセリング</p>
+          <p className="text-stone-600 leading-[1.9]">診断や薬の処方は行いません。「なぜこうなっているのか」を整理し、消耗の原因を言葉にすることで回復を支えます。「日常は送れているがしんどい」「話して整理したい」段階に向いています。</p>
+        </div>
+      </div>
+      <p className="text-sm text-stone-600">
+        共感疲労そのものは医学的な正式な診断名ではなく、医療機関では適応障害・うつ病・PTSDなどとして診断されることがあります。
+        医療機関とカウンセリングは併用できますが、通院中の方は、かかりつけ医に一言相談しておくと安心です。
+        「病院に行くほどではない」と感じること自体が、支援職に多い消耗のサインでもあります。
       </p>
 
       <h2 id="faq">よくある質問</h2>
@@ -402,26 +415,14 @@ export default function CompassionFatiguePillar() {
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労チェック（20項目・3分）
           </Link>
-          <Link to="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 原因7つ——なぜ支援職がなりやすいのか
-          </Link>
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 対処法7つ——今日からできるケア
+            → 対処法と回復方法——今日からできるケアと回復の順番
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 回復方法——長期的な回復プロセス
+          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → 回復期間——どのくらいで治るのか
           </Link>
-          <Link to="/articles/compassion-fatigue-diagnosis" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 診断——状態を理解するための視点
-          </Link>
-          <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 何科に相談すべきか
-          </Link>
-          <Link to="/articles/compassion-fatigue-natural-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 自然に治るのか——回復期間と放置のリスク
-          </Link>
-          <Link to="/articles/compassion-fatigue-next-step" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → チェックで当てはまったら——次にすること
+          <Link to="/articles/compassion-fatigue-vs-burnout" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            → バーンアウトとの違い
           </Link>
         </div>
       </div>
