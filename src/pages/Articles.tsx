@@ -60,6 +60,7 @@ const STARTER_PATHS = [
 /*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/secondary-trauma-check",
   "/articles/messiah-complex-check",
   "/articles/psychosomatic-check",
   "/articles/globus-sensation",
@@ -270,6 +271,7 @@ function getCategoryForArticle(path: string): Category {
 const TOOLS = [
   { path: "/articles/self-value-check",            title: "条件付き自己価値チェック｜あなたの「存在許可証」を可視化する",                        desc: "「役に立たないと価値がない」「何者かにならないと不安」——あなたが自分に課している条件を4軸24問で可視化。",              tag: "4軸・24問",       color: "#f59e0b" },
   { path: "/articles/self-function-check",         title: "自己機能チェック｜「感じる・望む・選ぶ・気づく」の状態を確認",                        desc: "「自分が何を感じているかわからない」「何がしたいかわからない」——4つの働きを20項目で確認し、弱っている機能がわかります。",  tag: "4機能・20問",     color: "#7EB8A4" },
+  { path: "/articles/secondary-trauma-check",       title: "二次受傷チェック｜代理受傷・二次的外傷性ストレスのサインを確認",                    desc: "利用者のつらい話が頭から離れない、ケースを避けたくなる、眠れない——思い出す・避ける・気が張るの3つの反応を15項目で確認します。", tag: "3反応・15問",     color: "#60a5fa" },
   { path: "/articles/messiah-complex-check",       title: "メサイアコンプレックス診断｜救世主症候群の傾向を4タイプで確認",                       desc: "「放っておけない」「自分がやらなければ」「役に立たないと価値がない」——救世主症候群の傾向を20項目で確認し、どこが強いかと緩め方がわかります。", tag: "4傾向・20問",     color: "#f59e0b" },
   { path: "/articles/psychosomatic-check",         title: "ストレスによる体の症状チェック｜心身症のサインを部位別に確認",                        desc: "胃腸・頭と首肩・のどと胸・自律神経と睡眠——ストレスが体のどこに出ているかを20項目で確認。受診を優先したいサインもチェックできます。", tag: "5領域・20問",     color: "#8FAF9F" },
   { path: "/articles/big-five-check",              title: "ビッグファイブ診断｜あなたの「消耗パターン」を知る",                                  desc: "協調性・誠実性・開放性・外向性・感受性の5因子から、今の消耗の構造を解析。10問・レーダーチャート・7タイプ対応。",    tag: "5因子・10問",     color: "#c084fc" },
