@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { trackLineClickFromCheck } from "../../lib/analytics"
 
 const CHECK_NAME = "helper-empathy-check"
 
@@ -150,12 +151,8 @@ export default function HelperEmpathyCheck() {
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 20) * 100)
 
-  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
-  useEffect(() => {
-    if (level) {
-      trackCheckComplete(CHECK_NAME, score, level, 20)
-    }
-  }, [level, score])
+  // ▼ GA4イベント送信:結果が画面に表示されて2秒たったときに1回だけ送信(タップのたびに送らない)
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 20)
 
   // ▼ LINEクリック時のハンドラ
   const handleLineClick = () => {
@@ -258,7 +255,7 @@ export default function HelperEmpathyCheck() {
       )}
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div className={`result-box ${result.color}`}>
             <p className="result-score-label">{score}項目 / 20項目</p>
             <p className="result-title">{result.label}</p>
