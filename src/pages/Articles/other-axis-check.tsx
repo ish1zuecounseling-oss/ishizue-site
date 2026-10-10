@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+import { trackLineClickFromCheck } from "../../lib/analytics"
 
 const CHECK_NAME = "other-axis-check"
 
@@ -97,12 +98,8 @@ export default function OtherAxisCheck() {
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 15) * 100)
 
-  // ▼ GA4イベント送信:レベル変化時にチェック完了イベントを送信
-  useEffect(() => {
-    if (level) {
-      trackCheckComplete(CHECK_NAME, score, level, 15)
-    }
-  }, [level, score])
+  // ▼ GA4イベント送信:結果が画面に表示されて2秒たったときに1回だけ送信(タップのたびに送らない)
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 15)
 
   // ▼ LINEクリック時のハンドラ
   const handleLineClick = () => {
@@ -165,7 +162,7 @@ export default function OtherAxisCheck() {
       </div>
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           {/* 結果ボックス */}
           <div style={{ background: result.bg, border: `1.5px solid ${result.border}`, borderRadius: "12px", padding: "1.25rem", margin: "1.25rem 0" }}>
             <p style={{ fontSize: "12px", color: "#78716c", marginBottom: "4px" }}>{score}項目 / 15項目</p>
