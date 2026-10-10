@@ -7,7 +7,7 @@ export default function HelperEmpathyFatigue() {
     <ArticleLayout
       title="共感しすぎて疲れる｜なぜ感情移入すると消耗するのか・楽になる方法"
       description="人の話を聞くと疲れる、感情移入しすぎてしまう——この消耗には理由があります。共感しすぎて疲れる仕組み・HSPとの違い・支援職に多い理由・楽になるための対処法を解説します。"
-      url="https://www.ishizue-counseling.jp/articles/helper-empathy-fatigue"
+      url="https://www.ishizue-counseling.jp/articles/helper-empathy-overload"
       date="2026-05-03"
       tags={["compassion", "burnout", "boundary"]}
     >
