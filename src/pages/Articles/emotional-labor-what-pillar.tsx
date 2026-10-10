@@ -9,6 +9,14 @@ const FAQ_ITEMS = [
     a: "感情労働とは、仕事の中で自分の感情をコントロールし、求められる感情を表現することです。看護・介護・福祉・教育・接客などの職種で特に強く求められます。本音と違う感情を出し続ける「内外のズレ」が積み重なることで、心身の消耗が起きやすくなります。",
   },
   {
+    q: "表層演技と深層演技の違いは何ですか？",
+    a: "表層演技は、本当の感情はそのままに、表情や態度など外側だけを整えるやり方です。深層演技は、感情そのものを求められる方向に変えようとするやり方です。表層演技は内側と外側のズレが大きく消耗しやすく、深層演技はズレは小さいものの、自分の感情を動かし続けること自体が負担になります。",
+  },
+  {
+    q: "感情労働の具体例を教えてください。",
+    a: "利用者に怒鳴られても穏やかに対応する(介護・福祉)、患者の不安に寄り添いながら冷静に処置する(看護)、子どもの問題に感情的にならずに向き合う(教育)、クレームを受けても笑顔を保つ(接客)などです。本当は疲れているのに「大丈夫です」と言い続けることも、感情労働のひとつです。",
+  },
+  {
     q: "感情労働はなぜつらくなるのですか？",
     a: "感情そのものより「ズレ」が消耗を生みます。本当は疲れているのに笑顔で対応する、違和感があるのに共感し続けるといった状態が続くと、自分の感覚がわからなくなり、消耗が蓄積します。これが共感疲労やバーンアウトにつながります。",
   },
@@ -25,8 +33,8 @@ const FAQ_ITEMS = [
 export default function EmotionalLaborWhatPillar() {
   return (
     <ArticleLayout
-      title="感情労働とは？仕事で消耗する人のための構造と回復の考え方"
-      description="感情労働とは、仕事の中で感情をコントロールし続けることです。なぜ消耗するのか・共感疲労との関係・境界線・他人軸・ワーキングモデルとの構造的なつながりを解説します。看護師・介護・福祉・教員向け。公認心理師・松本龍児監修。"
+      title="感情労働とは？意味・具体例・表層演技と深層演技、消耗する理由と回復の考え方【公認心理師】"
+      description="感情労働とは、仕事の中で自分の感情をコントロールし、求められる感情を表現し続けることです。意味と具体例、ホックシールドの定義、表層演技・深層演技の違い、支援職が消耗しやすい理由、共感疲労・境界線との関係と回復の考え方を公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/emotional-labor-what-pillar"
       date="2026-05-13"
       tags={["emotional-labor", "burnout", "compassion"]}
@@ -57,7 +65,7 @@ export default function EmotionalLaborWhatPillar() {
       <h2>感情労働とは何か</h2>
       <p>
         感情労働とは、<strong>仕事の中で自分の感情をコントロールし、求められる感情を表現すること</strong>です。
-        社会学者アーリー・ホックシールドが提唱した概念で、特に対人援助職で強く求められます。
+        社会学者アーリー・ホックシールドが1983年の著書『管理される心』で提唱した概念で、特に対人援助職で強く求められます。
       </p>
       <div className="card space-y-2 text-sm text-stone-600">
         <div>
@@ -75,6 +83,36 @@ export default function EmotionalLaborWhatPillar() {
         <strong>「本音と外に出す感情のズレ」が積み重なること</strong>が消耗の原因になります。
       </p>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">感情労働の3つの条件(ホックシールド, 1983)</p>
+        <ul className="space-y-1.5 text-sm text-stone-600">
+          <li>① 顔や声で、相手と直接関わる</li>
+          <li>② 相手に、何らかの感情(安心・信頼など)を引き起こすことが求められる</li>
+          <li>③ そのために、働く人自身の感情が、組織によって管理される</li>
+        </ul>
+        <p className="text-xs text-stone-500 mt-2">看護・介護・福祉・保育・教育など、支援職のほとんどがこの3つに当てはまります。</p>
+      </div>
+
+      <h2>感情労働の2つのやり方——表層演技と深層演技</h2>
+      <p>
+        ホックシールドは、感情労働のやり方を2つに分けています。どちらも、続けば消耗につながります。
+      </p>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① 表層演技(サーフェス・アクティング)</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          本当の感情は変えずに、表情や声のトーンなど外側だけを整えるやり方です。
+          「笑顔だけ作る」状態で、内側と外側のズレが大きく、消耗がたまりやすいとされています。
+        </p>
+      </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② 深層演技(ディープ・アクティング)</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          感情そのものを、求められる方向に変えようとするやり方です。
+          「本当に共感しようとする」「相手の立場で感じようとする」——ズレは小さくなりますが、
+          自分の感情を動かし続けること自体が負担になります。支援職に多いやり方です。
+        </p>
+      </div>
+
       <h2>なぜ感情労働はつらくなるのか</h2>
       <p>
         感情労働がつらくなるのは、感情そのものよりも<strong>「ズレ」が消耗を生む</strong>からです。
@@ -90,6 +128,30 @@ export default function EmotionalLaborWhatPillar() {
         「なぜこんなに疲れているのか」「何が嫌なのか」がわからなくなる——
         これが<Link to="/articles/emotion-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情がわからなくなる</Link>状態の正体のひとつです。
       </p>
+
+      <h2>支援職が特に消耗しやすい理由</h2>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">相手との距離が近く、関わりが長い</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          支援職は、利用者や患者と長い時間、身体的にも気持ちの面でも近い距離で関わります。
+          そのぶん感情のやりとりが多く深くなり、「良いケアをしたい」という思いから、感情労働を自分から進んで行ってしまう構造があります。
+        </p>
+      </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">「効率」と「気持ち」の板ばさみ</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          職場は効率を求め、ケアは共感や気持ちの通い合いを必要とします。
+          「寄り添いたいのに時間がない」「感情を出したいのに出せない」という葛藤に、常にさらされています。
+        </p>
+      </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">「やりがい」が消耗を隠す</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          感情労働は消耗を生む一方で、「この人の力になれた」という充足感も生みます。
+          この充足感が続ける支えになる反面、「やりがいがあるから大丈夫」と、消耗のサインを見えにくくします。
+          気づいたときには限界、というのが支援職の燃え尽きの典型的なパターンです。
+        </p>
+      </div>
 
       <h2>感情労働と共感疲労の関係</h2>
       <p>
