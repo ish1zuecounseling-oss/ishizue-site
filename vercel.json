@@ -1,6 +1,56 @@
 {
   "redirects": [
     {
+      "source": "/articles/helper-empathy-fatigue",
+      "destination": "/articles/compassion-fatigue-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-causes",
+      "destination": "/articles/compassion-fatigue-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-medical-support",
+      "destination": "/articles/compassion-fatigue-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-diagnosis",
+      "destination": "/articles/helper-empathy-check",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-recovery",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/empathy-fatigue-recovery",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-compassion-fatigue-practice",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-high-score",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-next-step",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-natural-recovery",
+      "destination": "/articles/compassion-fatigue-recovery-period",
+      "permanent": true
+    },
+    {
       "source": "/articles/helper-secondary-trauma",
       "destination": "/articles/empathy-fatigue-vs-secondary-trauma",
       "permanent": true
