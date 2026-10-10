@@ -5,8 +5,8 @@ import LineCta, { LineCtaSmall } from "../../components/LineCta"
 export default function CompassionFatigueCoping() {
   return (
     <ArticleLayout
-      title="共感疲労の対処法7つ｜今日からできるセルフケアと回復を支援職向けに解説"
-      description="「セルフケアが続かない」「休んでも回復しない」——共感疲労の対処法を、7つの視点で支援職向けに解説。なぜ対処が難しいのかという構造から、今日からできるケアまで。公認心理師監修。"
+      title="共感疲労の対処法と回復方法｜今日からできる7つのセルフケアと、回復の正しい順番【公認心理師】"
+      description="「セルフケアが続かない」「休んでも回復しない」——共感疲労の対処法と回復方法を、7つの視点で支援職向けに解説。回復を妨げる3つの落とし穴、回復の正しい順番、チェックの点数別に次にすること、今日からできるケアまで公認心理師がまとめました。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-coping"
       date="2026-03-29"
       audio="/audio/compassion-fatigue-coping.mp3"
@@ -179,6 +179,71 @@ export default function CompassionFatigueCoping() {
 
       <LineCtaSmall />
 
+      <h2>回復を妨げる3つの落とし穴</h2>
+
+      <div className="my-4 p-4 rounded-xl" style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+        <div className="space-y-3">
+          {[
+            { trap: "「もう少し頑張れば回復する」と思い続ける", why: "同じ環境・同じパターンでは、消耗が深まるだけで回復しません" },
+            { trap: "「回復しなければ」と焦る", why: "焦りそのものがストレスになり、神経系の緊張を高めます" },
+            { trap: "セルフケアを「タスク」として頑張る", why: "義務感でやるセルフケアは消耗を増やすことがあります。小さく、ゆるく始めることが重要です" },
+          ].map(item => (
+            <div key={item.trap} className="p-3 rounded-lg bg-white border border-stone-200">
+              <p className="text-xs font-medium text-stone-700 mb-1">落とし穴：{item.trap}</p>
+              <p className="text-xs text-stone-500">{item.why}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <h2>回復の正しい順番</h2>
+      <p>
+        回復に取り組む順番を間違えると、「頑張っているのに回復しない」状態が続きます。
+      </p>
+
+      <div className="my-4 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
+        <ol className="space-y-2">
+          {[
+            { step: "1", label: "消耗を認める", note: "「まだ大丈夫」をやめる" },
+            { step: "2", label: "神経系を緩める", note: "呼吸・温熱・自然・安心できる人" },
+            { step: "3", label: "感情を出す", note: "言語化・日記・信頼できる人への相談" },
+            { step: "4", label: "休息の種類を整える", note: "感情・精神・感覚・社会的休息" },
+            { step: "5", label: "自己批判をやめる", note: "セルフ・コンパッションを実践する" },
+          ].map(item => (
+            <li key={item.step} className="flex items-start gap-3 text-sm text-stone-700">
+              <span className="flex-shrink-0 w-5 h-5 rounded-full text-white text-[10px] flex items-center justify-center font-medium" style={{ background: "#8FAF9F" }}>{item.step}</span>
+              <div>
+                <span className="font-medium">{item.label}</span>
+                <span className="text-stone-500 text-xs ml-2">{item.note}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <h2>共感疲労チェックの点数別:次にすること</h2>
+      <p className="text-sm text-stone-600">
+        <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック(20項目)</Link>の結果に合わせた、次の一手の目安です。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">0〜5項目:今の状態を言葉にしておく</p>
+          <p className="text-stone-600 leading-[1.9]">「まだ大丈夫」な段階でも、支援職が消耗する構造を知っておくことが予防になります。消耗が始まったときに「これだ」と気づけます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">6〜10項目:消耗の構造を整理する</p>
+          <p className="text-stone-600 leading-[1.9]">感情労働・境界線のあいまいさ・自己犠牲など、「なぜこんなに疲れるのか」が見えると、「自分のせいではなかった」という理解につながります。この記事の7つの対処が中心になる段階です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">11〜15項目:ひとりで抱えず、回復の入口を探す</p>
+          <p className="text-stone-600 leading-[1.9]">「休んでも回復しない」段階では、セルフケアだけでは限界があります。消耗が続くと、気分の落ち込みや体の不調につながることもあります。カウンセリングや信頼できる人への相談を検討してください。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">16〜20項目:外に出して整理してもらう</p>
+          <p className="text-stone-600 leading-[1.9]">ひとりで整理するより、外に出して整理してもらうほうが回復は早くなります。眠れない・食べられない状態が続く場合は、医療機関への相談を優先してください(<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">何科に相談するか</Link>)。</p>
+        </div>
+      </div>
+
       <h2>まとめ</h2>
       <ul className="space-y-2">
         <li>消耗の認識：「消耗している」という現実をまず認めることが、対処の出発点になる</li>
@@ -221,11 +286,11 @@ export default function CompassionFatigueCoping() {
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             ① 共感疲労チェック（20項目・3分）——まず今の状態を確認する
           </Link>
-          <Link to="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ② 共感疲労の原因7つ——なぜ支援職がなりやすいのか
+          <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ② 共感疲労とは——症状と7つの原因
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ④ 共感疲労からの回復方法——長期的な回復プロセス
+          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ③ 共感疲労の回復期間——どのくらいで治るのか
           </Link>
           <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → バウンダリー（境界線）とは——断れない支援職の対処法
@@ -242,15 +307,15 @@ export default function CompassionFatigueCoping() {
           <a href="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             ← チェック——今の消耗度を確認する
           </a>
-          <a href="/articles/compassion-fatigue-causes" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ← 原因——なぜ支援職がなりやすいのか
+          <a href="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ← 共感疲労とは——症状と原因
           </a>
           <span className="text-sm text-stone-400 flex items-center gap-2">
             <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#8FAF9F", color: "#fff" }}>今ここ</span>
             対処——今日からできるケア
           </span>
-          <a href="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            次に読む → 共感疲労からの回復方法——対処しても回復しない方へ
+          <a href="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            次に読む → 回復期間——どのくらいで治るのか
           </a>
         </div>
       </div>
