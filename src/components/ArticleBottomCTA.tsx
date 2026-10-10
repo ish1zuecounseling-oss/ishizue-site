@@ -11,7 +11,7 @@ type Props = {
 }
 
 const DEFAULT_LINKS = [
-  { label: "共感疲労の対処法を見る",              path: "/articles/helper-compassion-fatigue-practice" },
+  { label: "共感疲労の対処法を見る",              path: "/articles/compassion-fatigue-coping" },
   { label: "バウンダリー（境界線）の作り方を見る", path: "/articles/helper-boundary-how-to" },
   { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
 ]
