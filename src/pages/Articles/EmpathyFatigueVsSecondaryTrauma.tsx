@@ -38,7 +38,8 @@ export default function EmpathyFatigueVsSecondaryTrauma() {
       </ul>
       <p>→ 2つ以上当てはまる場合、二次受傷または共感疲労のサインである可能性があります。</p>
       <p className="text-sm text-stone-500">
-        詳しく確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
+        詳しく確認→ <Link to="/articles/secondary-trauma-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">二次受傷チェック（15項目・3分）</Link>
+        ／ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
       <h2>二次受傷と共感疲労の違い</h2>
