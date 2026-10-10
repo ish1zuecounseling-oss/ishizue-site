@@ -232,6 +232,11 @@ export default function ValueFromBeingUseful() {
         あなたは、何かの役に立つから価値があるのではなく、ただ存在していい。
       </p>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">「助けずにいられない」が強いと感じる方は、救世主症候群(メサイアコンプレックス)の傾向を確かめてみてください。</p>
+        <Link to="/articles/messiah-complex-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ メサイアコンプレックス診断(20項目・3分)</Link>
+      </div>
+
       <h2>よくある質問</h2>
       <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (
