@@ -6,7 +6,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +17,51 @@ const SITE_NAME = "こころの相談室 いしずえ";
 const OGP_IMAGE = SITE_URL + "/ogp.png"; // public/ogp.png に合わせる(ogp.jpg は存在しない)
 const DIST_DIR = join(__dirname, "..", "dist");
 const TEMPLATE_PATH = join(DIST_DIR, "index.html");
+const SSR_ENTRY = join(__dirname, "..", "dist-server", "entry-server.js");
+
+// プリレンダリング(本文とJSON-LDをHTMLに書き込む)
+type RenderFn = (url: string) => { html: string; ldJson: string; head: string };
+let render: RenderFn | null = null;
+
+async function loadRenderer() {
+  if (!existsSync(SSR_ENTRY)) {
+    console.warn("⚠️ " + SSR_ENTRY + " が見つかりません。本文なしで生成します。");
+    return;
+  }
+  const mod = await import(pathToFileURL(SSR_ENTRY).href);
+  render = mod.render as RenderFn;
+}
+
+/** テンプレートの <div id="root"></div> に本文を、</head> の前に JSON-LD を入れる */
+function prerender(html: string, path: string, useHelmetHead = false): string {
+  if (!render) return html;
+  let out: ReturnType<RenderFn>;
+  try {
+    out = render(path);
+  } catch (error) {
+    // 失敗しても、そのページは本文なし(従来どおり)で出力する
+    console.warn("⚠️ プリレンダリング失敗(本文なしで出力): " + path + " — " + (error as Error).message);
+    return html;
+  }
+  if (useHelmetHead && out.head) {
+    // テンプレートの既定 title / description / canonical を、そのページの Helmet の内容に置き換える
+    html = html
+      .replace(/<title>[\s\S]*?<\/title>/, "")
+      .replace(/<meta\s+name="description"[\s\S]*?\/?>/g, "")
+      .replace(/<link\s+rel="canonical"[^>]*>/g, "")
+      .replace("</head>", "    " + out.head + "\n  </head>");
+    // Helmet に canonical がないページは、自分自身の URL を canonical にする
+    if (!/rel="canonical"/.test(out.head)) {
+      html = html.replace("</head>", "    <link rel=\"canonical\" href=\"" + SITE_URL + path + "\" />\n  </head>");
+    }
+  }
+  html = html.replace('<div id="root"></div>', '<div id="root">' + out.html + "</div>");
+  if (out.ldJson) html = html.replace("</head>", "    " + out.ldJson + "\n  </head>");
+  return html;
+}
+
+// 記事以外でプリレンダリングするページ(title / description / canonical は各ページの Helmet から取る)
+const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers"];
 
 // 記事データ型
 interface Article {
@@ -77,7 +122,7 @@ function escapeHtml(str: string): string {
 }
 
 // メイン処理
-function main() {
+async function main() {
   if (!existsSync(TEMPLATE_PATH)) {
     console.error("❌ " + TEMPLATE_PATH + " が見つかりません。");
     process.exit(1);
@@ -97,6 +142,7 @@ function main() {
   }
 
   const template = readFileSync(TEMPLATE_PATH, "utf-8");
+  await loadRenderer();
 
   let successCount = 0;
   let errorCount = 0;
@@ -140,6 +186,7 @@ function main() {
       ].join("\n    ");
 
       html = html.replace("</head>", "    " + ogpTags + "\n  </head>");
+      html = prerender(html, article.path);
 
       const outputDir = join(DIST_DIR, article.path);
       mkdirSync(outputDir, { recursive: true });
@@ -153,15 +200,26 @@ function main() {
     }
   }
 
-  console.log("✅ 静的HTMLを生成しました: " + successCount + "件");
+  console.log("✅ 静的HTMLを生成しました: " + successCount + "件" + (render ? "(本文プリレンダリングあり)" : ""));
+
+  // 記事一覧・プロフィールなど
+  for (const page of EXTRA_PAGES) {
+    try {
+      const html = prerender(template, page, true);
+      const outputDir = join(DIST_DIR, page);
+      mkdirSync(outputDir, { recursive: true });
+      writeFileSync(join(outputDir, "index.html"), html, "utf-8");
+    } catch (error) {
+      console.error("❌ " + page + ": " + (error as Error).message);
+      errorCount++;
+    }
+  }
   if (errorCount > 0) {
     console.warn("⚠️ エラー: " + errorCount + "件");
   }
 }
 
-try {
-  main();
-} catch (err) {
+main().catch((err) => {
   console.error("❌ 予期しないエラー:", err);
   process.exit(1);
-}
+});
