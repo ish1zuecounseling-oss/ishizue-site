@@ -28,7 +28,7 @@ export const pillarMap: Record<string, string[]> = {
   /** 感情労働クラスター */
   emotional_labor: [
     "/articles/helper-emotional-labor-check", // 感情労働消耗度チェック
-    "/articles/emotional-labor",              // 感情労働とは
+    "/articles/emotional-labor-what-pillar",  // 感情労働とは(統合先)
   ],
 
   /** 辞めたい・キャリアクラスター */
