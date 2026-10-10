@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/articles/about-matsumoto",
+      "destination": "/profile",
+      "permanent": true
+    },
+    {
       "source": "/articles/quit-job-counseling",
       "destination": "/articles/helper-counseling-when-quitting",
       "permanent": true
