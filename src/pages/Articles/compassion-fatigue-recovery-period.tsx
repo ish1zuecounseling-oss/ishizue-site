@@ -20,7 +20,7 @@ const FAQ_ITEMS = [
 export default function CompassionFatigueRecoveryPeriod() {
   return (
     <ArticleLayout
-      title="共感疲労の回復期間｜どのくらいで回復するのか・回復を早める方法"
+      title="共感疲労の回復期間｜どのくらいで治る？自然に治るのか・回復を早める5つの方法【公認心理師】"
       description="共感疲労はどのくらいで回復するのか。回復期間の目安と段階、回復を早める方法・放置するリスクを支援職向けに解説します。「ただ休む」だけでは不十分な理由も。"
       url="https://www.ishizue-counseling.jp/articles/compassion-fatigue-recovery-period"
       date="2026-05-03"
@@ -59,6 +59,31 @@ export default function CompassionFatigueRecoveryPeriod() {
       <p className="text-sm text-stone-600 leading-relaxed">
         共感疲労と近い概念である燃え尽き症候群の回復期間については<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link>もあわせて参考になります。両者の違いは<Link to="/articles/compassion-fatigue-vs-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とバーンアウトの違い</Link>で解説しています。
       </p>
+
+      <h2>共感疲労は自然に治るのか</h2>
+      <p>
+        軽度の共感疲労であれば、環境が変わったり十分な休息が取れたりすることで
+        自然に回復することもあります。
+      </p>
+      <p>
+        しかし中程度以上の共感疲労——「休んでも回復しない」「何ヶ月も続いている」
+        「感情が麻痺している」といった状態——では、
+        放置するほど回復に時間がかかる傾向があります。
+      </p>
+      <p>
+        「休日に寝ても月曜には戻ってしまう」「何もしていないのに疲労感だけが残る」——
+        そういった状態が続いているなら、休息だけでは回復しにくい段階に入っている可能性があります。
+      </p>
+
+      <div className="card" style={{ borderLeft: "3px solid #9f3a3a" }}>
+        <p className="text-sm font-medium text-stone-700 mb-2">放置すると起きやすいこと</p>
+        <ul className="text-sm text-stone-600 space-y-1.5">
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>消耗に「慣れてしまう」——しんどい状態が普通になる</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>バーンアウト（燃え尽き症候群）に移行する</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>うつ状態に発展し、回復に長期間かかるようになる</li>
+          <li className="flex items-start gap-2"><span style={{ color: "#9f3a3a" }}>・</span>仕事を続けられなくなる状態まで進む</li>
+        </ul>
+      </div>
 
       <h2>共感疲労の回復期間の目安</h2>
       <p>
@@ -214,10 +239,9 @@ export default function CompassionFatigueRecoveryPeriod() {
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-600 mb-3">あわせて読む</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労からの回復方法——回復の5つのケア</Link>
-          <Link to="/articles/compassion-fatigue-natural-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労は自然に治るのか</Link>
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労の対処法と回復方法</Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労チェック（20項目・3分）</Link>
-          <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労は何科に相談すべきか</Link>
+          <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労とは(何科に相談するかも)</Link>
           <Link to="/articles/burnout-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 燃え尽き症候群はどれくらいで治る?（回復期間）</Link>
         </div>
       </div>
