@@ -52,7 +52,7 @@ const stagger: Variants = {
 
 const STARTER_PATHS = [
   "/articles/helper-empathy-check",
-  "/articles/helper-empathy-fatigue",
+  "/articles/compassion-fatigue-complete",
   "/articles/helper-rest-types",
 ];
 
@@ -1024,7 +1024,7 @@ export default function Articles() {
                   <p className="text-sm text-stone-200 leading-relaxed mb-4" style={{ fontFamily: "'Noto Serif JP', serif" }}>まず対処法を知りたい方は、こちらをご覧ください。</p>
                   <div className="flex flex-col gap-2">
                     {[
-                      { label: "共感疲労の対処法を見る",              path: "/articles/helper-compassion-fatigue-practice" },
+                      { label: "共感疲労の対処法を見る",              path: "/articles/compassion-fatigue-coping" },
                       { label: "バウンダリー(境界線)の作り方を見る", path: "/articles/helper-boundary-how-to" },
                       { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
                     ].map(({ label, path }) => (
