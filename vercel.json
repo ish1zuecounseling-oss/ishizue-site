@@ -1,6 +1,21 @@
 {
   "redirects": [
     {
+      "source": "/articles/helper-emotional-labor-what",
+      "destination": "/articles/emotional-labor-what-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/emotional-labor-fatigue",
+      "destination": "/articles/emotional-labor-what-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/emotional-labor",
+      "destination": "/articles/emotional-labor-what-pillar",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {
