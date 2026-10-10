@@ -69,9 +69,6 @@ export default function GlobusSensation() {
         「ヒステリー球」とも呼ばれますが、<strong>精神的な異常を意味するものではありません</strong>。
         のどの周りの筋肉の緊張や胃酸の逆流、そしてストレスや抑えた感情などが関わると考えられています。
       </p>
-      <p>
-        筆者自身も、この症状を経験しています。
-      </p>
 
       <p className="text-xs text-stone-700 leading-relaxed bg-stone-50 p-3 rounded-lg border border-stone-200 mt-2">
         ※ のどの違和感が続く方は、まず耳鼻咽喉科を受診してください。この記事は心理的な側面からの解説であり、診断や治療に代わるものではありません。
