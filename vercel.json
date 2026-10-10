@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/articles/helper-secondary-trauma",
+      "destination": "/articles/empathy-fatigue-vs-secondary-trauma",
+      "permanent": true
+    },
+    {
       "source": "/articles/helper-emotional-labor-what",
       "destination": "/articles/emotional-labor-what-pillar",
       "permanent": true
