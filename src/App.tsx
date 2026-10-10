@@ -171,14 +171,23 @@ function PublicPages() {
 /*  App                                                                        */
 /* -------------------------------------------------------------------------- */
 
-function App() {
+/** ルーター本体(ブラウザ用 App と、ビルド時のプリレンダリング用 entry-server で共用) */
+export function AppRoutes() {
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         <Route path="/admin/chronicle" element={<Chronicle />} />
         <Route path="/*" element={<PublicPages />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
