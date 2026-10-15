@@ -750,7 +750,7 @@ export default function Articles() {
 
             {/* サブタブ(2階層目) */}
             {!searchQuery.trim() && currentGroup.subs.length > 1 && (
-              <div className="flex gap-0 mb-6 border-b border-stone-100 overflow-x-auto">
+              <div className="flex gap-0 mb-6 border-b border-stone-100 overflow-x-auto overflow-y-hidden">
                 {currentGroup.subs.map((tab) => {
                   const count =
                     tab.id === "all"      ? articles.length :
@@ -762,7 +762,7 @@ export default function Articles() {
                     articles.filter((a) => !isResearchArticle(a.path) && !isThinkerArticle(a.path)).length;
                   return (
                     <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveShindo(null); }}
-                      className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
+                      className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap focus:outline-none focus-visible:bg-stone-50 ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
                       style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
                     >
                       {tab.label}
