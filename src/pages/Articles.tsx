@@ -60,6 +60,7 @@ const STARTER_PATHS = [
 /*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/thinker-dostoevsky-active-love",
   "/articles/secondary-trauma-check",
   "/articles/messiah-complex-check",
   "/articles/psychosomatic-check",
@@ -167,6 +168,10 @@ const RESEARCH_PATHS = [
 function isResearchArticle(path: string): boolean {
   return RESEARCH_PATHS.some((p) => path.includes(p));
 }
+/* 偉人・学者から学ぶ:ファイル名を thinker-<人物>-<論点> で作ると自動でこのカテゴリに入る */
+function isThinkerArticle(path: string): boolean {
+  return path.includes("/articles/thinker-");
+}
 function isCheckArticle(path: string): boolean {
   // パスが "-check" で終わる、または "-check-" を含むものをチェック系と判定
   // 例: helper-empathy-check, boundary-check, helper-stress-check-tool
@@ -262,6 +267,7 @@ const CATEGORIES: Category[] = [
 function getCategoryForArticle(path: string): Category {
   const p = path.toLowerCase();
   if (isResearchArticle(p)) return { id: "research", label: "しんどさの正体", keywords: [], isResearch: true };
+  if (isThinkerArticle(p)) return { id: "thinker", label: "偉人・学者から学ぶ", keywords: [] };
   for (const cat of CATEGORIES) {
     if (cat.keywords.some((kw) => p.includes(kw))) return cat;
   }
@@ -295,7 +301,7 @@ const TOOLS = [
 /*  - 全部見る: 一覧                                                            */
 /* -------------------------------------------------------------------------- */
 type TabGroup = "action" | "learn" | "all";
-type TabId = "shindo" | "tools" | "new" | "theme" | "research" | "all";
+type TabId = "shindo" | "tools" | "new" | "theme" | "research" | "thinkers" | "all";
 
 const TAB_GROUPS: { id: TabGroup; label: string; desc: string; subs: { id: TabId; label: string }[] }[] = [
   {
@@ -311,10 +317,11 @@ const TAB_GROUPS: { id: TabGroup; label: string; desc: string; subs: { id: TabId
   {
     id: "learn",
     label: "知る・理解する",
-    desc: "テーマ別の解説・心理学研究から構造を理解する",
+    desc: "テーマ別の解説・心理学研究・偉人や学者の思想から構造を理解する",
     subs: [
       { id: "theme",    label: "テーマ別" },
       { id: "research", label: "心理学から" },
+      { id: "thinkers", label: "偉人・学者から" },
     ],
   },
   {
@@ -394,20 +401,36 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
 
 function getArticlesForSection(keywords: string[], isCheckSection: boolean = false) {
   return articles.filter((a) => {
-    // リサーチ記事は常に除外
-    if (isResearchArticle(a.path)) return false;
+    // リサーチ記事・偉人記事は常に除外
+    if (isResearchArticle(a.path) || isThinkerArticle(a.path)) return false;
     // チェック記事は「診断・チェック」レイヤーでのみ表示
     if (!isCheckSection && isCheckArticle(a.path)) return false;
     // キーワードマッチ確認
     return keywords.some((kw) => a.path.toLowerCase().includes(kw));
   });
 }
+type ThinkerSection = { label: string; desc: string; keys: string[] };
+
+/* keys = 記事パスに含まれる人物名(thinker-<key>-...) */
+const THINKER_SECTIONS: ThinkerSection[] = [
+  { label: "自己と自己価値",       desc: "「本当の自分」と、条件つきの自己価値をめぐる思想",       keys: ["kierkegaard", "rogers", "james", "fromm", "winnicott", "kohut", "pepin"] },
+  { label: "空虚と意味",           desc: "満たされなさ、やりがい、生きる意味をめぐる思想",         keys: ["baudelaire", "frankl", "csikszentmihalyi", "deci"] },
+  { label: "他人軸・比較・思い込み", desc: "人の目、比較、決めつけから距離をとるための思想",         keys: ["epictetus", "adler", "girard", "diogenes", "horney", "pyrrho", "krishnamurti", "doi"] },
+  { label: "支援と他者",           desc: "人を支えること、他者と向き合うことの難しさをめぐる思想", keys: ["dostoevsky", "nietzsche", "schmidbauer", "hochschild", "saint-exupery", "kant", "weil", "levinas", "derrida", "bourdieu"] },
+  { label: "疲れ・反芻・休息",     desc: "考えすぎ、眠れなさ、休み方をめぐる思想と研究",           keys: ["russell", "holmes", "dalton-smith", "vanderbilt", "kross", "takuan", "bachelard", "cioran"] },
+  { label: "心とからだ",           desc: "からだの感覚と心のつながりをめぐる思想",                 keys: ["ikemi", "nishida", "upanishad"] },
+  { label: "カウンセリングそのもの", desc: "問いを通して考えを引き出す、対話の原点",                 keys: ["socrates"] },
+];
+function getThinkerArticlesForSection(keys: string[]) {
+  return articles.filter((a) => isThinkerArticle(a.path) && keys.some((k) => a.path.includes(`/articles/thinker-${k}`)));
+}
+
 function getResearchArticlesForSection(paths: string[]) {
   return articles.filter((a) => paths.some((p) => a.path.includes(p)));
 }
 function getUnclassified() {
   const all = THEME_LAYERS.flatMap((l) => l.sections.flatMap((s) => s.keywords));
-  return articles.filter((a) => !all.some((kw) => a.path.toLowerCase().includes(kw)) && !isResearchArticle(a.path));
+  return articles.filter((a) => !all.some((kw) => a.path.toLowerCase().includes(kw)) && !isResearchArticle(a.path) && !isThinkerArticle(a.path));
 }
 
 function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNew?: boolean }) {
@@ -732,8 +755,9 @@ export default function Articles() {
                     tab.id === "new"      ? articles.length :
                     tab.id === "tools"    ? TOOLS.length :
                     tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
+                    tab.id === "thinkers" ? articles.filter((a) => isThinkerArticle(a.path)).length :
                     tab.id === "shindo"   ? articles.length :
-                    articles.filter((a) => !isResearchArticle(a.path)).length;
+                    articles.filter((a) => !isResearchArticle(a.path) && !isThinkerArticle(a.path)).length;
                   return (
                     <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveShindo(null); }}
                       className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
@@ -1050,6 +1074,40 @@ export default function Articles() {
                     <div key={section.label} className="mb-10">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-[10px] tracking-[0.2em] uppercase font-medium px-2.5 py-1 rounded-full" style={{ color: "#0369a1", background: "#e0f2fe", border: "1px solid #bae6fd" }}>{section.label}</span>
+                        <span className="text-xs text-stone-400">{items.length}本</span>
+                      </div>
+                      <p className="text-xs text-stone-400 mb-3 ml-1">{section.desc}</p>
+                      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.05 }} variants={stagger} className="space-y-2">
+                        {items.map((a) => <ArticleCard key={a.path} article={a} />)}
+                      </motion.div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ============ 偉人・学者から ============ */}
+            {!searchQuery.trim() && activeTab === "thinkers" && (
+              <div>
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+                  className="mb-8 p-5 rounded-2xl" style={{ background: "#F7F3EA", border: "1px solid #e7dfcf" }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="w-4 h-4" style={{ color: "#2C1F14" }} />
+                    <p className="text-[10px] tracking-[0.25em] font-medium" style={{ color: "#2C1F14" }}>偉人・学者から学ぶ</p>
+                  </div>
+                  <p className="text-sm text-stone-700 leading-relaxed" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                    哲学者・作家・心理学者が残した言葉を、支援職の悩みに置き換えて読み解くシリーズです。<br />
+                    引用は原典で確かめたものだけを使っています。
+                  </p>
+                </motion.div>
+                {THINKER_SECTIONS.map((section) => {
+                  const items = getThinkerArticlesForSection(section.keys);
+                  if (items.length === 0) return null;
+                  return (
+                    <div key={section.label} className="mb-10">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] tracking-[0.2em] font-medium px-2.5 py-1 rounded-full" style={{ color: "#2C1F14", background: "#F7F3EA", border: "1px solid #e7dfcf" }}>{section.label}</span>
                         <span className="text-xs text-stone-400">{items.length}本</span>
                       </div>
                       <p className="text-xs text-stone-400 mb-3 ml-1">{section.desc}</p>
