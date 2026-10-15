@@ -249,6 +249,7 @@ export default function MessiahComplex() {
           <li>・<Link to="/articles/helper-self-effacement-family" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">家族の中で自分を消してきた支援職</Link></li>
           <li>・<Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸で生きてしまう理由</Link></li>
           <li>・<Link to="/articles/helper-carrying-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を抱え込んでしまう</Link></li>
+          <li>・<Link to="/articles/thinker-dostoevsky-active-love" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">人類を愛するほど、隣の人を愛せない（ドストエフスキーから読む支援職の罪悪感）</Link></li>
         </ul>
       </div>
 
