@@ -60,6 +60,14 @@ const STARTER_PATHS = [
 /*  新着順 — pathリスト(新しい順に手動管理)                                     */
 /* -------------------------------------------------------------------------- */
 const NEW_ARTICLE_PATHS: string[] = [
+  "/articles/thinker-deci-intrinsic-motivation",
+  "/articles/thinker-csikszentmihalyi-flow",
+  "/articles/thinker-winnicott-false-self",
+  "/articles/thinker-fromm-art-of-loving",
+  "/articles/thinker-schmidbauer-helper-syndrome",
+  "/articles/thinker-hochschild-feeling-rules",
+  "/articles/thinker-diogenes-currency",
+  "/articles/thinker-pyrrho-epoche",
   "/articles/thinker-ikemi-alexisomia",
   "/articles/thinker-nishida-pure-experience",
   "/articles/thinker-adler-inferiority",
