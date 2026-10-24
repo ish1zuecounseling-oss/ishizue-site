@@ -17,7 +17,7 @@
  * - LINE導線5箇所にGA4イベント追加(articles_hero/sticky/midband/floating/bottom_line_click)
  */
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type MouseEvent } from "react";
 import { motion, type Variants, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 import {
@@ -39,6 +39,11 @@ declare function gtag(...args: unknown[]): void;
 
 const trackLine = (eventName: string) => {
   try { gtag("event", eventName); } catch (_) { /* noop */ }
+};
+
+// 記事一覧の入口・タブ・記事クリック計測(並べ替え判断用)
+const track = (eventName: string, params: Record<string, string>) => {
+  try { gtag("event", eventName, params); } catch (_) { /* noop */ }
 };
 
 const fadeUp: Variants = {
@@ -526,6 +531,20 @@ export default function Articles() {
     setActiveShindo(null);
   };
 
+  // 一覧内の記事リンククリックを一括計測(どのタブ・絞り込み・検索から開かれたか)
+  const onArticleLinkClick = (e: MouseEvent<HTMLDivElement>) => {
+    const link = (e.target as HTMLElement).closest("a");
+    const href = link?.getAttribute("href") ?? "";
+    if (!href.startsWith("/articles/")) return;
+    const section = link?.closest("[data-track-section]")?.getAttribute("data-track-section");
+    track("articles_list_article_click", {
+      article_path: href,
+      from_tab: searchQuery.trim() ? "search" : activeTab,
+      shindo: activeShindo?.label ?? "",
+      section: section ?? (link?.closest("[data-worry]") ? "worry" : "list"),
+    });
+  };
+
   const starterArticles = STARTER_PATHS
     .map((p) => articles.find((a) => a.path === p))
     .filter((a): a is NonNullable<typeof a> => !!a);
@@ -547,7 +566,7 @@ export default function Articles() {
         <link rel="canonical" href="https://www.ishizue-counseling.jp/articles" />
       </Helmet>
 
-      <div className="bg-white min-h-screen">
+      <div className="bg-white min-h-screen" onClickCapture={onArticleLinkClick}>
 
         {/* ========== HERO:3つの入口に集約 ========== */}
         <section className="relative bg-[#1A110A] overflow-hidden">
@@ -572,7 +591,7 @@ export default function Articles() {
                 {/* 入口1:状態を知る */}
                 <a
                   href="#group-action"
-                  onClick={() => switchGroup("action")}
+                  onClick={() => { track("articles_entry_click", { entry: "state" }); switchGroup("action"); }}
                   className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
                   style={{ background: `${SAGE}18`, border: `1px solid ${SAGE}40` }}
                 >
@@ -594,7 +613,7 @@ export default function Articles() {
                 {/* 入口2:構造を知る */}
                 <a
                   href="#group-learn"
-                  onClick={() => switchGroup("learn")}
+                  onClick={() => { track("articles_entry_click", { entry: "structure" }); switchGroup("learn"); }}
                   className="group flex flex-col gap-2 p-4 rounded-xl transition-all"
                   style={{ background: "rgba(125,211,252,0.12)", border: "1px solid rgba(125,211,252,0.3)" }}
                 >
@@ -662,6 +681,7 @@ export default function Articles() {
                   <button
                     key={g.id}
                     onClick={() => {
+                      track("articles_group_click", { group: g.id, place: "sticky" });
                       switchGroup(g.id);
                       document.getElementById(`group-${g.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
                     }}
@@ -753,7 +773,7 @@ export default function Articles() {
                   {TAB_GROUPS.map((g) => (
                     <button
                       key={g.id}
-                      onClick={() => switchGroup(g.id)}
+                      onClick={() => { track("articles_group_click", { group: g.id, place: "tabs" }); switchGroup(g.id); }}
                       id={`group-${g.id}`}
                       className={`px-3 py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all ${
                         activeGroup === g.id ? "text-white shadow-sm" : "text-stone-500 hover:text-stone-700"
@@ -783,7 +803,7 @@ export default function Articles() {
                     tab.id === "shindo"   ? articles.length :
                     articles.filter((a) => !isResearchArticle(a.path) && !isThinkerArticle(a.path)).length;
                   return (
-                    <button key={tab.id} onClick={() => { setActiveTab(tab.id); setActiveShindo(null); }}
+                    <button key={tab.id} onClick={() => { track("articles_tab_click", { tab: tab.id }); setActiveTab(tab.id); setActiveShindo(null); }}
                       className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap focus:outline-none focus-visible:bg-stone-50 ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
                       style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
                     >
@@ -824,7 +844,8 @@ export default function Articles() {
                       : "flex flex-col gap-2 md:grid md:grid-cols-4"
                   }>
                     {WORRY_CATEGORIES.map((cat) => (
-                      <a key={cat.id} href={cat.exitPath}
+                      <a key={cat.id} href={cat.exitPath} data-worry={cat.id}
+                        onClick={() => track("articles_worry_click", { worry: cat.id })}
                         className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
                       >
                         <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
@@ -840,6 +861,7 @@ export default function Articles() {
                 {starterArticles.length > 0 && (
                   <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
                     className="mb-7 p-5 rounded-2xl" style={{ background: `${SAGE}07`, border: `1px solid ${SAGE}40` }}
+                    data-track-section="starter"
                   >
                     <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>STEP 2 ｜ はじめての方へ・まず読んでほしい記事</p>
                     <div className="space-y-2">
@@ -934,7 +956,7 @@ export default function Articles() {
                     const isActive = activeShindo?.label === card.label;
                     const isResearch = card.icon === "FlaskConical";
                     return (
-                      <button key={card.label} onClick={() => setActiveShindo(isActive ? null : card)}
+                      <button key={card.label} onClick={() => { if (!isActive) track("articles_shindo_click", { shindo: card.label }); setActiveShindo(isActive ? null : card); }}
                         className="flex flex-col items-start gap-2 p-4 rounded-xl border text-left transition-all"
                         style={{ borderColor: isActive ? (isResearch ? "#0369a1" : SAGE) : "rgb(231,229,228)", background: isActive ? (isResearch ? "#e0f2fe" : `${SAGE}0e`) : "white" }}
                       >
