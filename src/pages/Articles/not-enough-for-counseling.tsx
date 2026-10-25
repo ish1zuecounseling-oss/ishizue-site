@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function NotEnoughForCounseling() {
   return (
@@ -115,7 +116,7 @@ export default function NotEnoughForCounseling() {
           「なんとなく重い」「整理したい」——それだけで十分です。いしずえのカウンセリングは支援職の消耗を前提にしています。状態を整理するだけでも、次が見えてきます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          支援職専門カウンセリングに相談する{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

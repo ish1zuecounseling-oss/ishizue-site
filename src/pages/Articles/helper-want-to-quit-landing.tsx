@@ -1,5 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function HelperWantToQuitLanding() {
   return (
@@ -206,7 +207,7 @@ export default function HelperWantToQuitLanding() {
           href="/#contact"
           style={{ display: "block", background: "#7EB8A4", color: "#fff", borderRadius: "10px", padding: "14px 20px", fontSize: "0.9rem", fontWeight: 600, textDecoration: "none", textAlign: "center", marginBottom: "0.5rem" }}
         >
-          今の状態を整理してみる（初回無料）
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center">
           支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK ／ まだ決めなくていい

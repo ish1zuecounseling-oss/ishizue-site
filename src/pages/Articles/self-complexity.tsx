@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaSmall } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -266,7 +267,7 @@ export default function SelfComplexity() {
         <p className="text-sm font-medium text-stone-800 mb-2">自己複雑性と自己機能を一緒に整理する</p>
         <p className="text-xs text-stone-600 leading-relaxed mb-4">「支援者以外の自分がわからない」——ポジ側面の縮小とネガ側面の肥大が同時に起きているとき、一人で整理するのは難しくなります。外から整理することで、バッファとなる自己側面を取り戻す入口が見えてきます。</p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          支援職専門カウンセリングに相談する{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

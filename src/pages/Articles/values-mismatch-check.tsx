@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 /**
  * 4つの哲学的対立軸 × 各軸4項目 = 16項目
@@ -429,7 +430,7 @@ export default function ValuesMismatchCheck() {
             </p>
             <a href="/#contact"
               style={{ display: "inline-block", background: "#2C1F14", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
-              今の状態を整理してみる(初回無料)
+              今の状態を整理してみる{FREE_FIRST}
             </a>
             <p style={{ fontSize: "0.75rem", color: "#aaa", margin: 0 }}>
               支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK
@@ -562,7 +563,7 @@ export default function ValuesMismatchCheck() {
           価値観の違いから来る対人摩擦・自己嫌悪は、一人で抱えるほど深まります。安全な場で「自分の価値観」「相手との違い」を言語化することで、苦しみの正体が見えてきます。支援職特有の価値観の衝突についても、構造を理解した上で一緒に整理していきます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

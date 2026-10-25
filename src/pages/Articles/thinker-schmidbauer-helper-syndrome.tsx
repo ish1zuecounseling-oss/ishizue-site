@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -204,7 +205,7 @@ export default function ThinkerSchmidbauerHelperSyndrome() {
           ここでは、あなたが「助ける側」でいる必要はありません。支援職15年の経験から、話しにくさごと受け止めます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
