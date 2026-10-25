@@ -27,12 +27,12 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
+import { ACCEPTING_NEW_CLIENTS } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_URL = "https://lin.ee/6H8Pzo6";
 
-// 受付ステータス: 再開時はtrueへ(Home.tsxのACCEPTING_NEW_CLIENTSと合わせて変更すること)
-const ACCEPTING_NEW_CLIENTS = false;
+// 受付ステータス: src/data/siteStatus.ts の ACCEPTING_NEW_CLIENTS で全体を切り替える
 
 // GA4 gtag型宣言
 declare function gtag(...args: unknown[]): void;
