@@ -13,6 +13,7 @@ import ShienShokuLP from "./pages/ShienShokuLP";
 import Articles from "./pages/Articles";
 import Profile from "./pages/Profile";
 import Chronicle from "./pages/admin/Chronicle";
+import StaffSearch from "./pages/admin/StaffSearch";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TokushoPage from "./pages/TokushoPage";
 import ServiceTerms from "./pages/ServiceTerms";
@@ -178,6 +179,7 @@ export function AppRoutes() {
       <ScrollToTop />
       <Routes>
         <Route path="/admin/chronicle" element={<Chronicle />} />
+        <Route path="/admin/search" element={<StaffSearch />} />
         <Route path="/*" element={<PublicPages />} />
       </Routes>
     </>
