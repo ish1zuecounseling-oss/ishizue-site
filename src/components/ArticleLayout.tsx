@@ -91,6 +91,17 @@ function scrollToContact(navigate: ReturnType<typeof useNavigate>) {
 /*  Component                                                                  */
 /* -------------------------------------------------------------------------- */
 
+/* 独自作成のセルフチェック記事か(URLが -check で終わる/含むもの)。
+   既存の心理尺度をもとにしたもの・心理尺度ではないものは、各記事で個別に説明しているので除外する */
+const SELF_CHECK_EXCLUDE = new Set([
+  "helper-self-compassion-check", // SCRI-J をもとに作成(記事内で出典を明記)
+  "counseling-matching-check",    // カウンセリングとの相性確認で、心理尺度ではない
+]);
+function isOriginalSelfCheck(url: string): boolean {
+  const slug = url.split("/articles/")[1]?.replace(/\/$/, "") ?? "";
+  return /-check(-|$)/.test(slug) && !SELF_CHECK_EXCLUDE.has(slug);
+}
+
 export default function ArticleLayout({
   title, description, url, date, audio, tags = [], faq = [], children,
 }: Props) {
@@ -309,6 +320,16 @@ export default function ArticleLayout({
             ============================================================ */}
             <div className="article-body" itemProp="articleBody">
               {children}
+              {isOriginalSelfCheck(url) && (
+                <div className="mt-8 p-4 rounded-xl border border-stone-200 bg-stone-50">
+                  <p className="text-xs font-medium text-stone-600 mb-1.5">このチェックについて</p>
+                  <p className="text-xs text-stone-500 leading-relaxed">
+                    このチェックは、当相談室が臨床経験と心理学の知見をもとに独自に作成したものです。
+                    研究で信頼性や妥当性が確かめられた心理尺度ではなく、病気の診断にも使えません。
+                    今の状態をふり返るきっかけとしてご利用ください。つらさが続く場合は、医療機関や専門家にご相談ください。
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* ============================================================
