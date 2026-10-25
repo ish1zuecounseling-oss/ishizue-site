@@ -1,50 +1,42 @@
-import { useState } from "react";
 import { motion } from "motion/react";
-import { SectionLabel, stagger, fadeUp, VoiceCard, CtaButton } from "./homeShared";
-import { voices } from "./homeData";
+import { stagger, fadeUp, ExpandableCard, CtaButton } from "./homeShared";
+import { painPoints } from "./homeData";
+import { ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus";
 
-function VoicesGrid() {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? voices : voices.slice(0, 2);
+export default function PainPointsSection() {
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {visible.map((v) => <VoiceCard key={v.role} v={v} />)}
-        <motion.div variants={fadeUp} className="hidden md:flex flex-col items-center justify-center bg-[#2C1F14] rounded-2xl p-6 text-center space-y-4">
-          <p className="text-stone-300 text-sm leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-            「相談するほどじゃない」と思っている方ほど、実は一番必要としていることが多いです。
-          </p>
-          <a href="#contact" className="inline-flex items-center gap-2 text-sm text-[#8FAF9F] hover:text-white transition-colors underline underline-offset-4">
-            まず話してみる
-          </a>
-        </motion.div>
-      </div>
-      {!expanded && (
-        <button onClick={() => setExpanded(true)} className="md:hidden w-full py-3 rounded-2xl border border-stone-200 text-stone-500 text-sm flex items-center justify-center gap-2 hover:bg-stone-50 transition-colors">
-          残り{voices.length - 2}件の声を見る<span className="text-stone-300">+</span>
-        </button>
-      )}
-    </div>
-  );
-}
-
-export default function VoicesSection() {
-  return (
-    <section id="voices" className="py-16 md:py-20 px-5 md:px-6 bg-stone-50">
-      <div className="max-w-4xl mx-auto">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} variants={stagger} className="space-y-10">
-          <motion.div variants={fadeUp}>
-            <SectionLabel en="Voices" ja="相談された方の声" />
-            <p className="text-stone-400 text-xs mt-2">※ 掲載にあたりご本人の同意を得ています。個人が特定されないよう一部を変更しています。</p>
-          </motion.div>
-          <VoicesGrid />
-          <motion.div variants={fadeUp} className="text-center space-y-6">
-            <p className="text-stone-600 text-sm md:text-base leading-[2]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-              みなさんに共通しているのは、<strong className="text-stone-800">「相談するほどじゃないかも」と思いながら来た</strong>ことです。<br />
-              その迷いは、あなただけのものではありません。
+    <section id="services" className="py-16 md:py-24 px-5 md:px-6 bg-white">
+      <div className="max-w-4xl mx-auto space-y-10 md:space-y-14">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
+          <motion.div variants={fadeUp} className="space-y-3 max-w-xl">
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#8FAF9F] font-medium">あなたの話ではないですか</span>
+            <h2 className="text-xl md:text-3xl font-light text-stone-900 leading-[1.65] tracking-wide" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              支援職ほど、<br /><span className="text-stone-500">自分の消耗に一番気づきにくい。</span>
+            </h2>
+            <p className="hidden md:block text-stone-400 text-sm italic leading-[2]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              なぜこんなに疲れているのか、わからないまま今日も出勤した。
             </p>
-            <CtaButton label="同じ立場の人が話せた場所で、話してみる" sub="職種・経験年数は問いません ／ 初回無料" />
+            <p className="hidden md:block text-stone-500 text-sm leading-[1.9]">
+              他者の痛みに寄り添うことが仕事だからこそ、自分自身の疲れは「たいしたことない」と後回しにしてしまう。
+            </p>
+            <p className="md:hidden text-stone-400 text-xs leading-[1.8]">当てはまるものをタップして確認してみてください。</p>
           </motion.div>
+        </motion.div>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger} className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
+          {painPoints.map((item) => <ExpandableCard key={item.feeling} {...item} />)}
+        </motion.div>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+          <div className="p-6 md:p-8 rounded-2xl bg-[#2C1F14] space-y-5">
+            <p className="text-stone-100 text-base md:text-xl font-light leading-[1.9] text-center" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              それは、あなたが弱いからではありません。
+            </p>
+            <p className="text-stone-400 text-sm leading-[1.9] text-center">
+              支援職という役割の構造が、消耗を生み出しているのです。構造がわかれば、変えられます。
+            </p>
+            <div className="pt-3 border-t border-stone-800">
+              <CtaButton label={ACCEPTING_NEW_CLIENTS ? "今の状態を整理してみる（初回無料）" : "今の状態を整理してみる"} sub={ACCEPTING_NEW_CLIENTS ? "まとまっていなくても大丈夫です" : "新規のご相談は休止中です ／ 再開のご案内はLINEで"} />
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
