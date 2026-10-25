@@ -3,6 +3,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { trackLineClickFromCheck } from "../../lib/analytics"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const CHECK_NAME = "helper-empathy-check"
 
@@ -55,7 +56,7 @@ const resultConfig = {
     cvBlock: {
       heading: "余裕がある今の状態を、崩れる前に整えておく",
       body: "今は大きな問題はない状態です。ただ、支援職の消耗は『気づかないまま進む』のが特徴です。崩れてから整えるのは時間も負担も大きくなります。余裕がある今のうちに、一度言語化しておきませんか?",
-      buttonText: "今の状態を整理しておく(初回無料)",
+      buttonText: "今の状態を整理しておく{FREE_FIRST}",
       href: "/#contact",
       sub: "勧誘なし ／ 1回のみでもOK ／ 支援職専門",
     },
@@ -76,7 +77,7 @@ const resultConfig = {
     cvBlock: {
       heading: "この段階で止められるかどうかが分かれ目です",
       body: "まだ日常は回せているかもしれませんが、共感疲労はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。",
-      buttonText: "今の状態を整理しておく(初回無料)",
+      buttonText: "今の状態を整理しておく{FREE_FIRST}",
       href: "/#contact",
       sub: "勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可",
     },
@@ -97,7 +98,7 @@ const resultConfig = {
     cvBlock: {
       heading: "このまま抱え続けるより、外に出した方が早い状態です",
       body: "今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。一度、そのままの状態を言葉にしてみませんか?",
-      buttonText: "今の状態をそのまま話してみる(初回無料)",
+      buttonText: "今の状態をそのまま話してみる{FREE_FIRST}",
       href: "/#contact",
       sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
     },

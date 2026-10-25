@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -488,7 +489,7 @@ export default function CareWorkerSecondaryTrauma() {
           介護士の二次受傷は、職業構造から起きる正当な反応です。「自分が弱いから」ではありません。介護や障害福祉の現場を理解した専門家として、構造の整理をお手伝いできます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">障害福祉15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const questions = [
   { id: 1, text: "朝起きた時点で、すでに疲れている感じがある" },
@@ -77,7 +78,7 @@ const results = {
     ],
     cta: {
       strength: "strong",
-      primary: { label: "今の状態を整理してみる（初回無料）", path: "/#contact" },
+      primary: { label: "今の状態を整理してみる{FREE_FIRST}", path: "/#contact" },
       secondary: { label: "辞めるべきか迷っている方はこちら", path: "/articles/helper-want-to-quit-landing" },
     },
     warning: "この状態で頑張り続けると、回復に時間がかかる可能性があります。",

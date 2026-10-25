@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import ArticleLayout from "../../components/ArticleLayout"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 /* -------------------------------------------------------------------------- */
 /*  SCRI-J データ（宮川・谷口 2016 付録より）                                   */
@@ -119,7 +120,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「また責めてしまった」を繰り返しているなら",
       body: "自己批判のパターンは一人で変えようとしても難しいことがあります。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
-      buttonText: "今の状態を相談してみる（初回無料）",
+      buttonText: "今の状態を相談してみる{FREE_FIRST}",
     },
   },
   mid: {
@@ -136,7 +137,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「頑張っているのになぜ消耗するのか」整理したい方へ",
       body: "セルフ・コンパッションは高めることができます。支援職専門カウンセリングで、消耗の構造を一緒に整理してみませんか。",
-      buttonText: "カウンセリングで整理してみる（初回無料）",
+      buttonText: "カウンセリングで整理してみる{FREE_FIRST}",
     },
   },
   high: {
@@ -153,7 +154,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "今の状態を維持・深化させたい方へ",
       body: "セルフ・コンパッションが高くても、職場の構造による消耗は起きます。今の強みを活かしながら、さらに整えたい部分を一緒に確認しましょう。",
-      buttonText: "状態をさらに整える（初回無料）",
+      buttonText: "状態をさらに整える{FREE_FIRST}",
     },
   },
 }

@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -279,7 +280,7 @@ export default function HelperManagerFatigue() {
           部下にも経営層にも言えないことを、立場ごと理解して聴ける場所があります。福祉現場の管理業務を知る公認心理師が、役職の孤独と板挟みの構造を一緒に整理します。あなたが整うことが、チームの土台です。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

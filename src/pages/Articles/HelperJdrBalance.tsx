@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const DEMANDS = [
   {
@@ -333,7 +334,7 @@ function JdrBalance() {
           <a href="/#contact" style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
             borderRadius:"10px", fontSize:"14px", fontWeight:600, textDecoration:"none",
             textAlign:"center" as const, display:"block" }}>
-            ✉ バランスを整える相談をする（初回無料）
+            ✉ バランスを整える相談をする{FREE_FIRST}
           </a>
         </div>
       )}

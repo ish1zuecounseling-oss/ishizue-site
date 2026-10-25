@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 function BoundaryBoard() {
   const [fusion, setFusion] = useState(50)
@@ -160,7 +161,7 @@ function BoundaryBoard() {
         <a href="/#contact" style={{ flex: 1, padding: "12px", background: "#2C1F14", color: "#fff",
           borderRadius: "10px", fontSize: "14px", fontWeight: 600, textDecoration: "none",
           textAlign: "center" as const, display: "block" }}>
-          ✉ 境界線を再構築する（初回無料）
+          ✉ 境界線を再構築する{FREE_FIRST}
         </a>
       </div>
     </div>

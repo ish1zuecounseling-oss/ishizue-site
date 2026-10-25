@@ -1,6 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const checkItems = [
   "考えること自体がしんどく感じる",
@@ -43,7 +44,7 @@ const resultConfig = {
     message: "今は大きな消耗は見られません。ただ、支援職の疲れは気づかないまま蓄積することが多いです。余裕があるうちにセルフケアの習慣を整えておくことが、長く働き続ける土台になります。",
     cvHeading: "余裕がある今のうちに、状態を言語化しておく",
     cvBody: "崩れてから整えるより、余裕がある今の方が圧倒的に早く対処できます。一度、今の状態を整理しておきませんか？",
-    cvButton: "今の状態を整理しておく（初回無料）",
+    cvButton: "今の状態を整理しておく{FREE_FIRST}",
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労とは？原因・症状・回復方法" },
       { href: "/articles/helper-self-care-ability", text: "セルフケア能力とは？「無理をしない」ための視点" },
@@ -58,7 +59,7 @@ const resultConfig = {
     message: "まだ日常は回せているかもしれませんが、脳疲労はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。逆に後回しにすると、回復に時間がかかることもあります。",
     cvHeading: "この段階で止められるかどうかが分かれ目です",
     cvBody: "脳疲労は早い段階ほど回復しやすく、深くなるほど一人での回復が難しくなります。今の状態を一度整理しておくことが、これ以上の消耗を防ぐ最短ルートです。",
-    cvButton: "今の状態を整理しておく（初回無料）",
+    cvButton: "今の状態を整理しておく{FREE_FIRST}",
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労の回復方法を見る" },
       { href: "/articles/helper-burnout-scale-validity", text: "バーンアウトとは？症状・原因・回復方法" },
@@ -73,7 +74,7 @@ const resultConfig = {
     message: "「自分で何とかする」よりも、外に出して整理した方が回復しやすい段階の可能性があります。このまま抱え続けると、回復までに時間がかかることもあります。一人で抱え込まないでください。",
     cvHeading: "このまま抱え続けるより、外に出した方が早い状態です",
     cvBody: "休んでも回復しない状態が続いている場合、セルフケアだけでは難しい段階かもしれません。今の状態をそのまま話してみてください。",
-    cvButton: "今の状態をそのまま話してみる（初回無料）",
+    cvButton: "今の状態をそのまま話してみる{FREE_FIRST}",
     links: [
       { href: "/articles/helper-consider-leave", text: "休職を考えたとき｜判断のための5つのポイント" },
       { href: "/articles/helper-want-to-quit", text: "辞めたいと思ったとき｜気持ちを整理する視点" },

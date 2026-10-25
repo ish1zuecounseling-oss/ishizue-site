@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 type AxisId = "compassion" | "overload" | "moral" | "body"
 
@@ -170,7 +171,7 @@ function MabiRadar() {
         <a href="/#contact" style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
           borderRadius:"10px", fontSize:"14px", fontWeight:600, textDecoration:"none",
           textAlign:"center" as const, display:"block" }}>
-          ✉ 今の状態を整理してみる（初回無料）
+          ✉ 今の状態を整理してみる{FREE_FIRST}
         </a>
       </div>
     </div>

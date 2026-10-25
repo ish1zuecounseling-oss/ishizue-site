@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Heart, Layers, Building2, Moon, ArrowRight } from "lucide-react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 type AxisId = "emotion" | "overload" | "workplace" | "body"
 
@@ -306,7 +307,7 @@ function StatusCheckWidget() {
                 textDecoration: "none",
               }}
             >
-              今の状態を整理してみる（初回無料）
+              今の状態を整理してみる{FREE_FIRST}
             </a>
             <p style={{ fontSize: "11px", color: "#475569", marginTop: "8px" }}>
               勧誘なし ／ 1回のみでもOK

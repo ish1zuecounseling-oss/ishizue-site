@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function EmpathyBrainFatigue() {
   return (
@@ -118,7 +119,7 @@ export default function EmpathyBrainFatigue() {
         <p className="text-sm font-medium text-stone-800 mb-2">共感疲労の構造を一緒に整理する</p>
         <p className="text-xs text-stone-600 leading-relaxed mb-4">「なぜこんなに人の感情を引きずるのか」——消耗の構造を外から整理することで、回復の入口が見えてきます。</p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          支援職専門カウンセリングに相談する{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

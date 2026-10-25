@@ -1,5 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function HelperCounselingLanding() {
   return (
@@ -180,7 +181,7 @@ export default function HelperCounselingLanding() {
 
         <div className="p-4 rounded-xl border border-stone-200 bg-stone-50">
           <p className="text-xs font-medium mb-1" style={{ color: "#2C1F14" }}>直接話したい方</p>
-          <p className="text-sm font-medium text-stone-800 mb-1">いしずえカウンセリング（初回無料）</p>
+          <p className="text-sm font-medium text-stone-800 mb-1">いしずえカウンセリング{FREE_FIRST}</p>
           <p className="text-xs text-stone-500 mb-3">
             支援職15年・300名以上の相談経験。
             「まだ決めなくていい」「1回だけでもOK」です。
@@ -190,7 +191,7 @@ export default function HelperCounselingLanding() {
             className="block text-center py-2.5 rounded-lg text-sm font-medium text-white"
             style={{ background: "#2C1F14", textDecoration: "none" }}
           >
-            まず話してみる（初回無料）
+            まず話してみる{FREE_FIRST}
           </a>
           <p className="text-[10px] text-stone-400 text-center mt-1.5">
             ※申し込み後もキャンセル可 ／ 勧誘なし

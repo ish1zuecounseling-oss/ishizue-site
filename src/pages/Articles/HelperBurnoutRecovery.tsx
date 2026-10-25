@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -245,7 +246,7 @@ export default function HelperBurnoutRecovery() {
           支援職だからといって、一人で回復しなければならない理由はありません。「支援される体験」そのものが、回復の質を高めます。消耗の構造を、専門家と一緒に整理してみませんか。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

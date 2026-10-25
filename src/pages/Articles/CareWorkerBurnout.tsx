@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -218,7 +219,7 @@ export default function CareWorkerBurnout() {
           燃え尽きは「弱さ」ではなく、誠実に関わってきた結果です。消耗を生む構造を、構造を理解した専門家と一緒に整理することで、長く働き続けるための回復の道筋が見えてきます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる(初回無料)
+          今の状態を整理してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

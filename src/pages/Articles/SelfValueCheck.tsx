@@ -3,6 +3,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete } from "../../lib/analytics"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const CHECK_NAME = "self-value-check"
 
@@ -378,7 +379,7 @@ export function SelfValueWidget() {
             <a href="/#contact" style={{ display: "inline-block", padding: "12px 28px",
               background: "#2C1F14", color: "#fff", borderRadius: "10px",
               fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
-              今の状態を整理してみる（初回無料）
+              今の状態を整理してみる{FREE_FIRST}
             </a>
             <p style={{ fontSize: "11px", color: "#475569", marginTop: "8px" }}>勧誘なし ／ 1回のみでもOK</p>
           </div>

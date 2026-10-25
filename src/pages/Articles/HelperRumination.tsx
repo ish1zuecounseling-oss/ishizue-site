@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { LineCtaSmall } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function HelperRumination() {
   return (
@@ -163,7 +164,7 @@ export default function HelperRumination() {
           「なぜこんなに考えてしまうのか」——思考ループの背景にある消耗の構造を外から整理することで、抜け出す入口が見えてきます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          支援職専門カウンセリングに相談する{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

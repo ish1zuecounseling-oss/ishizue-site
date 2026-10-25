@@ -3,6 +3,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 const CHECK_NAME = "counseling-matching-check"
 
@@ -38,7 +39,7 @@ const resultConfig = {
     cta: {
       heading: "あなたに合う進め方で、一度整理してみませんか?",
       body: "あなたの状態を、まず構造として整理します。意志や性格の問題として捉えず、構造的に見ることで「なぜそうなるのか」「どこから変えられるのか」が見えてきます。初回はメール相談で30分無料。続けるかは、それから決めても大丈夫です。",
-      buttonText: "今の状態を整理してみる(初回無料)",
+      buttonText: "今の状態を整理してみる{FREE_FIRST}",
       href: "/#contact",
       sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
     },

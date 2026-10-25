@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaSmall } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function HelperResponsibilityBurnout() {
   return (
@@ -93,7 +94,7 @@ export default function HelperResponsibilityBurnout() {
         <p className="text-sm font-medium text-stone-800 mb-2">責任感と消耗の構造を整理したいとき</p>
         <p className="text-xs text-stone-600 leading-relaxed mb-4">「なぜこんなに抱えてしまうのか」「どこで止めればよかったのか」——消耗の構造を外から整理することで、次のパターンが変わります。支援職の消耗を前提にした相談を行っています。</p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する（初回無料）
+          支援職専門カウンセリングに相談する{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

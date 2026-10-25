@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import { FREE_FIRST } from "../../data/siteStatus"
 
 export default function HelperCaregiverBurnout() {
   return (
@@ -212,7 +213,7 @@ export default function HelperCaregiverBurnout() {
           回復への具体的なステップを一緒に考えられます。
         </p>
         <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4" }}>
-          今の状態を相談してみる（初回無料）
+          今の状態を相談してみる{FREE_FIRST}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
