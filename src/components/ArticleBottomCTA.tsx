@@ -5,6 +5,7 @@
 
 import { Link } from "react-router-dom"
 import { ArrowRight } from "lucide-react"
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus"
 
 type Props = {
   links?: { label: string; path: string }[]
@@ -54,17 +55,38 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
           今の状態を一度整理しておくことで、消耗が深くなる前に対処できることもあります。<br />
           言葉にならなくても大丈夫です。
         </p>
-        <Link
-          to="/#contact"
-          className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
-          style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
-        >
-          初回無料で相談する
-          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-        </Link>
-        <p className="text-[10px] text-stone-600 mt-3">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+        {ACCEPTING_NEW_CLIENTS ? (
+          <>
+            <Link
+              to="/#contact"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
+              style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
+            >
+              初回無料で相談する
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <p className="text-[10px] text-stone-600 mt-3">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
+          </>
+        ) : (
+          <>
+            <a
+              href={PAUSED_LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackPausedLineClick("article_bottom_paused")}
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
+              style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
+            >
+              LINEで状態別の解説と再開のお知らせを受け取る
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+            <p className="text-[10px] text-stone-600 mt-3">新規のご相談は現在休止中です ／ 再開時はLINEで先にお知らせします</p>
+          </>
+        )}
       </div>
 
     </div>
