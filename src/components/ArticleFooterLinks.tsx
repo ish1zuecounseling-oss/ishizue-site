@@ -15,6 +15,7 @@
 //   "jobtype"       → 職種別記事
 
 import { Link } from "react-router-dom"
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus"
 
 type TypeKey = "check" | "concept" | "symptom" | "jobtype" | "self-function" | "mbti" | "attachment" | "recovery"
 
@@ -396,16 +397,36 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
           ))}
           {/* フォールバック：取りこぼし防止 */}
           <div className="pt-3 border-t border-stone-100">
-            <p className="text-xs text-stone-400 leading-relaxed mb-2">
-              どれにも当てはまらない場合は、今の状態を一緒に整理することもできます。
-            </p>
-            <a
-              href="/#contact"
-              className="inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition-colors"
-              style={{ color: "#8FAF9F" }}
-            >
-              → 今の状態を整理する（初回無料・無理に決めなくていい）
-            </a>
+            {ACCEPTING_NEW_CLIENTS ? (
+              <>
+                <p className="text-xs text-stone-400 leading-relaxed mb-2">
+                  どれにも当てはまらない場合は、今の状態を一緒に整理することもできます。
+                </p>
+                <a
+                  href="/#contact"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition-colors"
+                  style={{ color: "#8FAF9F" }}
+                >
+                  → 今の状態を整理する（初回無料・無理に決めなくていい）
+                </a>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-stone-400 leading-relaxed mb-2">
+                  どれにも当てはまらない場合は、LINEで状態タイプ別の解説を受け取ることもできます。
+                </p>
+                <a
+                  href={PAUSED_LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackPausedLineClick("footer_links_paused")}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition-colors"
+                  style={{ color: "#8FAF9F" }}
+                >
+                  → LINEで状態別の解説を受け取る（新規相談は休止中・再開時にお知らせ）
+                </a>
+              </>
+            )}
           </div>
         </div>
       )}
