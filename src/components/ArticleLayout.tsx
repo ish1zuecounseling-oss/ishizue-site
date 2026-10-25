@@ -92,9 +92,8 @@ function scrollToContact(navigate: ReturnType<typeof useNavigate>) {
 /* -------------------------------------------------------------------------- */
 
 /* 独自作成のセルフチェック記事か(URLが -check で終わる/含むもの)。
-   既存の心理尺度をもとにしたもの・心理尺度ではないものは、各記事で個別に説明しているので除外する */
+   心理尺度ではないものは、各記事で個別に説明しているので除外する */
 const SELF_CHECK_EXCLUDE = new Set([
-  "helper-self-compassion-check", // SCRI-J をもとに作成(記事内で出典を明記)
   "counseling-matching-check",    // カウンセリングとの相性確認で、心理尺度ではない
 ]);
 function isOriginalSelfCheck(url: string): boolean {
