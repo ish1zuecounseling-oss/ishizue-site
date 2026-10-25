@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
 
 /* -------------------------------------------------------------------------- */
 /*  Constants                                                                  */
@@ -206,7 +207,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               aria-label="お問い合わせフォームへ"
             >
               <MessageCircle className="w-3 h-3" aria-hidden="true" />
-              相談する
+              {ACCEPTING_NEW_CLIENTS ? "相談する" : "お問い合わせ"}
             </button>
           </nav>
 
@@ -310,16 +311,35 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 transition={{ delay: NAV_LINKS.length * 0.07 + 0.12, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-10"
               >
-                <button
-                  type="button"
-                  onClick={handleContactClick}
-                  className="w-full flex items-center justify-center gap-2 text-stone-900 py-4 rounded-2xl font-medium text-base tracking-wide transition-opacity hover:opacity-90"
-                  style={{ backgroundColor: SAGE }}
-                >
-                  <MessageCircle className="w-4 h-4" aria-hidden="true" />
-                  まず、話してみる（初回無料）
-                </button>
-                <p className="text-center text-stone-600 text-xs mt-2">勧誘なし ／ 1回のみでもOK</p>
+                {ACCEPTING_NEW_CLIENTS ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleContactClick}
+                      className="w-full flex items-center justify-center gap-2 text-stone-900 py-4 rounded-2xl font-medium text-base tracking-wide transition-opacity hover:opacity-90"
+                      style={{ backgroundColor: SAGE }}
+                    >
+                      <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                      まず、話してみる（初回無料）
+                    </button>
+                    <p className="text-center text-stone-600 text-xs mt-2">勧誘なし ／ 1回のみでもOK</p>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      href={PAUSED_LINE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => { trackPausedLineClick("layout_menu_paused"); setOpen(false); }}
+                      className="w-full flex items-center justify-center gap-2 text-stone-900 py-4 rounded-2xl font-medium text-base tracking-wide transition-opacity hover:opacity-90"
+                      style={{ backgroundColor: SAGE }}
+                    >
+                      <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                      再開のお知らせをLINEで受け取る
+                    </a>
+                    <p className="text-center text-stone-600 text-xs mt-2">新規のご相談は現在休止中です</p>
+                  </>
+                )}
               </motion.div>
             </nav>
 
@@ -398,8 +418,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <p className="text-[10px] tracking-[0.25em] text-stone-400 uppercase mb-4">Contact</p>
               <p className="text-xs text-stone-500 leading-relaxed mb-4">
-                初回のご相談は無料です。<br />
-                お気軽にお問い合わせください。
+                {ACCEPTING_NEW_CLIENTS ? (
+                  <>初回のご相談は無料です。<br />お気軽にお問い合わせください。</>
+                ) : (
+                  <>現在、新規のご相談の受付を休止しています。<br />再開のお知らせはLINEでお送りします。</>
+                )}
               </p>
               <button
                 type="button"
