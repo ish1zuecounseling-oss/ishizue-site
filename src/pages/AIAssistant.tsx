@@ -9,6 +9,7 @@ import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, MessageCircle, RotateCcw, Lock, Compass } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_BASE = "https://lin.ee/6H8Pzo6";
@@ -528,11 +529,23 @@ export default function AIAssistant() {
                 {(result.lineType === "complex" || result.lineType === "quit") && (
                   <div className="p-5 rounded-2xl" style={{ background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)", border: "1.5px solid rgba(143,175,159,0.35)" }}>
                     <p className="text-sm font-medium text-stone-800 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>一人で整理するのが難しいと感じたら</p>
-                    <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から構造を整理してもらうことで早く楽になることが多い段階です。初回相談は無料です。</p>
-                    <Link to="/#contact" className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
-                      初回無料で相談する <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                    <p className="text-[10px] text-stone-400 mt-2">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+                    {ACCEPTING_NEW_CLIENTS ? (
+                      <>
+                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から構造を整理してもらうことで早く楽になることが多い段階です。初回相談は無料です。</p>
+                        <Link to="/#contact" className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
+                          初回無料で相談する <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                        <p className="text-[10px] text-stone-400 mt-2">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から構造を整理してもらうことで早く楽になることが多い段階です。現在、新規のご相談は休止中のため、再開時にLINEで先にお知らせします。</p>
+                        <a href={PAUSED_LINE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackPausedLineClick("ai_assistant_paused")} className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
+                          再開のお知らせをLINEで受け取る <ArrowRight className="w-3.5 h-3.5" />
+                        </a>
+                        <p className="text-[10px] text-stone-400 mt-2">状態タイプ別の解説もLINEで届きます</p>
+                      </>
+                    )}
                   </div>
                 )}
 
