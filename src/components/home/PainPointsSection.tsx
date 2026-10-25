@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { stagger, fadeUp, ExpandableCard, CtaButton } from "./homeShared";
 import { painPoints } from "./homeData";
+import { ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus";
 
 export default function PainPointsSection() {
   return (
@@ -33,7 +34,7 @@ export default function PainPointsSection() {
               支援職という役割の構造が、消耗を生み出しているのです。構造がわかれば、変えられます。
             </p>
             <div className="pt-3 border-t border-stone-800">
-              <CtaButton label="今の状態を整理してみる（初回無料）" sub="まとまっていなくても大丈夫です" />
+              <CtaButton label={ACCEPTING_NEW_CLIENTS ? "今の状態を整理してみる（初回無料）" : "今の状態を整理してみる"} sub={ACCEPTING_NEW_CLIENTS ? "まとまっていなくても大丈夫です" : "新規のご相談は休止中です ／ 再開のご案内はLINEで"} />
             </div>
           </div>
         </motion.div>
