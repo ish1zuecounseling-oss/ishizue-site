@@ -135,7 +135,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     nextStep: "まず、「自分はもう十分にやっている」と認める時間を作ってください。次に、利用者の感情と自分の感情を意識的に分ける練習を始めます。①一日の終わりに「今日引き受けすぎた感情は何か」を書き出す、②「これは私の感情／これは相手の感情」と区別する習慣をつける、③休日に仕事の話を一切しない時間を確保する、の3つから始めるのが現実的です。",
     relatedArticles: [
       { path: "/articles/helper-empathy-check", label: "共感疲労チェック(20項目)で今の状態を確認" },
-      { path: "/articles/helper-empathy-fatigue", label: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { path: "/articles/compassion-fatigue-complete", label: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
       { path: "/articles/why-self-care-doesnt-work", label: "セルフケアが効かない理由｜休んでも回復しない構造" },
     ],
     lineType: "compassion",
@@ -195,8 +195,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     nextStep: "「辞めるかどうか」より先に、3つの判断軸を整理することが有効です。①今は「判断できる状態」にあるか(極度の疲労時には判断しない)、②辞めたい理由は「仕事そのもの」か「今の状態」か、③辞めた後の現実的な選択肢があるか。休職・転職・継続の3つを並列の選択肢として置いてみてください。",
     relatedArticles: [
       { path: "/articles/quit-job-timing", label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
-      { path: "/articles/quit-job-fear-retention", label: "辞めるのが怖い｜次がないという不安の正体" },
-      { path: "/articles/quit-job-counseling", label: "辞めたいときのカウンセリング活用法" },
+      { path: "/articles/quit-job-cannot-say", label: "辞めるのが怖い｜次がないという不安の正体" },
+      { path: "/articles/helper-counseling-when-quitting", label: "辞めたいときのカウンセリング活用法" },
     ],
     lineType: "quit",
     lineMessage: "辞めたいタイプの方向けに、判断の段階別ガイドをLINEで送っています(無料・読むだけOK)",
