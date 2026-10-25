@@ -49,6 +49,10 @@ export default function GuideSection({ accepting = false }: { accepting?: boolea
               </div>
               <span className="text-3xl font-light text-emerald-400">無料</span>
             </div>
+            <p className="text-stone-500 text-xs leading-relaxed -mt-2">
+              無料の「初回メール相談」は、文章で今の状況を整理する1往復のやりとりです。
+              オンラインで話してみたい場合は、有料の「初回体験 30分」からご利用いただけます。
+            </p>
 
             {/* 2カード */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
