@@ -52,7 +52,7 @@ export default function HelperCannotSwitchOff() {
 
       <h2>切り離せないことで起きること</h2>
       <div className="card space-y-1.5 text-sm text-stone-600">
-        <p>→ <Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2">眠れない・夢に仕事の場面が出る</Link></p>
+        <p>→ <Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2">眠れない・夢に仕事の場面が出る</Link></p>
         <p>→ <Link to="/articles/helper-cannot-rest-on-days-off" className="underline underline-offset-2">休日も休まらない</Link></p>
         <p>→ <Link to="/articles/helper-emotional-numbness" className="underline underline-offset-2">感情が麻痺していく</Link></p>
         <p>→ <Link to="/articles/helper-burnout-check" className="underline underline-offset-2">バーンアウトへ移行する</Link></p>

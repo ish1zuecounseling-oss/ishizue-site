@@ -391,7 +391,6 @@ export default function EmotionalLaborUnaware() {
         <p className="font-medium text-stone-700 mb-2">感情労働を深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働とは(ピラー記事)</Link></li>
-          <li>・<Link to="/articles/emotional-labor-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働の疲れ</Link></li>
           <li>・<Link to="/articles/helper-emotional-labor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働チェック</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">関連する状態</p>

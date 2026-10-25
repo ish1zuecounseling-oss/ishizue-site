@@ -157,7 +157,7 @@ export default function WhySupportWorkersLoseThemselves() {
       <h2>段階⑤：脳疲労・反芻の深化</h2>
       <p>
         対人関係処理・感情管理・自己批判が慢性化すると、<Link to="/articles/helper-brain-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">脳疲労</Link>が深まります。
-        「頭が止まらない」<Link to="/articles/helper-rumination" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">反芻思考</Link>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</Link>・<Link to="/articles/helper-cannot-switch-off" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">切り替えられない</Link>——
+        「頭が止まらない」<Link to="/articles/helper-rumination" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">反芻思考</Link>・<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</Link>・<Link to="/articles/helper-cannot-switch-off" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">切り替えられない</Link>——
         脳の回復機能自体が低下します。
       </p>
       <p>

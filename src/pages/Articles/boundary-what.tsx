@@ -119,7 +119,7 @@ export default function BoundaryWhat() {
       </p>
       <div className="card space-y-2 text-sm text-stone-600">
         <p>・「相手のために」という価値観が境界線を引くことを「冷たさ」に感じさせる</p>
-        <p>・<Link to="/articles/helper-emotional-labor-what" className="underline underline-offset-2">感情労働</Link>で「自分の感覚」へのアクセスが薄れる</p>
+        <p>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働</Link>で「自分の感覚」へのアクセスが薄れる</p>
         <p>・「どこまでが自分の責任か」がわからなくなる</p>
         <p>・これが<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2">共感疲労</Link>・<Link to="/articles/helper-burnout" className="underline underline-offset-2">燃え尽き</Link>につながる</p>
       </div>

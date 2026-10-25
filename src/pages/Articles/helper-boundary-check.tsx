@@ -88,8 +88,8 @@ const resultConfig = {
     message: "境界線の消耗がかなり深刻な段階に進んでいる可能性があります。相手の問題を自分の問題として抱え込みすぎており、消耗が加速しています。外から整理するサポートが有効です。",
     nextLabel: "14項目以上の方へ",
     links: [
-      { href: "/articles/compassion-fatigue-high-score", text: "チェックで11項目以上だった方へ——まず整理したいこと" },
-      { href: "/articles/compassion-fatigue-medical-support", text: "何科に相談すべきか" },
+      { href: "/articles/compassion-fatigue-coping", text: "チェックで11項目以上だった方へ——まず整理したいこと" },
+      { href: "/articles/compassion-fatigue-complete", text: "何科に相談すべきか" },
     ],
   },
 }

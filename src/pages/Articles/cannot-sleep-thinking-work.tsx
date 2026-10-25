@@ -61,17 +61,6 @@ export default function CannotSleepThinkingWork() {
       </div>
 
       {/* ▼ カニバリ解消:支援職特化記事への誘導 */}
-      <div className="my-4 p-3.5 rounded-xl bg-stone-50 border border-stone-200">
-        <p className="text-[11px] text-stone-500 mb-1.5 tracking-wide">支援職の方へ</p>
-        <p className="text-xs text-stone-600 leading-relaxed">
-          支援職特有の「眠れない」構造の詳細は
-          <Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-700 hover:text-stone-900 mx-1 font-medium">
-            支援職が眠れない理由
-          </Link>
-          にまとめています。本記事では反芻思考と睡眠の関係を中心に解説します。
-        </p>
-      </div>
-
       <p>
         「布団に入った瞬間、仕事のことが頭に浮かんでくる」「あの場面が何度も再生される」「考えないようにするほど止まらない」——
         こうした状態が続いているとしたら、それは<strong>反芻思考(rumination)</strong>という心理メカニズムが作動している可能性が高いです。
@@ -188,7 +177,7 @@ export default function CannotSleepThinkingWork() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           支援職は利用者の苦しみに継続的に共感することで、その苦しみを<strong>自分の記憶として処理</strong>しようとします。
           脳は他者のトラウマも自分のトラウマと同じように扱うため、利用者のつらい話が侵入症状として再生されます。
-          これは<Link to="/articles/helper-empathy-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</Link>・<Link to="/articles/helper-secondary-trauma" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">二次受傷</Link>のサインでもあります。
+          これは<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</Link>・<Link to="/articles/empathy-fatigue-vs-secondary-trauma" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">二次受傷</Link>のサインでもあります。
         </p>
       </div>
 

@@ -250,7 +250,7 @@ export default function HelperNurseSelfCompassion() {
       <ArticleBottomCTA
         links={[
           { label: "自己批判の対処法を見る",         path: "/articles/helper-self-criticism-culture" },
-          { label: "共感疲労の対処法を見る",          path: "/articles/helper-compassion-fatigue-practice" },
+          { label: "共感疲労の対処法を見る",          path: "/articles/compassion-fatigue-coping" },
           { label: "今の消耗度をチェックする（3分）", path: "/articles/helper-empathy-check" },
         ]}
       />

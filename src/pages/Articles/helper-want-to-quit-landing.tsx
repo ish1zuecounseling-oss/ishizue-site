@@ -173,7 +173,7 @@ export default function HelperWantToQuitLanding() {
           <p className="text-xs text-stone-500">続けるための土台を作り直す</p>
         </Link>
         <Link
-          to="/articles/helper-consider-leave"
+          to="/articles/helper-leave-of-absence-hesitation"
           className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
         >
           <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-1" style={{ color: "#9f3a3a" }}>

@@ -87,7 +87,7 @@ export default function QuitJobNoNext() {
         <p className="text-xs font-medium text-stone-500 mb-2">合わせて読む</p>
         <div className="flex flex-col gap-1.5">
           <a href="/articles/quit-job-cannot-say" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいのに言えない</a>
-          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ カウンセリングは必要？→ 相談で整理できること</a>
+          <a href="/articles/helper-counseling-when-quitting" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ カウンセリングは必要？→ 相談で整理できること</a>
         </div>
       </div>
 
@@ -128,7 +128,7 @@ export default function QuitJobNoNext() {
         <p className="text-sm font-medium text-stone-700 mb-2">外から整理する</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
           一人で考え続けているとループが深まります。
-          <Link to="/articles/quit-job-counseling" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリング</Link>では
+          <Link to="/articles/helper-counseling-when-quitting" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリング</Link>では
           「辞める・続ける」を決めるのではなく、状況と感情を分けて整理することができます。
           外から整理されることで、「次がない不安」が唯一の判断基準でなくなります。
         </p>

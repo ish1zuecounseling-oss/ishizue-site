@@ -63,7 +63,7 @@ const resultConfig = {
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労の回復方法を見る" },
       { href: "/articles/helper-burnout-scale-validity", text: "バーンアウトとは？症状・原因・回復方法" },
-      { href: "/articles/helper-emotional-labor-what", text: "感情労働とは？支援職が疲れる本当の理由" },
+      { href: "/articles/emotional-labor-what-pillar", text: "感情労働とは？支援職が疲れる本当の理由" },
     ],
   },
   high: {
@@ -76,8 +76,8 @@ const resultConfig = {
     cvBody: "休んでも回復しない状態が続いている場合、セルフケアだけでは難しい段階かもしれません。今の状態をそのまま話してみてください。",
     cvButton: "今の状態をそのまま話してみる{FREE_FIRST}",
     links: [
-      { href: "/articles/helper-consider-leave", text: "休職を考えたとき｜判断のための5つのポイント" },
-      { href: "/articles/helper-want-to-quit", text: "辞めたいと思ったとき｜気持ちを整理する視点" },
+      { href: "/articles/helper-leave-of-absence-hesitation", text: "休職を考えたとき｜判断のための5つのポイント" },
+      { href: "/articles/helper-want-to-quit-landing", text: "辞めたいと思ったとき｜気持ちを整理する視点" },
       { href: "/articles/helper-self-compassion-burnout", text: "バーンアウトは自己批判で悪化する" },
     ],
   },

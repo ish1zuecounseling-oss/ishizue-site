@@ -27,7 +27,7 @@ const AXES: Axis[] = [
       "以前より、人の気持ちに対して少し鈍感になっている気がする",
     ],
     result:  "誰かの痛みに寄り添いすぎているのかもしれません。まず、今の状態に名前をつけることが大切です。",
-    article: { text: "共感疲労とは｜なぜ優しい人ほど消耗するのか", href: "/articles/helper-empathy-fatigue" },
+    article: { text: "共感疲労とは｜なぜ優しい人ほど消耗するのか", href: "/articles/compassion-fatigue-complete" },
   },
   {
     id:    "overload",

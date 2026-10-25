@@ -236,7 +236,7 @@ export default function HelperHelplessness() {
       <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-emotional-labor-what" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/emotional-labor-what-pillar" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 感情労働とは？意味・具体例・疲れる理由と対処法
           </Link>
           <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
@@ -262,7 +262,7 @@ export default function HelperHelplessness() {
       <ArticleBottomCTA
         links={[
           { label: "共感疲労チェックをする（3分）",         path: "/articles/helper-empathy-check" },
-          { label: "感情労働の構造を理解する",              path: "/articles/helper-emotional-labor-what" },
+          { label: "感情労働の構造を理解する",              path: "/articles/emotional-labor-what-pillar" },
           { label: "自己批判の対処法を見る",                path: "/articles/helper-self-criticism-culture" },
         ]}
       />

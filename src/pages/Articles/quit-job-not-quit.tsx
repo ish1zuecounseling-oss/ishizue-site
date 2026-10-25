@@ -97,7 +97,7 @@ export default function QuitJobNotQuit() {
         状態を整えてもなお「辞めたい」が続く場合は、それは<strong>無視できないサイン</strong>です。
         <Link to="/articles/quit-job-timing" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">辞めるタイミングの見極め方</Link>・
         <Link to="/articles/quit-job-cannot-say" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">言えない理由の整理</Link>・
-        <Link to="/articles/quit-job-counseling" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリングで整理すること</Link>
+        <Link to="/articles/helper-counseling-when-quitting" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリングで整理すること</Link>
         を参照してください。
       </p>
 

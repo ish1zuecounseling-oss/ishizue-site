@@ -221,7 +221,7 @@ export default function HelperCaregiverBurnout() {
       <ArticleBottomCTA
         links={[
           { label: "バーンアウトチェックをする（3分）",       path: "/articles/helper-burnout-check" },
-          { label: "共感疲労とは？原因と対処法",              path: "/articles/helper-compassion-fatigue-practice" },
+          { label: "共感疲労とは？原因と対処法",              path: "/articles/compassion-fatigue-coping" },
           { label: "セルフ・コンパッションを実践する",         path: "/articles/helper-self-compassion-behavior" },
         ]}
       />

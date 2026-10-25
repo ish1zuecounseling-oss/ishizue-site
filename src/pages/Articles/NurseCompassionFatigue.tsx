@@ -196,11 +196,8 @@ export default function NurseCompassionFatigue() {
           <Link to="/articles/empathy-fatigue-vs-secondary-trauma" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 二次受傷とは？｜共感疲労・PTSDとの違い
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労からの回復方法
-          </Link>
-          <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 共感疲労は何科に相談すべきか
           </Link>
         </div>
       </div>

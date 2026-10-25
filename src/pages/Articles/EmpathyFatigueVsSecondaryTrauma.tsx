@@ -178,7 +178,7 @@ export default function EmpathyFatigueVsSecondaryTrauma() {
       </div>
 
       <p className="text-sm text-stone-500">
-        対処法を詳しく→ <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の対処法7つ</Link> ／ <Link to="/articles/compassion-fatigue-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">回復方法</Link>
+        対処法を詳しく→ <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の対処法7つ</Link>
       </p>
 
       <h2>専門家への相談を検討するサイン</h2>
@@ -247,9 +247,6 @@ export default function EmpathyFatigueVsSecondaryTrauma() {
           </Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労チェック（20項目・3分）
-          </Link>
-          <Link to="/articles/compassion-fatigue-diagnosis" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 共感疲労の診断——状態を理解するための視点
           </Link>
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労の対処法7つ

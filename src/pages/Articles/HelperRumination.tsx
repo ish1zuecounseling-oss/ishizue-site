@@ -103,7 +103,7 @@ export default function HelperRumination() {
       <h2>仕事のことが頭から離れない状態が続くとどうなるか</h2>
       <p>放置すると、消耗が段階的に深まります。</p>
       <div className="card space-y-1.5 text-sm text-stone-600">
-        <p>・<a href="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">睡眠障害</a>——夜中に目が覚める・夢に仕事が出る・眠れない</p>
+        <p>・<a href="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">睡眠障害</a>——夜中に目が覚める・夢に仕事が出る・眠れない</p>
         <p>・<a href="/articles/helper-brain-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">脳疲労の慢性化</a>——休んでも回復しない・判断力の低下</p>
         <p>・<a href="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</a>——感情的消耗が深まる</p>
         <p>・<a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>——利用者への感情が動かなくなる</p>

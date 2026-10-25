@@ -149,7 +149,7 @@ const RESULTS: Record<Level, {
     links: [
       { href: "/articles/helper-burnout-occupation",         text: "バーンアウトの原因は情熱ではない｜職種別に見る消耗の構造と対処法" },
       { href: "/articles/helper-boundary-how-to",            text: "バウンダリー（境界線）の作り方｜抱え込みをやめる具体的な方法" },
-      { href: "/articles/helper-empathy-fatigue",            text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/compassion-fatigue-complete",            text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
     ],
     cvBlock: {
       heading: "今の状態を維持・深化させたい方へ",

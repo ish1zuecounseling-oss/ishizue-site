@@ -165,7 +165,7 @@ export default function HelperCareerDecision() {
         </Link>
 
         <Link
-          to="/articles/helper-consider-leave"
+          to="/articles/helper-leave-of-absence-hesitation"
           className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
           style={{ textDecoration: "none" }}
         >

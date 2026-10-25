@@ -73,7 +73,7 @@ export default function OverAdaptation() {
         <p className="text-sm font-medium text-stone-700 mb-2">③ 職場文化への過剰適応</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
           「みんな頑張っているのに」「弱音を言うと職場の雰囲気が壊れる」——
-          職場の空気への過剰適応が、<Link to="/articles/helper-consider-leave" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休職を先延ばし</Link>にするパターンと深く関連します。
+          職場の空気への過剰適応が、<Link to="/articles/helper-leave-of-absence-hesitation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休職を先延ばし</Link>にするパターンと深く関連します。
         </p>
       </div>
 

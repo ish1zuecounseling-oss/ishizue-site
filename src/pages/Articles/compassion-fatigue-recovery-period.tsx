@@ -138,7 +138,7 @@ export default function CompassionFatigueRecoveryPeriod() {
         身体を休めるだけでは回復しきれないことが多いです。
       </p>
       <p>
-        特に「<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</Link>」「<Link to="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事のことが頭から離れない</Link>」という状態が続いている場合、
+        特に「<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない</Link>」「<Link to="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事のことが頭から離れない</Link>」という状態が続いている場合、
         神経系が「緊張モード」で固まっており、
         身体を休めようとしても神経系がオフにならない状態です。
       </p>

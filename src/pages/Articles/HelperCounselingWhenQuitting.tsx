@@ -159,7 +159,7 @@ export default function QuitJobCounseling() {
             </p>
           </div>
           <div className="p-4 text-xs text-stone-700 leading-relaxed space-y-1.5 bg-stone-50">
-            <p>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2">睡眠が崩れている</Link></p>
+            <p>・<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2">睡眠が崩れている</Link></p>
             <p>・日常生活に支障が出ている</p>
             <p>・強い無気力・<Link to="/articles/feeling-nothing" className="underline underline-offset-2">何も感じない</Link>状態が続く</p>
             <p>・身体症状（頭痛・胃痛・動悸）が続いている</p>

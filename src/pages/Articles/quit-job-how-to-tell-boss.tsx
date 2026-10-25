@@ -52,7 +52,7 @@ export default function QuitJobHowToTellBoss() {
       <h2>なぜ言い出せないのか</h2>
       <div className="card space-y-2 text-sm text-stone-600">
         <p>・<Link to="/articles/quit-job-cannot-say" className="underline underline-offset-2">辞めたいのに言えない</Link>——対人の緊張・関係を壊す恐れ</p>
-        <p>・<Link to="/articles/quit-job-fear-retention" className="underline underline-offset-2">引き止めが怖い</Link>——断れない・流されそう</p>
+        <p>・<Link to="/articles/quit-job-cannot-say" className="underline underline-offset-2">引き止めが怖い</Link>——断れない・流されそう</p>
         <p>・<Link to="/articles/other-centered-living" className="underline underline-offset-2">他人軸</Link>——上司の反応・職場への影響を優先してしまう</p>
         <p>・<Link to="/articles/over-adaptation" className="underline underline-offset-2">過剰適応</Link>——「迷惑をかけてはいけない」が止める</p>
       </div>
@@ -89,7 +89,7 @@ export default function QuitJobHowToTellBoss() {
       </div>
       <p>
         関係を悪化させない形で伝えることも、現実的かつ誠実な選択です。
-        <Link to="/articles/quit-job-fear-retention" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">引き止めを防ぐ</Link>ためにも、
+        <Link to="/articles/quit-job-cannot-say" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">引き止めを防ぐ</Link>ためにも、
         シンプルに伝えることが有効です。
       </p>
 
@@ -122,7 +122,7 @@ export default function QuitJobHowToTellBoss() {
         <p>・自分の状態に立ち返る時間を確保する</p>
       </div>
       <p className="text-sm text-stone-500">
-        引き止めへの対処→ <Link to="/articles/quit-job-fear-retention" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">引き止められるのが怖い——断れない理由と対処</Link>
+        引き止めへの対処→ <Link to="/articles/quit-job-cannot-say" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">引き止められるのが怖い——断れない理由と対処</Link>
       </p>
 
       <h2>どうしても動けないとき</h2>
@@ -134,7 +134,7 @@ export default function QuitJobHowToTellBoss() {
       <div className="card space-y-1.5 text-sm text-stone-600">
         <p>・<Link to="/articles/quit-job-timing" className="underline underline-offset-2">辞めるタイミングがわからない</Link></p>
         <p>・<Link to="/articles/quit-job-no-next" className="underline underline-offset-2">次が決まっておらず不安で動けない</Link></p>
-        <p>・<Link to="/articles/quit-job-counseling" className="underline underline-offset-2">カウンセリングで状態を整理する</Link></p>
+        <p>・<Link to="/articles/helper-counseling-when-quitting" className="underline underline-offset-2">カウンセリングで状態を整理する</Link></p>
       </div>
 
       <h2>よくある質問</h2>

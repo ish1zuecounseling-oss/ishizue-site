@@ -95,7 +95,7 @@ export default function HelperEmpathyFatigue() {
         <div className="space-y-2 text-sm">
           {[
             { arrow: "→", text: "仕事後も利用者のことが頭から離れない", link: "/articles/helper-client-stuck-in-head", label: "侵入症状" },
-            { arrow: "→", text: "眠れない・夢に仕事の場面が出る", link: "/articles/helper-cannot-sleep", label: "過覚醒" },
+            { arrow: "→", text: "眠れない・夢に仕事の場面が出る", link: "/articles/cannot-sleep-thinking-work", label: "過覚醒" },
             { arrow: "→", text: "感情が麻痺して、以前のように感じられなくなる", link: "/articles/helper-emotional-numbness", label: "感情麻痺" },
             { arrow: "→", text: "休んでも回復しない・休日も休まらない", link: "/articles/helper-cannot-rest-on-days-off", label: "慢性消耗" },
             { arrow: "→", text: "向いていない・辞めたいという気持ちが出てくる", link: "/articles/helper-aptitude-doubt", label: "燃え尽き" },
@@ -203,7 +203,7 @@ export default function HelperEmpathyFatigue() {
           <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労とは——症状・原因・診断・対処法・回復を総合解説</Link>
           <Link to="/articles/helper-client-stuck-in-head" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 利用者の話が頭から離れない（侵入症状）</Link>
           <Link to="/articles/helper-emotional-numbness" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 感情が麻痺している——原因と回復</Link>
-          <Link to="/articles/helper-cannot-sleep" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 支援職が眠れない——仕事が頭から離れず眠れない原因</Link>
+          <Link to="/articles/cannot-sleep-thinking-work" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 支援職が眠れない——仕事が頭から離れず眠れない原因</Link>
           <Link to="/articles/empathy-fatigue-vs-secondary-trauma" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 二次受傷とは？｜共感疲労・PTSDとの違い</Link>
         </div>
       </div>

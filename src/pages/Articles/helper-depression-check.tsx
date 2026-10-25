@@ -56,7 +56,7 @@ const resultConfig = {
     nextLabel: "この段階で読みたい記事",
     links: [
       { href: "/articles/helper-burnout-vs-depression", text: "バーンアウトとうつの違い" },
-      { href: "/articles/helper-cannot-sleep",          text: "支援職が眠れない理由" },
+      { href: "/articles/cannot-sleep-thinking-work",          text: "支援職が眠れない理由" },
       { href: "/articles/helper-signs-to-rest",         text: "休むサイン" },
     ],
     cvBlock: {

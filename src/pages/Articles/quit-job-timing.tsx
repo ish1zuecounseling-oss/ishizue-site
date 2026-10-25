@@ -76,7 +76,7 @@ export default function QuitJobTiming() {
           <li>・仕事のことを考えると身体が重くなる</li>
           <li>・<Link to="/articles/helper-mental-recovery" className="underline underline-offset-2">休んでも回復しない</Link></li>
           <li>・<Link to="/articles/feeling-nothing" className="underline underline-offset-2">感情が鈍くなっている・何も感じない</Link></li>
-          <li>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2">眠れない・夢に仕事が出てくる</Link>状態が続く</li>
+          <li>・<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2">眠れない・夢に仕事が出てくる</Link>状態が続く</li>
         </ul>
       </div>
 
@@ -94,7 +94,7 @@ export default function QuitJobTiming() {
         <div className="flex flex-col gap-1.5">
           <a href="/articles/quit-job-cannot-say" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいのに言えない理由</a>
           <a href="/articles/quit-job-no-next" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいけど次がない・動けない</a>
-          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ カウンセリングは必要？相談で整理できること</a>
+          <a href="/articles/helper-counseling-when-quitting" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ カウンセリングは必要？相談で整理できること</a>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default function QuitJobTiming() {
             <span>次が決まっておらず不安で動けない</span>
             <span className="text-stone-400 text-xs">→</span>
           </a>
-          <a href="/articles/quit-job-fear-retention" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+          <a href="/articles/quit-job-cannot-say" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
             <span>引き止められるのが怖い</span>
             <span className="text-stone-400 text-xs">→</span>
           </a>
@@ -141,7 +141,7 @@ export default function QuitJobTiming() {
         <strong>外から整理することで判断の軸が見えてきます。</strong>
       </p>
       <p>
-        <Link to="/articles/quit-job-counseling" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリングは必要？</Link>では、
+        <Link to="/articles/helper-counseling-when-quitting" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">カウンセリングは必要？</Link>では、
         相談で整理できることを詳しく解説しています。
       </p>
 

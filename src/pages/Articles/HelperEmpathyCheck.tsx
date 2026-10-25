@@ -70,7 +70,7 @@ const resultConfig = {
     lineDesc: "この段階の人に多いのが「他人軸の強さ」「境界線の薄さ」です。あなたがどのタイプか、LINEで具体的に解説しています。",
     nextLabel: "6〜10項目の方に読んでほしい記事",
     links: [
-      { href: "/articles/helper-empathy-fatigue",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/compassion-fatigue-complete",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
       { href: "/articles/helper-burnout-signs",         text: "バーンアウトの前兆(サイン)とは｜気づきたい心と体の変化" },
       { href: "/articles/emotional-labor-what-pillar",  text: "感情労働とは?仕事で消耗する構造と回復の考え方" },
     ],
@@ -91,8 +91,8 @@ const resultConfig = {
     lineDesc: "共感疲労が強い人の多くに「他人軸」「境界線の薄さ」が関係しています。あなたがどのタイプか、LINEで具体的に解説しています。",
     nextLabel: "11項目以上の方へ——まずこの記事を読んでください",
     links: [
-      { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
-      { href: "/articles/helper-empathy-fatigue",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
+      { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法｜支援職が実践できる5つのケア" },
+      { href: "/articles/compassion-fatigue-complete",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
       { href: "/articles/why-self-care-doesnt-work",   text: "セルフケアが効かない理由｜休んでも回復しない構造" },
     ],
     cvBlock: {
@@ -407,7 +407,7 @@ export default function HelperEmpathyCheck() {
         真剣に利用者と向き合ってきたからこそ起こる消耗です。
       </p>
       <p>
-        チェックの結果に関わらず、<Link to="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600">利用者の話が頭から離れない</Link>・<Link to="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600">感情が麻痺している</Link>・<Link to="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600">眠れない</Link>といった症状が続いている場合は、早めに状態を整理することをおすすめします。
+        チェックの結果に関わらず、<Link to="/articles/helper-client-stuck-in-head" className="underline underline-offset-2 text-stone-600">利用者の話が頭から離れない</Link>・<Link to="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600">感情が麻痺している</Link>・<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2 text-stone-600">眠れない</Link>といった症状が続いている場合は、早めに状態を整理することをおすすめします。
       </p>
 
       <h2>共感疲労についてよくある質問(FAQ)</h2>
@@ -430,7 +430,7 @@ export default function HelperEmpathyCheck() {
           <a href="/articles/helper-emotional-numbness" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 感情が麻痺している・以前のように感じられない
           </a>
-          <a href="/articles/helper-cannot-sleep" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          <a href="/articles/cannot-sleep-thinking-work" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 仕事のことが頭から離れず眠れない
           </a>
           <a href="/articles/secondary-trauma-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">

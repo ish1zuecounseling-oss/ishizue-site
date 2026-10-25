@@ -124,7 +124,7 @@ export default function HelperIrritatedAtClient() {
       </p>
       <p>
         「こんな感情を持つ自分はダメだ」という思考のループが、
-        <a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>や<a href="/articles/helper-cannot-sleep" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない状態</a>をさらに深めます。
+        <a href="/articles/helper-emotional-numbness" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情麻痺</a>や<a href="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">眠れない状態</a>をさらに深めます。
         イライラを感じたことへの自己批判は、今日からやめることをおすすめします。
       </p>
 

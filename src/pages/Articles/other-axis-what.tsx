@@ -115,7 +115,7 @@ export default function OtherAxisWhat() {
       </p>
       <div className="card space-y-2 text-sm text-stone-600">
         <p>・「利用者のために」という価値観が自己犠牲を正当化する</p>
-        <p>・<Link to="/articles/helper-emotional-labor-what" className="underline underline-offset-2">感情労働</Link>で「感じないようにする」が習慣になる</p>
+        <p>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2">感情労働</Link>で「感じないようにする」が習慣になる</p>
         <p>・「頑張らない自分には価値がない」という感覚が強まる</p>
         <p>・<Link to="/articles/impostor-syndrome" className="underline underline-offset-2">インポスター症候群</Link>——「本当の自分はバレてしまう」感覚が出る</p>
       </div>

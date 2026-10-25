@@ -361,7 +361,7 @@ export default function HelperBurnoutScaleValidity() {
       <ArticleBottomCTA
         links={[
           { label: "3分で今の消耗度をチェックする",    path: "/articles/helper-burnout-check" },
-          { label: "共感疲労の対処法を見る",            path: "/articles/helper-compassion-fatigue-practice" },
+          { label: "共感疲労の対処法を見る",            path: "/articles/compassion-fatigue-coping" },
           { label: "今のストレス構造を整理する",        path: "/articles/helper-workplace-stress-check" },
         ]}
       />

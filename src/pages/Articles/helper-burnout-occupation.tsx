@@ -242,7 +242,7 @@ export default function HelperBurnoutOccupation() {
         <strong>「仕事の構造」によって大きく左右される</strong>現象です。
       </p>
       <p className="text-xs text-stone-500 mt-2 mb-4">
-        → <Link to="/articles/helper-empathy-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労との違いを知る</Link>
+        → <Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労との違いを知る</Link>
       </p>
 
       {/* ⑦ なりやすい人（検索意図③） */}

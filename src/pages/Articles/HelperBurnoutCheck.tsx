@@ -94,7 +94,7 @@ const resultConfig = {
     links: [
       { href: "/articles/helper-burnout", text: "バーンアウトとは｜支援職に起こる燃え尽きの正体" },
       { href: "/articles/helper-burnout-signs", text: "バーンアウトのサインを見逃さないために" },
-      { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法" },
+      { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法" },
     ],
   },
   high: {
@@ -103,8 +103,8 @@ const resultConfig = {
     message: "多くのサインが当てはまっています。これはあなたが弱いからではなく、限界まで頑張ってきた結果です。一人で抱え込まず、外部サポートを受けることが回復を早めます。",
     nextLabel: "13項目以上の方へ",
     links: [
-      { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法" },
-      { href: "/articles/compassion-fatigue-medical-support", text: "何科に相談すべきか" },
+      { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法" },
+      { href: "/articles/compassion-fatigue-complete", text: "何科に相談すべきか" },
       { href: "/articles/compassion-fatigue-recovery-period", text: "回復にかかる期間の目安" },
     ],
   },
@@ -270,7 +270,7 @@ export default function HelperBurnoutCheck() {
       <h2>バーンアウトに伴いやすい症状</h2>
       <div className="card space-y-2">
         {[
-          { href: "/articles/helper-cannot-sleep", text: "仕事のことが頭から離れず眠れない" },
+          { href: "/articles/cannot-sleep-thinking-work", text: "仕事のことが頭から離れず眠れない" },
           { href: "/articles/helper-cannot-rest-on-days-off", text: "休日も休まらない・仕事のことを考えてしまう" },
           { href: "/articles/helper-irritated-at-client", text: "利用者にイライラしてしまう" },
           { href: "/articles/helper-emotional-numbness", text: "感情が麻痺している・以前のように感じられない" },

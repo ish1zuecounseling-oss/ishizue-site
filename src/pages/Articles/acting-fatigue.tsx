@@ -67,7 +67,7 @@ export default function ActingFatigue() {
         <div>
           <p className="font-medium text-stone-700 mb-1">感情労働との関係</p>
           <p className="text-stone-600 leading-[1.9]">
-            仕事として感情を管理し続ける<Link to="/articles/helper-emotional-labor-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>は、
+            仕事として感情を管理し続ける<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>は、
             本音と表示のズレを処理し続けるコストを脳に与えます。
             これが「話すだけで疲れる」「演じている感覚」の正体です。
           </p>
@@ -123,7 +123,7 @@ export default function ActingFatigue() {
         <div className="flex flex-col gap-1.5">
           <a href="/articles/quit-job-cannot-say" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいのに言えない理由</a>
           <a href="/articles/quit-job-no-next" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 辞めたいけど次がない</a>
-          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事を辞めたいときカウンセリングは必要？</a>
+          <a href="/articles/helper-counseling-when-quitting" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事を辞めたいときカウンセリングは必要？</a>
         </div>
       </div>
 

@@ -319,7 +319,7 @@ export default function HelperSelfCompassionBurnout() {
           <Link to="/articles/helper-burnout-occupation" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトの原因は情熱ではない｜職種別の違いと対処法
           </Link>
-          <Link to="/articles/helper-compassion-fatigue-practice" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労の対処法を見る
           </Link>
         </div>
@@ -336,7 +336,7 @@ export default function HelperSelfCompassionBurnout() {
       <ArticleBottomCTA
         links={[
           { label: "自己批判の対処法を見る",         path: "/articles/helper-self-criticism-culture" },
-          { label: "共感疲労の対処法を見る",          path: "/articles/helper-compassion-fatigue-practice" },
+          { label: "共感疲労の対処法を見る",          path: "/articles/compassion-fatigue-coping" },
           { label: "今の消耗度をチェックする（3分）", path: "/articles/helper-burnout-check" },
         ]}
       />

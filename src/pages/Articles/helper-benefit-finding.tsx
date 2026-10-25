@@ -182,7 +182,7 @@ export default function HelperBenefitFinding() {
 
       <ArticleBottomCTA
         links={[
-          { label: "共感疲労の対処法を見る",       path: "/articles/helper-compassion-fatigue-practice" },
+          { label: "共感疲労の対処法を見る",       path: "/articles/compassion-fatigue-coping" },
           { label: "嫌な記憶が離れないときの対処法", path: "/articles/helper-retelling-memory" },
           { label: "今の状態をチェックする",         path: "/articles/helper-empathy-check" },
         ]}

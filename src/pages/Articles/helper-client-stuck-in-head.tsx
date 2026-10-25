@@ -177,9 +177,6 @@ export default function HelperClientStuckInHead() {
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労の対処法7つ
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 共感疲労からの回復方法
-          </Link>
         </div>
       </div>
 

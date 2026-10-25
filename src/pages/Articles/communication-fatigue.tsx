@@ -119,7 +119,7 @@ export default function CommunicationFatigue() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           「自分はどうしたいか」よりも「どう思われるか」が優先されると、自己が後退します。
           本音と違う言葉を使い続ける・感情を抑えて会話する——
-          これは<Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸</Link>・<Link to="/articles/helper-emotional-labor-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>の消耗と深く関連します。
+          これは<Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸</Link>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>の消耗と深く関連します。
         </p>
       </div>
 
@@ -160,7 +160,7 @@ export default function CommunicationFatigue() {
         <p className="text-xs font-medium text-stone-500 mb-2">同じ状態の方に読まれています</p>
         <div className="flex flex-col gap-1.5">
           <a href="/articles/acting-fatigue" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事で演技して疲れる</a>
-          <a href="/articles/quit-job-counseling" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事を辞めたいときカウンセリングは必要？</a>
+          <a href="/articles/helper-counseling-when-quitting" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事を辞めたいときカウンセリングは必要？</a>
         </div>
       </div>
 

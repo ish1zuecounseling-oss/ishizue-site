@@ -194,11 +194,8 @@ export default function CareWorkerCompassionFatigue() {
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労の対処法7つ
           </Link>
-          <Link to="/articles/compassion-fatigue-natural-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労は自然に治るのか
-          </Link>
-          <Link to="/articles/compassion-fatigue-medical-support" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            → 共感疲労は何科に相談すべきか
           </Link>
         </div>
       </div>

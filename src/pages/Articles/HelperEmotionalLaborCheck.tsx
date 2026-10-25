@@ -92,8 +92,8 @@ const resultConfig = {
     message: "感情労働による消耗がかなり深刻な段階に進んでいる可能性があります。一人でのセルフケアだけでは限界がある段階です。外部サポートの活用が回復を早めます。",
     nextLabel: "14項目以上の方へ",
     links: [
-      { href: "/articles/compassion-fatigue-recovery", text: "共感疲労からの回復方法" },
-      { href: "/articles/compassion-fatigue-medical-support", text: "何科に相談すべきか" },
+      { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法" },
+      { href: "/articles/compassion-fatigue-complete", text: "何科に相談すべきか" },
     ],
   },
 }
@@ -244,7 +244,7 @@ export default function HelperEmotionalLaborCheck() {
         {[
           { href: "/articles/helper-emotional-numbness", text: "感情が麻痺して、以前のように感じられなくなる" },
           { href: "/articles/helper-client-stuck-in-head", text: "利用者の話が頭から離れない（侵入症状）" },
-          { href: "/articles/helper-cannot-sleep", text: "仕事のことが頭から離れず眠れない" },
+          { href: "/articles/cannot-sleep-thinking-work", text: "仕事のことが頭から離れず眠れない" },
           { href: "/articles/helper-irritated-at-client", text: "利用者にイライラしてしまう" },
           { href: "/articles/helper-cannot-rest-on-days-off", text: "休日も休まらない・仕事のことを考えてしまう" },
           { href: "/articles/helper-burnout-check", text: "バーンアウト（燃え尽き症候群）に移行する" },
