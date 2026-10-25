@@ -15,12 +15,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Minus, ShieldCheck, BookOpen, Heart, Users, MessageCircle, Sparkles, ClipboardList } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import AudioPlayer from "../components/AudioPlayer";
+import { ACCEPTING_NEW_CLIENTS } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_URL = "https://lin.ee/6H8Pzo6";
 
-// 受付ステータス制御(Home.tsxと同期させること)
-const ACCEPTING_NEW_CLIENTS = false;
+// 受付ステータス: src/data/siteStatus.ts の ACCEPTING_NEW_CLIENTS で全体を切り替える
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 24 },
