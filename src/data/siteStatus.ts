@@ -9,6 +9,9 @@
 /** 新規相談を受け付けているか(休止中は false) */
 export const ACCEPTING_NEW_CLIENTS = false;
 
+/** 記事内の相談ボタンなどに付ける「（初回無料）」表記。休止中は表示しない */
+export const FREE_FIRST = ACCEPTING_NEW_CLIENTS ? "（初回無料）" : "";
+
 /** 受付休止中に「再開のお知らせ」を受け取ってもらう LINE の URL */
 export const PAUSED_LINE_URL = "https://lin.ee/6H8Pzo6";
 
