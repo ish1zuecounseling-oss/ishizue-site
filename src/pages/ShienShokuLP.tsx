@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
 
 const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string | undefined;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
@@ -89,10 +90,12 @@ export default function ShienShokuLP() {
   }, []);
 
   const faqs = [
-    { q: "支援職以外でも相談できますか？", a: "基本的に支援職・医療職・介護職の方を専門としています。その他の職種の方はまずメール相談でご確認ください。" },
+    { q: "支援職以外でも相談できますか？", a: ACCEPTING_NEW_CLIENTS
+        ? "基本的に支援職・医療職・介護職の方を専門としています。その他の職種の方はまずメール相談でご確認ください。"
+        : "基本的に支援職・医療職・介護職の方を専門としています。その他の職種の方は、受付再開後にメール相談でご確認ください。" },
     { q: "職場には知られませんか？", a: "すべての面談内容は守秘義務のもとで管理されます。職場や第三者に知られることはありません。" },
     { q: "まだ限界ではないのですが相談してもいいですか？", a: "むしろ早い段階でのご相談をお勧めします。「なんとなくしんどい」という段階からが、最も効果的なタイミングです。" },
-    { q: "料金・頻度はどうなっていますか？", a: "初回メール相談は無料です。オンライン面談は体験30分 5,000円・通常30分 8,000円・60分 12,000円（税込）。メールカウンセリングは2週間プラン 8,000円・4週間プラン 15,000円（税込）。継続は隔週または月1回のペースが基本です。" },
+    { q: "料金・頻度はどうなっていますか？", a: (ACCEPTING_NEW_CLIENTS ? "" : "現在、新規のご相談は休止中です。以下は受付再開時の料金です。") + "初回メール相談は無料です。オンライン面談は体験30分 5,000円・通常30分 8,000円・60分 12,000円（税込）。メールカウンセリングは2週間プラン 8,000円・4週間プラン 15,000円（税込）。継続は隔週または月1回のペースが基本です。" },
   ];
 
   const inputStyle: React.CSSProperties = {
@@ -107,7 +110,7 @@ export default function ShienShokuLP() {
     <>
       <Helmet>
         <title>支援職専門カウンセリング｜こころの相談室 いしずえ</title>
-        <meta name="description" content="看護師・介護士・福祉職・教員など支援職の方へ。感情労働の疲れ・共感疲労・燃え尽きを、公認心理師が構造から整理するオンラインカウンセリングです。初回メール相談無料。" />
+        <meta name="description" content={"看護師・介護士・福祉職・教員など支援職の方へ。感情労働の疲れ・共感疲労・燃え尽きを、公認心理師が構造から整理するオンラインカウンセリングです。" + (ACCEPTING_NEW_CLIENTS ? "初回メール相談無料。" : "現在、新規のご相談は休止中です。")} />
       </Helmet>
 
       <div style={{ background: T.cream, color: T.brown, fontFamily: "'Noto Serif JP', serif", lineHeight: 1.8 }}>
@@ -133,11 +136,25 @@ export default function ShienShokuLP() {
                 <span key={c} style={{ fontSize: "12px", color: T.brownMid, background: T.creamDeep, border: `0.5px solid ${T.border}`, borderRadius: "20px", padding: "4px 13px", fontFamily: "sans-serif" }}>{c}</span>
               ))}
             </div>
-            <button
-              onClick={() => document.getElementById("contact-lp")?.scrollIntoView({ behavior: "smooth" })}
-              style={{ display: "inline-block", fontSize: "15px", fontWeight: 500, color: T.cream, background: T.brown, border: "none", borderRadius: "4px", padding: "13px 32px", cursor: "pointer", fontFamily: "sans-serif" }}>
-              まずは無料メール相談
-            </button>
+            {ACCEPTING_NEW_CLIENTS ? (
+              <button
+                onClick={() => document.getElementById("contact-lp")?.scrollIntoView({ behavior: "smooth" })}
+                style={{ display: "inline-block", fontSize: "15px", fontWeight: 500, color: T.cream, background: T.brown, border: "none", borderRadius: "4px", padding: "13px 32px", cursor: "pointer", fontFamily: "sans-serif" }}>
+                まずは無料メール相談
+              </button>
+            ) : (
+              <>
+                <a
+                  href={PAUSED_LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackPausedLineClick("helpers_lp_hero_paused")}
+                  style={{ display: "inline-block", fontSize: "15px", fontWeight: 500, color: T.cream, background: T.brown, border: "none", borderRadius: "4px", padding: "13px 32px", cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none" }}>
+                  再開のお知らせをLINEで受け取る
+                </a>
+                <p style={{ fontSize: "12px", color: T.faint, marginTop: "10px", fontFamily: "sans-serif" }}>現在、新規のご相談は休止中です</p>
+              </>
+            )}
           </section>
 
           {/* こんな方へ */}
@@ -212,6 +229,8 @@ export default function ShienShokuLP() {
             ))}
           </section>
 
+          {ACCEPTING_NEW_CLIENTS ? (
+          <>
           {/* フォーム */}
           <section id="contact-lp" style={sec}>
             <Label text="無料相談" />
@@ -265,6 +284,31 @@ export default function ShienShokuLP() {
               </form>
             )}
           </section>
+          </>
+          ) : (
+          <>
+          {/* 受付休止中の案内(ACCEPTING_NEW_CLIENTS=false のとき) */}
+          <section id="contact-lp" style={sec}>
+            <Label text="受付状況" />
+            <H2>現在、新規のご相談を<br />休止しています。</H2>
+            <Muted style={{ marginBottom: "1.6rem" }}>
+              受付を再開するときは、LINEに登録いただいた方へ先にお知らせします。
+              LINEでは、状態タイプ別の解説もお届けしています。
+            </Muted>
+            <a
+              href={PAUSED_LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackPausedLineClick("helpers_lp_contact_paused")}
+              style={{ display: "block", textAlign: "center", padding: "14px", background: T.brown, color: T.cream, borderRadius: "4px", fontSize: "15px", fontWeight: 500, fontFamily: "sans-serif", letterSpacing: "0.04em", textDecoration: "none" }}>
+              再開のお知らせをLINEで受け取る
+            </a>
+            <p style={{ fontSize: "12px", color: T.faint, textAlign: "center", marginTop: "10px", fontFamily: "sans-serif" }}>
+              受付再開までの間も、下の記事や無料のセルフチェックはご利用いただけます。
+            </p>
+          </section>
+          </>
+          )}
 
           {/* 関連記事 */}
           <section style={{ padding: "3rem 1.5rem", background: T.creamDeep }}>
