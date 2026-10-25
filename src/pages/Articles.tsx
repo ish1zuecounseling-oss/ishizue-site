@@ -828,7 +828,7 @@ export default function Articles() {
                   <div className="flex items-end justify-between mb-3">
                     <div>
                       <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-1" style={{ color: SAGE }}>STEP 1 ｜ お悩みから探す</p>
-                      <p className="text-xs text-stone-500">フェーズ別に、今の状態に近いものを選んでください</p>
+                      <p className="text-xs text-stone-500">今の状態に近いものを選んでください</p>
                     </div>
                     {/* 表示切替(モバイルで見やすく) */}
                     <button
@@ -848,7 +848,6 @@ export default function Articles() {
                         onClick={() => track("articles_worry_click", { worry: cat.id })}
                         className="flex flex-col gap-1.5 p-3.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-stone-300 hover:shadow-sm transition-all text-left"
                       >
-                        <p className="text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: SAGE }}>{cat.phase}</p>
                         <p className="text-[13px] font-medium text-stone-800 leading-snug">{cat.label}</p>
                         <p className="text-[11.5px] text-stone-500 leading-relaxed">{cat.desc}</p>
                         <p className="text-[11px] font-medium mt-auto pt-1 border-t border-stone-200" style={{ color: SAGE }}>{cat.exitLabel} →</p>
