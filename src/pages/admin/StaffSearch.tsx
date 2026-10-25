@@ -15,7 +15,8 @@ const AUTH_KEY = "ishizue_staff_search_auth"
 declare function gtag(...args: unknown[]): void
 
 type Doc = { p: string; t: string; b: string }
-type Hit = { doc: Doc; score: number; exact: number; matched: string[]; snippets: string[] }
+type Hit = { doc: Doc; score: number; exacts: number[]; matched: string[]; snippets: string[] }
+type Group = { word: string; terms: string[] }
 
 const SAGE = "#7C9A8A"
 const INK = "#2C1F14"
@@ -42,20 +43,25 @@ function countOf(text: string, term: string) {
   return n
 }
 
-function makeSnippets(body: string, terms: string[], max = 3): string[] {
-  const out: string[] = []
-  for (const line of body.split("\n")) {
-    const hitTerm = terms.find((t) => line.includes(t))
-    if (!hitTerm) continue
-    if (line.length <= 120) out.push(line)
-    else {
-      const i = line.indexOf(hitTerm)
-      const s = Math.max(0, i - 50)
-      out.push((s > 0 ? "…" : "") + line.slice(s, i + hitTerm.length + 60) + "…")
-    }
-    if (out.length >= max) break
-  }
-  return out
+/** 複数語のときは、多くの語を含む行を優先して抜き出す */
+function makeSnippets(body: string, groups: Group[], max = 3): string[] {
+  const cands: { line: string; n: number; idx: number; term: string }[] = []
+  body.split("\n").forEach((line, idx) => {
+    const hitGroups = groups.filter((g) => g.terms.some((t) => line.includes(t)))
+    if (hitGroups.length === 0) return
+    const term = hitGroups[0].terms.find((t) => line.includes(t))!
+    cands.push({ line, n: hitGroups.length, idx, term })
+  })
+  return cands
+    .sort((a, b) => b.n - a.n || a.idx - b.idx)
+    .slice(0, max)
+    .sort((a, b) => a.idx - b.idx)
+    .map(({ line, term }) => {
+      if (line.length <= 120) return line
+      const i = line.indexOf(term)
+      const st = Math.max(0, i - 50)
+      return (st > 0 ? "…" : "") + line.slice(st, i + term.length + 60) + "…"
+    })
 }
 
 function highlight(text: string, terms: string[]): ReactNode[] {
@@ -120,35 +126,64 @@ export default function StaffSearch() {
     return () => clearTimeout(t)
   }, [input])
 
-  const terms = useMemo(() => (q ? expandTerms(q) : []), [q])
+  // スペース(全角・半角)で区切った語は、すべてを含む記事だけを出す(AND検索)
+  const groups: Group[] = useMemo(
+    () => q.split(/[\s\u3000]+/).filter(Boolean).map((w) => ({ word: w, terms: expandTerms(w) })),
+    [q]
+  )
+  const terms = useMemo(() => [...new Set(groups.flatMap((g) => g.terms))], [groups])
+  const words = groups.map((g) => g.word)
+
+  const docText = (doc: Doc) => doc.t + "\n" + doc.b
+  const inScope = (doc: Doc) => !onlyThinkers || doc.p.startsWith("/articles/thinker-")
 
   const hits: Hit[] = useMemo(() => {
-    if (!docs || !q) return []
+    if (!docs || groups.length === 0) return []
     const res: Hit[] = []
     for (const doc of docs) {
-      if (onlyThinkers && !doc.p.startsWith("/articles/thinker-")) continue
-      const text = doc.t + "\n" + doc.b
+      if (!inScope(doc)) continue
+      const text = docText(doc)
+      if (!groups.every((g) => g.terms.some((t) => text.includes(t)))) continue
       const matched = terms.filter((t) => text.includes(t))
-      if (matched.length === 0) continue
-      const exact = countOf(text, q)
-      const others = matched.filter((t) => t !== q).reduce((n, t) => n + countOf(text, t), 0)
-      res.push({ doc, exact, matched, score: exact * 10 + others + (doc.t.includes(q) ? 20 : 0), snippets: makeSnippets(doc.b, terms) })
+      const exacts = groups.map((g) => countOf(text, g.word))
+      const others = matched.filter((t) => !words.includes(t)).reduce((n, t) => n + countOf(text, t), 0)
+      const titleBonus = words.filter((w) => doc.t.includes(w)).length * 20
+      const allExact = exacts.every((n) => n > 0) ? 30 : 0
+      const score = exacts.reduce((a, b) => a + b, 0) * 10 + others + titleBonus + allExact
+      res.push({ doc, exacts, matched, score, snippets: makeSnippets(doc.b, groups) })
     }
-    return res.sort((a, b) => b.score - a.score).slice(0, 60)
-  }, [docs, q, terms, onlyThinkers])
+    return res.sort((a, b) => b.score - a.score)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docs, groups, terms, onlyThinkers])
 
-  // 0件だった語を記録する(辞書に足す候補)
+  // 複数語で0件のとき、語ごとの件数を出す(どの組み合わせがきついかの目安)
+  const perWord: { word: string; n: number }[] = useMemo(() => {
+    if (!docs || groups.length < 2 || hits.length > 0) return []
+    return groups.map((g) => ({
+      word: g.word,
+      n: docs.filter((d) => inScope(d) && g.terms.some((t) => docText(d).includes(t))).length,
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docs, groups, hits.length, onlyThinkers])
+
+  // 0件だった語を記録する(辞書に足す候補)。組み合わせで0件になっただけの語は記録しない
   useEffect(() => {
     if (missTimer.current) clearTimeout(missTimer.current)
     if (!docs || q.length < 2 || hits.length > 0) return
+    const missWords = groups.length < 2 ? [q] : perWord.filter((w) => w.n === 0).map((w) => w.word)
+    if (missWords.length === 0) return
     missTimer.current = setTimeout(() => {
-      try { gtag("event", "staff_search_miss", { search_term: q }) } catch { /* noop */ }
+      for (const w of missWords) {
+        try { gtag("event", "staff_search_miss", { search_term: w }) } catch { /* noop */ }
+      }
     }, 1500)
-  }, [docs, q, hits.length])
+  }, [docs, q, groups, hits.length, perWord])
 
   if (!authed) return <Gate onOk={() => setAuthed(true)} />
 
-  const expanded = terms.filter((t) => t !== q)
+  const expansions = groups
+    .map((g) => ({ word: g.word, extra: g.terms.filter((t) => t !== g.word) }))
+    .filter((e) => e.extra.length > 0)
 
   return (
     <div className="min-h-screen" style={{ background: "#F7F3EA" }}>
@@ -163,7 +198,7 @@ export default function StaffSearch() {
           <input
             type="search" value={input} autoFocus
             onChange={(e) => setInput(e.target.value)}
-            placeholder="例:自己否定、他責、疲弊"
+            placeholder="例:自己否定 他責(スペースで区切ると両方を含む記事)"
             className="w-full px-4 py-3 rounded-xl border border-stone-300 bg-white text-base focus:outline-none focus:border-stone-500"
             aria-label="本文を検索"
           />
@@ -180,8 +215,12 @@ export default function StaffSearch() {
             >偉人・学者シリーズのみ</button>
             {docs && <span className="ml-auto text-stone-400">{docs.length}記事</span>}
           </div>
-          {q && expanded.length > 0 && (
-            <p className="text-[11px] text-stone-500 mt-2 leading-relaxed">言い換えでも検索:{expanded.join("・")}</p>
+          {q && expansions.length > 0 && (
+            <div className="text-[11px] text-stone-500 mt-2 leading-relaxed space-y-0.5">
+              {expansions.map((e) => (
+                <p key={e.word}>「{e.word}」は言い換えでも検索:{e.extra.join("・")}</p>
+              ))}
+            </div>
           )}
         </div>
 
@@ -189,17 +228,28 @@ export default function StaffSearch() {
         {!docs && !loadErr && <p className="text-sm text-stone-500">読み込み中…</p>}
 
         {docs && q && (
-          <p className="text-xs text-stone-500 mb-3">{hits.length === 0 ? "見つかりませんでした(この語は記録され、辞書に追加する候補になります)" : `${hits.length}件`}</p>
+          <div className="text-xs text-stone-500 mb-3">
+            {hits.length > 0 && <p>{hits.length}件{hits.length > 60 && "(関連の強い上位60件を表示)"}</p>}
+            {hits.length === 0 && groups.length < 2 && <p>見つかりませんでした(この語は記録され、辞書に追加する候補になります)</p>}
+            {hits.length === 0 && groups.length >= 2 && (
+              <p>
+                すべてを含む記事はありませんでした。語ごとの件数:
+                {perWord.map((w) => `「${w.word}」${w.n}件`).join(" ／ ")}
+                {perWord.some((w) => w.n === 0) && "(0件の語は記録され、辞書に追加する候補になります)"}
+              </p>
+            )}
+          </div>
         )}
 
         <div className="space-y-3">
-          {hits.map((h) => (
+          {hits.slice(0, 60).map((h) => (
             <div key={h.doc.p} className="bg-white rounded-xl border border-stone-200 p-4">
               <a href={h.doc.p} target="_blank" rel="noopener noreferrer" className="block text-sm font-medium leading-snug hover:underline" style={{ color: INK }}>
                 {highlight(h.doc.t, terms)}
               </a>
               <p className="text-[11px] text-stone-400 mt-1">
-                {h.exact > 0 ? `「${q}」${h.exact}件` : "言い換えで一致"} ／ {h.matched.slice(0, 5).join("・")}
+                {groups.map((g, i) => (h.exacts[i] > 0 ? `「${g.word}」${h.exacts[i]}件` : `「${g.word}」は言い換えで一致`)).join(" ／ ")}
+                {" ／ "}{h.matched.slice(0, 6).join("・")}
               </p>
               {h.snippets.length > 0 && (
                 <ul className="mt-2 space-y-1.5">
