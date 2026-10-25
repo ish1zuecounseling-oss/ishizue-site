@@ -4,86 +4,109 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
 
 /* -------------------------------------------------------------------------- */
-/*  SCRI-J データ（宮川・谷口 2016 付録より）                                   */
+/*  場面データ(当相談室オリジナル)                                              */
+/*  Neff(2003)のセルフ・コンパッションの3要素を参考に、支援職の場面で独自に作成  */
 /* -------------------------------------------------------------------------- */
 
-type Choice = { text: string; isSC: boolean }
+// kind=自分へのやさしさ / common=共通の人間性 / mindful=気づき(マインドフルネス)
+// judge=自分を責める / isolate=ひとりで抱える / overid=気持ちにのみこまれる
+type ChoiceType = "kind" | "common" | "mindful" | "judge" | "isolate" | "overid"
+type Choice = { text: string; type: ChoiceType }
 type Scene = { situation: string; choices: Choice[] }
+
+const SC_TYPES: ChoiceType[] = ["kind", "common", "mindful"]
+const isSC = (t: ChoiceType) => SC_TYPES.includes(t)
 
 const SCENES: Scene[] = [
   {
-    situation: "あなたはおろかな失敗をしてしまいました。",
+    situation: "利用者さんへの対応でミスをして、上司から注意を受けました。",
     choices: [
-      { text: "「本当にばかだ」と自分を責めるだろう",               isSC: false },
-      { text: "その状況を改善する方法を考えるだろう",               isSC: true  },
-      { text: "今までおかした他の間違いも全て思い出してしまうだろう", isSC: false },
-      { text: "「みんなおろかな間違いはするものだ」と自分に言い聞かせるだろう", isSC: true },
+      { text: "「どうしてこんな初歩的なことを」と、帰り道もずっと自分を責める", type: "judge" },
+      { text: "「疲れていたし、焦っていた」と、ミスの背景も含めて自分の状態を見てあげる", type: "kind" },
+      { text: "一日中そのことで頭がいっぱいになり、ほかの仕事が手につかない", type: "overid" },
+      { text: "経験を重ねた人でも、こういうミスは起こるものだと思い出す", type: "common" },
     ],
   },
   {
-    situation: "あなたの人生で、上手くいかないことが多々あります。",
+    situation: "担当している利用者さんの状態が、なかなか良くなりません。",
     choices: [
-      { text: "「みんな時々人生で葛藤するものだ」と自分に言い聞かせるだろう", isSC: true  },
-      { text: "他の人々から孤立したように感じるだろう",             isSC: false },
-      { text: "「この世の中は私が苦しむように出来ている」と考えるだろう", isSC: false },
-      { text: "自分に対して優しく振る舞うだろう",                   isSC: true  },
+      { text: "「今、自分は焦っている」と気づき、その気持ちから少し距離をとる", type: "mindful" },
+      { text: "自分の力不足のせいだと思ってしまう", type: "judge" },
+      { text: "同じような壁にぶつかっている支援者は、ほかにもたくさんいると考える", type: "common" },
+      { text: "誰にも相談できず、一人で抱え込む", type: "isolate" },
     ],
   },
   {
-    situation: "ほとんどの人が簡単にできることで、あなたは苦戦しています。",
+    situation: "忙しい時期が続き、休みの日も疲れが抜けません。",
     choices: [
-      { text: "自分が人として失格だと感じるだろう",                 isSC: false },
-      { text: "自分のことを厳しく評価するだろう",                   isSC: false },
-      { text: "「みんな何かしら苦労することがある」と考えるだろう", isSC: true  },
-      { text: "そのことで悩みすぎないようにするだろう",             isSC: true  },
+      { text: "「みんな頑張っているのに、自分は弱い」と思う", type: "judge" },
+      { text: "「この疲れはずっと続く」と思い込み、気持ちが沈んでいく", type: "overid" },
+      { text: "疲れていることを認めて、今日は予定を入れずに体を休ませる", type: "kind" },
+      { text: "同じ職場の人もきっと疲れているはずだと思い、声をかけてみる", type: "common" },
     ],
   },
   {
-    situation: "ケガや病気のために、したいことができません。",
+    situation: "利用者さんのご家族から、強い口調で不満を言われました。",
     choices: [
-      { text: "自分の気持ちが晴れる方法を考えるだろう",             isSC: true  },
-      { text: "「なぜいつも自分は悪い目にあうのだろうか」と思うだろう", isSC: false },
-      { text: "「このようなことは誰にでも起こることだ」と思うだろう", isSC: true  },
-      { text: "もはや希望がないように感じるだろう",                 isSC: false },
+      { text: "嫌な気持ちになったことを認めつつ、言われた内容を少し引いて眺める", type: "mindful" },
+      { text: "自分がすべて悪かったのだと、相手の言葉をそのまま受け止める", type: "judge" },
+      { text: "このことは誰にも話さず、なかったことにする", type: "isolate" },
+      { text: "「つらい役回りだった」と、自分をねぎらう", type: "kind" },
     ],
   },
   {
-    situation: "あなたがとても重要だと考えていた目標を達成できませんでした。",
+    situation: "同期が先に昇進し、自分だけ取り残されたように感じます。",
     choices: [
-      { text: "失敗は人生の一部分だと自分に言い聞かせるだろう",     isSC: true  },
-      { text: "自分自身を励ますための何かをするだろう",             isSC: true  },
-      { text: "自分が人として失格だと思うだろう",                   isSC: false },
-      { text: "敗北者のように感じるだろう",                         isSC: false },
+      { text: "そのことばかり考えて、仕事への意欲がなくなる", type: "overid" },
+      { text: "比べてしまう気持ちは誰にでもあると考え、その気持ちを否定しない", type: "common" },
+      { text: "「自分には能力がない」と考える", type: "judge" },
+      { text: "自分がこれまで大切にしてきた仕事を、思い出してみる", type: "kind" },
     ],
   },
   {
-    situation: "あなたは他者から嫌われているように感じています。",
+    situation: "ほかの職員がうまくこなしている業務に、自分だけ手間取っています。",
     choices: [
-      { text: "「この世の中は私が苦しむように出来ている」と感じるだろう", isSC: false },
-      { text: "敗北者のように感じるだろう",                         isSC: false },
-      { text: "「全員から好かれる人は誰一人としていない」と自分に言い聞かせるだろう", isSC: true },
-      { text: "自分自身を気づかい、優しくするだろう",               isSC: true  },
+      { text: "誰にも聞けず、こっそり残業して何とかしようとする", type: "isolate" },
+      { text: "「慣れるまで時間がかかるのは自然なこと」と自分に声をかける", type: "kind" },
+      { text: "「ここにいる資格はない」と感じる", type: "judge" },
+      { text: "できていないことと、できていることを分けて眺めてみる", type: "mindful" },
     ],
   },
   {
-    situation: "自分の嫌いな一面に気づかされました。",
+    situation: "仕事のあと、利用者さんへの対応を思い出して、イライラしていた自分に気づきました。",
     choices: [
-      { text: "自分のことをひどく否定するだろう",                   isSC: false },
-      { text: "自分の良い面を思い起こすだろう",                     isSC: true  },
-      { text: "自分が完璧でないという事実を受け入れるだろう",       isSC: true  },
-      { text: "そのような自分の一面を批判するだろう",               isSC: false },
+      { text: "「支援者なのに、こんな気持ちになるなんて失格だ」と思う", type: "judge" },
+      { text: "「疲れているときにそう感じるのは、人として自然なこと」と受け止める", type: "common" },
+      { text: "イライラが頭から離れず、夜まで何度も思い返す", type: "overid" },
+      { text: "「今、自分はイライラしている」と気づき、ゆっくり深呼吸をする", type: "mindful" },
     ],
   },
   {
-    situation: "あなたは悲しさと孤独を感じています。",
+    situation: "気分が落ち込み、誰にも理解されていないように感じます。",
     choices: [
-      { text: "「自分のことを本当に気にかける人はいない」と感じるだろう", isSC: false },
-      { text: "そのことが気になって仕方ないだろう",                 isSC: false },
-      { text: "気分が良くなるように、自分に心優しいことをするだろう", isSC: true  },
-      { text: "「事態は良くなっていく」と自分に言い聞かせるだろう", isSC: true  },
+      { text: "落ち込んでいる自分に、温かい飲み物を用意するなど小さな優しさを向ける", type: "kind" },
+      { text: "「こんな気持ちになるのは自分だけだ」と思う", type: "isolate" },
+      { text: "落ち込んでいる気持ちを、良い悪いを決めずにそのまま感じてみる", type: "mindful" },
+      { text: "落ち込んでいる自分を「甘えている」と責める", type: "judge" },
     ],
   },
 ]
+
+/* 自分に厳しい反応の3つの型 */
+const HARSH_PATTERNS: Record<"judge" | "isolate" | "overid", { name: string; desc: string }> = {
+  judge: {
+    name: "自分を責める型",
+    desc: "うまくいかないとき、真っ先に「自分が悪い」「自分は足りない」と考えやすい型です。責めることで次に備えようとしている面もありますが、続くと消耗が深まります。まずは責めている自分の声に気づくところから始めましょう。",
+  },
+  isolate: {
+    name: "ひとりで抱える型",
+    desc: "つらいときほど人に話さず、自分だけで何とかしようとしやすい型です。「自分だけがこうなっている」と感じると、苦しさは大きくなります。同じ立場の人も同じ壁にぶつかっている、と思い出すことが助けになります。",
+  },
+  overid: {
+    name: "気持ちにのみこまれる型",
+    desc: "つらい出来事や気持ちが頭から離れず、それで一日がいっぱいになりやすい型です。気持ちを消そうとするより、「今こう感じている」と一歩引いて眺める練習が役立ちます。",
+  },
+}
 
 /* -------------------------------------------------------------------------- */
 /*  結果設定                                                                    */
@@ -92,8 +115,8 @@ const SCENES: Scene[] = [
 type Level = "low" | "mid" | "high"
 
 function getLevel(score: number): Level {
-  if (score <= 5)  return "low"
-  if (score <= 10) return "mid"
+  if (score <= 2) return "low"
+  if (score <= 5) return "mid"
   return "high"
 }
 
@@ -108,7 +131,7 @@ const RESULTS: Record<Level, {
 }> = {
   low: {
     label: "セルフ・コンパッションが低めの状態です",
-    labelSub: "0〜5点",
+    labelSub: "0〜2点",
     description: "つらい状況で自分を責めやすく、孤立感や無力感を感じやすいパターンが見られます。これは性格の問題ではなく、長年かけて形成された反応パターンです。小さな「自分への優しさ」の練習から始めることができます。",
     color: "#b45309",
     bg: "#fffbeb",
@@ -120,12 +143,12 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「また責めてしまった」を繰り返しているなら",
       body: "自己批判のパターンは一人で変えようとしても難しいことがあります。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
-      buttonText: "今の状態を相談してみる{FREE_FIRST}",
+      buttonText: `今の状態を相談してみる${FREE_FIRST}`,
     },
   },
   mid: {
     label: "セルフ・コンパッションが中程度の状態です",
-    labelSub: "6〜10点",
+    labelSub: "3〜5点",
     description: "場面によって自分に優しくできる一方、追い詰められると自己批判が出やすいパターンです。「自分だけが苦しい」という孤立感が強まっているときは、セルフ・コンパッションの「共通の人間性」の視点が役立ちます。",
     color: "#0369a1",
     bg: "#eff6ff",
@@ -137,12 +160,12 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「頑張っているのになぜ消耗するのか」整理したい方へ",
       body: "セルフ・コンパッションは高めることができます。支援職専門カウンセリングで、消耗の構造を一緒に整理してみませんか。",
-      buttonText: "カウンセリングで整理してみる{FREE_FIRST}",
+      buttonText: `カウンセリングで整理してみる${FREE_FIRST}`,
     },
   },
   high: {
     label: "セルフ・コンパッションが高めの状態です",
-    labelSub: "11〜16点",
+    labelSub: "6〜8点",
     description: "つらい場面でも自分への思いやりを保てる傾向があります。失敗を過度に責めず、困難を人間として自然なこととして受け止める力が育っています。この力がバーンアウト予防の重要な資源になっています。",
     color: "#065f46",
     bg: "#ecfdf5",
@@ -154,7 +177,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "今の状態を維持・深化させたい方へ",
       body: "セルフ・コンパッションが高くても、職場の構造による消耗は起きます。今の強みを活かしながら、さらに整えたい部分を一緒に確認しましょう。",
-      buttonText: "状態をさらに整える{FREE_FIRST}",
+      buttonText: `状態をさらに整える${FREE_FIRST}`,
     },
   },
 }
@@ -164,35 +187,27 @@ const RESULTS: Record<Level, {
 /* -------------------------------------------------------------------------- */
 
 export default function HelperSelfCompassionCheck() {
-  // selections[sceneIdx] = Set of choice indices selected (max 2)
-  const [selections, setSelections] = useState<Set<number>[]>(
-    Array.from({ length: SCENES.length }, () => new Set())
+  // selections[sceneIdx] = 選んだ選択肢の番号(未回答は null)
+  const [selections, setSelections] = useState<(number | null)[]>(
+    Array.from({ length: SCENES.length }, () => null)
   )
   const [submitted, setSubmitted] = useState(false)
   const [currentScene, setCurrentScene] = useState(0)
 
-  const totalAnswered = selections.filter(s => s.size === 2).length
+  const totalAnswered = selections.filter(s => s !== null).length
   const allAnswered = totalAnswered === SCENES.length
 
-  const score = submitted
-    ? selections.reduce((acc, sel, si) => {
-        sel.forEach(ci => { if (SCENES[si].choices[ci].isSC) acc++ })
-        return acc
-      }, 0)
-    : 0
+  const chosenTypes: ChoiceType[] = selections.map((ci, si) => (ci === null ? null : SCENES[si].choices[ci].type)).filter((t): t is ChoiceType => t !== null)
+  const score = submitted ? chosenTypes.filter(isSC).length : 0
+
+  // 自分に厳しい反応のうち、いちばん多く選んだ型(同数なら judge → isolate → overid の順)
+  const harshCounts = (["judge", "isolate", "overid"] as const).map((t) => ({ t, n: chosenTypes.filter((c) => c === t).length }))
+  const topHarsh = harshCounts.reduce((a, b) => (b.n > a.n ? b : a))
+  const harshPattern = submitted && topHarsh.n >= 2 ? HARSH_PATTERNS[topHarsh.t] : null
 
   function toggleChoice(sceneIdx: number, choiceIdx: number) {
     if (submitted) return
-    setSelections(prev => {
-      const next = prev.map(s => new Set(s))
-      const sel = next[sceneIdx]
-      if (sel.has(choiceIdx)) {
-        sel.delete(choiceIdx)
-      } else if (sel.size < 2) {
-        sel.add(choiceIdx)
-      }
-      return next
-    })
+    setSelections(prev => prev.map((v, i) => (i === sceneIdx ? (v === choiceIdx ? null : choiceIdx) : v)))
   }
 
   function handleSubmit() {
@@ -205,7 +220,7 @@ export default function HelperSelfCompassionCheck() {
   }
 
   function handleReset() {
-    setSelections(Array.from({ length: SCENES.length }, () => new Set()))
+    setSelections(Array.from({ length: SCENES.length }, () => null))
     setSubmitted(false)
     setCurrentScene(0)
   }
@@ -217,8 +232,8 @@ export default function HelperSelfCompassionCheck() {
 
   return (
     <ArticleLayout
-      title="セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する"
-      description="つらい場面で自分をどう扱うか——SCRI-J（日本語版セルフコンパッション反応尺度）をもとに、8つの困難場面であなたの自然な反応パターンを確認します。"
+      title="セルフ・コンパッション反応チェック｜支援職の8場面で「自分への思いやり」を確認する"
+      description="ミス、クレーム、落ち込み——つらい場面で自分をどう扱っているか。支援職によくある8つの場面で、あなたの反応パターン(自分を責める・ひとりで抱える・気持ちにのみこまれる)を確認します。"
       url="https://www.ishizue-counseling.jp/articles/helper-self-compassion-check"
       date="2026-04-19"
       tags={["burnout", "compassion", "boundary"]}
@@ -230,12 +245,11 @@ export default function HelperSelfCompassionCheck() {
       </p>
 
       <div className="mb-6 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
-        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-2" style={{ color: SAGE }}>このチェックについて</p>
+        <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-2" style={{ color: SAGE }}>チェックのやり方</p>
         <ul className="space-y-1 text-xs text-stone-600 leading-relaxed">
-          <li>・8つの場面それぞれで、4つの反応から<strong>2つ</strong>を選んでください（実際の場面では複数の反応が起きるため）</li>
-          <li>・「正しい答え」はありません。自然に近いと思う反応を選んでください</li>
-          <li>・所要時間：約3〜5分</li>
-          <li>・宮川・谷口（2016）の日本語版SCRI-Jをもとに作成しています</li>
+          <li>・支援職によくある8つの場面で、4つの反応から<strong>いちばん近いものを1つ</strong>選んでください</li>
+          <li>・「正しい答え」はありません。理想ではなく、実際にしそうな反応を選んでください</li>
+          <li>・所要時間：約3分</li>
         </ul>
       </div>
 
@@ -259,7 +273,7 @@ export default function HelperSelfCompassionCheck() {
       {!submitted && (
         <div className="flex gap-1.5 flex-wrap mb-6">
           {SCENES.map((_, si) => {
-            const done = selections[si].size === 2
+            const done = selections[si] !== null
             const active = si === currentScene
             return (
               <button
@@ -293,11 +307,11 @@ export default function HelperSelfCompassionCheck() {
                   {scene.situation}
                 </p>
               </div>
-              <p className="text-xs text-stone-400 mb-3">2つ選んでください（{selections[si].size}/2）</p>
+              <p className="text-xs text-stone-400 mb-3">いちばん近いものを1つ選んでください</p>
               <div className="space-y-2">
                 {scene.choices.map((choice, ci) => {
-                  const selected = selections[si].has(ci)
-                  const maxed = selections[si].size === 2 && !selected
+                  const selected = selections[si] === ci
+                  const maxed = false
                   return (
                     <button
                       key={ci}
@@ -341,11 +355,11 @@ export default function HelperSelfCompassionCheck() {
                 {si < SCENES.length - 1 ? (
                   <button
                     onClick={() => setCurrentScene(si + 1)}
-                    disabled={selections[si].size < 2}
+                    disabled={selections[si] === null}
                     className="text-xs px-4 py-1.5 rounded-lg font-medium transition-all"
                     style={{
-                      background: selections[si].size === 2 ? SAGE : "#f5f0eb",
-                      color: selections[si].size === 2 ? "#fff" : "#c7bfb9",
+                      background: selections[si] !== null ? SAGE : "#f5f0eb",
+                      color: selections[si] !== null ? "#fff" : "#c7bfb9",
                     }}
                   >
                     次の場面 →
@@ -386,17 +400,12 @@ export default function HelperSelfCompassionCheck() {
           {/* score */}
           <div className="mb-6 p-5 rounded-2xl text-center" style={{ background: result.bg, border: `2px solid ${result.color}20` }}>
             <p className="text-xs font-medium mb-1" style={{ color: result.color }}>{result.labelSub}</p>
-            <p className="text-4xl font-bold mb-1" style={{ color: result.color, fontFamily: "'Noto Serif JP', serif" }}>{score}<span className="text-lg"> / 16</span></p>
+            <p className="text-4xl font-bold mb-1" style={{ color: result.color, fontFamily: "'Noto Serif JP', serif" }}>{score}<span className="text-lg"> / 8</span></p>
             <p className="text-sm font-medium" style={{ color: result.color }}>{result.label}</p>
           <p className="text-xs mt-2" style={{ color: result.color }}>
-            {score <= 5 ? "まずは自己批判に「気づくこと」から始めましょう" :
-             score <= 10 ? "場面によってセルフ・コンパッションを使い分けることが次の一歩です" :
+            {score <= 2 ? "まずは自己批判に「気づくこと」から始めましょう" :
+             score <= 5 ? "場面によってセルフ・コンパッションを使い分けることが次の一歩です" :
              "今の力を維持しながら、職場の構造的な消耗にも目を向けてみましょう"}
-          </p>
-          <p className="text-xs text-stone-400 mt-1">
-            {score <= 5 ? "回答者の約下位30%の水準（自己批判傾向が強め）" :
-             score <= 10 ? "回答者の約中間40%の水準（平均的な水準）" :
-             "回答者の約上位30%の水準（セルフ・コンパッションが高め）"}
           </p>
           </div>
 
@@ -404,35 +413,37 @@ export default function HelperSelfCompassionCheck() {
           <div className="mb-5 p-3 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
             <p className="text-xs text-stone-500 mb-1.5">今の状態、もう少し整理したい方へ</p>
             <a href="/#contact" className="text-sm text-stone-700 underline underline-offset-2 hover:text-stone-900 transition-colors">
-              → 支援職専門カウンセリングに無料で相談してみる
+              → 支援職専門カウンセリングについて見てみる
             </a>
           </div>
 
           {/* description */}
           <p className="text-sm text-stone-600 leading-[1.9] mb-6">{result.description}</p>
 
+          {/* 自分に厳しい反応の型 */}
+          {harshPattern && (
+            <div className="mb-6 p-4 rounded-xl" style={{ background: "#fff", border: "1px solid #e8ddd4" }}>
+              <p className="text-xs text-stone-500 mb-1">あなたが選びやすかった反応</p>
+              <p className="text-sm font-medium mb-2" style={{ color: DARK }}>{harshPattern.name}</p>
+              <p className="text-xs text-stone-600 leading-relaxed">{harshPattern.desc}</p>
+            </div>
+          )}
+
           {/* 場面別振り返り */}
           <div className="mb-8">
             <p className="text-xs font-medium text-stone-500 mb-3">場面別の選択を振り返る</p>
             <div className="space-y-3">
               {SCENES.map((scene, si) => {
-                const scCount = Array.from(selections[si]).filter(ci => scene.choices[ci].isSC).length
+                const ci = selections[si]
+                if (ci === null) return null
+                const choice = scene.choices[ci]
+                const sc = isSC(choice.type)
                 return (
                   <div key={si} className="p-3 rounded-xl" style={{ background: "#f9f7f5", border: "1px solid #e8ddd4" }}>
                     <p className="text-xs text-stone-500 mb-2">場面{si + 1}｜{scene.situation}</p>
-                    <div className="space-y-1">
-                      {Array.from(selections[si]).map(ci => {
-                        const choice = scene.choices[ci]
-                        return (
-                          <p key={ci} className="text-xs flex items-start gap-1.5" style={{ color: choice.isSC ? "#065f46" : "#9f3a3a" }}>
-                            <span>{choice.isSC ? "✓" : "·"}</span>
-                            {choice.text}
-                          </p>
-                        )
-                      })}
-                    </div>
-                    <p className="text-[10px] mt-1.5" style={{ color: scCount === 2 ? "#065f46" : scCount === 1 ? "#92400e" : "#9f3a3a" }}>
-                      セルフ・コンパッション反応：{scCount} / 2
+                    <p className="text-xs flex items-start gap-1.5" style={{ color: sc ? "#065f46" : "#9f3a3a" }}>
+                      <span>{sc ? "✓" : "·"}</span>
+                      {choice.text}
                     </p>
                   </div>
                 )
@@ -480,10 +491,6 @@ export default function HelperSelfCompassionCheck() {
             もう一度チェックする
           </button>
 
-          {/* note */}
-          <p className="text-xs text-stone-400 mt-6 leading-relaxed">
-            このチェックツールは宮川裕基・谷口淳一（2016）「日本語版セルフコンパッション反応尺度（SCRI-J）の作成」心理学研究 87(1), 70-78 に掲載された尺度項目をもとに、教育・情報提供目的で作成しています。医学的・心理学的診断の代替にはなりません。
-          </p>
         </div>
       )}
 

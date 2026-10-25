@@ -114,7 +114,7 @@ function getResult(score: number) {
       cvBlock: {
         heading: "今の状態、一度整理してみませんか",
         body: "「まだ大丈夫」と思いながら、じわじわと消耗していることがあります。早めに気づいて整理するほど、回復しやすくなります。",
-        buttonText: "支援職専門カウンセリングに相談する{FREE_FIRST}",
+        buttonText: `支援職専門カウンセリングに相談する${FREE_FIRST}`,
         href: "/#contact",
         sub: "勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可",
       },
@@ -135,7 +135,7 @@ function getResult(score: number) {
       cvBlock: {
         heading: "一人で抱え込まなくていい",
         body: "「相談するほどじゃないかも」と思う気持ちは自然です。でもその感覚自体が、ケアラー疲労のサインであることが多いです。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
-        buttonText: "松本に、今の状態を整理してもらう{FREE_FIRST}",
+        buttonText: `松本に、今の状態を整理してもらう${FREE_FIRST}`,
         href: "/#contact",
         sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
       },
