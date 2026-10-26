@@ -1,6 +1,21 @@
 {
   "redirects": [
     {
+      "source": "/helper-boundary",
+      "destination": "/articles/helper-boundary",
+      "permanent": true
+    },
+    {
+      "source": "/helper-burnout",
+      "destination": "/articles/helper-burnout",
+      "permanent": true
+    },
+    {
+      "source": "/helper-trauma",
+      "destination": "/articles/empathy-fatigue-vs-secondary-trauma",
+      "permanent": true
+    },
+    {
       "source": "/articles/about-matsumoto",
       "destination": "/profile",
       "permanent": true
