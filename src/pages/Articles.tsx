@@ -443,8 +443,8 @@ type ThinkerSection = { label: string; desc: string; keys: string[] };
 const THINKER_SECTIONS: ThinkerSection[] = [
   { label: "自己と自己価値",       desc: "「本当の自分」と、条件つきの自己価値をめぐる思想",       keys: ["kierkegaard", "rogers", "james", "fromm", "winnicott", "kohut", "pepin", "zhuangzi"] },
   { label: "空虚と意味",           desc: "満たされなさ、やりがい、生きる意味をめぐる思想",         keys: ["baudelaire", "frankl", "csikszentmihalyi", "deci"] },
-  { label: "他人軸・比較・思い込み", desc: "人の目、比較、決めつけから距離をとるための思想",         keys: ["epictetus", "adler", "girard", "diogenes", "horney", "pyrrho", "krishnamurti", "doi", "soseki"] },
-  { label: "支援と他者",           desc: "人を支えること、他者と向き合うことの難しさをめぐる思想", keys: ["dostoevsky", "nietzsche", "schmidbauer", "hochschild", "saint-exupery", "kant", "weil", "levinas", "derrida", "bourdieu", "marcus"] },
+  { label: "他人軸・比較・思い込み", desc: "人の目、比較、決めつけから距離をとるための思想",         keys: ["epictetus", "adler", "girard", "diogenes", "horney", "pyrrho", "krishnamurti", "doi", "soseki", "seligman"] },
+  { label: "支援と他者",           desc: "人を支えること、他者と向き合うことの難しさをめぐる思想", keys: ["dostoevsky", "nietzsche", "schmidbauer", "hochschild", "saint-exupery", "kant", "weil", "levinas", "derrida", "bourdieu", "marcus", "aristotle"] },
   { label: "疲れ・反芻・休息",     desc: "考えすぎ、眠れなさ、休み方をめぐる思想と研究",           keys: ["russell", "holmes", "dalton-smith", "vanderbilt", "kross", "takuan", "bachelard", "cioran", "pascal", "chomei", "maslach"] },
   { label: "心とからだ",           desc: "からだの感覚と心のつながりをめぐる思想",                 keys: ["ikemi", "nishida", "upanishad"] },
   { label: "カウンセリングそのもの", desc: "問いを通して考えを引き出す、対話の原点",                 keys: ["socrates"] },
