@@ -3,7 +3,7 @@
 // ルーティング: <Route path="/admin/dashboard" element={<OpsDashboard />} />
 // データ取得: /api/ops-dashboard(閲覧キーは /admin/views と共通)
 
-import { useEffect, useMemo, useState } from "react"
+import { Fragment, useEffect, useMemo, useState } from "react"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
 
@@ -60,6 +60,7 @@ type Month = {
   month: string; users: number; newUsers: number; pageViews: number
   lineClicks: number; lineByEvent: Record<string, number>
   checkCompleteUsers: number; lineFromCheckUsers: number; channels: Record<string, number>
+  sources?: Record<string, Record<string, number>>
 }
 type Query = { q: string; clicks: number; impressions: number; position: number }
 type ApiArticle = {
@@ -84,6 +85,37 @@ type Manual = {
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
 type Tab = "launch" | "todo" | "articles" | "search"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
+
+/** GA4の流入元(デフォルト チャネル グループ)の日本語名と説明 */
+const CHANNEL_INFO: Record<string, [string, string]> = {
+  "Organic Search": ["検索(自然)", "Google・Yahoo!などの検索結果から"],
+  "Direct": ["直接・不明", "URLの直接入力、ブックマーク、LINEやメールアプリ内のリンクなど、どこから来たか分からないもの"],
+  "Referral": ["他サイトのリンク", "noteなど、ほかのWebサイトに貼られたリンクから"],
+  "Organic Social": ["SNS(投稿・プロフィール)", "Instagram・X・Facebookなどの投稿やプロフィールのリンクから(広告以外)"],
+  "Paid Social": ["SNS広告", "Meta広告など、SNSの有料広告から"],
+  "Paid Search": ["検索広告", "Google広告など、検索結果の有料広告から"],
+  "Display": ["ディスプレイ広告", "Webサイト上のバナー広告から"],
+  "Email": ["メール", "メールマガジンなどのリンクから"],
+  "Organic Video": ["動画サイト", "YouTubeなどの動画サービスから"],
+  "AI Assistant": ["AI(ChatGPTなど)", "ChatGPT・Gemini・Perplexityなど、AIの回答に表示されたリンクから"],
+  "Unassigned": ["分類できず", "GA4がどこにも分類できなかったもの(計測用の印の付け方が不完全なリンクなど)"],
+  "Cross-network": ["Google広告(複数面)", "検索・YouTubeなどに横断して出る広告から"],
+  "Affiliates": ["アフィリエイト", "成果報酬型の紹介リンクから"],
+  "Organic Shopping": ["ショッピング", "ショッピングサイトから"],
+  "SMS": ["SMS", "ショートメッセージのリンクから"],
+}
+/** 流入元の中身(sessionSource)をわかりやすい名前に */
+function sourceLabel(src: string): string {
+  const s = src.toLowerCase()
+  const map: [RegExp, string][] = [
+    [/^\(direct\)$/, "直接(参照元なし)"], [/google/, "Google"], [/yahoo/, "Yahoo!"], [/bing/, "Bing"],
+    [/duckduckgo/, "DuckDuckGo"], [/instagram|^ig$/, "Instagram"], [/^t\.co$|twitter|^x\.com/, "X(Twitter)"],
+    [/facebook|^fb$/, "Facebook"], [/line/, "LINE"], [/note\.com/, "note"], [/chatgpt|openai/, "ChatGPT"],
+    [/perplexity/, "Perplexity"], [/gemini/, "Gemini"], [/copilot/, "Copilot"], [/claude/, "Claude"],
+  ]
+  const hit = map.find(([re]) => re.test(s))
+  return hit ? `${hit[1]}(${src})` : src
+}
 
 const LINE_EVENT_LABEL: Record<string, string> = {
   line_cta_click: "記事内のLINEボタン",
@@ -604,6 +636,75 @@ function AchievementTrend({ data }: { data: ApiResult }) {
   )
 }
 
+/* ------------------------------ 流入元の表 ------------------------------ */
+
+function ChannelTable({ months, cur }: { months: Month[]; cur?: Month }) {
+  const [open, setOpen] = useState<string | null>(null)
+  const channels = Array.from(new Set<string>(months.flatMap((mo) => Object.keys(mo.channels))))
+    .sort((a, b) => (cur?.channels[b] ?? 0) - (cur?.channels[a] ?? 0))
+  return (
+    <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+      <table className="w-full text-[12px] text-stone-700 min-w-[460px]">
+        <thead>
+          <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+            <th className="text-left font-normal px-3 py-2 sticky left-0 bg-white">流入元</th>
+            {months.map((mo) => <th key={mo.month} className="text-right font-normal px-3">{monthLabel(mo.month)}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {channels.map((ch) => {
+            const info = CHANNEL_INFO[ch]
+            const isOpen = open === ch
+            const srcs = Array.from(new Set<string>(months.flatMap((mo) => Object.keys(mo.sources?.[ch] ?? {}))))
+              .map((src) => ({ src, total: months.reduce((n, mo) => n + (mo.sources?.[ch]?.[src] ?? 0), 0) }))
+              .sort((a, b) => b.total - a.total)
+              .slice(0, 6)
+            return (
+              <Fragment key={ch}>
+                <tr onClick={() => setOpen(isOpen ? null : ch)} className="border-b border-stone-50 cursor-pointer hover:bg-stone-50">
+                  <td className="px-3 py-2 sticky left-0 bg-white">
+                    <span>{info ? info[0] : ch}</span>
+                    <span className="text-[10px] text-stone-400 ml-1">{ch}</span>
+                    <span className="text-[10px] ml-1" style={{ color: SAGE }}>{isOpen ? "▲" : "▼"}</span>
+                  </td>
+                  {months.map((mo) => <td key={mo.month} className="text-right px-3">{fmt(mo.channels[ch] ?? 0)}</td>)}
+                </tr>
+                {isOpen && (
+                  <tr className="border-b border-stone-100 bg-stone-50">
+                    <td colSpan={months.length + 1} className="px-3 py-2">
+                      <p className="text-[11px] text-stone-600 mb-1.5">{info ? info[1] : "GA4の分類名です。"}</p>
+                      {srcs.length > 0 ? (
+                        <table className="text-[11px] text-stone-600">
+                          <thead>
+                            <tr className="text-[10px] text-stone-400">
+                              <th className="text-left font-normal pr-3">具体的な参照元</th>
+                              {months.map((mo) => <th key={mo.month} className="text-right font-normal pl-3">{monthLabel(mo.month)}</th>)}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {srcs.map(({ src }) => (
+                              <tr key={src}>
+                                <td className="pr-3 py-0.5">{sourceLabel(src)}</td>
+                                {months.map((mo) => <td key={mo.month} className="text-right pl-3 text-stone-500">{fmt(mo.sources?.[ch]?.[src] ?? 0)}</td>)}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      ) : (
+                        <p className="text-[10px] text-stone-400">内訳はありません。</p>
+                      )}
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -897,27 +998,9 @@ export default function OpsDashboard() {
 
             {/* 流入元 */}
             <div>
-              <p className="text-xs font-medium text-stone-600 mb-2">流入元(ユーザー数)</p>
-              <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
-                <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
-                  <thead>
-                    <tr className="text-[10px] text-stone-500 border-b border-stone-100">
-                      <th className="text-left font-normal px-3 py-2">流入元</th>
-                      {months.map((mo) => <th key={mo.month} className="text-right font-normal px-3">{monthLabel(mo.month)}</th>)}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.from(new Set<string>(months.flatMap((mo) => Object.keys(mo.channels))))
-                      .sort((a, b) => (cur?.channels[b] ?? 0) - (cur?.channels[a] ?? 0))
-                      .map((ch) => (
-                        <tr key={ch} className="border-b border-stone-50 last:border-0">
-                          <td className="px-3 py-2">{ch}</td>
-                          {months.map((mo) => <td key={mo.month} className="text-right px-3">{fmt(mo.channels[ch] ?? 0)}</td>)}
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+              <p className="text-xs font-medium text-stone-600 mb-1">流入元(ユーザー数)</p>
+              <p className="text-[10px] text-stone-400 mb-2">行を押すと、説明と、具体的にどのサイト・サービスから来たかが出ます。</p>
+              <ChannelTable months={months} cur={cur} />
             </div>
 
             {/* LINEクリックの内訳 */}
