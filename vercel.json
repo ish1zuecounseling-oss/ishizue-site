@@ -7,7 +7,7 @@
     },
     {
       "source": "/helper-burnout",
-      "destination": "/articles/helper-burnout",
+      "destination": "/articles/helper-burnout-pillar",
       "permanent": true
     },
     {
@@ -92,7 +92,7 @@
     },
     {
       "source": "/articles/compassion-fatigue-natural-recovery",
-      "destination": "/articles/compassion-fatigue-recovery-period",
+      "destination": "/articles/compassion-fatigue-coping",
       "permanent": true
     },
     {
@@ -135,6 +135,201 @@
         }
       ],
       "destination": "https://www.ishizue-counseling.jp/$1",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout-scale-validity",
+      "destination": "/articles/burnout-syndrome-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout",
+      "destination": "/articles/helper-burnout-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout-occupation",
+      "destination": "/articles/helper-burnout-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/human-service-burnout",
+      "destination": "/articles/helper-burnout-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout-recovery",
+      "destination": "/articles/burnout-recovery-methods",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout-what-to-do",
+      "destination": "/articles/burnout-recovery-methods",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-mental-recovery",
+      "destination": "/articles/burnout-recovery-methods",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-burnout-signs",
+      "destination": "/articles/burnout-early-signs",
+      "permanent": true
+    },
+    {
+      "source": "/articles/burnout-four-stages",
+      "destination": "/articles/burnout-early-signs",
+      "permanent": true
+    },
+    {
+      "source": "/articles/care-worker-burnout",
+      "destination": "/articles/care-worker-compassion-fatigue",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-caregiver-burnout",
+      "destination": "/articles/care-worker-compassion-fatigue",
+      "permanent": true
+    },
+    {
+      "source": "/articles/care-worker-mental-fatigue",
+      "destination": "/articles/care-worker-compassion-fatigue",
+      "permanent": true
+    },
+    {
+      "source": "/articles/teacher-mental-health",
+      "destination": "/articles/teacher-burnout",
+      "permanent": true
+    },
+    {
+      "source": "/articles/teacher-mental-health-limit",
+      "destination": "/articles/teacher-burnout",
+      "permanent": true
+    },
+    {
+      "source": "/articles/compassion-fatigue-recovery-period",
+      "destination": "/articles/compassion-fatigue-coping",
+      "permanent": true
+    },
+    {
+      "source": "/articles/empathy-brain-fatigue",
+      "destination": "/articles/helper-empathy-overload",
+      "permanent": true
+    },
+    {
+      "source": "/articles/emotion-flooding",
+      "destination": "/articles/helper-empathy-overload",
+      "permanent": true
+    },
+    {
+      "source": "/articles/empathy-fatigue-boundary",
+      "destination": "/articles/helper-boundary-how-to",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-self-compassion-burnout",
+      "destination": "/articles/self-compassion-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-self-compassion-behavior",
+      "destination": "/articles/self-compassion-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-nurse-self-compassion",
+      "destination": "/articles/self-compassion-complete",
+      "permanent": true
+    },
+    {
+      "source": "/articles/kind-people-break-down",
+      "destination": "/articles/exhausted-by-being-nice",
+      "permanent": true
+    },
+    {
+      "source": "/articles/too-much-consideration",
+      "destination": "/articles/too-considerate",
+      "permanent": true
+    },
+    {
+      "source": "/articles/workplace-performance-fatigue",
+      "destination": "/articles/acting-fatigue",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-rest-importance",
+      "destination": "/articles/helper-rest-types",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-mind-wandering",
+      "destination": "/articles/helper-rumination",
+      "permanent": true
+    },
+    {
+      "source": "/articles/self-blame-what",
+      "destination": "/articles/helper-self-blame",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-self-criticism-culture",
+      "destination": "/articles/helper-self-blame",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-self-complexity",
+      "destination": "/articles/self-complexity",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-naive-realism-conflict",
+      "destination": "/articles/naive-realism-what",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-wellbeing-not-from-contribution",
+      "destination": "/articles/value-from-being-useful",
+      "permanent": true
+    },
+    {
+      "source": "/articles/impostor-check",
+      "destination": "/articles/impostor-check-20",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-impostor-check",
+      "destination": "/articles/impostor-check-20",
+      "permanent": true
+    },
+    {
+      "source": "/articles/suppressing-emotions-at-work",
+      "destination": "/articles/emotional-labor-what-pillar",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-cannot-seek",
+      "destination": "/articles/why-support-workers-cannot-ask-for-help",
+      "permanent": true
+    },
+    {
+      "source": "/articles/cannot-consult-colleagues",
+      "destination": "/articles/why-support-workers-cannot-ask-for-help",
+      "permanent": true
+    },
+    {
+      "source": "/articles/living-by-expectations",
+      "destination": "/articles/other-centered-living",
+      "permanent": true
+    },
+    {
+      "source": "/articles/quit-job-not-quit",
+      "destination": "/articles/quit-job-timing",
+      "permanent": true
+    },
+    {
+      "source": "/articles/quit-job-how-to-tell-boss",
+      "destination": "/articles/quit-job-cannot-say",
       "permanent": true
     }
   ],
