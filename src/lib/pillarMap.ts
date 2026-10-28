@@ -21,8 +21,8 @@ export const pillarMap: Record<string, string[]> = {
   /** バーンアウトクラスター */
   burnout: [
     "/articles/helper-burnout-check",        // バーンアウトセルフチェック
-    "/articles/helper-burnout-signs",        // バーンアウトの前兆
-    "/articles/helper-burnout",              // バーンアウトとは
+    "/articles/burnout-early-signs",         // バーンアウトの前兆
+    "/articles/helper-burnout-pillar",       // 支援職のバーンアウト
   ],
 
   /** 感情労働クラスター */
@@ -69,6 +69,6 @@ export const pillarMap: Record<string, string[]> = {
 
   /** 職種別：教員 */
   teacher: [
-    "/articles/teacher-mental-health",       // 教員のメンタルヘルス
+    "/articles/teacher-burnout",             // 教員の燃え尽き
   ],
 };
