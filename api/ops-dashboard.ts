@@ -345,7 +345,7 @@ export default async function handler(req: Req, res: Res) {
   const range = { startDate: `${days}daysAgo`, endDate: "yesterday" }
 
   try {
-    const [monthlyUsers, monthlyEvents, monthlyChannels, articleViews, articleEvents] = await Promise.all([
+    const [monthlyUsers, monthlyEvents, monthlyChannels, articleViews, articleEvents, monthlySources] = await Promise.all([
       ga4(token, GA4_PROPERTY_ID, {
         dateRanges: [{ startDate: monthStart, endDate: "today" }],
         dimensions: [{ name: "yearMonth" }],
@@ -379,6 +379,14 @@ export default async function handler(req: Req, res: Res) {
         dimensionFilter: { andGroup: { expressions: [eventFilter, articleFilter] } },
         limit: 5000,
       }),
+      // 流入元の中身(どのサイト・サービスから来たか)
+      ga4(token, GA4_PROPERTY_ID, {
+        dateRanges: [{ startDate: monthStart, endDate: "today" }],
+        dimensions: [{ name: "yearMonth" }, { name: "sessionDefaultChannelGroup" }, { name: "sessionSource" }],
+        metrics: [{ name: "activeUsers" }],
+        orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+        limit: 300,
+      }),
     ])
 
     /* 月別 */
@@ -386,11 +394,12 @@ export default async function handler(req: Req, res: Res) {
       month: string; users: number; newUsers: number; pageViews: number
       lineClicks: number; lineByEvent: Record<string, number>
       checkCompleteUsers: number; lineFromCheckUsers: number; channels: Record<string, number>
+      sources: Record<string, Record<string, number>>
     }
     const months = new Map<string, Month>()
     const m = (ym: string) => {
       let v = months.get(ym)
-      if (!v) { v = { month: ym, users: 0, newUsers: 0, pageViews: 0, lineClicks: 0, lineByEvent: {}, checkCompleteUsers: 0, lineFromCheckUsers: 0, channels: {} }; months.set(ym, v) }
+      if (!v) { v = { month: ym, users: 0, newUsers: 0, pageViews: 0, lineClicks: 0, lineByEvent: {}, checkCompleteUsers: 0, lineFromCheckUsers: 0, channels: {}, sources: {} }; months.set(ym, v) }
       return v
     }
     for (const r of monthlyUsers) {
@@ -412,6 +421,11 @@ export default async function handler(req: Req, res: Res) {
     for (const r of monthlyChannels) {
       const v = m(r.dimensionValues[0].value)
       v.channels[r.dimensionValues[1].value] = num(r.metricValues[0].value)
+    }
+    for (const r of monthlySources) {
+      const v = m(r.dimensionValues[0].value)
+      const ch = r.dimensionValues[1].value
+      ;(v.sources[ch] ??= {})[r.dimensionValues[2].value] = num(r.metricValues[0].value)
     }
 
     /* 記事別 */
