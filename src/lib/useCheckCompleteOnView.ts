@@ -1,58 +1,71 @@
 /**
- * useCheckTracking — チェック記事の計測をそろえるためのフック
+ * useCheckCompleteOnView
  *
- * useLineClickFromCheck
- *   結果が出たあと(level が入っているあいだ)に、ページ内のLINEリンク(lin.ee)が押されたら
- *   line_click_from_check を1回送る。結果画面のボタン・記事末尾のLINE案内・受付状況バーのどれでも数える。
- *   ※ ボタンごとに trackLineClickFromCheck を書いているチェックでは使わない(二重送信を避ける)
+ * 結果がリアルタイムに表示されるタイプのチェック用。
+ * 結果ボックスが画面に入り、2秒以上表示されたときに、1回だけ check_complete を送信する。
+ * (項目をタップするたびに送信されて、完了数が水増しされるのを防ぐ)
  *
- * useCheckCompleteOnSubmit
- *   「結果を見る」ボタンや全問回答で結果が出るタイプのチェック用。
- *   done が true になった瞬間に check_complete を1回送る(やり直して再度結果を出したら、また1回)。
- *
- * ratioLevel
- *   レベル分けのないチェック用に、当てはまった割合から low / mid / high を返す。
+ * 使い方: const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 15)
+ *         <div ref={resultRef}> …結果… </div>
  */
-import { useEffect, useRef } from "react"
-import { trackCheckComplete, trackLineClickFromCheck } from "./analytics"
+import { useCallback, useEffect, useRef } from "react"
+import { trackCheckComplete } from "./analytics"
 
-export function useLineClickFromCheck(checkName: string, level: string | null) {
-  const latest = useRef(level)
-  latest.current = level
+const DWELL_MS = 2000
 
-  useEffect(() => {
-    if (typeof document === "undefined") return
-    const onClick = (e: MouseEvent) => {
-      const lv = latest.current
-      if (!lv) return
-      const target = e.target as Element | null
-      const a = target?.closest?.("a[href]") as HTMLAnchorElement | null
-      if (!a || !a.href.includes("lin.ee")) return
-      trackLineClickFromCheck(checkName, lv)
-    }
-    document.addEventListener("click", onClick, true)
-    return () => document.removeEventListener("click", onClick, true)
-  }, [checkName])
-}
-
-export function useCheckCompleteOnSubmit(
+export function useCheckCompleteOnView(
   checkName: string,
-  done: boolean,
   score: number,
   level: string | null,
   maxScore: number
 ) {
-  const sent = useRef(false)
-  useEffect(() => {
-    if (!done) { sent.current = false; return }
-    if (sent.current || !level) return
-    sent.current = true
-    trackCheckComplete(checkName, score, level, maxScore)
-  }, [done, checkName, score, level, maxScore])
-}
+  // 送信時点の最新スコアを使うため、毎レンダーで更新しておく
+  const latest = useRef({ score, level })
+  latest.current = { score, level }
 
-export function ratioLevel(score: number, max: number): string {
-  if (max <= 0) return "low"
-  const r = score / max
-  return r >= 2 / 3 ? "high" : r >= 1 / 3 ? "mid" : "low"
+  const sent = useRef(false)
+  const observer = useRef<IntersectionObserver | null>(null)
+  const timer = useRef<number | null>(null)
+
+  const clearTimer = () => {
+    if (timer.current !== null) {
+      window.clearTimeout(timer.current)
+      timer.current = null
+    }
+  }
+
+  const ref = useCallback(
+    (el: HTMLElement | null) => {
+      observer.current?.disconnect()
+      observer.current = null
+      clearTimer()
+      if (!el || sent.current || typeof IntersectionObserver === "undefined") return
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (sent.current) return
+        const visible = entries.some((e) => e.isIntersecting)
+        if (visible && timer.current === null) {
+          timer.current = window.setTimeout(() => {
+            timer.current = null
+            const { score: s, level: lv } = latest.current
+            if (!lv || sent.current) return
+            sent.current = true
+            trackCheckComplete(checkName, s, lv, maxScore)
+            observer.current?.disconnect()
+          }, DWELL_MS)
+        } else if (!visible) {
+          clearTimer()
+        }
+      })
+      observer.current.observe(el)
+    },
+    [checkName, maxScore]
+  )
+
+  useEffect(() => () => {
+    observer.current?.disconnect()
+    clearTimer()
+  }, [])
+
+  return ref
 }
