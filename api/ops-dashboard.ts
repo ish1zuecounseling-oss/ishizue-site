@@ -14,11 +14,16 @@
  *   GET /api/ops-dashboard?inspect=<記事のURL>     … その1件のGoogle登録状況だけを返す
  *
  * 環境変数: article-views.ts と同じもの。GSC_SITE_URL は任意(未設定なら自動で探す)。
+ *   LINE_CHANNEL_ACCESS_TOKEN  … LINE Messaging API のチャネルアクセストークン(友だち数・ターゲットリーチの取得用)
+ *   KV_REST_API_URL / KV_REST_API_TOKEN(または UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN)
+ *                              … 手入力項目の保存先(Vercel の Storage で Upstash Redis をつなぐと自動で入る)
+ *
+ *   POST /api/ops-dashboard  本文 { manual: {...} }  … 手入力項目を保存する
  */
 
 import { timingSafeEqual } from "node:crypto"
 
-type Req = { method?: string; query: Record<string, string | string[] | undefined>; headers: Record<string, string | string[] | undefined> }
+type Req = { method?: string; body?: unknown; query: Record<string, string | string[] | undefined>; headers: Record<string, string | string[] | undefined> }
 type Res = { status: (code: number) => Res; json: (body: unknown) => void; setHeader: (k: string, v: string) => void }
 
 const ALLOWED_DAYS = [7, 28, 90]
@@ -132,6 +137,113 @@ async function gscQuery(token: string, site: string, body: unknown): Promise<Gsc
   return data.rows ?? []
 }
 
+
+/* ------------------------------ LINE(友だち数) ------------------------------ */
+
+type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
+
+/** yyyyMMdd(日本時間)の時点の友だち数。まだ集計前なら null */
+async function lineFollowers(token: string, yyyymmdd: string): Promise<LineInsight | null> {
+  const r = await fetch(`https://api.line.me/v2/bot/insight/followers?date=${yyyymmdd}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  const d = (await r.json().catch(() => ({}))) as { status?: string; followers?: number; targetedReaches?: number; blocks?: number; message?: string }
+  if (!r.ok) throw new Error("LINE: " + (d.message ?? r.status))
+  if (d.status !== "ready") return null
+  return { date: yyyymmdd, followers: d.followers ?? 0, targetedReaches: d.targetedReaches ?? 0, blocks: d.blocks ?? 0 }
+}
+
+/** 日本時間で、n か月前の月末(yyyyMMdd)。n=1 で先月末 */
+function jstMonthEnd(monthsBack: number): string {
+  const now = new Date(Date.now() + 9 * 3600_000)
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - monthsBack + 1, 0))
+  return d.toISOString().slice(0, 10).replace(/-/g, "")
+}
+
+async function getLine() {
+  const token = process.env.LINE_CHANNEL_ACCESS_TOKEN
+  if (!token) return { ok: false, message: "LINE_CHANNEL_ACCESS_TOKEN が未設定です" }
+  try {
+    // 最新:昨日(当日分は翌日に集計されるため、なければ一昨日)
+    const latest = (await lineFollowers(token, jstDate(1).replace(/-/g, ""))) ?? (await lineFollowers(token, jstDate(2).replace(/-/g, "")))
+    // 各月末(先月末〜4か月前の月末)
+    const ends = await Promise.all([1, 2, 3, 4].map(async (n) => {
+      const date = jstMonthEnd(n)
+      const v = await lineFollowers(token, date).catch(() => null)
+      return v ? { month: date.slice(0, 6), ...v } : null
+    }))
+    return { ok: true, latest, monthEnds: ends.filter(Boolean) }
+  } catch (e) {
+    return { ok: false, message: e instanceof Error ? e.message : "unknown" }
+  }
+}
+
+/* ------------------------------ 手入力項目の保存 ------------------------------ */
+
+const MANUAL_KEY = "ishizue:ops-manual"
+
+function kvConfig(): { url: string; token: string } | null {
+  const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN
+  return url && token ? { url, token } : null
+}
+
+async function getManual() {
+  const kv = kvConfig()
+  if (!kv) return { ok: false, message: "保存先(Upstash Redis)が未接続です" }
+  try {
+    const r = await fetch(`${kv.url}/get/${encodeURIComponent(MANUAL_KEY)}`, { headers: { Authorization: `Bearer ${kv.token}` } })
+    const d = (await r.json()) as { result?: string | null; error?: string }
+    if (!r.ok) throw new Error(d.error ?? String(r.status))
+    return { ok: true, data: d.result ? JSON.parse(d.result) : {} }
+  } catch (e) {
+    return { ok: false, message: e instanceof Error ? e.message : "unknown" }
+  }
+}
+
+/** 保存する値を、想定した形だけに絞る(数値・真偽値・短い文字列) */
+function sanitizeManual(input: unknown) {
+  const src = (input && typeof input === "object" ? input : {}) as Record<string, unknown>
+  const numMap = (v: unknown, keyRe: RegExp) => {
+    const out: Record<string, number> = {}
+    if (v && typeof v === "object") {
+      for (const [k, n] of Object.entries(v as Record<string, unknown>)) {
+        const x = Number(n)
+        if (keyRe.test(k) && Number.isFinite(x) && x >= 0 && x < 100000) out[k] = Math.round(x)
+      }
+    }
+    return out
+  }
+  const checklist: Record<string, boolean> = {}
+  if (src.checklist && typeof src.checklist === "object") {
+    for (const [k, v] of Object.entries(src.checklist as Record<string, unknown>)) {
+      if (/^[a-z_]{1,30}$/.test(k)) checklist[k] = v === true
+    }
+  }
+  const waiting = Number(src.waiting)
+  return {
+    igPosts: numMap(src.igPosts, /^\d{4}-\d{2}-\d{2}$/),       // 週の月曜日 → 投稿数
+    igLineAdds: numMap(src.igLineAdds, /^\d{6}$/),              // yyyyMM → Instagram経由のLINE登録数
+    checklist,
+    waiting: Number.isFinite(waiting) && waiting >= 0 && waiting < 10000 ? Math.round(waiting) : 0,
+    note: typeof src.note === "string" ? src.note.slice(0, 500) : "",
+    updatedAt: new Date().toISOString(),
+  }
+}
+
+async function saveManual(input: unknown) {
+  const kv = kvConfig()
+  if (!kv) throw new Error("保存先(Upstash Redis)が未接続です")
+  const value = sanitizeManual(input)
+  const r = await fetch(`${kv.url}/set/${encodeURIComponent(MANUAL_KEY)}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${kv.token}` },
+    body: JSON.stringify(value),
+  })
+  if (!r.ok) throw new Error("保存に失敗しました(" + r.status + ")")
+  return value
+}
+
 /* ---------------------------------- handler --------------------------------- */
 
 export default async function handler(req: Req, res: Res) {
@@ -150,6 +262,18 @@ export default async function handler(req: Req, res: Res) {
   const given = req.headers["x-admin-key"]
   if (typeof given !== "string" || !keyMatches(given, ADMIN_VIEW_KEY)) {
     res.status(401).json({ error: "unauthorized", message: "閲覧キーが違います" })
+    return
+  }
+
+  /* ---- 手入力項目の保存 ---- */
+  if (req.method === "POST") {
+    try {
+      const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as { manual?: unknown } | undefined
+      const saved = await saveManual(body?.manual)
+      res.status(200).json({ ok: true, data: saved })
+    } catch (e) {
+      res.status(400).json({ ok: false, message: e instanceof Error ? e.message : "unknown" })
+    }
     return
   }
 
@@ -392,8 +516,12 @@ export default async function handler(req: Req, res: Res) {
       checkLevels = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
+    const [line, manual] = await Promise.all([getLine(), getManual()])
+
     res.status(200).json({
       days,
+      line,
+      manual,
       fetchedAt: new Date().toISOString(),
       months: [...months.values()].sort((x, y) => x.month.localeCompare(y.month)),
       articles: [...arts.values()],
