@@ -166,8 +166,8 @@ async function getLine() {
   try {
     // 最新:昨日(当日分は翌日に集計されるため、なければ一昨日)
     const latest = (await lineFollowers(token, jstDate(1).replace(/-/g, ""))) ?? (await lineFollowers(token, jstDate(2).replace(/-/g, "")))
-    // 各月末(先月末〜4か月前の月末)
-    const ends = await Promise.all([1, 2, 3, 4].map(async (n) => {
+    // 各月末(先月末〜6か月前の月末)
+    const ends = await Promise.all([1, 2, 3, 4, 5, 6].map(async (n) => {
       const date = jstMonthEnd(n)
       const v = await lineFollowers(token, date).catch(() => null)
       return v ? { month: date.slice(0, 6), ...v } : null
@@ -227,6 +227,7 @@ function sanitizeManual(input: unknown) {
     checklist,
     waiting: Number.isFinite(waiting) && waiting >= 0 && waiting < 10000 ? Math.round(waiting) : 0,
     note: typeof src.note === "string" ? src.note.slice(0, 500) : "",
+    snapshots: {} as Record<string, { checklistDone: number; waiting: number }>,
     updatedAt: new Date().toISOString(),
   }
 }
@@ -235,6 +236,18 @@ async function saveManual(input: unknown) {
   const kv = kvConfig()
   if (!kv) throw new Error("保存先(Upstash Redis)が未接続です")
   const value = sanitizeManual(input)
+  // 月ごとの記録(推移用):これまでの記録を引き継ぎ、今月分を上書きする
+  const prev = await getManual()
+  const prevSnaps = (prev.ok && prev.data && typeof prev.data === "object" ? (prev.data as { snapshots?: unknown }).snapshots : undefined) ?? {}
+  if (prevSnaps && typeof prevSnaps === "object") {
+    for (const [k, v] of Object.entries(prevSnaps as Record<string, { checklistDone?: unknown; waiting?: unknown }>)) {
+      if (/^\d{6}$/.test(k) && v && typeof v === "object") {
+        value.snapshots[k] = { checklistDone: Number(v.checklistDone) || 0, waiting: Number(v.waiting) || 0 }
+      }
+    }
+  }
+  const ym = jstDate(0).slice(0, 7).replace("-", "")
+  value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: value.waiting }
   const r = await fetch(`${kv.url}/set/${encodeURIComponent(MANUAL_KEY)}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${kv.token}` },
@@ -328,7 +341,7 @@ export default async function handler(req: Req, res: Res) {
 
   const eventFilter = { filter: { fieldName: "eventName", stringFilter: { matchType: "FULL_REGEXP", value: EVENT_REGEX } } }
   const articleFilter = { filter: { fieldName: "pagePath", stringFilter: { matchType: "BEGINS_WITH", value: "/articles/" } } }
-  const monthStart = jstMonthStart(3) // 今月を含めて4か月分
+  const monthStart = jstMonthStart(5) // 今月を含めて6か月分
   const range = { startDate: `${days}daysAgo`, endDate: "yesterday" }
 
   try {
