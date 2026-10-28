@@ -317,7 +317,7 @@ export default function ShienShokuLP() {
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
                 { to: "/articles/helper-empathy-check", label: "共感疲労チェック｜支援職のための20項目診断" },
-                { to: "/articles/helper-burnout", label: "支援職のバーンアウトとは" },
+                { to: "/articles/helper-burnout-pillar", label: "支援職のバーンアウトとは" },
                 { to: "/articles/helper-boundary", label: "支援職の境界線（バウンダリー）とは" },
                 { to: "/articles/helper-status-check", label: "支援職のための現在地チェック" },
               ].map(({ to, label }) => (
