@@ -2,6 +2,10 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-stress-check-tool"
 
 // 5領域×4項目=20項目
 const checkCategories = [
@@ -159,6 +163,9 @@ export default function HelperStressCheckTool() {
   const score = checked.filter(Boolean).length
   const level = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 20)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 20) * 100)
 
   // 領域別スコア
@@ -271,7 +278,7 @@ export default function HelperStressCheckTool() {
       )}
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div className={`result-box ${result.color}`}>
             <p className="result-score-label">{score}項目 / 20項目</p>
             <p className="result-title">{result.label}</p>

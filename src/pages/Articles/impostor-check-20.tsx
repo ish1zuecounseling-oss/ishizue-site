@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import LineCta, { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete } from "../../lib/analytics"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "impostor-check-20"
 
@@ -118,6 +119,8 @@ export default function ImpostorCheck20() {
   const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 20) * 100)
+  // ▼ GA4: 結果が出たあとのLINEクリックを数える
+  useLineClickFromCheck(CHECK_NAME, shown ? level : null)
 
   const catScores = catRanges.map(({ label, start, end }) => ({
     label,

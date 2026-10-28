@@ -1,5 +1,9 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-quit-timing-check"
 
 const checkItems = [
   "仕事を辞めたいと思うことが、週に何度もある",
@@ -81,6 +85,9 @@ export default function HelperQuitTimingCheck() {
   const score = checked.filter(Boolean).length
   const level = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 12)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 12) * 100)
 
   return (
@@ -131,7 +138,7 @@ export default function HelperQuitTimingCheck() {
       </div>
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div className={`result-box ${result.color}`}>
             <p className="result-score-label">{score}項目 / 12項目</p>
             <p className="result-title">{result.label}</p>

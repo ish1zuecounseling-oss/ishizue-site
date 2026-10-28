@@ -1,6 +1,9 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-thinking-check"
 
 /* -------------------------------------------------------------------------- */
 /*  データ定義                                                                  */
@@ -115,6 +118,11 @@ function ThinkingCheckWidget() {
     CATEGORIES.find((c) => c.id === catId)!.items.filter((_, i) => answers[`${catId}-${i}`]).length
 
   const totalChecked = Object.values(answers).filter(Boolean).length
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const maxItems = CATEGORIES.reduce((n, c) => n + c.items.length, 0)
+  const trackLevel = showResult ? ratioLevel(totalChecked, maxItems) : null
+  useCheckCompleteOnSubmit(CHECK_NAME, showResult, totalChecked, trackLevel, maxItems)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
 
   const topCategories = CATEGORIES
     .map((c) => ({ ...c, count: getCount(c.id) }))

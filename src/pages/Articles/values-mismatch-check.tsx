@@ -2,6 +2,9 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "values-mismatch-check"
 
 /**
  * 4つの哲学的対立軸 × 各軸4項目 = 16項目
@@ -138,6 +141,10 @@ export default function ValuesMismatchCheck() {
   const answeredCount = answers.filter((a) => a !== null).length
   const allAnswered = answeredCount === 16
   const progress = Math.round((answeredCount / 16) * 100)
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const trackLevel = allAnswered ? "done" : null
+  useCheckCompleteOnSubmit(CHECK_NAME, allAnswered, answeredCount, trackLevel, 16)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
 
   // 軸ごとのスコア計算(-4〜+4)
   const axisScores: Record<AxisKey, number> = {

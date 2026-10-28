@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "big-five-check"
 
 /* -------------------------------------------------------------------------- */
 /*  データ定義                                                                  */
@@ -212,6 +215,10 @@ function BigFiveWidget() {
 
   const scores  = calcScores()
   const result  = step === "result" ? getResult(scores) : null
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const trackLevel = result ? result.title : null
+  useCheckCompleteOnSubmit(CHECK_NAME, step === "result", QUESTIONS.length, trackLevel, QUESTIONS.length)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
   const q       = QUESTIONS[currentQ]
   const progress = ((currentQ + (step === "result" || step === "loading" ? QUESTIONS.length : 0)) / QUESTIONS.length) * 100
 

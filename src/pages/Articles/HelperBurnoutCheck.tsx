@@ -3,6 +3,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import LineCta from "../../components/LineCta"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-burnout-check"
 
@@ -138,6 +139,8 @@ export default function HelperBurnoutCheck() {
 
   // ▼ GA4イベント送信:結果が画面に表示されて2秒たったときに1回だけ送信(タップのたびに送らない)
   const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 20)
+  // ▼ GA4: 結果が出たあとのLINEクリックを数える
+  useLineClickFromCheck(CHECK_NAME, level)
 
   return (
     <ArticleLayout

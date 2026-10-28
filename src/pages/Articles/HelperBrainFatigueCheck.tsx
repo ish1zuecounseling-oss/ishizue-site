@@ -2,6 +2,10 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-brain-fatigue-check"
 
 const checkItems = [
   "考えること自体がしんどく感じる",
@@ -116,6 +120,9 @@ export default function HelperBrainFatigueCheck() {
   const score = checked.filter(Boolean).length
   const level = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 20)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 20) * 100)
 
   return (
@@ -176,7 +183,7 @@ export default function HelperBrainFatigueCheck() {
 
       {/* 結果 */}
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div
             className="result-box"
             style={{ background: result.bg, border: `1px solid ${result.border}` }}

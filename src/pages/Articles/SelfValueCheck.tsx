@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete } from "../../lib/analytics"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "self-value-check"
 
@@ -198,6 +199,8 @@ export function SelfValueWidget() {
   const scores  = calcScores(answers)
   const topAxes = step === "result" ? getTopAxes(scores) : []
   const primary = topAxes[0]
+  // ▼ GA4: 結果が出たあとのLINEクリックを数える
+  useLineClickFromCheck(CHECK_NAME, step === "result" && primary ? primary : null)
   const q       = QUESTIONS[currentQ]
 
   // 結果画面に到達した1回だけ計測する(level にはいちばん強い条件の軸を入れる)

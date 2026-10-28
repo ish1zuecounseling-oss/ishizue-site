@@ -1,6 +1,9 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "working-os-check"
 
 /* -------------------------------------------------------------------------- */
 /*  データ定義                                                                  */
@@ -182,6 +185,10 @@ function WorkingOsWidget() {
   const total = QUESTIONS.length
   const answered = Object.keys(answers).length
   const result = showResult ? calcResult(answers) : null
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const trackLevel = result ? result.type : null
+  useCheckCompleteOnSubmit(CHECK_NAME, showResult, answered, trackLevel, total)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
 
   const handleSelect = (id: string, val: number) => {
     const next = { ...answers, [id]: val }

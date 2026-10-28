@@ -2,6 +2,10 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import LineCta from "../../components/LineCta"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-emotional-labor-check"
 
 /* -------------------------------------------------------------------------- */
 /*  チェック項目（20項目・4軸構成）                                              */
@@ -116,6 +120,9 @@ export default function HelperEmotionalLaborCheck() {
   const score  = checked.filter(Boolean).length
   const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 20)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 20) * 100)
 
   const catScores = catRanges.map(({ label, start, end }) => ({
@@ -186,7 +193,7 @@ export default function HelperEmotionalLaborCheck() {
       </div>
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div className={`result-box ${result.color}`}>
             <p className="result-score-label">{score}項目 / 20項目</p>
             <p className="result-title">{result.label}</p>

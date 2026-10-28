@@ -1,6 +1,9 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-fatigue-check"
 
 // ----------------------------------------------------------------
 // Types & Constants
@@ -163,6 +166,11 @@ export default function HelperFatigueCheck() {
 
   const result = getResult(totalScore)
   const totalPct = Math.round((totalScore / MAX_SCORE) * 100)
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const fatigueDone = submitted && allAnswered
+  const trackLevel = fatigueDone ? ratioLevel(totalScore, MAX_SCORE) : null
+  useCheckCompleteOnSubmit(CHECK_NAME, fatigueDone, totalScore, trackLevel, MAX_SCORE)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
 
   let offset = 0
   const categoryScores = CATEGORIES.map((cat) => {

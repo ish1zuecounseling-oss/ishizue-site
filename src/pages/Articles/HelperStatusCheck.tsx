@@ -2,6 +2,9 @@ import { useState } from "react"
 import { Heart, Layers, Building2, Moon, ArrowRight } from "lucide-react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-status-check"
 
 type AxisId = "emotion" | "overload" | "workplace" | "body"
 
@@ -83,6 +86,11 @@ function StatusCheckWidget() {
     AXES.find((a) => a.id === axisId)!.items.filter((_, i) => answers[`${axisId}-${i}`]).length
 
   const totalChecked = Object.values(answers).filter(Boolean).length
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const maxItems = AXES.reduce((n, c) => n + c.items.length, 0)
+  const trackLevel = showResult ? ratioLevel(totalChecked, maxItems) : null
+  useCheckCompleteOnSubmit(CHECK_NAME, showResult, totalChecked, trackLevel, maxItems)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
   const topAxis = AXES.reduce((a, b) => getCount(a.id) >= getCount(b.id) ? a : b)
 
   return (

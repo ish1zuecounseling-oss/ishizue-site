@@ -2,6 +2,9 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import ArticleLayout from "../../components/ArticleLayout"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-self-compassion-check"
 
 /* -------------------------------------------------------------------------- */
 /*  場面データ(当相談室オリジナル)                                              */
@@ -226,6 +229,10 @@ export default function HelperSelfCompassionCheck() {
   }
 
   const result = submitted ? RESULTS[getLevel(score)] : null
+  // ▼ GA4: 結果が出たら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const trackLevel = submitted ? getLevel(score) : null
+  useCheckCompleteOnSubmit(CHECK_NAME, submitted, score, trackLevel, SCENES.length)
+  useLineClickFromCheck(CHECK_NAME, trackLevel)
 
   const SAGE = "#7EB8A4"
   const DARK = "#2C1F14"

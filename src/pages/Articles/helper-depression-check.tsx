@@ -2,6 +2,10 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-depression-check"
 
 const checkItems = [
   "朝、起きるのがつらい・布団から出られない",
@@ -128,6 +132,9 @@ export default function HelperDepressionCheck() {
   const score  = checked.filter(Boolean).length
   const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 15)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 15) * 100)
 
   return (
@@ -214,7 +221,7 @@ export default function HelperDepressionCheck() {
       )}
 
       {result && (
-        <div>
+        <div ref={resultRef}>
           <div className={`result-box ${result.color}`}>
             <p className="result-score-label">{score}項目 / 15項目</p>
             <p className="result-title">{result.label}</p>

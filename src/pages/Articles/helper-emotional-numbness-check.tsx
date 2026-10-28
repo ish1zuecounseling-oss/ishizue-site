@@ -3,6 +3,10 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import LineCta from "../../components/LineCta"
 import { FREE_FIRST } from "../../data/siteStatus"
+import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
+import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+
+const CHECK_NAME = "helper-emotional-numbness-check"
 
 const checkItems = [
   "利用者の話を聞いても、以前のように心が動かない",
@@ -63,6 +67,9 @@ export default function HelperEmotionalNumbnessCheck() {
   const score = checked.filter(Boolean).length
   const level = getLevel(score)
   const result = level ? resultConfig[level] : null
+  // ▼ GA4: 結果が2秒表示されたら完了を1回送る/結果が出たあとのLINEクリックを数える
+  const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 15)
+  useLineClickFromCheck(CHECK_NAME, level)
   const barPct = Math.round((score / 15) * 100)
 
   return (
@@ -123,7 +130,7 @@ export default function HelperEmotionalNumbnessCheck() {
       </div>
 
       {result && (
-        <div className="p-4 rounded-xl border-2 mb-6" style={{ borderColor: result.color, background: `${result.color}10` }}>
+        <div ref={resultRef} className="p-4 rounded-xl border-2 mb-6" style={{ borderColor: result.color, background: `${result.color}10` }}>
           <p className="text-sm font-medium mb-1" style={{ color: result.color }}>{score}項目 / 15項目</p>
           <p className="text-base font-medium text-stone-800 mb-2">{result.label}</p>
           <p className="text-sm text-stone-600 leading-[1.9]">{result.message}</p>
