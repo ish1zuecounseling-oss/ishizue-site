@@ -436,7 +436,7 @@ export default function OpsDashboard() {
                         <p className="text-[10px] text-stone-400 mt-1">
                           閲覧者 {fmt(r.users)} ／ 平均 {fmtTime(r.users ? r.engagementSec / r.users : 0)}
                           {r.lineClicks > 0 && <> ／ <span style={{ color: "#047857" }}>LINE {r.lineClicks}</span></>}
-                          {r.checkCompletes > 0 && <> ／ チェック完了 {r.checkCompletes}</>}
+                          {r.checkCompletes > 0 && <> ／ チェック完了 {r.checkCompletes}人</>}
                         </p>
                         <p className="text-[10px] text-stone-400">
                           {r.gsc ? <>検索:表示 {fmt(r.gsc.impressions)} ／ クリック {fmt(r.gsc.clicks)} ／ 平均 {r.gsc.position}位</> : data?.gsc.ok ? "検索:表示なし" : null}
