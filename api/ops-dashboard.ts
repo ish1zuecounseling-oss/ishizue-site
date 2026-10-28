@@ -280,14 +280,14 @@ export default async function handler(req: Req, res: Res) {
     /* 記事別 */
     type Article = {
       path: string; views: number; users: number; engagementSec: number; prevViews: number
-      lineClicks: number; checkCompletes: number
+      lineClicks: number; checkCompletes: number; lineFromCheckUsers: number
       gsc?: { clicks: number; impressions: number; position: number; queries: { q: string; clicks: number; impressions: number; position: number }[] }
     }
     const arts = new Map<string, Article>()
     const a = (p: string) => {
       const key = normPath(p)
       let v = arts.get(key)
-      if (!v) { v = { path: key, views: 0, users: 0, engagementSec: 0, prevViews: 0, lineClicks: 0, checkCompletes: 0 }; arts.set(key, v) }
+      if (!v) { v = { path: key, views: 0, users: 0, engagementSec: 0, prevViews: 0, lineClicks: 0, checkCompletes: 0, lineFromCheckUsers: 0 }; arts.set(key, v) }
       return v
     }
     for (const r of articleViews) {
@@ -304,7 +304,10 @@ export default async function handler(req: Req, res: Res) {
       const v = a(r.dimensionValues[0].value)
       // チェック完了は「人数」で数える(10/10以前は項目をタップするたびに送信されていたため、回数だと水増しになる)
       if (r.dimensionValues[1].value === "check_complete") v.checkCompletes += num(r.metricValues[1].value)
-      else v.lineClicks += num(r.metricValues[0].value)
+      else {
+        v.lineClicks += num(r.metricValues[0].value)
+        if (r.dimensionValues[1].value === "line_click_from_check") v.lineFromCheckUsers += num(r.metricValues[1].value)
+      }
     }
 
     /* Search Console(未設定なら ok:false で返す) */
@@ -363,6 +366,32 @@ export default async function handler(req: Req, res: Res) {
       siteSearch = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
+    /* チェックの結果レベル別(GA4に level を登録していないと取れない) */
+    let checkLevels: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
+    try {
+      const rows = await ga4(token, GA4_PROPERTY_ID, {
+        dateRanges: [range],
+        dimensions: [{ name: "pagePath" }, { name: "customEvent:level" }, { name: "eventName" }],
+        metrics: [{ name: "totalUsers" }],
+        dimensionFilter: { filter: { fieldName: "eventName", inListFilter: { values: ["check_complete", "line_click_from_check"] } } },
+        limit: 2000,
+      })
+      const map = new Map<string, { path: string; level: string; completes: number; lines: number }>()
+      for (const r of rows) {
+        const path = normPath(r.dimensionValues[0].value)
+        const level = r.dimensionValues[1].value
+        if (!level || level === "(not set)") continue
+        const k = path + "|" + level
+        const v = map.get(k) ?? { path, level, completes: 0, lines: 0 }
+        if (r.dimensionValues[2].value === "check_complete") v.completes += num(r.metricValues[0].value)
+        else v.lines += num(r.metricValues[0].value)
+        map.set(k, v)
+      }
+      checkLevels = { ok: true, rows: [...map.values()] }
+    } catch (e) {
+      checkLevels = { ok: false, message: e instanceof Error ? e.message : "unknown" }
+    }
+
     res.status(200).json({
       days,
       fetchedAt: new Date().toISOString(),
@@ -370,6 +399,7 @@ export default async function handler(req: Req, res: Res) {
       articles: [...arts.values()],
       gsc,
       siteSearch,
+      checkLevels,
     })
   } catch (e) {
     res.status(502).json({ error: "fetch_failed", message: e instanceof Error ? e.message : "unknown" })
