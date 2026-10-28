@@ -79,6 +79,7 @@ type LineInsight = { date: string; followers: number; targetedReaches: number; b
 type Manual = {
   igPosts?: Record<string, number>; igLineAdds?: Record<string, number>
   checklist?: Record<string, boolean>; waiting?: number; note?: string; updatedAt?: string
+  snapshots?: Record<string, { checklistDone: number; waiting: number }>
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
 type Tab = "launch" | "todo" | "articles" | "search"
@@ -454,6 +455,155 @@ function ManualEditor({ manual, adminKey, onSaved }: {
   )
 }
 
+/* ------------------------------ 達成率の推移 ------------------------------ */
+
+/** その日を含む週の月曜日(YYYY-MM-DD) */
+function mondayOfDate(ymd: string): string {
+  const d = new Date(ymd + "T00:00:00Z")
+  const dow = (d.getUTCDay() + 6) % 7
+  d.setUTCDate(d.getUTCDate() - dow)
+  return d.toISOString().slice(0, 10)
+}
+/** 月末時点で、週3回以上の週が何週続いていたか */
+function igStreakAt(posts: Record<string, number>, ymd: string, inProgress: boolean): number {
+  let n = 0
+  const start = new Date(mondayOfDate(ymd) + "T00:00:00Z")
+  for (let w = 0; w < 60; w++) {
+    const d = new Date(start.getTime() - w * 7 * 86400_000).toISOString().slice(0, 10)
+    const v = posts[d] ?? 0
+    if (v >= TARGET_IG_PER_WEEK) n++
+    else if (w === 0 && inProgress) continue
+    else break
+  }
+  return n
+}
+function lastDayOf(ym: string): string {
+  const y = Number(ym.slice(0, 4)), m = Number(ym.slice(4))
+  return new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10)
+}
+
+function AchievementTrend({ data }: { data: ApiResult }) {
+  const months = data.months.map((m) => m.month)
+  const curYm = monthKey(0)
+  const manualOk = !!data.manual?.ok
+  const md: Manual = data.manual?.data ?? {}
+  const reachEnd = (ym: string): number | undefined =>
+    ym === curYm ? data.line?.latest?.targetedReaches : data.line?.monthEnds?.find((x) => x.month === ym)?.targetedReaches
+  const prevYm = (ym: string) => {
+    const y = Number(ym.slice(0, 4)), m = Number(ym.slice(4))
+    const d = new Date(Date.UTC(y, m - 2, 1))
+    return d.toISOString().slice(0, 7).replace("-", "")
+  }
+  const mo = (ym: string) => data.months.find((x) => x.month === ym)
+
+  type Cell = number | null
+  const rows: { label: string; cells: Cell[] }[] = [
+    { label: "1. 月間ユーザー(2か月連続)", cells: months.map((ym) => {
+      const a = mo(ym), b = mo(prevYm(ym))
+      if (!a) return null
+      return (b ? Math.min(a.users, b.users) : a.users) / TARGET_USERS
+    }) },
+    { label: "2. LINEボタンのクリック", cells: months.map((ym) => (mo(ym)?.lineClicks ?? 0) / TARGET_LINE) },
+    { label: "3. チェック結果→LINE", cells: months.map((ym) => {
+      const m = mo(ym); return m && m.checkCompleteUsers ? (m.lineFromCheckUsers / m.checkCompleteUsers) / TARGET_CHECK_RATE : 0
+    }) },
+    { label: "4. LINEリーチ(累計)", cells: months.map((ym) => {
+      const v = reachEnd(ym); return data.line?.ok && v !== undefined ? v / TARGET_REACH : null
+    }) },
+    { label: "5. LINEリーチの純増", cells: months.map((ym) => {
+      const a = reachEnd(ym), b = reachEnd(prevYm(ym))
+      return data.line?.ok && a !== undefined && b !== undefined ? Math.max(0, a - b) / TARGET_REACH_GAIN : null
+    }) },
+    { label: "6. Instagram投稿(週3回×8週)", cells: months.map((ym) =>
+      manualOk ? igStreakAt(md.igPosts ?? {}, ym === curYm ? new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10) : lastDayOf(ym), ym === curYm) / TARGET_IG_WEEKS : null) },
+    { label: "7. Instagram経由のLINE登録", cells: months.map((ym) => manualOk && md.igLineAdds?.[ym] !== undefined ? md.igLineAdds[ym] / TARGET_IG_LINE : null) },
+    { label: "8. 受け皿チェックリスト", cells: months.map((ym) => {
+      if (!manualOk) return null
+      if (ym === curYm) return CHECKLIST.filter(([k]) => md.checklist?.[k]).length / CHECKLIST.length
+      const snap = md.snapshots?.[ym]; return snap ? snap.checklistDone / CHECKLIST.length : null
+    }) },
+    { label: "9. 開業待ちの人", cells: months.map((ym) => {
+      if (!manualOk) return null
+      if (ym === curYm) return (md.waiting ?? 0) / TARGET_WAITING
+      const snap = md.snapshots?.[ym]; return snap ? snap.waiting / TARGET_WAITING : null
+    }) },
+  ]
+  // 総合:1〜8の達成率(100%で頭打ち)の平均。記録のない項目は0%として数える
+  const overall: Cell[] = months.map((_, i) => {
+    const vals = rows.slice(0, 8).map((r) => Math.min(1, Math.max(0, r.cells[i] ?? 0)))
+    return vals.reduce((a, b) => a + b, 0) / vals.length
+  })
+
+  const cellStyle = (v: Cell) => {
+    if (v === null) return { background: "#faf8f4", color: "#c4bdb3" }
+    const p = Math.max(0, Math.min(1, v))
+    if (p >= 1) return { background: "#4d8a63", color: "white" }
+    const alpha = 0.08 + p * 0.5
+    return { background: `rgba(124,154,138,${alpha.toFixed(2)})`, color: INK }
+  }
+  const text = (v: Cell) => (v === null ? "—" : v >= 1 ? "達成" : `${Math.floor(Math.max(0, v) * 100)}%`)
+
+  // 総合の推移(折れ線)
+  const W = 320, H = 90, padX = 24, padY = 14
+  const xs = (i: number) => padX + (months.length <= 1 ? 0 : (i * (W - padX * 2)) / (months.length - 1))
+  const ys = (v: number) => H - padY - v * (H - padY * 2)
+  const pts = overall.map((v, i) => `${xs(i)},${ys(v ?? 0)}`).join(" ")
+
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">達成率の推移</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        各月の「実績 ÷ 目標」。今月は途中経過。8・9は手入力を保存した月から記録されます。総合は1〜8の平均(100%で頭打ち)です。
+      </p>
+
+      <div className="bg-white rounded-xl border border-stone-200 p-3 mb-2">
+        <p className="text-[11px] text-stone-500 mb-1">総合(1〜8の平均)</p>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-md" role="img" aria-label="総合達成率の推移">
+          {[0, 0.5, 1].map((g) => (
+            <g key={g}>
+              <line x1={padX} x2={W - padX} y1={ys(g)} y2={ys(g)} stroke="#ece6dc" strokeWidth={1} />
+              <text x={2} y={ys(g) + 3} fontSize={8} fill="#a8a29e">{g * 100}%</text>
+            </g>
+          ))}
+          <polyline points={pts} fill="none" stroke={SAGE} strokeWidth={2} strokeLinejoin="round" />
+          {overall.map((v, i) => (
+            <g key={i}>
+              <circle cx={xs(i)} cy={ys(v ?? 0)} r={3} fill={SAGE} />
+              <text x={xs(i)} y={ys(v ?? 0) - 6} fontSize={8} textAnchor="middle" fill={INK}>{Math.round((v ?? 0) * 100)}%</text>
+              <text x={xs(i)} y={H - 2} fontSize={8} textAnchor="middle" fill="#a8a29e">{monthLabel(months[i])}</text>
+            </g>
+          ))}
+        </svg>
+      </div>
+
+      <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+        <table className="w-full text-[11px] min-w-[560px]">
+          <thead>
+            <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+              <th className="text-left font-normal px-3 py-2 sticky left-0 bg-white">項目</th>
+              {months.map((ym) => (
+                <th key={ym} className="font-normal px-1 text-center">{monthLabel(ym)}{ym === curYm && <span className="text-stone-400">(途中)</span>}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.label} className="border-b border-stone-50 last:border-0">
+                <td className="px-3 py-1.5 text-stone-600 whitespace-nowrap sticky left-0 bg-white">{r.label}</td>
+                {r.cells.map((v, i) => (
+                  <td key={i} className="px-1 py-1">
+                    <div className="rounded-md text-center py-1" style={cellStyle(v)}>{text(v)}</div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -707,6 +857,8 @@ export default function OpsDashboard() {
               adminKey={key}
               onSaved={(m) => setData((d) => (d ? { ...d, manual: { ok: true, data: m } } : d))}
             />
+
+            <AchievementTrend data={data} />
 
             {/* 月別推移 */}
             <div>
