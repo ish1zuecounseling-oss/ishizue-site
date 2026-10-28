@@ -69,6 +69,7 @@ export default function ArticleViews() {
   const [scope, setScope] = useState<Scope>("all")
   const [sort, setSort] = useState<SortKey>("views")
   const [q, setQ] = useState("")
+  const [zeroOnly, setZeroOnly] = useState(false)
 
   useEffect(() => {
     if (!key) return
@@ -108,7 +109,8 @@ export default function ArticleViews() {
       })
   }, [data])
 
-  const shown = useMemo(() => {
+  // 絞り込み(閲覧0の切り替え前)。合計や閲覧0の本数はこちらで数える
+  const base = useMemo(() => {
     const kw = q.trim()
     const list = rows.filter((r) =>
       (scope === "all" || (scope === "thinker" ? r.thinker : !r.thinker)) &&
@@ -122,11 +124,30 @@ export default function ArticleViews() {
     )
   }, [rows, scope, sort, q])
 
+  const shown = useMemo(() => (zeroOnly ? base.filter((r) => r.views === 0) : base), [base, zeroOnly])
+
+  // 表示中の一覧をCSVで保存(Excelで文字化けしないようBOM付き)
+  const downloadCsv = () => {
+    const esc = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`
+    const header = ["path", "title", "views", "prev_views", "users", "avg_engagement_sec", "date", "thinker"]
+    const lines = shown.map((r) => [
+      r.path, r.title, r.views, r.prevViews, r.users,
+      r.users ? Math.round(r.engagementSec / r.users) : 0, r.date, r.thinker ? 1 : 0,
+    ].map(esc).join(","))
+    const blob = new Blob(["\uFEFF" + [header.join(","), ...lines].join("\n")], { type: "text/csv;charset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `article-views-${days}d${zeroOnly ? "-zero" : ""}-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   if (!key) return <KeyGate onSubmit={(k) => setKey(k)} error={error} />
 
-  const total = shown.reduce((n, r) => n + r.views, 0)
-  const prevTotal = shown.reduce((n, r) => n + r.prevViews, 0)
-  const zero = shown.filter((r) => r.views === 0).length
+  const total = base.reduce((n, r) => n + r.views, 0)
+  const prevTotal = base.reduce((n, r) => n + r.prevViews, 0)
+  const zero = base.filter((r) => r.views === 0).length
   const totalChange = changeLabel(total, prevTotal)
 
   const chip = (active: boolean) =>
@@ -164,10 +185,14 @@ export default function ArticleViews() {
             <p className="text-[10px] text-stone-500">前の{days}日との比較</p>
             <p className="text-lg font-medium" style={{ color: totalChange.color }}>{loading ? "…" : totalChange.text}</p>
           </div>
-          <div className="bg-white rounded-xl border border-stone-200 p-3">
-            <p className="text-[10px] text-stone-500">閲覧0の記事</p>
+          <button
+            onClick={() => setZeroOnly((v) => !v)}
+            className="text-left rounded-xl border p-3"
+            style={zeroOnly ? { background: `${SAGE}22`, borderColor: SAGE } : { background: "white", borderColor: "#e7e5e4" }}
+          >
+            <p className="text-[10px] text-stone-500">閲覧0の記事{zeroOnly ? "(表示中)" : "(押すと一覧)"}</p>
             <p className="text-lg font-medium" style={{ color: INK }}>{loading ? "…" : `${zero}本`}</p>
-          </div>
+          </button>
         </div>
 
         {/* 絞り込み・並べ替え */}
@@ -187,6 +212,9 @@ export default function ArticleViews() {
             <button key={v} onClick={() => setSort(v)} className="px-3 py-1 rounded-full border" style={chip(sort === v)}>{l}</button>
           ))}
           <span className="ml-auto text-stone-400">{shown.length}本</span>
+          <button onClick={downloadCsv} disabled={!data || loading} className="px-3 py-1 rounded-full border" style={{ borderColor: "#d6d3d1", color: "#57534e", opacity: !data || loading ? 0.4 : 1 }}>
+            CSVで保存
+          </button>
         </div>
 
         {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
