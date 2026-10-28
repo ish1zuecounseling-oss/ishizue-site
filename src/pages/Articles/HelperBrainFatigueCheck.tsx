@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
@@ -211,7 +211,7 @@ export default function HelperBrainFatigueCheck() {
               ※まだ申し込むか決めていなくても大丈夫です。今の状態を整理するだけでもOKです。
             </p>
             <a
-              href="/#contact"
+              href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               style={{
                 display: "block",
                 background: "#7EB8A4",
@@ -224,10 +224,10 @@ export default function HelperBrainFatigueCheck() {
                 marginBottom: "0.5rem",
               }}
             >
-              {result.cvButton}
+              {ctaText(result.cvButton)}
             </a>
             <p style={{ fontSize: "0.7rem", color: "#6b5a45", margin: 0 }}>
-              支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK
+              {ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK")}
             </p>
           </div>
 

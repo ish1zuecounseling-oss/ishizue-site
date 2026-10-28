@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "values-mismatch-check"
@@ -435,12 +435,12 @@ export default function ValuesMismatchCheck() {
             <p style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.75, marginBottom: "1.25rem" }}>
               価値観の違いから来る対人摩擦・自己嫌悪を、安全な場で言語化することで、苦しみの正体が見えてきます。「相手のせい・自分のせい」を超えた整理が可能です。
             </p>
-            <a href="/#contact"
+            <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               style={{ display: "inline-block", background: "#2C1F14", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
-              今の状態を整理してみる{FREE_FIRST}
+              {ctaText(`今の状態を整理してみる${FREE_FIRST}`)}
             </a>
             <p style={{ fontSize: "0.75rem", color: "#aaa", margin: 0 }}>
-              支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK
+              {ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK")}
             </p>
           </div>
         </div>
@@ -569,10 +569,10 @@ export default function ValuesMismatchCheck() {
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           価値観の違いから来る対人摩擦・自己嫌悪は、一人で抱えるほど深まります。安全な場で「自分の価値観」「相手との違い」を言語化することで、苦しみの正体が見えてきます。支援職特有の価値観の衝突についても、構造を理解した上で一緒に整理していきます。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText(`今の状態を整理してみる${FREE_FIRST}`)}
         </a>
-        <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+        <p className="text-[10px] text-stone-500 text-center mt-1.5">{ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK")}</p>
       </div>
 
       <p className="check-disclaimer">

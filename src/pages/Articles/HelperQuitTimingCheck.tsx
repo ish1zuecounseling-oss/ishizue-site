@@ -2,6 +2,7 @@ import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { useLineClickFromCheck } from "../../lib/useCheckTracking"
+import { CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const CHECK_NAME = "helper-quit-timing-check"
 
@@ -65,8 +66,8 @@ const resultConfig = {
       { href: "/articles/helper-counseling-resistance", text: "カウンセリングへの抵抗感｜受けていいか迷う人へ" },
     ],
     cta: {
-      href: "/contact",
-      text: "支援職専門カウンセリングに相談する",
+      href: CONTACT_HREF,
+      text: ctaText("支援職専門カウンセリングに相談する"),
     },
   },
 }
@@ -151,7 +152,7 @@ export default function HelperQuitTimingCheck() {
             </a>
           ))}
           {result.cta && (
-            <a href={result.cta.href} className="cta-button">{result.cta.text} →</a>
+            <a href={result.cta.href} {...CONTACT_LINK_PROPS} className="cta-button">{result.cta.text} →</a>
           )}
         </div>
       )}

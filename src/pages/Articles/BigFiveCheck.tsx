@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "big-five-check"
@@ -416,13 +416,13 @@ function BigFiveWidget() {
             <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "14px" }}>
               「なぜこうなるのか」がわかると、自分を責めなくてよくなります
             </p>
-            <a href="/#contact" style={{ display: "inline-block", padding: "12px 28px",
+            <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} style={{ display: "inline-block", padding: "12px 28px",
               background: "#2C1F14", color: "#fff", borderRadius: "10px",
               fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
-              今の状態を整理してみる{FREE_FIRST}
+              {ctaText(`今の状態を整理してみる${FREE_FIRST}`)}
             </a>
             <p style={{ fontSize: "11px", color: "#475569", marginTop: "8px" }}>
-              勧誘なし ／ 1回のみでもOK
+              {ctaSub("勧誘なし ／ 1回のみでもOK")}
             </p>
           </div>
 

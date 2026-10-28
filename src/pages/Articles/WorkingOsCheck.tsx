@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "working-os-check"
@@ -345,13 +345,13 @@ function WorkingOsWidget() {
             <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
               レーダーチャートのいびつさは、あなたの「伸び代」です
             </p>
-            <a href="/#contact" style={{ display: "inline-block", padding: "12px 24px",
+            <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} style={{ display: "inline-block", padding: "12px 24px",
               background: "#2C1F14", color: "#fff", borderRadius: "10px",
               fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
-              あなたの「働く構造」を整理してみる{FREE_FIRST}
+              {ctaText(`あなたの「働く構造」を整理してみる${FREE_FIRST}`)}
             </a>
             <p style={{ fontSize: "11px", color: "#475569", marginTop: "8px" }}>
-              勧誘なし ／ 1回のみでもOK
+              {ctaSub("勧誘なし ／ 1回のみでもOK")}
             </p>
           </div>
 

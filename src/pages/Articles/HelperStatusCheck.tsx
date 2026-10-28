@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Heart, Layers, Building2, Moon, ArrowRight } from "lucide-react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-status-check"
@@ -303,7 +303,7 @@ function StatusCheckWidget() {
               言葉にならなくても大丈夫です
             </p>
             <a
-              href="/#contact"
+              href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               style={{
                 display: "inline-block",
                 padding: "12px 24px",
@@ -315,10 +315,10 @@ function StatusCheckWidget() {
                 textDecoration: "none",
               }}
             >
-              今の状態を整理してみる{FREE_FIRST}
+              {ctaText(`今の状態を整理してみる${FREE_FIRST}`)}
             </a>
             <p style={{ fontSize: "11px", color: "#475569", marginTop: "8px" }}>
-              勧誘なし ／ 1回のみでもOK
+              {ctaSub("勧誘なし ／ 1回のみでもOK")}
             </p>
           </div>
 

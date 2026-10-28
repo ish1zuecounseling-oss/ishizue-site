@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-fatigue-check"
@@ -117,9 +117,9 @@ function getResult(score: number) {
       cvBlock: {
         heading: "今の状態、一度整理してみませんか",
         body: "「まだ大丈夫」と思いながら、じわじわと消耗していることがあります。早めに気づいて整理するほど、回復しやすくなります。",
-        buttonText: `支援職専門カウンセリングに相談する${FREE_FIRST}`,
-        href: "/#contact",
-        sub: "勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可",
+        buttonText: ctaText(`支援職専門カウンセリングに相談する${FREE_FIRST}`),
+        href: CONTACT_HREF,
+        sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可"),
       },
     }
   } else {
@@ -138,9 +138,9 @@ function getResult(score: number) {
       cvBlock: {
         heading: "一人で抱え込まなくていい",
         body: "「相談するほどじゃないかも」と思う気持ちは自然です。でもその感覚自体が、ケアラー疲労のサインであることが多いです。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
-        buttonText: `松本に、今の状態を整理してもらう${FREE_FIRST}`,
-        href: "/#contact",
-        sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
+        buttonText: ctaText(`松本に、今の状態を整理してもらう${FREE_FIRST}`),
+        href: CONTACT_HREF,
+        sub: ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK"),
       },
     }
   }
@@ -322,7 +322,7 @@ export default function HelperFatigueCheck() {
             }}>
               <p style={{ fontWeight: 600, fontSize: "1rem", color: "#222", marginBottom: "0.6rem" }}>{result.cvBlock.heading}</p>
               <p style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.75, marginBottom: "1.25rem" }}>{result.cvBlock.body}</p>
-              <a href={result.cvBlock.href} style={{ display: "inline-block", background: "#1c1917", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
+              <a href={result.cvBlock.href} {...CONTACT_LINK_PROPS} style={{ display: "inline-block", background: "#1c1917", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
                 {result.cvBlock.buttonText}
               </a>
               <p style={{ fontSize: "0.75rem", color: "#aaa", margin: 0 }}>{result.cvBlock.sub}</p>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-self-compassion-check"
@@ -146,7 +146,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「また責めてしまった」を繰り返しているなら",
       body: "自己批判のパターンは一人で変えようとしても難しいことがあります。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
-      buttonText: `今の状態を相談してみる${FREE_FIRST}`,
+      buttonText: ctaText(`今の状態を相談してみる${FREE_FIRST}`),
     },
   },
   mid: {
@@ -163,7 +163,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "「頑張っているのになぜ消耗するのか」整理したい方へ",
       body: "セルフ・コンパッションは高めることができます。支援職専門カウンセリングで、消耗の構造を一緒に整理してみませんか。",
-      buttonText: `カウンセリングで整理してみる${FREE_FIRST}`,
+      buttonText: ctaText(`カウンセリングで整理してみる${FREE_FIRST}`),
     },
   },
   high: {
@@ -180,7 +180,7 @@ const RESULTS: Record<Level, {
     cvBlock: {
       heading: "今の状態を維持・深化させたい方へ",
       body: "セルフ・コンパッションが高くても、職場の構造による消耗は起きます。今の強みを活かしながら、さらに整えたい部分を一緒に確認しましょう。",
-      buttonText: `状態をさらに整える${FREE_FIRST}`,
+      buttonText: ctaText(`状態をさらに整える${FREE_FIRST}`),
     },
   },
 }
@@ -419,8 +419,8 @@ export default function HelperSelfCompassionCheck() {
           {/* 軽いCV（結果直後） */}
           <div className="mb-5 p-3 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
             <p className="text-xs text-stone-500 mb-1.5">今の状態、もう少し整理したい方へ</p>
-            <a href="/#contact" className="text-sm text-stone-700 underline underline-offset-2 hover:text-stone-900 transition-colors">
-              → 支援職専門カウンセリングについて見てみる
+            <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="text-sm text-stone-700 underline underline-offset-2 hover:text-stone-900 transition-colors">
+              {ctaText(`→ 支援職専門カウンセリングについて見てみる`)}
             </a>
           </div>
 
@@ -481,13 +481,13 @@ export default function HelperSelfCompassionCheck() {
             </p>
             <p className="text-xs text-stone-400 leading-relaxed mb-4">{result.cvBlock.body}</p>
             <a
-              href="/#contact"
+              href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               className="block w-full text-center py-2.5 rounded-xl text-sm font-medium transition-all"
               style={{ background: SAGE, color: "#fff" }}
             >
-              {result.cvBlock.buttonText}
+              {ctaText(result.cvBlock.buttonText)}
             </a>
-            <p className="text-[10px] text-stone-500 text-center mt-2">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
+            <p className="text-[10px] text-stone-500 text-center mt-2">{ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK")}</p>
           </div>
 
           <button

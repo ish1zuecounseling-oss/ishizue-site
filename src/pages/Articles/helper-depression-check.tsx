@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
@@ -48,9 +48,9 @@ const resultConfig = {
     cvBlock: {
       heading: "余裕がある今の状態を、崩れる前に整える",
       body: "今は大きな問題はない状態ですが、支援職の消耗は静かに進みます。崩れてから整えるより、余裕がある今のうちに言語化しておく方が、ずっと楽です。",
-      buttonText: `今の状態を整理しておく${FREE_FIRST}`,
-      href: "/#contact",
-      sub: "勧誘なし ／ 1回のみでもOK ／ 支援職専門",
+      buttonText: ctaText(`今の状態を整理しておく${FREE_FIRST}`),
+      href: CONTACT_HREF,
+      sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 支援職専門"),
     },
   },
   mid: {
@@ -66,9 +66,9 @@ const resultConfig = {
     cvBlock: {
       heading: "この段階で止められるかどうかが分かれ目です",
       body: "まだ日常は回せているかもしれませんが、抑うつ症状はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。",
-      buttonText: `今の状態を整理しておく${FREE_FIRST}`,
-      href: "/#contact",
-      sub: "勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可",
+      buttonText: ctaText(`今の状態を整理しておく${FREE_FIRST}`),
+      href: CONTACT_HREF,
+      sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可"),
     },
   },
   high: {
@@ -84,9 +84,9 @@ const resultConfig = {
     cvBlock: {
       heading: "このまま抱え続けるより、外に出した方が早い段階です",
       body: "今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。心療内科の受診も視野に入れつつ、構造の整理についてはお手伝いできます。",
-      buttonText: `今の状態をそのまま話してみる${FREE_FIRST}`,
-      href: "/#contact",
-      sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
+      buttonText: ctaText(`今の状態をそのまま話してみる${FREE_FIRST}`),
+      href: CONTACT_HREF,
+      sub: ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK"),
     },
   },
 }
@@ -249,7 +249,7 @@ export default function HelperDepressionCheck() {
               <p style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.75, marginBottom: "1.25rem" }}>
                 {result.cvBlock.body}
               </p>
-              <a href={result.cvBlock.href}
+              <a href={result.cvBlock.href} {...CONTACT_LINK_PROPS}
                 style={{ display: "inline-block", background: "#2C1F14", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
                 {result.cvBlock.buttonText}
               </a>
