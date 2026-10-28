@@ -154,9 +154,9 @@ export default function SelfFunctionDecline() {
             自己機能が低下すると、身体的休息だけでは回復しない状態になります。
             感情的休息・精神的休息・感覚的休息が不足しているためです。
           </p>
-          <Link to="/articles/helper-mental-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 休んでも回復しない理由</Link>
+          <Link to="/articles/burnout-not-recovering" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 休んでも回復しない理由</Link>
           <span className="mx-2 text-stone-300">／</span>
-          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 回復期間の目安</Link>
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 回復期間の目安</Link>
         </div>
       </div>
 

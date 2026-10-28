@@ -60,7 +60,7 @@ export default function EmotionalLaborWhatPillar() {
         こうした状態は、<strong>感情労働</strong>と呼ばれるものです。
         感情労働は、意識しないまま続けていると、
         <Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</Link>や
-        <Link to="/articles/helper-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</Link>につながります。
+        <Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</Link>につながります。
       </p>
 
       <h2>感情労働とは何か</h2>

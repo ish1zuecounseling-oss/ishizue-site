@@ -393,7 +393,6 @@ export default function ExhaustedByBeingNice() {
           <li>・<Link to="/articles/conversation-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">会話が疲れる</Link></li>
           <li>・<Link to="/articles/acting-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">演じることでの疲れ</Link></li>
           <li>・<Link to="/articles/too-considerate" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">気を使いすぎ</Link></li>
-          <li>・<Link to="/articles/kind-people-break-down" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">優しい人が壊れる関連</Link></li>
         </ul>
       </div>
 

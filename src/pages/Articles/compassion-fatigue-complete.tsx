@@ -338,7 +338,7 @@ export default function CompassionFatiguePillar() {
         支援現場では、早めに気づいて対処した方ほど回復が早い傾向があります。
       </p>
       <p className="text-sm text-stone-500">
-        回復について詳しく→ <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の対処法と回復方法</Link> ／ <Link to="/articles/compassion-fatigue-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">回復期間と、自然に治るのか</Link>
+        回復について詳しく→ <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労の対処法と回復方法</Link>
       </p>
 
       <h2 id="where">どこに相談すればいいか(何科か)</h2>
@@ -419,7 +419,7 @@ export default function CompassionFatiguePillar() {
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 対処法と回復方法——今日からできるケアと回復の順番
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 回復期間——どのくらいで治るのか
           </Link>
           <Link to="/articles/compassion-fatigue-vs-burnout" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">

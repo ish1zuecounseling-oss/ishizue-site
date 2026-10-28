@@ -34,6 +34,21 @@ export default function HelperSelfBlame() {
         </ul>
       </div>
 
+      <h2>自責感と罪悪感の違い</h2>
+      <p>
+        自責感と罪悪感は似ていますが、向かう先が違います。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">罪悪感——「あの行動がよくなかった」</p>
+          <p className="text-stone-600 leading-[1.9]">自分がした<strong>行動</strong>に向かう感覚です。「もっと丁寧に対応すべきだった」というように、次の行動を直す方向に働くこともあります。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">自責感——「自分がダメだから」</p>
+          <p className="text-stone-600 leading-[1.9]">自分という<strong>存在</strong>に向かう感覚です。「自分がダメだから悪いことが起きた」と、行動ではなく自分全体の否定になりやすく、消耗が深くなります。慢性化すると「何が起きても自分のせい」という見方が固まり、考え続けるループが止まらなくなります。</p>
+        </div>
+      </div>
+
       <h2>なぜ支援職は自責しやすいのか</h2>
 
       <div className="card">
@@ -52,6 +67,15 @@ export default function HelperSelfBlame() {
         <p className="text-sm font-medium text-stone-700 mb-2">④ 「コントロールできる」という感覚の維持</p>
         <p className="text-sm text-stone-600 leading-[1.9]">「自分のせいだ」と思うことで、「自分が変われば何とかなる」という感覚が生まれます。どうにもならない現実を受け入れるより、「自分のせい」にする方が心理的に楽に感じることがあります。これは無意識のコントロール幻想です。</p>
       </div>
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">⑤ 自分には厳しく、他人は高く見る</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          唐澤(2001)は、日本人には自分の否定的な面を厳しく見積もる「自己批判バイアス」と、身近な他者の良い面を高く見積もる「他者高揚バイアス」が同時に起きやすいことを示しました。
+          「自分はまだ足りない」「先輩ならうまくやれたはず」という感覚はここから生まれます。
+          もともとは「より良くなりたい」「関係の中で認められたい」という前向きな動機から来る傾向ですが、
+          支援職では「理想の支援者像」が常にあり、失敗が人の人生に直結するため、この傾向が強く出やすくなります。
+        </p>
+      </div>
 
       <h2>自責のループが消耗を深める仕組み</h2>
       <div className="card space-y-1.5 text-sm text-stone-600">
@@ -69,9 +93,41 @@ export default function HelperSelfBlame() {
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/helper-emotional-labor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働チェック</Link>
       </p>
 
+      <h2>自責感が深まる3つの段階</h2>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">段階1 一時的な自責</p>
+          <p className="text-stone-600 leading-[1.9]">失敗した直後に「どうすればよかったか」と振り返る。数日で気持ちが切り替わり、「次はこうしよう」に向かえる。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">段階2 ループが定着する</p>
+          <p className="text-stone-600 leading-[1.9]">失敗した場面が繰り返し浮かび、「自分がいけなかった」という結論が先に出る。環境や相手の状況など、ほかの要因が見えにくくなる。この段階では、一人で考え続けるほどループが深まりやすいため、外から整理する場が役に立ちます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">段階3 存在の否定まで進む</p>
+          <p className="text-stone-600 leading-[1.9]">何もしていなくても「自分が悪い」と感じる。自分の感情や判断が信じられない。不眠・食欲不振・頭痛などの身体症状が出ている。一人で整理するのは難しい状態なので、カウンセリングや医療機関への相談を考えてください。</p>
+        </div>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">「消えたい」「いなくなりたい」という気持ちが続くときは</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">一人で抱え込まず、話を聞いてもらえる窓口があります。</p>
+        <ul className="text-sm text-stone-600 space-y-1 mt-2">
+          <li>・よりそいホットライン:0120-279-338(24時間・無料)</li>
+          <li>・いのちの電話:0570-783-556(10時〜22時)</li>
+          <li>・精神科・心療内科への相談も選択肢です</li>
+        </ul>
+      </div>
+
       <LineCtaSmall />
 
       <h2>自責感から抜け出すための視点</h2>
+
+      <p>
+        自責に気づいた人がまずやりがちなのが「自分を責めないようにしよう」と頑張ることですが、これはたいていうまくいきません。
+        「また責めてしまった」こと自体が新しい自責の材料になり、しかも強い自責の最中は思考の柔軟さも落ちています。
+        「責めないようにする」より、<strong>責めるパターンがどう作られているか</strong>を見ていく方が、ループから抜けやすくなります。
+      </p>
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">① 「自責」と「反省」を分ける</p>
@@ -99,6 +155,10 @@ export default function HelperSelfBlame() {
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
+
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:唐澤真弓(2001)「日本人における自他の認識——自己批判バイアスと他者高揚バイアス」心理学研究，72(3), 195-203
+      </p>
 
       <ArticleFooterLinks type="symptom" exclude={["/articles/helper-self-blame"]} />
 

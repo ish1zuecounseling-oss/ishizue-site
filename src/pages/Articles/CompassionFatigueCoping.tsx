@@ -222,6 +222,33 @@ export default function CompassionFatigueCoping() {
         </ol>
       </div>
 
+      <h2>回復にかかる期間の目安と、戻ってくる順番</h2>
+      <p>
+        軽い共感疲労なら、休息や環境の変化で自然に回復することもあります。
+        一方で「休んでも月曜には戻ってしまう」「何か月も続いている」「感情が動かない」状態は、休むだけでは回復しにくい段階です。
+        放っておくと、しんどさに慣れてしまったり、燃え尽きやうつ状態に進んだりすることがあります。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">軽度:数週間〜数か月</p>
+          <p className="text-stone-600 leading-[1.9]">早めに気づいて、休息と環境の調整ができれば回復しやすい段階です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">中程度:数か月単位</p>
+          <p className="text-stone-600 leading-[1.9]">休むだけでは足りず、何が消耗を生んでいるかを整理する必要がある段階です。一人で難しければ、相談の場を使うと回復が早まります。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">重度:長期にわたることも</p>
+          <p className="text-stone-600 leading-[1.9]">専門家のサポートが必要な段階です。必要に応じて医療機関も使ってください。早く動くほど、回復にかかる期間は短くなります。</p>
+        </div>
+      </div>
+
+      <p>
+        回復は、おおむね<strong>①眠れる・身体が少し軽くなる → ②仕事のことを考える時間が減る → ③感情が少しずつ動き始める → ④以前のように関われる感覚が戻る</strong>、の順に進みます。
+        ただし直線的ではなく、良くなったり戻ったりを繰り返しながら進みます。期間はあくまで目安で、個人差があります。
+      </p>
+
       <h2>共感疲労チェックの点数別:次にすること</h2>
       <p className="text-sm text-stone-600">
         <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック(20項目)</Link>の結果に合わせた、次の一手の目安です。
@@ -290,8 +317,8 @@ export default function CompassionFatigueCoping() {
           <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             ② 共感疲労とは——症状と7つの原因
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            ③ 共感疲労の回復期間——どのくらいで治るのか
+          <Link to="/articles/burnout-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            ③ 燃え尽きの回復期間——どのくらいで治るのか
           </Link>
           <Link to="/articles/helper-boundary" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → バウンダリー（境界線）とは——断れない支援職の対処法
@@ -315,8 +342,8 @@ export default function CompassionFatigueCoping() {
             <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "#8FAF9F", color: "#fff" }}>今ここ</span>
             対処——今日からできるケア
           </span>
-          <a href="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-            次に読む → 回復期間——どのくらいで治るのか
+          <a href="/articles/helper-boundary-how-to" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+            次に読む → 境界線の引き方——抱え込まないために
           </a>
         </div>
       </div>

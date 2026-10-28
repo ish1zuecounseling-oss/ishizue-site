@@ -163,7 +163,7 @@ export default function WhySupportWorkersLoseThemselves() {
       <p>
         この段階では「休んでも回復しない」という状態になります。
         消耗の種類と回復の方法がずれているからです。
-        詳しくは<Link to="/articles/helper-mental-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>を参照してください。
+        詳しくは<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>を参照してください。
       </p>
 
       <h2>段階⑥：自己喪失——「自分がわからない」へ</h2>
@@ -223,7 +223,7 @@ export default function WhySupportWorkersLoseThemselves() {
             { step: "② 消耗の種類を理解する", link: "/articles/self-function-decline", text: "どの機能が消耗しているかを整理" },
             { step: "③ 身体感覚に戻る", link: "/articles/overthinking-needs-sensation", text: "思考より感覚を優先する時間を作る" },
             { step: "④ 境界線を整える", link: "/articles/helper-boundary-check", text: "自分と他者の境界を確認・回復する" },
-            { step: "⑤ 弱さを出せる場所を持つ", link: "/articles/helper-mental-recovery", text: "安全な対話で自己機能を回復させる" },
+            { step: "⑤ 弱さを出せる場所を持つ", link: "/articles/burnout-recovery-methods", text: "安全な対話で自己機能を回復させる" },
             { step: "⑥ 背景のパターンを理解する", link: "/articles/working-model", text: "ワーキングモデルと消耗の関係を整理" },
           ].map(({ step, link, text }) => (
             <div key={step} className="flex gap-3">

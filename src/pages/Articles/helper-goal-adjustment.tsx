@@ -122,7 +122,7 @@ export default function HelperGoalAdjustment() {
           <Link to="/articles/helper-reality-shock" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「こんなはずじゃなかった」——リアリティショックと消耗
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-self-blame" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
           <Link to="/tools/helper-quit-timing-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">

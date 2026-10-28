@@ -114,6 +114,29 @@ export default function HelperRumination() {
         早めに気づいて対処するほど、回復に必要な時間が短くなります。
       </p>
 
+      <h2>「ぼんやりする」と「考え続ける」は別のもの</h2>
+      <p>
+        人は起きている時間の30〜50%を、目の前のこととは関係のないことを考えながら過ごしているという報告があります(Killingsworth & Gilbert, 2010)。
+        注意が今の課題からそれる現象を<strong>マインドワンダリング</strong>と呼びます。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">注意がそれて集中できない(マインドワンダリング)</p>
+          <p className="text-stone-600 leading-[1.9]">人の話を聞きながら別のことを考えてしまう、集中しようとしても頭が離れる状態。ストレスの高さや抑うつ・不安傾向と関連することが示されています。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">同じことを考え続ける(反芻)</p>
+          <p className="text-stone-600 leading-[1.9]">支援職に多いのはこちらです。仕事を終えても利用者のことが頭から離れない。空想しやすい傾向は反芻しやすさと関連するとされ(梶村・野村, 2016)、頭の中の活動が多い人ほど、共感疲労の影響を受けやすい可能性があります。</p>
+        </div>
+      </div>
+      <p>
+        どちらの場合も、「また考えている」「ぼんやりしていた」と<strong>気づくこと自体</strong>が、今ここに注意を戻す入口になります。
+        気づいたときにそれを自分を責める材料にせず、「ああ、そういう状態だな」と眺めるだけで十分です。
+      </p>
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:Killingsworth, M. A., & Gilbert, D. T.(2010) A wandering mind is an unhappy mind. Science, 330, 932 ／ 梶村昇吾・野村理朗(2016)「日本語版DDFSおよびMWQの作成」心理学研究，87(1), 79-88
+      </p>
+
       <h2>状態を緩めるための視点</h2>
       <p>
         「切り替えの儀式」を持つことが助けになります。退勤前の深呼吸・着替え・日記への記録など、

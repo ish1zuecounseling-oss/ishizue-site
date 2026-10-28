@@ -89,6 +89,20 @@ export default function ActingFatigue() {
         </div>
       </div>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">こんな感覚はありませんか?</p>
+        <ul className="space-y-1.5 text-sm text-stone-600 leading-[1.9]">
+          <li>・職場では笑顔が「仕事」になっている</li>
+          <li>・感情を切り替えるのに時間がかかる</li>
+          <li>・休日でも職場の「顔」がなかなかオフにならない</li>
+        </ul>
+        <p className="text-sm text-stone-600 leading-[1.9] mt-2">
+          2つ以上当てはまるなら、消耗が進んでいるかもしれません。
+          求められる感情(笑顔・冷静さ・共感)を出し続け、本音を抑え込む状態が長く続くと、
+          内側と外側のズレがたまり、自分の感情がわからなくなっていきます(<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>)。
+        </p>
+      </div>
+
       <h2>なぜやめられないのか</h2>
       <p>
         多くの場合、演技は「やめられない」というより、

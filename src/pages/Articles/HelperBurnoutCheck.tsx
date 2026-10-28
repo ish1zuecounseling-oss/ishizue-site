@@ -81,7 +81,7 @@ const resultConfig = {
     message: "現時点では安定しています。ただし支援職は消耗が蓄積しやすい仕事です。今のうちにセルフケアの習慣を整えておくことが予防につながります。",
     nextLabel: "今の状態を予防に活かす記事",
     links: [
-      { href: "/articles/helper-rest-importance", text: "休むことの大切さ｜支援職のための休息の考え方" },
+      { href: "/articles/helper-rest-types", text: "休むことの大切さ｜支援職のための休息の考え方" },
       { href: "/articles/helper-stress-coping", text: "自分に合ったストレスコーピングを見つける" },
       { href: "/articles/helper-boundary", text: "境界線の引き方｜利用者を思いすぎていませんか" },
     ],
@@ -92,8 +92,8 @@ const resultConfig = {
     message: "疲労や消耗のサインが積み重なっています。今の状態を放置すると、回復に時間がかかる本格的なバーンアウトに進む可能性があります。この段階で整えることが重要です。",
     nextLabel: "6〜12項目の方へ",
     links: [
-      { href: "/articles/helper-burnout", text: "バーンアウトとは｜支援職に起こる燃え尽きの正体" },
-      { href: "/articles/helper-burnout-signs", text: "バーンアウトのサインを見逃さないために" },
+      { href: "/articles/helper-burnout-pillar", text: "バーンアウトとは｜支援職に起こる燃え尽きの正体" },
+      { href: "/articles/burnout-early-signs", text: "バーンアウトのサインを見逃さないために" },
       { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法" },
     ],
   },
@@ -105,7 +105,7 @@ const resultConfig = {
     links: [
       { href: "/articles/compassion-fatigue-coping", text: "共感疲労からの回復方法" },
       { href: "/articles/compassion-fatigue-complete", text: "何科に相談すべきか" },
-      { href: "/articles/compassion-fatigue-recovery-period", text: "回復にかかる期間の目安" },
+      { href: "/articles/burnout-recovery-period", text: "回復にかかる期間の目安" },
     ],
   },
 }

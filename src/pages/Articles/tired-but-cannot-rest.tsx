@@ -131,7 +131,7 @@ export default function TiredButCannotRest() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           身体的休息・感情的休息・精神的休息・感覚的休息——休息には種類があります。
           スマートフォンを見ながらの「休憩」は精神的・感覚的には休めていません。
-          <Link to="/articles/helper-mental-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>も参照してください。
+          <Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>も参照してください。
         </p>
       </div>
 

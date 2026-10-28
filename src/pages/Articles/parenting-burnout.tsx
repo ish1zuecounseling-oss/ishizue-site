@@ -104,7 +104,7 @@ export default function ParentingBurnout() {
       <h2>育児バーンアウトとは——「家庭での対人援助」の消耗</h2>
       <p>
         バーンアウト(燃え尽き症候群)は、長期的なストレスにより心身のエネルギーが枯渇した状態を指す概念です。
-        看護師・介護士・教員などの<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職</Link>に起こりやすいことが知られています。
+        看護師・介護士・教員などの<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職</Link>に起こりやすいことが知られています。
       </p>
 
       <p>
@@ -382,7 +382,6 @@ export default function ParentingBurnout() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">バーンアウトを深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(回復ガイド)</Link></li>
           <li>・<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link></li>
           <li>・<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群が治らない</Link></li>

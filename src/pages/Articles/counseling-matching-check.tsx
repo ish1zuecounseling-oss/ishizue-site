@@ -432,7 +432,6 @@ export default function CounselingMatchingCheck() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">構造を理解する(主要ピラー)</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(実践ガイド)</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とは(総合解説)</Link></li>
         </ul>

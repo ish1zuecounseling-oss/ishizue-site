@@ -239,7 +239,7 @@ export default function HelperHelplessness() {
           <Link to="/articles/emotional-labor-what-pillar" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 感情労働とは？意味・具体例・疲れる理由と対処法
           </Link>
-          <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/self-compassion-complete" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職のバーンアウトは自己批判で悪化する
           </Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
@@ -263,7 +263,7 @@ export default function HelperHelplessness() {
         links={[
           { label: "共感疲労チェックをする（3分）",         path: "/articles/helper-empathy-check" },
           { label: "感情労働の構造を理解する",              path: "/articles/emotional-labor-what-pillar" },
-          { label: "自己批判の対処法を見る",                path: "/articles/helper-self-criticism-culture" },
+          { label: "自己批判の対処法を見る",                path: "/articles/helper-self-blame" },
         ]}
       />
     </ArticleLayout>

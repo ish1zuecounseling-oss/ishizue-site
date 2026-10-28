@@ -231,10 +231,10 @@ export default function HelperSelfCompassionResistance() {
           <Link to="/articles/helper-attachment-self-compassion" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「自分を責める癖」はなぜ止まらないのか｜愛着とセルフ・コンパッションの心理学
           </Link>
-          <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/self-compassion-complete" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-self-blame" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 自分を責めるのをやめたいときの対処法｜自己批判の心理学
           </Link>
         </div>
@@ -251,7 +251,7 @@ export default function HelperSelfCompassionResistance() {
       <ArticleBottomCTA
         links={[
           { label: "セルフ・コンパッションチェックをする",  path: "/articles/helper-self-compassion-check" },
-          { label: "自己批判の対処法を見る",                path: "/articles/helper-self-criticism-culture" },
+          { label: "自己批判の対処法を見る",                path: "/articles/helper-self-blame" },
           { label: "今の消耗度をチェックする（3分）",        path: "/articles/helper-burnout-check" },
         ]}
       />

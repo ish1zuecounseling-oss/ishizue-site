@@ -192,7 +192,6 @@ export default function ThinkerDoiAmae() {
         <p className="font-medium text-stone-700 mb-2">この記事とつながるテーマ</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/why-support-workers-cannot-ask-for-help" className={linkCls}>支援職がなぜ相談できないのか</Link></li>
-          <li>・<Link to="/articles/helper-cannot-seek" className={linkCls}>支援者が「相談できない・つらい」と感じる理由</Link></li>
           <li>・<Link to="/articles/thinker-schmidbauer-helper-syndrome" className={linkCls}>助けることでしか自分を保てない(シュミットバウアーから読む)</Link></li>
           <li>・<Link to="/articles/thinker-kohut-selfobject" className={linkCls}>支える人にも、支えが要る(コフートから読む)</Link></li>
         </ul>

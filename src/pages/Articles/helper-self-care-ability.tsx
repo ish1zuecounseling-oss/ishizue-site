@@ -280,7 +280,7 @@ export default function HelperSelfCareAbility() {
           <Link to="/articles/helper-cannot-say-no" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 断れない支援職の対処法｜「選択する能力」を育てる
           </Link>
-          <Link to="/articles/helper-self-compassion-behavior" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/self-compassion-complete" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → セルフ・コンパッションを行動として実践する方法
           </Link>
         </div>
@@ -298,7 +298,7 @@ export default function HelperSelfCareAbility() {
         links={[
           { label: "今の消耗度をチェックする（3分）",        path: "/articles/helper-burnout-check" },
           { label: "断れない問題の対処法を見る",            path: "/articles/helper-boundary-how-to" },
-          { label: "セルフ・コンパッションを行動で実践する", path: "/articles/helper-self-compassion-behavior" },
+          { label: "セルフ・コンパッションを行動で実践する", path: "/articles/self-compassion-complete" },
         ]}
       />
     </ArticleLayout>

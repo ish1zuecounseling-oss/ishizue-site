@@ -167,7 +167,7 @@ export default function HelperBenefitFinding() {
           <Link to="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 嫌な記憶が頭から離れないときの対処法｜記憶の心理と回復方法
           </Link>
-          <Link to="/articles/helper-self-complexity" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/self-complexity" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 仕事しかないと辛いときの対処法｜自己複雑性の心理学
           </Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">

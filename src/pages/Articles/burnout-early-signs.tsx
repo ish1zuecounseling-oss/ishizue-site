@@ -97,6 +97,7 @@ export default function BurnoutEarlySigns() {
           <li>・「自分は大丈夫」と思いがちな理由</li>
           <li>・初期段階で<strong>何をすべきか</strong>(5つの行動)</li>
           <li>・初期から中度に進む<strong>境界線</strong></li>
+          <li>・燃え尽きの<strong>4つの段階</strong>と段階ごとの対処</li>
           <li>・セルフチェック・専門家相談のタイミング</li>
         </ul>
       </nav>
@@ -362,6 +363,51 @@ export default function BurnoutEarlySigns() {
         詳しくは<Link to="/articles/burnout-recovery-methods" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の回復方法</Link>を参照してください。
       </p>
 
+      <h2>燃え尽きの進み方——4つの段階と、それぞれの対処</h2>
+      <p>
+        Edelwich & Brodsky は、燃え尽きが<strong>熱心期→停滞期→欲求不満期→無関心期</strong>の順に進むと整理しました。
+        今の自分がどのあたりにいるかの目安になります。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">第1段階 熱心期——理想に燃える</p>
+          <p className="text-stone-600 leading-[1.9]">
+            やりがいが強く、残業も苦にならない時期。危うさは、仕事の成果が自分の価値の源になっていることです。
+            <br /><strong>対処</strong>:熱心であり続けることを前提にしない。仕事以外の自分(趣味・人間関係)を保っておく。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">第2段階 停滞期——以前のような充実感がない</p>
+          <p className="text-stone-600 leading-[1.9]">
+            理想と現実の差に気づき始め、「これでいいのかな」という疑問が出てくる時期。ここで「もっと頑張ろう」と理想を取り戻そうとすると消耗が深まります。
+            <br /><strong>対処</strong>:完璧を目指すのをやめ、「できる範囲」での関わり方に調整する。プライベートを大事にするのは逃げではありません。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">第3段階 欲求不満期——怒り・無力感・葛藤</p>
+          <p className="text-stone-600 leading-[1.9]">
+            職場や制度への不満、「努力しても変わらない」という無力感、イライラが強まり、不眠や頭痛などの身体症状も出始めます。
+            ただし<strong>感情がまだ動いている</strong>のがこの段階の特徴で、ここで手を打てれば次の段階に進むのを防ぎやすくなります。
+            <br /><strong>対処</strong>:怒りや無力感を、信頼できる人や専門家に言葉にする。消耗源から物理的に距離をとる。身体症状が続くなら受診する。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">第4段階 無関心期——何も感じない</p>
+          <p className="text-stone-600 leading-[1.9]">
+            怒りすら感じなくなり、利用者や同僚への関心が消え、機械的に業務をこなす状態。性格が変わったのではなく、
+            心が「これ以上感じないようにする」ことで自分を守っている状態です。
+            <br /><strong>対処</strong>:自分で何とかしようとする段階ではありません。受診・カウンセリング・休職を含めて考えます。
+          </p>
+        </div>
+      </div>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        実際の進み方は直線とは限らず、停滞期と欲求不満期を行き来したり、大きな出来事をきっかけに一気に無関心期へ進んだりすることもあります。
+        また、適切な対処で前の段階に戻ることもできます。ただし回復の目標は「熱心期に戻る」ことではなく、
+        <strong>熱心ではなくても安定して関われる状態</strong>です。以前の熱心さを目標にすると、同じパターンを繰り返しやすくなります。
+      </p>
+
       <h2>セルフチェック・専門家相談のタイミング</h2>
       <p>
         「自分はどの段階か」を確認するには、セルフチェックが有効です。
@@ -413,7 +459,6 @@ export default function BurnoutEarlySigns() {
           <li>・<Link to="/articles/burnout-back-to-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群からの復職</Link></li>
           <li>・<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群が治らない</Link></li>
           <li>・<Link to="/articles/burnout-recovery-methods" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の回復方法</Link></li>
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">セルフチェック</p>
         <ul className="space-y-1.5 text-stone-600">

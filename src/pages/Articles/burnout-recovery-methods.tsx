@@ -328,6 +328,43 @@ export default function BurnoutRecoveryMethods() {
         </p>
       </div>
 
+      <h2>回復の途中で知っておきたい4つのこと</h2>
+      <p>
+        回復に取り組んでいる途中で、「これで合っているのか」と不安になる場面があります。先に知っておくと焦りが和らぎます。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">① 回復は「元に戻ること」ではない</p>
+          <p className="text-stone-600 leading-[1.9]">
+            崩れる前の状態は、多くの場合「消耗が限界までたまっていた状態」です。そこに戻ることは、もう一度崩れるリスクを抱えることでもあります。
+            目指すのは、自分の限界を知ったうえでの<strong>続けられる働き方・暮らし方</strong>です。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">② 回復には「波」がある</p>
+          <p className="text-stone-600 leading-[1.9]">
+            「昨日は楽だったのに今日はまた落ち込んだ」という揺れは、回復の途中ではよくあることです。
+            「また悪化した」ではなく<strong>「回復しながら揺れている」</strong>と捉えると、自分を責めずに済みます。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">③ 初めは「頑張る」より「落ち着かせる」</p>
+          <p className="text-stone-600 leading-[1.9]">
+            回復の初期は、意志の力で何かをするより、張りつめた心身を落ち着かせることが先です。
+            ゆっくりした呼吸、日光を浴びる、安心できる場所でくつろぐ、軽い散歩——「大したことではない」と感じる活動が土台になります。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">④ 再発予防は「回復の後半」でいい</p>
+          <p className="text-stone-600 leading-[1.9]">
+            消耗している最中に「二度と燃え尽きないようにしなければ」と考えると、自分を責める材料が増えるだけになりがちです。
+            働き方の見直しや再発予防は、<strong>ある程度回復してから</strong>の方が現実的に取り組めます。
+            それまでは「今日は少し早く寝る」くらいの小さな目標で十分です。
+          </p>
+        </div>
+      </div>
+
       <h2>「回復した」のサイン</h2>
       <p>
         どこまで回復したらOKか、判断のサインを整理します。
@@ -402,7 +439,6 @@ export default function BurnoutRecoveryMethods() {
           <li>・<Link to="/articles/burnout-which-clinic" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群は何科に行くべき?(受診)</Link></li>
           <li>・<Link to="/articles/burnout-back-to-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群からの復職(段階的復職)</Link></li>
           <li>・<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群が治らない(慢性化)</Link></li>
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">構造を理解する</p>
         <ul className="space-y-1.5 text-stone-600">

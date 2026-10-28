@@ -123,7 +123,7 @@ export default function WorkingModel() {
       <div className="card space-y-1.5 text-sm text-stone-600">
         <p>→ <Link to="/articles/other-centered-living" className="underline underline-offset-2">他人軸</Link>——他者の反応・評価が常に自己価値の基準になる</p>
         <p>→ <Link to="/articles/helper-cannot-say-no" className="underline underline-offset-2">断れない</Link>——断ると関係が壊れるという前提から</p>
-        <p>→ <Link to="/articles/impostor-check" className="underline underline-offset-2">インポスター現象</Link>——「本当の自分は価値がない」という自己モデルの表れ</p>
+        <p>→ <Link to="/articles/impostor-check-20" className="underline underline-offset-2">インポスター現象</Link>——「本当の自分は価値がない」という自己モデルの表れ</p>
         <p>→ <Link to="/articles/tired-but-cannot-rest" className="underline underline-offset-2">疲れているのに休めない</Link>——「役立てている間だけ価値がある」という前提から</p>
         <p>→ <Link to="/articles/afraid-to-leave-role" className="underline underline-offset-2">役割を降りるのが怖い</Link>——役割なしの自分への価値感覚が薄い</p>
       </div>

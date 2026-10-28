@@ -241,7 +241,7 @@ export default function SelfFunctionWhat() {
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/helper-emotional-numbness" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 感情が分からない・麻痺している</Link>
               <Link to="/articles/helper-rumination" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 考えすぎて動けない・頭が止まらない</Link>
-              <Link to="/articles/helper-mental-recovery" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ メンタルを崩した後の立て直し</Link>
+              <Link to="/articles/burnout-recovery-methods" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ メンタルを崩した後の立て直し</Link>
             </div>
           </div>
           <div className="border-t border-stone-100 pt-3">

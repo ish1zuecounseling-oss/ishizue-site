@@ -244,7 +244,7 @@ export default function CannotGoToWorkTears() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           気合いで抑え込み続けると、ある日突然『何もできない』状態に陥ることがあります。
           周囲には『いつも元気そうだったのに』と見えますが、内側では限界が蓄積し続けていた結果です。
-          詳しくは<Link to="/articles/helper-burnout-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウトの前兆</Link>もご覧ください。
+          詳しくは<Link to="/articles/burnout-early-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウトの前兆</Link>もご覧ください。
         </p>
       </div>
 

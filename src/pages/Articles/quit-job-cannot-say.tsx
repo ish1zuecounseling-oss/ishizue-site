@@ -154,6 +154,26 @@ export default function QuitJobCannotSay() {
         </p>
       </div>
 
+      <h2>上司への伝え方——実務の目安</h2>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">タイミング</p>
+          <p className="text-stone-600 leading-[1.9]">就業規則を確認する(1〜2か月前が多い)。繁忙期はできれば避ける。最初に伝えるのは直属の上司。口頭で伝えてから退職届を出す。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">本音を全部言う必要はない</p>
+          <p className="text-stone-600 leading-[1.9]">「一身上の都合」は正式な理由として成り立ちます。職場への不満は伝えなくてよく、詳しく説明するほど引き止めの余地が生まれます。関係をこじらせない形で伝えることも、誠実な選択です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">「相談」ではなく「報告」として</p>
+          <p className="text-stone-600 leading-[1.9]">感謝と退職の意思をセットにし、退職日をはっきり示します。例:「お世話になっております。一身上の都合により、◯月末で退職させていただきたいと考えております。ご迷惑をおかけしますが、よろしくお願いいたします。」</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">引き止められたら</p>
+          <p className="text-stone-600 leading-[1.9]">その場で判断せず「一度持ち帰ります」と伝える。条件を示されても即決しない。自分の状態に立ち返る時間をとります。</p>
+        </div>
+      </div>
+
       <h2>よくある質問</h2>
       <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (

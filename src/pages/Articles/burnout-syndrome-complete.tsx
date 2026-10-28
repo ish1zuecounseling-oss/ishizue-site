@@ -97,7 +97,7 @@ export default function BurnoutSyndromeComplete() {
           <li>・Maslachの<strong>3要素モデル</strong>(情緒的消耗・脱人格化・達成感低下)</li>
           <li>・Edelwich&Brodskyの<strong>4段階モデル</strong></li>
           <li>・症状の全体像(身体・心理・行動)</li>
-          <li>・<strong>5つの構造的原因</strong></li>
+          <li>・<strong>5つの構造的原因</strong>と、研究からわかること(要求と裁量)</li>
           <li>・燃え尽きやすい人の特徴</li>
           <li>・うつ病・適応障害との<strong>違い</strong></li>
           <li>・回復までの流れ(期間・方法・受診)</li>
@@ -186,7 +186,7 @@ export default function BurnoutSyndromeComplete() {
 
       <p className="text-sm text-stone-600 leading-relaxed">
         各段階で症状・心理状態・対処法が異なるため、「<strong>今自分はどの段階か</strong>」を理解することで、適切な対処を選べるようになります。
-        詳しくは<Link to="/articles/burnout-four-stages" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の4段階</Link>を参照してください。
+        詳しくは<Link to="/articles/burnout-early-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の4段階</Link>を参照してください。
       </p>
 
       <h2>燃え尽き症候群の症状——身体・心理・行動の3軸</h2>
@@ -268,6 +268,46 @@ export default function BurnoutSyndromeComplete() {
 
       <p className="text-sm text-stone-600 leading-relaxed">
         詳しくは<Link to="/articles/burnout-causes" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の原因</Link>を参照してください。
+      </p>
+
+      <h2>研究からわかること——「要求」と「裁量」、そして情熱の誤解</h2>
+      <p>
+        国内の調査研究からは、燃え尽きが「個人の頑張り方」より<strong>仕事の構造</strong>に左右されることが示されています。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">① 要求が高く、裁量が低いと消耗が大きくなる</p>
+          <p className="text-stone-600 leading-[1.9]">
+            労働時間・業務量・責任といった<strong>仕事の要求度</strong>が高いほど、情緒的消耗感と脱人格化が強くなります。
+            さらに「仕事の量や進め方を自分で決められない」(<strong>裁量が低い</strong>)状態は、消耗を深め、達成感を下げることが確認されています。
+            要求が高く裁量が低い職場は、どんなに強い人でも消耗させます。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">② 支援職以外でも起きる</p>
+          <p className="text-stone-600 leading-[1.9]">
+            久保(2014)は、公共サービス職(看護師・教員・介護職など)、顧客サービス職(小売・飲食・営業など)、非サービス職を比較し、
+            公共サービス職と顧客サービス職の両方で燃え尽きの3因子構造が再現されることを示しました。
+            <strong>人と日常的に関わる仕事であれば</strong>、職種に関係なく燃え尽きのリスクがあります。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">③ 「情熱があったから燃え尽きた」とは限らない</p>
+          <p className="text-stone-600 leading-[1.9]">
+            井川・中西・志和(2013)が精神科病院に勤務する781名を調べたところ、
+            仕事への情熱が<strong>低かった群の方が</strong>燃え尽き傾向が高いという結果でした。
+            燃え尽きは「頑張りすぎた結果」というより、<strong>頑張っても報われない状態が続いた結果</strong>と考えた方が実態に近いと言えます。
+          </p>
+        </div>
+      </div>
+
+      <p className="text-sm text-stone-600 leading-relaxed">
+        支援職の職種による違いは、<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト</Link>で整理しています。
+      </p>
+
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:久保真人(2014)「サービス業従事者における日本版バーンアウト尺度の因子的，構成概念妥当性」心理学研究，85(4), 364-372 ／ 井川純一・中西大輔・志和資朗(2013)「バーンアウト傾向の職種比較——仕事への情熱に着目して——」心理学研究，84(4), 386-395 ／ Karasek, R.(1979) Job demands, job decision latitude, and mental strain. Administrative Science Quarterly, 24, 285-307
       </p>
 
       <h2>燃え尽きやすい人の特徴</h2>
@@ -419,7 +459,6 @@ export default function BurnoutSyndromeComplete() {
         <p className="font-medium text-stone-700 mb-2">燃え尽き×実用シリーズ(8部作)</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/burnout-early-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の初期症状・前兆(10サイン)</Link></li>
-          <li>・<Link to="/articles/burnout-four-stages" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の4段階</Link></li>
           <li>・<Link to="/articles/burnout-causes" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の原因(5つの構造的要因)</Link></li>
           <li>・<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?(期間)</Link></li>
           <li>・<Link to="/articles/burnout-which-clinic" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群は何科に行くべき?(受診)</Link></li>
@@ -429,7 +468,6 @@ export default function BurnoutSyndromeComplete() {
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">対人援助職特化</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(回復ガイド)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">構造を深く理解する</p>

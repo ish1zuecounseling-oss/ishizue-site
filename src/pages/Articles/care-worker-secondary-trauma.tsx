@@ -443,7 +443,6 @@ export default function CareWorkerSecondaryTrauma() {
           <li>・<Link to="/articles/nurse-secondary-trauma" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">看護師の二次受傷</Link></li>
           <li>・<Link to="/articles/empathy-fatigue-vs-secondary-trauma" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">二次受傷とは?共感疲労・PTSDとの違い</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とは(総合解説)</Link></li>
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(回復ガイド)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">介護士関連</p>

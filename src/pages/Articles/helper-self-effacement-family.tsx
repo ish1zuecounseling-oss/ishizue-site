@@ -135,10 +135,10 @@ export default function HelperSelfEffacementFamily() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-self-blame" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか｜日本人の自己批判傾向と支援者の消耗
           </Link>
-          <Link to="/articles/helper-cannot-seek" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/why-support-workers-cannot-ask-for-help" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援者なのに、誰にも相談できない
           </Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">

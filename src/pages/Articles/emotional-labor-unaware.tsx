@@ -398,7 +398,6 @@ export default function EmotionalLaborUnaware() {
           <li>・<Link to="/articles/conversation-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">会話が疲れる</Link></li>
           <li>・<Link to="/articles/exhausted-by-being-nice" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">優しさで疲れる</Link></li>
           <li>・<Link to="/articles/acting-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">演じることでの疲れ</Link></li>
-          <li>・<Link to="/articles/suppressing-emotions-at-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">職場で感情を抑える</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">構造を理解する</p>
         <ul className="space-y-1.5 text-stone-600">

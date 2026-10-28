@@ -101,7 +101,7 @@ export default function ZeigarnikDepression() {
         「頭から離れない」状態が続くと、睡眠の質が下がり、休んでも疲れが抜けにくくなり、感情が麻痺してくるという流れをたどりやすくなります。
       </p>
       <p>
-        これは<Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</Link>や<Link to="/articles/helper-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</Link>とも強く関連します。
+        これは<Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労</Link>や<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウト</Link>とも強く関連します。
       </p>
 
       <h2>なぜ「忘れよう」とするほど気になるのか</h2>

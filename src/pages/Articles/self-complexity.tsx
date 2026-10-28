@@ -234,7 +234,7 @@ export default function SelfComplexity() {
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">①「ポジティブな役割外の自分」を意識的に育てる</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">趣味・創作・自然・スポーツ・学びなど、「支援者」としての評価に関係しない活動がポジティブ自己複雑性を高めます。「役に立たなくてもいい時間」がバッファとして機能します。重要なのは「評価される/されない」を超えて、純粋に「自分が心地よいかどうか」を基準にすることです。なお自己複雑性の低下は<Link to="/articles/impostor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群</Link>とも深く関連します——一つの役割に自己価値が集中するほど、「その役割でバレることへの恐れ」が強まります。</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">趣味・創作・自然・スポーツ・学びなど、「支援者」としての評価に関係しない活動がポジティブ自己複雑性を高めます。「役に立たなくてもいい時間」がバッファとして機能します。重要なのは「評価される/されない」を超えて、純粋に「自分が心地よいかどうか」を基準にすることです。なお自己複雑性の低下は<Link to="/articles/impostor-check-20" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群</Link>とも深く関連します——一つの役割に自己価値が集中するほど、「その役割でバレることへの恐れ」が強まります。</p>
       </div>
 
       <div className="card">

@@ -136,9 +136,9 @@ const RESULTS: Record<Level, {
     color: "#b45309",
     bg: "#fffbeb",
     links: [
-      { href: "/articles/helper-self-compassion-burnout",    text: "支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学" },
+      { href: "/articles/self-compassion-complete",    text: "支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学" },
       { href: "/articles/helper-attachment-self-compassion", text: "「自分を責める癖」はなぜ止まらないのか｜愛着とセルフ・コンパッションの心理学" },
-      { href: "/articles/helper-self-criticism-culture",     text: "自分を責めるのをやめたいときの対処法｜自己批判の心理学" },
+      { href: "/articles/helper-self-blame",     text: "自分を責めるのをやめたいときの対処法｜自己批判の心理学" },
     ],
     cvBlock: {
       heading: "「また責めてしまった」を繰り返しているなら",
@@ -153,8 +153,8 @@ const RESULTS: Record<Level, {
     color: "#0369a1",
     bg: "#eff6ff",
     links: [
-      { href: "/articles/helper-self-compassion-burnout",    text: "支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学" },
-      { href: "/articles/helper-nurse-self-compassion",      text: "看護師の44%が限界状態｜バーンアウトを防ぐセルフ・コンパッションと断る力" },
+      { href: "/articles/self-compassion-complete",    text: "セルフ・コンパッションとは｜支援職の研究と身につけ方" },
+      { href: "/articles/helper-msc-program",          text: "MSC(マインドフル・セルフ・コンパッション)プログラムとは" },
       { href: "/articles/helper-burnout-check",              text: "バーンアウトチェック｜今の消耗度を確認する" },
     ],
     cvBlock: {
@@ -170,7 +170,7 @@ const RESULTS: Record<Level, {
     color: "#065f46",
     bg: "#ecfdf5",
     links: [
-      { href: "/articles/helper-burnout-occupation",         text: "バーンアウトの原因は情熱ではない｜職種別に見る消耗の構造と対処法" },
+      { href: "/articles/helper-burnout-pillar",         text: "バーンアウトの原因は情熱ではない｜職種別に見る消耗の構造と対処法" },
       { href: "/articles/helper-boundary-how-to",            text: "バウンダリー（境界線）の作り方｜抱え込みをやめる具体的な方法" },
       { href: "/articles/compassion-fatigue-complete",            text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
     ],
@@ -532,7 +532,7 @@ export default function HelperSelfCompassionCheck() {
             セルフ・コンパッションの基盤を育てることも研究で示されています（龍・小川内, 2023）。
           </p>
           <div className="flex flex-col gap-2 mt-4">
-            <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-500 hover:text-stone-800 hover:underline underline-offset-2 transition-colors">
+            <Link to="/articles/self-compassion-complete" className="text-sm text-stone-500 hover:text-stone-800 hover:underline underline-offset-2 transition-colors">
               → 支援職のバーンアウトは自己批判で悪化する（研究解説）
             </Link>
             <Link to="/articles/helper-attachment-self-compassion" className="text-sm text-stone-500 hover:text-stone-800 hover:underline underline-offset-2 transition-colors">

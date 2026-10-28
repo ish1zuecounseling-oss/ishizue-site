@@ -161,7 +161,7 @@ export default function HelperCannotRestOnDaysOff() {
         一人でのセルフケアだけでは限界があるサインです。
       </p>
       <p>
-        <Link to="/articles/compassion-fatigue-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労は自然に治るのか</Link>でも解説していますが、
+        <Link to="/articles/compassion-fatigue-coping" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労は自然に治るのか</Link>でも解説していますが、
         中程度以上の消耗は「ただ休む」だけでは回復しにくく、
         消耗の構造を整理した上で取り組むことが重要です。
       </p>
@@ -195,7 +195,6 @@ export default function HelperCannotRestOnDaysOff() {
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-client-stuck-in-head" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 利用者の話が頭から離れない——侵入症状の原因と対処</Link>
           <Link to="/articles/cannot-sleep-thinking-work" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 支援職が眠れない——仕事が頭から離れず眠れない原因</Link>
-          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労は自然に治るのか——回復期間と放置のリスク</Link>
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労からの回復方法</Link>
         </div>
       </div>

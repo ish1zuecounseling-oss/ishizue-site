@@ -62,7 +62,7 @@ const resultConfig = {
     cvButton: `今の状態を整理しておく${FREE_FIRST}`,
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労の回復方法を見る" },
-      { href: "/articles/helper-burnout-scale-validity", text: "バーンアウトとは？症状・原因・回復方法" },
+      { href: "/articles/burnout-syndrome-complete", text: "バーンアウトとは？症状・原因・回復方法" },
       { href: "/articles/emotional-labor-what-pillar", text: "感情労働とは？支援職が疲れる本当の理由" },
     ],
   },
@@ -78,7 +78,7 @@ const resultConfig = {
     links: [
       { href: "/articles/helper-leave-of-absence-hesitation", text: "休職を考えたとき｜判断のための5つのポイント" },
       { href: "/articles/helper-want-to-quit-landing", text: "辞めたいと思ったとき｜気持ちを整理する視点" },
-      { href: "/articles/helper-self-compassion-burnout", text: "バーンアウトは自己批判で悪化する" },
+      { href: "/articles/self-compassion-complete", text: "バーンアウトは自己批判で悪化する" },
     ],
   },
 }

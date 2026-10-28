@@ -174,7 +174,7 @@ export default function ThinkerZhuangziUseless() {
       <p>
         心理学でも、自分の価値が仕事や成果だけに結びついている状態は、
         失敗や休職のときに大きく揺らぎやすいと考えられています。
-        (<Link to="/articles/helper-wellbeing-not-from-contribution" className={linkCls}>支援職の幸福感は、貢献からだけでは生まれない</Link>も参考になります)
+        (<Link to="/articles/value-from-being-useful" className={linkCls}>支援職の幸福感は、貢献からだけでは生まれない</Link>も参考になります)
       </p>
 
       <LineCtaCompassion />

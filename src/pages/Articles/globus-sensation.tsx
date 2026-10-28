@@ -190,7 +190,7 @@ export default function GlobusSensation() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           利用者や家族からの理不尽な言葉、職場の方針への疑問。支援職は、感情や本音を飲み込んで、
           穏やかに対応し続けることが求められます
-          (<Link to="/articles/suppressing-emotions-at-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link>)。
+          (<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link>)。
         </p>
       </div>
       <div className="card">
@@ -278,7 +278,7 @@ export default function GlobusSensation() {
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">飲み込んできたものに気づく</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/suppressing-emotions-at-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link></li>
+          <li>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link></li>
           <li>・<Link to="/articles/emotion-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の感情がわからない</Link></li>
           <li>・<Link to="/articles/helper-self-neglect" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のセルフネグレクト</Link></li>
         </ul>

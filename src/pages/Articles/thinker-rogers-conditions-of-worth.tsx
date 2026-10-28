@@ -206,7 +206,7 @@ export default function ThinkerRogersConditionsOfWorth() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           誰の役にも立たない時間を、意識して作ってみます。
           最初は落ち着かないはずです。その落ち着かなさこそが、価値の条件が働いている証拠です。
-          (<Link to="/articles/helper-wellbeing-not-from-contribution" className={linkCls}>「役に立つこと」以外から幸福を得る</Link>も参考になります)
+          (<Link to="/articles/value-from-being-useful" className={linkCls}>「役に立つこと」以外から幸福を得る</Link>も参考になります)
         </p>
       </div>
 

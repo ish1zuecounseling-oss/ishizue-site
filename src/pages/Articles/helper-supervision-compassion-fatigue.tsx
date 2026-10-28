@@ -149,7 +149,7 @@ export default function HelperSupervisionCompassionFatigue() {
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
-          <Link to="/articles/helper-cannot-seek" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/why-support-workers-cannot-ask-for-help" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援者なのに、誰にも相談できない
           </Link>
         </div>

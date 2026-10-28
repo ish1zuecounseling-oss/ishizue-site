@@ -35,7 +35,7 @@ const resultConfig = {
     links: [
       { href: "/articles/helper-stress-coping", text: "自分に合ったストレスコーピングを見つける" },
       { href: "/articles/helper-boundary", text: "境界線の引き方｜利用者を思いすぎていませんか" },
-      { href: "/articles/helper-rest-importance", text: "休むことの大切さ｜支援職のための休息の考え方" },
+      { href: "/articles/helper-rest-types", text: "休むことの大切さ｜支援職のための休息の考え方" },
     ],
     cta: null,
   },

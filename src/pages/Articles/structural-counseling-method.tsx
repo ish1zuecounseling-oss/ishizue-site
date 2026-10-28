@@ -231,7 +231,7 @@ export default function StructuralCounselingMethod() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           「どんな環境にいるか」「職業構造はどうか」を見る軸。
           例:「人手不足の職場」「『弱音を吐けない』文化」「家族からの期待」「経済的制約」など、個人を取り巻く構造を整理します。
-          これがいしずえカウンセリングの特徴で、特に<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職</Link>の方では、個人内の構造だけでなく職業構造まで含めて見ることで、初めて全体像が見えてきます。
+          これがいしずえカウンセリングの特徴で、特に<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職</Link>の方では、個人内の構造だけでなく職業構造まで含めて見ることで、初めて全体像が見えてきます。
         </p>
       </div>
 
@@ -466,7 +466,6 @@ export default function StructuralCounselingMethod() {
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">対人援助職の方に</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(回復ガイド)</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とは(総合解説)</Link></li>
         </ul>

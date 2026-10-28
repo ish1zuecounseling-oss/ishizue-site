@@ -73,7 +73,7 @@ const resultConfig = {
     message: "抑うつ症状が強く出ている可能性があります。一人で抱え続けるよりも、専門家のサポートを受けることを強く推奨します。心療内科・精神科の受診と並行して、カウンセリングで構造を整理していくことが、回復の現実的な経路になります。",
     nextLabel: "今、最も大切な情報",
     links: [
-      { href: "/articles/helper-burnout-recovery",       text: "バーンアウトからの回復" },
+      { href: "/articles/burnout-recovery-methods",       text: "バーンアウトからの回復" },
       { href: "/articles/helper-counseling-when-quitting", text: "辞めるか迷うときのカウンセリング" },
       { href: "/articles/why-self-care-doesnt-work",     text: "セルフケアが効かない理由" },
     ],

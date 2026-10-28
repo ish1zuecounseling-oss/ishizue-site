@@ -71,7 +71,7 @@ const resultConfig = {
     nextLabel: "6〜10項目の方に読んでほしい記事",
     links: [
       { href: "/articles/compassion-fatigue-complete",      text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
-      { href: "/articles/helper-burnout-signs",         text: "バーンアウトの前兆(サイン)とは｜気づきたい心と体の変化" },
+      { href: "/articles/burnout-early-signs",         text: "バーンアウトの前兆(サイン)とは｜気づきたい心と体の変化" },
       { href: "/articles/emotional-labor-what-pillar",  text: "感情労働とは?仕事で消耗する構造と回復の考え方" },
     ],
     cvBlock: {

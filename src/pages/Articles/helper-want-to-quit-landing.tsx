@@ -163,7 +163,7 @@ export default function HelperWantToQuitLanding() {
       {/* 分岐：まだ頑張れる / 整理が必要 */}
       <div className="my-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Link
-          to="/articles/helper-burnout-recovery"
+          to="/articles/burnout-recovery-methods"
           className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
         >
           <p className="text-[10px] tracking-[0.15em] uppercase font-medium mb-1" style={{ color: "#8FAF9F" }}>

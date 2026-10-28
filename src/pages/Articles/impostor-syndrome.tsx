@@ -148,7 +148,7 @@ export default function ImpostorSyndrome() {
         インポスター症候群を構造的に維持します。
       </p>
       <p className="text-sm text-stone-500">
-        今の状態を確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/impostor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群チェック（20項目）</Link>
+        今の状態を確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック</Link> ／ <Link to="/articles/impostor-check-20" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">インポスター症候群チェック（20項目）</Link>
       </p>
 
       <LineCtaImpostor />

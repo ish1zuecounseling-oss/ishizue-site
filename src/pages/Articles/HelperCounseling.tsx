@@ -52,7 +52,7 @@ export default function HelperCounseling() {
 
       <p>
         こうした状態を整理せずに続けてしまうと、
-        <Link to="/articles/helper-burnout" className="text-blue-600 underline mx-1">
+        <Link to="/articles/helper-burnout-pillar" className="text-blue-600 underline mx-1">
           バーンアウト
         </Link>
         につながることもあります。

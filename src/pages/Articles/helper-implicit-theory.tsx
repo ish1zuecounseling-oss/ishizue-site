@@ -114,7 +114,7 @@ export default function HelperImplicitTheory() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-self-blame" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → なぜ支援職は自分を責めやすいのか
           </Link>
           <Link to="/articles/helper-goal-adjustment" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">

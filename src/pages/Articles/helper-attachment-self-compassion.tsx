@@ -288,10 +288,10 @@ export default function HelperAttachmentSelfCompassion() {
           <Link to="/articles/helper-self-effacement-family" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 自分を後回しにしてしまう人の対処法｜家族関係と自己抑制の心理学
           </Link>
-          <Link to="/articles/helper-self-criticism-culture" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-self-blame" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 自分を責めるのをやめたいときの対処法｜自己批判の心理学
           </Link>
-          <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/self-compassion-complete" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学
           </Link>
         </div>
@@ -308,7 +308,7 @@ export default function HelperAttachmentSelfCompassion() {
       <ArticleBottomCTA
         links={[
           { label: "愛着スタイルをチェックする",       path: "/articles/helper-attachment-check" },
-          { label: "自己批判の対処法を見る",            path: "/articles/helper-self-criticism-culture" },
+          { label: "自己批判の対処法を見る",            path: "/articles/helper-self-blame" },
           { label: "今の消耗度をチェックする（3分）",   path: "/articles/helper-burnout-check" },
         ]}
       />

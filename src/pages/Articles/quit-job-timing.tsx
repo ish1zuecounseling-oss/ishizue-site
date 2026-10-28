@@ -74,7 +74,7 @@ export default function QuitJobTiming() {
         <ul className="text-sm text-stone-600 space-y-1">
           <li>・朝起きるのが明らかにつらい状態が続いている</li>
           <li>・仕事のことを考えると身体が重くなる</li>
-          <li>・<Link to="/articles/helper-mental-recovery" className="underline underline-offset-2">休んでも回復しない</Link></li>
+          <li>・<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2">休んでも回復しない</Link></li>
           <li>・<Link to="/articles/feeling-nothing" className="underline underline-offset-2">感情が鈍くなっている・何も感じない</Link></li>
           <li>・<Link to="/articles/cannot-sleep-thinking-work" className="underline underline-offset-2">眠れない・夢に仕事が出てくる</Link>状態が続く</li>
         </ul>
@@ -116,7 +116,7 @@ export default function QuitJobTiming() {
             <span>引き止められるのが怖い</span>
             <span className="text-stone-400 text-xs">→</span>
           </a>
-          <a href="/articles/quit-job-not-quit" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
+          <a href="/articles/helper-quit-timing-check" className="flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-stone-200 text-sm text-stone-700 hover:border-stone-300 transition-colors">
             <span>本当に辞めるべきか確かめたい</span>
             <span className="text-stone-400 text-xs">→</span>
           </a>
@@ -133,6 +133,32 @@ export default function QuitJobTiming() {
         <p><strong>① この状態があと3ヶ月続いたらどう感じるか</strong><br />「なんとかなりそう」か「もう無理」か——感覚として答えが出やすい問いです。</p>
         <p><strong>② 今の自分は回復方向に向かっているか</strong><br />「先週より今週の方が少し楽」なのか「じわじわ消耗が深まっている」のか——方向性を確認します。</p>
         <p><strong>③ 自分の感覚を無視していないか</strong><br />「身体は疲れているが頭で大丈夫と言い聞かせている」状態は危険なサインです。</p>
+      </div>
+
+      <h2>今は決めない方がいいとき・先に受診したいとき</h2>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">今は決めない方がいいとき</p>
+          <ul className="text-stone-600 space-y-1 leading-[1.9]">
+            <li>・<strong>判断力が落ちている</strong>:考えても答えが出ない、極端な結論に傾きやすい。まず回復を優先した方が後悔が少なくなります</li>
+            <li>・<strong>一時的な負荷が原因</strong>:繁忙期・人手不足・特定の人間関係など、状況が変われば軽くなる可能性がある。先に環境の調整を試す選択肢もあります</li>
+            <li>・<strong>「本当はどうしたいか」がわからない</strong>:何も感じない状態での決断は、回復後に違和感が出やすくなります</li>
+          </ul>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">辞めるかどうかより先に、医療機関へ</p>
+          <ul className="text-stone-600 space-y-1 leading-[1.9]">
+            <li>・睡眠・食事・日常生活に支障が出ている</li>
+            <li>・頭痛・胃痛・動悸などが慢性的に続いている</li>
+            <li>・休んでもまったく回復しない状態が数週間以上続いている</li>
+            <li>・職場に行くことへの強い恐怖が続いている</li>
+            <li>・「消えたい」「死にたい」という気持ちが出てきた</li>
+          </ul>
+          <p className="text-stone-600 leading-[1.9] mt-2">
+            これらが続くときは、退職の判断より受診を優先してください。気持ちを聞いてもらえる窓口もあります
+            (よりそいホットライン 0120-279-338/24時間・無料、いのちの電話 0570-783-556/10時〜22時)。
+          </p>
+        </div>
       </div>
 
       <h2>それでも決めきれないとき</h2>

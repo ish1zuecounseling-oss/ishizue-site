@@ -35,7 +35,7 @@ export default function HelperThinkingPatterns() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           なぜ止まらないのか、どう対処するかを詳しく読む：
         </p>
-        <Link to="/articles/helper-mind-wandering" className="text-sm text-[#7EB8A4] hover:underline">
+        <Link to="/articles/helper-rumination" className="text-sm text-[#7EB8A4] hover:underline">
           → 仕事のことが頭から離れないのはなぜ？｜マインドワンダリングと支援職の消耗
         </Link>
       </div>
@@ -51,7 +51,7 @@ export default function HelperThinkingPatterns() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           なぜ自己批判が止まらないのか、どう変えるかを詳しく読む：
         </p>
-        <Link to="/articles/helper-self-criticism-culture" className="text-sm text-[#7EB8A4] hover:underline">
+        <Link to="/articles/helper-self-blame" className="text-sm text-[#7EB8A4] hover:underline">
           → 自分を責めてしまうのが止まらない理由｜支援職の自己批判と文化的背景
         </Link>
       </div>
@@ -100,7 +100,7 @@ export default function HelperThinkingPatterns() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           なぜわかってもらえないのか、どう対処するかを詳しく読む：
         </p>
-        <Link to="/articles/helper-naive-realism-conflict" className="text-sm text-[#7EB8A4] hover:underline">
+        <Link to="/articles/naive-realism-what" className="text-sm text-[#7EB8A4] hover:underline">
           → 「なぜわかってくれないのか」が止まらない理由｜ナイーブ・リアリズムと職場の対立
         </Link>
       </div>
@@ -135,7 +135,7 @@ export default function HelperThinkingPatterns() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">心理学から読む｜関連記事</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-self-complexity" className="text-sm text-[#7EB8A4] hover:underline">
+          <Link to="/articles/self-complexity" className="text-sm text-[#7EB8A4] hover:underline">
             → 仕事だけの自分になると壊れやすい理由｜自己複雑性の心理学
           </Link>
           <Link to="/articles/helper-implicit-theory" className="text-sm text-[#7EB8A4] hover:underline">

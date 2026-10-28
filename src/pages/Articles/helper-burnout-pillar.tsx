@@ -89,6 +89,7 @@ export default function HelperBurnoutPillar() {
         <ul className="space-y-1 text-stone-600 list-none pl-0">
           <li>・バーンアウトとは何か(簡潔に)</li>
           <li>・支援職のバーンアウト<strong>3つの特徴</strong>(一般のバーンアウトとの違い)</li>
+          <li>・燃え尽き・共感疲労・うつの違いと、<strong>職種による違い</strong></li>
           <li>・バーンアウトの<strong>3段階</strong>(初期・中期・後期)と段階別対処法</li>
           <li>・「気合いで乗り切る」がなぜダメか</li>
           <li>・受診の目安・休職の判断軸</li>
@@ -154,6 +155,73 @@ export default function HelperBurnoutPillar() {
           「自分が辛い」と認めること自体が難しい——これが回復を遅らせる最大の要因の一つです。
         </p>
       </div>
+
+      <p>
+        もう一つ見落とされやすいのが<strong>役割との同一化</strong>です。
+        「支援者としての自分」が自分の全部になると、仕事でのつまずきが「自分全体の否定」として感じられます。
+        趣味や人間関係など、役割以外の自分が縮んでいくほど、消耗から立ち直る足場も小さくなります
+        (詳しくは<Link to="/articles/self-complexity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己複雑性</Link>)。
+      </p>
+
+      <h2>燃え尽き・共感疲労・うつの違い</h2>
+      <p>
+        支援職の消耗には、似ているけれど別の状態がいくつかあります。区別の目安です。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">燃え尽き(バーンアウト)</p>
+          <p className="text-stone-600 leading-[1.9]">長期的な仕事の過負荷が原因。情緒的消耗・脱人格化・達成感の低下が中心で、仕事を離れると少し楽になります。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">共感疲労</p>
+          <p className="text-stone-600 leading-[1.9]">他者の苦痛に共感し続けることが原因。利用者の場面が頭に浮かぶ・関わりを避けたくなる・気が張り続けるといった反応が特徴です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">うつ病</p>
+          <p className="text-stone-600 leading-[1.9]">症状が生活全般に及び、休日でも回復しにくい。強い落ち込み・興味の喪失・自責が中心です。</p>
+        </div>
+      </div>
+      <p>
+        この3つははっきり分かれるものではなく、<strong>続けて進むことがよくあります</strong>。
+        共感疲労が長引くと燃え尽きに、燃え尽きを放置するとうつ病に移ることがあるため、早めに気づくことが大切です。
+      </p>
+
+      <h2>職種によって違う燃え尽きのかたち</h2>
+      <p>
+        同じ支援職でも、燃え尽きの進み方には職種ごとの傾向があります。
+      </p>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">看護師</p>
+          <p className="text-stone-600 leading-[1.9]">交代勤務・人手不足・命の重さが重なり、身体と心の疲労が同時に、比較的急に進みやすい。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">介護職</p>
+          <p className="text-stone-600 leading-[1.9]">長い関係の積み重ね・看取りの繰り返し・社会的評価の低さが背景。じわじわ進み、本人が気づきにくい(<Link to="/articles/care-worker-compassion-fatigue" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">介護職の燃え尽きと共感疲労</Link>)。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">福祉職(社会福祉士・精神保健福祉士)</p>
+          <p className="text-stone-600 leading-[1.9]">「制度では救えない」場面に何度も向き合うことによる無力感が中心。支援の結果が見えにくいことも達成感を削ります。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">心理職</p>
+          <p className="text-stone-600 leading-[1.9]">トラウマを扱う場面が多く、二次受傷のリスクが高い。スーパービジョンが不足すると孤立しやすい。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">教員・保育士</p>
+          <p className="text-stone-600 leading-[1.9]">長時間労働・保護者対応・「子どものために」という規範が、自分のケアを後回しにさせる(<Link to="/articles/teacher-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">教員の燃え尽き</Link>)。</p>
+        </div>
+      </div>
+      <p>
+        職種による差の背景には、<strong>仕事の進め方を自分で決められるかどうか</strong>があります。
+        自分のペースや手順をコントロールしやすい職種ほど消耗がたまりにくく、
+        資格取得の難しさに比べて報酬や達成感、周囲の支えが少ない職種ほど燃え尽きやすい傾向が報告されています。
+        燃え尽きが性格や情熱の問題ではなく、<strong>仕事の構造</strong>に左右されることがわかります。
+      </p>
+
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:井川純一・中西大輔・志和資朗(2013)「バーンアウト傾向の職種比較——仕事への情熱に着目して——」心理学研究，84(4), 386-395
+      </p>
 
       <h2>バーンアウトの3段階——今、自分はどこにいるか</h2>
       <p>
@@ -414,7 +482,7 @@ export default function HelperBurnoutPillar() {
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">概念を深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
+          <li>・<Link to="/articles/burnout-syndrome-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群とは(総合解説)</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とは(総合解説)</Link></li>
           <li>・<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働とは</Link></li>
         </ul>

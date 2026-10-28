@@ -76,6 +76,20 @@ export default function TooConsiderate() {
         自己機能の状態を確認→ <Link to="/articles/self-function-decline" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能が低下するとどうなるか</Link>
       </p>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">こんな感覚はありませんか?</p>
+        <ul className="space-y-1.5 text-sm text-stone-600 leading-[1.9]">
+          <li>・気を遣っていない時間がほとんどない</li>
+          <li>・「楽に話せる人」がほとんどいない</li>
+          <li>・疲れているのに「大丈夫」と答えてしまう</li>
+        </ul>
+        <p className="text-sm text-stone-600 leading-[1.9] mt-2">
+          2つ以上当てはまるなら、消耗が進んでいるかもしれません。
+          特に対人援助の仕事では「相手の感情に合わせること」自体が業務の一部なので、
+          長く続くとオフの時間でも気を遣うモードが切れなくなります(<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>)。
+        </p>
+      </div>
+
       <LineCtaImpostor />
 
       <h2>「気を遣いすぎる」から回復するために</h2>

@@ -253,7 +253,7 @@ export default function ThinkerDostoevskyActiveLove() {
           <li>・<Link to="/articles/messiah-complex" className={linkCls}>メサイア症候群(救世主症候群)とは</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className={linkCls}>共感疲労(コンパッション・ファティーグ)の全体像</Link></li>
           <li>・<Link to="/articles/self-value-unknown" className={linkCls}>自分の価値がわからない(条件つき自己価値)</Link></li>
-          <li>・<Link to="/articles/helper-wellbeing-not-from-contribution" className={linkCls}>「役に立つこと」以外から幸福を得る</Link></li>
+          <li>・<Link to="/articles/value-from-being-useful" className={linkCls}>「役に立つこと」以外から幸福を得る</Link></li>
         </ul>
         <p className="text-xs text-stone-400 pt-2">
           「偉人・学者から学ぶ」シリーズは、<Link to="/articles" className={linkCls}>心理記事一覧</Link>の「知る・理解する」→「偉人・学者から」にまとめています。

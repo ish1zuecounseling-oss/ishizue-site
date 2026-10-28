@@ -108,6 +108,46 @@ export default function WhySupportWorkersCannotAskForHelp() {
         <p>・1回だけ試すことも選択肢として持っていい</p>
       </div>
 
+      <h2>職場の同僚に相談できないとき</h2>
+      <p>
+        上の5つに加えて、同じ職場の同僚には特に話しにくくなる事情があります。
+        新人・若手・異動直後など評価される立場では、相談すること自体が「評価を下げる行為」に感じられます。
+        人の状態を読むのが得意な人ほど「みんな忙しい」「自分の相談で負担を増やす」と判断して引っ込めます。
+        過去に相談しても変わらなかった、否定された経験があれば、「話しても無駄」と学習してしまいます。
+      </p>
+      <p>
+        けれど話さないままでいると、同じ場面が頭の中で繰り返され、眠れない・休めない状態に進みやすくなります。
+        周りに人がいるのに「誰にもわかってもらえない」という孤立感も強まります。
+      </p>
+
+      <h2>「相談する」の前にできる整理</h2>
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">① 何が話せないのかを言葉にする</p>
+          <p className="text-stone-600 leading-[1.9]">困りごとが話せないのか、弱音が吐けないのか、悩みを共有できないのか。中身がわかると、話せる相手も見えてきます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">② 「この人なら少し話せる」を1人だけ探す</p>
+          <p className="text-stone-600 leading-[1.9]">全員に同じように話せる必要はありません。他部署の先輩や元同僚など、職場の外まで広げて考えてみてください。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">③ 全部話す/話さない、の二択にしない</p>
+          <p className="text-stone-600 leading-[1.9]">「最近ちょっとしんどくて」だけでも十分です。小さく話すと、話せる範囲が少しずつ広がります。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">④ まとめてから話そうとしない</p>
+          <p className="text-stone-600 leading-[1.9]">「何がしんどいのかもよくわからないんですけど」という切り出し方が、実はいちばん伝わります。うまく話せない状態のまま持ち込んでかまいません。</p>
+        </div>
+      </div>
+
+      <h2>職場の外に「話せる場」を持つ</h2>
+      <p>
+        職場の中で話せないなら、外に話せる場を持つのが現実的です。
+        利害関係がないので評価や噂を気にせずに話せ、スーパービジョン・カウンセリング・EAP(従業員支援プログラム)など守秘義務のある場なら、
+        利用者の具体的な情報に触れなくても「消耗している自分の状態」を話せます。
+        安全な場で相談する体験を持つと、職場の中でも少しずつ話せるようになっていきます。
+      </p>
+
       <h2>よくある質問</h2>
       <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (

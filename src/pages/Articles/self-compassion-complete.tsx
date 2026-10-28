@@ -189,6 +189,49 @@ export default function SelfCompassionComplete() {
         </p>
       </div>
 
+      <h2>国内の研究からわかること</h2>
+      <p>
+        支援職を対象にした国内の研究でも、セルフコンパッションと消耗の関係が繰り返し確かめられています。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">若手のリハビリ職:燃え尽きの3側面すべてと関連</p>
+          <p className="text-stone-600 leading-[1.9]">
+            水野ら(2021)は、臨床経験5年以内の理学療法士・作業療法士187名を調べ、セルフコンパッションが高いほど
+            情緒的消耗感・脱人格化・達成感の低下の<strong>すべてが低い</strong>ことを示しました。
+            同じ仕事でもストレスを脅威として受け取りにくくなる、という間接的な効果も確認されています。
+            また職場の支えでは、上司のサポートが脱人格化を、同僚のサポートが達成感の低下を防ぐ方向に働いていました。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">看護師:経験年数に関係なく効いている</p>
+          <p className="text-stone-600 leading-[1.9]">
+            八木原ら(2025)は、急性期病院の病棟看護師575名を調べました。精神的な不調に影響するストレスは、
+            5年目以下では「患者の死との向かい合い」、6年目以上では「仕事の量」と、経験年数で違っていました。
+            一方でセルフコンパッションの低さは、<strong>どちらの群でも</strong>不調と関連していました。
+          </p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">すぐに「楽になる」ものではない</p>
+          <p className="text-stone-600 leading-[1.9]">
+            内田ら(2020)は、日常のストレス場面でセルフコンパッション行動をとった直後の変化を2週間記録しました。
+            1時間以内に<strong>落ち着きが増え、自己批判が減る</strong>一方、幸せな気分や充実感はほとんど上がりませんでした。
+            「やっても効かない気がする」のはこのためで、変化は静かに起きています。
+          </p>
+        </div>
+      </div>
+
+      <p>
+        ここから言えるのは、セルフコンパッションは「優しい気持ちになれるかどうか」ではなく、
+        <strong>気分が伴わなくても、自分をなだめる・いたわる・苦痛を和らげる行動をとること</strong>だということです。
+        感じられない日があっても、行動を重ねることで少しずつ変化は起きます。
+      </p>
+
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:水野雅之・菅原大地・谷秀次郎・吹谷和代・佐藤純(2021)「若手の理学療法士・作業療法士のバーンアウト傾向とセルフ・コンパッションの関連」心理学研究，92(3), 197-203 ／ 八木原ひなた・近藤浩子・中村美香(2025)「セルフコンパッションおよびアサーティブネスによる精神的不健康の軽減：年代別の看護師の仕事ストレッサーに対して」保健学研究，75, 145-152 ／ 内田太朗・髙橋徹・仁田雄介・熊野宏昭(2020)「日常生活場面におけるセルフコンパッション行動の測定法の開発」行動医学研究，25(1), 24-34
+      </p>
+
       <LineCtaCompassion />
 
       <h2>関連する心理学概念</h2>
@@ -213,7 +256,7 @@ export default function SelfCompassionComplete() {
         <p className="text-sm font-medium text-stone-700 mb-2">③ 自己批判(Self-Criticism)</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
           セルフコンパッションの対極にある状態。自分を批判・非難する思考パターンで、抑うつ・不安と強く関連します。
-          <Link to="/articles/self-blame-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自責感</Link>と密接に関連します。
+          <Link to="/articles/helper-self-blame" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自責感</Link>と密接に関連します。
         </p>
       </div>
 
@@ -309,11 +352,8 @@ export default function SelfCompassionComplete() {
         <p className="font-medium text-stone-700 mb-2">「セルフコンパッション」テーマの個別記事</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/helper-self-compassion-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">セルフコンパッション反応チェック</Link></li>
-          <li>・<Link to="/articles/helper-self-compassion-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">セルフコンパッションとバーンアウト</Link></li>
           <li>・<Link to="/articles/helper-self-compassion-resistance" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">セルフコンパッションへの抵抗</Link></li>
-          <li>・<Link to="/articles/helper-self-compassion-behavior" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">セルフコンパッションと行動の変化</Link></li>
           <li>・<Link to="/articles/helper-msc-program" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">MSCプログラム</Link></li>
-          <li>・<Link to="/articles/helper-nurse-self-compassion" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">看護師のセルフコンパッション</Link></li>
           <li>・<Link to="/articles/helper-attachment-self-compassion" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">愛着とセルフコンパッション</Link></li>
         </ul>
       </div>

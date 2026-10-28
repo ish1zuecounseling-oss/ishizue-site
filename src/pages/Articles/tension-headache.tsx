@@ -211,7 +211,7 @@ export default function TensionHeadache() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           理不尽な場面でも笑顔を保ち、怒りや不安を表に出さない。感情を抑え込む働き方は、
           そのぶん体のこわばりとして残りやすくなります
-          (<Link to="/articles/suppressing-emotions-at-work" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link>)。
+          (<Link to="/articles/emotional-labor-what-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">仕事で感情を抑え続ける心理</Link>)。
         </p>
       </div>
       <div className="card">

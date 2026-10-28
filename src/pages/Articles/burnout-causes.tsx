@@ -391,11 +391,9 @@ export default function BurnoutCauses() {
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/helper-burnout-pillar" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職のバーンアウト(回復ガイド)</Link></li>
           <li>・<Link to="/articles/burnout-early-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の初期症状・前兆</Link></li>
-          <li>・<Link to="/articles/burnout-four-stages" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の4段階</Link></li>
           <li>・<Link to="/articles/burnout-recovery-period" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群はどれくらいで治る?</Link></li>
           <li>・<Link to="/articles/burnout-recovery-methods" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群の回復方法</Link></li>
           <li>・<Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き症候群が治らない</Link></li>
-          <li>・<Link to="/articles/human-service-burnout" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">対人援助職の燃え尽き(総合解説)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">構造を深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">

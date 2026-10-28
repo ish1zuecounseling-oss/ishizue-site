@@ -225,7 +225,7 @@ export default function HelperMscProgram() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           「なだめる・いたわる・苦痛を緩和しようとする」の3行動を日常で実践することが、MSCの入口になります。
         </p>
-        <p className="text-xs text-stone-500 mt-2">→ <Link to="/articles/helper-self-compassion-behavior" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">日常でできる4つのセルフ・コンパッション行動</Link></p>
+        <p className="text-xs text-stone-500 mt-2">→ <Link to="/articles/self-compassion-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">日常でできる4つのセルフ・コンパッション行動</Link></p>
       </div>
 
       <div className="card">
@@ -317,14 +317,11 @@ export default function HelperMscProgram() {
           <Link to="/articles/helper-self-compassion-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → セルフ・コンパッション反応チェック｜8場面で今の状態を確認する
           </Link>
-          <Link to="/articles/helper-self-compassion-behavior" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 「効いている気がしない」理由｜行動として続けるためのポイント
+          <Link to="/articles/self-compassion-complete" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → セルフ・コンパッションとは｜「効いている気がしない」理由と研究
           </Link>
           <Link to="/articles/helper-self-compassion-resistance" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 「自分に優しくする」のが怖い理由｜コンパッションへの抵抗感の正体
-          </Link>
-          <Link to="/articles/helper-self-compassion-burnout" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 支援職のバーンアウトは自己批判で悪化する｜セルフ・コンパッションの心理学
           </Link>
         </div>
       </div>
@@ -340,7 +337,7 @@ export default function HelperMscProgram() {
       <ArticleBottomCTA
         links={[
           { label: "セルフ・コンパッションチェック（8場面）", path: "/articles/helper-self-compassion-check" },
-          { label: "行動として続ける方法を知る",              path: "/articles/helper-self-compassion-behavior" },
+          { label: "行動として続ける方法を知る",              path: "/articles/self-compassion-complete" },
           { label: "今の消耗度をチェックする（3分）",          path: "/articles/helper-burnout-check" },
         ]}
       />

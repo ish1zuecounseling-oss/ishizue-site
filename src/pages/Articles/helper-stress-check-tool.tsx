@@ -86,7 +86,7 @@ const resultConfig = {
     message: "ストレス反応が複数領域に出始めている可能性があります。「まだ大丈夫」と感じていても、ここで止められるかどうかが分岐点です。一人で抱え込まず、整理する場を持つことを検討してください。",
     nextLabel: "この段階で読みたい記事",
     links: [
-      { href: "/articles/helper-burnout-signs",   text: "バーンアウトの前兆" },
+      { href: "/articles/burnout-early-signs",   text: "バーンアウトの前兆" },
       { href: "/articles/helper-signs-to-rest",   text: "休むサイン" },
       { href: "/articles/helper-empathy-check",   text: "共感疲労チェック" },
     ],
@@ -104,7 +104,7 @@ const resultConfig = {
     message: "支援職としての消耗が深い段階に入っている可能性があります。一人で抱え続けるよりも、外から整理する場を持つことを強く推奨します。心療内科への受診も視野に入れつつ、構造の整理についてはお手伝いできます。",
     nextLabel: "今、優先的に読みたい記事",
     links: [
-      { href: "/articles/helper-burnout-recovery",      text: "バーンアウトからの回復" },
+      { href: "/articles/burnout-recovery-methods",      text: "バーンアウトからの回復" },
       { href: "/articles/helper-depression-check",      text: "支援職うつチェック" },
       { href: "/articles/why-self-care-doesnt-work",    text: "セルフケアが効かない理由" },
     ],

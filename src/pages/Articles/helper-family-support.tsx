@@ -242,7 +242,7 @@ export default function HelperFamilySupport() {
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）——まずはここから</Link></li>
           <li>・<Link to="/articles/helper-cannot-rest-on-days-off" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休みの日も休まらない——仕事が頭から離れない原因</Link></li>
-          <li>・<Link to="/articles/emotion-flooding" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情に飲まれやすい支援者へ</Link></li>
+          <li>・<Link to="/articles/helper-empathy-overload" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情に飲まれやすい支援者へ</Link></li>
           <li>・<Link to="/articles/burnout-early-signs" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽きの初期サイン</Link></li>
           <li>・<Link to="/articles/compassion-fatigue-complete" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労とは（総合解説）</Link></li>
         </ul>

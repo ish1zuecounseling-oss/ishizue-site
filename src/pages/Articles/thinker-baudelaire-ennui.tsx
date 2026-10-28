@@ -228,7 +228,7 @@ export default function ThinkerBaudelaireEnnui() {
           <li>・<Link to="/articles/existential-emptiness" className={linkCls}>空虚感とは</Link></li>
           <li>・<Link to="/articles/feeling-nothing" className={linkCls}>何も感じない</Link></li>
           <li>・<Link to="/articles/helper-cannot-rest-on-days-off" className={linkCls}>支援職は休みの日も休まらない</Link></li>
-          <li>・<Link to="/articles/helper-wellbeing-not-from-contribution" className={linkCls}>「役に立つこと」以外から幸福を得る</Link></li>
+          <li>・<Link to="/articles/value-from-being-useful" className={linkCls}>「役に立つこと」以外から幸福を得る</Link></li>
           <li>・<Link to="/articles/thinker-rogers-conditions-of-worth" className={linkCls}>「役に立つ自分」にしか価値を感じられない理由(ロジャーズから読む)</Link></li>
         </ul>
         <p className="text-xs text-stone-400 pt-2">

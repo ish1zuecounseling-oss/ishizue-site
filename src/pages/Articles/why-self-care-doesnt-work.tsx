@@ -83,7 +83,7 @@ export default function WhySelfCareDoesntWork() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           感情的消耗には「感情を管理しない時間」、精神的消耗には「入力刺激を減らすこと」、
           社会的消耗には「一人でいる時間」が有効です。
-          <Link to="/articles/helper-mental-recovery" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>で詳しく解説しています。
+          <Link to="/articles/burnout-not-recovering" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休んでも回復しない理由</Link>で詳しく解説しています。
         </p>
       </div>
 

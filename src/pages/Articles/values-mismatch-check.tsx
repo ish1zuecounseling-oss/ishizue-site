@@ -467,7 +467,7 @@ export default function ValuesMismatchCheck() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           支援職は<strong>道具主義的な評価軸</strong>(「役に立ったか」「成果が出たか」)に晒されやすい職業です。
           一方で、本来は<strong>本質主義的な姿勢</strong>(利用者の存在そのものを尊重する)を求められます。
-          このずれが「役に立てない自分には価値がない」という<Link to="/articles/self-blame-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自責感</Link>を生むことがあります。
+          このずれが「役に立てない自分には価値がない」という<Link to="/articles/helper-self-blame" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自責感</Link>を生むことがあります。
         </p>
       </div>
 

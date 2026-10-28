@@ -176,7 +176,7 @@ export default function HelperSelfBlameLanding() {
         </Link>
 
         <Link
-          to="/articles/helper-self-compassion-behavior"
+          to="/articles/self-compassion-complete"
           className="block p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-white hover:shadow-sm transition-all"
         >
           <p className="text-xs font-medium mb-1" style={{ color: "#8FAF9F" }}>もう少し知りたい方へ</p>

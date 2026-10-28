@@ -206,7 +206,7 @@ export default function MessiahComplex() {
           「誰の役にも立っていない時間」を、意識的に持ってみてください。
           最初は落ち着かないはずです。それがこの構造の根の深さです。
           役割と関係なく、<Link to="/articles/what-do-i-want" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分は何をしたいのか</Link>を少しずつ取り戻すこと——
-          <Link to="/articles/helper-wellbeing-not-from-contribution" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">貢献以外から幸福を得る</Link>練習が、構造をゆっくり組み替えます。
+          <Link to="/articles/value-from-being-useful" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">貢献以外から幸福を得る</Link>練習が、構造をゆっくり組み替えます。
         </p>
       </div>
 
@@ -246,7 +246,7 @@ export default function MessiahComplex() {
         <p className="font-medium text-stone-700 mb-2">この構造を深く理解する</p>
         <ul className="space-y-1.5 text-stone-600">
           <li>・<Link to="/articles/self-value-unknown" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自分の価値がわからない（条件つき自己価値・根っこ）</Link></li>
-          <li>・<Link to="/articles/helper-wellbeing-not-from-contribution" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「役に立つこと」以外から幸福を得る</Link></li>
+          <li>・<Link to="/articles/value-from-being-useful" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「役に立つこと」以外から幸福を得る</Link></li>
           <li>・<Link to="/articles/helper-self-effacement-family" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">家族の中で自分を消してきた支援職</Link></li>
           <li>・<Link to="/articles/other-centered-living" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">他人軸で生きてしまう理由</Link></li>
           <li>・<Link to="/articles/helper-carrying-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を抱え込んでしまう</Link></li>

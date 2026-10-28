@@ -175,6 +175,16 @@ export default function OtherCenteredLiving() {
         </p>
       </div>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">④ 期待に応えない小さな場面で、何が起きるかを見る</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          期待に応えることで居場所を守ってきた人は、「応えなかったら関係が壊れる」と予測しています。
+          頼まれごとを一つだけ翌日に回す、会議で一度だけ「少し考えさせてください」と言う——
+          そんな小さな場面を作り、<strong>予測と実際に起きたことの差</strong>を確かめます。
+          多くの場合、恐れていたほどのことは起きません。その体験の積み重ねが、「期待に応えないと価値がない」という前提をゆるめていきます。
+        </p>
+      </div>
+
       <h2>よくある質問</h2>
       <div className="space-y-4">
         {FAQ_ITEMS.map((item, i) => (

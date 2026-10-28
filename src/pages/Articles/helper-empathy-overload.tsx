@@ -50,6 +50,19 @@ export default function HelperEmpathyFatigue() {
         これが「共感しすぎて疲れる」の正体です。
       </p>
 
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">相手の感情は「勝手に移ってくる」——情動感染</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          相手の感情が、意識する前に自分にも移ってくる現象を、心理学では<strong>情動感染</strong>と呼びます(Hatfield・Cacioppo・Rapson らが体系化)。
+          相手の表情や声のトーンを無意識に真似る → その表情や姿勢が自分の感情に影響する → 相手と似た感情状態になる、という流れで、瞬時に起こります。
+        </p>
+        <p className="text-sm text-stone-600 leading-[1.9] mt-2">
+          感じ取る力が高い人ほど、相手の感情と自分の感情の境目が薄くなりやすく、
+          相手の不安や苦しみを「受け取る」だけでなく「自分のものとして抱えてしまう」ことが起こります。
+          「気にしすぎ」なのではなく、仕組みとしてそうなっているのです。
+        </p>
+      </div>
+
       <h2>HSP（繊細さん）との違い</h2>
       <div className="card">
         <div className="space-y-3 text-sm">
@@ -162,6 +175,15 @@ export default function HelperEmpathyFatigue() {
           仕事中は常に感情を管理しています。
           仕事を離れたら「感情を管理しなくていい時間・場所」を意識的に作ることが、
           感情的エネルギーの回復を助けます。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">⑤ 「これは相手の感情」と心の中で分ける</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          気持ちが重くなったとき、「これは自分の落ち込みか、相手の感情を受け取ったのか」と問い直します。
+          そのうえで「今感じている重さは相手のもの」と心の中でラベルを貼ります。
+          感じないようにするのではなく、<strong>自分の感情と相手の感情を分ける</strong>練習です。気づくだけでも、飲まれる勢いは少し弱まります。
         </p>
       </div>
 

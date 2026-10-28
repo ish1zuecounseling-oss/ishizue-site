@@ -101,6 +101,35 @@ export default function CareWorkerCompassionFatigue() {
         今の状態を確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目・3分）</Link>
       </p>
 
+      <h2>現場で起こりやすい変化——「冷たくなった」のではない</h2>
+      <p>
+        共感疲労や燃え尽きは、介護の現場では次のような形で表れやすくなります。どれも性格が変わったのではなく、<strong>消耗のサイン</strong>です。
+      </p>
+
+      <div className="card space-y-3 text-sm">
+        <div>
+          <p className="font-medium text-stone-700 mb-1">業務をこなすだけになっている</p>
+          <p className="text-stone-600 leading-[1.9]">以前は一人ひとりに丁寧に関われていたのに、最近は作業として回すことが優先になっている。感情のエネルギーが尽きてきたときに出る反応です。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">利用者の悪化を「自分のせい」と感じる</p>
+          <p className="text-stone-600 leading-[1.9]">体調の悪化や認知症の進行に「もっとできたのでは」と強く自分を責める。利用者の状態は一人の介護職がコントロールできるものではありません。引き受けすぎは、<Link to="/articles/boundary-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>が薄くなっているサインです。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">看取りのあと、悲しむ時間がない</p>
+          <p className="text-stone-600 leading-[1.9]">長く関わった利用者を見送っても、「プロだから切り替えるべき」という空気の中で十分に悲しめないまま次の業務に戻る。処理されない悲しみは、心の疲れとして静かにたまっていきます。</p>
+        </div>
+        <div className="border-t border-stone-100 pt-3">
+          <p className="font-medium text-stone-700 mb-1">「辞めたい」のに動けない</p>
+          <p className="text-stone-600 leading-[1.9]">毎日辞めたいと思うのに、「利用者に申し訳ない」「人手が足りなくなる」という罪悪感で一歩が出ない。この板挟みが続くこと自体が、消耗を深めます。</p>
+        </div>
+      </div>
+
+      <p>
+        介護の現場には「この仕事はきついのだから、この程度の疲れは当然」という空気があり、自分の消耗を軽く見積もりやすくなります。
+        「みんな同じだから」は、助けを求めない理由にはなりません。
+      </p>
+
       <LineCtaSmall />
 
       <h2>「辞めたい」と感じたとき——まず整理すること</h2>
@@ -194,7 +223,7 @@ export default function CareWorkerCompassionFatigue() {
           <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労の対処法7つ
           </Link>
-          <Link to="/articles/compassion-fatigue-recovery-period" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+          <Link to="/articles/compassion-fatigue-coping" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
             → 共感疲労は自然に治るのか
           </Link>
         </div>

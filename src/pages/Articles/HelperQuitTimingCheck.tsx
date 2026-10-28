@@ -33,7 +33,7 @@ const resultConfig = {
       "「辞めたい」という気持ちはあるものの、今すぐ決断を急ぐ状況ではない可能性があります。まずは今感じている不満や疲れの原因を整理してみましょう。",
     links: [
       { href: "/articles/helper-career-burnout", text: "辞めたい・続けるか悩む｜支援職のキャリア判断の前に" },
-      { href: "/articles/helper-burnout", text: "バーンアウトとは｜支援職に起こる燃え尽きの正体" },
+      { href: "/articles/helper-burnout-pillar", text: "バーンアウトとは｜支援職に起こる燃え尽きの正体" },
       { href: "/articles/helper-stress-coping", text: "自分に合ったストレスコーピングを見つける" },
     ],
     cta: null,
@@ -57,7 +57,7 @@ const resultConfig = {
       "多くの限界サインが出ています。「利用者に申し訳ない」「迷惑をかけたくない」という気持ちは理解できますが、今一番大切にすべきはあなた自身の心と体です。一人で抱え込まず、まず誰かに話してみましょう。",
     links: [
       { href: "/articles/helper-quit-guilt", text: "支援職を辞めることへの罪悪感｜手放すための心理整理" },
-      { href: "/articles/helper-burnout-recovery", text: "バーンアウトから回復するには" },
+      { href: "/articles/burnout-recovery-methods", text: "バーンアウトから回復するには" },
       { href: "/articles/helper-counseling-resistance", text: "カウンセリングへの抵抗感｜受けていいか迷う人へ" },
     ],
     cta: {
