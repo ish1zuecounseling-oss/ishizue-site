@@ -16,6 +16,45 @@ const BG = "#F7F3EA"
 const TARGET_USERS = 1500
 const TARGET_LINE = 35
 const TARGET_CHECK_RATE = 0.05
+const TARGET_REACH = 80
+const TARGET_REACH_GAIN = 12
+const TARGET_IG_PER_WEEK = 3
+const TARGET_IG_WEEKS = 8
+const TARGET_IG_LINE = 5
+const TARGET_WAITING = 3
+const CHECKLIST: [string, string][] = [
+  ["fee", "料金・初回の扱い"],
+  ["booking", "予約と決済の流れ"],
+  ["terms", "利用規約・キャンセルポリシー"],
+  ["online", "オンライン面談環境"],
+  ["records", "記録様式"],
+  ["emergency", "緊急時対応フロー"],
+]
+
+/** 日本時間の今日を基準に、n週前の月曜日(YYYY-MM-DD) */
+function mondayOf(weeksBack: number): string {
+  const now = new Date(Date.now() + 9 * 3600_000)
+  const dow = (now.getUTCDay() + 6) % 7 // 月曜=0
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - dow - weeksBack * 7))
+  return d.toISOString().slice(0, 10)
+}
+/** 日本時間で n か月前の yyyyMM */
+function monthKey(monthsBack: number): string {
+  const now = new Date(Date.now() + 9 * 3600_000)
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - monthsBack, 1))
+  return d.toISOString().slice(0, 7).replace("-", "")
+}
+/** Instagram:週3回以上の週が何週続いているか(今週は達成していれば数える) */
+function igStreak(posts: Record<string, number>): number {
+  let n = 0
+  for (let w = 0; w < 60; w++) {
+    const v = posts[mondayOf(w)] ?? 0
+    if (v >= TARGET_IG_PER_WEEK) n++
+    else if (w === 0) continue // 今週はまだ途中
+    else break
+  }
+  return n
+}
 
 type Month = {
   month: string; users: number; newUsers: number; pageViews: number
@@ -32,7 +71,14 @@ type ApiResult = {
   days: number; fetchedAt: string; months: Month[]; articles: ApiArticle[]
   gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number } }
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
+  line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }
+  manual?: { ok: boolean; message?: string; data?: Manual }
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
+}
+type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
+type Manual = {
+  igPosts?: Record<string, number>; igLineAdds?: Record<string, number>
+  checklist?: Record<string, boolean>; waiting?: number; note?: string; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
 type Tab = "launch" | "todo" | "articles" | "search"
@@ -273,6 +319,117 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
   )
 }
 
+
+/* ------------------------------ 手入力の項目 ------------------------------ */
+
+function ManualEditor({ manual, adminKey, onSaved }: {
+  manual?: { ok: boolean; message?: string; data?: Manual }
+  adminKey: string
+  onSaved: (m: Manual) => void
+}) {
+  const [draft, setDraft] = useState<Manual>(manual?.data ?? {})
+  const [status, setStatus] = useState("")
+  const [open, setOpen] = useState(false)
+  useEffect(() => { setDraft(manual?.data ?? {}) }, [manual?.data])
+
+  if (!manual?.ok) {
+    return (
+      <p className="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+        手入力項目の保存先が未接続です(Vercel の Storage で Upstash Redis をこのプロジェクトにつなぐと使えます)。{manual?.message ? `(${manual.message})` : ""}
+      </p>
+    )
+  }
+
+  const weeks = Array.from({ length: 9 }, (_, i) => mondayOf(i))
+  const months = [0, 1, 2, 3].map(monthKey)
+  const setNum = (field: "igPosts" | "igLineAdds", k: string, v: string) =>
+    setDraft((d) => ({ ...d, [field]: { ...(d[field] ?? {}), [k]: Math.max(0, Number(v) || 0) } }))
+  const inputCls = "w-16 px-2 py-1 rounded-lg border border-stone-300 text-right text-sm bg-white"
+
+  const save = async () => {
+    setStatus("保存中…")
+    try {
+      const r = await fetch("/api/ops-dashboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ manual: draft }),
+      })
+      const b = await r.json()
+      if (!r.ok || !b.ok) throw new Error(b.message ?? `エラー(${r.status})`)
+      onSaved(b.data as Manual)
+      setStatus("保存しました")
+    } catch (e) {
+      setStatus(e instanceof Error ? `保存できませんでした:${e.message}` : "保存できませんでした")
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-xl border border-stone-200">
+      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-3 py-2.5 text-left">
+        <span className="text-xs font-medium text-stone-700">手入力の項目を更新する(6〜9)</span>
+        <span className="text-[11px]" style={{ color: SAGE }}>{open ? "閉じる" : "開く"}</span>
+      </button>
+      {open && (
+        <div className="px-3 pb-3 space-y-4 border-t border-stone-100 pt-3">
+          <div>
+            <p className="text-[11px] text-stone-500 mb-1.5">6. Instagramの投稿回数(週ごと・月曜はじまり)</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1.5">
+              {weeks.map((w, i) => (
+                <label key={w} className="flex items-center justify-between gap-2 text-[12px] text-stone-600">
+                  <span>{Number(w.slice(5, 7))}/{Number(w.slice(8))}〜{i === 0 ? "(今週)" : ""}</span>
+                  <input type="number" inputMode="numeric" min={0} className={inputCls}
+                    value={draft.igPosts?.[w] ?? ""} onChange={(e) => setNum("igPosts", w, e.target.value)} />
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-[11px] text-stone-500 mb-1.5">7. Instagram経由のLINE登録(月ごと・LINE公式アカウントの「友だち追加経路」で確認)</p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+              {months.map((m, i) => (
+                <label key={m} className="flex items-center justify-between gap-2 text-[12px] text-stone-600">
+                  <span>{monthLabel(m)}{i === 0 ? "(今月)" : ""}</span>
+                  <input type="number" inputMode="numeric" min={0} className={inputCls}
+                    value={draft.igLineAdds?.[m] ?? ""} onChange={(e) => setNum("igLineAdds", m, e.target.value)} />
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-[11px] text-stone-500 mb-1.5">8. 受け皿チェックリスト</p>
+            <div className="space-y-1">
+              {CHECKLIST.map(([k, l]) => (
+                <label key={k} className="flex items-center gap-2 text-[12px] text-stone-700">
+                  <input type="checkbox" checked={!!draft.checklist?.[k]}
+                    onChange={(e) => setDraft((d) => ({ ...d, checklist: { ...(d.checklist ?? {}), [k]: e.target.checked } }))} />
+                  {l}
+                </label>
+              ))}
+            </div>
+          </div>
+          <label className="flex items-center justify-between gap-2 text-[12px] text-stone-600">
+            <span className="text-[11px] text-stone-500">9. 開業待ちの人(LINEアンケートの回答数)</span>
+            <input type="number" inputMode="numeric" min={0} className={inputCls}
+              value={draft.waiting ?? ""} onChange={(e) => setDraft((d) => ({ ...d, waiting: Math.max(0, Number(e.target.value) || 0) }))} />
+          </label>
+          <div>
+            <p className="text-[11px] text-stone-500 mb-1">メモ</p>
+            <textarea rows={2} maxLength={500} className="w-full px-2 py-1.5 rounded-lg border border-stone-300 text-[12px] bg-white"
+              value={draft.note ?? ""} onChange={(e) => setDraft((d) => ({ ...d, note: e.target.value }))} />
+          </div>
+          <div className="flex items-center gap-3">
+            <button onClick={save} className="px-4 py-2 rounded-full text-xs text-white" style={{ background: SAGE }}>保存する</button>
+            <span className="text-[11px] text-stone-500">{status}</span>
+          </div>
+          {manual.data?.updatedAt && (
+            <p className="text-[10px] text-stone-400">最終更新:{new Date(manual.data.updatedAt).toLocaleString("ja-JP")}</p>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -356,6 +513,32 @@ export default function OpsDashboard() {
   const checkRate = (mo?: Month) => (mo && mo.checkCompleteUsers ? mo.lineFromCheckUsers / mo.checkCompleteUsers : 0)
   const dayOfMonth = Number(new Date(Date.now() + 9 * 3600_000).toISOString().slice(8, 10))
 
+  /* ---- 4〜9(LINE・手入力) ---- */
+  const lineLatest = data?.line?.latest ?? null
+  const reachAt = (ym: string) => data?.line?.monthEnds?.find((x) => x.month === ym)?.targetedReaches
+  const endLast = reachAt(monthKey(1)), endPrev = reachAt(monthKey(2))
+  const reachGainLast = endLast !== undefined && endPrev !== undefined ? endLast - endPrev : null
+  const reachGainCur = lineLatest && endLast !== undefined ? lineLatest.targetedReaches - endLast : null
+  const manualOk = !!data?.manual?.ok
+  const manualData: Manual = data?.manual?.data ?? {}
+  const igPosts = manualData.igPosts ?? {}
+  const igLineAdds = manualData.igLineAdds ?? {}
+  const streak = igStreak(igPosts)
+  const checklistDone = CHECKLIST.filter(([k]) => manualData.checklist?.[k]).length
+  const waiting = manualData.waiting ?? 0
+  const met: boolean[] = [
+    last2.length === 2 && last2.every((mo) => mo.users >= TARGET_USERS),
+    !!last && last.lineClicks >= TARGET_LINE,
+    !!last && checkRate(last) >= TARGET_CHECK_RATE,
+    (lineLatest?.targetedReaches ?? 0) >= TARGET_REACH,
+    (reachGainLast ?? 0) >= TARGET_REACH_GAIN,
+    streak >= TARGET_IG_WEEKS,
+    (igLineAdds[monthKey(1)] ?? 0) >= TARGET_IG_LINE,
+    checklistDone === CHECKLIST.length,
+  ]
+  const metCount = met.filter(Boolean).length
+  const launchReady = metCount === 8 || waiting >= TARGET_WAITING
+
   const runInspect = async (path: string) => {
     setInspect((s) => ({ ...s, [path]: "確認中…" }))
     try {
@@ -416,6 +599,13 @@ export default function OpsDashboard() {
         {/* ===================== 開業判断 ===================== */}
         {tab === "launch" && data && (
           <div className="space-y-5">
+            <div className="rounded-xl p-3 border" style={{ background: launchReady ? "#dcfce7" : "white", borderColor: launchReady ? "#86efac" : "#e7e5e4" }}>
+              <p className="text-[11px] text-stone-500">開始の判断(1〜8すべて達成、または9を達成で開始)</p>
+              <p className="text-base font-medium mt-0.5" style={{ color: INK }}>
+                {launchReady ? "開始の目安に到達しています" : `1〜8のうち ${metCount}/8 達成 ／ 9は ${waiting}/${TARGET_WAITING}人`}
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <GoalCard
                 no={1} title="サイト月間ユーザー"
@@ -439,22 +629,66 @@ export default function OpsDashboard() {
                 met={last ? checkRate(last) >= TARGET_CHECK_RATE : false}
                 note={cur ? `今月 ${pct(checkRate(cur))}(${fmt(cur.lineFromCheckUsers)}/${fmt(cur.checkCompleteUsers)}人)` : undefined}
               />
+              <GoalCard
+                no={4} title="LINEターゲットリーチ(累計)"
+                value={lineLatest ? `${fmt(lineLatest.targetedReaches)}人` : "—"}
+                sub={lineLatest ? `友だち${fmt(lineLatest.followers)}人・ブロック${fmt(lineLatest.blocks)}(${lineLatest.date.slice(4, 6)}/${lineLatest.date.slice(6)}時点)` : undefined}
+                goal={`${TARGET_REACH}人以上`}
+                met={data.line?.ok ? (lineLatest?.targetedReaches ?? 0) >= TARGET_REACH : null}
+                note={data.line?.ok ? undefined : "LINE未接続"}
+              />
+              <GoalCard
+                no={5} title="LINEターゲットリーチの純増"
+                value={reachGainLast !== null ? `${monthLabel(monthKey(1))} ${reachGainLast >= 0 ? "+" : ""}${reachGainLast}人` : "—"}
+                sub={reachGainCur !== null ? `今月 ${reachGainCur >= 0 ? "+" : ""}${reachGainCur}人` : undefined}
+                goal={`月+${TARGET_REACH_GAIN}人以上`}
+                met={data.line?.ok ? (reachGainLast ?? 0) >= TARGET_REACH_GAIN : null}
+                note={data.line?.ok ? undefined : "LINE未接続"}
+              />
+              <GoalCard
+                no={6} title="Instagram投稿(週3回以上)"
+                value={`${streak}週連続`}
+                sub={`今週 ${igPosts[mondayOf(0)] ?? 0}回 ／ 先週 ${igPosts[mondayOf(1)] ?? 0}回`}
+                goal={`週${TARGET_IG_PER_WEEK}回を${TARGET_IG_WEEKS}週継続`}
+                met={manualOk ? streak >= TARGET_IG_WEEKS : null}
+                note={manualOk ? undefined : "保存先未接続"}
+              />
+              <GoalCard
+                no={7} title="Instagram経由のLINE登録"
+                value={`${monthLabel(monthKey(1))} ${igLineAdds[monthKey(1)] ?? 0}人`}
+                sub={`今月 ${igLineAdds[monthKey(0)] ?? 0}人`}
+                goal={`月${TARGET_IG_LINE}人以上`}
+                met={manualOk ? (igLineAdds[monthKey(1)] ?? 0) >= TARGET_IG_LINE : null}
+                note={manualOk ? undefined : "保存先未接続"}
+              />
+              <GoalCard
+                no={8} title="受け皿チェックリスト"
+                value={`${checklistDone}/${CHECKLIST.length}項目`}
+                sub={CHECKLIST.filter(([k]) => !manualData.checklist?.[k]).map(([, l]) => l).slice(0, 2).join("・") || undefined}
+                goal="6項目すべて完了"
+                met={manualOk ? checklistDone === CHECKLIST.length : null}
+                note={manualOk ? undefined : "保存先未接続"}
+              />
+              <GoalCard
+                no={9} title="開業待ちの人"
+                value={`${waiting}人`}
+                goal={`${TARGET_WAITING}人以上(達成すれば1〜8に関係なく開始)`}
+                met={manualOk ? waiting >= TARGET_WAITING : null}
+                note={manualOk ? undefined : "保存先未接続"}
+              />
             </div>
 
-            <div className="bg-white rounded-xl border border-stone-200 p-3">
-              <p className="text-[11px] text-stone-500 mb-2">まだ自動で取れていない項目</p>
-              <ul className="text-[12px] text-stone-600 space-y-1 leading-relaxed">
-                <li>4・5. LINEターゲットリーチ(累計80人・月+12人)——LINEとの接続が次の段階</li>
-                <li>6・7. Instagram投稿(週3回×8週)・Instagram経由のLINE登録(月5人)——月1回の手入力欄を追加予定</li>
-                <li>8. 受け皿チェックリスト ／ 9. 開業待ちの人(3人)——手入力欄を追加予定</li>
-              </ul>
-            </div>
+            <ManualEditor
+              manual={data.manual}
+              adminKey={key}
+              onSaved={(m) => setData((d) => (d ? { ...d, manual: { ok: true, data: m } } : d))}
+            />
 
             {/* 月別推移 */}
             <div>
               <p className="text-xs font-medium text-stone-600 mb-2">月ごとの推移</p>
               <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
-                <table className="w-full text-[12px] text-stone-700 min-w-[520px]">
+                <table className="w-full text-[12px] text-stone-700 min-w-[600px]">
                   <thead>
                     <tr className="text-[10px] text-stone-500 border-b border-stone-100">
                       <th className="text-left font-normal px-3 py-2">月</th>
@@ -463,7 +697,8 @@ export default function OpsDashboard() {
                       <th className="text-right font-normal px-2">閲覧</th>
                       <th className="text-right font-normal px-2">LINEクリック</th>
                       <th className="text-right font-normal px-2">チェック完了</th>
-                      <th className="text-right font-normal px-3">結果→LINE</th>
+                      <th className="text-right font-normal px-2">結果→LINE</th>
+                      <th className="text-right font-normal px-3">LINEリーチ(月末)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -475,7 +710,8 @@ export default function OpsDashboard() {
                         <td className="text-right px-2">{fmt(mo.pageViews)}</td>
                         <td className="text-right px-2">{fmt(mo.lineClicks)}</td>
                         <td className="text-right px-2">{fmt(mo.checkCompleteUsers)}</td>
-                        <td className="text-right px-3">{pct(checkRate(mo))}</td>
+                        <td className="text-right px-2">{pct(checkRate(mo))}</td>
+                        <td className="text-right px-3">{(() => { const v = i === months.length - 1 ? lineLatest?.targetedReaches : reachAt(mo.month); return v === undefined ? "—" : fmt(v) })()}</td>
                       </tr>
                     ))}
                   </tbody>
