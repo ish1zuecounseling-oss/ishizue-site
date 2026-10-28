@@ -252,11 +252,10 @@ const CLUSTERS: Record<string, LinkItem[]> = {
 
   recovery: [
     { href: "/articles/compassion-fatigue-coping",          text: "共感疲労の対処法と回復方法" },
-    { href: "/articles/compassion-fatigue-recovery-period", text: "回復期間の目安" },
     { href: "/articles/why-self-care-doesnt-work",          text: "セルフケアが効かない理由" },
     { href: "/articles/safe-base",                          text: "安全基地とは——回復の土台" },
     { href: "/articles/recovering-feeling",                 text: "感情・感覚を取り戻す方法" },
-    { href: "/articles/helper-mental-recovery",             text: "休んでも回復しない理由" },
+    { href: "/articles/burnout-recovery-methods",          text: "燃え尽きの回復方法" },
     { href: "/articles/compassion-fatigue-complete",        text: "共感疲労とは(何科に相談するかも)" },
   ],
 
@@ -279,7 +278,7 @@ const CLUSTERS: Record<string, LinkItem[]> = {
   mbti: [
     { href: "/articles/infj-living",           text: "INFJは本当に生きづらいのか" },
     { href: "/articles/ni-ti-loop",             text: "Ni-Tiループとは何か" },
-    { href: "/articles/empathy-brain-fatigue",  text: "共感しすぎる人はなぜ脳疲労しやすいのか" },
+    { href: "/articles/helper-empathy-overload", text: "共感しすぎて疲れるのはなぜか" },
     { href: "/articles/beyond-mbti",            text: "MBTIを超えた自己理解" },
   ],
 
