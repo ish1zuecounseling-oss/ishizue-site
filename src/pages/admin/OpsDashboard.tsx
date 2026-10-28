@@ -25,16 +25,17 @@ type Month = {
 type Query = { q: string; clicks: number; impressions: number; position: number }
 type ApiArticle = {
   path: string; views: number; users: number; engagementSec: number; prevViews: number
-  lineClicks: number; checkCompletes: number
+  lineClicks: number; checkCompletes: number; lineFromCheckUsers: number
   gsc?: { clicks: number; impressions: number; position: number; queries: Query[] }
 }
 type ApiResult = {
   days: number; fetchedAt: string; months: Month[]; articles: ApiArticle[]
   gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number } }
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
+  checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
-type Tab = "launch" | "articles" | "search"
+type Tab = "launch" | "todo" | "articles" | "search"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
 
 const LINE_EVENT_LABEL: Record<string, string> = {
@@ -114,6 +115,164 @@ function GoalCard({ no, title, value, sub, goal, met, note }: {
   )
 }
 
+
+/* ------------------------------ 改善候補 ------------------------------ */
+
+/** 掲載順位ごとのクリック率の目安(一般的な傾向をもとにした控えめな値) */
+function benchCtr(pos: number): number {
+  if (pos <= 1.5) return 0.25
+  if (pos <= 2.5) return 0.15
+  if (pos <= 3.5) return 0.1
+  if (pos <= 4.5) return 0.08
+  if (pos <= 5.5) return 0.06
+  if (pos <= 10) return 0.04
+  return 0.015
+}
+const LEVEL_LABEL: Record<string, string> = { low: "軽め", mid: "中くらい", high: "強め", severe: "とても強い" }
+
+type Cand = { row: Row; reason: string; score: number }
+
+function CandList({ title, desc, items, empty }: { title: string; desc: string; items: Cand[]; empty: string }) {
+  const [all, setAll] = useState(false)
+  const list = all ? items : items.slice(0, 8)
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-700">{title}<span className="text-stone-400 font-normal ml-1">{items.length}本</span></p>
+      <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">{desc}</p>
+      {items.length === 0 ? (
+        <p className="text-[12px] text-stone-400 mb-1">{empty}</p>
+      ) : (
+        <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
+          {list.map(({ row, reason }) => (
+            <div key={row.path} className="px-3 py-2">
+              <a href={row.path} target="_blank" rel="noopener noreferrer" className="block text-[12px] leading-snug hover:underline" style={{ color: INK }}>{row.title}</a>
+              <p className="text-[10px] text-stone-500 mt-0.5">{reason}</p>
+            </div>
+          ))}
+          {items.length > 8 && (
+            <button onClick={() => setAll((a) => !a)} className="w-full text-[11px] py-2 underline" style={{ color: SAGE }}>
+              {all ? "8本だけ表示" : `残り${items.length - 8}本も表示`}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function TodoPanel({ rows, data, days, setDays, chip }: {
+  rows: Row[]; data: ApiResult; days: number; setDays: (d: number) => void
+  chip: (active: boolean) => { background?: string; color: string; borderColor: string }
+}) {
+  const k = days / 28 // 期間に合わせて基準をのばし縮みさせる
+  const today = Date.now()
+  const ageDays = (d: string) => (d ? (today - new Date(d).getTime()) / 86400_000 : 999)
+
+  const titleFix: Cand[] = rows
+    .filter((r) => r.gsc && r.gsc.position <= 10 && r.gsc.impressions >= 200 * k)
+    .map((r) => {
+      const g = r.gsc!
+      const expected = g.impressions * benchCtr(g.position)
+      const ctr = g.impressions ? g.clicks / g.impressions : 0
+      return { row: r, score: expected - g.clicks, reason: `平均${g.position}位・表示${fmt(g.impressions)}回でクリック率${pct(ctr)}(目安${pct(benchCtr(g.position))})→ 改善すれば +${Math.round(expected - g.clicks)}クリック程度` }
+    })
+    .filter((c) => c.score >= 10 * k && c.row.gsc!.clicks < c.row.gsc!.impressions * benchCtr(c.row.gsc!.position) * 0.6)
+    .sort((a, b) => b.score - a.score)
+
+  const pushUp: Cand[] = rows
+    .filter((r) => r.gsc && r.gsc.position > 8 && r.gsc.position <= 20 && r.gsc.impressions >= 100 * k)
+    .map((r) => ({
+      row: r, score: r.gsc!.impressions,
+      reason: `平均${r.gsc!.position}位・表示${fmt(r.gsc!.impressions)}回${r.gsc!.queries[0] ? `・主な語句「${r.gsc!.queries[0].q}」` : ""}`,
+    }))
+    .sort((a, b) => b.score - a.score)
+
+  const lineFix: Cand[] = rows
+    .filter((r) => !r.thinker && r.views >= 40 * k && r.lineClicks === 0)
+    .map((r) => ({ row: r, score: r.views, reason: `閲覧${fmt(r.views)}回でLINEクリック0${r.checkCompletes ? `・チェック完了${r.checkCompletes}人` : ""}` }))
+    .sort((a, b) => b.score - a.score)
+
+  const tidy: Cand[] = rows
+    .filter((r) => !r.thinker && ageDays(r.date) > 60 && r.views <= 1 && (r.gsc?.impressions ?? 0) < 10)
+    .map((r) => ({ row: r, score: ageDays(r.date), reason: `公開/更新 ${r.date}・閲覧${r.views}・検索表示${r.gsc?.impressions ?? 0}` }))
+    .sort((a, b) => b.score - a.score)
+
+  // チェックごとの結果→LINE
+  const checks = rows
+    .filter((r) => r.checkCompletes > 0)
+    .sort((a, b) => b.checkCompletes - a.checkCompletes)
+  const levels = data.checkLevels?.ok ? data.checkLevels.rows ?? [] : []
+
+  return (
+    <div className="space-y-6">
+      <div className="flex gap-2 text-xs">
+        {[7, 28, 90].map((d) => (
+          <button key={d} onClick={() => setDays(d)} className="px-3 py-1.5 rounded-full border" style={chip(days === d)}>直近{d}日</button>
+        ))}
+      </div>
+
+      {/* チェック別 */}
+      <div>
+        <p className="text-xs font-medium text-stone-700">チェックごとの結果→LINE</p>
+        <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">完了した人のうち、結果画面からLINEに進んだ人の割合。目標は5%。完了が多いのに率が低いチェックほど、結果画面を直す効果が大きくなります。</p>
+        {checks.length === 0 ? (
+          <p className="text-[12px] text-stone-400">この期間のチェック完了はありません。</p>
+        ) : (
+          <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
+            {checks.map((r) => {
+              const rate = r.checkCompletes ? r.lineFromCheckUsers / r.checkCompletes : 0
+              const lv = levels.filter((x) => x.path === r.path && x.completes > 0)
+              return (
+                <div key={r.path} className="px-3 py-2">
+                  <div className="flex items-start justify-between gap-3">
+                    <a href={r.path} target="_blank" rel="noopener noreferrer" className="text-[12px] leading-snug hover:underline" style={{ color: INK }}>{r.title}</a>
+                    <span className="text-[12px] font-medium flex-shrink-0" style={{ color: rate >= TARGET_CHECK_RATE ? "#047857" : "#b45309" }}>{pct(rate)}</span>
+                  </div>
+                  <p className="text-[10px] text-stone-500 mt-0.5">完了{fmt(r.checkCompletes)}人 ／ LINE{fmt(r.lineFromCheckUsers)}人</p>
+                  {lv.length > 0 && (
+                    <p className="text-[10px] text-stone-400 mt-0.5">
+                      {lv.map((x) => `${LEVEL_LABEL[x.level] ?? x.level} ${x.lines}/${x.completes}人`).join(" ／ ")}
+                    </p>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+        {!data.checkLevels?.ok && (
+          <p className="text-[10px] text-stone-400 mt-1">結果のレベル別(軽め・強めなど)は、GA4に「level」をカスタム定義として登録すると、その日以降の分から表示されます。</p>
+        )}
+      </div>
+
+      <CandList
+        title="タイトル・説明文を見直す"
+        desc="上位に表示されているのに、順位のわりにクリックされていない記事。検索結果で読みたくなるタイトルと説明文に直すと、順位はそのままでも読者が増えます。"
+        items={titleFix}
+        empty={data.gsc.ok ? "該当なし" : "Search Console 未接続"}
+      />
+      <CandList
+        title="あと一押しで1ページ目"
+        desc="平均8〜20位で、ある程度表示されている記事。主な検索語句に答える段落の追加や、関連記事からのリンクで1ページ目を狙えます。"
+        items={pushUp}
+        empty={data.gsc.ok ? "該当なし" : "Search Console 未接続"}
+      />
+      <CandList
+        title="LINEへの導線を見直す"
+        desc="よく読まれているのに、LINEクリックが0の記事(偉人シリーズは除く)。記事の途中や最後の案内の置き方・文言を見直す候補です。"
+        items={lineFix}
+        empty="該当なし"
+      />
+      <CandList
+        title="統合・整理の候補"
+        desc="公開から2か月以上たっても、閲覧も検索表示もほとんどない記事(偉人シリーズは除く)。似た記事への統合か、テーマの見直しを検討します。"
+        items={tidy}
+        empty="該当なし"
+      />
+      <p className="text-[10px] text-stone-400">基準は直近{days}日の数字から自動で判定しています。目安なので、最終判断は内容を見て行ってください。</p>
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -158,7 +317,7 @@ export default function OpsDashboard() {
           date: (a as { updatedAt?: string }).updatedAt ?? "",
           thinker: a.path.startsWith("/articles/thinker-"),
           views: r?.views ?? 0, users: r?.users ?? 0, engagementSec: r?.engagementSec ?? 0, prevViews: r?.prevViews ?? 0,
-          lineClicks: r?.lineClicks ?? 0, checkCompletes: r?.checkCompletes ?? 0, gsc: r?.gsc,
+          lineClicks: r?.lineClicks ?? 0, checkCompletes: r?.checkCompletes ?? 0, lineFromCheckUsers: r?.lineFromCheckUsers ?? 0, gsc: r?.gsc,
         }
       })
   }, [data])
@@ -245,8 +404,8 @@ export default function OpsDashboard() {
         </div>
 
         {/* タブ */}
-        <div className="flex gap-1.5 mb-4 text-xs">
-          {([["launch", "開業判断"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
+        <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
+          {([["launch", "開業判断"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
             <button key={v} onClick={() => setTab(v)} className="px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>{l}</button>
           ))}
         </div>
@@ -373,6 +532,9 @@ export default function OpsDashboard() {
             </div>
           </div>
         )}
+
+        {/* ===================== 改善候補 ===================== */}
+        {tab === "todo" && data && <TodoPanel rows={rows} data={data} days={days} setDays={setDays} chip={chip} />}
 
         {/* ===================== 記事ごと ===================== */}
         {tab === "articles" && (
