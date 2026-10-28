@@ -238,7 +238,7 @@ export default async function handler(req: Req, res: Res) {
       ga4(token, GA4_PROPERTY_ID, {
         dateRanges: [range],
         dimensions: [{ name: "pagePath" }, { name: "eventName" }],
-        metrics: [{ name: "eventCount" }],
+        metrics: [{ name: "eventCount" }, { name: "totalUsers" }],
         dimensionFilter: { andGroup: { expressions: [eventFilter, articleFilter] } },
         limit: 5000,
       }),
@@ -302,9 +302,9 @@ export default async function handler(req: Req, res: Res) {
     }
     for (const r of articleEvents) {
       const v = a(r.dimensionValues[0].value)
-      const count = num(r.metricValues[0].value)
-      if (r.dimensionValues[1].value === "check_complete") v.checkCompletes += count
-      else v.lineClicks += count
+      // チェック完了は「人数」で数える(10/10以前は項目をタップするたびに送信されていたため、回数だと水増しになる)
+      if (r.dimensionValues[1].value === "check_complete") v.checkCompletes += num(r.metricValues[1].value)
+      else v.lineClicks += num(r.metricValues[0].value)
     }
 
     /* Search Console(未設定なら ok:false で返す) */
