@@ -140,21 +140,45 @@ function KeyGate({ onSubmit, error }: { onSubmit: (k: string) => void; error: st
   )
 }
 
-/** 目標に対する達成状況のカード */
-function GoalCard({ no, title, value, sub, goal, met, note }: {
-  no: number; title: string; value: string; sub?: string; goal: string; met: boolean | null; note?: string
+/** 達成率のリング(円グラフ) */
+function ProgressRing({ ratio }: { ratio: number | null }) {
+  const size = 56, stroke = 6, r = (size - stroke) / 2, c = 2 * Math.PI * r
+  const p = ratio === null ? 0 : Math.max(0, Math.min(1, ratio))
+  const done = ratio !== null && ratio >= 1
+  const color = done ? "#4d8a63" : SAGE
+  const label = ratio === null ? "—" : `${Math.floor(Math.max(0, ratio) * 100)}%`
+  return (
+    <div className="relative flex-shrink-0" style={{ width: size, height: size }}
+      role="img" aria-label={ratio === null ? "未接続" : `達成率 ${label}`}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: "rotate(-90deg)" }}>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#ece6dc" strokeWidth={stroke} />
+        {p > 0 && (
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
+            strokeLinecap="round" strokeDasharray={`${c * p} ${c}`} />
+        )}
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-[11px] font-medium"
+        style={{ color: ratio === null ? "#a8a29e" : done ? "#2f6b45" : INK }}>
+        {done ? "達成" : label}
+      </span>
+    </div>
+  )
+}
+
+/** 目標に対する達成状況のカード(ratio = 実績 ÷ 目標。未接続は null) */
+function GoalCard({ no, title, value, sub, goal, ratio, note }: {
+  no: number; title: string; value: string; sub?: string; goal: string; ratio: number | null; note?: string
 }) {
-  const badge = met === null
-    ? { text: "未接続", bg: "#f5f5f4", color: "#78716c" }
-    : met ? { text: "達成", bg: "#dcfce7", color: "#166534" } : { text: "未達", bg: "#fef3c7", color: "#92400e" }
   return (
     <div className="bg-white rounded-xl border border-stone-200 p-3">
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-[11px] text-stone-500 leading-snug">{no}. {title}</p>
-        <span className="text-[10px] px-2 py-0.5 rounded-full flex-shrink-0" style={{ background: badge.bg, color: badge.color }}>{badge.text}</span>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[11px] text-stone-500 leading-snug">{no}. {title}</p>
+          <p className="text-lg font-medium mt-1" style={{ color: INK }}>{value}</p>
+        </div>
+        <ProgressRing ratio={ratio} />
       </div>
-      <p className="text-lg font-medium mt-1" style={{ color: INK }}>{value}</p>
-      {sub && <p className="text-[11px] text-stone-500">{sub}</p>}
+      {sub && <p className="text-[11px] text-stone-500 mt-0.5">{sub}</p>}
       <p className="text-[10px] text-stone-400 mt-1">目標:{goal}</p>
       {note && <p className="text-[10px] text-stone-400 mt-0.5">{note}</p>}
     </div>
@@ -612,21 +636,21 @@ export default function OpsDashboard() {
                 value={last2.length ? last2.map((mo) => `${monthLabel(mo.month)} ${fmt(mo.users)}`).join(" ／ ") : "—"}
                 sub={cur ? `今月(${dayOfMonth}日まで)${fmt(cur.users)}人` : undefined}
                 goal={`${fmt(TARGET_USERS)}人以上を2か月連続`}
-                met={last2.length === 2 ? last2.every((mo) => mo.users >= TARGET_USERS) : false}
+                ratio={last2.length === 2 ? Math.min(...last2.map((mo) => mo.users)) / TARGET_USERS : (last ? last.users / TARGET_USERS : 0)}
               />
               <GoalCard
                 no={2} title="LINEボタンのクリック(サイト全体)"
                 value={last ? `${monthLabel(last.month)} ${fmt(last.lineClicks)}件` : "—"}
                 sub={cur ? `今月(${dayOfMonth}日まで)${fmt(cur.lineClicks)}件` : undefined}
                 goal={`月${TARGET_LINE}件以上`}
-                met={last ? last.lineClicks >= TARGET_LINE : false}
+                ratio={last ? last.lineClicks / TARGET_LINE : 0}
               />
               <GoalCard
                 no={3} title="チェック結果→LINE"
                 value={last ? `${monthLabel(last.month)} ${pct(checkRate(last))}` : "—"}
                 sub={last ? `完了${fmt(last.checkCompleteUsers)}人中 ${fmt(last.lineFromCheckUsers)}人` : undefined}
                 goal={`${TARGET_CHECK_RATE * 100}%以上`}
-                met={last ? checkRate(last) >= TARGET_CHECK_RATE : false}
+                ratio={last ? checkRate(last) / TARGET_CHECK_RATE : 0}
                 note={cur ? `今月 ${pct(checkRate(cur))}(${fmt(cur.lineFromCheckUsers)}/${fmt(cur.checkCompleteUsers)}人)` : undefined}
               />
               <GoalCard
@@ -634,7 +658,7 @@ export default function OpsDashboard() {
                 value={lineLatest ? `${fmt(lineLatest.targetedReaches)}人` : "—"}
                 sub={lineLatest ? `友だち${fmt(lineLatest.followers)}人・ブロック${fmt(lineLatest.blocks)}(${lineLatest.date.slice(4, 6)}/${lineLatest.date.slice(6)}時点)` : undefined}
                 goal={`${TARGET_REACH}人以上`}
-                met={data.line?.ok ? (lineLatest?.targetedReaches ?? 0) >= TARGET_REACH : null}
+                ratio={data.line?.ok ? (lineLatest?.targetedReaches ?? 0) / TARGET_REACH : null}
                 note={data.line?.ok ? undefined : "LINE未接続"}
               />
               <GoalCard
@@ -642,7 +666,7 @@ export default function OpsDashboard() {
                 value={reachGainLast !== null ? `${monthLabel(monthKey(1))} ${reachGainLast >= 0 ? "+" : ""}${reachGainLast}人` : "—"}
                 sub={reachGainCur !== null ? `今月 ${reachGainCur >= 0 ? "+" : ""}${reachGainCur}人` : undefined}
                 goal={`月+${TARGET_REACH_GAIN}人以上`}
-                met={data.line?.ok ? (reachGainLast ?? 0) >= TARGET_REACH_GAIN : null}
+                ratio={data.line?.ok ? Math.max(0, reachGainLast ?? 0) / TARGET_REACH_GAIN : null}
                 note={data.line?.ok ? undefined : "LINE未接続"}
               />
               <GoalCard
@@ -650,7 +674,7 @@ export default function OpsDashboard() {
                 value={`${streak}週連続`}
                 sub={`今週 ${igPosts[mondayOf(0)] ?? 0}回 ／ 先週 ${igPosts[mondayOf(1)] ?? 0}回`}
                 goal={`週${TARGET_IG_PER_WEEK}回を${TARGET_IG_WEEKS}週継続`}
-                met={manualOk ? streak >= TARGET_IG_WEEKS : null}
+                ratio={manualOk ? streak / TARGET_IG_WEEKS : null}
                 note={manualOk ? undefined : "保存先未接続"}
               />
               <GoalCard
@@ -658,7 +682,7 @@ export default function OpsDashboard() {
                 value={`${monthLabel(monthKey(1))} ${igLineAdds[monthKey(1)] ?? 0}人`}
                 sub={`今月 ${igLineAdds[monthKey(0)] ?? 0}人`}
                 goal={`月${TARGET_IG_LINE}人以上`}
-                met={manualOk ? (igLineAdds[monthKey(1)] ?? 0) >= TARGET_IG_LINE : null}
+                ratio={manualOk ? (igLineAdds[monthKey(1)] ?? 0) / TARGET_IG_LINE : null}
                 note={manualOk ? undefined : "保存先未接続"}
               />
               <GoalCard
@@ -666,14 +690,14 @@ export default function OpsDashboard() {
                 value={`${checklistDone}/${CHECKLIST.length}項目`}
                 sub={CHECKLIST.filter(([k]) => !manualData.checklist?.[k]).map(([, l]) => l).slice(0, 2).join("・") || undefined}
                 goal="6項目すべて完了"
-                met={manualOk ? checklistDone === CHECKLIST.length : null}
+                ratio={manualOk ? checklistDone / CHECKLIST.length : null}
                 note={manualOk ? undefined : "保存先未接続"}
               />
               <GoalCard
                 no={9} title="開業待ちの人"
                 value={`${waiting}人`}
                 goal={`${TARGET_WAITING}人以上(達成すれば1〜8に関係なく開始)`}
-                met={manualOk ? waiting >= TARGET_WAITING : null}
+                ratio={manualOk ? waiting / TARGET_WAITING : null}
                 note={manualOk ? undefined : "保存先未接続"}
               />
             </div>
