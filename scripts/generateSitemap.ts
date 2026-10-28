@@ -24,7 +24,7 @@ function generateSitemap() {
     "/articles/helper-burnout-check",
     "/articles/helper-emotional-labor-check",
     "/articles/helper-empathy-fatigue",
-    "/articles/helper-burnout",
+    "/articles/helper-burnout-pillar",
     "/articles/helper-quit-timing-check",
   ]);
 
