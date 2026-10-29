@@ -38,8 +38,8 @@ const FAQ_ITEMS = [
 export default function SelfValueUnknown() {
   return (
     <ArticleLayout
-      title="自分の価値がわからない——条件付き自己価値の構造と回復への道筋【公認心理師】"
-      description="「自分に価値があるのかわからない」「役に立てないと自分の存在意義を感じられない」——その感覚は心が弱いからではなく、条件付き自己価値という心理構造から起きています。4つの構造・回復への4ステップを公認心理師が解説。「達成」ではなく「体験」を通じて自己価値を取り戻すための実用ガイド。"
+      title="自己価値とは？自分の価値がわからない理由と条件付き自己価値【公認心理師】"
+      description="自己価値とは、自分の存在そのものに価値があると感じられる感覚です。「自分の価値がわからない」「役に立てないと価値を感じられない」のは、心が弱いからではなく、条件付き自己価値という心理構造から起きています。4つの構造と回復への4ステップを公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/self-value-unknown"
       date="2026-05-27"
       tags={["burnout", "compassion", "boundary", "self-function"]}
@@ -114,6 +114,22 @@ export default function SelfValueUnknown() {
           <li>・「条件を満たしていない自分」を見せるのが怖い</li>
         </ul>
       </div>
+
+      <h2>自己価値とは——「自分には価値がある」と感じられる感覚</h2>
+      <p>
+        自己価値(self-worth)とは、<strong>自分という存在そのものに価値があると感じられる感覚</strong>のことです。
+        自尊感情(self-esteem)とも近い概念で、うまくいかない日や誰の役にも立てなかった日でも、
+        「それでも自分はここにいていい」と思える土台にあたります。
+      </p>
+      <p>
+        この感覚には、大きく2つの持ち方があります。何かを満たしていなくても揺らがない<strong>無条件の自己価値</strong>と、
+        成果・評価・役に立つことなど、特定の条件を満たしたときだけ感じられる<strong>条件付きの自己価値</strong>です。
+        研究でも、自己価値をどんな条件に預けているかは人によって違い、預けている領域でうまくいかないときほど気持ちが大きく揺れることが示されています(Crocker & Wolfe, 2001)。
+        「自分の価値がわからない」という感覚の多くは、後者の持ち方から生まれます。
+      </p>
+      <p className="text-xs text-stone-400 leading-relaxed">
+        参考文献:Crocker, J., & Wolfe, C. T.(2001) Contingencies of self-worth. Psychological Review, 108(3), 593-623
+      </p>
 
       <h2>条件付き自己価値とは——「○○できる時だけ価値がある」という感覚</h2>
       <p>

@@ -42,8 +42,8 @@ const FAQ_ITEMS = [
 export default function ExhaustedByBeingNice() {
   return (
     <ArticleLayout
-      title="優しい人ほど壊れる理由｜優しすぎる人が限界を迎える前の6つのサインと、自分の守り方【公認心理師】"
-      description="優しい人ほど壊れる・病むのは、心が弱いからではありません。断れない、自分を後回しにする、本音を飲み込む——優しさを支える4つの心理パターンが、消耗を止まらなくするからです。壊れる前に出る6つのサインと、優しさを失わずに自分を守る3ステップを公認心理師が解説します。"
+      title="優しすぎる人ほど壊れる理由——限界のサイン6つと自分の守り方【公認心理師】"
+      description="優しい人・優しすぎる人ほど壊れる、潰れる、病む——それは心が弱いからではありません。断れない、自分を後回しにする、本音を飲み込むといった心理パターンが、消耗を止まらなくするからです。限界が近い危険なサイン6つと、優しさを失わずに自分を守る3ステップを公認心理師が解説します。"
       url="https://www.ishizue-counseling.jp/articles/exhausted-by-being-nice"
       date="2026-05-25"
       tags={["boundary", "burnout", "compassion", "self-function"]}
