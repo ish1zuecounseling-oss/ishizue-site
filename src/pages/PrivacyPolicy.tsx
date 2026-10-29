@@ -29,6 +29,7 @@ export default function PrivacyPolicy() {
               <li>メールアドレス</li>
               <li>ご相談内容</li>
               <li>ご使用のデバイス・アクセス情報（Google Analyticsによる匿名集計）</li>
+              <li>LINE公式アカウントのユーザー識別子（LINEで「待つ」と返信された場合のみ。お名前やメッセージの内容は保存しません）</li>
             </ul>
           </section>
 
@@ -40,6 +41,7 @@ export default function PrivacyPolicy() {
               <li>お問い合わせへの返答</li>
               <li>サービス品質の向上</li>
               <li>サイトのアクセス解析（匿名・統計データ）</li>
+              <li>受付再開のご案内（LINEで「待つ」と返信された方へのお知らせ。LINEをブロックされた時点で記録を削除します）</li>
             </ul>
           </section>
 
@@ -95,7 +97,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <p className="text-stone-400 text-xs pt-6 border-t border-stone-100">
-            制定日：2026年4月　最終更新：2026年5月
+            制定日：2026年4月　最終更新：2026年10月
           </p>
         </div>
       </div>
