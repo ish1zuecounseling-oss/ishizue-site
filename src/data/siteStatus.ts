@@ -33,6 +33,27 @@ export function ctaSub(text: string): string {
   return ACCEPTING_NEW_CLIENTS ? text : "新規相談は受付休止中です ／ 再開時にLINEでお知らせします";
 }
 
+/** 受付中なら open、休止中なら paused を返す(文言の切り替え用) */
+export function whenOpen<T>(open: T, paused: T): T {
+  return ACCEPTING_NEW_CLIENTS ? open : paused;
+}
+
+/** 受付休止中に、チェック結果の案内ブロックで使う見出しと説明(状態の重さ別) */
+export const PAUSED_COPY = {
+  light: {
+    heading: "崩れる前に、今の状態を知っておく",
+    body: "消耗は静かに進みます。状態別の解説を、LINEで順に受け取れます。読むだけで大丈夫です。",
+  },
+  mid: {
+    heading: "この段階で知っておくと、深くなる前に手を打てます",
+    body: "今の段階で起きやすいことと、できることを、LINEで順に受け取れます。読むだけで大丈夫です。",
+  },
+  high: {
+    heading: "一人で抱え続けなくていい段階です",
+    body: "状態別の解説をLINEで受け取れます。ただ、つらさが強いときや2週間以上続くときは、医療機関への相談を優先してください。",
+  },
+} as const;
+
 /** 休止中 CTA のクリック計測(既存の line_cta_click と同じ形式) */
 export function trackPausedLineClick(label: string) {
   try {
