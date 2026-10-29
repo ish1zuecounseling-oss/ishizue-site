@@ -232,6 +232,23 @@ function sanitizeManual(input: unknown) {
   }
 }
 
+/** LINEで「待つ」と返信した人数(api/line-webhook.ts が記録) */
+async function getWaitingFromLine(): Promise<number | null> {
+  const kv = kvConfig()
+  if (!kv) return null
+  try {
+    const r = await fetch(kv.url, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${kv.token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(["HLEN", "ishizue:waiting"]),
+    })
+    const d = (await r.json()) as { result?: number }
+    return r.ok ? d.result ?? 0 : null
+  } catch {
+    return null
+  }
+}
+
 async function saveManual(input: unknown) {
   const kv = kvConfig()
   if (!kv) throw new Error("保存先(Upstash Redis)が未接続です")
@@ -247,7 +264,8 @@ async function saveManual(input: unknown) {
     }
   }
   const ym = jstDate(0).slice(0, 7).replace("-", "")
-  value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: value.waiting }
+  const fromLine = (await getWaitingFromLine()) ?? 0
+  value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: value.waiting + fromLine }
   const r = await fetch(`${kv.url}/set/${encodeURIComponent(MANUAL_KEY)}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${kv.token}` },
@@ -543,12 +561,13 @@ export default async function handler(req: Req, res: Res) {
       checkLevels = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
-    const [line, manual] = await Promise.all([getLine(), getManual()])
+    const [line, manual, waitingLine] = await Promise.all([getLine(), getManual(), getWaitingFromLine()])
 
     res.status(200).json({
       days,
       line,
       manual,
+      waitingLine,
       fetchedAt: new Date().toISOString(),
       months: [...months.values()].sort((x, y) => x.month.localeCompare(y.month)),
       articles: [...arts.values()],
