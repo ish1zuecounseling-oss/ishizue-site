@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen, PAUSED_COPY } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-self-compassion-check"
@@ -144,8 +144,8 @@ const RESULTS: Record<Level, {
       { href: "/articles/helper-self-blame",     text: "自分を責めるのをやめたいときの対処法｜自己批判の心理学" },
     ],
     cvBlock: {
-      heading: "「また責めてしまった」を繰り返しているなら",
-      body: "自己批判のパターンは一人で変えようとしても難しいことがあります。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
+      heading: whenOpen("「また責めてしまった」を繰り返しているなら", PAUSED_COPY.mid.heading),
+      body: whenOpen("自己批判のパターンは一人で変えようとしても難しいことがあります。支援職専門のカウンセリングで、今の状態を整理してみましょう。", PAUSED_COPY.mid.body),
       buttonText: ctaText(`今の状態を相談してみる${FREE_FIRST}`),
     },
   },
@@ -161,8 +161,8 @@ const RESULTS: Record<Level, {
       { href: "/articles/helper-burnout-check",              text: "バーンアウトチェック｜今の消耗度を確認する" },
     ],
     cvBlock: {
-      heading: "「頑張っているのになぜ消耗するのか」整理したい方へ",
-      body: "セルフ・コンパッションは高めることができます。支援職専門カウンセリングで、消耗の構造を一緒に整理してみませんか。",
+      heading: whenOpen("「頑張っているのになぜ消耗するのか」整理したい方へ", PAUSED_COPY.mid.heading),
+      body: whenOpen("セルフ・コンパッションは高めることができます。支援職専門カウンセリングで、消耗の構造を一緒に整理してみませんか。", PAUSED_COPY.mid.body),
       buttonText: ctaText(`カウンセリングで整理してみる${FREE_FIRST}`),
     },
   },
@@ -178,8 +178,8 @@ const RESULTS: Record<Level, {
       { href: "/articles/compassion-fatigue-complete",            text: "共感疲労とは｜なぜ優しい人ほど消耗するのか" },
     ],
     cvBlock: {
-      heading: "今の状態を維持・深化させたい方へ",
-      body: "セルフ・コンパッションが高くても、職場の構造による消耗は起きます。今の強みを活かしながら、さらに整えたい部分を一緒に確認しましょう。",
+      heading: whenOpen("今の状態を維持・深化させたい方へ", PAUSED_COPY.light.heading),
+      body: whenOpen("セルフ・コンパッションが高くても、職場の構造による消耗は起きます。今の強みを活かしながら、さらに整えたい部分を一緒に確認しましょう。", PAUSED_COPY.light.body),
       buttonText: ctaText(`状態をさらに整える${FREE_FIRST}`),
     },
   },

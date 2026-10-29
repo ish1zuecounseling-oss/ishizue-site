@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen, PAUSED_COPY, ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
@@ -46,8 +46,8 @@ const resultConfig = {
     bg: "#f0f7f4",
     border: "#c5ddd5",
     message: "今は大きな消耗は見られません。ただ、支援職の疲れは気づかないまま蓄積することが多いです。余裕があるうちにセルフケアの習慣を整えておくことが、長く働き続ける土台になります。",
-    cvHeading: "余裕がある今のうちに、状態を言語化しておく",
-    cvBody: "崩れてから整えるより、余裕がある今の方が圧倒的に早く対処できます。一度、今の状態を整理しておきませんか？",
+    cvHeading: whenOpen("余裕がある今のうちに、状態を言語化しておく", PAUSED_COPY.light.heading),
+    cvBody: whenOpen("崩れてから整えるより、余裕がある今の方が圧倒的に早く対処できます。一度、今の状態を整理しておきませんか？", PAUSED_COPY.light.body),
     cvButton: `今の状態を整理しておく${FREE_FIRST}`,
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労とは？原因・症状・回復方法" },
@@ -61,8 +61,8 @@ const resultConfig = {
     bg: "#fffbeb",
     border: "#fde68a",
     message: "まだ日常は回せているかもしれませんが、脳疲労はここから一気に深くなることが多いです。この段階で整理しておくと、大きく崩れずに抜けられる可能性が高くなります。逆に後回しにすると、回復に時間がかかることもあります。",
-    cvHeading: "この段階で止められるかどうかが分かれ目です",
-    cvBody: "脳疲労は早い段階ほど回復しやすく、深くなるほど一人での回復が難しくなります。今の状態を一度整理しておくことが、これ以上の消耗を防ぐ最短ルートです。",
+    cvHeading: whenOpen("この段階で止められるかどうかが分かれ目です", PAUSED_COPY.mid.heading),
+    cvBody: whenOpen("脳疲労は早い段階ほど回復しやすく、深くなるほど一人での回復が難しくなります。今の状態を一度整理しておくことが、これ以上の消耗を防ぐ最短ルートです。", PAUSED_COPY.mid.body),
     cvButton: `今の状態を整理しておく${FREE_FIRST}`,
     links: [
       { href: "/articles/helper-brain-fatigue", text: "脳疲労の回復方法を見る" },
@@ -76,8 +76,8 @@ const resultConfig = {
     bg: "#fef2f2",
     border: "#fecaca",
     message: "「自分で何とかする」よりも、外に出して整理した方が回復しやすい段階の可能性があります。このまま抱え続けると、回復までに時間がかかることもあります。一人で抱え込まないでください。",
-    cvHeading: "このまま抱え続けるより、外に出した方が早い状態です",
-    cvBody: "休んでも回復しない状態が続いている場合、セルフケアだけでは難しい段階かもしれません。今の状態をそのまま話してみてください。",
+    cvHeading: whenOpen("このまま抱え続けるより、外に出した方が早い状態です", PAUSED_COPY.high.heading),
+    cvBody: whenOpen("休んでも回復しない状態が続いている場合、セルフケアだけでは難しい段階かもしれません。今の状態をそのまま話してみてください。", PAUSED_COPY.high.body),
     cvButton: `今の状態をそのまま話してみる${FREE_FIRST}`,
     links: [
       { href: "/articles/helper-leave-of-absence-hesitation", text: "休職を考えたとき｜判断のための5つのポイント" },
@@ -207,9 +207,11 @@ export default function HelperBrainFatigueCheck() {
             <p style={{ fontSize: "0.8rem", color: "#a8967e", lineHeight: 1.8, marginBottom: "1rem" }}>
               {result.cvBody}
             </p>
-            <p style={{ fontSize: "0.75rem", color: "#6b5a45", marginBottom: "0.75rem" }}>
-              ※まだ申し込むか決めていなくても大丈夫です。今の状態を整理するだけでもOKです。
-            </p>
+            {ACCEPTING_NEW_CLIENTS && (
+              <p style={{ fontSize: "0.75rem", color: "#6b5a45", marginBottom: "0.75rem" }}>
+                ※まだ申し込むか決めていなくても大丈夫です。今の状態を整理するだけでもOKです。
+              </p>
+            )}
             <a
               href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               style={{

@@ -5,6 +5,7 @@ import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackLineClickFromCheck } from "../../lib/analytics"
+import { ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus"
 
 const CHECK_NAME = "boundary-check"
 
@@ -26,6 +27,25 @@ const checkItems = [
   "休んでいても「何かしなければ」という感覚が抜けない",
 ]
 
+/** 項目を「どの領域の境界線か」に分ける(番号は checkItems の並び順) */
+const AREAS = [
+  { key: "emotion", label: "感情の境界線", items: [1, 3, 5],
+    desc: "相手の気分や感情を、自分のものとして受け取りやすい状態です。人と会ったあとの消耗の大きさにつながります。",
+    link: { to: "/articles/helper-empathy-overload", text: "共感しすぎて疲れる理由" } },
+  { key: "responsibility", label: "責任の境界線", items: [4, 8, 9, 11],
+    desc: "「どこまでが自分の責任か」が広がりやすい状態です。相手の問題まで背負い、助けずにいられなくなります。",
+    link: { to: "/articles/helper-boundary-how-to", text: "境界線の引き方——抱え込まないために" } },
+  { key: "refuse", label: "断ることへの恐れ", items: [0, 2, 6, 13],
+    desc: "断ると関係が壊れる・迷惑をかけるという恐れが強い状態です。NOのあとに罪悪感が残りやすくなります。",
+    link: { to: "/articles/helper-cannot-say-no", text: "断れない原因とは——NOが言えない心理" } },
+  { key: "self", label: "自分の本音", items: [7, 12],
+    desc: "相手に合わせることが先に立ち、自分がどうしたいかが見えにくくなっている状態です。",
+    link: { to: "/articles/other-axis-what", text: "他人軸とは——抜け出せない理由" } },
+  { key: "time", label: "時間・休息の境界線", items: [10, 14],
+    desc: "自分のペースや休む時間を守りにくい状態です。休んでいても「何かしなければ」が抜けません。",
+    link: { to: "/articles/tired-but-cannot-rest", text: "疲れているのに休めない理由" } },
+] as const
+
 type Level = "low" | "mid" | "high" | null
 
 function getLevel(score: number): Level {
@@ -41,24 +61,21 @@ const resultConfig = {
     bg: "#f0fdf4",
     border: "#bbf7d0",
     message: "今は自他の区別がある程度できている状態です。ただし、支援職では仕事を続けるうちに境界線が薄まっていくことがあります。今の状態を知っておくことが予防になります。",
-    lineDesc: "境界線は、気づかないうちに薄まっていきます。状態別の整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
+    lineDesc: "境界線は、仕事を続けるうちに気づかないまま薄まっていきます。薄まり方の段階と、その段階でできることを、LINEで順に受け取れます。",
   },
   mid: {
     label: "境界線が薄まってきている可能性があります",
     bg: "#fffbeb",
     border: "#fde68a",
     message: "「相手の感情を引き受けやすい」「断ると罪悪感が強い」状態が出始めています。この段階で構造を理解しておくと、消耗が深まる前に変化の方向が見えてきます。",
-    lineDesc: "この段階が続くと、断れない・抱え込みがさらに強まることがあります。段階ごとの整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
+    lineDesc: "この段階が続くと、断れない・抱え込みがさらに強まることがあります。段階ごとの整理と、今の段階でできることを、LINEで順に受け取れます。",
   },
   high: {
     label: "境界線がかなり薄くなっている可能性があります",
     bg: "#fef2f2",
     border: "#fecaca",
     message: "相手の感情・責任を自分のものとして引き受けやすい状態かもしれません。「どこまでが自分の問題か」が見えなくなっているとき、構造を外から整理することが助けになります。",
-    lineDesc: "境界線が薄い状態は、放っておくと消耗がさらに深まります。構造の整理をLINEで送っています。",
-    lineLabel: "今どの段階か知っておく(無料・読むだけOK)",
+    lineDesc: "境界線が薄い状態は、放っておくと消耗がさらに深まります。なぜ薄くなるのかの整理と、今の段階でできることを、LINEで順に受け取れます。",
   },
 }
 
@@ -110,6 +127,13 @@ export default function BoundaryCheck() {
   const level  = getLevel(score)
   const result = level ? resultConfig[level] : null
   const barPct = Math.round((score / 15) * 100)
+
+  // 領域ごとの当てはまり(割合の高い順)。いちばん高い領域を「中心」として示す
+  const areaScores = AREAS.map((a) => {
+    const hit = a.items.filter((i) => checked[i]).length
+    return { ...a, hit, ratio: hit / a.items.length }
+  }).sort((a, b) => b.ratio - a.ratio || b.hit - a.hit)
+  const topArea = areaScores[0]?.hit ? areaScores[0] : null
 
   // ▼ GA4イベント送信:結果が画面に表示されて2秒たったときに1回だけ送信(タップのたびに送らない)
   const resultRef = useCheckCompleteOnView(CHECK_NAME, score, level, 15)
@@ -203,10 +227,59 @@ export default function BoundaryCheck() {
       {result && (
         <div ref={resultRef}>
           {/* 結果ボックス */}
-          <div style={{ background: result.bg, border: `1.5px solid ${result.border}`, borderRadius: "12px", padding: "1.25rem", margin: "1.25rem 0" }}>
+          <div style={{ background: result.bg, border: `1.5px solid ${result.border}`, borderRadius: "12px", padding: "1.25rem", margin: "1.25rem 0 0.75rem" }}>
             <p style={{ fontSize: "12px", color: "#78716c", marginBottom: "4px" }}>{score}項目 / 15項目</p>
             <p style={{ fontSize: "16px", fontWeight: 600, color: "#1c1917", marginBottom: "8px", fontFamily: "'Noto Serif JP', serif" }}>{result.label}</p>
             <p style={{ fontSize: "13px", color: "#57534e", lineHeight: 1.8 }}>{result.message}</p>
+          </div>
+
+          {/* どの領域の境界線が薄いか */}
+          <div className="p-4 rounded-xl bg-white border border-stone-200 mb-3">
+            <p className="text-xs font-medium text-stone-600 mb-2.5">どの領域で薄くなりやすいか</p>
+            <div className="space-y-2">
+              {areaScores.map((a) => (
+                <div key={a.key}>
+                  <div className="flex justify-between text-[12px] text-stone-600 mb-0.5">
+                    <span style={{ fontWeight: topArea?.key === a.key ? 600 : 400, color: topArea?.key === a.key ? "#2C1F14" : undefined }}>{a.label}</span>
+                    <span className="text-stone-400">{a.hit}/{a.items.length}</span>
+                  </div>
+                  <div style={{ height: 6, borderRadius: 3, background: "#f0ebe3" }}>
+                    <div style={{ width: `${Math.round(a.ratio * 100)}%`, height: 6, borderRadius: 3, background: topArea?.key === a.key ? "#7C9A8A" : "#c9d6cf" }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {topArea && (
+              <div className="mt-3 pt-3 border-t border-stone-100">
+                <p className="text-sm text-stone-700 leading-[1.9]" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                  あなたの場合は<strong>「{topArea.label}」</strong>がいちばん薄くなりやすい領域です。
+                </p>
+                <p className="text-xs text-stone-600 leading-[1.9] mt-1">{topArea.desc}</p>
+                <Link to={topArea.link.to} className="inline-block text-xs text-stone-600 hover:text-stone-900 underline underline-offset-2 mt-1">
+                  → {topArea.link.text}
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* LINE誘導(結果のすぐ下に置く) - onClickハンドラで計測 */}
+          <div className="p-4 rounded-xl mb-4" style={{ background: "rgba(6,199,85,0.05)", border: "1px solid rgba(6,199,85,0.3)" }}>
+            <p className="text-[11px] font-medium mb-1" style={{ color: "#05a648" }}>結果の続きを受け取る</p>
+            <p className="text-sm text-stone-700 leading-[1.9] mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              {result.lineDesc}
+            </p>
+            <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
+              onClick={handleLineClick}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg text-sm font-bold text-white"
+              style={{ background: "#06C755", color: "#fff", textDecoration: "none" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
+              </svg>
+              LINEで続きを受け取る(無料)
+            </a>
+            <p className="text-[11px] text-stone-400 text-center mt-2">
+              読むだけでOK ／ 返信や相談の必要なし ／ いつでも解除できます
+            </p>
           </div>
 
           {/* 他人軸チェックへの連鎖 */}
@@ -221,24 +294,6 @@ export default function BoundaryCheck() {
             </Link>
           </div>
 
-          {/* LINE誘導 - onClickハンドラで計測 */}
-          <div style={{ borderLeft: "3px solid #8FAF9F", paddingLeft: "1rem", margin: "1.25rem 0", display: "flex", flexDirection: "column", gap: "8px" }}>
-            <p style={{ fontSize: "13px", color: "#2C1F14", lineHeight: 1.8, fontFamily: "'Noto Serif JP', serif", margin: 0 }}>
-              {result.lineDesc}
-            </p>
-            <a href={LINE_URL} target="_blank" rel="noopener noreferrer"
-              onClick={handleLineClick}
-              style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", alignSelf: "flex-start" }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-                <path d="M12 2C6.48 2 2 5.92 2 10.74c0 3.22 1.97 6.04 4.93 7.72L6 21l3.38-1.77c.84.23 1.73.35 2.62.35 5.52 0 10-3.92 10-8.84C22 5.92 17.52 2 12 2z"/>
-              </svg>
-              {result.lineLabel}
-            </a>
-            <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-              読むだけOK ／ 勧誘なし ／ いつでも解除OK
-            </p>
-          </div>
-
           {/* 構造理解リンク */}
           <div className="p-4 rounded-xl bg-stone-50 border border-stone-100 mb-4">
             <p className="text-xs font-medium text-stone-600 mb-2">「なぜこうなるのか」を構造から理解する</p>
@@ -249,30 +304,26 @@ export default function BoundaryCheck() {
               <Link to="/articles/working-model" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
                 → ワーキングモデルとは?断れない・境界線の構造的な理由
               </Link>
-              <Link to="/articles/other-axis-what" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 他人軸とは?抜け出せない理由と原因
-              </Link>
-              <Link to="/articles/helper-cannot-say-no" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
-                → 断れない原因とは?NOが言えない人の心理と構造
-              </Link>
             </div>
           </div>
 
-          {/* ▼ 新規追加:マッチング誘導ブロック */}
-          <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
-            <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
-            <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-              いしずえカウンセリングが、あなたに合うかどうか
-            </p>
-            <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
-              カウンセリングは「合う・合わない」がはっきり分かれます。
-              10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
-            </p>
-            <Link to="/articles/counseling-matching-check"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
-              合う人・合わない人チェック(10項目)を見る →
-            </Link>
-          </div>
+          {/* マッチング誘導ブロック(相談受付中のみ表示) */}
+          {ACCEPTING_NEW_CLIENTS && (
+            <div className="p-4 rounded-xl mb-3" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
+              <p className="text-[10px] font-medium mb-1.5 tracking-wider" style={{ color: "#c4904a" }}>カウンセリングを検討する前に</p>
+              <p className="text-sm text-stone-700 leading-[1.9] mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                いしずえカウンセリングが、あなたに合うかどうか
+              </p>
+              <p className="text-xs text-stone-600 leading-relaxed mb-2.5">
+                カウンセリングは「合う・合わない」がはっきり分かれます。
+                10項目で相性を確認できます(合わないと出たら別の選択肢も案内しています)。
+              </p>
+              <Link to="/articles/counseling-matching-check"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-stone-700 border border-stone-300 hover:border-stone-400 hover:bg-stone-50 transition-all bg-white">
+                合う人・合わない人チェック(10項目)を見る →
+              </Link>
+            </div>
+          )}
         </div>
       )}
 

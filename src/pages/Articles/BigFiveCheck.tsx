@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "big-five-check"
@@ -411,10 +411,10 @@ function BigFiveWidget() {
           <div style={{ padding: "16px", background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", textAlign: "center" as const }}>
             <p style={{ fontSize: "14px", color: "#f1f5f9", fontWeight: 600, marginBottom: "6px" }}>
-              この消耗パターンを、一緒に整理してみませんか
+              {whenOpen("この消耗パターンを、一緒に整理してみませんか", "この消耗パターンの解説を受け取りませんか")}
             </p>
             <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "14px" }}>
-              「なぜこうなるのか」がわかると、自分を責めなくてよくなります
+              {whenOpen("「なぜこうなるのか」がわかると、自分を責めなくてよくなります", "「なぜこうなるのか」がわかると、自分を責めなくてよくなります。状態別の解説を、LINEで順に受け取れます。")}
             </p>
             <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} style={{ display: "inline-block", padding: "12px 28px",
               background: "#2C1F14", color: "#fff", borderRadius: "10px",

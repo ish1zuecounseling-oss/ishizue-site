@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "values-mismatch-check"
@@ -430,10 +430,10 @@ export default function ValuesMismatchCheck() {
           {/* CV ブロック */}
           <div style={{ background: "linear-gradient(135deg, #F5F7F5 0%, #ffffff 50%, #EFF4F1 100%)", border: "1.5px solid rgba(143,175,159,0.35)", borderRadius: "14px", padding: "1.5rem", textAlign: "center" }}>
             <p style={{ fontWeight: 600, fontSize: "1rem", color: "#222", marginBottom: "0.6rem" }}>
-              「合わない」を構造から整理してみませんか
+              {whenOpen("「合わない」を構造から整理してみませんか", "「合わない」を構造から理解する")}
             </p>
             <p style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.75, marginBottom: "1.25rem" }}>
-              価値観の違いから来る対人摩擦・自己嫌悪を、安全な場で言語化することで、苦しみの正体が見えてきます。「相手のせい・自分のせい」を超えた整理が可能です。
+              {whenOpen("価値観の違いから来る対人摩擦・自己嫌悪を、安全な場で言語化することで、苦しみの正体が見えてきます。「相手のせい・自分のせい」を超えた整理が可能です。", "価値観の違いから来る対人摩擦・自己嫌悪は、構造がわかると「相手のせい・自分のせい」から少し離れられます。状態別の解説を、LINEで順に受け取れます。")}
             </p>
             <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               style={{ display: "inline-block", background: "#2C1F14", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
@@ -564,10 +564,10 @@ export default function ValuesMismatchCheck() {
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
         <p className="text-[10px] text-stone-500 mb-1">「人と合わない」苦しみを抱えている方へ</p>
         <p className="text-sm font-medium text-stone-100 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          価値観の違いを、構造として整理する対話を
+          {whenOpen("価値観の違いを、構造として整理する対話を", "価値観の違いを、構造として理解する")}
         </p>
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
-          価値観の違いから来る対人摩擦・自己嫌悪は、一人で抱えるほど深まります。安全な場で「自分の価値観」「相手との違い」を言語化することで、苦しみの正体が見えてきます。支援職特有の価値観の衝突についても、構造を理解した上で一緒に整理していきます。
+          {whenOpen("価値観の違いから来る対人摩擦・自己嫌悪は、一人で抱えるほど深まります。安全な場で「自分の価値観」「相手との違い」を言語化することで、苦しみの正体が見えてきます。支援職特有の価値観の衝突についても、構造を理解した上で一緒に整理していきます。", "価値観の違いから来る対人摩擦・自己嫌悪は、一人で抱えるほど深まります。「自分の価値観」と「相手との違い」を構造として知るための解説を、LINEで順に受け取れます。")}
         </p>
         <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
           {ctaText(`今の状態を整理してみる${FREE_FIRST}`)}

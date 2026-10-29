@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen, PAUSED_COPY } from "../../data/siteStatus"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { useLineClickFromCheck } from "../../lib/useCheckTracking"
 
@@ -77,8 +77,8 @@ const resultConfig = {
       { href: "/articles/helper-self-care",       text: "支援職のセルフケア" },
     ],
     cvBlock: {
-      heading: "余裕のある今、整えておくのが最も効率的です",
-      body: "崩れてから対処するのは時間も負担も大きくなります。今のうちに、自分の消耗パターンを言語化しておくことが、持続的な支援者でいるための土台になります。",
+      heading: whenOpen("余裕のある今、整えておくのが最も効率的です", PAUSED_COPY.light.heading),
+      body: whenOpen("崩れてから対処するのは時間も負担も大きくなります。今のうちに、自分の消耗パターンを言語化しておくことが、持続的な支援者でいるための土台になります。", PAUSED_COPY.light.body),
       buttonText: ctaText(`今の状態を整理しておく${FREE_FIRST}`),
       href: CONTACT_HREF,
       sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 支援職専門"),
@@ -95,8 +95,8 @@ const resultConfig = {
       { href: "/articles/helper-empathy-check",   text: "共感疲労チェック" },
     ],
     cvBlock: {
-      heading: "この段階で止められるかが分岐点です",
-      body: "まだ日常は回せているかもしれませんが、ストレスはここから一気に深くなることがあります。早めに整理することで、大きく崩れずに抜けられる可能性が高くなります。",
+      heading: whenOpen("この段階で止められるかが分岐点です", PAUSED_COPY.mid.heading),
+      body: whenOpen("まだ日常は回せているかもしれませんが、ストレスはここから一気に深くなることがあります。早めに整理することで、大きく崩れずに抜けられる可能性が高くなります。", PAUSED_COPY.mid.body),
       buttonText: ctaText(`今の状態を整理しておく${FREE_FIRST}`),
       href: CONTACT_HREF,
       sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可"),
@@ -113,8 +113,8 @@ const resultConfig = {
       { href: "/articles/why-self-care-doesnt-work",    text: "セルフケアが効かない理由" },
     ],
     cvBlock: {
-      heading: "このまま抱え続けるより、外に出した方が早い段階です",
-      body: "今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。一度、そのままの状態を言葉にしてみませんか?",
+      heading: whenOpen("このまま抱え続けるより、外に出した方が早い段階です", PAUSED_COPY.high.heading),
+      body: whenOpen("今の状態は『自分の中で処理し続ける』よりも、外に出して整理した方が回復しやすい段階の可能性があります。一度、そのままの状態を言葉にしてみませんか?", PAUSED_COPY.high.body),
       buttonText: ctaText(`今の状態をそのまま話してみる${FREE_FIRST}`),
       href: CONTACT_HREF,
       sub: ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK"),

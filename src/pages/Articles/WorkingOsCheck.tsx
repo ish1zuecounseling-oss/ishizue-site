@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen, ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "working-os-check"
@@ -340,10 +340,10 @@ function WorkingOsWidget() {
           <div style={{ padding: "16px", background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px", textAlign: "center" as const }}>
             <p style={{ fontSize: "14px", color: "#f1f5f9", fontWeight: 600, marginBottom: "6px" }}>
-              消耗の構造を解体し、<br />あなたらしい働き方を再設計しませんか
+              {ACCEPTING_NEW_CLIENTS ? <>消耗の構造を解体し、<br />あなたらしい働き方を再設計しませんか</> : <>消耗の構造を知って、<br />働き方を見直すヒントを受け取る</>}
             </p>
             <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
-              レーダーチャートのいびつさは、あなたの「伸び代」です
+              {whenOpen("レーダーチャートのいびつさは、あなたの「伸び代」です", "レーダーチャートのいびつさは、あなたの「伸び代」です。状態別の解説を、LINEで順に受け取れます。")}
             </p>
             <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} style={{ display: "inline-block", padding: "12px 24px",
               background: "#2C1F14", color: "#fff", borderRadius: "10px",

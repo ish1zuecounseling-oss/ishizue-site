@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen, PAUSED_COPY } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-fatigue-check"
@@ -115,8 +115,8 @@ function getResult(score: number) {
         "消耗のサインが強い領域を優先的にケアしましょう",
       ],
       cvBlock: {
-        heading: "今の状態、一度整理してみませんか",
-        body: "「まだ大丈夫」と思いながら、じわじわと消耗していることがあります。早めに気づいて整理するほど、回復しやすくなります。",
+        heading: whenOpen("今の状態、一度整理してみませんか", PAUSED_COPY.mid.heading),
+        body: whenOpen("「まだ大丈夫」と思いながら、じわじわと消耗していることがあります。早めに気づいて整理するほど、回復しやすくなります。", PAUSED_COPY.mid.body),
         buttonText: ctaText(`支援職専門カウンセリングに相談する${FREE_FIRST}`),
         href: CONTACT_HREF,
         sub: ctaSub("勧誘なし ／ 1回のみでもOK ／ 送った後もキャンセル可"),
@@ -136,8 +136,8 @@ function getResult(score: number) {
         "「自分が苦しいことへの罪悪感」を手放し、まず自分を労わることを優先してください",
       ],
       cvBlock: {
-        heading: "一人で抱え込まなくていい",
-        body: "「相談するほどじゃないかも」と思う気持ちは自然です。でもその感覚自体が、ケアラー疲労のサインであることが多いです。支援職専門のカウンセリングで、今の状態を整理してみましょう。",
+        heading: whenOpen("一人で抱え込まなくていい", PAUSED_COPY.high.heading),
+        body: whenOpen("「相談するほどじゃないかも」と思う気持ちは自然です。でもその感覚自体が、ケアラー疲労のサインであることが多いです。支援職専門のカウンセリングで、今の状態を整理してみましょう。", PAUSED_COPY.high.body),
         buttonText: ctaText(`松本に、今の状態を整理してもらう${FREE_FIRST}`),
         href: CONTACT_HREF,
         sub: ctaSub("支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK"),

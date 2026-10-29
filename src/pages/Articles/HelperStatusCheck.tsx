@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Heart, Layers, Building2, Moon, ArrowRight } from "lucide-react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText, ctaSub, whenOpen } from "../../data/siteStatus"
 import { useCheckCompleteOnSubmit, useLineClickFromCheck, ratioLevel } from "../../lib/useCheckTracking"
 
 const CHECK_NAME = "helper-status-check"
@@ -300,7 +300,7 @@ function StatusCheckWidget() {
               一人で抱え込まなくていい
             </p>
             <p style={{ fontSize: "12px", color: "#64748b", marginBottom: "12px" }}>
-              言葉にならなくても大丈夫です
+              {whenOpen("言葉にならなくても大丈夫です", "言葉にならなくても大丈夫です。状態別の解説を、LINEで順に受け取れます。")}
             </p>
             <a
               href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
