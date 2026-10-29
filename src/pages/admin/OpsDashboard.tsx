@@ -74,7 +74,7 @@ type ApiResult = {
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
   line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }
   manual?: { ok: boolean; message?: string; data?: Manual }
-  waitingLine?: number | null
+  waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
 }
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
@@ -424,7 +424,7 @@ function ManualEditor({ manual, adminKey, onSaved }: {
   return (
     <div className="bg-white rounded-xl border border-stone-200">
       <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-3 py-2.5 text-left">
-        <span className="text-xs font-medium text-stone-700">手入力の項目を更新する(6〜9)</span>
+        <span className="text-xs font-medium text-stone-700">手入力の項目を更新する(6〜8)</span>
         <span className="text-[11px]" style={{ color: SAGE }}>{open ? "閉じる" : "開く"}</span>
       </button>
       {open && (
@@ -465,11 +465,6 @@ function ManualEditor({ manual, adminKey, onSaved }: {
               ))}
             </div>
           </div>
-          <label className="flex items-center justify-between gap-2 text-[12px] text-stone-600">
-            <span className="text-[11px] text-stone-500">9. 開業待ちの人(LINEの「待つ」以外で把握した人数。LINE分は自動で足されます)</span>
-            <input type="number" inputMode="numeric" min={0} className={inputCls}
-              value={draft.waiting ?? ""} onChange={(e) => setDraft((d) => ({ ...d, waiting: Math.max(0, Number(e.target.value) || 0) }))} />
-          </label>
           <div>
             <p className="text-[11px] text-stone-500 mb-1">メモ</p>
             <textarea rows={2} maxLength={500} className="w-full px-2 py-1.5 rounded-lg border border-stone-300 text-[12px] bg-white"
@@ -557,8 +552,9 @@ function AchievementTrend({ data }: { data: ApiResult }) {
     }) },
     { label: "9. 開業待ちの人", cells: months.map((ym) => {
       if (!manualOk) return null
-      if (ym === curYm) return ((md.waiting ?? 0) + (data.waitingLine ?? 0)) / TARGET_WAITING
-      const snap = md.snapshots?.[ym]; return snap ? snap.waiting / TARGET_WAITING : null
+      if (!data.waitingLine) return null
+      const v = ym === curYm ? data.waitingLine.count : data.waitingLine.byMonthEnd[ym]
+      return v === undefined ? null : v / TARGET_WAITING
     }) },
   ]
   // 総合:1〜8の達成率(100%で頭打ち)の平均。記録のない項目は0%として数える
@@ -586,7 +582,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">達成率の推移</p>
       <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
-        各月の「実績 ÷ 目標」。今月は途中経過。8・9は手入力を保存した月から記録されます。総合は1〜8の平均(100%で頭打ち)です。
+        各月の「実績 ÷ 目標」。今月は途中経過。8は手入力を保存した月から記録されます(9はLINEの記録から自動)。総合は1〜8の平均(100%で頭打ち)です。
       </p>
 
       <div className="bg-white rounded-xl border border-stone-200 p-3 mb-2">
@@ -801,8 +797,8 @@ export default function OpsDashboard() {
   const igLineAdds = manualData.igLineAdds ?? {}
   const streak = igStreak(igPosts)
   const checklistDone = CHECKLIST.filter(([k]) => manualData.checklist?.[k]).length
-  const waitingLine = data?.waitingLine ?? 0
-  const waiting = (manualData.waiting ?? 0) + waitingLine
+  const waitingOk = !!data?.waitingLine
+  const waiting = data?.waitingLine?.count ?? 0
   const met: boolean[] = [
     last2.length === 2 && last2.every((mo) => mo.users >= TARGET_USERS),
     !!last && last.lineClicks >= TARGET_LINE,
@@ -949,10 +945,10 @@ export default function OpsDashboard() {
               <GoalCard
                 no={9} title="開業待ちの人"
                 value={`${waiting}人`}
-                sub={`LINEで「待つ」${waitingLine}人 ＋ その他${manualData.waiting ?? 0}人`}
+                sub="LINEで「待つ」と返信した人(ブロックした人は除く)"
                 goal={`${TARGET_WAITING}人以上(達成すれば1〜8に関係なく開始)`}
-                ratio={manualOk ? waiting / TARGET_WAITING : null}
-                note={manualOk ? undefined : "保存先未接続"}
+                ratio={waitingOk ? waiting / TARGET_WAITING : null}
+                note={waitingOk ? undefined : "保存先未接続"}
               />
             </div>
 
