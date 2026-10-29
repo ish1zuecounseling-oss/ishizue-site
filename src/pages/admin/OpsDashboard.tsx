@@ -74,6 +74,7 @@ type ApiResult = {
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
   line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }
   manual?: { ok: boolean; message?: string; data?: Manual }
+  waitingLine?: number | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
 }
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
@@ -465,7 +466,7 @@ function ManualEditor({ manual, adminKey, onSaved }: {
             </div>
           </div>
           <label className="flex items-center justify-between gap-2 text-[12px] text-stone-600">
-            <span className="text-[11px] text-stone-500">9. 開業待ちの人(LINEアンケートの回答数)</span>
+            <span className="text-[11px] text-stone-500">9. 開業待ちの人(LINEの「待つ」以外で把握した人数。LINE分は自動で足されます)</span>
             <input type="number" inputMode="numeric" min={0} className={inputCls}
               value={draft.waiting ?? ""} onChange={(e) => setDraft((d) => ({ ...d, waiting: Math.max(0, Number(e.target.value) || 0) }))} />
           </label>
@@ -556,7 +557,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
     }) },
     { label: "9. 開業待ちの人", cells: months.map((ym) => {
       if (!manualOk) return null
-      if (ym === curYm) return (md.waiting ?? 0) / TARGET_WAITING
+      if (ym === curYm) return ((md.waiting ?? 0) + (data.waitingLine ?? 0)) / TARGET_WAITING
       const snap = md.snapshots?.[ym]; return snap ? snap.waiting / TARGET_WAITING : null
     }) },
   ]
@@ -800,7 +801,8 @@ export default function OpsDashboard() {
   const igLineAdds = manualData.igLineAdds ?? {}
   const streak = igStreak(igPosts)
   const checklistDone = CHECKLIST.filter(([k]) => manualData.checklist?.[k]).length
-  const waiting = manualData.waiting ?? 0
+  const waitingLine = data?.waitingLine ?? 0
+  const waiting = (manualData.waiting ?? 0) + waitingLine
   const met: boolean[] = [
     last2.length === 2 && last2.every((mo) => mo.users >= TARGET_USERS),
     !!last && last.lineClicks >= TARGET_LINE,
@@ -947,6 +949,7 @@ export default function OpsDashboard() {
               <GoalCard
                 no={9} title="開業待ちの人"
                 value={`${waiting}人`}
+                sub={`LINEで「待つ」${waitingLine}人 ＋ その他${manualData.waiting ?? 0}人`}
                 goal={`${TARGET_WAITING}人以上(達成すれば1〜8に関係なく開始)`}
                 ratio={manualOk ? waiting / TARGET_WAITING : null}
                 note={manualOk ? undefined : "保存先未接続"}
