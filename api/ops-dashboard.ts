@@ -233,17 +233,34 @@ function sanitizeManual(input: unknown) {
 }
 
 /** LINEで「待つ」と返信した人数(api/line-webhook.ts が記録) */
-async function getWaitingFromLine(): Promise<number | null> {
+/** LINEで「待つ」と返信した人(api/line-webhook.ts が記録)。人数と、各月末時点の累計 */
+async function getWaitingFromLine(): Promise<{ count: number; byMonthEnd: Record<string, number> } | null> {
   const kv = kvConfig()
   if (!kv) return null
   try {
     const r = await fetch(kv.url, {
       method: "POST",
       headers: { Authorization: `Bearer ${kv.token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(["HLEN", "ishizue:waiting"]),
+      body: JSON.stringify(["HGETALL", "ishizue:waiting"]),
     })
-    const d = (await r.json()) as { result?: number }
-    return r.ok ? d.result ?? 0 : null
+    const d = (await r.json()) as { result?: string[] }
+    if (!r.ok) return null
+    const list = d.result ?? []
+    const times: number[] = []
+    for (let i = 1; i < list.length; i += 2) {
+      const t = Date.parse(list[i])
+      if (Number.isFinite(t)) times.push(t)
+    }
+    // 日本時間の月末(翌月1日0時)より前に返信した人を、その月末の累計として数える
+    const byMonthEnd: Record<string, number> = {}
+    for (let n = 0; n <= 6; n++) {
+      const now = new Date(Date.now() + 9 * 3600_000)
+      const start = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - n, 1)
+      const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - n + 1, 1) - 9 * 3600_000
+      const ym = new Date(start).toISOString().slice(0, 7).replace("-", "")
+      byMonthEnd[ym] = times.filter((t) => t < next).length
+    }
+    return { count: times.length, byMonthEnd }
   } catch {
     return null
   }
@@ -264,8 +281,8 @@ async function saveManual(input: unknown) {
     }
   }
   const ym = jstDate(0).slice(0, 7).replace("-", "")
-  const fromLine = (await getWaitingFromLine()) ?? 0
-  value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: value.waiting + fromLine }
+  // 9(開業待ち)は LINE の記録から自動で出すので、ここでは 8 のチェックリストだけ記録する
+  value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: 0 }
   const r = await fetch(`${kv.url}/set/${encodeURIComponent(MANUAL_KEY)}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${kv.token}` },
