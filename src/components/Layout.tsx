@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
+import DesktopLineQr from "./DesktopLineQr"
 
 /* -------------------------------------------------------------------------- */
 /*  Constants                                                                  */
@@ -361,6 +362,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         {children}
       </motion.div>
+
+      <DesktopLineQr />
 
       {/* ================================================================
           FOOTER
