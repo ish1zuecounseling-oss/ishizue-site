@@ -6,6 +6,9 @@
 import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
+// 統合で消した記事の転送先(検索の数字に古いURLが残っている間、転送先の記事名で表示するため)
+// @ts-ignore -- JSON の読み込み(Vite が対応。redirects だけを取り込む)
+import { redirects as VERCEL_REDIRECTS } from "../../../vercel.json"
 
 const KEY_STORAGE = "ishizue_views_key"
 const SAGE = "#7C9A8A"
@@ -744,7 +747,18 @@ const PAGE_LABEL: Record<string, string> = {
   "/ai-assistant": "AIで整理", "/privacy": "プライバシーポリシー", "/terms": "利用規約", "/tokusho": "特定商取引法の表記",
 }
 const titleMap = new Map(articles.map((a) => [a.path, a.title.replace(/【公認心理師[^】]*】/, "").replace(/[｜|].*$/, "").trim()]))
-const pageTitle = (p: string) => PAGE_LABEL[p] ?? titleMap.get(p) ?? p
+const redirectMap = new Map<string, string>(
+  ((VERCEL_REDIRECTS ?? []) as { source: string; destination: string }[])
+    .filter((r) => !r.source.includes(":") && !r.source.includes("("))
+    .map((r) => [r.source.replace(/\/$/, ""), r.destination.replace(/\/$/, "")]),
+)
+const pageTitle = (p: string): string => {
+  const own = PAGE_LABEL[p] ?? titleMap.get(p)
+  if (own) return own
+  const to = redirectMap.get(p.replace(/\/$/, ""))
+  if (to) return `${PAGE_LABEL[to] ?? titleMap.get(to) ?? to}(統合前のURL)`
+  return p
+}
 
 function Bar({ label, value, max, right, strong }: { label: string; value: number; max: number; right: string; strong?: boolean }) {
   return (
@@ -941,6 +955,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
 /* ------------------------------ サイトに加えた変更 ------------------------------ */
 /** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
 const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "見出し追加:共感しすぎて疲れる(情動感染・情動伝染)／メサイア症候群(症状・病気かどうか・メサイヤ表記)" },
   { date: "2026-10-30", text: "パソコンで見ている人に、右下へLINE登録のQRコードを表示(友だち追加経路は「QRコード」で数える)" },
   { date: "2026-10-30", text: "スマホ表示の修正(トップのお知らせ帯・押しにくいリンクを押しやすく)" },
   { date: "2026-10-29", text: "LINEの新しいステップ配信(7日間・2026年11月版)を開始" },
