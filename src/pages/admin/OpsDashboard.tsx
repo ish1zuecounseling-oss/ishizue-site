@@ -254,7 +254,7 @@ function benchCtr(pos: number): number {
   if (pos <= 10) return 0.04
   return 0.015
 }
-const LEVEL_LABEL: Record<string, string> = { low: "軽め", mid: "中くらい", high: "強め", severe: "とても強い" }
+const LEVEL_LABEL: Record<string, string> = { low: "軽め", mid: "中くらい", high: "強め", severe: "とても強い", p0: "消耗の中", p1: "休養", p2: "整理", p3: "再構築", p4: "維持" }
 
 type Cand = { row: Row; reason: string; score: number }
 
@@ -961,6 +961,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
 /* ------------------------------ サイトに加えた変更 ------------------------------ */
 /** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
 const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "新しいチェック「燃え尽き 回復段階チェック」を公開(回復期間の記事からリンク)" },
   { date: "2026-10-30", text: "見出し追加:共感しすぎて疲れる(情動感染・情動伝染)／メサイア症候群(症状・病気かどうか・メサイヤ表記)" },
   { date: "2026-10-30", text: "パソコンで見ている人に、右下へLINE登録のQRコードを表示(友だち追加経路は「QRコード」で数える)" },
   { date: "2026-10-30", text: "スマホ表示の修正(トップのお知らせ帯・押しにくいリンクを押しやすく)" },
