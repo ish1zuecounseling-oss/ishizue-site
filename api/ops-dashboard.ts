@@ -349,6 +349,60 @@ export default async function handler(req: Req, res: Res) {
   }
 
   /* ---- 1件だけGoogle登録状況を調べる ---- */
+  /* ---- 「ユーザー」タブ用のデータ(どんな人が来て、どう動いているか) ---- */
+  if (q1("view") === "users") {
+    try {
+      const range = { startDate: `${days}daysAgo`, endDate: "yesterday" }
+      const run = (body: Record<string, unknown>) => ga4(token, GA4_PROPERTY_ID, { dateRanges: [range], ...body })
+      const lineFilter = { filter: { fieldName: "eventName", stringFilter: { matchType: "FULL_REGEXP", value: "line_cta_click|line_click_from_check|[a-z_]*_line_click" } } }
+      const [summary, newRet, device, region, dayHour, landing, transitions, articleUsers, checkUsers, lineUsers] = await Promise.all([
+        run({ metrics: [{ name: "activeUsers" }, { name: "newUsers" }, { name: "sessions" }, { name: "screenPageViews" }, { name: "userEngagementDuration" }, { name: "engagementRate" }] }),
+        run({ dimensions: [{ name: "newVsReturning" }], metrics: [{ name: "activeUsers" }, { name: "sessions" }, { name: "screenPageViews" }, { name: "userEngagementDuration" }] }),
+        run({ dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "activeUsers" }, { name: "engagementRate" }] }),
+        run({ dimensions: [{ name: "region" }], metrics: [{ name: "activeUsers" }], orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }], limit: 12 }),
+        run({ dimensions: [{ name: "dayOfWeek" }, { name: "hour" }], metrics: [{ name: "sessions" }], limit: 200 }),
+        run({ dimensions: [{ name: "landingPage" }], metrics: [{ name: "sessions" }, { name: "engagementRate" }, { name: "screenPageViewsPerSession" }], orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 20 }),
+        run({
+          dimensions: [{ name: "pageReferrer" }, { name: "pagePath" }], metrics: [{ name: "screenPageViews" }],
+          dimensionFilter: { filter: { fieldName: "pageReferrer", stringFilter: { matchType: "CONTAINS", value: SITE_HOST } } },
+          orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }], limit: 1000,
+        }),
+        run({ metrics: [{ name: "activeUsers" }], dimensionFilter: { filter: { fieldName: "pagePath", stringFilter: { matchType: "BEGINS_WITH", value: "/articles/" } } } }),
+        run({ metrics: [{ name: "totalUsers" }], dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "check_complete" } } } }),
+        run({ metrics: [{ name: "totalUsers" }], dimensionFilter: lineFilter }),
+      ])
+      const m0 = (rows: Ga4Row[], i = 0) => num(rows[0]?.metricValues[i]?.value)
+      // サイト内の移動(前のページ → 次のページ)。同じページの再読み込みは除く
+      const pairs = new Map<string, number>()
+      for (const r of transitions) {
+        let from: string
+        try { from = normPath(new URL(r.dimensionValues[0].value).pathname) } catch { continue }
+        const to = normPath(r.dimensionValues[1].value)
+        if (from === to || to.startsWith("/admin")) continue
+        const k = from + " " + to
+        pairs.set(k, (pairs.get(k) ?? 0) + num(r.metricValues[0].value))
+      }
+      res.status(200).json({
+        days,
+        fetchedAt: new Date().toISOString(),
+        summary: {
+          users: m0(summary, 0), newUsers: m0(summary, 1), sessions: m0(summary, 2), pageViews: m0(summary, 3),
+          engagementSec: m0(summary, 4), engagementRate: m0(summary, 5),
+        },
+        newVsReturning: newRet.map((r) => ({ type: r.dimensionValues[0].value, users: num(r.metricValues[0].value), sessions: num(r.metricValues[1].value), pageViews: num(r.metricValues[2].value), engagementSec: num(r.metricValues[3].value) })),
+        devices: device.map((r) => ({ device: r.dimensionValues[0].value, users: num(r.metricValues[0].value), engagementRate: num(r.metricValues[1].value) })),
+        regions: region.map((r) => ({ region: r.dimensionValues[0].value, users: num(r.metricValues[0].value) })),
+        dayHour: dayHour.map((r) => ({ day: Number(r.dimensionValues[0].value), hour: Number(r.dimensionValues[1].value), sessions: num(r.metricValues[0].value) })),
+        landing: landing.map((r) => ({ path: normPath(r.dimensionValues[0].value), sessions: num(r.metricValues[0].value), engagementRate: num(r.metricValues[1].value), pagesPerSession: num(r.metricValues[2].value) })),
+        transitions: [...pairs.entries()].sort((a, b) => b[1] - a[1]).slice(0, 25).map(([k, v]) => { const [from, to] = k.split(" "); return { from, to, views: v } }),
+        funnel: { users: m0(summary, 0), articleUsers: m0(articleUsers), checkUsers: m0(checkUsers), lineUsers: m0(lineUsers) },
+      })
+    } catch (e) {
+      res.status(502).json({ error: "fetch_failed", message: e instanceof Error ? e.message : "unknown" })
+    }
+    return
+  }
+
   const inspect = q1("inspect")
   if (inspect) {
     try {
