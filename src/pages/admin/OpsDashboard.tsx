@@ -1334,6 +1334,62 @@ function PlanGapBars({ items }: { items: { label: string; now: number | null; ne
   )
 }
 
+/* 年間計画:月ごとの実績が「毎月必要な数」の何%か(小さなグラフを3つ並べる) */
+function PlanProgressMini({ title, series, need, unit }: { title: string; series: { month: string; value: number | null; partial: boolean }[]; need: number; unit: string }) {
+  const [hover, setHover] = useState<number | null>(null)
+  const W = 150, H = 92, L = 26, R = 4, T = 8, B = 16
+  const ratios = series.map((x) => (x.value === null ? null : x.value / need))
+  const mx = Math.max(0.01, ...ratios.map((r) => r ?? 0)) * 1.2
+  const stepPct = mx > 0.5 ? 0.25 : mx > 0.2 ? 0.1 : mx > 0.1 ? 0.05 : mx > 0.04 ? 0.02 : 0.01
+  const ticks = Array.from({ length: Math.floor(mx / stepPct) + 1 }, (_, k) => k * stepPct)
+  const y = (v: number) => T + (H - T - B) * (1 - v / mx)
+  const bw = (W - L - R) / series.length
+  const h = hover !== null ? series[hover] : null
+  return (
+    <div className="relative">
+      <p className="text-[11px] mb-0.5" style={{ color: INK }}>{title}</p>
+      <p className="text-[10px] text-stone-400 mb-1 h-4">
+        {h ? `${monthLabel(h.month)}${h.partial ? "(途中)" : ""}:${h.value === null ? "—" : `${fmt(h.value)}${unit}(${pct(h.value / need)})`}` : `必要 ${fmt(Math.ceil(need))}${unit}/月`}
+      </p>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${title}の、必要な数に対する割合の推移`}>
+        {ticks.map((t) => (
+          <g key={t}>
+            <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" strokeWidth={1} />
+            <text x={L - 3} y={y(t) + 3} textAnchor="end" fontSize={8} fill="#a8a29e">{Math.round(t * 100)}%</text>
+          </g>
+        ))}
+        {series.map((x, k) => {
+          const r = ratios[k]
+          const bx = L + k * bw + 2, w = bw - 4, base = y(0)
+          const top = r === null ? base : y(r), hh = base - top, rr = Math.min(3, w / 2, hh)
+          return (
+            <g key={x.month} onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} onClick={() => setHover(k)} style={{ cursor: "pointer" }}>
+              <rect x={L + k * bw} y={T} width={bw} height={H - T - B} fill="transparent" />
+              {r !== null && hh > 0 && (
+                <path d={`M${bx},${base} V${top + rr} Q${bx},${top} ${bx + rr},${top} H${bx + w - rr} Q${bx + w},${top} ${bx + w},${top + rr} V${base} Z`}
+                  fill={SAGE} opacity={x.partial ? 0.4 : hover === null || hover === k ? 1 : 0.6} />
+              )}
+              <text x={bx + w / 2} y={H - 4} textAnchor="middle" fontSize={8} fill="#a8a29e">{Number(x.month.slice(4))}月</text>
+            </g>
+          )
+        })}
+        <line x1={L} x2={W - R} y1={y(0)} y2={y(0)} stroke="#d6d0c6" strokeWidth={1} />
+      </svg>
+    </div>
+  )
+}
+
+/** 直近の締まった月どうしの伸び率(月あたり)から、必要な数に届く月数を見込む */
+function monthsToReach(values: number[], need: number): { growth: number; months: number } | null {
+  const v = values.filter((x) => x > 0)
+  if (v.length < 2) return null
+  const first = v[0], last = v[v.length - 1], n = v.length - 1
+  const growth = Math.pow(last / first, 1 / n) - 1
+  if (last >= need) return { growth, months: 0 }
+  if (growth <= 0) return { growth, months: Infinity }
+  return { growth, months: Math.log(need / last) / Math.log(1 + growth) }
+}
+
 function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: string; onSaved: (m: Manual) => void }) {
   const saved = data.manual?.data?.plan
   const [p, setP] = useState<Plan>({ ...PLAN_DEFAULT, ...(saved ?? {}) })
@@ -1453,6 +1509,46 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
           ]} />
         </div>
       </div>
+
+      {/* 現在比の推移 */}
+      {(() => {
+        const ms = data.months.slice(-4)
+        const curYm = data.months[data.months.length - 1]?.month
+        const prevYm = (ym: string) => { const yy = +ym.slice(0, 4), mm = +ym.slice(4); return mm === 1 ? `${yy - 1}12` : `${yy}${String(mm - 1).padStart(2, "0")}` }
+        const at = (ym: string) => (ym === curYm ? data.line?.latest ?? undefined : data.line?.monthEnds?.find((x) => x.month === ym))
+        const addsOf = (ym: string) => { const a = at(ym), b = at(prevYm(ym)); return a && b ? a.followers - b.followers : null }
+        const ser = (f: (m: Month) => number | null) => ms.map((m) => ({ month: m.month, value: f(m), partial: m.month === curYm }))
+        const usersSer = ser((m) => m.users), clicksSer = ser((m) => m.lineClicks), addsSer = ser((m) => addsOf(m.month))
+        const full = (xs: { value: number | null; partial: boolean }[]) => xs.filter((x) => !x.partial && x.value !== null).map((x) => x.value as number)
+        const reach = monthsToReach(full(usersSer).slice(-3), users)
+        const reachText = (() => {
+          if (!reach) return null
+          if (reach.months === 0) return "すでに届いています"
+          if (!Number.isFinite(reach.months)) return "今の伸び方では届きません"
+          const mm = Math.ceil(reach.months)
+          const d = new Date(); d.setMonth(d.getMonth() + mm)
+          return `約${mm}か月後(${d.getFullYear()}年${d.getMonth() + 1}月ごろ)`
+        })()
+        return (
+          <div>
+            <p className="text-xs font-medium text-stone-600 mb-1">現在比の推移(毎月必要な数の何%まで来たか)</p>
+            <p className="text-[10px] text-stone-400 mb-2">薄い棒は今月(途中)。棒を押すと実数が出ます。開業判断の目標とは別に、売上目標から逆算した「必要な数」と比べています。</p>
+            <div className="bg-white rounded-xl border border-stone-200 p-3">
+              <div className="grid grid-cols-3 gap-2">
+                <PlanProgressMini title="サイトのユーザー" series={usersSer} need={users} unit="人" />
+                <PlanProgressMini title="LINEボタン" series={clicksSer} need={clicks} unit="回" />
+                <PlanProgressMini title="LINE友だち追加" series={addsSer} need={friends} unit="人" />
+              </div>
+              {reach && reachText && (
+                <p className="text-[11px] text-stone-600 mt-3 leading-relaxed">
+                  サイトのユーザーは直近、月{(reach.growth * 100).toFixed(0)}%ずつ伸びています。このペースが続くと、必要な{fmt(Math.ceil(users))}人に届くのは<strong>{reachText}</strong>。
+                  <span className="text-[10px] text-stone-400 block mt-0.5">検索流入の伸びはいずれ鈍るので、楽観的な見込みです。</span>
+                </p>
+              )}
+            </div>
+          </div>
+        )
+      })()}
 
       {/* 何を動かすと楽になるか */}
       <div>
