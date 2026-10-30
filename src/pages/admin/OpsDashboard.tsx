@@ -96,9 +96,15 @@ type Manual = {
   igPosts?: Record<string, number>; igLineAdds?: Record<string, number>
   checklist?: Record<string, boolean>; waiting?: number; note?: string; updatedAt?: string
   snapshots?: Record<string, { checklistDone: number; waiting: number }>
+  plan?: Plan
+}
+type Plan = {
+  annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
+  friendToClient: number; clickToAdd: number | null; userToClick: number | null
+  capacity: number | null; launchMonth: string | null; expenseRate?: number; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
-type Tab = "launch" | "users" | "todo" | "articles" | "search"
+type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
 
 /** GA4の流入元(デフォルト チャネル グループ)の日本語名と説明 */
@@ -1223,6 +1229,262 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
   )
 }
 
+/* ------------------------------ 年間計画 ------------------------------ */
+const PLAN_DEFAULT: Plan = {
+  annualTarget: 4000000, unitPrice: 10000, sessionsPerClient: 6, sessionsPerMonth: 2,
+  friendToClient: 0.05, clickToAdd: null, userToClick: null, capacity: null, launchMonth: null, expenseRate: 0.2,
+}
+
+/** 今のサイトの実績(直近の締まった月)から、転換率を出す */
+function planActuals(data: ApiResult) {
+  const ms = data.months
+  const full = ms.length >= 2 ? ms[ms.length - 2] : ms[ms.length - 1]
+  const prevYm = (ym: string) => { const y = +ym.slice(0, 4), m = +ym.slice(4); return m === 1 ? `${y - 1}12` : `${y}${String(m - 1).padStart(2, "0")}` }
+  const curYm = ms[ms.length - 1]?.month
+  const at = (ym: string) => (ym === curYm ? data.line?.latest ?? undefined : data.line?.monthEnds?.find((x) => x.month === ym))
+  // 友だち追加 ÷ ボタンが押された回数(データのある月を合算)
+  let adds = 0, clicks = 0
+  for (const mo of ms.slice(0, -1)) {
+    const a = at(mo.month), b = at(prevYm(mo.month))
+    if (a && b) { adds += a.followers - b.followers; clicks += mo.lineClicks }
+  }
+  const lastAdds = full ? (() => { const a = at(full.month), b = at(prevYm(full.month)); return a && b ? a.followers - b.followers : null })() : null
+  return {
+    month: full?.month,
+    users: full?.users ?? 0,
+    lineClicks: full?.lineClicks ?? 0,
+    adds: lastAdds,
+    clickToAdd: clicks > 0 ? Math.min(1, adds / clicks) : null,
+    userToClick: full && full.users ? full.lineClicks / full.users : null,
+  }
+}
+
+function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: string; onSaved: (m: Manual) => void }) {
+  const saved = data.manual?.data?.plan
+  const [p, setP] = useState<Plan>({ ...PLAN_DEFAULT, ...(saved ?? {}) })
+  const [status, setStatus] = useState("")
+  const act = planActuals(data)
+
+  const clickToAdd = p.clickToAdd ?? act.clickToAdd ?? 0.4
+  const userToClick = p.userToClick ?? act.userToClick ?? 0.01
+  const D = p.sessionsPerClient / p.sessionsPerMonth // 1人が通う月数
+  const ramp = Array.from({ length: 12 }, (_, i) => Math.min(i + 1, D)) // 各月の「継続中の人数 ÷ 毎月の新規」
+  const sessionsYear = p.annualTarget / p.unitPrice
+  const N = sessionsYear / (p.sessionsPerMonth * ramp.reduce((a, b) => a + b, 0)) // 毎月必要な新規の相談者
+  const friends = N / p.friendToClient
+  const clicks = friends / clickToAdd
+  const users = clicks / userToClick
+  const steadySessions = N * p.sessionsPerClient
+  const rows = ramp.map((r, i) => {
+    const active = N * r, sessions = active * p.sessionsPerMonth
+    return { i, active, sessions, revenue: sessions * p.unitPrice }
+  })
+  let cum = 0
+  const monthName = (i: number) => {
+    if (!p.launchMonth) return `${i + 1}か月目`
+    const [y, m] = p.launchMonth.split("-").map(Number)
+    const d = new Date(y, m - 1 + i, 1)
+    return `${d.getFullYear() % 100}年${d.getMonth() + 1}月`
+  }
+  const peak = Math.max(...rows.map((r) => r.sessions))
+  const over = p.capacity !== null && peak > p.capacity
+  const times = (need: number, now: number) => (now > 0 ? `${(need / now).toFixed(need / now >= 10 ? 0 : 1)}倍` : "—")
+
+  const set = (k: keyof Plan, v: string, scale = 1) => {
+    const x = v === "" ? null : Number(v) / scale
+    setP((d) => ({ ...d, [k]: x === null || Number.isNaN(x) ? (k in PLAN_DEFAULT && PLAN_DEFAULT[k] === null ? null : d[k]) : x }))
+  }
+  const save = async () => {
+    setStatus("保存中…")
+    try {
+      const r = await fetch("/api/ops-dashboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ plan: p }),
+      })
+      const b = await r.json()
+      if (!r.ok || !b.ok) throw new Error(b.message ?? "保存に失敗しました")
+      onSaved(b.data as Manual)
+      setStatus("保存しました")
+    } catch (e) {
+      setStatus(e instanceof Error ? e.message : "保存に失敗しました")
+    }
+  }
+
+  const field = (label: string, k: keyof Plan, opts: { unit?: string; scale?: number; step?: string; hint?: string; placeholder?: string; type?: string } = {}) => {
+    const v = p[k]
+    const shown = v === null || v === undefined ? "" : opts.scale ? +(Number(v) * opts.scale).toFixed(2) : v
+    return (
+      <label className="block">
+        <span className="text-[11px] text-stone-600">{label}</span>
+        <span className="flex items-center gap-1.5 mt-0.5">
+          <input
+            type={opts.type ?? "number"} step={opts.step ?? "any"} inputMode="decimal"
+            value={shown as string | number} placeholder={opts.placeholder}
+            onChange={(e) => opts.type === "month" ? setP((d) => ({ ...d, launchMonth: e.target.value || null })) : set(k, e.target.value, opts.scale ?? 1)}
+            className="w-full px-2.5 py-1.5 text-[13px] rounded-lg border border-stone-200 bg-white"
+          />
+          {opts.unit && <span className="text-[11px] text-stone-500 flex-shrink-0">{opts.unit}</span>}
+        </span>
+        {opts.hint && <span className="text-[10px] text-stone-400 leading-snug block mt-0.5">{opts.hint}</span>}
+      </label>
+    )
+  }
+
+  return (
+    <div className="space-y-5">
+      {/* 結論 */}
+      <div className="bg-white rounded-xl border border-stone-200 p-4">
+        <p className="text-[11px] text-stone-500">年間売上 {fmt(p.annualTarget)}円 を1年目で出すには、毎月これだけ必要です</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+          {[
+            ["新規の相談者", `${N.toFixed(1)}人`, null],
+            ["LINE友だち追加", `${Math.ceil(friends)}人`, act.adds],
+            ["LINEボタンが押される", `${Math.ceil(clicks)}回`, act.lineClicks],
+            ["サイトのユーザー", `${fmt(Math.ceil(users))}人`, act.users],
+          ].map(([t, v, now]) => (
+            <div key={t as string} className="rounded-lg p-2.5" style={{ background: "#f7f3ea" }}>
+              <p className="text-[10px] text-stone-500">{t}</p>
+              <p className="text-[17px] font-medium" style={{ color: INK }}>{v}</p>
+              <p className="text-[10px] text-stone-400">
+                {now === null ? "今の実績:—" : `今 ${fmt(now as number)} → ${times(Number(String(v).replace(/[^\d.]/g, "")), now as number)}`}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] text-stone-600 mt-2">
+          経費({pct(p.expenseRate ?? 0.2)})を引いた手元のもうけ:年 約{fmt(Math.round(p.annualTarget * (1 - (p.expenseRate ?? 0.2)) / 10000))}万円
+        </p>
+        <p className="text-[10px] text-stone-400 mt-1 leading-relaxed">
+          「今」は {act.month ? monthLabel(act.month) : "直近の月"} の実績。1年目は相談者が少しずつ積み上がるので、2年目以降の毎月の面談は約{Math.round(steadySessions)}回({fmt(Math.round(steadySessions * p.unitPrice))}円/月)になります。
+        </p>
+        {over && (
+          <p className="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-2">
+            面談が多い月で約{Math.round(peak)}回になり、上限の月{p.capacity}回を超えます。単価を上げるか、目標を下げる必要があります。
+          </p>
+        )}
+      </div>
+
+      {/* 何を動かすと楽になるか */}
+      <div>
+        <p className="text-xs font-medium text-stone-600 mb-1">どの数字を良くすると、必要なユーザーが減るか</p>
+        <p className="text-[10px] text-stone-400 mb-2">それぞれ1つだけ良くした場合の、毎月必要なサイトのユーザー数。</p>
+        <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100 text-[12px]">
+          {[
+            ["今の前提のまま", users],
+            [`ユーザー→LINEボタン ${pct(userToClick)} → ${pct(userToClick * 2)}`, users / 2],
+            [`ボタン→友だち追加 ${pct(clickToAdd)} → ${pct(Math.min(1, clickToAdd * 1.5))}`, users / (Math.min(1, clickToAdd * 1.5) / clickToAdd)],
+            [`友だち→相談 ${pct(p.friendToClient)} → ${pct(p.friendToClient * 2)}`, users / 2],
+            [`1人あたりの回数 ${p.sessionsPerClient}回 → ${p.sessionsPerClient + 2}回`, (() => {
+              const D2 = (p.sessionsPerClient + 2) / p.sessionsPerMonth
+              const N2 = sessionsYear / (p.sessionsPerMonth * Array.from({ length: 12 }, (_, i) => Math.min(i + 1, D2)).reduce((a, b) => a + b, 0))
+              return N2 / p.friendToClient / clickToAdd / userToClick
+            })()],
+          ].map(([l, v]) => (
+            <div key={l as string} className="px-3 py-2 flex justify-between gap-3">
+              <span className="text-stone-700">{l}</span>
+              <span className="text-stone-500 flex-shrink-0">{fmt(Math.ceil(v as number))}人/月</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-[10px] text-stone-400 mt-1.5 leading-relaxed">
+          サイトの検索流入だけでは届かない差は、Instagram・広告など別の入口からのLINE登録で埋めることになります(その分は「LINE友だち追加」の数で見ます)。
+        </p>
+      </div>
+
+      {/* 月ごとの推移 */}
+      <div>
+        <p className="text-xs font-medium text-stone-600 mb-1">1年目の月ごとの推移(目安)</p>
+        <p className="text-[10px] text-stone-400 mb-2">毎月 {N.toFixed(1)}人ずつ新しい相談者が来て、1人が約{D.toFixed(1)}か月通う前提。</p>
+        <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+          <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
+            <thead>
+              <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+                <th className="text-left font-normal px-3 py-2">月</th>
+                <th className="text-right font-normal px-2">通っている人</th>
+                <th className="text-right font-normal px-2">面談</th>
+                <th className="text-right font-normal px-2">売上</th>
+                <th className="text-right font-normal px-3">累計</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => {
+                cum += r.revenue
+                return (
+                  <tr key={r.i} className="border-b border-stone-50 last:border-0">
+                    <td className="px-3 py-1.5">{monthName(r.i)}</td>
+                    <td className="text-right px-2">{r.active.toFixed(1)}人</td>
+                    <td className="text-right px-2" style={{ color: p.capacity !== null && r.sessions > p.capacity ? "#b0654a" : undefined }}>{Math.round(r.sessions)}回</td>
+                    <td className="text-right px-2">{fmt(Math.round(r.revenue / 1000) * 1000)}円</td>
+                    <td className="text-right px-3">{fmt(Math.round(cum / 1000) * 1000)}円</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 段階目標 */}
+      <div>
+        <p className="text-xs font-medium text-stone-600 mb-1">段階目標(月の面談件数ごと)</p>
+        <p className="text-[10px] text-stone-400 mb-2">事業計画のシートと同じ考え方。その件数を1年続けた場合の数字です。</p>
+        <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+          <table className="w-full text-[12px] text-stone-700 min-w-[380px]">
+            <thead>
+              <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+                <th className="text-left font-normal px-3 py-2">月の件数</th>
+                <th className="text-right font-normal px-2">年間売上</th>
+                <th className="text-right font-normal px-2">手元のもうけ</th>
+                <th className="text-right font-normal px-3">通っている人</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[5, 10, 20, 30, 40].map((n) => {
+                const rev = n * p.unitPrice * 12
+                const hit = rev >= p.annualTarget
+                return (
+                  <tr key={n} className="border-b border-stone-50 last:border-0" style={hit ? { background: "rgba(124,154,138,0.08)" } : undefined}>
+                    <td className="px-3 py-1.5">{n}件{p.capacity !== null && n > p.capacity && <span className="text-[10px] text-[#b0654a]">(上限超え)</span>}</td>
+                    <td className="text-right px-2">{fmt(Math.round(rev / 10000))}万円{hit && <span className="text-[10px] text-stone-400">(目標以上)</span>}</td>
+                    <td className="text-right px-2">{fmt(Math.round((rev * (1 - (p.expenseRate ?? 0.2))) / 10000))}万円</td>
+                    <td className="text-right px-3">約{Math.ceil(n / p.sessionsPerMonth)}人</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 前提 */}
+      <div>
+        <p className="text-xs font-medium text-stone-600 mb-1">前提(変えると上の数字がすぐ変わります)</p>
+        <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+          「仮」の数字は、開業後の実績が出たら置き換えてください。空欄の項目は、今のサイトの実績を使います。
+        </p>
+        <div className="bg-white rounded-xl border border-stone-200 p-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {field("年間の売上目標", "annualTarget", { unit: "円", step: "100000" })}
+          {field("面談1回あたりの平均単価", "unitPrice", { unit: "円", step: "500", hint: "仮:30分8,000円と60分12,000円の中間。メールカウンセリングも含めた平均で考える" })}
+          {field("1人あたりの平均の面談回数", "sessionsPerClient", { unit: "回", step: "1", hint: "仮:初回から終わるまでの合計" })}
+          {field("1人あたりの月の面談回数", "sessionsPerMonth", { unit: "回/月", step: "0.5", hint: "仮:隔週なら2" })}
+          {field("LINE友だちが相談に申し込む割合", "friendToClient", { unit: "%", scale: 100, step: "0.5", hint: "仮:新しく友だちになった人のうち、いずれ申し込む人の割合" })}
+          {field("LINEボタン→友だち追加の割合", "clickToAdd", { unit: "%", scale: 100, step: "1", placeholder: act.clickToAdd !== null ? `実績 ${(act.clickToAdd * 100).toFixed(0)}` : "実績なし(40で計算)", hint: "空欄なら実績(LINEの友だち増加÷ボタンが押された回数)" })}
+          {field("サイトのユーザー→LINEボタンの割合", "userToClick", { unit: "%", scale: 100, step: "0.1", placeholder: act.userToClick !== null ? `実績 ${(act.userToClick * 100).toFixed(2)}` : "実績なし(1で計算)", hint: "空欄なら直近の月の実績" })}
+          {field("経費率", "expenseRate", { unit: "%", scale: 100, step: "1", hint: "事業計画のシートと同じ20%を初期値に" })}
+          {field("月に受けられる面談の上限", "capacity", { unit: "回", step: "1", placeholder: "未設定", hint: "決まったら入れると、超える月に印がつきます" })}
+          {field("開業(再開)した月", "launchMonth", { type: "month", hint: "決まるまでは「1か月目」で表示" })}
+        </div>
+        <div className="flex items-center gap-3 mt-2">
+          <button type="button" onClick={save} className="px-4 py-2 rounded-lg text-[12px] font-medium" style={{ background: INK, color: "#fff" }}>前提を保存</button>
+          <button type="button" onClick={() => setP({ ...PLAN_DEFAULT })} className="text-[11px] text-stone-500 underline">はじめの値に戻す</button>
+          <span className="text-[11px] text-stone-500">{status}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -1383,7 +1645,7 @@ export default function OpsDashboard() {
 
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
-          {([["launch", "開業判断"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
+          {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
             <button key={v} onClick={() => setTab(v)} className="px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>{l}</button>
           ))}
         </div>
@@ -1553,6 +1815,11 @@ export default function OpsDashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* ===================== 年間計画 ===================== */}
+        {tab === "plan" && data && (
+          <PlanPanel data={data} adminKey={key} onSaved={(m) => setData((d) => (d ? { ...d, manual: { ok: true, data: m } } : d))} />
         )}
 
         {/* ===================== ユーザー ===================== */}
