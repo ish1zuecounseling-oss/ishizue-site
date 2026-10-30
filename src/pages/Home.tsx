@@ -66,23 +66,23 @@ function StatusBar() {
   if (ACCEPTING_NEW_CLIENTS) return null;
   return (
     <div className="bg-stone-100 border-b border-stone-200 px-4 py-2 text-center text-xs text-stone-600 leading-relaxed">
-      <span className="inline-flex items-center gap-1.5">
-        <Info className="w-3 h-3" />
+      <p className="max-w-md mx-auto">
+        <Info className="w-3 h-3 inline-block align-[-2px] mr-1" />
         現在、新規ご相談の受付を一時休止しております。再開のご案内は
         <a
           href={LINE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2 font-medium text-stone-800 hover:text-stone-900 ml-1 inline-flex items-center gap-1"
+          className="underline underline-offset-2 font-medium text-stone-800 hover:text-stone-900 mx-0.5 whitespace-nowrap"
           onClick={() => {
             try { gtag("event", "status_bar_line_click"); } catch (_) { /* noop */ }
           }}
         >
-          <MessageCircle className="w-3 h-3" style={{ color: "#06C755" }} />
+          <MessageCircle className="w-3 h-3 inline-block align-[-2px] mr-0.5" style={{ color: "#06C755" }} />
           LINE
         </a>
         で先行してお知らせします。
-      </span>
+      </p>
     </div>
   );
 }
