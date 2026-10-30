@@ -1259,6 +1259,81 @@ function planActuals(data: ApiResult) {
   }
 }
 
+/* 年間計画:1年目の月ごとの売上(棒)と、月の平均目標(点線) */
+function PlanRevenueChart({ rows, target, label }: { rows: { i: number; revenue: number; sessions: number }[]; target: number; label: (i: number) => string }) {
+  const [hover, setHover] = useState<number | null>(null)
+  const W = 360, H = 180, L = 40, R = 8, T = 14, B = 26
+  const monthly = target / 12
+  const max = Math.max(monthly, ...rows.map((r) => r.revenue)) * 1.12
+  const step = max > 600000 ? 200000 : max > 300000 ? 100000 : 50000
+  const ticks = Array.from({ length: Math.floor(max / step) + 1 }, (_, k) => k * step)
+  const y = (v: number) => T + (H - T - B) * (1 - v / max)
+  const bw = (W - L - R) / rows.length
+  const h = hover !== null ? rows[hover] : null
+  return (
+    <div className="relative">
+      <div className="flex gap-4 text-[10px] text-stone-500 mb-1">
+        <span className="inline-flex items-center gap-1"><span style={{ width: 10, height: 10, borderRadius: 2, background: SAGE, display: "inline-block" }} />月の売上の見込み</span>
+        <span className="inline-flex items-center gap-1"><span style={{ width: 14, borderTop: `1.5px dashed ${INK}`, display: "inline-block" }} />月の平均目標 {Math.round(monthly / 10000)}万円</span>
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="1年目の月ごとの売上の見込み">
+        {ticks.map((t) => (
+          <g key={t}>
+            <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" strokeWidth={1} />
+            <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#a8a29e">{t === 0 ? "0" : `${t / 10000}万`}</text>
+          </g>
+        ))}
+        {rows.map((r, k) => {
+          const x = L + k * bw + 1, w = bw - 2, top = y(r.revenue), base = y(0)
+          const hh = Math.max(0, base - top), rr = Math.min(4, w / 2, hh)
+          return (
+            <g key={r.i} onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} onClick={() => setHover(k)} style={{ cursor: "pointer" }}>
+              <rect x={L + k * bw} y={T} width={bw} height={H - T - B} fill="transparent" />
+              <path d={`M${x},${base} V${top + rr} Q${x},${top} ${x + rr},${top} H${x + w - rr} Q${x + w},${top} ${x + w},${top + rr} V${base} Z`}
+                fill={SAGE} opacity={hover === null || hover === k ? 1 : 0.45} />
+              {(k === 0 || (k + 1) % 3 === 0) && (
+                <text x={x + w / 2} y={H - B + 13} textAnchor="middle" fontSize={9} fill="#a8a29e">{label(r.i).replace("か月目", "")}</text>
+              )}
+            </g>
+          )
+        })}
+        <line x1={L} x2={W - R} y1={y(monthly)} y2={y(monthly)} stroke={INK} strokeWidth={1.2} strokeDasharray="4 3" />
+        <line x1={L} x2={W - R} y1={y(0)} y2={y(0)} stroke="#d6d0c6" strokeWidth={1} />
+      </svg>
+      {h && (
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white border border-stone-200 rounded-lg shadow-sm px-2.5 py-1.5 text-[11px] pointer-events-none whitespace-nowrap" style={{ color: INK }}>
+          <span className="text-stone-500">{label(h.i)}</span> 売上 {fmt(Math.round(h.revenue / 1000) * 1000)}円 ・ 面談 {Math.round(h.sessions)}回
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* 年間計画:今の実績が、必要な数のどこまで来ているか */
+function PlanGapBars({ items }: { items: { label: string; now: number | null; need: number; unit: string }[] }) {
+  return (
+    <div className="space-y-3">
+      {items.map((it) => {
+        const r = it.now === null ? null : Math.min(1, it.now / it.need)
+        return (
+          <div key={it.label}>
+            <div className="flex justify-between gap-2 text-[12px] mb-1">
+              <span style={{ color: INK }}>{it.label}</span>
+              <span className="text-stone-500 flex-shrink-0">
+                {it.now === null ? "実績なし" : `${fmt(it.now)} / ${fmt(Math.ceil(it.need))}${it.unit}`}
+                {r !== null && <span className="ml-1.5 font-medium" style={{ color: INK }}>{(r * 100).toFixed(r < 0.1 ? 1 : 0)}%</span>}
+              </span>
+            </div>
+            <div style={{ height: 8, borderRadius: 4, background: "#f0ebe3" }} role="img" aria-label={`${it.label} 達成 ${r === null ? "不明" : Math.round(r * 100) + "%"}`}>
+              {r !== null && <div style={{ width: `${Math.max(1.5, r * 100)}%`, height: 8, borderRadius: 4, background: SAGE }} />}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: string; onSaved: (m: Manual) => void }) {
   const saved = data.manual?.data?.plan
   const [p, setP] = useState<Plan>({ ...PLAN_DEFAULT, ...(saved ?? {}) })
@@ -1365,6 +1440,20 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
         )}
       </div>
 
+      {/* 今どこまで来ているか */}
+      <div>
+        <p className="text-xs font-medium text-stone-600 mb-1">今どこまで来ているか</p>
+        <p className="text-[10px] text-stone-400 mb-2">{act.month ? monthLabel(act.month) : "直近の月"}の実績 ÷ 毎月必要な数。</p>
+        <div className="bg-white rounded-xl border border-stone-200 p-3">
+          <PlanGapBars items={[
+            { label: "サイトのユーザー", now: act.users, need: users, unit: "人" },
+            { label: "LINEボタンが押される", now: act.lineClicks, need: clicks, unit: "回" },
+            { label: "LINE友だち追加", now: act.adds, need: friends, unit: "人" },
+            { label: "新規の相談者", now: null, need: N, unit: "人" },
+          ]} />
+        </div>
+      </div>
+
       {/* 何を動かすと楽になるか */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">どの数字を良くすると、必要なユーザーが減るか</p>
@@ -1395,7 +1484,10 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 月ごとの推移 */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">1年目の月ごとの推移(目安)</p>
-        <p className="text-[10px] text-stone-400 mb-2">毎月 {N.toFixed(1)}人ずつ新しい相談者が来て、1人が約{D.toFixed(1)}か月通う前提。</p>
+        <p className="text-[10px] text-stone-400 mb-2">毎月 {N.toFixed(1)}人ずつ新しい相談者が来て、1人が約{D.toFixed(1)}か月通う前提。棒を押すと金額が出ます。</p>
+        <div className="bg-white rounded-xl border border-stone-200 p-3 mb-2">
+          <PlanRevenueChart rows={rows} target={p.annualTarget} label={monthName} />
+        </div>
         <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
           <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
             <thead>
