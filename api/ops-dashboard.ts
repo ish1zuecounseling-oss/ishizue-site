@@ -176,6 +176,7 @@ function jstMonthEnd(monthsBack: number): string {
 /** 毎日の記録(ダッシュボードを開いたときに、その日に取れた数字を残す)。LINEから過去の月末が取れないときの代わりに使う */
 const LINE_DAILY_KEY = "ishizue:line-daily"
 const FEEDBACK_KEY = "ishizue:feedback"
+const MONTHLY_KEY = "ishizue:monthly"
 const FEEDBACK_DONE_KEY = "ishizue:feedback-done"
 
 async function kv(cmd: (string | number)[]): Promise<unknown> {
@@ -287,7 +288,7 @@ function sanitizeManual(input: unknown) {
 type Plan = {
   annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
   friendToClient: number; clickToAdd: number | null; userToClick: number | null
-  capacity: number | null; launchMonth: string | null; expenseRate: number; updatedAt: string
+  capacity: number | null; launchMonth: string | null; expenseRate: number; employmentIncome: number; updatedAt: string
 }
 
 function sanitizePlan(input: unknown): Plan {
@@ -311,6 +312,7 @@ function sanitizePlan(input: unknown): Plan {
     userToClick: opt(src.userToClick, 0.0001, 1),
     capacity: opt(src.capacity, 1, 500),
     expenseRate: n(src.expenseRate, 0, 0.9, 0.2),
+    employmentIncome: Math.round(n(src.employmentIncome, 0, 50000000, 0)),
     launchMonth: typeof src.launchMonth === "string" && /^\d{4}-\d{2}$/.test(src.launchMonth) ? src.launchMonth : null,
     updatedAt: new Date().toISOString(),
   }
@@ -836,7 +838,34 @@ export default async function handler(req: Req, res: Res) {
 
     const [line, manual, waitingLine] = await Promise.all([getLine(), getManual(), getWaitingFromLine()])
 
+    /* 月ごとの実績を残す(再開までの計画と比べるため。GA4・LINEから取れる6か月より前の分も残るように) */
+    let monthlyRecord: Record<string, { users: number; lineClicks: number; reach: number | null; followers: number | null }> = {}
+    try {
+      const raw = (await kv(["HGETALL", MONTHLY_KEY])) as string[] | null
+      for (let i = 0; raw && i < raw.length; i += 2) {
+        try { monthlyRecord[raw[i]] = JSON.parse(raw[i + 1]) } catch { /* skip */ }
+      }
+      const sorted = [...months.values()].sort((x, y) => x.month.localeCompare(y.month))
+      const curYm = sorted[sorted.length - 1]?.month
+      const lineOk = line.ok ? (line as { latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }) : null
+      const writes: (string | number)[] = []
+      for (const mo of sorted) {
+        const end = mo.month === curYm ? lineOk?.latest ?? null : lineOk?.monthEnds?.find((x) => x.month === mo.month) ?? null
+        const prev = monthlyRecord[mo.month]
+        const v = {
+          users: mo.users,
+          lineClicks: mo.lineClicks,
+          reach: end ? end.targetedReaches : prev?.reach ?? null,
+          followers: end ? end.followers : prev?.followers ?? null,
+        }
+        monthlyRecord[mo.month] = v
+        writes.push(mo.month, JSON.stringify(v))
+      }
+      if (writes.length) await kv(["HSET", MONTHLY_KEY, ...writes])
+    } catch { monthlyRecord = {} }
+
     res.status(200).json({
+      monthlyRecord,
       days,
       line,
       manual,
