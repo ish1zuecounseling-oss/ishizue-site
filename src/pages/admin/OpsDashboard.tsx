@@ -1690,7 +1690,7 @@ type FeedbackItem = { id: string; at: string; category: string; text: string; pa
 const FB_CATEGORY: Record<string, string> = { display: "表示がおかしい", link: "リンクが開かない", content: "内容の誤り", other: "その他" }
 const FB_DEVICE: Record<string, string> = { mobile: "スマホ", tablet: "タブレット", desktop: "パソコン", unknown: "不明" }
 
-function FeedbackPanel({ adminKey }: { adminKey: string }) {
+function FeedbackPanel({ adminKey, onOpenCount }: { adminKey: string; onOpenCount?: (n: number) => void }) {
   const [items, setItems] = useState<FeedbackItem[] | null>(null)
   const [err, setErr] = useState("")
   const [showDone, setShowDone] = useState(false)
@@ -1716,6 +1716,9 @@ function FeedbackPanel({ adminKey }: { adminKey: string }) {
       setItems((xs) => xs?.map((x) => (x.id === it.id ? { ...x, done: it.done } : x)) ?? null)
     }
   }
+
+  // 対応済みに切り替えたら、タブの数字もすぐ合わせる
+  useEffect(() => { if (items) onOpenCount?.(items.filter((x) => !x.done).length) }, [items, onOpenCount])
 
   if (err) return <p className="text-sm text-red-600">{err}</p>
   if (!items) return <p className="text-sm text-stone-500">読み込み中…</p>
@@ -1784,6 +1787,20 @@ export default function OpsDashboard() {
       .finally(() => { if (alive) setLoading(false) })
     return () => { alive = false }
   }, [key, days])
+
+  // 未対応のご意見の数(タブに数字を出す)。ダッシュボードを開いたときと、5分ごとに確かめる
+  const [fbOpen, setFbOpen] = useState(0)
+  useEffect(() => {
+    if (!key) return
+    let alive = true
+    const load = () => fetch("/api/ops-dashboard?view=feedback", { headers: { "x-admin-key": key } })
+      .then((r) => r.json())
+      .then((b) => { if (alive && b.ok) setFbOpen((b.items as { done: boolean }[]).filter((x) => !x.done).length) })
+      .catch(() => { /* 数字が出ないだけで、ほかには影響させない */ })
+    load()
+    const t = window.setInterval(load, 5 * 60 * 1000)
+    return () => { alive = false; window.clearInterval(t) }
+  }, [key])
 
   /* 記事一覧:サイトの全記事に数字を突き合わせる(閲覧0も出す) */
   const rows: Row[] = useMemo(() => {
@@ -1901,7 +1918,7 @@ export default function OpsDashboard() {
   return (
     <div className="min-h-screen" style={{ background: BG }}>
       <Helmet>
-        <title>運営ダッシュボード(運営者用)</title>
+        <title>{fbOpen > 0 ? `(${fbOpen}) ` : ""}運営ダッシュボード(運営者用)</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
@@ -1914,7 +1931,14 @@ export default function OpsDashboard() {
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
           {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"], ["feedback", "ご意見"]] as [Tab, string][]).map(([v, l]) => (
-            <button key={v} onClick={() => setTab(v)} className="px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>{l}</button>
+            <button key={v} onClick={() => setTab(v)} className="relative px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>
+              {l}
+              {v === "feedback" && fbOpen > 0 && (
+                <span aria-label={`未対応 ${fbOpen}件`} className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold leading-[18px] text-center text-white" style={{ background: "#c2410c" }}>
+                  {fbOpen > 99 ? "99+" : fbOpen}
+                </span>
+              )}
+            </button>
           ))}
         </div>
 
@@ -2091,7 +2115,7 @@ export default function OpsDashboard() {
         )}
 
         {/* ===================== ご意見 ===================== */}
-        {tab === "feedback" && <FeedbackPanel adminKey={key} />}
+        {tab === "feedback" && <FeedbackPanel adminKey={key} onOpenCount={setFbOpen} />}
 
         {/* ===================== ユーザー ===================== */}
         {tab === "users" && <UsersPanel adminKey={key} chip={chip} />}
