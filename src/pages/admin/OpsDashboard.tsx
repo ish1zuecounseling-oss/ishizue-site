@@ -71,6 +71,7 @@ type Month = {
   sources?: Record<string, Record<string, number>>
 }
 type Query = { q: string; clicks: number; impressions: number; position: number }
+type GscQuery = Query & { prevPosition: number | null; page: string | null }
 type ApiArticle = {
   path: string; views: number; users: number; engagementSec: number; prevViews: number
   lineClicks: number; checkCompletes: number; lineFromCheckUsers: number
@@ -78,7 +79,7 @@ type ApiArticle = {
 }
 type ApiResult = {
   days: number; fetchedAt: string; months: Month[]; articles: ApiArticle[]
-  gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number } }
+  gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number }; queries?: GscQuery[] }
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
   line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }
   manual?: { ok: boolean; message?: string; data?: Manual }
@@ -1121,6 +1122,92 @@ function TitleTests({ data }: { data: ApiResult }) {
   )
 }
 
+/* ------------------------------ Googleで検索された言葉 ------------------------------ */
+type QSort = "impressions" | "clicks" | "position" | "up"
+
+function posStyle(p: number): { background: string; color: string } {
+  if (p <= 3) return { background: "#7C9A8A", color: "#fff" }
+  if (p <= 10) return { background: "#dbe6df", color: INK }
+  if (p <= 20) return { background: "#f3ead9", color: INK }
+  return { background: "#f0ebe3", color: "#8a8178" }
+}
+
+function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) => { background?: string; color: string; borderColor: string } }) {
+  const [sort, setSort] = useState<QSort>("impressions")
+  const [q, setQ] = useState("")
+  const [band, setBand] = useState<"all" | "top10" | "near" | "far">("all")
+  const [limit, setLimit] = useState(50)
+  const g = data.gsc
+  if (!g.ok) return <p className="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">Search Console 未接続です。</p>
+  const all = g.queries ?? []
+  const ranked = new Map(all.map((x, i) => [x.q, i + 1])) // 表示回数の多い順の番号
+  let list = all.filter((x) => !q || x.q.includes(q.trim()))
+  if (band === "top10") list = list.filter((x) => x.position <= 10)
+  if (band === "near") list = list.filter((x) => x.position > 10 && x.position <= 20)
+  if (band === "far") list = list.filter((x) => x.position > 20)
+  const delta = (x: GscQuery) => (x.prevPosition === null ? null : x.prevPosition - x.position) // プラス = 上がった
+  list = [...list].sort((a, b) => {
+    if (sort === "clicks") return b.clicks - a.clicks || b.impressions - a.impressions
+    if (sort === "position") return a.position - b.position
+    if (sort === "up") return (delta(b) ?? -999) - (delta(a) ?? -999)
+    return b.impressions - a.impressions
+  })
+  const counts = {
+    top10: all.filter((x) => x.position <= 10).length,
+    near: all.filter((x) => x.position > 10 && x.position <= 20).length,
+  }
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">Googleで検索された言葉と順位</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        {g.startDate}〜{g.endDate}(2〜3日遅れ)。「表示」は、その言葉で検索されてこのサイトが結果に出た回数で、検索ボリュームの目安です
+        (順位が低い言葉は、実際の検索数より少なく出ます)。順位は期間中の平均、▲▼は直前の同じ日数との比較です。
+      </p>
+      <div className="flex flex-wrap gap-1.5 mb-2 text-[11px]">
+        {([["impressions", "表示の多い順"], ["clicks", "クリックの多い順"], ["position", "順位の高い順"], ["up", "順位が上がった順"]] as [QSort, string][]).map(([v, l]) => (
+          <button key={v} onClick={() => setSort(v)} className="px-2.5 py-1 rounded-full border" style={chip(sort === v)}>{l}</button>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-1.5 mb-2 text-[11px]">
+        {([["all", `すべて(${all.length})`], ["top10", `1ページ目 1〜10位(${counts.top10})`], ["near", `あと少し 11〜20位(${counts.near})`], ["far", "21位以下"]] as ["all" | "top10" | "near" | "far", string][]).map(([v, l]) => (
+          <button key={v} onClick={() => setBand(v)} className="px-2.5 py-1 rounded-full border" style={chip(band === v)}>{l}</button>
+        ))}
+      </div>
+      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="言葉で絞り込む(例:バーンアウト)"
+        className="w-full mb-2 px-3 py-2 text-[12px] rounded-lg border border-stone-200 bg-white" />
+      <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
+        {list.length === 0 && <p className="px-3 py-3 text-[12px] text-stone-400">該当する言葉がありません</p>}
+        {list.slice(0, limit).map((x) => {
+          const d = delta(x)
+          return (
+            <div key={x.q} className="px-3 py-2 flex items-start gap-2.5">
+              <span className="text-[10px] text-stone-400 w-6 text-right pt-1 flex-shrink-0 tabular-nums">{ranked.get(x.q)}</span>
+              <span className="text-[11px] font-medium rounded-md px-1.5 py-0.5 flex-shrink-0 tabular-nums text-center min-w-[42px]" style={posStyle(x.position)}>
+                {x.position.toFixed(1)}位
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[12px] leading-snug" style={{ color: INK }}>
+                  {x.q}
+                  {d !== null && Math.abs(d) >= 1 && (
+                    <span className="ml-1.5 text-[10px]" style={{ color: d > 0 ? "#4f7a63" : "#b0654a" }}>{d > 0 ? "▲" : "▼"}{Math.abs(d).toFixed(1)}</span>
+                  )}
+                  {x.prevPosition === null && <span className="ml-1.5 text-[10px] text-stone-400">新規</span>}
+                </p>
+                <p className="text-[10px] text-stone-400 truncate">
+                  表示 {fmt(x.impressions)} ・ クリック {fmt(x.clicks)}{x.page ? ` ・ ${pageTitle(x.page)}` : ""}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+        {list.length > limit && (
+          <button type="button" onClick={() => setLimit(limit + 50)} className="w-full px-3 py-2 text-[11px] text-stone-500">もっと見る(残り{list.length - limit})</button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -1568,6 +1655,8 @@ export default function OpsDashboard() {
         {/* ===================== 検索された言葉 ===================== */}
         {tab === "search" && data && (
           <div className="space-y-5">
+            <GscQueries data={data} chip={chip} />
+
             <div>
               <p className="text-xs font-medium text-stone-600 mb-1">サイト内の検索欄で入力された言葉(直近{days}日)</p>
               {!data.siteSearch.ok ? (
@@ -1587,37 +1676,6 @@ export default function OpsDashboard() {
               )}
             </div>
 
-            <div>
-              <p className="text-xs font-medium text-stone-600 mb-1">Google検索で表示された語句(上位)</p>
-              {!data.gsc.ok ? (
-                <p className="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">Search Console 未接続です。</p>
-              ) : (
-                <>
-                  <p className="text-[10px] text-stone-400 mb-2">
-                    {data.gsc.startDate}〜{data.gsc.endDate}(Search Console は2〜3日遅れ)／ 合計 表示 {fmt(data.gsc.totals?.impressions ?? 0)}・クリック {fmt(data.gsc.totals?.clicks ?? 0)}
-                  </p>
-                  <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-50">
-                    {Object.values(
-                      rows.flatMap((r) => r.gsc?.queries ?? []).reduce<Record<string, Query>>((acc, x) => {
-                        const p = acc[x.q]
-                        acc[x.q] = p
-                          ? { q: x.q, clicks: p.clicks + x.clicks, impressions: p.impressions + x.impressions, position: Math.min(p.position, x.position) }
-                          : { ...x }
-                        return acc
-                      }, {})
-                    )
-                      .sort((a, b) => b.impressions - a.impressions)
-                      .slice(0, 40)
-                      .map((x) => (
-                        <div key={x.q} className="flex justify-between gap-2 px-3 py-2 text-[12px] text-stone-700">
-                          <span className="truncate">{x.q}</span>
-                          <span className="text-stone-400 flex-shrink-0 text-[11px]">表示{fmt(x.impressions)}・クリック{x.clicks}・最高{x.position}位</span>
-                        </div>
-                      ))}
-                  </div>
-                </>
-              )}
-            </div>
           </div>
         )}
 
