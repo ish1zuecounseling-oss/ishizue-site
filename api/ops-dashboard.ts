@@ -36,6 +36,8 @@ const STEP_START = "2026-10-29"
 const TITLE_TESTS = [
   { path: "/articles/self-value-unknown", since: "2026-10-30" },
   { path: "/articles/exhausted-by-being-nice", since: "2026-10-30" },
+  { path: "/articles/abandonment-anxiety-check", since: "2026-10-31" },
+  { path: "/articles/helper-burnout-check", since: "2026-10-31" },
 ]
 const SITE_HOST = "ishizue-counseling.jp"
 // LINEへのクリックとして数えるイベント(サイト内の各ボタン)と、チェック完了
@@ -801,23 +803,31 @@ export default async function handler(req: Req, res: Res) {
     }
 
     /* タイトルを変えた記事の、変更後の検索の数字(変更の翌日から、確定している日まで) */
-    let titleTests: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number }[] }
+    let titleTests: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number; before?: { clicks: number; impressions: number; position: number; days: number } }[] }
     try {
       const site = await findGscSite(token)
       const until = jstDate(3)
-      const rows = await Promise.all(TITLE_TESTS.map(async (t) => {
-        const days = Math.round((Date.parse(until) - Date.parse(t.since)) / 86400000) + 1
-        if (days < 1) return { path: t.path, since: t.since, until, days: 0, clicks: 0, impressions: 0, position: 0 }
+      const ymd = (ms: number) => new Date(ms).toISOString().slice(0, 10)
+      const pageTotals = async (path: string, startDate: string, endDate: string) => {
         const r = await gscQuery(token, site, {
-          startDate: t.since, endDate: until, dataState: "final", dimensions: ["page"],
-          dimensionFilterGroups: [{ filters: [{ dimension: "page", operator: "contains", expression: t.path }] }],
+          startDate, endDate, dataState: "final", dimensions: ["page"],
+          dimensionFilterGroups: [{ filters: [{ dimension: "page", operator: "contains", expression: path }] }],
           rowLimit: 10,
         })
-        const own = r.filter((x) => { try { return normPath(new URL(x.keys[0]).pathname) === t.path } catch { return false } })
+        const own = r.filter((x) => { try { return normPath(new URL(x.keys[0]).pathname) === path } catch { return false } })
         const clicks = own.reduce((n, x) => n + x.clicks, 0)
         const impressions = own.reduce((n, x) => n + x.impressions, 0)
         const position = impressions ? own.reduce((n, x) => n + x.position * x.impressions, 0) / impressions : 0
-        return { path: t.path, since: t.since, until, days, clicks, impressions, position: Math.round(position * 10) / 10 }
+        return { clicks, impressions, position: Math.round(position * 10) / 10 }
+      }
+      const rows = await Promise.all(TITLE_TESTS.map(async (t) => {
+        const days = Math.round((Date.parse(until) - Date.parse(t.since)) / 86400000) + 1
+        // 変更前:変更日の前の28日間(自動で取る)
+        const sinceMs = Date.parse(t.since)
+        const before = await pageTotals(t.path, ymd(sinceMs - 28 * 86400000), ymd(sinceMs - 86400000))
+        const base = { path: t.path, since: t.since, until, before: { ...before, days: 28 } }
+        if (days < 1) return { ...base, days: 0, clicks: 0, impressions: 0, position: 0 }
+        return { ...base, days, ...(await pageTotals(t.path, t.since, until)) }
       }))
       titleTests = { ok: true, rows }
     } catch (e) {
