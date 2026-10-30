@@ -27,6 +27,16 @@ type Req = { method?: string; body?: unknown; query: Record<string, string | str
 type Res = { status: (code: number) => Res; json: (body: unknown) => void; setHeader: (k: string, v: string) => void }
 
 const ALLOWED_DAYS = [7, 28, 90]
+
+/** LINEステップ配信(2026年11月版)。配信リンクの utm_campaign と、配信を始めた日 */
+const STEP_CAMPAIGN = "welcome_7day_2026_11"
+const STEP_START = "2026-10-29"
+
+/** タイトルを変えた記事。since = 変更の翌日(この日から集計する) */
+const TITLE_TESTS = [
+  { path: "/articles/self-value-unknown", since: "2026-10-30" },
+  { path: "/articles/exhausted-by-being-nice", since: "2026-10-30" },
+]
 const SITE_HOST = "ishizue-counseling.jp"
 // LINEへのクリックとして数えるイベント(サイト内の各ボタン)と、チェック完了
 const EVENT_REGEX = "check_complete|line_cta_click|line_click_from_check|[a-z_]*_line_click"
@@ -637,6 +647,49 @@ export default async function handler(req: Req, res: Res) {
       checkLevels = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
+    /* LINEステップ配信(2026年11月版)から来た訪問。配信リンクの utm_content=day1〜7 で分ける */
+    let lineStep: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
+    try {
+      const rows = await ga4(token, GA4_PROPERTY_ID, {
+        dateRanges: [{ startDate: STEP_START, endDate: "today" }],
+        dimensions: [{ name: "sessionManualAdContent" }],
+        metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "engagedSessions" }],
+        dimensionFilter: { filter: { fieldName: "sessionCampaignName", stringFilter: { matchType: "EXACT", value: STEP_CAMPAIGN } } },
+        limit: 50,
+      })
+      lineStep = {
+        ok: true,
+        since: STEP_START,
+        rows: rows.map((r) => ({ day: r.dimensionValues[0].value, sessions: num(r.metricValues[0].value), users: num(r.metricValues[1].value), engagedSessions: num(r.metricValues[2].value) })),
+      }
+    } catch (e) {
+      lineStep = { ok: false, message: e instanceof Error ? e.message : "unknown" }
+    }
+
+    /* タイトルを変えた記事の、変更後の検索の数字(変更の翌日から、確定している日まで) */
+    let titleTests: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number }[] }
+    try {
+      const site = await findGscSite(token)
+      const until = jstDate(3)
+      const rows = await Promise.all(TITLE_TESTS.map(async (t) => {
+        const days = Math.round((Date.parse(until) - Date.parse(t.since)) / 86400000) + 1
+        if (days < 1) return { path: t.path, since: t.since, until, days: 0, clicks: 0, impressions: 0, position: 0 }
+        const r = await gscQuery(token, site, {
+          startDate: t.since, endDate: until, dataState: "final", dimensions: ["page"],
+          dimensionFilterGroups: [{ filters: [{ dimension: "page", operator: "contains", expression: t.path }] }],
+          rowLimit: 10,
+        })
+        const own = r.filter((x) => { try { return normPath(new URL(x.keys[0]).pathname) === t.path } catch { return false } })
+        const clicks = own.reduce((n, x) => n + x.clicks, 0)
+        const impressions = own.reduce((n, x) => n + x.impressions, 0)
+        const position = impressions ? own.reduce((n, x) => n + x.position * x.impressions, 0) / impressions : 0
+        return { path: t.path, since: t.since, until, days, clicks, impressions, position: Math.round(position * 10) / 10 }
+      }))
+      titleTests = { ok: true, rows }
+    } catch (e) {
+      titleTests = { ok: false, message: e instanceof Error ? e.message : "unknown" }
+    }
+
     const [line, manual, waitingLine] = await Promise.all([getLine(), getManual(), getWaitingFromLine()])
 
     res.status(200).json({
@@ -650,6 +703,8 @@ export default async function handler(req: Req, res: Res) {
       gsc,
       siteSearch,
       checkLevels,
+      lineStep,
+      titleTests,
     })
   } catch (e) {
     res.status(502).json({ error: "fetch_failed", message: e instanceof Error ? e.message : "unknown" })
