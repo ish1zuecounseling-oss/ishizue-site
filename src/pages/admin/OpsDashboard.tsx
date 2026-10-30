@@ -3,7 +3,7 @@
 // ルーティング: <Route path="/admin/dashboard" element={<OpsDashboard />} />
 // データ取得: /api/ops-dashboard(閲覧キーは /admin/views と共通)
 
-import { Fragment, useEffect, useMemo, useState } from "react"
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
 
@@ -84,7 +84,7 @@ type Manual = {
   snapshots?: Record<string, { checklistDone: number; waiting: number }>
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
-type Tab = "launch" | "todo" | "articles" | "search"
+type Tab = "launch" | "users" | "todo" | "articles" | "search"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
 
 /** GA4の流入元(デフォルト チャネル グループ)の日本語名と説明 */
@@ -702,6 +702,228 @@ function ChannelTable({ months, cur }: { months: Month[]; cur?: Month }) {
   )
 }
 
+/* ------------------------------ ユーザー ------------------------------ */
+
+type UsersData = {
+  days: number
+  summary: { users: number; newUsers: number; sessions: number; pageViews: number; engagementSec: number; engagementRate: number }
+  newVsReturning: { type: string; users: number; sessions: number; pageViews: number; engagementSec: number }[]
+  devices: { device: string; users: number; engagementRate: number }[]
+  regions: { region: string; users: number }[]
+  dayHour: { day: number; hour: number; sessions: number }[]
+  landing: { path: string; sessions: number; engagementRate: number; pagesPerSession: number }[]
+  transitions: { from: string; to: string; views: number }[]
+  funnel: { users: number; articleUsers: number; checkUsers: number; lineUsers: number }
+}
+
+const PREF: Record<string, string> = {
+  Hokkaido: "北海道", Aomori: "青森", Iwate: "岩手", Miyagi: "宮城", Akita: "秋田", Yamagata: "山形", Fukushima: "福島",
+  Ibaraki: "茨城", Tochigi: "栃木", Gunma: "群馬", Saitama: "埼玉", Chiba: "千葉", Tokyo: "東京", Kanagawa: "神奈川",
+  Niigata: "新潟", Toyama: "富山", Ishikawa: "石川", Fukui: "福井", Yamanashi: "山梨", Nagano: "長野", Gifu: "岐阜",
+  Shizuoka: "静岡", Aichi: "愛知", Mie: "三重", Shiga: "滋賀", Kyoto: "京都", Osaka: "大阪", Hyogo: "兵庫", Nara: "奈良",
+  Wakayama: "和歌山", Tottori: "鳥取", Shimane: "島根", Okayama: "岡山", Hiroshima: "広島", Yamaguchi: "山口",
+  Tokushima: "徳島", Kagawa: "香川", Ehime: "愛媛", Kochi: "高知", Fukuoka: "福岡", Saga: "佐賀", Nagasaki: "長崎",
+  Kumamoto: "熊本", Oita: "大分", Miyazaki: "宮崎", Kagoshima: "鹿児島", Okinawa: "沖縄",
+}
+const DEVICE_LABEL: Record<string, string> = { mobile: "スマホ", desktop: "パソコン", tablet: "タブレット" }
+const PAGE_LABEL: Record<string, string> = {
+  "/": "トップページ", "/articles": "記事一覧", "/profile": "プロフィール", "/for-helpers": "支援職の方へ(LP)",
+  "/ai-assistant": "AIで整理", "/privacy": "プライバシーポリシー", "/terms": "利用規約", "/tokusho": "特定商取引法の表記",
+}
+const titleMap = new Map(articles.map((a) => [a.path, a.title.replace(/【公認心理師[^】]*】/, "").replace(/[｜|].*$/, "").trim()]))
+const pageTitle = (p: string) => PAGE_LABEL[p] ?? titleMap.get(p) ?? p
+
+function Bar({ label, value, max, right, strong }: { label: string; value: number; max: number; right: string; strong?: boolean }) {
+  return (
+    <div>
+      <div className="flex justify-between gap-2 text-[12px] mb-0.5">
+        <span className="truncate" style={{ color: INK, fontWeight: strong ? 600 : 400 }}>{label}</span>
+        <span className="text-stone-500 flex-shrink-0">{right}</span>
+      </div>
+      <div style={{ height: 6, borderRadius: 3, background: "#f0ebe3" }}>
+        <div style={{ width: `${max ? Math.max(2, (value / max) * 100) : 0}%`, height: 6, borderRadius: 3, background: SAGE }} />
+      </div>
+    </div>
+  )
+}
+
+function Section({ title, desc, children }: { title: string; desc?: string; children: ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-700">{title}</p>
+      {desc && <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">{desc}</p>}
+      <div className="bg-white rounded-xl border border-stone-200 p-3">{children}</div>
+    </div>
+  )
+}
+
+function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boolean) => { background?: string; color: string; borderColor: string } }) {
+  const [days, setDays] = useState(28)
+  const [d, setD] = useState<UsersData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [err, setErr] = useState("")
+
+  useEffect(() => {
+    let alive = true
+    setLoading(true); setErr("")
+    fetch(`/api/ops-dashboard?view=users&days=${days}`, { headers: { "x-admin-key": adminKey } })
+      .then(async (r) => {
+        const b = await r.json().catch(() => ({}))
+        if (!r.ok) throw new Error(b.message ?? `エラー(${r.status})`)
+        if (alive) setD(b as UsersData)
+      })
+      .catch((e) => { if (alive) setErr(e instanceof Error ? e.message : "取得に失敗しました") })
+      .finally(() => { if (alive) setLoading(false) })
+    return () => { alive = false }
+  }, [days, adminKey])
+
+  const s = d?.summary
+  const perUser = (n: number, u: number) => (u ? n / u : 0)
+  const NR: Record<string, string> = { new: "はじめて来た人", returning: "2回目以降の人" }
+
+  // 曜日×時間帯(4時間ごと)
+  const DAYS = ["日", "月", "火", "水", "木", "金", "土"]
+  const blocks = [0, 4, 8, 12, 16, 20]
+  const grid = DAYS.map((_, day) => blocks.map((h) => (d?.dayHour ?? []).filter((x) => x.day === day && x.hour >= h && x.hour < h + 4).reduce((n, x) => n + x.sessions, 0)))
+  const gridMax = Math.max(1, ...grid.flat())
+
+  const f = d?.funnel
+  const steps = f ? [
+    { label: "サイトに来た", n: f.users },
+    { label: "記事を読んだ", n: f.articleUsers },
+    { label: "チェックを最後までした", n: f.checkUsers },
+    { label: "LINEのボタンを押した", n: f.lineUsers },
+  ] : []
+
+  return (
+    <div className="space-y-5">
+      <div className="flex gap-2 text-xs">
+        {[7, 28, 90].map((n) => (
+          <button key={n} onClick={() => setDays(n)} className="px-3 py-1.5 rounded-full border" style={chip(days === n)}>直近{n}日</button>
+        ))}
+      </div>
+      {err && <p className="text-sm text-red-600">{err}</p>}
+      {loading && !d && <p className="text-sm text-stone-500">読み込み中…</p>}
+
+      {d && s && (
+        <>
+          {/* 概要 */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {[
+              ["ユーザー", `${fmt(s.users)}人`, `うち新規 ${pct(perUser(s.newUsers, s.users))}`],
+              ["1人あたりの閲覧", `${perUser(s.pageViews, s.users).toFixed(1)}ページ`, `訪問 ${fmt(s.sessions)}回`],
+              ["1人あたりの滞在", fmtTime(perUser(s.engagementSec, s.users)), "実際に画面を見ていた時間"],
+              ["しっかり見た訪問", pct(s.engagementRate), "10秒以上・2ページ以上など"],
+            ].map(([t, v, sub]) => (
+              <div key={t} className="bg-white rounded-xl border border-stone-200 p-3">
+                <p className="text-[10px] text-stone-500">{t}</p>
+                <p className="text-lg font-medium" style={{ color: INK }}>{v}</p>
+                <p className="text-[10px] text-stone-400">{sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-[11px] font-medium text-stone-500 tracking-wider pt-1">どんな人が来ているか</p>
+
+          <Section title="はじめての人と、2回目以降の人" desc="2回目以降の人が増えると、サイトを覚えて戻ってきてくれる人が増えている、ということです。">
+            <div className="space-y-3">
+              {d.newVsReturning.filter((x) => NR[x.type]).map((x) => (
+                <div key={x.type}>
+                  <Bar label={NR[x.type]} value={x.users} max={Math.max(...d.newVsReturning.map((y) => y.users))} right={`${fmt(x.users)}人`} />
+                  <p className="text-[10px] text-stone-400 mt-0.5">1人あたり {perUser(x.pageViews, x.users).toFixed(1)}ページ ／ 滞在 {fmtTime(perUser(x.engagementSec, x.users))}</p>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <Section title="使っている端末">
+              <div className="space-y-2">
+                {d.devices.map((x) => (
+                  <div key={x.device}><Bar label={DEVICE_LABEL[x.device] ?? x.device} value={x.users} max={s.users}
+                    right={`${pct(perUser(x.users, d.devices.reduce((n, y) => n + y.users, 0)))}(${fmt(x.users)}人)`} /></div>
+                ))}
+              </div>
+            </Section>
+            <Section title="地域(上位)">
+              <div className="space-y-2">
+                {d.regions.filter((x) => x.region && x.region !== "(not set)").slice(0, 8).map((x) => (
+                  <div key={x.region}><Bar label={PREF[x.region] ?? x.region} value={x.users} max={d.regions[0]?.users ?? 1} right={`${fmt(x.users)}人`} /></div>
+                ))}
+              </div>
+            </Section>
+          </div>
+
+          <Section title="よく見られる曜日・時間帯" desc="訪問の回数。色が濃いほど多い時間帯です。記事やLINEの配信時間を決める目安になります。">
+            <div className="overflow-x-auto">
+              <table className="text-[10px] text-stone-500 w-full">
+                <thead>
+                  <tr><th className="w-6"></th>{blocks.map((h) => <th key={h} className="font-normal pb-1">{h}時</th>)}</tr>
+                </thead>
+                <tbody>
+                  {grid.map((row, i) => (
+                    <tr key={i}>
+                      <td className="pr-1 text-right">{DAYS[i]}</td>
+                      {row.map((v, j) => (
+                        <td key={j} className="p-0.5">
+                          <div className="rounded text-center py-1.5" title={`${DAYS[i]} ${blocks[j]}〜${blocks[j] + 4}時 ${v}回`}
+                            style={{ background: `rgba(124,154,138,${(0.06 + (v / gridMax) * 0.85).toFixed(2)})`, color: v / gridMax > 0.55 ? "white" : INK }}>
+                            {v || ""}
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Section>
+
+          <p className="text-[11px] font-medium text-stone-500 tracking-wider pt-1">どう動いているか</p>
+
+          <Section title="LINEまでの流れ" desc="それぞれの行動をした人数(同じ期間内)。順番どおりに進んだ人だけを数えたものではないので、目安として見てください。">
+            <div className="space-y-2.5">
+              {steps.map((st, i) => (
+                <div key={st.label}>
+                  <Bar label={st.label} value={st.n} max={steps[0].n || 1} right={`${fmt(st.n)}人${i > 0 ? `(前の段の${pct(perUser(st.n, steps[i - 1].n))})` : ""}`} strong={i === steps.length - 1} />
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section title="入口になっているページ" desc="最初に開かれたページ。「しっかり見た」は、すぐ帰らずに読まれた訪問の割合です。">
+            <div className="divide-y divide-stone-100">
+              {d.landing.filter((x) => x.path && x.path !== "(not set)").slice(0, 15).map((x) => (
+                <div key={x.path} className="py-1.5 flex items-start justify-between gap-3">
+                  <a href={x.path} target="_blank" rel="noopener noreferrer" className="text-[12px] leading-snug hover:underline min-w-0" style={{ color: INK }}>{pageTitle(x.path)}</a>
+                  <span className="text-[10px] text-stone-400 flex-shrink-0 text-right">{fmt(x.sessions)}回<br />しっかり{pct(x.engagementRate)}・{x.pagesPerSession.toFixed(1)}ページ</span>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section title="次に読まれているページ" desc="サイトの中で、あるページから別のページへ移った回数。よく使われている道すじです。">
+            {d.transitions.length === 0 ? <p className="text-[12px] text-stone-400">データがありません</p> : (
+              <div className="divide-y divide-stone-100">
+                {d.transitions.slice(0, 20).map((x) => (
+                  <div key={x.from + x.to} className="py-1.5 flex items-start justify-between gap-3">
+                    <p className="text-[12px] leading-snug min-w-0" style={{ color: INK }}>
+                      <span className="text-stone-500">{pageTitle(x.from)}</span>
+                      <span className="text-stone-400"> → </span>
+                      {pageTitle(x.to)}
+                    </p>
+                    <span className="text-[10px] text-stone-400 flex-shrink-0">{fmt(x.views)}回</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Section>
+        </>
+      )}
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -861,7 +1083,7 @@ export default function OpsDashboard() {
 
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
-          {([["launch", "開業判断"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
+          {([["launch", "開業判断"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
             <button key={v} onClick={() => setTab(v)} className="px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>{l}</button>
           ))}
         </div>
@@ -1026,6 +1248,9 @@ export default function OpsDashboard() {
             </div>
           </div>
         )}
+
+        {/* ===================== ユーザー ===================== */}
+        {tab === "users" && <UsersPanel adminKey={key} chip={chip} />}
 
         {/* ===================== 改善候補 ===================== */}
         {tab === "todo" && data && <TodoPanel rows={rows} data={data} days={days} setDays={setDays} chip={chip} />}
