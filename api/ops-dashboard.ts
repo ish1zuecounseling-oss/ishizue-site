@@ -173,6 +173,8 @@ function jstMonthEnd(monthsBack: number): string {
 
 /** 毎日の記録(ダッシュボードを開いたときに、その日に取れた数字を残す)。LINEから過去の月末が取れないときの代わりに使う */
 const LINE_DAILY_KEY = "ishizue:line-daily"
+const FEEDBACK_KEY = "ishizue:feedback"
+const FEEDBACK_DONE_KEY = "ishizue:feedback-done"
 
 async function kv(cmd: (string | number)[]): Promise<unknown> {
   const c = kvConfig()
@@ -415,7 +417,13 @@ export default async function handler(req: Req, res: Res) {
   /* ---- 手入力項目の保存 ---- */
   if (req.method === "POST") {
     try {
-      const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as { manual?: unknown; plan?: unknown } | undefined
+      const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as { manual?: unknown; plan?: unknown; feedbackDone?: unknown; done?: unknown } | undefined
+      // ご意見の「対応済み」の切り替え
+      if (typeof body?.feedbackDone === "string" && /^[0-9a-f]{8}$/.test(body.feedbackDone)) {
+        await kv([body.done === false ? "SREM" : "SADD", FEEDBACK_DONE_KEY, body.feedbackDone])
+        res.status(200).json({ ok: true })
+        return
+      }
       const saved = body?.plan !== undefined ? await savePlan(body.plan) : await saveManual(body?.manual)
       res.status(200).json({ ok: true, data: saved })
     } catch (e) {
@@ -427,6 +435,21 @@ export default async function handler(req: Req, res: Res) {
   const q1 = (k: string) => { const v = req.query[k]; return Array.isArray(v) ? v[0] : v }
   const daysRaw = Number(q1("days"))
   const days = ALLOWED_DAYS.includes(daysRaw) ? daysRaw : 28
+
+  /* ---- 読者から届いた不具合・ご意見(api/feedback.ts が保存) ---- */
+  if (q1("view") === "feedback") {
+    try {
+      const [raw, done] = await Promise.all([kv(["LRANGE", FEEDBACK_KEY, 0, 199]), kv(["SMEMBERS", FEEDBACK_DONE_KEY])])
+      const doneSet = new Set((done as string[] | null) ?? [])
+      const items = ((raw as string[] | null) ?? []).flatMap((x) => {
+        try { const v = JSON.parse(x) as { id: string }; return [{ ...v, done: doneSet.has(v.id) }] } catch { return [] }
+      })
+      res.status(200).json({ ok: true, items })
+    } catch (e) {
+      res.status(200).json({ ok: false, message: e instanceof Error ? e.message : "unknown" })
+    }
+    return
+  }
 
   let token: string
   try {
