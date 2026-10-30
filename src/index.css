@@ -355,3 +355,12 @@
   padding-top: 1rem;
   border-top: 1px solid #f5f5f4;
 }
+
+/* スマホ(指で操作する端末)で、記事内のリンク一覧を押しやすくする。
+   インライン要素の上下余白は行の高さを変えないので、見た目はそのままで押せる範囲だけ広がる。 */
+@media (pointer: coarse) {
+  main li > a,
+  article li > a {
+    padding-block: 7px;
+  }
+}
