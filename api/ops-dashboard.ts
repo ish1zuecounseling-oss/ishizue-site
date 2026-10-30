@@ -153,14 +153,15 @@ async function gscQuery(token: string, site: string, body: unknown): Promise<Gsc
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
 
 /** yyyyMMdd(日本時間)の時点の友だち数。まだ集計前なら null */
-async function lineFollowers(token: string, yyyymmdd: string): Promise<LineInsight | null> {
+/** LINEの友だち数の統計。取れなかったときは理由(status またはエラー)を返す */
+async function lineFollowers(token: string, yyyymmdd: string): Promise<{ v: LineInsight | null; reason?: string }> {
   const r = await fetch(`https://api.line.me/v2/bot/insight/followers?date=${yyyymmdd}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   const d = (await r.json().catch(() => ({}))) as { status?: string; followers?: number; targetedReaches?: number; blocks?: number; message?: string }
-  if (!r.ok) throw new Error("LINE: " + (d.message ?? r.status))
-  if (d.status !== "ready") return null
-  return { date: yyyymmdd, followers: d.followers ?? 0, targetedReaches: d.targetedReaches ?? 0, blocks: d.blocks ?? 0 }
+  if (!r.ok) return { v: null, reason: `${r.status} ${d.message ?? ""}`.trim() }
+  if (d.status !== "ready") return { v: null, reason: d.status ?? "unknown" }
+  return { v: { date: yyyymmdd, followers: d.followers ?? 0, targetedReaches: d.targetedReaches ?? 0, blocks: d.blocks ?? 0 } }
 }
 
 /** 日本時間で、n か月前の月末(yyyyMMdd)。n=1 で先月末 */
@@ -170,19 +171,54 @@ function jstMonthEnd(monthsBack: number): string {
   return d.toISOString().slice(0, 10).replace(/-/g, "")
 }
 
+/** 毎日の記録(ダッシュボードを開いたときに、その日に取れた数字を残す)。LINEから過去の月末が取れないときの代わりに使う */
+const LINE_DAILY_KEY = "ishizue:line-daily"
+
+async function kv(cmd: (string | number)[]): Promise<unknown> {
+  const c = kvConfig()
+  if (!c) return null
+  const r = await fetch(c.url, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${c.token}`, "Content-Type": "application/json" },
+    body: JSON.stringify(cmd),
+  })
+  if (!r.ok) return null
+  return ((await r.json()) as { result?: unknown }).result ?? null
+}
+
 async function getLine() {
   const token = process.env.LINE_CHANNEL_ACCESS_TOKEN
   if (!token) return { ok: false, message: "LINE_CHANNEL_ACCESS_TOKEN が未設定です" }
   try {
     // 最新:昨日(当日分は翌日に集計されるため、なければ一昨日)
-    const latest = (await lineFollowers(token, jstDate(1).replace(/-/g, ""))) ?? (await lineFollowers(token, jstDate(2).replace(/-/g, "")))
-    // 各月末(先月末〜6か月前の月末)
-    const ends = await Promise.all([1, 2, 3, 4, 5, 6].map(async (n) => {
+    let latest = (await lineFollowers(token, jstDate(1).replace(/-/g, ""))).v
+    if (!latest) latest = (await lineFollowers(token, jstDate(2).replace(/-/g, ""))).v
+
+    // これまでの毎日の記録を読み、最新を書き足す
+    const daily = new Map<string, LineInsight>()
+    try {
+      const raw = (await kv(["HGETALL", LINE_DAILY_KEY])) as string[] | null
+      for (let i = 0; raw && i < raw.length; i += 2) {
+        try { const v = JSON.parse(raw[i + 1]) as LineInsight; if (/^\d{8}$/.test(raw[i])) daily.set(raw[i], v) } catch { /* skip */ }
+      }
+      if (latest) { daily.set(latest.date, latest); await kv(["HSET", LINE_DAILY_KEY, latest.date, JSON.stringify(latest)]) }
+    } catch { /* 記録がなくても続ける */ }
+
+    // 各月末(先月末〜6か月前の月末)。同時に投げると断られることがあるので、1つずつ取る
+    const ends: (LineInsight & { month: string; source: "line" | "record" })[] = []
+    const issues: { month: string; reason: string }[] = []
+    for (const n of [1, 2, 3, 4, 5, 6]) {
       const date = jstMonthEnd(n)
-      const v = await lineFollowers(token, date).catch(() => null)
-      return v ? { month: date.slice(0, 6), ...v } : null
-    }))
-    return { ok: true, latest, monthEnds: ends.filter(Boolean) }
+      const month = date.slice(0, 6)
+      const got = await lineFollowers(token, date).catch((e) => ({ v: null, reason: e instanceof Error ? e.message : "error" }))
+      if (got.v) { ends.push({ month, ...got.v, source: "line" }); continue }
+      // 代わりに、その月の最後の5日間の記録のうち一番遅い日を使う(月の途中の記録は月末とみなさない)
+      const from = month + String(Number(date.slice(6)) - 4).padStart(2, "0")
+      const rec = [...daily.keys()].filter((k) => k >= from && k <= date).sort().pop()
+      if (rec) { ends.push({ month, ...(daily.get(rec) as LineInsight), source: "record" }); continue }
+      issues.push({ month, reason: got.reason ?? "unknown" })
+    }
+    return { ok: true, latest, monthEnds: ends, issues, dailyCount: daily.size }
   } catch (e) {
     return { ok: false, message: e instanceof Error ? e.message : "unknown" }
   }
