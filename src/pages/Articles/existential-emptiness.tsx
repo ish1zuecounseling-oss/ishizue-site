@@ -94,6 +94,11 @@ export default function ExistentialEmptiness() {
         </div>
       </div>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">この4つのうち、自分はどれが薄くなっているのか。16項目で確かめられます。</p>
+        <Link to="/articles/emptiness-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ 空虚感チェック(16項目・3分)</Link>
+      </div>
+
       <h2>空虚感と「単なる疲れ」「うつ」との違い</h2>
       <p>
         空虚感は、関連する概念と混同されやすいですが、それぞれ異なる特徴を持ちます。
@@ -181,6 +186,11 @@ export default function ExistentialEmptiness() {
       <p>
         さらに支援職の場合、「埋めるための活動」自体が役割のように感じられ、新たな消耗を生むことがあります。「リラックスしなければ」「楽しまなければ」と頑張る空虚感は、より深い空虚感を生みます。
       </p>
+
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">どこから戻していけばいいかは、薄くなっている側面によって変わります。先に確かめておくと、次の回復の方向が読みやすくなります。</p>
+        <Link to="/articles/emptiness-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ 空虚感チェック(16項目・3分)</Link>
+      </div>
 
       <h2>空虚感からの回復の方向——「埋める」ではなく「感覚を取り戻す」</h2>
       <p>
