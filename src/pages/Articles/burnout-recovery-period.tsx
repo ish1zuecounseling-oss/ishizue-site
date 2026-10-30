@@ -92,6 +92,11 @@ export default function BurnoutRecoveryPeriod() {
         </ul>
       </nav>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">自分が今どの段階にいるのか、先に確かめてから読むこともできます。</p>
+        <Link to="/articles/burnout-recovery-stage-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ 燃え尽き 回復段階チェック(20項目・3分)</Link>
+      </div>
+
       <h2>結論——軽度・中度・重度別の回復期間</h2>
       <p>
         燃え尽き症候群(バーンアウト)の回復期間は、状態の深さによって以下のような目安があります。
@@ -285,6 +290,11 @@ export default function BurnoutRecoveryPeriod() {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">この4つのうち、自分は今どこにいるのか。20項目で目安を確かめられます。</p>
+        <Link to="/articles/burnout-recovery-stage-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ 燃え尽き 回復段階チェック(20項目・3分)</Link>
       </div>
 
       <h2>早く回復する人の共通点</h2>
