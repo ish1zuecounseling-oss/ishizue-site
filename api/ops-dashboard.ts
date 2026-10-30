@@ -566,15 +566,18 @@ export default async function handler(req: Req, res: Res) {
     }
 
     /* Search Console(未設定なら ok:false で返す) */
-    let gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number } } = { ok: false }
+    let gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number }; queries?: { q: string; clicks: number; impressions: number; position: number; prevPosition: number | null; page: string | null }[] } = { ok: false }
     try {
       const site = await findGscSite(token)
       const endDate = jstDate(3) // Search Console は2〜3日遅れで確定する
       const startDate = jstDate(3 + days - 1)
       const base = { startDate, endDate, dataState: "final" }
-      const [pages, pageQueries] = await Promise.all([
+      const prevBase = { startDate: jstDate(3 + days * 2 - 1), endDate: jstDate(3 + days), dataState: "final" }
+      const [pages, pageQueries, queries, prevQueries] = await Promise.all([
         gscQuery(token, site, { ...base, dimensions: ["page"], rowLimit: 1000 }),
         gscQuery(token, site, { ...base, dimensions: ["page", "query"], rowLimit: 5000 }),
+        gscQuery(token, site, { ...base, dimensions: ["query"], rowLimit: 1000 }),
+        gscQuery(token, site, { ...prevBase, dimensions: ["query"], rowLimit: 1000 }),
       ])
       let clicks = 0, impressions = 0
       for (const r of pages) {
@@ -595,7 +598,26 @@ export default async function handler(req: Req, res: Res) {
       for (const v of arts.values()) {
         if (v.gsc) v.gsc.queries = v.gsc.queries.sort((x, y) => y.impressions - x.impressions).slice(0, 8)
       }
-      gsc = { ok: true, site, startDate, endDate, totals: { clicks, impressions } }
+      // 語句ごとの一覧(表示回数の多い順)。順位は語句全体の平均、記事はその語句で一番表示された記事
+      const prevPos = new Map(prevQueries.map((r) => [r.keys[0], r.position]))
+      const topPage = new Map<string, { path: string; imp: number }>()
+      for (const r of pageQueries) {
+        let path: string
+        try { path = normPath(new URL(r.keys[0]).pathname) } catch { continue }
+        const cur = topPage.get(r.keys[1])
+        if (!cur || r.impressions > cur.imp) topPage.set(r.keys[1], { path, imp: r.impressions })
+      }
+      const queryList = queries
+        .map((r) => ({
+          q: r.keys[0],
+          clicks: r.clicks,
+          impressions: r.impressions,
+          position: Math.round(r.position * 10) / 10,
+          prevPosition: prevPos.has(r.keys[0]) ? Math.round((prevPos.get(r.keys[0]) as number) * 10) / 10 : null,
+          page: topPage.get(r.keys[0])?.path ?? null,
+        }))
+        .sort((x, y) => y.impressions - x.impressions)
+      gsc = { ok: true, site, startDate, endDate, totals: { clicks, impressions }, queries: queryList }
     } catch (e) {
       gsc = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
