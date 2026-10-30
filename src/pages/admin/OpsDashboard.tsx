@@ -104,7 +104,7 @@ type Plan = {
   capacity: number | null; launchMonth: string | null; expenseRate?: number; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
-type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search"
+type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search" | "feedback"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
 
 /** GA4の流入元(デフォルト チャネル グループ)の日本語名と説明 */
@@ -961,6 +961,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
 /* ------------------------------ サイトに加えた変更 ------------------------------ */
 /** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
 const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "全ページの下に「サイトの不具合・ご意見を送る」を追加(届いた内容は「ご意見」タブ)" },
   { date: "2026-10-30", text: "新しいチェック「燃え尽き 回復段階チェック」を公開(回復期間の記事からリンク)" },
   { date: "2026-10-30", text: "見出し追加:共感しすぎて疲れる(情動感染・情動伝染)／メサイア症候群(症状・病気かどうか・メサイヤ表記)" },
   { date: "2026-10-30", text: "パソコンで見ている人に、右下へLINE登録のQRコードを表示(友だち追加経路は「QRコード」で数える)" },
@@ -1680,6 +1681,74 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
   )
 }
 
+/* ------------------------------ ご意見 ------------------------------ */
+type FeedbackItem = { id: string; at: string; category: string; text: string; page: string; device: string; done: boolean }
+const FB_CATEGORY: Record<string, string> = { display: "表示がおかしい", link: "リンクが開かない", content: "内容の誤り", other: "その他" }
+const FB_DEVICE: Record<string, string> = { mobile: "スマホ", tablet: "タブレット", desktop: "パソコン", unknown: "不明" }
+
+function FeedbackPanel({ adminKey }: { adminKey: string }) {
+  const [items, setItems] = useState<FeedbackItem[] | null>(null)
+  const [err, setErr] = useState("")
+  const [showDone, setShowDone] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    fetch("/api/ops-dashboard?view=feedback", { headers: { "x-admin-key": adminKey } })
+      .then((r) => r.json())
+      .then((b) => { if (!alive) return; if (!b.ok) throw new Error(b.message ?? "取得に失敗しました"); setItems(b.items as FeedbackItem[]) })
+      .catch((e) => { if (alive) setErr(e instanceof Error ? e.message : "取得に失敗しました") })
+    return () => { alive = false }
+  }, [adminKey])
+
+  const toggle = async (it: FeedbackItem) => {
+    setItems((xs) => xs?.map((x) => (x.id === it.id ? { ...x, done: !x.done } : x)) ?? null)
+    try {
+      await fetch("/api/ops-dashboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ feedbackDone: it.id, done: !it.done }),
+      })
+    } catch {
+      setItems((xs) => xs?.map((x) => (x.id === it.id ? { ...x, done: it.done } : x)) ?? null)
+    }
+  }
+
+  if (err) return <p className="text-sm text-red-600">{err}</p>
+  if (!items) return <p className="text-sm text-stone-500">読み込み中…</p>
+  const open = items.filter((x) => !x.done)
+  const list = showDone ? items : open
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-stone-600">未対応 {open.length}件 ／ 全{items.length}件</p>
+        <label className="text-[11px] text-stone-500 flex items-center gap-1.5">
+          <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} />対応済みも表示
+        </label>
+      </div>
+      <p className="text-[10px] text-stone-400 leading-relaxed">
+        全ページの下の「サイトの不具合・ご意見を送る」から届いた内容です(匿名・返信不可)。新しいものから500件まで残ります。
+      </p>
+      {list.length === 0 && <p className="text-[12px] text-stone-400 bg-white rounded-xl border border-stone-200 p-4">{items.length === 0 ? "まだ届いていません" : "未対応のものはありません"}</p>}
+      {list.map((it) => (
+        <div key={it.id} className="bg-white rounded-xl border border-stone-200 p-3" style={it.done ? { opacity: 0.55 } : undefined}>
+          <div className="flex items-start justify-between gap-3 mb-1.5">
+            <div className="text-[10px] text-stone-500 leading-relaxed">
+              <span className="inline-block px-2 py-0.5 rounded-full mr-1.5" style={{ background: "#f0ebe3", color: INK }}>{FB_CATEGORY[it.category] ?? it.category}</span>
+              {new Date(it.at).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })} ・ {FB_DEVICE[it.device] ?? it.device}
+            </div>
+            <button type="button" onClick={() => toggle(it)} className="text-[11px] px-2.5 py-1 rounded-full border flex-shrink-0"
+              style={it.done ? { borderColor: "#d6d3d1", color: "#78716c" } : { borderColor: SAGE, color: "#fff", background: SAGE }}>
+              {it.done ? "未対応に戻す" : "対応済みにする"}
+            </button>
+          </div>
+          <p className="text-[13px] leading-relaxed whitespace-pre-wrap break-words" style={{ color: INK }}>{it.text}</p>
+          <a href={it.page} target="_blank" rel="noopener noreferrer" className="text-[11px] text-stone-500 underline underline-offset-2 mt-1.5 inline-block break-all">{pageTitle(it.page)}</a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -1840,7 +1909,7 @@ export default function OpsDashboard() {
 
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
-          {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"]] as [Tab, string][]).map(([v, l]) => (
+          {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"], ["feedback", "ご意見"]] as [Tab, string][]).map(([v, l]) => (
             <button key={v} onClick={() => setTab(v)} className="px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>{l}</button>
           ))}
         </div>
@@ -2016,6 +2085,9 @@ export default function OpsDashboard() {
         {tab === "plan" && data && (
           <PlanPanel data={data} adminKey={key} onSaved={(m) => setData((d) => (d ? { ...d, manual: { ok: true, data: m } } : d))} />
         )}
+
+        {/* ===================== ご意見 ===================== */}
+        {tab === "feedback" && <FeedbackPanel adminKey={key} />}
 
         {/* ===================== ユーザー ===================== */}
         {tab === "users" && <UsersPanel adminKey={key} chip={chip} />}
