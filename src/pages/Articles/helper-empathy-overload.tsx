@@ -50,10 +50,14 @@ export default function HelperEmpathyFatigue() {
         これが「共感しすぎて疲れる」の正体です。
       </p>
 
+      <h2>情動感染（情動伝染）とは——相手の感情が勝手に移ってくる仕組み</h2>
+      <p>
+        相手の不安や怒りに、気づいたら自分まで飲み込まれている。その背景にあるのが「情動感染」です。
+      </p>
       <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">相手の感情は「勝手に移ってくる」——情動感染</p>
+        <p className="text-sm font-medium text-stone-700 mb-2">相手の感情は「勝手に移ってくる」</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          相手の感情が、意識する前に自分にも移ってくる現象を、心理学では<strong>情動感染</strong>と呼びます(Hatfield・Cacioppo・Rapson らが体系化)。
+          相手の感情が、意識する前に自分にも移ってくる現象を、心理学では<strong>情動感染（情動伝染）</strong>と呼びます(Hatfield・Cacioppo・Rapson らが体系化)。
           相手の表情や声のトーンを無意識に真似る → その表情や姿勢が自分の感情に影響する → 相手と似た感情状態になる、という流れで、瞬時に起こります。
         </p>
         <p className="text-sm text-stone-600 leading-[1.9] mt-2">
