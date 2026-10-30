@@ -718,7 +718,7 @@ type UsersData = {
   days: number
   summary: { users: number; newUsers: number; sessions: number; pageViews: number; engagementSec: number; engagementRate: number }
   newVsReturning: { type: string; users: number; sessions: number; pageViews: number; engagementSec: number }[]
-  devices: { device: string; users: number; engagementRate: number }[]
+  devices: { device: string; users: number; engagementRate: number; lineUsers?: number; lineClicks?: number }[]
   regions: { region: string; users: number }[]
   dayHour: { day: number; hour: number; sessions: number }[]
   landing: { path: string; sessions: number; engagementRate: number; pagesPerSession: number }[]
@@ -847,12 +847,12 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
           </Section>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <Section title="使っている端末" desc="下の小さい数字は「しっかり見た訪問」の割合。スマホがパソコンより大きく低ければ、スマホで読みにくい所があるサインです。">
+            <Section title="使っている端末" desc="下の小さい数字は「しっかり見た訪問」の割合と、LINEボタンを押した人の割合。パソコンだけLINEの割合が低ければ、QRコード画面で止まっている可能性があります。">
               <div className="space-y-2">
                 {d.devices.map((x) => (
                   <div key={x.device}><Bar label={DEVICE_LABEL[x.device] ?? x.device} value={x.users} max={s.users}
                     right={`${pct(perUser(x.users, d.devices.reduce((n, y) => n + y.users, 0)))}(${fmt(x.users)}人)`} />
-                    {x.users >= 20 && <p className="text-[10px] text-stone-400 mt-0.5">しっかり見た訪問 {pct(x.engagementRate)}</p>}</div>
+                    {x.users >= 20 && <p className="text-[10px] text-stone-400 mt-0.5">しっかり見た訪問 {pct(x.engagementRate)} ／ LINEボタン {fmt(x.lineUsers ?? 0)}人({pct(perUser(x.lineUsers ?? 0, x.users))})</p>}</div>
                 ))}
               </div>
             </Section>
