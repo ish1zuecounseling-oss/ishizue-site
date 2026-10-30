@@ -84,7 +84,7 @@ type ApiResult = {
   days: number; fetchedAt: string; months: Month[]; articles: ApiArticle[]
   gsc: { ok: boolean; message?: string; site?: string; startDate?: string; endDate?: string; totals?: { clicks: number; impressions: number }; queries?: GscQuery[] }
   siteSearch: { ok: boolean; message?: string; terms?: { term: string; count: number }[] }
-  line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string })[] }
+  line?: { ok: boolean; message?: string; latest?: LineInsight | null; monthEnds?: (LineInsight & { month: string; source?: string })[]; issues?: { month: string; reason: string }[]; dailyCount?: number }
   manual?: { ok: boolean; message?: string; data?: Manual }
   waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
@@ -1046,6 +1046,12 @@ function LineAddTable({ data, months }: { data: ApiResult; months: Month[] }) {
           </tbody>
         </table>
       </div>
+      {(data.line?.issues ?? []).length > 0 && (
+        <p className="text-[10px] text-stone-500 mt-1.5 leading-relaxed">
+          LINEから月末の数字が取れなかった月:{(data.line?.issues ?? []).map((x) => `${monthLabel(x.month)}(${x.reason})`).join("、")}。
+          今後はダッシュボードを開いた日の数字を毎日記録して(現在{data.line?.dailyCount ?? 0}日分)、取れない月末の代わりに使います。11月以降の月から埋まっていきます。
+        </p>
+      )}
     </div>
   )
 }
