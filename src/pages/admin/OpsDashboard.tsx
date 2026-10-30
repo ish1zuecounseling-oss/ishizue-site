@@ -89,7 +89,7 @@ type ApiResult = {
   waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
   lineStep?: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
-  titleTests?: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number }[] }
+  titleTests?: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number; before?: { clicks: number; impressions: number; position: number; days: number } }[] }
 }
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
 type Manual = {
@@ -961,6 +961,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
 /* ------------------------------ サイトに加えた変更 ------------------------------ */
 /** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
 const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "タイトル変更:見捨てられ不安チェック／バーンアウトチェック(検索語を先頭に)。燃え尽きの初期症状の記事の上部にチェックへの案内" },
   { date: "2026-10-30", text: "新しいチェック「空虚感チェック」を公開(空虚感の記事からリンク)" },
   { date: "2026-10-30", text: "全ページの下に「サイトの不具合・ご意見を送る」を追加(届いた内容は「ご意見」タブ)" },
   { date: "2026-10-30", text: "新しいチェック「燃え尽き 回復段階チェック」を公開(回復期間の記事からリンク)" },
@@ -1114,15 +1115,17 @@ function TitleTests({ data }: { data: ApiResult }) {
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">タイトル変更の効果</p>
       <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
-        変更前の28日間と、変更後(10/30〜)の1日あたりの数字を比べます。検索の数字は3日ほど遅れて確定し、14日分たまるまでは判断しません。
+        変更前の28日間と、変更後の1日あたりの数字を比べます。検索の数字は3日ほど遅れて確定し、14日分たまるまでは判断しません。
       </p>
       {!tt?.ok ? (
         <p className="text-[12px] text-stone-400">取得できませんでした{tt?.message ? `(${tt.message})` : ""}</p>
       ) : (
         <div className="space-y-2">
           {(tt.rows ?? []).map((r) => {
-            const b = TITLE_BASELINE[r.path]
-            if (!b) return null
+            const hand = TITLE_BASELINE[r.path]
+            // 変更前の数字:手で控えた値があればそれを、なければ自動で取った変更前28日間を使う
+            const b = hand ?? (r.before ? { label: pageTitle(r.path), impressions: r.before.impressions, clicks: r.before.clicks, days: r.before.days } : null)
+            if (!b || !b.impressions) return null
             const bi = b.impressions / b.days, bc = b.clicks / b.days, bctr = b.clicks / b.impressions
             const ai = r.days ? r.impressions / r.days : 0, ac = r.days ? r.clicks / r.days : 0, actr = r.impressions ? r.clicks / r.impressions : 0
             const diff = (a: number, base: number) => (base ? `${a >= base ? "+" : ""}${Math.round(((a - base) / base) * 100)}%` : "")
@@ -1130,7 +1133,7 @@ function TitleTests({ data }: { data: ApiResult }) {
               <div key={r.path} className="bg-white rounded-xl border border-stone-200 p-3">
                 <div className="flex justify-between gap-2 mb-2">
                   <a href={r.path} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium hover:underline" style={{ color: INK }}>{b.label}</a>
-                  <span className="text-[10px] text-stone-400 flex-shrink-0">{r.days < 1 ? "まだデータなし" : `変更後 ${r.days}日分${r.days < 14 ? "(判断はまだ早い)" : ""}`}</span>
+                  <span className="text-[10px] text-stone-400 flex-shrink-0">{r.days < 1 ? `${r.since.slice(5).replace("-", "/")}に変更・まだデータなし` : `${r.since.slice(5).replace("-", "/")}〜 ${r.days}日分${r.days < 14 ? "(判断はまだ早い)" : ""}`}</span>
                 </div>
                 {r.days >= 1 && (
                   <table className="w-full text-[11px] text-stone-600">
@@ -1139,7 +1142,7 @@ function TitleTests({ data }: { data: ApiResult }) {
                       <tr><td>表示回数</td><td className="text-right">{bi.toFixed(1)}</td><td className="text-right">{ai.toFixed(1)}</td><td className="text-right">{diff(ai, bi)}</td></tr>
                       <tr><td>クリック</td><td className="text-right">{bc.toFixed(2)}</td><td className="text-right">{ac.toFixed(2)}</td><td className="text-right">{diff(ac, bc)}</td></tr>
                       <tr><td>クリック率</td><td className="text-right">{pct(bctr)}</td><td className="text-right">{pct(actr)}</td><td className="text-right">{diff(actr, bctr)}</td></tr>
-                      <tr><td>平均順位</td><td className="text-right">—</td><td className="text-right">{r.position ? r.position.toFixed(1) : "—"}</td><td></td></tr>
+                      <tr><td>平均順位</td><td className="text-right">{!hand && r.before?.position ? r.before.position.toFixed(1) : "—"}</td><td className="text-right">{r.position ? r.position.toFixed(1) : "—"}</td><td></td></tr>
                     </tbody>
                   </table>
                 )}
