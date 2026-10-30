@@ -8,7 +8,8 @@ import { trackLineClickFromCheck } from "../../lib/analytics"
 /**
  * 燃え尽き(バーンアウト)回復段階チェック
  * ・重さではなく「回復のどの段階にいるか」を見る(回復期間の記事の4フェーズ+「まだ消耗の中」)
- * ・各段階4項目×5段階=20項目。当てはまる数がいちばん多い段階を結果にする(同数なら手前の段階=無理をさせない側)
+ * ・各段階4項目×5段階=20項目(気持ちや体の状態だけを聞く)。働き方(休まず働いている/休職中/復帰した)は別に1問で聞き、
+ *   その働き方で考えられる段階に1点ずつ足す。合計がいちばん多い段階を結果にする(同数なら手前の段階=無理をさせない側)
  * ・独自に作成した目安で、妥当性は検証していない(URLが -check なので注記は ArticleLayout が自動で出す)
  */
 
@@ -63,7 +64,7 @@ const STAGES: {
     short: "休養",
     period: "目安1〜3か月",
     items: [
-      "今は休職中、または仕事をかなり減らしてもらっている",
+      "朝起きても、何かをする気力がわかない日が多い",
       "1日の多くを、横になって過ごす日がある",
       "何かをしようとしても、すぐに疲れてしまう",
       "「早く戻らなければ」という焦りと、動けなさの間で揺れている",
@@ -118,7 +119,7 @@ const STAGES: {
       "短い時間なら、人と会ったり外出したりできる",
       "「次は同じ働き方をしない」と考え始めている",
       "断ること・頼ることを、少しずつ試している",
-      "仕事のことを、少しなら考えても大丈夫になってきた",
+      "これからのことを、少しなら考えられるようになってきた",
     ],
     label: "回復の3つ目の段階「再構築」にいるようです",
     message:
@@ -142,7 +143,7 @@ const STAGES: {
     short: "維持",
     period: "継続",
     items: [
-      "仕事に戻っている(時短や部分的な復帰を含む)",
+      "生活のリズムが、ほぼ元に戻っている",
       "疲れのサインに、以前より早く気づける",
       "休みの日に、きちんと休めている感覚がある",
       "無理をしそうなとき、立ち止まれることが増えた",
@@ -162,6 +163,13 @@ const STAGES: {
       { to: "/articles/helper-burnout-check", text: "バーンアウト診断(20項目)" },
     ],
   },
+]
+
+/** 今の働き方。選ぶと、その働き方で考えられる段階に1点ずつ足す */
+const WORK_STATUS: { key: string; label: string; stages: number[] }[] = [
+  { key: "working", label: "休まずに働いている", stages: [0, 4] },
+  { key: "leave", label: "休職中・仕事をかなり減らしている", stages: [1, 2, 3] },
+  { key: "back", label: "復帰した(時短や部分的な復帰を含む)", stages: [3, 4] },
 ]
 
 const ALL_ITEMS = STAGES.flatMap((s, si) => s.items.map((text, ii) => ({ text, stage: si, key: `${s.key}-${ii}` })))
@@ -189,11 +197,14 @@ export default function BurnoutRecoveryStageCheck() {
   const [checked, setChecked] = useState<boolean[]>(new Array(TOTAL).fill(false))
   const toggle = (i: number) => setChecked((prev) => { const n = [...prev]; n[i] = !n[i]; return n })
 
+  const [work, setWork] = useState<string | null>(null)
   const score = checked.filter(Boolean).length
   const counts = STAGES.map((_, si) => ALL_ITEMS.reduce((n, it, i) => n + (checked[i] && it.stage === si ? 1 : 0), 0))
-  // いちばん多い段階(同数なら手前の段階)。3つ以上選んだら結果を出す
+  const ws = WORK_STATUS.find((w) => w.key === work)
+  const totals = counts.map((c, si) => c + (ws && ws.stages.includes(si) ? 1 : 0))
+  // 合計がいちばん多い段階(同数なら手前の段階)。項目を3つ以上選んだら結果を出す
   let best = 0
-  counts.forEach((c, i) => { if (c > counts[best]) best = i })
+  totals.forEach((c, i) => { if (c > totals[best]) best = i })
   const stage = score >= 3 ? STAGES[best] : null
   const level = stage ? stage.key : null
 
@@ -214,7 +225,7 @@ export default function BurnoutRecoveryStageCheck() {
       </p>
 
       <p>
-        当てはまると感じるものをタップしてください。3つ以上選ぶと結果が出ます。
+        まず今の働き方を1つ選び、そのあと当てはまると感じる項目をタップしてください。項目を3つ以上選ぶと結果が出ます。
         体調には波があるので、<strong>「ここ2週間くらいの自分」</strong>を思い浮かべて答えるのがおすすめです。
       </p>
 
@@ -228,6 +239,28 @@ export default function BurnoutRecoveryStageCheck() {
 
       <h2>燃え尽き 回復段階セルフチェック(20項目)</h2>
 
+      <p className="text-sm font-medium text-stone-700 mb-2">今の働き方に近いもの</p>
+      <div className="flex flex-col gap-2 mb-5" role="radiogroup" aria-label="今の働き方">
+        {WORK_STATUS.map((w) => (
+          <button
+            key={w.key}
+            type="button"
+            role="radio"
+            aria-checked={work === w.key}
+            onClick={() => setWork(work === w.key ? null : w.key)}
+            className="text-left px-4 py-3 rounded-[10px] text-sm border transition-colors"
+            style={work === w.key
+              ? { background: "#fff", borderColor: "rgba(143,175,159,0.9)", color: "#292524", boxShadow: "0 2px 10px rgba(143,175,159,0.15)" }
+              : { background: "#fafaf9", borderColor: "#e8e5e1", color: "#57534e" }}
+          >
+            <span className="inline-block w-4 h-4 rounded-full border mr-2.5 align-[-3px]"
+              style={work === w.key ? { background: "#7C9A8A", borderColor: "#7C9A8A", boxShadow: "inset 0 0 0 3px #fff" } : { borderColor: "#d4cdc6", background: "#fff" }} />
+            {w.label}
+          </button>
+        ))}
+      </div>
+
+      <p className="text-sm font-medium text-stone-700 mb-2">ここ2週間くらいの自分に当てはまるもの</p>
       <div className="score-header">
         <span className="score-label">選択した項目</span>
         <span className="score-number">
