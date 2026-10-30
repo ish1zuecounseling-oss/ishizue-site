@@ -735,7 +735,7 @@ const PREF: Record<string, string> = {
   Tokushima: "徳島", Kagawa: "香川", Ehime: "愛媛", Kochi: "高知", Fukuoka: "福岡", Saga: "佐賀", Nagasaki: "長崎",
   Kumamoto: "熊本", Oita: "大分", Miyazaki: "宮崎", Kagoshima: "鹿児島", Okinawa: "沖縄",
 }
-const DEVICE_LABEL: Record<string, string> = { mobile: "スマホ", desktop: "パソコン", tablet: "タブレット" }
+const DEVICE_LABEL: Record<string, string> = { mobile: "スマホ", desktop: "パソコン", tablet: "タブレット", "smart tv": "テレビ" }
 const PAGE_LABEL: Record<string, string> = {
   "/": "トップページ", "/articles": "記事一覧", "/profile": "プロフィール", "/for-helpers": "支援職の方へ(LP)",
   "/ai-assistant": "AIで整理", "/privacy": "プライバシーポリシー", "/terms": "利用規約", "/tokusho": "特定商取引法の表記",
@@ -847,11 +847,12 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
           </Section>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <Section title="使っている端末">
+            <Section title="使っている端末" desc="下の小さい数字は「しっかり見た訪問」の割合。スマホがパソコンより大きく低ければ、スマホで読みにくい所があるサインです。">
               <div className="space-y-2">
                 {d.devices.map((x) => (
                   <div key={x.device}><Bar label={DEVICE_LABEL[x.device] ?? x.device} value={x.users} max={s.users}
-                    right={`${pct(perUser(x.users, d.devices.reduce((n, y) => n + y.users, 0)))}(${fmt(x.users)}人)`} /></div>
+                    right={`${pct(perUser(x.users, d.devices.reduce((n, y) => n + y.users, 0)))}(${fmt(x.users)}人)`} />
+                    {x.users >= 20 && <p className="text-[10px] text-stone-400 mt-0.5">しっかり見た訪問 {pct(x.engagementRate)}</p>}</div>
                 ))}
               </div>
             </Section>
