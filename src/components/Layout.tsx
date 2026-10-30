@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
 import DesktopLineQr from "./DesktopLineQr"
+import FeedbackButton from "./FeedbackButton"
 
 /* -------------------------------------------------------------------------- */
 /*  Constants                                                                  */
@@ -443,7 +444,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* コピーライト */}
           <div className="pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-400">
-            <p>© こころの相談室 いしずえ. All rights reserved.</p>
+            <div className="flex flex-col items-center sm:items-start gap-0.5">
+              <p>© こころの相談室 いしずえ. All rights reserved.</p>
+              <FeedbackButton />
+            </div>
             <div className="flex items-center gap-5">
               <a
                 href="https://x.com/ish1zue"
