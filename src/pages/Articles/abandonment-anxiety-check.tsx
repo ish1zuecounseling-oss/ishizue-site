@@ -119,7 +119,7 @@ export default function AbandonmentAnxietyCheck() {
 
   return (
     <ArticleLayout
-      title="「離れていかれる」が止まらない方へ｜見捨てられ不安チェック15項目【公認心理師】"
+      title="見捨てられ不安チェック15項目｜「離れていかれる」が止まらない理由と変え方【公認心理師】"
       description="「嫌われたかも」「断ったら去っていく」が止まらない方へ。15項目で見捨てられ不安を可視化し、なぜ起きるのか・どう変えられるのかを公認心理師が解説します。3分・無料・登録不要。"
       url="https://www.ishizue-counseling.jp/articles/abandonment-anxiety-check"
       date="2026-05-19"

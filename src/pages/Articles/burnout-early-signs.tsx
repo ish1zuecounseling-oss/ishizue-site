@@ -131,6 +131,11 @@ export default function BurnoutEarlySigns() {
         ギリギリまで頑張ってから休むのではなく、<strong>余裕があるうちに気づいて行動する</strong>方が、長期的にずっと楽です。
       </p>
 
+      <div className="my-4 p-4 rounded-xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.35)" }}>
+        <p className="text-sm text-stone-700 leading-[1.9] mb-1.5">今の自分がどのくらい消耗しているか、チェック形式で確かめたい方はこちら。</p>
+        <Link to="/articles/helper-burnout-check" className="inline-block text-sm font-medium underline underline-offset-2 text-stone-700 hover:text-stone-900">→ バーンアウト(燃え尽き症候群)チェック(20項目・3分)</Link>
+      </div>
+
       <h2>重症化する前に気づきたい10のサイン</h2>
       <p>
         以下の10のサインを、<strong>身体・心理・行動</strong>の3軸で整理しました。

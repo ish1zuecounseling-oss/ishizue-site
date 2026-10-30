@@ -144,7 +144,7 @@ export default function HelperBurnoutCheck() {
 
   return (
     <ArticleLayout
-      title="支援職バーンアウト診断｜燃え尽き症候群セルフチェック20項目【3分】"
+      title="バーンアウト(燃え尽き症候群)チェック20項目｜支援職のセルフ診断【公認心理師・3分】"
       description="支援職・看護師・介護士・福祉職向けのバーンアウト(燃え尽き症候群)セルフチェック。情緒的消耗・脱人格化・達成感の低下の3軸で今の状態を確認できます。"
       url="https://www.ishizue-counseling.jp/articles/helper-burnout-check"
       date="2026-03-29"
