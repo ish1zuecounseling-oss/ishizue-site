@@ -400,12 +400,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {/* ナビ */}
             <div>
               <p className="text-[10px] tracking-[0.25em] text-stone-400 uppercase mb-4">Navigation</p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-0.5">
                 {NAV_LINKS.map(({ to, label }) => (
                   <li key={to}>
                     <Link
                       to={to}
-                      className="text-sm text-stone-500 hover:text-stone-900 transition-colors underline-offset-2 hover:underline"
+                      className="inline-block py-1.5 text-sm text-stone-500 hover:text-stone-900 transition-colors underline-offset-2 hover:underline"
                     >
                       {label}
                     </Link>
@@ -447,7 +447,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X（旧Twitter）"
-                className="text-stone-400 hover:text-stone-800 transition-colors"
+                className="p-2.5 -m-2.5 text-stone-400 hover:text-stone-800 transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
@@ -458,7 +458,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="text-stone-400 hover:text-stone-800 transition-colors"
+                className="p-2.5 -m-2.5 text-stone-400 hover:text-stone-800 transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
