@@ -345,7 +345,7 @@ function LinkList({ items, exclude, max }: { items: LinkItem[]; exclude?: string
   return (
     <>
       {filtered.map(({ href, text }) => (
-        <Link key={href} to={href} className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">
+        <Link key={href} to={href} className="block py-2 text-sm leading-snug text-stone-600 hover:text-stone-900 underline underline-offset-2">
           → {text}
         </Link>
       ))}
@@ -455,7 +455,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
           return (
             <div key={key} className={isFirst && !isFirstReadExcluded ? "border-t border-stone-100 pt-3" : isFirst ? "" : "border-t border-stone-100 pt-3"}>
               <p className="text-xs font-medium text-stone-600 mb-2">{SECTION_LABELS[key]}</p>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col">
                 <LinkList
                   items={items}
                   exclude={exclude}
