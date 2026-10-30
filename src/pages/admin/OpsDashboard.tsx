@@ -22,6 +22,14 @@ const TARGET_IG_PER_WEEK = 3
 const TARGET_IG_WEEKS = 8
 const TARGET_IG_LINE = 5
 const TARGET_WAITING = 3
+/**
+ * 判断から外している(保留中の)項目の番号。
+ * 療養中は Instagram を運用しないため 6・7 を保留にしている(2026-10-30)。
+ * Instagram を再開したら [] に戻すと、元の「1〜8すべて」の判定に戻る。
+ */
+const HELD_GOALS: number[] = [6, 7]
+const HELD_REASON = "療養中は保留"
+const ACTIVE_GOALS = [1, 2, 3, 4, 5, 6, 7, 8].filter((n) => !HELD_GOALS.includes(n))
 const CHECKLIST: [string, string][] = [
   ["fee", "料金・初回の扱い"],
   ["booking", "予約と決済の流れ"],
@@ -175,7 +183,7 @@ function KeyGate({ onSubmit, error }: { onSubmit: (k: string) => void; error: st
 }
 
 /** 達成率のリング(円グラフ) */
-function ProgressRing({ ratio }: { ratio: number | null }) {
+function ProgressRing({ ratio, held = false }: { ratio: number | null; held?: boolean }) {
   const size = 56, stroke = 6, r = (size - stroke) / 2, c = 2 * Math.PI * r
   const p = ratio === null ? 0 : Math.max(0, Math.min(1, ratio))
   const done = ratio !== null && ratio >= 1
@@ -183,17 +191,17 @@ function ProgressRing({ ratio }: { ratio: number | null }) {
   const label = ratio === null ? "—" : `${Math.floor(Math.max(0, ratio) * 100)}%`
   return (
     <div className="relative flex-shrink-0" style={{ width: size, height: size }}
-      role="img" aria-label={ratio === null ? "未接続" : `達成率 ${label}`}>
+      role="img" aria-label={held ? "保留中" : ratio === null ? "未接続" : `達成率 ${label}`}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: "rotate(-90deg)" }}>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#ece6dc" strokeWidth={stroke} />
-        {p > 0 && (
+        {p > 0 && !held && (
           <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
             strokeLinecap="round" strokeDasharray={`${c * p} ${c}`} />
         )}
       </svg>
       <span className="absolute inset-0 flex items-center justify-center text-[11px] font-medium"
-        style={{ color: ratio === null ? "#a8a29e" : done ? "#2f6b45" : INK }}>
-        {done ? "達成" : label}
+        style={{ color: held || ratio === null ? "#a8a29e" : done ? "#2f6b45" : INK }}>
+        {held ? "保留" : done ? "達成" : label}
       </span>
     </div>
   )
@@ -203,18 +211,20 @@ function ProgressRing({ ratio }: { ratio: number | null }) {
 function GoalCard({ no, title, value, sub, goal, ratio, note }: {
   no: number; title: string; value: string; sub?: string; goal: string; ratio: number | null; note?: string
 }) {
+  const held = HELD_GOALS.includes(no)
   return (
-    <div className="bg-white rounded-xl border border-stone-200 p-3">
+    <div className="bg-white rounded-xl border border-stone-200 p-3" style={held ? { opacity: 0.55 } : undefined}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] text-stone-500 leading-snug">{no}. {title}</p>
           <p className="text-lg font-medium mt-1" style={{ color: INK }}>{value}</p>
         </div>
-        <ProgressRing ratio={ratio} />
+        <ProgressRing ratio={ratio} held={held} />
       </div>
       {sub && <p className="text-[11px] text-stone-500 mt-0.5">{sub}</p>}
       <p className="text-[10px] text-stone-400 mt-1">目標:{goal}</p>
-      {note && <p className="text-[10px] text-stone-400 mt-0.5">{note}</p>}
+      {held ? <p className="text-[10px] text-stone-400 mt-0.5">{HELD_REASON}(開始の判断から外しています)</p>
+        : note && <p className="text-[10px] text-stone-400 mt-0.5">{note}</p>}
     </div>
   )
 }
@@ -557,9 +567,9 @@ function AchievementTrend({ data }: { data: ApiResult }) {
       return v === undefined ? null : v / TARGET_WAITING
     }) },
   ]
-  // 総合:1〜8の達成率(100%で頭打ち)の平均。記録のない項目は0%として数える
+  // 総合:1〜8のうち保留していない項目の達成率(100%で頭打ち)の平均。記録のない項目は0%として数える
   const overall: Cell[] = months.map((_, i) => {
-    const vals = rows.slice(0, 8).map((r) => Math.min(1, Math.max(0, r.cells[i] ?? 0)))
+    const vals = rows.slice(0, 8).filter((_, k) => !HELD_GOALS.includes(k + 1)).map((r) => Math.min(1, Math.max(0, r.cells[i] ?? 0)))
     return vals.reduce((a, b) => a + b, 0) / vals.length
   })
 
@@ -582,11 +592,11 @@ function AchievementTrend({ data }: { data: ApiResult }) {
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">達成率の推移</p>
       <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
-        各月の「実績 ÷ 目標」。今月は途中経過。8は手入力を保存した月から記録されます(9はLINEの記録から自動)。総合は1〜8の平均(100%で頭打ち)です。
+        各月の「実績 ÷ 目標」。今月は途中経過。8は手入力を保存した月から記録されます(9はLINEの記録から自動)。総合は1〜8のうち保留中を除いた項目の平均(100%で頭打ち)です。
       </p>
 
       <div className="bg-white rounded-xl border border-stone-200 p-3 mb-2">
-        <p className="text-[11px] text-stone-500 mb-1">総合(1〜8の平均)</p>
+        <p className="text-[11px] text-stone-500 mb-1">総合({ACTIVE_GOALS.join("・")}の平均)</p>
         <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-md" role="img" aria-label="総合達成率の推移">
           {[0, 0.5, 1].map((g) => (
             <g key={g}>
@@ -616,9 +626,9 @@ function AchievementTrend({ data }: { data: ApiResult }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
-              <tr key={r.label} className="border-b border-stone-50 last:border-0">
-                <td className="px-3 py-1.5 text-stone-600 whitespace-nowrap sticky left-0 bg-white">{r.label}</td>
+            {rows.map((r, ri) => (
+              <tr key={r.label} className="border-b border-stone-50 last:border-0" style={HELD_GOALS.includes(ri + 1) ? { opacity: 0.5 } : undefined}>
+                <td className="px-3 py-1.5 text-stone-600 whitespace-nowrap sticky left-0 bg-white">{r.label}{HELD_GOALS.includes(ri + 1) && <span className="text-[10px] text-stone-400">(保留)</span>}</td>
                 {r.cells.map((v, i) => (
                   <td key={i} className="px-1 py-1">
                     <div className="rounded-md text-center py-1" style={cellStyle(v)}>{text(v)}</div>
@@ -1031,8 +1041,9 @@ export default function OpsDashboard() {
     (igLineAdds[monthKey(1)] ?? 0) >= TARGET_IG_LINE,
     checklistDone === CHECKLIST.length,
   ]
-  const metCount = met.filter(Boolean).length
-  const launchReady = metCount === 8 || waiting >= TARGET_WAITING
+  // 保留中の項目(HELD_GOALS)は判断から外す
+  const metCount = ACTIVE_GOALS.filter((n) => met[n - 1]).length
+  const launchReady = metCount === ACTIVE_GOALS.length || waiting >= TARGET_WAITING
 
   const runInspect = async (path: string) => {
     setInspect((s) => ({ ...s, [path]: "確認中…" }))
@@ -1095,9 +1106,9 @@ export default function OpsDashboard() {
         {tab === "launch" && data && (
           <div className="space-y-5">
             <div className="rounded-xl p-3 border" style={{ background: launchReady ? "#dcfce7" : "white", borderColor: launchReady ? "#86efac" : "#e7e5e4" }}>
-              <p className="text-[11px] text-stone-500">開始の判断(1〜8すべて達成、または9を達成で開始)</p>
+              <p className="text-[11px] text-stone-500">開始の判断({ACTIVE_GOALS.join("・")}をすべて達成、または9を達成で開始{HELD_GOALS.length > 0 ? `。${HELD_GOALS.join("・")}は${HELD_REASON}` : ""})</p>
               <p className="text-base font-medium mt-0.5" style={{ color: INK }}>
-                {launchReady ? "開始の目安に到達しています" : `1〜8のうち ${metCount}/8 達成 ／ 9は ${waiting}/${TARGET_WAITING}人`}
+                {launchReady ? "開始の目安に到達しています" : `${ACTIVE_GOALS.length}項目のうち ${metCount}/${ACTIVE_GOALS.length} 達成 ／ 9は ${waiting}/${TARGET_WAITING}人`}
               </p>
             </div>
 
