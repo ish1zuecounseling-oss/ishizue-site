@@ -13,6 +13,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import AudioPlayer from "./AudioPlayer";
 import ArticleSchema from "./ArticleSchema";
 import RandomArticles from "./RandomArticles";
+import FeedbackButton from "./FeedbackButton";
 import { pillarMap } from "../lib/pillarMap";
 import { articles } from "../data/articles";
 import { BookOpen } from "lucide-react";
@@ -330,6 +331,9 @@ export default function ArticleLayout({
                 </div>
               )}
             </div>
+
+            {/* 不具合・誤りのお知らせ(本文の外に置き、記事の中身としては扱わない) */}
+            <FeedbackButton variant="article" />
 
             {/* ============================================================
                 CTA（CV導線）

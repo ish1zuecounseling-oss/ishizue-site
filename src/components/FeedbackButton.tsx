@@ -24,7 +24,11 @@ function deviceType(): string {
   return "desktop"
 }
 
-export default function FeedbackButton() {
+/**
+ * variant="footer":フッター用の小さなリンク(全ページ)
+ * variant="article":記事の本文のすぐ下に置く、一行の案内つきのリンク(記事・チェックのページ)
+ */
+export default function FeedbackButton({ variant = "footer" }: { variant?: "footer" | "article" }) {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const [category, setCategory] = useState("display")
@@ -66,13 +70,26 @@ export default function FeedbackButton() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => { reset(); setOpen(true) }}
-        className="py-1.5 text-xs text-stone-400 hover:text-stone-700 underline underline-offset-2"
-      >
-        サイトの不具合・ご意見を送る
-      </button>
+      {variant === "article" ? (
+        <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 rounded-xl border border-dashed border-stone-300 text-xs text-stone-500">
+          <span>表示がおかしい・リンクが開かない・内容に誤りがある、などに気づいたら</span>
+          <button
+            type="button"
+            onClick={() => { reset(); setOpen(true) }}
+            className="py-1 font-medium text-stone-700 underline underline-offset-2 hover:text-stone-900"
+          >
+            お知らせください(匿名・1分)
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => { reset(); setOpen(true) }}
+          className="py-1.5 text-xs text-stone-400 hover:text-stone-700 underline underline-offset-2"
+        >
+          サイトの不具合・ご意見を送る
+        </button>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 p-0 sm:p-4" onClick={() => setOpen(false)}>
