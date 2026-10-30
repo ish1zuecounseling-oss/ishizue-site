@@ -84,6 +84,8 @@ type ApiResult = {
   manual?: { ok: boolean; message?: string; data?: Manual }
   waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
+  lineStep?: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
+  titleTests?: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number }[] }
 }
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
 type Manual = {
@@ -935,6 +937,190 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
   )
 }
 
+/* ------------------------------ サイトに加えた変更 ------------------------------ */
+/** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
+const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "パソコンで見ている人に、右下へLINE登録のQRコードを表示(友だち追加経路は「QRコード」で数える)" },
+  { date: "2026-10-30", text: "スマホ表示の修正(トップのお知らせ帯・押しにくいリンクを押しやすく)" },
+  { date: "2026-10-29", text: "LINEの新しいステップ配信(7日間・2026年11月版)を開始" },
+  { date: "2026-10-29", text: "タイトル変更:自己価値とは？／優しすぎる人ほど壊れる理由" },
+  { date: "2026-10-29", text: "チェック結果の文面を、受付休止中の内容(LINE案内)に変更" },
+  { date: "2026-10-28", text: "チェック結果のボタンをお問い合わせ→LINEに変更、チェックの計測(完了・LINE)を全チェックに追加" },
+  { date: "2026-10-28", text: "似た内容の記事を統合(39本を削除し、主要記事へ転送)" },
+  { date: "2026-10-10", text: "チェック完了の数え方を修正(これより前は多めに出ている)" },
+]
+
+function ChangeLog() {
+  const [open, setOpen] = useState(false)
+  const list = open ? CHANGE_LOG : CHANGE_LOG.slice(0, 4)
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">サイトに加えた変更</p>
+      <p className="text-[10px] text-stone-400 mb-2">数字が動いたときは、その少し前に何を変えたかを見てください。効果が出るまで2〜3週間かかることが多いです。</p>
+      <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
+        {list.map((c, i) => (
+          <div key={i} className="px-3 py-2 flex gap-3 text-[12px]">
+            <span className="text-stone-400 flex-shrink-0 tabular-nums">{c.date.slice(5).replace("-", "/")}</span>
+            <span className="text-stone-700 leading-snug">{c.text}</span>
+          </div>
+        ))}
+        {CHANGE_LOG.length > 4 && (
+          <button type="button" onClick={() => setOpen(!open)} className="w-full px-3 py-2 text-[11px] text-stone-500 text-left">
+            {open ? "閉じる" : `すべて見る(${CHANGE_LOG.length}件)`}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------ LINEボタンと友だち追加 ------------------------------ */
+function LineAddTable({ data, months }: { data: ApiResult; months: Month[] }) {
+  const curYm = months[months.length - 1]?.month
+  const at = (ym: string) => (ym === curYm ? data.line?.latest ?? undefined : data.line?.monthEnds?.find((x) => x.month === ym))
+  const prevYm = (ym: string) => {
+    const y = Number(ym.slice(0, 4)), m = Number(ym.slice(4))
+    return m === 1 ? `${y - 1}12` : `${y}${String(m - 1).padStart(2, "0")}`
+  }
+  const cols = months.map((mo) => {
+    const now = at(mo.month), before = at(prevYm(mo.month))
+    const adds = now && before ? now.followers - before.followers : undefined
+    const blocks = now && before ? now.blocks - before.blocks : undefined
+    return { mo, adds, blocks }
+  })
+  const show = (v: number | undefined) => (v === undefined ? "—" : fmt(v))
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">LINEボタンと友だち追加</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        ボタンが押された回数に対して、実際に友だち追加された数。追加には、サイト以外(QRコード・LINE内の検索など)からの分も含みます。
+        「追加」が「押された回数」よりずっと少なければ、押したあとにやめている人が多いということです。
+      </p>
+      <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+        <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
+          <thead>
+            <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+              <th className="text-left font-normal px-3 py-2"></th>
+              {cols.map((c) => <th key={c.mo.month} className="text-right font-normal px-3">{monthLabel(c.mo.month)}{c.mo.month === curYm && <span className="text-stone-400">(途中)</span>}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-stone-50">
+              <td className="px-3 py-2">LINEボタンが押された回数</td>
+              {cols.map((c) => <td key={c.mo.month} className="text-right px-3">{fmt(c.mo.lineClicks)}</td>)}
+            </tr>
+            <tr className="border-b border-stone-50">
+              <td className="px-3 py-2">友だち追加された数</td>
+              {cols.map((c) => <td key={c.mo.month} className="text-right px-3">{show(c.adds)}</td>)}
+            </tr>
+            <tr className="border-b border-stone-50">
+              <td className="px-3 py-2">ブロックされた数</td>
+              {cols.map((c) => <td key={c.mo.month} className="text-right px-3">{show(c.blocks)}</td>)}
+            </tr>
+            <tr>
+              <td className="px-3 py-2 font-medium">押された回数あたりの追加</td>
+              {cols.map((c) => <td key={c.mo.month} className="text-right px-3 font-medium">{c.adds === undefined || !c.mo.lineClicks ? "—" : pct(c.adds / c.mo.lineClicks)}</td>)}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------ ステップ配信 ------------------------------ */
+function LineStepTable({ data }: { data: ApiResult }) {
+  const st = data.lineStep
+  const rows = st?.rows ?? []
+  const byDay = (d: string) => rows.find((r) => r.day === d)
+  const days = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"]
+  const other = rows.filter((r) => !days.includes(r.day)).reduce((n, r) => n + r.sessions, 0)
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">ステップ配信から来た人(7日間・2026年11月版)</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        配信のリンクからサイトに来た数({st?.since?.slice(5).replace("-", "/") ?? "10/29"}以降の合計)。何日目で来なくなるか、どの回がよく読まれるかの目安です。
+      </p>
+      {!st?.ok ? (
+        <p className="text-[12px] text-stone-400">取得できませんでした{st?.message ? `(${st.message})` : ""}</p>
+      ) : (
+        <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
+          <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
+            <thead>
+              <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+                <th className="text-left font-normal px-3 py-2"></th>
+                {days.map((d) => <th key={d} className="text-right font-normal px-2">{d.replace("day", "")}日目</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-stone-50">
+                <td className="px-3 py-2">来た人</td>
+                {days.map((d) => <td key={d} className="text-right px-2">{fmt(byDay(d)?.users ?? 0)}</td>)}
+              </tr>
+              <tr>
+                <td className="px-3 py-2">しっかり見た</td>
+                {days.map((d) => { const r = byDay(d); return <td key={d} className="text-right px-2">{r && r.sessions ? pct(r.engagedSessions / r.sessions) : "—"}</td> })}
+              </tr>
+            </tbody>
+          </table>
+          {other > 0 && <p className="text-[10px] text-stone-400 px-3 pb-2">日目がわからない訪問 {fmt(other)}回</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ------------------------------ タイトル変更の効果 ------------------------------ */
+/** 変更前の数字(変更前28日間の Search Console) */
+const TITLE_BASELINE: Record<string, { label: string; impressions: number; clicks: number; days: number }> = {
+  "/articles/self-value-unknown": { label: "自己価値とは？", impressions: 965, clicks: 42, days: 28 },
+  "/articles/exhausted-by-being-nice": { label: "優しすぎる人ほど壊れる理由", impressions: 1682, clicks: 58, days: 28 },
+}
+
+function TitleTests({ data }: { data: ApiResult }) {
+  const tt = data.titleTests
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">タイトル変更の効果</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        変更前の28日間と、変更後(10/30〜)の1日あたりの数字を比べます。検索の数字は3日ほど遅れて確定し、14日分たまるまでは判断しません。
+      </p>
+      {!tt?.ok ? (
+        <p className="text-[12px] text-stone-400">取得できませんでした{tt?.message ? `(${tt.message})` : ""}</p>
+      ) : (
+        <div className="space-y-2">
+          {(tt.rows ?? []).map((r) => {
+            const b = TITLE_BASELINE[r.path]
+            if (!b) return null
+            const bi = b.impressions / b.days, bc = b.clicks / b.days, bctr = b.clicks / b.impressions
+            const ai = r.days ? r.impressions / r.days : 0, ac = r.days ? r.clicks / r.days : 0, actr = r.impressions ? r.clicks / r.impressions : 0
+            const diff = (a: number, base: number) => (base ? `${a >= base ? "+" : ""}${Math.round(((a - base) / base) * 100)}%` : "")
+            return (
+              <div key={r.path} className="bg-white rounded-xl border border-stone-200 p-3">
+                <div className="flex justify-between gap-2 mb-2">
+                  <a href={r.path} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium hover:underline" style={{ color: INK }}>{b.label}</a>
+                  <span className="text-[10px] text-stone-400 flex-shrink-0">{r.days < 1 ? "まだデータなし" : `変更後 ${r.days}日分${r.days < 14 ? "(判断はまだ早い)" : ""}`}</span>
+                </div>
+                {r.days >= 1 && (
+                  <table className="w-full text-[11px] text-stone-600">
+                    <thead><tr className="text-[10px] text-stone-400"><th className="text-left font-normal">1日あたり</th><th className="text-right font-normal">変更前</th><th className="text-right font-normal">変更後</th><th className="text-right font-normal">差</th></tr></thead>
+                    <tbody>
+                      <tr><td>表示回数</td><td className="text-right">{bi.toFixed(1)}</td><td className="text-right">{ai.toFixed(1)}</td><td className="text-right">{diff(ai, bi)}</td></tr>
+                      <tr><td>クリック</td><td className="text-right">{bc.toFixed(2)}</td><td className="text-right">{ac.toFixed(2)}</td><td className="text-right">{diff(ac, bc)}</td></tr>
+                      <tr><td>クリック率</td><td className="text-right">{pct(bctr)}</td><td className="text-right">{pct(actr)}</td><td className="text-right">{diff(actr, bctr)}</td></tr>
+                      <tr><td>平均順位</td><td className="text-right">—</td><td className="text-right">{r.position ? r.position.toFixed(1) : "—"}</td><td></td></tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function OpsDashboard() {
   const [key, setKey] = useState(readKey)
   const [days, setDays] = useState(28)
@@ -1194,6 +1380,8 @@ export default function OpsDashboard() {
 
             <AchievementTrend data={data} />
 
+            <ChangeLog />
+
             {/* 月別推移 */}
             <div>
               <p className="text-xs font-medium text-stone-600 mb-2">月ごとの推移</p>
@@ -1228,6 +1416,10 @@ export default function OpsDashboard() {
                 </table>
               </div>
             </div>
+
+            <LineAddTable data={data} months={months} />
+
+            <LineStepTable data={data} />
 
             {/* 流入元 */}
             <div>
@@ -1265,6 +1457,7 @@ export default function OpsDashboard() {
         {tab === "users" && <UsersPanel adminKey={key} chip={chip} />}
 
         {/* ===================== 改善候補 ===================== */}
+        {tab === "todo" && data && <div className="mb-5"><TitleTests data={data} /></div>}
         {tab === "todo" && data && <TodoPanel rows={rows} data={data} days={days} setDays={setDays} chip={chip} />}
 
         {/* ===================== 記事ごと ===================== */}
