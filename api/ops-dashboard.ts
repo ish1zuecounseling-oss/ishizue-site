@@ -355,7 +355,7 @@ export default async function handler(req: Req, res: Res) {
       const range = { startDate: `${days}daysAgo`, endDate: "yesterday" }
       const run = (body: Record<string, unknown>) => ga4(token, GA4_PROPERTY_ID, { dateRanges: [range], ...body })
       const lineFilter = { filter: { fieldName: "eventName", stringFilter: { matchType: "FULL_REGEXP", value: "line_cta_click|line_click_from_check|[a-z_]*_line_click" } } }
-      const [summary, newRet, device, region, dayHour, landing, transitions, articleUsers, checkUsers, lineUsers] = await Promise.all([
+      const [summary, newRet, device, region, dayHour, landing, transitions, articleUsers, checkUsers, lineUsers, lineByDevice] = await Promise.all([
         run({ metrics: [{ name: "activeUsers" }, { name: "newUsers" }, { name: "sessions" }, { name: "screenPageViews" }, { name: "userEngagementDuration" }, { name: "engagementRate" }] }),
         run({ dimensions: [{ name: "newVsReturning" }], metrics: [{ name: "activeUsers" }, { name: "sessions" }, { name: "screenPageViews" }, { name: "userEngagementDuration" }] }),
         run({ dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "activeUsers" }, { name: "engagementRate" }] }),
@@ -370,6 +370,7 @@ export default async function handler(req: Req, res: Res) {
         run({ metrics: [{ name: "activeUsers" }], dimensionFilter: { filter: { fieldName: "pagePath", stringFilter: { matchType: "BEGINS_WITH", value: "/articles/" } } } }),
         run({ metrics: [{ name: "totalUsers" }], dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "check_complete" } } } }),
         run({ metrics: [{ name: "totalUsers" }], dimensionFilter: lineFilter }),
+        run({ dimensions: [{ name: "deviceCategory" }], metrics: [{ name: "totalUsers" }, { name: "eventCount" }], dimensionFilter: lineFilter }),
       ])
       const m0 = (rows: Ga4Row[], i = 0) => num(rows[0]?.metricValues[i]?.value)
       // サイト内の移動(前のページ → 次のページ)。同じページの再読み込みは除く
@@ -390,7 +391,11 @@ export default async function handler(req: Req, res: Res) {
           engagementSec: m0(summary, 4), engagementRate: m0(summary, 5),
         },
         newVsReturning: newRet.map((r) => ({ type: r.dimensionValues[0].value, users: num(r.metricValues[0].value), sessions: num(r.metricValues[1].value), pageViews: num(r.metricValues[2].value), engagementSec: num(r.metricValues[3].value) })),
-        devices: device.map((r) => ({ device: r.dimensionValues[0].value, users: num(r.metricValues[0].value), engagementRate: num(r.metricValues[1].value) })),
+        devices: device.map((r) => {
+          const dev = r.dimensionValues[0].value
+          const l = lineByDevice.find((x) => x.dimensionValues[0].value === dev)
+          return { device: dev, users: num(r.metricValues[0].value), engagementRate: num(r.metricValues[1].value), lineUsers: l ? num(l.metricValues[0].value) : 0, lineClicks: l ? num(l.metricValues[1].value) : 0 }
+        }),
         regions: region.map((r) => ({ region: r.dimensionValues[0].value, users: num(r.metricValues[0].value) })),
         dayHour: dayHour.map((r) => ({ day: Number(r.dimensionValues[0].value), hour: Number(r.dimensionValues[1].value), sessions: num(r.metricValues[0].value) })),
         landing: landing.map((r) => ({ path: normPath(r.dimensionValues[0].value), sessions: num(r.metricValues[0].value), engagementRate: num(r.metricValues[1].value), pagesPerSession: num(r.metricValues[2].value) })),
