@@ -88,6 +88,7 @@ type ApiResult = {
   manual?: { ok: boolean; message?: string; data?: Manual }
   waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
+  monthlyRecord?: Record<string, { users: number; lineClicks: number; reach: number | null; followers: number | null }>
   lineStep?: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
   titleTests?: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number; before?: { clicks: number; impressions: number; position: number; days: number } }[] }
 }
@@ -101,7 +102,7 @@ type Manual = {
 type Plan = {
   annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
   friendToClient: number; clickToAdd: number | null; userToClick: number | null
-  capacity: number | null; launchMonth: string | null; expenseRate?: number; updatedAt?: string
+  capacity: number | null; launchMonth: string | null; expenseRate?: number; employmentIncome?: number; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
 type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search" | "feedback"
@@ -961,6 +962,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
 /* ------------------------------ サイトに加えた変更 ------------------------------ */
 /** 数字が動いたときに、どの変更が効いたかを読み違えないための記録(新しいものが上) */
 const CHANGE_LOG: { date: string; text: string }[] = [
+  { date: "2026-10-30", text: "目標を「2027年12月に受付再開」に設定(年間計画タブの「再開までの道のり」)" },
   { date: "2026-10-30", text: "タイトル変更:見捨てられ不安チェック／バーンアウトチェック(検索語を先頭に)。燃え尽きの初期症状の記事の上部にチェックへの案内" },
   { date: "2026-10-30", text: "新しいチェック「空虚感チェック」を公開(空虚感の記事からリンク)" },
   { date: "2026-10-30", text: "全ページの下に「サイトの不具合・ご意見を送る」を追加(届いた内容は「ご意見」タブ)" },
@@ -1244,7 +1246,7 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
 /* ------------------------------ 年間計画 ------------------------------ */
 const PLAN_DEFAULT: Plan = {
   annualTarget: 4000000, unitPrice: 10000, sessionsPerClient: 6, sessionsPerMonth: 2,
-  friendToClient: 0.05, clickToAdd: null, userToClick: null, capacity: null, launchMonth: null, expenseRate: 0.2,
+  friendToClient: 0.05, clickToAdd: null, userToClick: null, capacity: null, launchMonth: null, expenseRate: 0.2, employmentIncome: 0,
 }
 
 /** 今のサイトの実績(直近の締まった月)から、転換率を出す */
@@ -1402,6 +1404,174 @@ function monthsToReach(values: number[], need: number): { growth: number; months
   return { growth, months: Math.log(need / last) / Math.log(1 + growth) }
 }
 
+/* ------------------------------ 再開までの道のり(2027年12月再開の月ごとの目標) ------------------------------ */
+/** 2026-10-30 に決めた計画。数字を変えるときはここを直す(実績はダッシュボードが自動で入れる) */
+const ROADMAP_GOAL = "2027年12月に受付を再開(2027年11月末までに開業判断の基準をそろえる)"
+const ROADMAP: { ym: string; users: number; clicks: number; addRate: number; net: number; reach: number }[] = [
+  { ym: "202611", users: 1450, clicks: 16, addRate: 0.42, net: 4, reach: 21 },
+  { ym: "202612", users: 1500, clicks: 18, addRate: 0.45, net: 5, reach: 26 },
+  { ym: "202701", users: 1520, clicks: 19, addRate: 0.46, net: 6, reach: 32 },
+  { ym: "202702", users: 1550, clicks: 21, addRate: 0.48, net: 6, reach: 38 },
+  { ym: "202703", users: 1600, clicks: 22, addRate: 0.5, net: 7, reach: 45 },
+  { ym: "202704", users: 1620, clicks: 24, addRate: 0.5, net: 8, reach: 53 },
+  { ym: "202705", users: 1650, clicks: 25, addRate: 0.5, net: 8, reach: 61 },
+  { ym: "202706", users: 1700, clicks: 27, addRate: 0.5, net: 9, reach: 70 },
+  { ym: "202707", users: 1720, clicks: 28, addRate: 0.5, net: 10, reach: 80 },
+  { ym: "202708", users: 1750, clicks: 30, addRate: 0.5, net: 10, reach: 90 },
+  { ym: "202709", users: 1800, clicks: 32, addRate: 0.5, net: 11, reach: 101 },
+  { ym: "202710", users: 1800, clicks: 34, addRate: 0.5, net: 12, reach: 113 },
+  { ym: "202711", users: 1800, clicks: 35, addRate: 0.5, net: 12, reach: 125 },
+]
+const ROADMAP_CHECKPOINTS: Record<string, string> = {
+  "202612": "ボタン→友だち追加が45%に届いているか。届いていなければ、登録までの流れを見直す",
+  "202703": "リーチの純増が月+7人を超えているか。下回っていれば、Instagramを始める時期を相談する",
+  "202707": "リーチ累計80人(開業判断4)に届いているか",
+  "202711": "開業判断1・2・3・4・5・8がそろっているか → 12月に再開",
+}
+
+function prevYmOf(ym: string) { const y = +ym.slice(0, 4), m = +ym.slice(4); return m === 1 ? `${y - 1}12` : `${y}${String(m - 1).padStart(2, "0")}` }
+
+function Roadmap({ data }: { data: ApiResult }) {
+  const [hover, setHover] = useState<number | null>(null)
+  const rec = data.monthlyRecord ?? {}
+  const curYm = data.months[data.months.length - 1]?.month ?? ""
+  // 実績:GA4/LINE の今の数字を優先し、なければ保存した月ごとの記録
+  const actual = (ym: string) => {
+    const mo = data.months.find((m) => m.month === ym)
+    const r = rec[ym]
+    const end = ym === curYm ? data.line?.latest ?? undefined : data.line?.monthEnds?.find((x) => x.month === ym)
+    const prevEnd = data.line?.monthEnds?.find((x) => x.month === prevYmOf(ym))
+    const reach = end?.targetedReaches ?? r?.reach ?? null
+    const prevReach = prevEnd?.targetedReaches ?? rec[prevYmOf(ym)]?.reach ?? null
+    const followers = end?.followers ?? r?.followers ?? null
+    const prevFollowers = prevEnd?.followers ?? rec[prevYmOf(ym)]?.followers ?? null
+    const users = mo?.users ?? r?.users ?? null
+    const clicks = mo?.lineClicks ?? r?.lineClicks ?? null
+    const adds = followers !== null && prevFollowers !== null ? followers - prevFollowers : null
+    return {
+      users, clicks, reach,
+      net: reach !== null && prevReach !== null ? reach - prevReach : null,
+      addRate: adds !== null && clicks ? Math.min(1, adds / clicks) : null,
+    }
+  }
+  const rows = ROADMAP.map((p) => ({ p, a: p.ym > curYm ? null : actual(p.ym), partial: p.ym === curYm, future: p.ym > curYm }))
+  // 今の進み具合:最新の(締まった or 途中の)月のリーチ累計を、その月の予定と比べる
+  const latestRow = [...rows].reverse().find((r) => r.a && r.a.reach !== null)
+  const startReach = data.line?.monthEnds?.find((x) => x.month === "202610")?.targetedReaches ?? rec["202610"]?.reach ?? 17
+  const status = (() => {
+    if (!latestRow || !latestRow.a || latestRow.a.reach === null) return { text: "11月の実績が入ると、進み具合が出ます", color: "#78716c" }
+    const plan = latestRow.p.reach, act = latestRow.a.reach
+    const gained = act - startReach, planned = plan - startReach
+    const r = planned > 0 ? gained / planned : 1
+    if (act >= plan) return { text: `予定どおり、または前倒しです(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)`, color: "#4f7a63" }
+    if (r >= 0.8) return { text: `少し遅れています(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)`, color: "#b45309" }
+    return { text: `遅れています(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)。このままだと再開が後ろにずれます`, color: "#b0654a" }
+  })()
+
+  // グラフ:リーチ累計の予定(点線)と実績(線)
+  const W = 360, H = 170, L = 30, R = 8, T = 10, B = 24
+  const xs = ["202610", ...ROADMAP.map((p) => p.ym)]
+  const planPts = [startReach, ...ROADMAP.map((p) => p.reach)]
+  const actPts = xs.map((ym, i) => (i === 0 ? startReach : ym > curYm ? null : actual(ym).reach))
+  const max = Math.max(...planPts, ...actPts.filter((v): v is number => v !== null)) * 1.1
+  const x = (i: number) => L + (W - L - R) * (i / (xs.length - 1))
+  const y = (v: number) => T + (H - T - B) * (1 - v / max)
+  const ticks = [0, 40, 80, 120].filter((t) => t <= max)
+  const actLine = actPts.map((v, i) => (v === null ? null : `${x(i)},${y(v)}`)).filter(Boolean).join(" ")
+  const cell = (plan: string, act: string | null, ok: boolean | null, partial: boolean) => (
+    <>
+      <span className="text-stone-400">{plan}</span>
+      <span className="mx-0.5 text-stone-300">/</span>
+      <span style={{ color: act === null ? "#d6d3d1" : ok === null || partial ? INK : ok ? "#4f7a63" : "#b0654a", fontWeight: act === null ? 400 : 600 }}>{act ?? "—"}</span>
+    </>
+  )
+
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-600 mb-1">再開までの道のり</p>
+      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">目標:{ROADMAP_GOAL}。足りない年収は雇用で補う前提です。</p>
+      <div className="bg-white rounded-xl border border-stone-200 p-3 space-y-3">
+        <p className="text-[12px] font-medium leading-relaxed" style={{ color: status.color }}>{status.text}</p>
+
+        <div>
+          <div className="flex gap-4 text-[10px] text-stone-500 mb-1">
+            <span className="inline-flex items-center gap-1"><span style={{ width: 14, borderTop: `1.5px dashed ${INK}`, display: "inline-block" }} />リーチ累計の予定</span>
+            <span className="inline-flex items-center gap-1"><span style={{ width: 14, height: 2, background: SAGE, display: "inline-block" }} />実績</span>
+          </div>
+          <div className="relative">
+            <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="LINEリーチ累計の予定と実績">
+              {ticks.map((t) => (
+                <g key={t}>
+                  <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" />
+                  <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#a8a29e">{t}</text>
+                </g>
+              ))}
+              <line x1={L} x2={W - R} y1={y(80)} y2={y(80)} stroke="#c2410c" strokeOpacity={0.35} strokeDasharray="2 3" />
+              <text x={L + 2} y={y(80) - 3} fontSize={8} fill="#c2410c" fillOpacity={0.7}>開業判断の基準 80人</text>
+              <polyline points={planPts.map((v, i) => `${x(i)},${y(v)}`).join(" ")} fill="none" stroke={INK} strokeWidth={1.2} strokeDasharray="4 3" />
+              {actLine && <polyline points={actLine} fill="none" stroke={SAGE} strokeWidth={2} strokeLinejoin="round" />}
+              {actPts.map((v, i) => v === null ? null : <circle key={i} cx={x(i)} cy={y(v)} r={4} fill={SAGE} stroke="#fff" strokeWidth={2} />)}
+              {xs.map((ym, i) => (
+                <g key={ym}>
+                  {((i % 3 === 0 && i < xs.length - 2) || i === xs.length - 1) && <text x={x(i)} y={H - 6} textAnchor={i === xs.length - 1 ? "end" : "middle"} fontSize={9} fill="#a8a29e">{`${ym.slice(2, 4)}/${Number(ym.slice(4))}`}</text>}
+                  <rect x={x(i) - 12} y={T} width={24} height={H - T - B} fill="transparent" onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => setHover(i)} />
+                </g>
+              ))}
+            </svg>
+            {hover !== null && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white border border-stone-200 rounded-lg shadow-sm px-2.5 py-1.5 text-[11px] pointer-events-none whitespace-nowrap" style={{ color: INK }}>
+                {monthLabel(xs[hover])} 予定 {planPts[hover]}人 ・ 実績 {actPts[hover] ?? "—"}{actPts[hover] !== null ? "人" : ""}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="overflow-x-auto -mx-3 px-3">
+          <table className="w-full text-[11px] text-stone-700 min-w-[460px]">
+            <thead>
+              <tr className="text-[10px] text-stone-500 border-b border-stone-100">
+                <th className="text-left font-normal py-1.5">月</th>
+                <th className="text-right font-normal px-1">リーチ累計</th>
+                <th className="text-right font-normal px-1">リーチ純増</th>
+                <th className="text-right font-normal px-1">LINEボタン</th>
+                <th className="text-right font-normal px-1">ボタン→追加</th>
+                <th className="text-right font-normal pl-1">ユーザー</th>
+              </tr>
+              <tr className="text-[9px] text-stone-400"><td colSpan={6} className="pb-1">予定 / 実績(緑は予定以上、赤は予定未満)</td></tr>
+            </thead>
+            <tbody>
+              {rows.map(({ p, a, partial, future }) => (
+                <tr key={p.ym} className="border-b border-stone-50 last:border-0" style={partial ? { background: "rgba(124,154,138,0.06)" } : undefined}>
+                  <td className="py-1.5 whitespace-nowrap">{`${p.ym.slice(2, 4)}年${Number(p.ym.slice(4))}月`}{partial && <span className="text-[9px] text-stone-400">(途中)</span>}</td>
+                  <td className="text-right px-1 whitespace-nowrap">{cell(String(p.reach), a?.reach != null ? String(a.reach) : null, a?.reach != null ? a.reach >= p.reach : null, partial)}</td>
+                  <td className="text-right px-1 whitespace-nowrap">{cell(`+${p.net}`, a?.net != null ? `${a.net >= 0 ? "+" : ""}${a.net}` : null, a?.net != null ? a.net >= p.net : null, partial)}</td>
+                  <td className="text-right px-1 whitespace-nowrap">{cell(String(p.clicks), a?.clicks != null ? String(a.clicks) : null, a?.clicks != null ? a.clicks >= p.clicks : null, partial)}</td>
+                  <td className="text-right px-1 whitespace-nowrap">{cell(pct(p.addRate).replace(".0", ""), a?.addRate != null ? pct(a.addRate).replace(".0", "") : null, a?.addRate != null ? a.addRate >= p.addRate : null, partial)}</td>
+                  <td className="text-right pl-1 whitespace-nowrap">{cell(fmt(p.users), a?.users != null ? fmt(a.users) : null, a?.users != null ? a.users >= p.users : null, partial)}</td>
+                </tr>
+              ))}
+              {rows.length > 0 && rows.every((r) => r.future) && (
+                <tr><td colSpan={6} className="py-2 text-[10px] text-stone-400">11月から実績が入ります。</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <p className="text-[11px] font-medium text-stone-600 mb-1">途中の確認ポイント</p>
+          <div className="space-y-1">
+            {Object.entries(ROADMAP_CHECKPOINTS).map(([ym, t]) => (
+              <p key={ym} className="text-[11px] leading-relaxed" style={{ color: ym <= curYm ? INK : "#78716c" }}>
+                <span className="inline-block w-[52px] text-stone-400">{`${ym.slice(2, 4)}年${Number(ym.slice(4))}月`}</span>{t}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: string; onSaved: (m: Manual) => void }) {
   const saved = data.manual?.data?.plan
   const [p, setP] = useState<Plan>({ ...PLAN_DEFAULT, ...(saved ?? {}) })
@@ -1476,6 +1646,8 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
 
   return (
     <div className="space-y-5">
+      <Roadmap data={data} />
+
       {/* 結論 */}
       <div className="bg-white rounded-xl border border-stone-200 p-4">
         <p className="text-[11px] text-stone-500">年間売上 {fmt(p.annualTarget)}円 を1年目で出すには、毎月これだけ必要です</p>
@@ -1497,6 +1669,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
         </div>
         <p className="text-[11px] text-stone-600 mt-2">
           経費({pct(p.expenseRate ?? 0.2)})を引いた手元のもうけ:年 約{fmt(Math.round(p.annualTarget * (1 - (p.expenseRate ?? 0.2)) / 10000))}万円
+          {(p.employmentIncome ?? 0) > 0 && <>　＋ 雇用の年収 {fmt(Math.round((p.employmentIncome ?? 0) / 10000))}万円 ＝ <strong>合計 約{fmt(Math.round((p.annualTarget * (1 - (p.expenseRate ?? 0.2)) + (p.employmentIncome ?? 0)) / 10000))}万円</strong></>}
         </p>
         <p className="text-[10px] text-stone-400 mt-1 leading-relaxed">
           「今」は {act.month ? monthLabel(act.month) : "直近の月"} の実績。1年目は相談者が少しずつ積み上がるので、2年目以降の毎月の面談は約{Math.round(steadySessions)}回({fmt(Math.round(steadySessions * p.unitPrice))}円/月)になります。
@@ -1671,6 +1844,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
           {field("LINE友だちが相談に申し込む割合", "friendToClient", { unit: "%", scale: 100, step: "0.5", hint: "仮:新しく友だちになった人のうち、いずれ申し込む人の割合" })}
           {field("LINEボタン→友だち追加の割合", "clickToAdd", { unit: "%", scale: 100, step: "1", placeholder: act.clickToAdd !== null ? `実績 ${(act.clickToAdd * 100).toFixed(0)}` : "実績なし(40で計算)", hint: "空欄なら実績(LINEの友だち増加÷ボタンが押された回数)" })}
           {field("サイトのユーザー→LINEボタンの割合", "userToClick", { unit: "%", scale: 100, step: "0.1", placeholder: act.userToClick !== null ? `実績 ${(act.userToClick * 100).toFixed(2)}` : "実績なし(1で計算)", hint: "空欄なら直近の月の実績" })}
+          {field("雇用の年収(額面)", "employmentIncome", { unit: "円", step: "100000", hint: "開業しても足りない分を雇用で補う場合に入れると、合計の年収が出ます" })}
           {field("経費率", "expenseRate", { unit: "%", scale: 100, step: "1", hint: "事業計画のシートと同じ20%を初期値に" })}
           {field("月に受けられる面談の上限", "capacity", { unit: "回", step: "1", placeholder: "未設定", hint: "決まったら入れると、超える月に印がつきます" })}
           {field("開業(再開)した月", "launchMonth", { type: "month", hint: "決まるまでは「1か月目」で表示" })}
