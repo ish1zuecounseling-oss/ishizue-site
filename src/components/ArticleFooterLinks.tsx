@@ -218,6 +218,7 @@ const CLUSTERS: Record<string, LinkItem[]> = {
 
   checks: [
     { href: "/articles/helper-burnout-check",            text: "バーンアウト診断（20項目）" },
+    { href: "/articles/burnout-recovery-stage-check",   text: "燃え尽き 回復段階チェック（20項目）" },
     { href: "/articles/helper-emotional-labor-check",    text: "感情労働チェック（20項目）" },
     { href: "/articles/helper-boundary-check",           text: "境界線セルフチェック（20項目）" },
     { href: "/articles/secondary-trauma-check",          text: "二次受傷チェック（15項目）" },
