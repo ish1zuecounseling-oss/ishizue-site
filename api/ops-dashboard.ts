@@ -238,8 +238,58 @@ function sanitizeManual(input: unknown) {
     waiting: Number.isFinite(waiting) && waiting >= 0 && waiting < 10000 ? Math.round(waiting) : 0,
     note: typeof src.note === "string" ? src.note.slice(0, 500) : "",
     snapshots: {} as Record<string, { checklistDone: number; waiting: number }>,
+    plan: undefined as Plan | undefined,
     updatedAt: new Date().toISOString(),
   }
+}
+
+/** 年間計画の前提(ダッシュボードの「年間計画」タブで入力)。null は「実績の値を使う」/「未設定」 */
+type Plan = {
+  annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
+  friendToClient: number; clickToAdd: number | null; userToClick: number | null
+  capacity: number | null; launchMonth: string | null; expenseRate: number; updatedAt: string
+}
+
+function sanitizePlan(input: unknown): Plan {
+  const src = (input && typeof input === "object" ? input : {}) as Record<string, unknown>
+  const n = (v: unknown, min: number, max: number, def: number) => {
+    const x = Number(v)
+    return Number.isFinite(x) && x >= min && x <= max ? x : def
+  }
+  const opt = (v: unknown, min: number, max: number) => {
+    if (v === null || v === undefined || v === "") return null
+    const x = Number(v)
+    return Number.isFinite(x) && x >= min && x <= max ? x : null
+  }
+  return {
+    annualTarget: Math.round(n(src.annualTarget, 0, 100000000, 4000000)),
+    unitPrice: Math.round(n(src.unitPrice, 1000, 100000, 10000)),
+    sessionsPerClient: n(src.sessionsPerClient, 1, 100, 6),
+    sessionsPerMonth: n(src.sessionsPerMonth, 0.5, 8, 2),
+    friendToClient: n(src.friendToClient, 0.001, 1, 0.05),
+    clickToAdd: opt(src.clickToAdd, 0.01, 1),
+    userToClick: opt(src.userToClick, 0.0001, 1),
+    capacity: opt(src.capacity, 1, 500),
+    expenseRate: n(src.expenseRate, 0, 0.9, 0.2),
+    launchMonth: typeof src.launchMonth === "string" && /^\d{4}-\d{2}$/.test(src.launchMonth) ? src.launchMonth : null,
+    updatedAt: new Date().toISOString(),
+  }
+}
+
+/** 年間計画の前提だけを保存する(ほかの手入力項目はそのまま残す) */
+async function savePlan(input: unknown) {
+  const kv = kvConfig()
+  if (!kv) throw new Error("保存先(Upstash Redis)が未接続です")
+  const prev = await getManual()
+  const base = (prev.ok && prev.data && typeof prev.data === "object" ? prev.data : {}) as Record<string, unknown>
+  const value = { ...base, plan: sanitizePlan(input) }
+  const r = await fetch(`${kv.url}/set/${encodeURIComponent(MANUAL_KEY)}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${kv.token}` },
+    body: JSON.stringify(value),
+  })
+  if (!r.ok) throw new Error("保存に失敗しました(" + r.status + ")")
+  return value
 }
 
 /** LINEで「待つ」と返信した人数(api/line-webhook.ts が記録) */
@@ -290,6 +340,9 @@ async function saveManual(input: unknown) {
       }
     }
   }
+  // 年間計画の前提は別の画面で保存するので、これまでの値を引き継ぐ
+  const prevPlan = prev.ok && prev.data && typeof prev.data === "object" ? (prev.data as { plan?: unknown }).plan : undefined
+  if (prevPlan && typeof prevPlan === "object") value.plan = prevPlan as Plan
   const ym = jstDate(0).slice(0, 7).replace("-", "")
   // 9(開業待ち)は LINE の記録から自動で出すので、ここでは 8 のチェックリストだけ記録する
   value.snapshots[ym] = { checklistDone: Object.values(value.checklist).filter(Boolean).length, waiting: 0 }
@@ -326,8 +379,8 @@ export default async function handler(req: Req, res: Res) {
   /* ---- 手入力項目の保存 ---- */
   if (req.method === "POST") {
     try {
-      const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as { manual?: unknown } | undefined
-      const saved = await saveManual(body?.manual)
+      const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as { manual?: unknown; plan?: unknown } | undefined
+      const saved = body?.plan !== undefined ? await savePlan(body.plan) : await saveManual(body?.manual)
       res.status(200).json({ ok: true, data: saved })
     } catch (e) {
       res.status(400).json({ ok: false, message: e instanceof Error ? e.message : "unknown" })
