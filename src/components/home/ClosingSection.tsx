@@ -7,6 +7,7 @@
 import { motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
 import { fadeUp, CtaButton } from "./homeShared";
+import { LINE_SUBTEXT } from "../../data/siteStatus"
 
 const LINE_URL = "https://lin.ee/6H8Pzo6";
 declare function gtag(...args: unknown[]): void;
@@ -43,7 +44,7 @@ export default function ClosingSection({ accepting = false }: { accepting?: bool
                 <MessageCircle className="w-4 h-4" />
                 LINEで再開通知を受け取る
               </a>
-              <p className="text-stone-400 text-xs">読むだけOK ／ 勧誘なし ／ いつでも解除できます</p>
+              <p className="text-stone-500 text-xs">{LINE_SUBTEXT}</p>
             </div>
           </>
         )}
