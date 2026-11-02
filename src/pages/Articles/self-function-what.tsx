@@ -255,7 +255,7 @@ export default function SelfFunctionWhat() {
             <div className="flex flex-col gap-1.5">
               <Link to="/articles/compassion-fatigue-complete" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感疲労とは（ピラー）</Link>
               <Link to="/articles/helper-empathy-overload" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 共感しすぎて疲れる</Link>
-              <Link to="/articles/helper-boundary-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 境界線（バウンダリー）セルフチェック</Link>
+              <Link to="/articles/boundary-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 境界線チェック（15項目）</Link>
               <Link to="/articles/helper-emotional-labor-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 感情労働チェック</Link>
             </div>
           </div>

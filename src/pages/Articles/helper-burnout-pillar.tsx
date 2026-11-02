@@ -491,7 +491,7 @@ export default function HelperBurnoutPillar() {
           <li>・<Link to="/articles/helper-burnout-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">バーンアウトチェック(20項目)</Link></li>
           <li>・<Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック(20項目)</Link></li>
           <li>・<Link to="/articles/helper-depression-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職うつチェック(15項目)</Link></li>
-          <li>・<Link to="/articles/helper-stress-check-tool" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">支援職ストレスチェック(20項目)</Link></li>
+          <li>・<Link to="/articles/burnout-recovery-stage-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">燃え尽き 回復段階チェック(20項目)</Link></li>
         </ul>
         <p className="font-medium text-stone-700 mb-2 mt-4">回復・対処について</p>
         <ul className="space-y-1.5 text-stone-600">

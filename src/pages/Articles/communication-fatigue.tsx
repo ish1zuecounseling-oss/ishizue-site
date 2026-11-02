@@ -203,7 +203,7 @@ export default function CommunicationFatigue() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">③ 境界線を整える（自分と他者を分ける）</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          「相手の感情は相手のもの」「自分が全部調整しなくていい」という<Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の感覚が、
+          「相手の感情は相手のもの」「自分が全部調整しなくていい」という<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の感覚が、
           常時モニタリングの消耗を減らします。
         </p>
       </div>

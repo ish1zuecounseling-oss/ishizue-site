@@ -138,8 +138,8 @@ export default function HelperOrganizationUnsafe() {
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
-          <Link to="/articles/helper-workplace-stress-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 支援職の職場ストレスチェック
+          <Link to="/articles/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+            → バーンアウト(燃え尽き症候群)チェック(20項目)
           </Link>
           <Link to="/articles/burnout-early-signs" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトの前兆（サイン）とは

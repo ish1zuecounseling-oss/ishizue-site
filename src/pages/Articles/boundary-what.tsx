@@ -125,7 +125,7 @@ export default function BoundaryWhat() {
       </div>
 
       <p className="text-sm text-stone-500">
-        今の消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link> ／ <Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線セルフチェック</Link>
+        今の消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link> ／ <Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線セルフチェック</Link>
       </p>
 
       <LineCtaCompassion />

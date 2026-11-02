@@ -94,7 +94,7 @@ export default function HelperRumination() {
       </p>
       <h3>■ バウンダリーの問題</h3>
       <p>
-        「利用者の問題」と「自分の問題」の境界が曖昧になるとき（<a href="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</a>）、
+        「利用者の問題」と「自分の問題」の境界が曖昧になるとき（<a href="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</a>）、
         仕事を「終わらせること」が心理的に難しくなります。
         「自分が考え続けることで利用者を守っている」という無意識の感覚が、思考の切り替えを妨げることがあります。
       </p>

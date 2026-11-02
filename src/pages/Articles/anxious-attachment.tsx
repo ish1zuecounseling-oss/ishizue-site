@@ -87,7 +87,7 @@ export default function AnxiousAttachment() {
       </div>
 
       <p className="text-sm text-stone-500">
-        境界線の状態を確認→ <Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線セルフチェック（20項目）</Link>
+        境界線の状態を確認→ <Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線チェック（15項目）</Link>
       </p>
 
       <LineCtaImpostor />
@@ -106,7 +106,7 @@ export default function AnxiousAttachment() {
         <p className="text-sm font-medium text-stone-700 mb-2">② 「相手の機嫌＝自分のせい」を切り離す</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
           相手が不機嫌なとき、「自分が何かしたのか」と自動的に考える習慣があります。
-          「相手の感情は相手のもの」という<Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の感覚を少しずつ育てることが、
+          「相手の感情は相手のもの」という<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の感覚を少しずつ育てることが、
           常時モニタリングの消耗を減らします。
         </p>
       </div>

@@ -173,7 +173,7 @@ export default function SelfFunctionDecline() {
           </p>
           <Link to="/articles/helper-cannot-say-no" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 断れない・NOと言えない</Link>
           <span className="mx-2 text-stone-300">／</span>
-          <Link to="/articles/helper-boundary-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 境界線セルフチェック</Link>
+          <Link to="/articles/boundary-check" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 境界線チェック（15項目）</Link>
         </div>
       </div>
 

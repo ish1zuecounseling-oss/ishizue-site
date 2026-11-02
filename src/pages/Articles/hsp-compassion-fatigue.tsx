@@ -146,7 +146,7 @@ export default function HspCompassionFatigue() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">② 「HSPだから」ではなく「構造として消耗している」</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          「自分が弱い」「HSPだから仕方ない」という諦めより、「この仕組みで消耗している」という構造理解が回復の入口になります。<Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能</Link>・<Link to="/articles/helper-emotional-labor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>・<Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の理解が具体的なアプローチになります。
+          「自分が弱い」「HSPだから仕方ない」という諦めより、「この仕組みで消耗している」という構造理解が回復の入口になります。<Link to="/articles/self-function-what" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">自己機能</Link>・<Link to="/articles/helper-emotional-labor-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情労働</Link>・<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>の理解が具体的なアプローチになります。
         </p>
       </div>
 

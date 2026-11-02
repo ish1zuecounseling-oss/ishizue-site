@@ -66,7 +66,7 @@ export default function TooConsiderate() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">④ 境界線が薄い</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          「どこまでが自分の責任か」「相手の感情は相手のもの」という<Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>が薄いと、
+          「どこまでが自分の責任か」「相手の感情は相手のもの」という<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>が薄いと、
           相手の感情・問題が自分に流れ込んできます。
           「一人になってほっとする」のは、一人のときだけ境界線が機能するからです。
         </p>

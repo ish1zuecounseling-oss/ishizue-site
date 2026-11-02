@@ -137,7 +137,7 @@ export default function WhySupportWorkersLoseThemselves() {
       <p>
         自己機能が後退すると、「どこまでが自分か」という感覚も薄れていきます。
         利用者の問題が自分の問題になる・断れない・抱え込む——
-        <Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</Link>が深まります。
+        <Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</Link>が深まります。
       </p>
       <p>
         <Link to="/articles/helper-carrying-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を背負いすぎる</Link>・<Link to="/articles/helper-cannot-say-no" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">断れない</Link>・<Link to="/articles/helper-pulled-by-client" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">感情的に引っ張られる</Link>——
@@ -222,7 +222,7 @@ export default function WhySupportWorkersLoseThemselves() {
             { step: "① 今の状態を確認する", link: "/articles/helper-empathy-check", text: "共感疲労チェックで現在地を把握" },
             { step: "② 消耗の種類を理解する", link: "/articles/self-function-decline", text: "どの機能が消耗しているかを整理" },
             { step: "③ 身体感覚に戻る", link: "/articles/overthinking-needs-sensation", text: "思考より感覚を優先する時間を作る" },
-            { step: "④ 境界線を整える", link: "/articles/helper-boundary-check", text: "自分と他者の境界を確認・回復する" },
+            { step: "④ 境界線を整える", link: "/articles/boundary-check", text: "自分と他者の境界を確認・回復する" },
             { step: "⑤ 弱さを出せる場所を持つ", link: "/articles/burnout-recovery-methods", text: "安全な対話で自己機能を回復させる" },
             { step: "⑥ 背景のパターンを理解する", link: "/articles/working-model", text: "ワーキングモデルと消耗の関係を整理" },
           ].map(({ step, link, text }) => (

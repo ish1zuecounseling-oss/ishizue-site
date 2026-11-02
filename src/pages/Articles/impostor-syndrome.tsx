@@ -138,7 +138,7 @@ export default function ImpostorSyndrome() {
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">③ 境界線が薄く、他者評価に引っ張られやすい</p>
-        <p className="text-sm text-stone-600 leading-[1.9]"><Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>が薄い状態では、利用者・上司・同僚の評価が直接「自分の価値の判断」になります。評価が良ければ安心、悪ければ全否定——この不安定さがインポスター感を維持します。</p>
+        <p className="text-sm text-stone-600 leading-[1.9]"><Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線</Link>が薄い状態では、利用者・上司・同僚の評価が直接「自分の価値の判断」になります。評価が良ければ安心、悪ければ全否定——この不安定さがインポスター感を維持します。</p>
       </div>
 
       <h2>背景：ワーキングモデルとの関係</h2>

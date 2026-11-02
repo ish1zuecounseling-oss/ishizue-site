@@ -65,7 +65,7 @@ export default function OverAdaptation() {
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">② 利用者への過剰適応</p>
         <p className="text-sm text-stone-600 leading-[1.9]">
-          利用者の感情・ニーズへの過剰な適応が、<Link to="/articles/helper-carried-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を背負いすぎる</Link>・<Link to="/articles/helper-cannot-say-no" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">断れない</Link>・<Link to="/articles/helper-boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</Link>を生みます。
+          利用者の感情・ニーズへの過剰な適応が、<Link to="/articles/helper-carrying-clients" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">利用者を背負いすぎる</Link>・<Link to="/articles/helper-cannot-say-no" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">断れない</Link>・<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線の消耗</Link>を生みます。
         </p>
       </div>
 
