@@ -12,6 +12,17 @@ export const ACCEPTING_NEW_CLIENTS = false;
 /** 記事内の相談ボタンなどに付ける「（初回無料）」表記。休止中は表示しない */
 export const FREE_FIRST = ACCEPTING_NEW_CLIENTS ? "（初回無料）" : "";
 
+/**
+ * LINEのステップ配信(7日間)を動かしているか。止めたときは false にすると、
+ * LINEボタンの下の「何が届くか」の説明が、再開のお知らせだけの文面に切り替わる
+ */
+export const LINE_STEP_ACTIVE = true;
+
+/** LINEボタンのすぐ下に出す「登録すると何が届くか」の一文 */
+export const LINE_SUBTEXT = LINE_STEP_ACTIVE
+  ? "登録の翌日から7日間、1日1通の短い解説が届きます ／ 読むだけ・いつでも解除OK"
+  : "受付を再開したら、LINEで先にお知らせします ／ 読むだけ・いつでも解除OK";
+
 /** 受付休止中に「再開のお知らせ」を受け取ってもらう LINE の URL */
 export const PAUSED_LINE_URL = "https://lin.ee/6H8Pzo6";
 
