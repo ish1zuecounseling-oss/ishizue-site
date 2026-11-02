@@ -5,7 +5,6 @@ const CHECK_PATHS = new Set([
   "/articles/helper-empathy-check",
   "/articles/helper-burnout-check",
   "/articles/helper-emotional-labor-check",
-  "/articles/helper-workplace-stress-check",
   "/articles/helper-quit-timing-check",
 ]);
 
