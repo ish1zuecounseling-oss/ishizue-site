@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaCompassion } from "../../components/LineCta"
+import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { FREE_FIRST } from "../../data/siteStatus"
 
@@ -178,7 +178,7 @@ export default function BurnoutRecoveryPeriod() {
         </p>
       </div>
 
-      <LineCtaCompassion />
+      <LineCtaFatigue />
 
       <h2>4フェーズの回復プロセス——期間目安付き</h2>
       <p>

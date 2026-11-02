@@ -5,7 +5,7 @@ import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackLineClickFromCheck } from "../../lib/analytics"
-import { ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus"
+import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../../data/siteStatus"
 
 const CHECK_NAME = "boundary-check"
 
@@ -277,8 +277,8 @@ export default function BoundaryCheck() {
               </svg>
               LINEで続きを受け取る(無料)
             </a>
-            <p className="text-[11px] text-stone-400 text-center mt-2">
-              読むだけでOK ／ 返信や相談の必要なし ／ いつでも解除できます
+            <p className="text-[11px] text-stone-500 text-center mt-2">
+              {LINE_SUBTEXT}
             </p>
           </div>
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useCheckCompleteOnView } from "../../lib/useCheckCompleteOnView"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackLineClickFromCheck } from "../../lib/analytics"
+import { LINE_SUBTEXT } from "../../data/siteStatus"
 
 /**
  * 燃え尽き(バーンアウト)回復段階チェック
@@ -338,8 +339,8 @@ export default function BurnoutRecoveryStageCheck() {
               </svg>
               LINEで続きを受け取る(無料)
             </a>
-            <p className="text-[11px] text-stone-400 text-center mt-2">
-              読むだけでOK ／ 返信や相談の必要なし ／ いつでも解除できます
+            <p className="text-[11px] text-stone-500 text-center mt-2">
+              {LINE_SUBTEXT}
             </p>
           </div>
 

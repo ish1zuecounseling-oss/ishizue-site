@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaFatigue } from "../../components/LineCta"
+import { LineCtaSmall } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { FREE_FIRST } from "../../data/siteStatus"
 
@@ -172,7 +172,7 @@ export default function MessiahComplex() {
         相手の決定権と自立の機会が、静かに削られていきます。
       </p>
 
-      <LineCtaFatigue />
+      <LineCtaSmall />
 
       <h2>「救う」と「支える」を分ける——緩め方</h2>
       <p>
