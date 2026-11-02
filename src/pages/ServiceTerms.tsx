@@ -74,7 +74,7 @@ export default function ServiceTerms() {
             <ul className="list-disc pl-5 space-y-1">
               <li>オンライン面談にはGoogle Meetを使用します</li>
               <li>プライバシーが確保できる環境でのご参加をお願いします</li>
-              <li>通信トラブルが発生した場合は、日程調整または一部返金で対応します</li>
+              <li>通信トラブルで面談を続けられなかった場合は、日程を振り替えて対応します。原則として返金はいたしません</li>
             </ul>
           </section>
 
@@ -92,7 +92,7 @@ export default function ServiceTerms() {
           </section>
 
           <p className="text-stone-400 text-xs pt-6 border-t border-stone-100">
-            制定日：2026年4月　最終更新：2026年5月
+            制定日：2026年4月　最終更新：2026年11月
           </p>
         </div>
       </div>
