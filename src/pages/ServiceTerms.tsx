@@ -86,6 +86,7 @@ export default function ServiceTerms() {
             <h2 className="text-base font-medium text-stone-800 mb-3">5. メールカウンセリングについて</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>返信の期限は、土曜・日曜・祝日を除いて数えます</li>
+              <li>メールカウンセリングでは、すぐにお返事をすることができません。命に関わるような緊急のときは、救急（119）や相談窓口をご利用ください</li>
               <li>当方の体調不良などで返信が遅れる場合は、その旨をお知らせし、遅れた日数分だけプランの期間を延長します</li>
             </ul>
           </section>
