@@ -104,7 +104,7 @@ export default function ServiceTerms() {
           <section>
             <h2 className="text-base font-medium text-stone-800 mb-3">7. 緊急時の対応</h2>
             <ul className="list-disc pl-5 space-y-1">
-              <li>お申し込みの際に、お住まいの市区町村と、緊急連絡先（任意）を伺います</li>
+              <li>お申し込みの際に、ご住所（建物名・部屋番号まで）と、電話番号（任意）・緊急連絡先（任意）を伺います</li>
               <li>生命や身体に差し迫った危険があると判断した場合は、ご本人の同意がなくても、救急・警察や緊急連絡先に連絡することがあります（1. 守秘義務の例外）</li>
               <li>主治医がいらっしゃる場合は、ご本人の同意のうえで主治医と連携します</li>
             </ul>
