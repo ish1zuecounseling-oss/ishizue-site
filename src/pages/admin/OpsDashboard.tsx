@@ -1560,6 +1560,16 @@ function Roadmap({ data }: { data: ApiResult }) {
           </table>
         </div>
 
+        <div className="rounded-lg p-2.5" style={{ background: "#f7f3ea" }}>
+          <p className="text-[11px] font-medium text-stone-600 mb-1">数字を見たあとの動き方(先に決めておく)</p>
+          <ul className="text-[11px] text-stone-600 leading-relaxed space-y-0.5">
+            <li>・見るのは月に1回、月の初めだけ。途中の月は見なくていい</li>
+            <li>・予定どおりの月は、何も足さない(休む)</li>
+            <li>・予定より少ない月は、打ち手を1つだけ足す</li>
+            <li>・2か月続けて少ないときは、再開の時期を3か月うしろにずらすことを考える</li>
+          </ul>
+        </div>
+
         <div>
           <p className="text-[11px] font-medium text-stone-600 mb-1">途中の確認ポイント</p>
           <div className="space-y-1">
