@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
             <ul className="list-disc pl-5 mt-2 space-y-1">
               <li>お名前（ニックネーム可）</li>
               <li>メールアドレス</li>
-              <li>ご住所（建物名・部屋番号まで）、電話番号（任意）、緊急連絡先（任意）</li>
+              <li>ご住所（建物名・部屋番号まで）、電話番号、緊急連絡先（任意）</li>
               <li>ご相談内容</li>
               <li>ご使用のデバイス・アクセス情報（Google Analyticsによる匿名集計）</li>
               <li>LINE公式アカウントのユーザー識別子（LINEで「待つ」と返信された場合のみ。お名前やメッセージの内容は保存しません）</li>
