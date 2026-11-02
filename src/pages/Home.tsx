@@ -42,7 +42,7 @@ import GuideSection      from "../components/home/GuideSection";
 import FaqSection        from "../components/home/FaqSection";
 import ContactSection    from "../components/home/ContactSection";
 import FooterSection     from "../components/home/FooterSection";
-import { ACCEPTING_NEW_CLIENTS } from "../data/siteStatus";
+import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_URL = "https://lin.ee/6H8Pzo6";
@@ -670,7 +670,7 @@ function Home() {
                 LINEで再開通知を受け取る
               </a>
 
-              <p className="text-[11px] text-stone-400">読むだけOK ／ 勧誘なし ／ いつでも解除OK</p>
+              <p className="text-[11px] text-stone-500">{LINE_SUBTEXT}</p>
 
               <button onClick={closeModal} className="block mx-auto text-xs text-stone-400 hover:text-stone-600 underline underline-offset-2 transition-colors" type="button">
                 閉じる

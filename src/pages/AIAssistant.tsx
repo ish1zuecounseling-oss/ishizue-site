@@ -9,7 +9,7 @@ import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, MessageCircle, RotateCcw, Lock, Compass } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus";
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick, LINE_SUBTEXT } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_BASE = "https://lin.ee/6H8Pzo6";
@@ -486,7 +486,7 @@ export default function AIAssistant() {
                   >
                     <MessageCircle className="w-4 h-4" />LINEで続きを受け取る
                   </a>
-                  <p className="text-[10px] text-stone-400 mt-2">読むだけOK ／ 勧誘なし ／ いつでも解除OK</p>
+                  <p className="text-[10px] text-stone-500 mt-2">{LINE_SUBTEXT}</p>
                 </div>
 
                 {/* 関連記事 */}
