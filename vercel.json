@@ -331,6 +331,26 @@
       "source": "/articles/quit-job-how-to-tell-boss",
       "destination": "/articles/quit-job-cannot-say",
       "permanent": true
+    },
+    {
+      "source": "/articles/helper-boundary-check",
+      "destination": "/articles/boundary-check",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-stress-check-tool",
+      "destination": "/articles/helper-burnout-check",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-workplace-stress-check",
+      "destination": "/articles/helper-burnout-check",
+      "permanent": true
+    },
+    {
+      "source": "/articles/helper-fatigue-check",
+      "destination": "/articles/helper-burnout-check",
+      "permanent": true
     }
   ],
   "rewrites": [
