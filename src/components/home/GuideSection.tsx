@@ -125,7 +125,7 @@ export default function GuideSection({ accepting = false }: { accepting?: boolea
                 )}
               </div>
             </div>
-            <p className="text-stone-600 text-xs leading-relaxed">※ お支払いは銀行振込にてお願いしております。予約確定後にご案内いたします。</p>
+            <p className="text-stone-600 text-xs leading-relaxed">※ お支払いは銀行振込の前払いです。振込先は日程が決まったあとにご案内し、面談の2日前までにお振込みいただくと予約が確定します。</p>
           </motion.div>
 
           {/* 流れ */}
