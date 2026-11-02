@@ -5,6 +5,8 @@
  * LINE登録時タグ分岐用パラメータ付き
  */
 
+import { LINE_SUBTEXT } from "../data/siteStatus"
+
 const LINE_URLS: Record<string, string> = {
   general:    "https://lin.ee/NL0PnYR",
   fatigue:    "https://lin.ee/oLdXZe6?type=fatigue",
@@ -57,8 +59,8 @@ export function LineCtaSmall() {
         {LINE_ICON}
         自分の状態をもう少し整理する（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        読むだけOK ／ 勧誘なし ／ いつでも解除OK
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+        {LINE_SUBTEXT}
       </p>
     </div>
   );
@@ -81,8 +83,8 @@ export function LineCtaFatigue() {
         {LINE_ICON}
         この状態がどう進むか知っておく（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        読むだけOK ／ 勧誘なし ／ いつでも解除OK
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+        {LINE_SUBTEXT}
       </p>
     </div>
   );
@@ -129,8 +131,8 @@ export function LineCtaImpostor() {
         {LINE_ICON}
         自分の状態の構造を整理する（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        読むだけOK ／ 勧誘なし ／ いつでも解除OK
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+        {LINE_SUBTEXT}
       </p>
     </div>
   );
@@ -153,8 +155,8 @@ export function LineCtaCompassion() {
         {LINE_ICON}
         今どの段階か知っておく（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.35)", fontFamily: "sans-serif", margin: 0 }}>
-        読むだけOK ／ 勧誘なし ／ いつでも解除OK
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+        {LINE_SUBTEXT}
       </p>
     </div>
   );
