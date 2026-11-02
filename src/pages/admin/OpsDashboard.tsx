@@ -1456,16 +1456,19 @@ function Roadmap({ data }: { data: ApiResult }) {
   }
   const rows = ROADMAP.map((p) => ({ p, a: p.ym > curYm ? null : actual(p.ym), partial: p.ym === curYm, future: p.ym > curYm }))
   // 今の進み具合:最新の(締まった or 途中の)月のリーチ累計を、その月の予定と比べる
-  const latestRow = [...rows].reverse().find((r) => r.a && r.a.reach !== null)
+  // 判定は「締まった月」だけで行う(途中の月は日数が足りず、遅れて見えるため)
+  const latestRow = [...rows].reverse().find((r) => !r.partial && r.a && r.a.reach !== null)
   const startReach = data.line?.monthEnds?.find((x) => x.month === "202610")?.targetedReaches ?? rec["202610"]?.reach ?? 17
   const status = (() => {
-    if (!latestRow || !latestRow.a || latestRow.a.reach === null) return { text: "11月の実績が入ると、進み具合が出ます", color: "#78716c" }
+    if (!latestRow || !latestRow.a || latestRow.a.reach === null) {
+      const first = ROADMAP[0].ym
+      return { text: `${monthLabel(first)}が締まったら(${Number(first.slice(4)) === 12 ? 1 : Number(first.slice(4)) + 1}月の頭から)、予定との比べ方が出ます。途中の月は判定しません`, color: "#78716c" }
+    }
     const plan = latestRow.p.reach, act = latestRow.a.reach
-    const gained = act - startReach, planned = plan - startReach
-    const r = planned > 0 ? gained / planned : 1
-    if (act >= plan) return { text: `予定どおり、または前倒しです(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)`, color: "#4f7a63" }
-    if (r >= 0.8) return { text: `少し遅れています(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)`, color: "#b45309" }
-    return { text: `遅れています(${monthLabel(latestRow.p.ym)} 予定${plan}人 → 実績${act}人)。このままだと再開が後ろにずれます`, color: "#b0654a" }
+    const label = `${latestRow.p.ym.slice(2, 4)}年${Number(latestRow.p.ym.slice(4))}月末`
+    if (act >= plan) return { text: `予定どおりです(${label} 予定${plan}人 → 実績${act}人)`, color: "#4f7a63" }
+    // 遅れは責める表示にしない。差の人数と、次にやることだけを出す
+    return { text: `予定より${plan - act}人少ないペースです(${label} 予定${plan}人 → 実績${act}人)。次の確認ポイントで、打ち手を足すか時期をずらすかを決めます`, color: "#8a6d3b" }
   })()
 
   // グラフ:リーチ累計の予定(点線)と実績(線)
