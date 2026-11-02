@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { articles } from "../data/articles";
-import { ACCEPTING_NEW_CLIENTS } from "../data/siteStatus";
+import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_URL = "https://lin.ee/6H8Pzo6";
@@ -1250,7 +1250,7 @@ export default function Articles() {
                   LINEで再開通知を受け取る
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
-                <p className="text-stone-400 text-xs">読むだけOK ／ 勧誘なし ／ いつでも解除できます</p>
+                <p className="text-stone-500 text-xs">{LINE_SUBTEXT}</p>
                 <div className="pt-1">
                   <Link to="/#contact" className="text-xs text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">
                     受付状況の詳細を見る
