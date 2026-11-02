@@ -64,6 +64,8 @@ export default function ServiceTerms() {
             <h2 className="text-base font-medium text-stone-800 mb-3">3. 対象外となる方</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>現在、急性期の精神疾患の治療中の方（主治医にご相談ください）</li>
+              <li>精神科・心療内科に通院中で、主治医の了承が得られていない方</li>
+              <li>自分や他人を傷つける差し迫った危険がある方（医療機関や相談窓口をご案内します）</li>
               <li>未成年の方（18歳未満）</li>
               <li>カウンセリングを目的としない方（ハラスメント目的等）</li>
             </ul>
@@ -75,11 +77,54 @@ export default function ServiceTerms() {
               <li>オンライン面談にはGoogle Meetを使用します</li>
               <li>プライバシーが確保できる環境でのご参加をお願いします</li>
               <li>通信トラブルで面談を続けられなかった場合は、日程を振り替えて対応します。原則として返金はいたしません</li>
+              <li>面談の時間は延長しません。開始が遅れた場合も、終了時刻は予定どおりとします</li>
+              <li>開始時刻から20分たっても接続やご連絡がない場合は終了し、ご利用者さま都合のキャンセルとして扱います</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-base font-medium text-stone-800 mb-3">5. 反社会的勢力の排除</h2>
+            <h2 className="text-base font-medium text-stone-800 mb-3">5. メールカウンセリングについて</h2>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>返信の期限は、土曜・日曜・祝日を除いて数えます</li>
+              <li>当方の体調不良などで返信が遅れる場合は、その旨をお知らせし、遅れた日数分だけプランの期間を延長します</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-medium text-stone-800 mb-3">6. 記録と録音・録画</h2>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>ご相談の記録は、最後のご利用から5年間保管し、その後は復元できない方法で消去します</li>
+              <li>面談の録音・録画は、ご利用者さまと当方の双方が同意した場合に限り行えます</li>
+              <li>ご相談の内容を、ご本人の同意なく、AIサービスや検索サービスなどの外部のサービスに入力することはありません（面談の文字起こしは、プライバシーポリシーのとおり、ご同意をいただいた場合に限ります）</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-medium text-stone-800 mb-3">7. 緊急時の対応</h2>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>お申し込みの際に、お住まいの市区町村と、緊急連絡先（任意）を伺います</li>
+              <li>生命や身体に差し迫った危険があると判断した場合は、ご本人の同意がなくても、救急・警察や緊急連絡先に連絡することがあります（1. 守秘義務の例外）</li>
+              <li>主治医がいらっしゃる場合は、ご本人の同意のうえで主治医と連携します</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-medium text-stone-800 mb-3">8. 支援以外の関係について</h2>
+            <p>
+              カウンセリングの関係を守るため、個人的な連絡先の交換や、物品の売買・仕事の依頼など、支援以外の関係は持ちません。
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-medium text-stone-800 mb-3">9. 終了・中断</h2>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>ご利用者さまは、いつでもカウンセリングを終えることができます</li>
+              <li>医療機関での治療を優先したほうがよいと判断した場合などは、当方から終了や中断をご提案し、適切な相談先をご案内します</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-medium text-stone-800 mb-3">10. 反社会的勢力の排除</h2>
             <p>
               当事業者は、暴力団等の反社会的勢力との関係を一切持たないことを宣言します。
               反社会的勢力に該当すると判断した場合、サービスの提供を中止し、支払い済み料金を返金することがあります。
@@ -87,7 +132,7 @@ export default function ServiceTerms() {
           </section>
 
           <section>
-            <h2 className="text-base font-medium text-stone-800 mb-3">6. 規約の変更</h2>
+            <h2 className="text-base font-medium text-stone-800 mb-3">11. 規約の変更</h2>
             <p>本規約は、必要に応じて変更することがあります。変更後はサイト上に掲載します。</p>
           </section>
 

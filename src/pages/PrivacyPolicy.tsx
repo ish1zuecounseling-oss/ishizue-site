@@ -72,6 +72,7 @@ export default function PrivacyPolicy() {
               <li>文字起こしへの同意は任意です。同意しなくてもサービスをご利用いただけます</li>
               <li>文字起こしデータは当事業者のみが管理し、第三者への提供は行いません</li>
               <li>不要になった時点で削除いただけます。削除ご依頼はフォームよりご連絡ください</li>
+              <li>ご相談の記録は、最後のご利用から5年間保管し、その後は復元できない方法で消去します</li>
             </ul>
           </section>
 
@@ -99,7 +100,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <p className="text-stone-400 text-xs pt-6 border-t border-stone-100">
-            制定日：2026年4月　最終更新：2026年10月
+            制定日：2026年4月　最終更新：2026年11月
           </p>
         </div>
       </div>
