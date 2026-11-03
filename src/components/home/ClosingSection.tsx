@@ -5,12 +5,8 @@
  * - accepting prop対応: 停止中はCTAを「LINEで再開通知」に自動切替
  */
 import { motion } from "motion/react";
-import { MessageCircle } from "lucide-react";
 import { fadeUp, CtaButton } from "./homeShared";
-import { LINE_SUBTEXT } from "../../data/siteStatus"
 
-const LINE_URL = "https://lin.ee/6H8Pzo6";
-declare function gtag(...args: unknown[]): void;
 
 export default function ClosingSection({ accepting = false }: { accepting?: boolean }) {
   return (
@@ -30,22 +26,8 @@ export default function ClosingSection({ accepting = false }: { accepting?: bool
           <>
             <p className="text-stone-500 text-sm leading-[1.9]">
               限界まで耐えてから動くより、予兆のうちに準備しておく方が、ずっと楽です。<br />
-              現在、新規受付は休止中ですが——再開の知らせを受け取っておくことが、その準備になります。
+              現在、新規受付は休止中ですが——再開の知らせを受け取っておくことが、その準備になります（すぐ下のLINEから受け取れます）。
             </p>
-            <div className="space-y-2.5">
-              <a
-                href={LINE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => { try { gtag("event", "closing_line_click"); } catch (_) { /* noop */ } }}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-bold hover:opacity-90 transition-opacity shadow-md"
-                style={{ background: "#06C755" }}
-              >
-                <MessageCircle className="w-4 h-4" />
-                LINEで再開通知を受け取る
-              </a>
-              <p className="text-stone-500 text-xs">{LINE_SUBTEXT}</p>
-            </div>
           </>
         )}
       </motion.div>

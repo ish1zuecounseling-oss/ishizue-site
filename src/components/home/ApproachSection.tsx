@@ -21,7 +21,13 @@ export default function ApproachSection({ accepting = false }: { accepting?: boo
 
           <motion.div variants={fadeUp} className="space-y-7 text-stone-600 text-sm md:text-base leading-[2]">
             <BlockQuote><p className="text-stone-800 font-medium">なぜ消耗するのかを、構造として解きほぐす。</p></BlockQuote>
-            <p>役割の過剰化、責任の抱え込み、思考のループ、境界の曖昧さ——これらを言語化・可視化し、負荷の構造を整理します。</p>
+            <ul className="space-y-2.5">
+              <li><span className="text-stone-800 font-medium">役割の過剰化</span>——自分がやらなくてもいい役割まで、背負っていないか</li>
+              <li><span className="text-stone-800 font-medium">責任の抱え込み</span>——どこまでが自分の責任なのか、線が引けなくなっていないか</li>
+              <li><span className="text-stone-800 font-medium">思考のループ</span>——仕事が終わっても、同じことが頭の中で回り続けていないか</li>
+              <li><span className="text-stone-800 font-medium">境界の曖昧さ</span>——相手の気持ちや問題を、自分のことのように抱えていないか</li>
+            </ul>
+            <p>これらを一緒に言葉にして、負荷がどこから来ているのかを整理します。</p>
           </motion.div>
 
           {/* ▼ 旧Featuresを統合: このカウンセリングで変わること */}
@@ -45,8 +51,8 @@ export default function ApproachSection({ accepting = false }: { accepting?: boo
           <motion.div variants={fadeUp} className="space-y-7 text-stone-600 text-sm md:text-base leading-[2]">
             <div className="space-y-3">
               {[
-                { case: "現場で利用者を直接支援している方", before: "「仕事が終わっても頭が切れない。誰にも言えない」", after: "→ 二次受傷 × 思考のループ × 「相談してはいけない」という内在化された禁止" },
-                { case: "チームや部下を持つ立場の方", before: "「部下を支えながら、自分は誰にも相談できない」", after: "→ 役割過剰 × 責任の抱え込み × 境界の曖昧さ" },
+                { case: "現場で利用者を直接支援している方", before: "「仕事が終わっても頭が切れない。誰にも言えない」", after: "→ 二次受傷（つらい話を受け止め続けた疲れ）× 思考のループ × 「支援者は相談してはいけない」という思い込み" },
+                { case: "チームや部下を持つ立場の方", before: "「部下を支えながら、自分は誰にも相談できない」", after: "→ 役割の過剰化（支える役が何重にも重なっている）× 責任の抱え込み × 境界の曖昧さ" },
               ].map((ex) => (
                 <div key={ex.case} className="bg-stone-50 rounded-2xl border border-stone-100 p-5 space-y-2.5 text-sm">
                   <p className="text-stone-400 text-xs tracking-[0.1em] uppercase">{ex.case}</p>
