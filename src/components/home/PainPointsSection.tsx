@@ -34,7 +34,7 @@ export default function PainPointsSection() {
               支援職という役割の構造が、消耗を生み出しているのです。構造がわかれば、変えられます。
             </p>
             <div className="pt-3 border-t border-stone-800">
-              <CtaButton label={ACCEPTING_NEW_CLIENTS ? "今の状態を整理してみる（初回メール相談無料）" : "今の状態を整理してみる"} sub={ACCEPTING_NEW_CLIENTS ? "まとまっていなくても大丈夫です" : "新規のご相談は休止中です ／ 再開のご案内はLINEで"} />
+              <CtaButton label={ACCEPTING_NEW_CLIENTS ? "今の状態を整理してみる（初回メール相談無料）" : "今の状態をAIで整理してみる"} href={ACCEPTING_NEW_CLIENTS ? "#contact" : "/ai-assistant"} sub={ACCEPTING_NEW_CLIENTS ? "まとまっていなくても大丈夫です" : "無料・登録不要 ／ 新規のご相談は休止中です"} />
             </div>
           </div>
         </motion.div>

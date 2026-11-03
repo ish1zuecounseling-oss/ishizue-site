@@ -68,15 +68,17 @@ export function CtaButton({
   label  = "まず、話してみる（初回メール無料）",
   sub    = "1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可",
   center = true,
+  href   = "#contact",
 }: {
   label?:  string;
   sub?:    string;
   center?: boolean;
+  href?:   string;
 }) {
   return (
     <div className={`space-y-2 ${center ? "text-center" : ""}`}>
       <a
-        href="#contact"
+        href={href}
         className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#2C1F14] text-stone-50 text-sm font-medium tracking-[0.08em] rounded-full hover:bg-[#3D2B1F] transition-all shadow-md group"
       >
         {label}
