@@ -477,8 +477,7 @@ function Home() {
         {/* ★ 2026-06: Closingを最終CV直前に移動。停止中はCTA自動切替 */}
         <ClosingSection    accepting={ACCEPTING_NEW_CLIENTS} />
 
-        {/* ★ 現在の受付状況セクション(ContactSection直前) */}
-        <CurrentStatusSection />
+        {/* 受付状況の案内(CurrentStatusSection)は、ContactSectionの休止中表示と重なるため2026-11-03に外した */}
 
         {/* ★ 2026-06: フォーム接続。停止中はContactSide内でLINE告知に自動切替 */}
         <ContactSection
