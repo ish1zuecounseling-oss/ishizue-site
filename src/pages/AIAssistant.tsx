@@ -415,7 +415,7 @@ export default function AIAssistant() {
                     )}
                   </button>
                   {totalChecked > 0 && !isAnalyzing && (
-                    <p className="text-[10px] text-stone-400 text-center mt-2">※ 個人情報・会話内容は一切保存されません</p>
+                    <p className="text-[10px] text-stone-400 text-center mt-2 leading-relaxed">※ 入力内容は外部のAIサービスに送られず、このブラウザの中だけで処理されます。書いた文章や個人情報は保存されません（使われた回数とチェックの数だけ、アクセス解析に記録されます）</p>
                   )}
                 </div>
               </div>
