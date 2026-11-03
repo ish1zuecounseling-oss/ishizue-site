@@ -4,7 +4,7 @@
  * Phase 1: API不使用・完全クライアントサイド定型出力
  */
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, MessageCircle, RotateCcw, Lock, Compass } from "lucide-react";
@@ -17,7 +17,7 @@ const LINE_BASE = "https://lin.ee/6H8Pzo6";
 declare function gtag(...args: unknown[]): void;
 
 /* 自由記述に、命に関わるつらさを示す言葉が含まれていないか。含まれていたら、結果より先に窓口を出す */
-const CRISIS_WORDS = /死にたい|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|生きる意味|生きてる意味|死んだほうが|死んだ方が|いないほうがいい|いない方がいい|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
+const CRISIS_WORDS = /死にたい|命を絶|死ぬことを考え|いなくなりたくな|生きていくのがつら|生きていける気がしない|自分を痛めつけ|薬を一気に|薬を飲みすぎ|死にたくなる|消えたくなる|生きていけない|自分を傷つけ|ODしたい|ＯＤしたい|オーバードーズ|薬を大量に|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|生きる意味|生きてる意味|死んだほうが|死んだ方が|いないほうがいい|いない方がいい|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
@@ -132,8 +132,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   compassion: {
     badge: "共感疲労タイプ",
     title: "利用者の感情を引き受けすぎている状態",
-    summary: "他者の痛みを「自分ごと」として抱え込み続けることで、心理的・身体的に消耗が深まっている状態です。",
-    cause: "共感疲労(compassion fatigue)は、支援職に起こりやすい心理的消耗です。1995年にチャールズ・フィグレーが提唱した概念で、英語では「cost of caring(ケアすることの代償)」とも呼ばれます。真剣に利用者と向き合ってきたからこそ起こるもので、性格や能力の問題ではありません。背景には「感情労働」「共感的引き受け」「境界線の曖昧化」という3つの構造が重なっています。",
+    summary: "他者の痛みを「自分ごと」として抱え込み続けることで、心理的・身体的に消耗が深まっている状態なのかもしれません。",
+    cause: "共感疲労(compassion fatigue)は、支援職に起こりやすい心理的消耗です。1995年にチャールズ・フィグレーが提唱した概念で、英語では「cost of caring(ケアすることの代償)」とも呼ばれます。人と向き合う仕事を続けるなかで起こりやすいもので、性格や能力だけで説明できるものではありません。背景の一つとして、「感情労働」「共感的引き受け」「境界線の曖昧化」といった構造が重なっている可能性があります。",
     current: "今は「休んでも回復しない」「利用者のことが頭から離れない」「感情が麻痺してきた」など、ケアの蓄積が限界に近づいているサインが出ている状態かもしれません。この段階で気づけたことは、消耗をこれ以上深めないための大きな分岐点になります。",
     nextStep: "まず、「自分はもう十分にやっている」と認める時間を作ってください。次に、利用者の感情と自分の感情を意識的に分ける練習を始めます。①一日の終わりに「今日引き受けすぎた感情は何か」を書き出す、②「これは私の感情／これは相手の感情」と区別する習慣をつける、③休日に仕事の話を一切しない時間を確保する、の3つから始めるのが現実的です。",
     relatedArticles: [
@@ -147,8 +147,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   boundary: {
     badge: "抱え込み・境界線タイプ",
     title: "「自分と他者の境界線」が薄くなっている状態",
-    summary: "自分の責任とそうでないものの区別が曖昧になり、相手の問題まで引き受けてしまう状態です。",
-    cause: "境界線(バウンダリー)の薄さは、意志や性格の問題ではありません。背景には「ワーキングモデル(内的作業モデル)」という、幼少期からの経験や対人関係の中で身についた前提が関係している場合があります。「断ると嫌われる」「相手に合わせないと関係が壊れる」という感覚が自動的に作動し、境界線を引くことへの強い抵抗を生みます。",
+    summary: "自分の責任とそうでないものの区別が曖昧になり、相手の問題まで引き受けてしまう状態なのかもしれません。",
+    cause: "境界線(バウンダリー)の薄さは、意志や性格だけで説明できるものではありません。背景の一つとして、「断ると嫌われる」「相手に合わせないと関係が壊れる」といった考え方が関係している場合があります。こうした前提が対人関係の中で無意識に働き、境界線を引くことへの抵抗につながっている可能性もあります。",
     current: "今は「断れない」「相手の感情まで引き受けてしまう」「自分と相手の責任の区別がつかない」という状態が起きているかもしれません。これが続くと、慢性的な消耗・人間関係の疲れにつながっていきます。",
     nextStep: "まず「断る練習」のような行動レベルではなく、構造の理解から始めるのがおすすめです。①4種類の境界線(身体的／感情的／時間的／責任の境界線)のうち、自分はどれが薄いかを見極める、②「これは私の問題か、相手の問題か」と日常的に問い直す習慣を作る、③「断ったら関係が壊れる」という前提が本当に正しいか、小さな場面で検証してみる、の3つです。",
     relatedArticles: [
@@ -162,8 +162,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   "other-axis": {
     badge: "他人軸・自己喪失タイプ",
     title: "自分の判断基準が外側にある状態",
-    summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態です。",
-    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景には、これまでの経験の中で「自分の感情より、相手の感情を読むこと」が身を守る方法として身についてきた場合があります。これは個人の性格ではなく、適応のために身につけた無意識のパターンです。",
+    summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態なのかもしれません。",
+    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景の一つとして、「自分の感情より、相手の感情を読むこと」が習慣になっている場合があります。それは性格の欠点ではなく、周りに合わせるために役立ってきたやり方なのかもしれません。",
     current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは意志の問題ではなく、まだ自分の感覚へのアクセスが回復していないからです。",
     nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習(昼食を自分で選ぶなど)から始める、の3つです。",
     relatedArticles: [
@@ -177,7 +177,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   impostor: {
     badge: "インポスター・自己否定タイプ",
     title: "「自分には実力がない」と感じ続けている状態",
-    summary: "客観的にできているのに「いつかバレる」「過大評価されている」と感じる状態です。",
+    summary: "客観的にできているのに「いつかバレる」「過大評価されている」と感じる状態なのかもしれません。",
     cause: "インポスター症候群(impostor syndrome)は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」といった構造が関係していることがあります。実際に力のある人にも起こりやすいとされています。",
     current: "今は「いつかバレる」「成功しても運が良かっただけ」という感覚が出ている状態かもしれません。この感覚は自信の問題ではなく、「自己価値の置き場所」が役割や評価に偏っていることが関係しているかもしれません。さらに頑張るだけでは、楽になりにくいことがあります。",
     nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が本質的です。①支援者としての自分以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
@@ -192,8 +192,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   quit: {
     badge: "辞めたい・限界タイプ",
     title: "「もう続けられないかもしれない」と感じている状態",
-    summary: "仕事を辞めたい・休みたいという気持ちが強くなっている状態です。",
-    cause: "「辞めたい」という気持ちが強くなるのは、意志の弱さではなく消耗が限界に近づいているサインです。背景には、長期間続いた共感疲労・抱え込み・自己否定の積み重ねがあります。「辞めるのは逃げ」「次がない」という思いが重なり、辞めたいのに辞められない状態に入ります。",
+    summary: "仕事を辞めたい・休みたいという気持ちが強くなっている状態なのかもしれません。",
+    cause: "「辞めたい」という気持ちが強くなるのは、意志の弱さではなく、消耗が積み重なっているサインのことがあります。背景には、共感疲労・抱え込み・自己否定などが重なっている場合もあります。「辞めるのは逃げ」「次がない」という思いが重なると、辞めたいのに動けない状態になりやすくなります。",
     current: "今は「判断が難しい状態」にあると考えるのが現実的です。極度の消耗状態では、辞めても辞めなくても後悔しやすいため、まず消耗を緩和することが優先順位として上です。",
     nextStep: "「辞めるかどうか」より先に、3つの判断軸を整理することが有効です。①今は「判断できる状態」にあるか(極度の疲労時には判断しない)、②辞めたい理由は「仕事そのもの」か「今の状態」か、③辞めた後の現実的な選択肢があるか。休職・転職・継続の3つを並列の選択肢として置いてみてください。",
     relatedArticles: [
@@ -207,7 +207,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   complex: {
     badge: "複合タイプ",
     title: "複数の状態が重なっている状態",
-    summary: "複数の要素(消耗・抱え込み・自己否定など)が重なって絡み合っている状態です。",
+    summary: "複数の要素(消耗・抱え込み・自己否定など)が重なって絡み合っている状態なのかもしれません。",
     cause: "複数の状態が重なっているとき、「どこから手をつけていいかわからない」という感覚になりがちです。共感疲労が他人軸を強化し、他人軸が抱え込みを生み、抱え込みが自己否定を深める、というように、それぞれが互いを強化し合います。",
     current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。複合的な状態の人ほど、外から一緒に構造を整理すると、絡まりがほどけやすくなる段階です。",
     nextStep: "一人で全部解決しようとしないのが、複合タイプの最も現実的な打ち手です。①最もつらい一つの要素だけを特定して、そこから取り組む、②信頼できる第三者と一緒に状態を言語化する、③「全部解決しなくていい」「順番に整理していい」と自分に許可を出す、の3つです。",
@@ -247,6 +247,8 @@ export default function AIAssistant() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const [showNormalResult, setShowNormalResult] = useState(false);
+  const timersRef = useRef<number[]>([]);
+  useEffect(() => () => { timersRef.current.forEach((t) => window.clearTimeout(t)); }, []);
 
   const toggleCheck = (key: string) => {
     setChecked((prev) => {
@@ -273,24 +275,25 @@ export default function AIAssistant() {
         if (checked.has(`${cat.id}-${i}`)) checkedItems.push(cat.items[i]);
       }
     }
-    setTimeout(() => {
+    timersRef.current.push(window.setTimeout(() => {
       const type = determineType(checkedItems);
       setResult(TYPE_RESULTS[type]);
       setAnalyzed(true);
       setIsAnalyzing(false);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-    }, 1500);
+      timersRef.current.push(window.setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100));
+    }, 1500));
   };
 
   const reset = () => {
-    setChecked(new Set()); setFreeText(""); setAnalyzed(false); setResult(null);
+    setChecked(new Set()); setFreeText(""); setAnalyzed(false); setResult(null); setShowNormalResult(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // ▼ マッチング記事クリック計測
   const handleMatchingClick = () => {
     if (!result) return;
     try {
-      gtag("event", "ai_assistant_matching_click", { type: result.lineType });
+      gtag("event", "ai_assistant_matching_click");
     } catch (_) { /* noop */ }
   };
 
@@ -412,10 +415,17 @@ export default function AIAssistant() {
                   {CRISIS_WORDS.test(freeText) ? (
                     <div className="p-3 rounded-xl border-2 text-xs leading-relaxed" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
                       <p className="font-bold mb-1" style={{ color: "#c62828" }}>今、とてもつらい状態かもしれません</p>
-                      <p className="text-stone-700">この整理より先に、すぐに話せる窓口を使ってください。命の危険が迫っているときは<a href="tel:119" className="font-bold underline">119</a>、こころの健康相談統一ダイヤル<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>、よりそいホットライン（24時間）<a href="tel:0120279338" className="font-bold underline">0120-279-338</a>。</p>
+                      <p className="text-stone-700 mb-1">この整理より先に、すぐに話せる窓口を使ってください。</p>
+                      <ul className="text-stone-800 space-y-0.5">
+                        <li>命の危険が迫っているとき：<a href="tel:119" className="font-bold underline">119</a></li>
+                        <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>（受付時間は地域で異なります）</li>
+                        <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
+                        <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li>
+                      </ul>
+                      <p className="text-stone-600 mt-1">通院中の方は、主治医の医療機関にも連絡してください。近くにいる人に今の気持ちを伝えることも助けになります。</p>
                     </div>
                   ) : (
-                    <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）を使ってください。</p>
+                    <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）、#いのちSOS（0120-061-338・24時間）を使ってください。</p>
                   )}
                 </div>
 
@@ -431,7 +441,7 @@ export default function AIAssistant() {
                     )}
                   </button>
                   {totalChecked > 0 && !isAnalyzing && (
-                    <p className="text-[10px] text-stone-400 text-center mt-2 leading-relaxed">※ 入力内容は外部のAIサービスに送られず、このブラウザの中だけで処理されます。書いた文章や個人情報は保存されません（使われた回数とチェックの数だけ、アクセス解析に記録されます）</p>
+                    <p className="text-[10px] text-stone-400 text-center mt-2 leading-relaxed">※ 入力内容は外部のAIサービスに送られず、このブラウザの中だけで処理されます。書いた文章や個人情報は保存されません（アクセス解析に記録するのは、使われた回数・チェックの数・自由記述があったかどうか・ボタンが押されたかだけで、結果の内容は記録しません）</p>
                   )}
                 </div>
               </div>
@@ -448,8 +458,9 @@ export default function AIAssistant() {
                     </p>
                     <ul className="text-sm text-stone-800 leading-[2] space-y-0.5">
                       <li>命の危険が迫っているとき：<a href="tel:119" className="font-bold underline">119</a></li>
-                      <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a></li>
+                      <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>（受付時間は地域で異なります）</li>
                       <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
+                      <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li>
                     </ul>
                     <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
                     <p className="text-[11px] text-stone-500 leading-relaxed mt-2">※ 書かれた言葉を自動で拾っているため、文脈を読み違えることがあります。</p>
@@ -459,6 +470,9 @@ export default function AIAssistant() {
                       className={`mt-4 text-xs underline underline-offset-2 text-stone-500 ${showNormalResult ? "hidden" : ""}`}
                     >
                       読み違いでしたら、ここを押すと整理の結果を表示します
+                    </button>
+                    <button type="button" onClick={reset} className="mt-2 block text-xs underline underline-offset-2 text-stone-500">
+                      入力を消して、最初からやり直す
                     </button>
                   </div>
                 )}
@@ -482,7 +496,7 @@ export default function AIAssistant() {
                   <div className="p-5 rounded-2xl border border-stone-200 bg-white">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: SAGE }}>①</span>
-                      <h3 className="text-sm font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>原因｜なぜこうなっているか</h3>
+                      <h3 className="text-sm font-medium text-stone-800" style={{ fontFamily: "'Noto Serif JP', serif" }}>原因｜背景にあるかもしれないこと</h3>
                     </div>
                     <p className="text-sm text-stone-600 leading-[1.95]">{result.cause}</p>
                   </div>
@@ -520,7 +534,7 @@ export default function AIAssistant() {
                   </div>
                   <p className="text-sm text-stone-700 leading-relaxed mb-3" style={{ fontFamily: "'Noto Serif JP', serif" }}>{result.lineMessage}</p>
                   <a href={lineUrl} target="_blank" rel="noopener noreferrer"
-                    onClick={() => { try { gtag("event", "ai_assistant_line_click", { type: result.lineType }); } catch (_) { /* noop */ } }}
+                    onClick={() => { try { gtag("event", "ai_assistant_line_click"); } catch (_) { /* noop */ } }}
                     className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-bold text-white"
                     style={{ background: "#06C755" }}
                   >
