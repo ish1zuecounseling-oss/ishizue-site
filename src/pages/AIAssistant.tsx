@@ -163,7 +163,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "他人軸・自己喪失タイプ",
     title: "自分の判断基準が外側にある状態",
     summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態なのかもしれません。",
-    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景の一つとして、「自分の感情より、相手の感情を読むこと」が習慣になっている場合があります。それは性格の欠点ではなく、周りに合わせるために役立ってきたやり方なのかもしれません。",
+    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景の一つとして、「自分の感情より、相手の感情を読むこと」が習慣になっている場合があります。それは性格の欠点ではなく、周囲に合わせるための一つの対処パターンとして身についている可能性があります。",
     current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは意志の問題ではなく、まだ自分の感覚へのアクセスが回復していないからです。",
     nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習(昼食を自分で選ぶなど)から始める、の3つです。",
     relatedArticles: [
@@ -285,6 +285,8 @@ export default function AIAssistant() {
   };
 
   const reset = () => {
+    timersRef.current.forEach((t) => window.clearTimeout(t)); timersRef.current = [];
+    setIsAnalyzing(false);
     setChecked(new Set()); setFreeText(""); setAnalyzed(false); setResult(null); setShowNormalResult(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -404,6 +406,7 @@ export default function AIAssistant() {
                     <p className="text-[11px] text-stone-400 mt-0.5">今の状況や気持ちを自由に書いてください。空欄でも大丈夫です。</p>
                   </div>
                   <textarea
+                    aria-label="今の状況や気持ち（任意）"
                     value={freeText}
                     onChange={(e) => setFreeText(e.target.value)}
                     placeholder="例:利用者の対応が頭から離れず、休日も気が休まらない。同僚にも本音を言えず…"
@@ -463,6 +466,7 @@ export default function AIAssistant() {
                       <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li>
                     </ul>
                     <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
+                    <p className="text-xs text-stone-600 leading-relaxed mt-2">電話が難しいときは、SNSやチャットで相談できる窓口もあります：<a href="https://www.mhlw.go.jp/mamorouyokokoro/" target="_blank" rel="noopener noreferrer" className="underline">厚生労働省「まもろうよ こころ」</a></p>
                     <p className="text-[11px] text-stone-500 leading-relaxed mt-2">※ 書かれた言葉を自動で拾っているため、文脈を読み違えることがあります。</p>
                     <button
                       type="button"
@@ -526,6 +530,7 @@ export default function AIAssistant() {
                   </div>
                 )}
 
+                {!CRISIS_WORDS.test(freeText) && (<>
                 {/* LINE誘導 */}
                 <div className="p-5 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(6,199,85,0.08) 0%, rgba(143,175,159,0.08) 100%)", border: "1px solid rgba(6,199,85,0.3)" }}>
                   <div className="flex items-center gap-2 mb-2">
@@ -543,6 +548,8 @@ export default function AIAssistant() {
                   <p className="text-[10px] text-stone-500 mt-2">{LINE_SUBTEXT}</p>
                 </div>
 
+                </>)}
+
                 {/* 関連記事 */}
                 <div className="p-5 rounded-2xl border border-stone-100 bg-white">
                   <p className="text-xs font-medium text-stone-500 mb-3">この状態について詳しく読む</p>
@@ -556,6 +563,7 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
+                {!CRISIS_WORDS.test(freeText) && (<>
                 {/* ▼ 新規追加:マッチング誘導ブロック(全タイプ共通) */}
                 <div className="p-5 rounded-2xl" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
                   <div className="flex items-center gap-2 mb-2">
@@ -602,6 +610,8 @@ export default function AIAssistant() {
                     )}
                   </div>
                 )}
+
+                </>)}
 
                 <div className="pt-2">
                   <button onClick={reset} type="button"
