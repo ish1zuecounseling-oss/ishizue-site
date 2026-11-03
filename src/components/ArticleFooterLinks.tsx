@@ -408,7 +408,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
                   className="inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition-colors"
                   style={{ color: "#8FAF9F" }}
                 >
-                  → 今の状態を整理する（初回無料・無理に決めなくていい）
+                  → 今の状態を整理する（初回メール相談無料・無理に決めなくていい）
                 </a>
               </>
             ) : (

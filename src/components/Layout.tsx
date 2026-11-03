@@ -322,7 +322,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       style={{ backgroundColor: SAGE }}
                     >
                       <MessageCircle className="w-4 h-4" aria-hidden="true" />
-                      まず、話してみる（初回無料）
+                      まず、話してみる（初回メール相談無料）
                     </button>
                     <p className="text-center text-stone-600 text-xs mt-2">勧誘なし ／ 1回のみでもOK</p>
                   </>

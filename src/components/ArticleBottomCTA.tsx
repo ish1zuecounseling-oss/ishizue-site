@@ -64,7 +64,7 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
               onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
             >
-              初回無料で相談する
+              無料のメール相談から始める
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <p className="text-[10px] text-stone-600 mt-3">1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可</p>
