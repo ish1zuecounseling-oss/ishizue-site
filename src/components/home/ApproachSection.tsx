@@ -79,7 +79,7 @@ export default function ApproachSection({ accepting = false }: { accepting?: boo
                 目的は「強くなること」ではなく、消耗を減らすこと。
               </p>
               {accepting ? (
-                <CtaButton label="構造を整理してみる(初回無料)" sub="1回のみでもOK / 勧誘なし" />
+                <CtaButton label="構造を整理してみる（初回メール相談無料）" sub="1回のみでもOK / 勧誘なし" />
               ) : (
                 <div className="space-y-2.5">
                   <a

@@ -110,7 +110,7 @@ export default function ContactSection({
                   {formStatus === "submitting" ? (
                     <><Loader2 className="w-4 h-4 animate-spin" />送信しています…</>
                   ) : (
-                    <>送信する（初回相談・無料）</>
+                    <>送信する（初回メール相談・無料）</>
                   )}
                 </button>
 

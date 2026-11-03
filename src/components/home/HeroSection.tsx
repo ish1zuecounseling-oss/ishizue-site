@@ -70,7 +70,7 @@ export default function HeroSection({
                 <a href="#contact" className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#2C1F14] text-stone-50 text-xs font-medium tracking-[0.06em] rounded-full hover:bg-[#3D2B1F] transition-all">
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span className="md:hidden">相談</span>
-                  <span className="hidden md:inline">無料で相談する</span>
+                  <span className="hidden md:inline">無料のメール相談</span>
                 </a>
               ) : (
                 <a

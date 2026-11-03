@@ -44,7 +44,7 @@ export default function VoicesSection() {
               みなさんに共通しているのは、<strong className="text-stone-800">「相談するほどじゃないかも」と思いながら来た</strong>ことです。<br />
               その迷いは、あなただけのものではありません。
             </p>
-            <CtaButton label={ACCEPTING_NEW_CLIENTS ? "同じ立場の人が話せた場所で、話してみる" : "受付再開のお知らせを受け取る"} sub={ACCEPTING_NEW_CLIENTS ? "職種・経験年数は問いません ／ 初回無料" : "職種・経験年数は問いません ／ 新規受付は休止中"} />
+            <CtaButton label={ACCEPTING_NEW_CLIENTS ? "同じ立場の人が話せた場所で、話してみる" : "受付再開のお知らせを受け取る"} sub={ACCEPTING_NEW_CLIENTS ? "職種・経験年数は問いません ／ 初回メール相談無料" : "職種・経験年数は問いません ／ 新規受付は休止中"} />
           </motion.div>
         </motion.div>
       </div>
