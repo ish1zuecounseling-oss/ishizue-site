@@ -17,7 +17,7 @@ const LINE_BASE = "https://lin.ee/6H8Pzo6";
 declare function gtag(...args: unknown[]): void;
 
 /* 自由記述に、命に関わるつらさを示す言葉が含まれていないか。含まれていたら、結果より先に窓口を出す */
-const CRISIS_WORDS = /死にたい|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
+const CRISIS_WORDS = /死にたい|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|生きる意味|生きてる意味|死んだほうが|死んだ方が|いないほうがいい|いない方がいい|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
@@ -439,7 +439,7 @@ export default function AIAssistant() {
                       <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a></li>
                       <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
                     </ul>
-                    <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
+                    <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。（読み違いでしたら、このまま下の整理をお読みください）</p>
                   </div>
                 )}
                 {/* 結果ヘッダー */}
