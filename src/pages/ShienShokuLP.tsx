@@ -128,7 +128,7 @@ export default function ShienShokuLP() {
             </h1>
             <Muted style={{ marginBottom: "1.8rem" }}>
               介護職・看護師・社会福祉士・支援員の方へ。<br />
-              感情労働の疲れは、休んだだけでは回復しません。<br />
+              休んでも、疲れが抜けないと感じていませんか。<br />
               「なぜそうなるのか」を一緒に整理することから始めます。
             </Muted>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginBottom: "2rem" }}>
