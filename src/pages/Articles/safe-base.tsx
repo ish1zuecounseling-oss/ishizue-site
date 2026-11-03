@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaFatigue } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -145,8 +145,8 @@ export default function SafeBase() {
         <p className="text-xs text-stone-600 leading-relaxed mb-4">
           カウンセリングは「弱さを出しても関係が壊れない」という体験を安全に積む場所です。支援職の消耗を前提にした相談を行っています。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText("支援職専門カウンセリングに相談する" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

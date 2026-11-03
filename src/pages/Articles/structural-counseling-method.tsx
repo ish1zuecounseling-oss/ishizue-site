@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -493,8 +493,8 @@ export default function StructuralCounselingMethod() {
         <p className="text-xs text-stone-600 leading-relaxed mb-4">
           いきなり対面・オンラインのカウンセリングを申し込むのが不安な方には、メール相談(初回30分無料)から始めることもできます。文字で「今の状態」を整理することから始められます。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#2C1F14", textDecoration: "none" }}>
-          まずは状態を整理してみる{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#2C1F14", textDecoration: "none" }}>
+          {ctaText("まずは状態を整理してみる" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

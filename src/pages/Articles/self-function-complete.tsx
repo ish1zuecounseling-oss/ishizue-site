@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -375,8 +375,8 @@ export default function SelfFunctionComplete() {
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           自己機能の低下は、「強くなる」「がんばる」では回復しません。むしろ縮んだ機能を取り戻すための、安全な対話の場が必要です。支援職特有の構造を理解した上で、一緒に整理していきます。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText("今の状態を整理してみる" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

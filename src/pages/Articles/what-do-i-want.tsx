@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -162,8 +162,8 @@ export default function WhatDoIWant() {
           「やりたいことがわからない」背景にある消耗の構造を外から整理することで、
           回復の入口が見えてきます。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText("支援職専門カウンセリングに相談する" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

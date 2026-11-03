@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const FAQ_ITEMS = [
   {
@@ -424,8 +424,8 @@ export default function ParentingBurnout() {
         <p className="text-xs text-stone-400 leading-relaxed mb-4">
           育児バーンアウトは、職業バーンアウトと同じ構造から起きる正当な反応です。「親としての資質」ではなく「対人援助の構造」の問題として、専門家と整理することで、回復への道筋が見えてきます。
         </p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          今の状態を整理してみる{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText("今の状態を整理してみる" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-500 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
