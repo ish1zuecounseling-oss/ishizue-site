@@ -2,7 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaImpostor } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 export default function FeelingNothing() {
   return (
@@ -113,8 +113,8 @@ export default function FeelingNothing() {
         <p className="text-xs text-stone-500 mb-2">「何も感じない」「空虚感が続く」を整理したいとき。</p>
         <p className="text-sm font-medium text-stone-800 mb-2">感覚の回復を一緒に整理する</p>
         <p className="text-xs text-stone-600 leading-relaxed mb-4">感情が動かなくなった背景にある消耗の構造を外から整理することで、回復の入口が見えてきます。</p>
-        <a href="/#contact" className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
-          支援職専門カウンセリングに相談する{FREE_FIRST}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center py-2.5 rounded-xl text-sm font-medium text-white" style={{ background: "#7EB8A4", textDecoration: "none" }}>
+          {ctaText("支援職専門カウンセリングに相談する" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

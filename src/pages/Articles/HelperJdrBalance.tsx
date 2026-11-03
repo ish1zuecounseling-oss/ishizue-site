@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const DEMANDS = [
   {
@@ -331,10 +331,10 @@ function JdrBalance() {
               border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", fontSize: "13px", cursor: "pointer" }}>
             やり直す
           </button>
-          <a href="/#contact" style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
+          <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} style={{ flex:1, padding:"12px", background:"#2C1F14", color:"#fff",
             borderRadius:"10px", fontSize:"14px", fontWeight:600, textDecoration:"none",
             textAlign:"center" as const, display:"block" }}>
-            ✉ バランスを整える相談をする{FREE_FIRST}
+            {ctaText("✉ バランスを整える相談をする" + FREE_FIRST)}
           </a>
         </div>
       )}

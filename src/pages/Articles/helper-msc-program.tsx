@@ -1,7 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
-import { FREE_FIRST, ACCEPTING_NEW_CLIENTS } from "../../data/siteStatus"
+import { FREE_FIRST, ACCEPTING_NEW_CLIENTS, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 export default function HelperMscProgram() {
   return (
@@ -305,8 +305,8 @@ export default function HelperMscProgram() {
         <p className="text-xs text-stone-500 leading-relaxed">
           支援職専門のカウンセリングで、セルフ・コンパッションを育てる土台を一緒に作ることができます。
         </p>
-        <a href="/#contact" className="block text-center mt-3 py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4" }}>
-          {ACCEPTING_NEW_CLIENTS ? "無料のメール相談から始める" : "相談について見てみる"}
+        <a href={CONTACT_HREF} {...CONTACT_LINK_PROPS} className="block text-center mt-3 py-2.5 rounded-xl text-sm font-medium text-white transition-all" style={{ background: "#7EB8A4" }}>
+          {ctaText("無料のメール相談から始める")}
         </a>
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>

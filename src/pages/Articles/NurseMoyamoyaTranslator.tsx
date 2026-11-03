@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 import ArticleLayout from "../../components/ArticleLayout"
 
 const THOUGHTS = [
@@ -77,11 +78,11 @@ function TranslatorWidget() {
           <div className="mt-4 pt-3 border-t border-stone-100">
             <p className="text-xs text-stone-400 mb-2">この感覚を、一緒に整理してみませんか</p>
             <a
-              href="/#contact"
+              href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
               className="inline-flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full text-white transition-all"
               style={{ background: "#2C1F14" }}
             >
-              初回メール相談（無料）
+              {ctaText("初回メール相談（無料）")}
             </a>
             <p className="text-[10px] text-stone-300 mt-1.5">勧誘なし ／ 1回のみでもOK</p>
           </div>

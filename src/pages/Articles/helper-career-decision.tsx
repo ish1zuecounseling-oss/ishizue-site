@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 export default function HelperCareerDecision() {
   return (
@@ -199,10 +199,10 @@ export default function HelperCareerDecision() {
           状態を整理してから判断することが、後悔のない選択につながります。
         </p>
         <a
-          href="/#contact"
+          href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
           style={{ display: "block", background: "#7EB8A4", color: "#fff", borderRadius: "8px", padding: "10px 16px", fontSize: "0.8rem", fontWeight: 600, textDecoration: "none", textAlign: "center", marginBottom: "0.5rem" }}
         >
-          今の状態を整理してみる{FREE_FIRST}
+          {ctaText("今の状態を整理してみる" + FREE_FIRST)}
         </a>
         <p className="text-[10px] text-stone-400 text-center">
           支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK

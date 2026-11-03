@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 export default function HelperSelfBlameLanding() {
   return (
@@ -192,10 +192,10 @@ export default function HelperSelfBlameLanding() {
             その背景にあるパターンを一緒に整理することができます。
           </p>
           <a
-            href="/#contact"
+            href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
             style={{ display: "block", background: "#7EB8A4", color: "#fff", borderRadius: "8px", padding: "10px 16px", fontSize: "0.8rem", fontWeight: 600, textDecoration: "none", textAlign: "center" }}
           >
-            一度話してみる{FREE_FIRST}
+            {ctaText("一度話してみる" + FREE_FIRST)}
           </a>
           <p className="text-[10px] text-stone-400 text-center mt-1.5">勧誘なし ／ 1回のみでもOK ／ 支援職15年・公認心理師</p>
         </div>

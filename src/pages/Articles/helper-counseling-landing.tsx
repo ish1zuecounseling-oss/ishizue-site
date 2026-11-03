@@ -1,6 +1,6 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 export default function HelperCounselingLanding() {
   return (
@@ -187,11 +187,11 @@ export default function HelperCounselingLanding() {
             「まだ決めなくていい」「1回だけでもOK」です。
           </p>
           <a
-            href="/#contact"
+            href={CONTACT_HREF} {...CONTACT_LINK_PROPS}
             className="block text-center py-2.5 rounded-lg text-sm font-medium text-white"
             style={{ background: "#2C1F14", textDecoration: "none" }}
           >
-            まず話してみる{FREE_FIRST}
+            {ctaText("まず話してみる" + FREE_FIRST)}
           </a>
           <p className="text-[10px] text-stone-400 text-center mt-1.5">
             ※申し込み後もキャンセル可 ／ 勧誘なし
