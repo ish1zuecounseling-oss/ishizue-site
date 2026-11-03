@@ -17,6 +17,21 @@ import FeedbackButton from "./FeedbackButton";
 import { pillarMap } from "../lib/pillarMap";
 import { articles } from "../data/articles";
 import { BookOpen } from "lucide-react";
+import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
+
+const PAUSED_LINE_URL = "https://lin.ee/6H8Pzo6";
+declare function gtag(...args: unknown[]): void;
+
+/* チェック記事で、冒頭から最初のチェック項目へ飛ぶ。見出しに「チェック・診断」を含むh2 → .checklist → 本文中の最初のボタン の順に探す */
+function jumpToCheck() {
+  const body = document.querySelector(".article-body");
+  if (!body) return;
+  const h2 = Array.from(body.querySelectorAll("h2")).find((h) => /チェック|診断/.test(h.textContent ?? ""));
+  const target = (h2 ?? body.querySelector(".checklist") ?? body.querySelector("button")) as HTMLElement | null;
+  if (!target) return;
+  window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+  try { gtag("event", "check_jump_click"); } catch (_) { /* noop */ }
+}
 
 /* -------------------------------------------------------------------------- */
 /*  Constants                                                                  */
@@ -313,6 +328,18 @@ export default function ArticleLayout({
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-200" />
                 <span className="w-1 h-1 rounded-full bg-stone-100" />
               </div>
+              {isOriginalSelfCheck(url) && (
+                <div className="mt-6 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={jumpToCheck}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium text-white shadow-sm hover:opacity-90 transition-opacity"
+                    style={{ backgroundColor: SAGE }}
+                  >
+                    チェックへ進む ↓
+                  </button>
+                </div>
+              )}
             </header>
 
             {/* ============================================================
@@ -378,6 +405,8 @@ export default function ArticleLayout({
                   <MessageCircle className="w-5 h-5" style={{ color: SAGE }} aria-hidden="true" />
                 </div>
 
+                {ACCEPTING_NEW_CLIENTS ? (
+                  <>
                 <h2
                   className="text-lg sm:text-xl font-medium mb-3 text-stone-900 leading-snug"
                   style={{ fontFamily: "'Noto Serif JP', serif" }}
@@ -402,6 +431,38 @@ export default function ArticleLayout({
                 <p className="text-xs text-stone-400 mt-4">
                   1回のみでもOK ／ 勧誘なし ／ 送った後もキャンセル可
                 </p>
+                  </>
+                ) : (
+                  <>
+                    <h2
+                      className="text-lg sm:text-xl font-medium mb-3 text-stone-900 leading-snug"
+                      style={{ fontFamily: "'Noto Serif JP', serif" }}
+                    >
+                      受付を再開したら、<br className="sm:hidden" />お知らせします
+                    </h2>
+                    <p className="text-stone-500 text-sm leading-relaxed mb-7 max-w-sm mx-auto">
+                      現在、新規のご相談の受付を休止しています。再開のお知らせは、LINEで先にお送りします。
+                      それまでの間も、記事・セルフチェック・AI整理アシスタントはご利用いただけます。
+                    </p>
+                    <a
+                      href={PAUSED_LINE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => { try { gtag("event", "article_bottom_line_click"); } catch (_) { /* noop */ } }}
+                      className="inline-flex items-center gap-2 text-white px-7 py-3.5 rounded-full text-sm font-bold hover:opacity-90 transition-opacity shadow-md"
+                      style={{ background: "#06C755" }}
+                    >
+                      <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                      LINEで再開通知を受け取る
+                    </a>
+                    <p className="text-xs text-stone-400 mt-3">{LINE_SUBTEXT}</p>
+                    <p className="mt-4">
+                      <Link to="/ai-assistant" className="text-xs underline underline-offset-2 text-stone-500 hover:text-stone-800">
+                        AIで今の状態を整理する（無料・登録不要）
+                      </Link>
+                    </p>
+                  </>
+                )}
               </div>
             </motion.section>
 
@@ -528,17 +589,15 @@ export default function ArticleLayout({
               {(() => {
                 // タグから意味ベースで関連記事を取得
                 const currentPath = path.startsWith("/articles") ? path : `/articles${path}`;
-                const tagSlugs = tags.flatMap((tag) => pillarMap[tag] || []);
-                const tagArticles = [...new Set(tagSlugs)]
-                  .map((slug) => articles.find((a) => a.path === slug))
-                  .filter((a): a is NonNullable<typeof a> => !!a && a.path !== currentPath)
-                  .slice(0, 3);
+                // 「まず読んでほしい記事」と同じ pillarMap から作るので、そちらに出したものは除く(同じ記事が2回出ないように)
+                const shownInPillar = new Set(tags.flatMap((tag) => pillarMap[tag] || []));
+                const tagArticles: typeof articles = [];
 
                 // タグ関連記事が足りない場合はランダムで補完
                 const needed = 3 - tagArticles.length;
                 const randomFill = needed > 0
                   ? articles
-                      .filter((a) => a.path !== currentPath && !tagArticles.some((t) => t.path === a.path))
+                      .filter((a) => a.path !== currentPath && !shownInPillar.has(a.path) && !tagArticles.some((t) => t.path === a.path))
                       .sort(() => Math.random() - 0.5)
                       .slice(0, needed)
                   : [];

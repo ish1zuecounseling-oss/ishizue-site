@@ -434,7 +434,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 className="inline-flex items-center gap-1.5 text-xs border border-stone-200 text-stone-600 px-4 py-2 rounded-full hover:bg-white hover:border-stone-300 transition-all"
               >
                 <ArrowRight className="w-3 h-3" aria-hidden="true" />
-                お問い合わせフォームへ
+                {ACCEPTING_NEW_CLIENTS ? "お問い合わせフォームへ" : "受付状況を見る"}
               </button>
               <p className="text-stone-400 text-[10px] mt-2 leading-relaxed">
                 ish1zue.counseling@gmail.com
