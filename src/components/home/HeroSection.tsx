@@ -124,7 +124,7 @@ export default function HeroSection({
                   「整理してみたら、役割が3つ重なっていた。私が弱かったんじゃなかった」— 介護福祉士・50代
                 </p>
                 <p className="md:hidden text-stone-300 text-sm leading-[1.9]">
-                  感情労働の疲れは、休んだだけでは回復しません。<br />
+                  休んでも、疲れが抜けないと感じていませんか。<br />
                   <span className="text-stone-200">「なぜそうなるのか」を、一緒に整理します。</span>
                 </p>
               </motion.div>
