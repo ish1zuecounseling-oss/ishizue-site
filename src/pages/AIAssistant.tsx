@@ -148,9 +148,9 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "抱え込み・境界線タイプ",
     title: "「自分と他者の境界線」が薄くなっている状態",
     summary: "自分の責任とそうでないものの区別が曖昧になり、相手の問題まで引き受けてしまう状態です。",
-    cause: "境界線(バウンダリー)の薄さは、意志や性格の問題ではありません。背景には「ワーキングモデル(内的作業モデル)」という、幼少期から繰り返し強化されてきた無意識の前提があります。「断ると嫌われる」「相手に合わせないと関係が壊れる」という感覚が自動的に作動し、境界線を引くことへの強い抵抗を生みます。",
+    cause: "境界線(バウンダリー)の薄さは、意志や性格の問題ではありません。背景には「ワーキングモデル(内的作業モデル)」という、幼少期からの経験や対人関係の中で身についた前提が関係している場合があります。「断ると嫌われる」「相手に合わせないと関係が壊れる」という感覚が自動的に作動し、境界線を引くことへの強い抵抗を生みます。",
     current: "今は「断れない」「相手の感情まで引き受けてしまう」「自分と相手の責任の区別がつかない」という状態が起きているかもしれません。これが続くと、慢性的な消耗・人間関係の疲れにつながっていきます。",
-    nextStep: "まず「断る練習」のような行動レベルではなく、構造の理解から始めるのが順序として正しいです。①4種類の境界線(身体的／感情的／時間的／責任の境界線)のうち、自分はどれが薄いかを見極める、②「これは私の問題か、相手の問題か」と日常的に問い直す習慣を作る、③「断ったら関係が壊れる」という前提が本当に正しいか、小さな場面で検証してみる、の3つです。",
+    nextStep: "まず「断る練習」のような行動レベルではなく、構造の理解から始めるのがおすすめです。①4種類の境界線(身体的／感情的／時間的／責任の境界線)のうち、自分はどれが薄いかを見極める、②「これは私の問題か、相手の問題か」と日常的に問い直す習慣を作る、③「断ったら関係が壊れる」という前提が本当に正しいか、小さな場面で検証してみる、の3つです。",
     relatedArticles: [
       { path: "/articles/boundary-check", label: "境界線チェック(15項目)で今の状態を確認" },
       { path: "/articles/boundary-what", label: "境界線とは｜バウンダリーの基本と4つの種類" },
@@ -163,7 +163,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "他人軸・自己喪失タイプ",
     title: "自分の判断基準が外側にある状態",
     summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態です。",
-    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景には、幼少期に「自分の感情より、相手の感情を読むこと」が生存戦略として強化されてきた歴史があります。これは個人の性格ではなく、適応のために身につけた無意識のパターンです。",
+    cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景には、これまでの経験の中で「自分の感情より、相手の感情を読むこと」が身を守る方法として身についてきた場合があります。これは個人の性格ではなく、適応のために身につけた無意識のパターンです。",
     current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは意志の問題ではなく、まだ自分の感覚へのアクセスが回復していないからです。",
     nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習(昼食を自分で選ぶなど)から始める、の3つです。",
     relatedArticles: [
@@ -178,8 +178,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "インポスター・自己否定タイプ",
     title: "「自分には実力がない」と感じ続けている状態",
     summary: "客観的にできているのに「いつかバレる」「過大評価されている」と感じる状態です。",
-    cause: "インポスター症候群(impostor syndrome)は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」という3つの構造があります。能力が高い人ほど起こりやすいのが特徴です。",
-    current: "今は「いつかバレる」「成功しても運が良かっただけ」という感覚が出ている状態かもしれません。この感覚は自信の問題ではなく、「自己価値の置き場所」が役割や評価に偏っていることから来ています。さらに頑張ろうとしても解決しません。",
+    cause: "インポスター症候群(impostor syndrome)は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」といった構造が関係していることがあります。実際に力のある人にも起こりやすいとされています。",
+    current: "今は「いつかバレる」「成功しても運が良かっただけ」という感覚が出ている状態かもしれません。この感覚は自信の問題ではなく、「自己価値の置き場所」が役割や評価に偏っていることが関係しているかもしれません。さらに頑張るだけでは、楽になりにくいことがあります。",
     nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が本質的です。①支援者としての自分以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
     relatedArticles: [
       { path: "/articles/impostor-check-20", label: "インポスター症候群チェック(20項目)で今の状態を確認" },
@@ -209,7 +209,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     title: "複数の状態が重なっている状態",
     summary: "複数の要素(消耗・抱え込み・自己否定など)が重なって絡み合っている状態です。",
     cause: "複数の状態が重なっているとき、「どこから手をつけていいかわからない」という感覚になりがちです。共感疲労が他人軸を強化し、他人軸が抱え込みを生み、抱え込みが自己否定を深める、というように、それぞれが互いを強化し合います。",
-    current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。複合的な状態の人ほど、外から構造を整理してもらうことで一気に楽になることが多い段階です。",
+    current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。複合的な状態の人ほど、外から一緒に構造を整理すると、絡まりがほどけやすくなる段階です。",
     nextStep: "一人で全部解決しようとしないのが、複合タイプの最も現実的な打ち手です。①最もつらい一つの要素だけを特定して、そこから取り組む、②信頼できる第三者と一緒に状態を言語化する、③「全部解決しなくていい」「順番に整理していい」と自分に許可を出す、の3つです。",
     relatedArticles: [
       { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか(総合ピラー)" },
@@ -246,6 +246,7 @@ export default function AIAssistant() {
   const [result, setResult] = useState<TypeResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  const [showNormalResult, setShowNormalResult] = useState(false);
 
   const toggleCheck = (key: string) => {
     setChecked((prev) => {
@@ -258,6 +259,7 @@ export default function AIAssistant() {
   const analyze = () => {
     if (checked.size === 0) return;
     setIsAnalyzing(true);
+    setShowNormalResult(false);
     try {
       gtag("event", "ai_assistant_analyze", {
         check_count: checked.size,
@@ -298,8 +300,8 @@ export default function AIAssistant() {
   return (
     <>
       <Helmet>
-        <title>AI構造整理アシスタント｜今の状態をAIが3点セットで整理｜こころの相談室 いしずえ</title>
-        <meta name="description" content="「何がしんどいか言葉にできない」あなたへ。チェック+自由記述から、今の状態の原因・現状・次の一歩を整理します。完全無料・登録不要・会話内容は保存されません。公認心理師・松本龍児監修。" />
+        <title>AI構造整理アシスタント｜今の状態を3点セットで整理｜こころの相談室 いしずえ</title>
+        <meta name="description" content="「何がしんどいか言葉にできない」あなたへ。チェックした項目から、今の状態の原因・現状・次の一歩を整理します。完全無料・登録不要・入力内容は保存されません。公認心理師・松本龍児監修。" />
         <link rel="canonical" href="https://www.ishizue-counseling.jp/ai-assistant" />
       </Helmet>
 
@@ -323,10 +325,13 @@ export default function AIAssistant() {
                   今の状態をいくつかの項目から選ぶだけで、<br className="hidden md:block" />
                   <strong className="text-amber-100">原因 ／ 現状 ／ 次の一歩</strong>の3点に整理します。
                 </p>
+                <p className="text-stone-400 text-[11px] leading-relaxed">
+                  ※ 生成AIによる個別の分析ではなく、選んだ項目にもとづく定型の整理です（β版）。診断ではありません。自由記述は、命に関わるつらさがあるときに窓口を案内するためと、結果画面での表示にだけ使い、内容を個別に解釈することはしません。
+                </p>
               </motion.div>
               <motion.div variants={fadeUp} className="flex flex-wrap gap-2 pt-2">
                 {[
-                  { icon: Lock, text: "会話内容は保存されません" },
+                  { icon: Lock, text: "入力内容は保存されません" },
                   { icon: Sparkles, text: "完全無料・登録不要" },
                   { icon: Compass, text: "公認心理師の臨床知見から作成" },
                 ].map((item, i) => {
@@ -372,7 +377,7 @@ export default function AIAssistant() {
                         const key = `${cat.id}-${i}`;
                         const isChecked = checked.has(key);
                         return (
-                          <button key={key} onClick={() => toggleCheck(key)} type="button"
+                          <button key={key} onClick={() => toggleCheck(key)} type="button" aria-pressed={isChecked}
                             className={`w-full flex items-start gap-3 p-3 rounded-xl border text-left transition-all ${isChecked ? "bg-stone-50 border-stone-300" : "bg-white border-stone-100 hover:border-stone-200"}`}
                           >
                             <div className={`flex-shrink-0 mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${isChecked ? "border-stone-600 bg-stone-700" : "border-stone-200"}`}>
@@ -404,7 +409,14 @@ export default function AIAssistant() {
                     maxLength={500}
                   />
                   <p className="text-[10px] text-stone-300 text-right">{freeText.length} / 500</p>
-                  <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）を使ってください。</p>
+                  {CRISIS_WORDS.test(freeText) ? (
+                    <div className="p-3 rounded-xl border-2 text-xs leading-relaxed" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
+                      <p className="font-bold mb-1" style={{ color: "#c62828" }}>今、とてもつらい状態かもしれません</p>
+                      <p className="text-stone-700">この整理より先に、すぐに話せる窓口を使ってください。命の危険が迫っているときは<a href="tel:119" className="font-bold underline">119</a>、こころの健康相談統一ダイヤル<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>、よりそいホットライン（24時間）<a href="tel:0120279338" className="font-bold underline">0120-279-338</a>。</p>
+                    </div>
+                  ) : (
+                    <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）を使ってください。</p>
+                  )}
                 </div>
 
                 <div className="pt-2">
@@ -426,7 +438,7 @@ export default function AIAssistant() {
             )}
 
             {analyzed && result && (
-              <motion.div ref={resultRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+              <motion.div ref={resultRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4" style={{ scrollMarginTop: 80 }}>
                 {CRISIS_WORDS.test(freeText) && (
                   <div className="p-5 rounded-2xl border-2" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
                     <p className="text-sm font-bold mb-2" style={{ color: "#c62828" }}>先に、こちらを読んでください</p>
@@ -439,9 +451,18 @@ export default function AIAssistant() {
                       <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a></li>
                       <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
                     </ul>
-                    <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。（読み違いでしたら、このまま下の整理をお読みください）</p>
+                    <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
+                    <p className="text-[11px] text-stone-500 leading-relaxed mt-2">※ 書かれた言葉を自動で拾っているため、文脈を読み違えることがあります。</p>
+                    <button
+                      type="button"
+                      onClick={() => setShowNormalResult(true)}
+                      className={`mt-4 text-xs underline underline-offset-2 text-stone-500 ${showNormalResult ? "hidden" : ""}`}
+                    >
+                      読み違いでしたら、ここを押すと整理の結果を表示します
+                    </button>
                   </div>
                 )}
+                {(!CRISIS_WORDS.test(freeText) || showNormalResult) && (<>
                 {/* 結果ヘッダー */}
                 <div className="p-5 rounded-2xl text-white relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2C1F14 0%, #3D2B1F 100%)" }}>
                   <div className="relative z-10">
@@ -550,15 +571,15 @@ export default function AIAssistant() {
                     <p className="text-sm font-medium text-stone-800 mb-2" style={{ fontFamily: "'Noto Serif JP', serif" }}>一人で整理するのが難しいと感じたら</p>
                     {ACCEPTING_NEW_CLIENTS ? (
                       <>
-                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から構造を整理してもらうことで早く楽になることが多い段階です。初回相談は無料です。</p>
+                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から一緒に構造を整理することが助けになりやすい段階です。初回のメール相談は無料です。</p>
                         <Link to="/#contact" className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
-                          初回無料で相談する <ArrowRight className="w-3.5 h-3.5" />
+                          無料のメール相談から始める <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                         <p className="text-[10px] text-stone-400 mt-2">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
                       </>
                     ) : (
                       <>
-                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から構造を整理してもらうことで早く楽になることが多い段階です。現在、新規のご相談は休止中のため、再開時にLINEで先にお知らせします。</p>
+                        <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から一緒に構造を整理することが助けになりやすい段階です。現在、新規のご相談は休止中のため、再開時にLINEで先にお知らせします。</p>
                         <a href={PAUSED_LINE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackPausedLineClick("ai_assistant_paused")} className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
                           再開のお知らせをLINEで受け取る <ArrowRight className="w-3.5 h-3.5" />
                         </a>
@@ -582,6 +603,7 @@ export default function AIAssistant() {
                     医学的・心理学的な判断が必要な場合は専門家への相談をおすすめします。
                   </p>
                 </div>
+                </>)}
               </motion.div>
             )}
 
