@@ -16,6 +16,9 @@ const LINE_BASE = "https://lin.ee/6H8Pzo6";
 
 declare function gtag(...args: unknown[]): void;
 
+/* 自由記述に、命に関わるつらさを示す言葉が含まれていないか。含まれていたら、結果より先に窓口を出す */
+const CRISIS_WORDS = /死にたい|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
+
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
@@ -401,6 +404,7 @@ export default function AIAssistant() {
                     maxLength={500}
                   />
                   <p className="text-[10px] text-stone-300 text-right">{freeText.length} / 500</p>
+                  <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）を使ってください。</p>
                 </div>
 
                 <div className="pt-2">
@@ -423,6 +427,21 @@ export default function AIAssistant() {
 
             {analyzed && result && (
               <motion.div ref={resultRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+                {CRISIS_WORDS.test(freeText) && (
+                  <div className="p-5 rounded-2xl border-2" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
+                    <p className="text-sm font-bold mb-2" style={{ color: "#c62828" }}>先に、こちらを読んでください</p>
+                    <p className="text-sm text-stone-700 leading-[1.9] mb-3">
+                      書いてくださった内容に、命に関わるつらさが含まれているように見えました。今、とてもつらい状態かもしれません。
+                      この整理よりも先に、すぐに話せる窓口を使ってください。
+                    </p>
+                    <ul className="text-sm text-stone-800 leading-[2] space-y-0.5">
+                      <li>命の危険が迫っているとき：<a href="tel:119" className="font-bold underline">119</a></li>
+                      <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a></li>
+                      <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
+                    </ul>
+                    <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
+                  </div>
+                )}
                 {/* 結果ヘッダー */}
                 <div className="p-5 rounded-2xl text-white relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2C1F14 0%, #3D2B1F 100%)" }}>
                   <div className="relative z-10">
@@ -462,12 +481,12 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
-                {freeText.trim().length > 0 && (
+                {freeText.trim().length > 0 && !CRISIS_WORDS.test(freeText) && (
                   <div className="p-4 rounded-2xl border border-stone-100 bg-stone-50">
                     <p className="text-[11px] font-medium text-stone-500 mb-1">あなたが書かれた状況について</p>
                     <p className="text-xs text-stone-600 leading-relaxed">
                       「{freeText.length > 100 ? freeText.slice(0, 100) + "..." : freeText}」という状況も、上記の構造の中で起きている可能性があります。
-                      具体的な状況を一緒に整理したい場合は、下記のLINEまたは個別相談をご利用ください。
+                      具体的な状況を一緒に整理したい場合は、{ACCEPTING_NEW_CLIENTS ? "下記のLINEまたは個別相談をご利用ください。" : "下記のLINEで、状態に合わせた解説を受け取れます。"}
                     </p>
                   </div>
                 )}
