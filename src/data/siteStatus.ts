@@ -10,7 +10,7 @@
 export const ACCEPTING_NEW_CLIENTS = false;
 
 /** 記事内の相談ボタンなどに付ける「（初回無料）」表記。休止中は表示しない */
-export const FREE_FIRST = ACCEPTING_NEW_CLIENTS ? "（初回無料）" : "";
+export const FREE_FIRST = ACCEPTING_NEW_CLIENTS ? "（初回メール相談無料）" : "";
 
 /**
  * LINEのステップ配信(7日間)を動かしているか。止めたときは false にすると、
