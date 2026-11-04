@@ -17,7 +17,10 @@ const LINE_BASE = "https://lin.ee/6H8Pzo6";
 declare function gtag(...args: unknown[]): void;
 
 /* 自由記述に、命に関わるつらさを示す言葉が含まれていないか。含まれていたら、結果より先に窓口を出す */
-const CRISIS_WORDS = /死にたい|命を絶|死ぬことを考え|いなくなりたくな|生きていくのがつら|生きていける気がしない|自分を痛めつけ|薬を一気に|薬を飲みすぎ|死にたくなる|消えたくなる|生きていけない|自分を傷つけ|ODしたい|ＯＤしたい|オーバードーズ|薬を大量に|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|生きる意味|生きてる意味|死んだほうが|死んだ方が|いないほうがいい|いない方がいい|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
+const CRISIS_WORDS = /死にたい|命を絶|死ぬことを考え|いなくなりたくな|生きていくのがつら|生きていける気がしない|自分を痛めつけ|薬を一気に|薬を飲みすぎ|死にたくなる|消えたくなる|生きていけない|自分を傷つけ|odしたい|オーバードーズ|薬を大量に|しにたい|死のう|死んで(しまい|しまえ)|消えたい|消えてしまいたい|いなくなりたい|生きていたくない|生きている意味|生きる意味|生きてる意味|死んだほうが|死んだ方が|いないほうがいい|いない方がいい|終わりにしたい|自殺|自死|自傷|リスカ|リストカット|飛び降り|首をつ|殺したい|傷つけてしまいそう/;
+
+/* 表記ゆれ（全角・大文字・空白）をならしてから照合する。検出は「危険かどうかの判定」ではなく、窓口を先に出すための目印 */
+const hasCrisisWords = (text: string) => CRISIS_WORDS.test(text.normalize("NFKC").toLowerCase().replace(/\s+/g, ""));
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 20 },
@@ -134,7 +137,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     title: "利用者の感情を引き受けすぎている状態",
     summary: "他者の痛みを「自分ごと」として抱え込み続けることで、心理的・身体的に消耗が深まっている状態なのかもしれません。",
     cause: "共感疲労(compassion fatigue)は、支援職に起こりやすい心理的消耗です。1995年にチャールズ・フィグレーが提唱した概念で、英語では「cost of caring(ケアすることの代償)」とも呼ばれます。人と向き合う仕事を続けるなかで起こりやすいもので、性格や能力だけで説明できるものではありません。背景の一つとして、「感情労働」「共感的引き受け」「境界線の曖昧化」といった構造が重なっている可能性があります。",
-    current: "今は「休んでも回復しない」「利用者のことが頭から離れない」「感情が麻痺してきた」など、ケアの蓄積が限界に近づいているサインが出ている状態かもしれません。この段階で気づけたことは、消耗をこれ以上深めないための大きな分岐点になります。",
+    current: "今は「休んでも回復しない」「利用者のことが頭から離れない」「感情が麻痺してきた」など、ケアの疲れがたまっているサインが出ている状態かもしれません。この段階で気づけたことは、消耗をこれ以上深めないための大きな分岐点になります。",
     nextStep: "まず、「自分はもう十分にやっている」と認める時間を作ってください。次に、利用者の感情と自分の感情を意識的に分ける練習を始めます。①一日の終わりに「今日引き受けすぎた感情は何か」を書き出す、②「これは私の感情／これは相手の感情」と区別する習慣をつける、③休日に仕事の話を一切しない時間を確保する、の3つから始めるのが現実的です。",
     relatedArticles: [
       { path: "/articles/helper-empathy-check", label: "共感疲労チェック(20項目)で今の状態を確認" },
@@ -164,7 +167,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     title: "自分の判断基準が外側にある状態",
     summary: "自分の感覚や本音より、相手の反応や評価が判断の軸になっている状態なのかもしれません。",
     cause: "他人軸の状態は「気が利く」「優しい」と評価されるため、表面的には問題に見えにくいのが特徴です。背景の一つとして、「自分の感情より、相手の感情を読むこと」が習慣になっている場合があります。それは性格の欠点ではなく、周囲に合わせるための一つの対処パターンとして身についている可能性があります。",
-    current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは意志の問題ではなく、まだ自分の感覚へのアクセスが回復していないからです。",
+    current: "今は「人に合わせすぎて自分の本音が見えない」「相手の機嫌で自分の気分が決まる」という状態かもしれません。「自分軸を持とう」と言われても動けないのは、意志の問題ではなく、今は自分の感覚に気づく余裕を持ちにくくなっているからかもしれません。",
     nextStep: "他人軸からの回復は、行動を変えるより先に「自分の身体感覚に気づく」ことから始まります。①一日に何度か「今、自分は何を感じているか」を身体感覚レベルで確認する、②「相手はどう思うか」より先に「自分はどうしたいか」と問う順序を意識する、③小さなことで「自分の選択をする」練習(昼食を自分で選ぶなど)から始める、の3つです。",
     relatedArticles: [
       { path: "/articles/other-axis-check", label: "他人軸チェック(15項目)で今の状態を確認" },
@@ -177,10 +180,10 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
   impostor: {
     badge: "インポスター・自己否定タイプ",
     title: "「自分には実力がない」と感じ続けている状態",
-    summary: "客観的にできているのに「いつかバレる」「過大評価されている」と感じる状態なのかもしれません。",
+    summary: "周りからは「できている」と見られていても、「いつかバレる」「過大評価されている」と感じる状態なのかもしれません。",
     cause: "インポスター症候群(impostor syndrome)は1978年に心理学者ポーリン・クランスらが提唱した概念です。背景には「役割依存」「自己複雑性の低下」「他人軸」といった構造が関係していることがあります。実際に力のある人にも起こりやすいとされています。",
     current: "今は「いつかバレる」「成功しても運が良かっただけ」という感覚が出ている状態かもしれません。この感覚は自信の問題ではなく、「自己価値の置き場所」が役割や評価に偏っていることが関係しているかもしれません。さらに頑張るだけでは、楽になりにくいことがあります。",
-    nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が本質的です。①支援者としての自分以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
+    nextStep: "「自信をつけよう」という方向ではなく、「自己複雑性を増やす」方向が助けになることがあります。①支援者としての自分以外の自己側面(趣味・関係性・身体感覚など)を意識的に増やす、②「役立てない自分」にも価値があるという感覚を小さな場面で体験する、③「成功は実力ではない」という解釈パターンに気づいたら「もう一つの解釈」を並べる練習をする、の3つです。",
     relatedArticles: [
       { path: "/articles/impostor-check-20", label: "インポスター症候群チェック(20項目)で今の状態を確認" },
       { path: "/articles/impostor-syndrome", label: "インポスター症候群とは｜構造から理解する" },
@@ -194,7 +197,7 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     title: "「もう続けられないかもしれない」と感じている状態",
     summary: "仕事を辞めたい・休みたいという気持ちが強くなっている状態なのかもしれません。",
     cause: "「辞めたい」という気持ちが強くなるのは、意志の弱さではなく、消耗が積み重なっているサインのことがあります。背景には、共感疲労・抱え込み・自己否定などが重なっている場合もあります。「辞めるのは逃げ」「次がない」という思いが重なると、辞めたいのに動けない状態になりやすくなります。",
-    current: "今は「判断が難しい状態」にあると考えるのが現実的です。極度の消耗状態では、辞めても辞めなくても後悔しやすいため、まず消耗を緩和することが優先順位として上です。",
+    current: "消耗が強いときは、辞めても辞めなくても後悔しやすいことがあります。まず消耗を和らげることを優先するのも一つの方法です。ただし、ハラスメントや心身の危険がある場合は、判断を先延ばしにせず、安全の確保や外部への相談を優先してください。",
     nextStep: "「辞めるかどうか」より先に、3つの判断軸を整理することが有効です。①今は「判断できる状態」にあるか(極度の疲労時には判断しない)、②辞めたい理由は「仕事そのもの」か「今の状態」か、③辞めた後の現実的な選択肢があるか。休職・転職・継続の3つを並列の選択肢として置いてみてください。",
     relatedArticles: [
       { path: "/articles/quit-job-timing", label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
@@ -208,8 +211,8 @@ const TYPE_RESULTS: Record<StateType, TypeResult> = {
     badge: "複合タイプ",
     title: "複数の状態が重なっている状態",
     summary: "複数の要素(消耗・抱え込み・自己否定など)が重なって絡み合っている状態なのかもしれません。",
-    cause: "複数の状態が重なっているとき、「どこから手をつけていいかわからない」という感覚になりがちです。共感疲労が他人軸を強化し、他人軸が抱え込みを生み、抱え込みが自己否定を深める、というように、それぞれが互いを強化し合います。",
-    current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。複合的な状態の人ほど、外から一緒に構造を整理すると、絡まりがほどけやすくなる段階です。",
+    cause: "複数の状態が重なっているとき、「どこから手をつけていいかわからない」という感覚になりがちです。共感疲労が他人軸を強化し、他人軸が抱え込みを生み、抱え込みが自己否定を深める、というように、それぞれが互いを強め合うことがあります。",
+    current: "今は「あれもこれもしんどい」「何が一番つらいのかわからない」という状態かもしれません。こうしたときは、誰かと一緒に整理すると、絡まりがほどけやすくなることがあります。",
     nextStep: "一人で全部解決しようとしないのが、複合タイプの最も現実的な打ち手です。①最もつらい一つの要素だけを特定して、そこから取り組む、②信頼できる第三者と一緒に状態を言語化する、③「全部解決しなくていい」「順番に整理していい」と自分に許可を出す、の3つです。",
     relatedArticles: [
       { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか(総合ピラー)" },
@@ -244,8 +247,9 @@ export default function AIAssistant() {
   const [freeText, setFreeText] = useState("");
   const [analyzed, setAnalyzed] = useState(false);
   const [result, setResult] = useState<TypeResult | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  const resultHeadingRef = useRef<HTMLParagraphElement>(null);
+  const crisisHeadingRef = useRef<HTMLParagraphElement>(null);
   const [showNormalResult, setShowNormalResult] = useState(false);
   const timersRef = useRef<number[]>([]);
   useEffect(() => () => { timersRef.current.forEach((t) => window.clearTimeout(t)); }, []);
@@ -260,7 +264,6 @@ export default function AIAssistant() {
 
   const analyze = () => {
     if (checked.size === 0) return;
-    setIsAnalyzing(true);
     setShowNormalResult(false);
     try {
       gtag("event", "ai_assistant_analyze", {
@@ -275,18 +278,18 @@ export default function AIAssistant() {
         if (checked.has(`${cat.id}-${i}`)) checkedItems.push(cat.items[i]);
       }
     }
+    // 定型の集計なので待ち時間は置かない。結果を出したら、見出しへスクロールとフォーカスを移す
+    const type = determineType(checkedItems);
+    setResult(TYPE_RESULTS[type]);
+    setAnalyzed(true);
     timersRef.current.push(window.setTimeout(() => {
-      const type = determineType(checkedItems);
-      setResult(TYPE_RESULTS[type]);
-      setAnalyzed(true);
-      setIsAnalyzing(false);
-      timersRef.current.push(window.setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100));
-    }, 1500));
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      (crisisHeadingRef.current ?? resultHeadingRef.current)?.focus({ preventScroll: true });
+    }, 100));
   };
 
   const reset = () => {
     timersRef.current.forEach((t) => window.clearTimeout(t)); timersRef.current = [];
-    setIsAnalyzing(false);
     setChecked(new Set()); setFreeText(""); setAnalyzed(false); setResult(null); setShowNormalResult(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -300,7 +303,9 @@ export default function AIAssistant() {
   };
 
   const totalChecked = checked.size;
-  const lineUrl = result ? `${LINE_BASE}?type=${result.lineType}` : LINE_BASE;
+  // 結果のタイプは外部URLに付けない（アクセス解析の外部リンク計測にも残らないように）
+  const lineUrl = LINE_BASE;
+  const crisis = hasCrisisWords(freeText);
 
   return (
     <>
@@ -364,7 +369,7 @@ export default function AIAssistant() {
                 <ol className="space-y-1.5 text-xs text-stone-600 leading-relaxed">
                   <li>① 6つのカテゴリから、今当てはまるものをタップ(複数選択可)</li>
                   <li>② 任意で、自由記述に状況を追記(空欄でもOK)</li>
-                  <li>③ 「分析する」をタップすると、3点セットで整理されます</li>
+                  <li>③ 「整理する」をタップすると、選んだ項目に関係するテーマと、次の一歩の例が表示されます</li>
                 </ol>
               </motion.div>
             )}
@@ -415,7 +420,7 @@ export default function AIAssistant() {
                     maxLength={500}
                   />
                   <p className="text-[10px] text-stone-300 text-right">{freeText.length} / 500</p>
-                  {CRISIS_WORDS.test(freeText) ? (
+                  {crisis ? (
                     <div className="p-3 rounded-xl border-2 text-xs leading-relaxed" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
                       <p className="font-bold mb-1" style={{ color: "#c62828" }}>今、とてもつらい状態かもしれません</p>
                       <p className="text-stone-700 mb-1">この整理より先に、すぐに話せる窓口を使ってください。</p>
@@ -433,18 +438,16 @@ export default function AIAssistant() {
                 </div>
 
                 <div className="pt-2">
-                  <button onClick={analyze} disabled={totalChecked === 0 || isAnalyzing} type="button"
-                    className={`w-full py-3.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 ${totalChecked === 0 || isAnalyzing ? "bg-stone-200 text-stone-400 cursor-not-allowed" : "text-white shadow-md"}`}
-                    style={totalChecked > 0 && !isAnalyzing ? { background: "#2C1F14" } : {}}
+                  <button onClick={analyze} disabled={totalChecked === 0} type="button"
+                    className={`w-full py-3.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 ${totalChecked === 0 ? "bg-stone-200 text-stone-400 cursor-not-allowed" : "text-white shadow-md"}`}
+                    style={totalChecked > 0 ? { background: "#2C1F14" } : {}}
                   >
-                    {isAnalyzing ? (
-                      <><motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" />構造を整理しています...</>
-                    ) : totalChecked === 0 ? "項目を選んでください" : (
-                      <><Sparkles className="w-4 h-4" />{totalChecked}項目から分析する</>
+                    {totalChecked === 0 ? "項目を選んでください" : (
+                      <><Sparkles className="w-4 h-4" />選んだ{totalChecked}項目を整理する</>
                     )}
                   </button>
-                  {totalChecked > 0 && !isAnalyzing && (
-                    <p className="text-[10px] text-stone-400 text-center mt-2 leading-relaxed">※ 入力内容は外部のAIサービスに送られず、このブラウザの中だけで処理されます。書いた文章や個人情報は保存されません（アクセス解析に記録するのは、使われた回数・チェックの数・自由記述があったかどうか・ボタンが押されたかだけで、結果の内容は記録しません）</p>
+                  {totalChecked > 0 && (
+                    <p className="text-[10px] text-stone-400 text-center mt-2 leading-relaxed">※ 入力内容は外部のAIサービスに送られず、このブラウザの中だけで処理されます。書いた文章や個人情報は保存されません（このページで記録するのは、使われた回数・チェックの数・自由記述があったかどうか・ボタンが押されたかだけで、書いた内容や結果の内容は記録しません。このほか、サイト全体のアクセス解析で、見られたページや端末の種類などを匿名で集計しています）</p>
                   )}
                 </div>
               </div>
@@ -452,9 +455,9 @@ export default function AIAssistant() {
 
             {analyzed && result && (
               <motion.div ref={resultRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4" style={{ scrollMarginTop: 80 }}>
-                {CRISIS_WORDS.test(freeText) && (
+                {crisis && (
                   <div className="p-5 rounded-2xl border-2" style={{ borderColor: "#c62828", background: "#fdecea" }} role="alert">
-                    <p className="text-sm font-bold mb-2" style={{ color: "#c62828" }}>先に、こちらを読んでください</p>
+                    <p ref={crisisHeadingRef} tabIndex={-1} className="text-sm font-bold mb-2 focus:outline-none" style={{ color: "#c62828" }}>先に、こちらを読んでください</p>
                     <p className="text-sm text-stone-700 leading-[1.9] mb-3">
                       書いてくださった内容に、命に関わるつらさが含まれているように見えました。今、とてもつらい状態かもしれません。
                       この整理よりも先に、すぐに話せる窓口を使ってください。
@@ -473,23 +476,23 @@ export default function AIAssistant() {
                       onClick={() => setShowNormalResult(true)}
                       className={`mt-4 text-xs underline underline-offset-2 text-stone-500 ${showNormalResult ? "hidden" : ""}`}
                     >
-                      読み違いでしたら、ここを押すと整理の結果を表示します
+                      相談先はこのまま表示したうえで、チェックの結果も見る
                     </button>
                     <button type="button" onClick={reset} className="mt-2 block text-xs underline underline-offset-2 text-stone-500">
                       入力を消して、最初からやり直す
                     </button>
                   </div>
                 )}
-                {(!CRISIS_WORDS.test(freeText) || showNormalResult) && (<>
+                {(!crisis || showNormalResult) && (<>
                 {/* 結果ヘッダー */}
                 <div className="p-5 rounded-2xl text-white relative overflow-hidden" style={{ background: "linear-gradient(135deg, #2C1F14 0%, #3D2B1F 100%)" }}>
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-2">
                       <Sparkles className="w-4 h-4 text-amber-200" />
-                      <span className="text-[10px] tracking-[0.25em] uppercase font-medium text-amber-200">分析結果</span>
+                      <span className="text-[10px] tracking-[0.25em] uppercase font-medium text-amber-200">整理の結果</span>
                     </div>
                     <p className="text-xs text-amber-100 mb-1.5 font-medium">{result.badge}</p>
-                    <p className="text-lg font-light leading-[1.6]" style={{ fontFamily: "'Noto Serif JP', serif" }}>{result.title}</p>
+                    <p ref={resultHeadingRef} tabIndex={-1} className="text-lg font-light leading-[1.6] focus:outline-none" style={{ fontFamily: "'Noto Serif JP', serif" }}>{result.title}</p>
                     <p className="text-stone-300 text-xs leading-relaxed mt-3">{result.summary}</p>
                   </div>
                   <div className="absolute right-0 top-0 w-32 h-32 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #fbbf24 0%, transparent 70%)" }} />
@@ -520,17 +523,15 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
-                {freeText.trim().length > 0 && !CRISIS_WORDS.test(freeText) && (
+                {freeText.trim().length > 0 && !crisis && (
                   <div className="p-4 rounded-2xl border border-stone-100 bg-stone-50">
-                    <p className="text-[11px] font-medium text-stone-500 mb-1">あなたが書かれた状況について</p>
-                    <p className="text-xs text-stone-600 leading-relaxed">
-                      「{freeText.length > 100 ? freeText.slice(0, 100) + "..." : freeText}」という状況も、上記の構造の中で起きている可能性があります。
-                      具体的な状況を一緒に整理したい場合は、{ACCEPTING_NEW_CLIENTS ? "下記のLINEまたは個別相談をご利用ください。" : "下記のLINEで、状態に合わせた解説を受け取れます。"}
-                    </p>
+                    <p className="text-[11px] font-medium text-stone-500 mb-1">入力したメモ</p>
+                    <p className="text-xs text-stone-600 leading-relaxed whitespace-pre-wrap">{freeText}</p>
+                    <p className="text-[11px] text-stone-500 leading-relaxed mt-2">※ この文章は、結果の分類には使っていません。結果は、チェックした項目だけをもとに表示しています。</p>
                   </div>
                 )}
 
-                {!CRISIS_WORDS.test(freeText) && (<>
+                {!crisis && (<>
                 {/* LINE誘導 */}
                 <div className="p-5 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(6,199,85,0.08) 0%, rgba(143,175,159,0.08) 100%)", border: "1px solid rgba(6,199,85,0.3)" }}>
                   <div className="flex items-center gap-2 mb-2">
@@ -563,7 +564,7 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
-                {!CRISIS_WORDS.test(freeText) && (<>
+                {!crisis && (<>
                 {/* ▼ 新規追加:マッチング誘導ブロック(全タイプ共通) */}
                 <div className="p-5 rounded-2xl" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
                   <div className="flex items-center gap-2 mb-2">
