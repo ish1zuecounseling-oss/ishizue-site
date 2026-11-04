@@ -3,7 +3,7 @@
 // ルーティング: <Route path="/admin/dashboard" element={<OpsDashboard />} />
 // データ取得: /api/ops-dashboard(閲覧キーは /admin/views と共通)
 
-import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react"
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
 // 統合で消した記事の転送先(検索の数字に古いURLが残っている間、転送先の記事名で表示するため)
@@ -173,6 +173,35 @@ function changeLabel(cur: number, prev: number): { text: string; color: string }
   const p = Math.round(((cur - prev) / prev) * 100)
   if (p === 0) return { text: "±0%", color: "#a8a29e" }
   return p > 0 ? { text: `+${p}%`, color: "#047857" } : { text: `${p}%`, color: "#b91c1c" }
+}
+
+/* ===== 分析用の画像保存 =====
+ * 「開業判断・年間計画・ユーザー・改善候補」の4画面を順に表示して、1画面ずつ画像にする。
+ * スマホでは共有シート(「画像を保存」で写真に入る)、パソコンではダウンロードで保存する。
+ * ご意見・記事ごと・検索された言葉は含めない(ご意見は利用者の文章のため)。 */
+const SNAP_TABS: [Tab, string][] = [["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"]]
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+async function waitForContent(el: HTMLElement, timeoutMs = 12000) {
+  const start = Date.now()
+  let lastH = -1, stable = 0
+  while (Date.now() - start < timeoutMs) {
+    await sleep(250)
+    const loading = /読み込み中/.test(el.innerText)
+    const h = el.scrollHeight
+    if (!loading && h > 40 && h === lastH) { if (++stable >= 3) return } else stable = 0
+    lastH = h
+  }
+}
+async function shareOrDownload(files: File[]) {
+  const nav = navigator as Navigator & { canShare?: (d: { files: File[] }) => boolean }
+  if (nav.canShare && nav.canShare({ files }) && /iPhone|iPad|Android/i.test(navigator.userAgent)) {
+    try { await nav.share({ files, title: "運営ダッシュボード" }); return } catch (e) { if ((e as Error).name === "AbortError") return }
+  }
+  for (const f of files) {
+    const url = URL.createObjectURL(f)
+    const a = document.createElement("a"); a.href = url; a.download = f.name; a.click()
+    await sleep(400); URL.revokeObjectURL(url)
+  }
 }
 
 function KeyGate({ onSubmit, error }: { onSubmit: (k: string) => void; error: string }) {
@@ -1951,6 +1980,38 @@ export default function OpsDashboard() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [tab, setTab] = useState<Tab>("launch")
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [snap, setSnap] = useState("")
+
+  const saveSnapshots = async () => {
+    if (snap) return
+    const back = tab
+    const files: File[] = []
+    const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" })
+    try {
+      const { toBlob } = await import("html-to-image")
+      for (let i = 0; i < SNAP_TABS.length; i++) {
+        const [t, label] = SNAP_TABS[i]
+        setSnap(`${label}を画像にしています(${i + 1}/${SNAP_TABS.length})…`)
+        setTab(t)
+        await sleep(100)
+        const el = contentRef.current
+        if (!el) continue
+        await waitForContent(el)
+        const blob = await toBlob(el, { backgroundColor: BG, pixelRatio: 2, skipFonts: true, cacheBust: true })
+        if (blob) files.push(new File([blob], `dashboard-${today}-${i + 1}-${label}.png`, { type: "image/png" }))
+      }
+      setTab(back)
+      setSnap("保存しています…")
+      await sleep(100)
+      if (files.length) await shareOrDownload(files)
+      setSnap("")
+    } catch (e) {
+      setTab(back)
+      setSnap("")
+      alert("画像の保存に失敗しました:" + (e instanceof Error ? e.message : String(e)))
+    }
+  }
   const [sort, setSort] = useState<SortKey>("views")
   const [q, setQ] = useState("")
   const [scope, setScope] = useState<"all" | "normal" | "thinker">("all")
@@ -2130,8 +2191,19 @@ export default function OpsDashboard() {
           ))}
         </div>
 
+        <div className="flex items-center gap-2 mb-4">
+          <button type="button" onClick={saveSnapshots} disabled={!!snap || !data}
+            className="px-3.5 py-1.5 rounded-full border text-xs disabled:opacity-50" style={{ background: "white", color: INK, borderColor: SAGE }}>
+            📷 分析用の画像を保存(開業判断・年間計画・ユーザー・改善候補)
+          </button>
+          {snap && <span className="text-[11px] text-stone-500" role="status">{snap}</span>}
+        </div>
+
         {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
         {loading && !data && <p className="text-sm text-stone-500">読み込み中…</p>}
+
+        <div ref={contentRef} style={{ background: BG }}>
+        {snap && <p className="text-[11px] text-stone-500 mb-2">運営ダッシュボード ｜ {SNAP_TABS.find(([t]) => t === tab)?.[1] ?? ""} ｜ {new Date().toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })} 時点</p>}
 
         {/* ===================== 開業判断 ===================== */}
         {tab === "launch" && data && (
@@ -2449,6 +2521,7 @@ export default function OpsDashboard() {
             取得:{new Date(data.fetchedAt).toLocaleString("ja-JP")} ／ 月の数字は日本時間の暦月、記事ごとの数字は昨日までの{data.days}日間(比較はその直前の同じ日数)。
           </p>
         )}
+        </div>
       </div>
     </div>
   )
