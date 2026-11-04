@@ -6,6 +6,7 @@ import { useState, useCallback, type CSSProperties } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
 import { refsFor, type TaskRefs, type RefKind } from '../../data/chronicleRefs'
+import { EXAMINER_PROMPTS, EXAMINER_NAMES, EXAM_REQUIRED } from '../../data/chronicleExaminers'
 
 // ── パスワード設定 ──────────────────────────────────────
 // 自分用・非公開ページなので簡易実装。変更はこの1行だけ。
@@ -58,6 +59,29 @@ const fmtDate = (iso: string) => {
   try { return new Date(iso).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' }) } catch { return '' }
 }
 
+// ── 本試験の結果(試験官プロンプトで受験し、結果を自分で記録する) ──
+const EXAM_KEY = 'ishizue_chronicle_exam_v1'
+type ExamResult = 'pass' | 'retry' | 'hold'
+type ExamRecord = { result: ExamResult; date: string; memo: string }
+type ExamRecords = Record<string, ExamRecord[]>
+const EXAM_LABEL: Record<ExamResult, string> = { pass: '合格', retry: '再挑戦', hold: '判定保留' }
+
+function loadExams(): ExamRecords {
+  try {
+    return JSON.parse(localStorage.getItem(EXAM_KEY) || '{}')
+  } catch {
+    return {}
+  }
+}
+
+function saveExams(r: ExamRecords) {
+  try {
+    localStorage.setItem(EXAM_KEY, JSON.stringify(r))
+  } catch { /* quota exceeded etc. */ }
+}
+
+const examPassed = (exams: ExamRecords, lvId: string) => (exams[lvId] ?? []).some(r => r.result === 'pass')
+
 // ── ヘルパー ───────────────────────────────────────────
 function countAll(lv: LevelData) {
   return Object.values(lv.tasks).flat().length
@@ -72,10 +96,16 @@ function countDone(lv: LevelData, state: CheckState) {
   )
 }
 
+// 等級の達成：課題がすべてチェック済みで、本試験が必要な等級は合格も記録されていること
+function levelComplete(lv: LevelData, state: CheckState, exams: ExamRecords) {
+  const tasksDone = countDone(lv, state) === countAll(lv)
+  return tasksDone && (!EXAM_REQUIRED.includes(lv.id) || examPassed(exams, lv.id))
+}
+
 // ── 記録の書き出し・読み込み(ブラウザのデータが消えたときのための控え) ──
-function exportState(s: CheckState, reflections: Reflections) {
+function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords) {
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
-  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 2, savedAt: new Date().toISOString(), state: s, reflections }, null, 2)], { type: 'application/json' })
+  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 3, savedAt: new Date().toISOString(), state: s, reflections, exams }, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -84,7 +114,7 @@ function exportState(s: CheckState, reflections: Reflections) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-function parseImported(text: string): { state: CheckState; reflections: Reflections | null } | null {
+function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null } | null {
   try {
     const raw = JSON.parse(text)
     // 振り返り(version 2 以降)。形が合わないものは読み飛ばす
@@ -106,7 +136,19 @@ function parseImported(text: string): { state: CheckState; reflections: Reflecti
       out[lv] = {}
       for (const [k, v] of Object.entries(tasks as Record<string, unknown>)) out[lv][k] = v === true
     }
-    return { state: out, reflections }
+    // 本試験の記録(version 3 以降)
+    let exams: ExamRecords | null = null
+    if (raw && typeof raw === 'object' && raw.exams && typeof raw.exams === 'object' && !Array.isArray(raw.exams)) {
+      exams = {}
+      for (const [lv, list] of Object.entries(raw.exams as Record<string, unknown>)) {
+        if (!Array.isArray(list)) continue
+        exams[lv] = list
+          .filter((x): x is Record<string, unknown> => !!x && typeof x === 'object')
+          .filter(x => x.result === 'pass' || x.result === 'retry' || x.result === 'hold')
+          .map(x => ({ result: x.result as ExamResult, date: typeof x.date === 'string' ? x.date.slice(0, 40) : '', memo: typeof x.memo === 'string' ? x.memo.slice(0, 2000) : '' }))
+      }
+    }
+    return { state: out, reflections, exams }
   } catch {
     return null
   }
@@ -383,6 +425,85 @@ function TaskRow({ id, label, answer, sources, checked, unlocked, accent, onTogg
   )
 }
 
+// ── 試験官(ロールプレイ試験のプロンプト) ─────────────────────
+function ExaminerBlock({ lv, records, onAdd, onRemove }: { lv: LevelData; records: ExamRecord[]; onAdd: (r: ExamRecord) => void; onRemove: (i: number) => void }) {
+  const prompt = EXAMINER_PROMPTS[lv.id]
+  const [show, setShow] = useState(false)
+  const [msg, setMsg] = useState('')
+  const [memo, setMemo] = useState('')
+  const required = EXAM_REQUIRED.includes(lv.id)
+  const passed = records.some(r => r.result === 'pass')
+  if (!prompt) return null
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(prompt)
+      setMsg('コピーしました。AIチャットに貼り付けて送り、続けて「練習開始」か「試験開始」と送ってください。')
+    } catch {
+      setShow(true)
+      setMsg('自動でコピーできませんでした。下の枠の文章を長押しして、すべて選択・コピーしてください。')
+    }
+  }
+  const btn: CSSProperties = { fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '5px 10px', cursor: 'pointer' }
+  return (
+    <div style={{ borderTop: '1px solid #2a1f0e', background: '#0b0804', padding: '14px 20px' }}>
+      <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: 13, fontWeight: 700, color: lv.accent, letterSpacing: '0.08em', marginBottom: 6 }}>
+        🎭 試験官「{EXAMINER_NAMES[lv.id]}」(ロールプレイ試験)
+      </div>
+      {required && (
+        <p style={{ fontSize: 11, lineHeight: 1.7, marginBottom: 8, color: passed ? '#9fc98a' : '#e6b555' }}>
+          {passed ? '✓ 本試験に合格済み(この等級の達成条件の一つ)' : 'この等級は、本試験の合格も達成条件です。'}
+        </p>
+      )}
+      <p style={{ fontSize: 11, color: '#8a6a3a', lineHeight: 1.8, marginBottom: 10 }}>
+        プロンプトをAIチャットに貼り付けて送り、「練習開始」(ヒントあり・合否なし)か「試験開始」(合否あり)と送ると始まります。「終了」で口頭試問と判定に進みます。判定は「達成・一部達成・未達・判定不能」の4つで、点数はつきません。実在のクライアントの情報は書き込まないでください。
+      </p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <button type="button" onClick={copy} style={{ ...btn, color: '#0a0702', background: '#c9933a', border: 'none', fontWeight: 700 }}>プロンプトをコピー</button>
+        <button type="button" onClick={() => setShow(v => !v)} style={btn}>{show ? '閉じる' : '中身を見る'}</button>
+      </div>
+      {msg && <p role="status" style={{ marginTop: 8, fontSize: 11, color: '#c9a96e', lineHeight: 1.7 }}>{msg}</p>}
+      {show && (
+        <textarea readOnly value={prompt} rows={14} onFocus={e => e.currentTarget.select()}
+          style={{ marginTop: 10, width: '100%', boxSizing: 'border-box', background: '#080502', color: '#cdb98f', border: '1px solid #3d2a12', borderRadius: 4, padding: '8px 10px', fontSize: 11.5, lineHeight: 1.7, fontFamily: 'inherit' }} />
+      )}
+
+      {/* 本試験の結果の記録 */}
+      <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px dashed #3d2a12' }}>
+        <div style={{ fontSize: 11, letterSpacing: '0.1em', color: '#c9a96e', marginBottom: 6 }}>本試験の結果を記録する</div>
+        <p style={{ fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7, marginBottom: 6 }}>
+          「試験開始」で受けた本試験の判定を記録します(練習モードの結果は記録しません)。メモには講評の要点などを。実在の情報は書かないでください。
+        </p>
+        <textarea value={memo} onChange={e => setMemo(e.target.value)} rows={2} maxLength={2000} placeholder="例:例外の延長への対応が「一部達成」。代わりの手段を先に示す。"
+          style={{ width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '6px 9px', fontSize: 12, lineHeight: 1.7, fontFamily: 'inherit', resize: 'vertical' }} />
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 6 }}>
+          {(['pass', 'retry', 'hold'] as ExamResult[]).map(r => (
+            <button key={r} type="button" style={btn}
+              onClick={() => {
+                if (!window.confirm(`本試験の結果を「${EXAM_LABEL[r]}」として記録します。よろしいですか？`)) return
+                onAdd({ result: r, date: new Date().toISOString(), memo: memo.trim() }); setMemo('')
+              }}>
+              {EXAM_LABEL[r]}として記録
+            </button>
+          ))}
+        </div>
+        {records.length > 0 && (
+          <ul style={{ listStyle: 'none', padding: 0, margin: '10px 0 0' }}>
+            {records.map((r, i) => ({ r, i })).reverse().map(({ r, i }) => (
+              <li key={i} style={{ fontSize: 11.5, color: '#d8c7a4', lineHeight: 1.7, padding: '5px 0', borderBottom: '1px solid #1a1208' }}>
+                <span style={{ color: r.result === 'pass' ? '#9fc98a' : r.result === 'retry' ? '#e6b555' : '#9a9086', fontWeight: 700, marginRight: 8 }}>{EXAM_LABEL[r.result]}</span>
+                <span style={{ color: '#7a6040' }}>{fmtDate(r.date)}</span>
+                {r.memo && <div style={{ whiteSpace: 'pre-wrap', color: '#b09a74' }}>{r.memo}</div>}
+                <button type="button" onClick={() => { if (window.confirm('この記録を削除しますか？')) onRemove(i) }}
+                  style={{ fontSize: 10, color: '#6b5030', background: 'transparent', border: 'none', textDecoration: 'underline', cursor: 'pointer', padding: 0 }}>削除</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function ReflectionBlock({ lv, value, onSave }: { lv: LevelData; value?: Reflection; onSave: (r: Reflection) => void }) {
   const [editing, setEditing] = useState(!value)
   const [draft, setDraft] = useState({ learned: value?.learned ?? '', remaining: value?.remaining ?? '', apply: value?.apply ?? '' })
@@ -449,14 +570,19 @@ interface LevelCardProps {
   onToggle: (lvId: string, key: string) => void
   reflection?: Reflection
   onSaveReflection: (lvId: string, r: Reflection) => void
+  exams: ExamRecords
+  onAddExam: (lvId: string, r: ExamRecord) => void
+  onRemoveExam: (lvId: string, i: number) => void
 }
 
-function LevelCard({ lv, idx, state, unlocked, onToggle, reflection, onSaveReflection }: LevelCardProps) {
+function LevelCard({ lv, idx, state, unlocked, onToggle, reflection, onSaveReflection, exams, onAddExam, onRemoveExam }: LevelCardProps) {
   const [open, setOpen] = useState(false)
   const total = countAll(lv)
   const done = countDone(lv, state)
   const pct = Math.round((done / total) * 100)
-  const allDone = done === total
+  const tasksDone = done === total
+  const allDone = levelComplete(lv, state, exams)
+  const waitingExam = tasksDone && !allDone
 
   return (
     <div style={{ borderBottom: '1px solid #1a1208' }}>
@@ -544,6 +670,12 @@ function LevelCard({ lv, idx, state, unlocked, onToggle, reflection, onSaveRefle
           <MasteryBlock conditions={lv.masteryConditions} />
           <SupportBlock supports={lv.supports} />
           <TasksBlock lv={lv} state={state} unlocked={unlocked} onToggle={onToggle} />
+          {waitingExam && (
+            <div style={{ borderTop: '1px solid #2a1f0e', background: '#0b0804', padding: '12px 20px', fontSize: 12, lineHeight: 1.8, color: '#e6b555' }}>
+              課題はすべてチェック済みです。この等級の達成には、あと本試験の合格が必要です。
+            </div>
+          )}
+          {unlocked && <ExaminerBlock lv={lv} records={exams[lv.id] ?? []} onAdd={r => onAddExam(lv.id, r)} onRemove={i => onRemoveExam(lv.id, i)} />}
 
           {/* 達成バナー */}
           {allDone && (
@@ -573,7 +705,7 @@ function LevelCard({ lv, idx, state, unlocked, onToggle, reflection, onSaveRefle
           )}
 
           {/* 振り返り(完全習得した等級だけ) */}
-          {allDone && <ReflectionBlock lv={lv} value={reflection} onSave={r => onSaveReflection(lv.id, r)} />}
+          {tasksDone && <ReflectionBlock lv={lv} value={reflection} onSave={r => onSaveReflection(lv.id, r)} />}
 
           {/* ロック表示 */}
           {!unlocked && (
@@ -719,19 +851,34 @@ function ChronicleInner() {
       return next
     })
   }, [])
+  const [exams, setExams] = useState<ExamRecords>(loadExams)
+  const handleAddExam = useCallback((lvId: string, r: ExamRecord) => {
+    setExams(prev => {
+      const next = { ...prev, [lvId]: [...(prev[lvId] ?? []), r] }
+      saveExams(next)
+      return next
+    })
+  }, [])
+  const handleRemoveExam = useCallback((lvId: string, i: number) => {
+    setExams(prev => {
+      const next = { ...prev, [lvId]: (prev[lvId] ?? []).filter((_, j) => j !== i) }
+      saveExams(next)
+      return next
+    })
+  }, [])
   const [ioMsg, setIoMsg] = useState('')
   const handleImport = async (file: File | undefined) => {
     if (!file) return
     if (file.size > 1_000_000) { setIoMsg('ファイルが大きすぎます。書き出したファイルを選んでください。'); return }
     const next = parseImported(await file.text())
     if (!next) { setIoMsg('読み込めませんでした。書き出したファイルを選んでください。'); return }
-    const msg = next.reflections
-      ? '今のチェック状態と振り返りを、このファイルの内容で置きかえます。よろしいですか？'
-      : '今のチェック状態を、このファイルの内容で置きかえます(このファイルに振り返りは入っていないので、振り返りは今のまま残します)。よろしいですか？'
+    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : ''].filter(Boolean).join('と')
+    const msg = `今の${parts}を、このファイルの内容で置きかえます(ファイルに入っていないものは今のまま残します)。よろしいですか？`
     if (!window.confirm(msg)) return
     saveState(next.state)
     setCheckState(next.state)
     if (next.reflections) { saveReflections(next.reflections); setReflections(next.reflections) }
+    if (next.exams) { saveExams(next.exams); setExams(next.exams) }
     setIoMsg('読み込みました。')
   }
 
@@ -830,8 +977,7 @@ function ChronicleInner() {
           {/* 等級カード群 */}
           <div style={{ position: 'relative', zIndex: 1 }}>
             {LEVELS.map((lv, idx) => {
-              const prevDone = idx === 0 ||
-                countDone(LEVELS[idx - 1], checkState) === countAll(LEVELS[idx - 1])
+              const prevDone = idx === 0 || levelComplete(LEVELS[idx - 1], checkState, exams)
               return (
                 <LevelCard
                   key={lv.id}
@@ -842,6 +988,9 @@ function ChronicleInner() {
                   onToggle={handleToggle}
                   reflection={reflections[lv.id]}
                   onSaveReflection={handleSaveReflection}
+                  exams={exams}
+                  onAddExam={handleAddExam}
+                  onRemoveExam={handleRemoveExam}
                 />
               )
             })}
@@ -881,9 +1030,9 @@ function ChronicleInner() {
             background: '#080502',
             position: 'relative', zIndex: 1,
           }}>
-            ― チェック状態と振り返りはこのブラウザに自動保存されます ―
+            ― チェック状態・振り返り・本試験の記録はこのブラウザに自動保存されます ―
             <div style={{ marginTop: 10, display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', letterSpacing: '0.05em' }}>
-              <button type="button" onClick={() => { exportState(checkState, reflections); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
+              <button type="button" onClick={() => { exportState(checkState, reflections, exams); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
                 style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
                 記録を書き出す(控え)
               </button>
