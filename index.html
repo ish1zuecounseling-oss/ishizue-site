@@ -18,6 +18,8 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      // 運営者のアクセスを数えない: /admin のページと、運営ページの閲覧キーを保存している端末では計測を止める
+      try { if (location.pathname.indexOf('/admin') === 0 || localStorage.getItem('ishizue_views_key')) window['ga-disable-G-BSTXP0BZC2'] = true; } catch (e) {}
       gtag('js', new Date());
       gtag('config', 'G-BSTXP0BZC2');
     </script>
