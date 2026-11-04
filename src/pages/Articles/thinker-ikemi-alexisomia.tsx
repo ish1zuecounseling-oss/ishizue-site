@@ -195,6 +195,7 @@ export default function ThinkerIkemiAlexisomia() {
           <li>・<Link to="/articles/helper-self-neglect" className={linkCls}>支援職のセルフネグレクト</Link></li>
           <li>・<Link to="/articles/body-stays-tense" className={linkCls}>なぜ休んでも緊張が抜けないのか</Link></li>
           <li>・<Link to="/articles/thinker-nishida-pure-experience" className={linkCls}>考える前の、ありのままの経験(西田幾多郎から読む)</Link></li>
+          <li>・<Link to="/articles/thinker-merleau-ponty-body" className={linkCls}>体は、頭より先に知っている(メルロ＝ポンティから読む)</Link></li>
         </ul>
         <p className="text-xs text-stone-400 pt-2">
           「偉人・学者から学ぶ」シリーズは、<Link to="/articles" className={linkCls}>心理記事一覧</Link>の「知る・理解する」→「偉人・学者から」にまとめています。
