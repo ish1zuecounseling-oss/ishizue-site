@@ -1988,6 +1988,14 @@ export default function OpsDashboard() {
     const back = tab
     const files: File[] = []
     const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" })
+    // スマホの狭い幅でも、横スクロールの表が切れないように、撮る間だけ幅を広げてスクロールを外す
+    const node = contentRef.current
+    const prevWidth = node?.style.width ?? ""
+    const styleTag = document.createElement("style")
+    styleTag.textContent = "[data-snap] .overflow-x-auto{overflow:visible !important}"
+    document.head.appendChild(styleTag)
+    if (node) { node.setAttribute("data-snap", ""); node.style.width = "860px" }
+    const restore = () => { if (node) { node.removeAttribute("data-snap"); node.style.width = prevWidth } styleTag.remove() }
     try {
       const { toBlob } = await import("html-to-image")
       for (let i = 0; i < SNAP_TABS.length; i++) {
@@ -2001,12 +2009,14 @@ export default function OpsDashboard() {
         const blob = await toBlob(el, { backgroundColor: BG, pixelRatio: 2, skipFonts: true, cacheBust: true })
         if (blob) files.push(new File([blob], `dashboard-${today}-${i + 1}-${label}.png`, { type: "image/png" }))
       }
+      restore()
       setTab(back)
       setSnap("保存しています…")
       await sleep(100)
       if (files.length) await shareOrDownload(files)
       setSnap("")
     } catch (e) {
+      restore()
       setTab(back)
       setSnap("")
       alert("画像の保存に失敗しました:" + (e instanceof Error ? e.message : String(e)))
