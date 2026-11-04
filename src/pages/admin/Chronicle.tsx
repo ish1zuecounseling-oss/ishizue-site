@@ -2,9 +2,10 @@
 // 管理画面 — 成長の書
 // ルーティング: <Route path="/admin/chronicle" element={<Chronicle />} />
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, type CSSProperties } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
+import { refsFor, type TaskRefs, type RefKind } from '../../data/chronicleRefs'
 
 // ── パスワード設定 ──────────────────────────────────────
 // 自分用・非公開ページなので簡易実装。変更はこの1行だけ。
@@ -29,13 +30,86 @@ function saveState(s: CheckState) {
   } catch { /* quota exceeded etc. */ }
 }
 
+// ── 等級ごとの振り返り(完全習得したときに書く) ──────────────
+const REFLECTION_KEY = 'ishizue_chronicle_reflections_v1'
+type Reflection = { learned: string; remaining: string; apply: string; updatedAt: string }
+type Reflections = Record<string, Reflection>
+const REFLECTION_FIELDS: { key: 'learned' | 'remaining' | 'apply'; label: string; hint: string }[] = [
+  { key: 'learned', label: '習得できたこと', hint: '何ができるようになったか' },
+  { key: 'remaining', label: '課題として残ったこと', hint: 'まだ難しいこと・揺れやすい場面' },
+  { key: 'apply', label: '実践への活用', hint: '実際の面談でどう活かすか' },
+]
+
+function loadReflections(): Reflections {
+  try {
+    return JSON.parse(localStorage.getItem(REFLECTION_KEY) || '{}')
+  } catch {
+    return {}
+  }
+}
+
+function saveReflections(r: Reflections) {
+  try {
+    localStorage.setItem(REFLECTION_KEY, JSON.stringify(r))
+  } catch { /* quota exceeded etc. */ }
+}
+
+const fmtDate = (iso: string) => {
+  try { return new Date(iso).toLocaleDateString('ja-JP', { timeZone: 'Asia/Tokyo' }) } catch { return '' }
+}
+
 // ── ヘルパー ───────────────────────────────────────────
 function countAll(lv: LevelData) {
   return Object.values(lv.tasks).flat().length
 }
 
+// 今の課題として定義されているものだけを数える(課題を入れ替えたときに、古い記録が数に混ざらないように)
 function countDone(lv: LevelData, state: CheckState) {
-  return Object.values(state[lv.id] ?? {}).filter(Boolean).length
+  const saved = state[lv.id] ?? {}
+  return Object.entries(lv.tasks).reduce(
+    (n, [cat, items]) => n + items.filter((_, i) => saved[`${cat}_${i}`]).length,
+    0,
+  )
+}
+
+// ── 記録の書き出し・読み込み(ブラウザのデータが消えたときのための控え) ──
+function exportState(s: CheckState, reflections: Reflections) {
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
+  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 2, savedAt: new Date().toISOString(), state: s, reflections }, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `seichou-no-sho-${today}.json`
+  a.click()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}
+
+function parseImported(text: string): { state: CheckState; reflections: Reflections | null } | null {
+  try {
+    const raw = JSON.parse(text)
+    // 振り返り(version 2 以降)。形が合わないものは読み飛ばす
+    let reflections: Reflections | null = null
+    if (raw && typeof raw === 'object' && raw.reflections && typeof raw.reflections === 'object' && !Array.isArray(raw.reflections)) {
+      reflections = {}
+      for (const [lv, r] of Object.entries(raw.reflections as Record<string, unknown>)) {
+        if (!r || typeof r !== 'object') continue
+        const o = r as Record<string, unknown>
+        const str = (v: unknown) => (typeof v === 'string' ? v.slice(0, 5000) : '')
+        reflections[lv] = { learned: str(o.learned), remaining: str(o.remaining), apply: str(o.apply), updatedAt: str(o.updatedAt) }
+      }
+    }
+    const st = raw && typeof raw === 'object' && 'state' in raw ? raw.state : raw
+    if (!st || typeof st !== 'object' || Array.isArray(st)) return null
+    const out: CheckState = {}
+    for (const [lv, tasks] of Object.entries(st as Record<string, unknown>)) {
+      if (!tasks || typeof tasks !== 'object' || Array.isArray(tasks)) return null
+      out[lv] = {}
+      for (const [k, v] of Object.entries(tasks as Record<string, unknown>)) out[lv][k] = v === true
+    }
+    return { state: out, reflections }
+  } catch {
+    return null
+  }
 }
 
 // ── サブコンポーネント ─────────────────────────────────
@@ -171,6 +245,7 @@ function TasksBlock({ lv, state, unlocked, onToggle }: TasksBlockProps) {
                 id={answerKey}
                 label={label}
                 answer={answer}
+                sources={refsFor(lv.id, cat, i)}
                 checked={checked}
                 unlocked={unlocked}
                 accent={lv.accent}
@@ -184,6 +259,33 @@ function TasksBlock({ lv, state, unlocked, onToggle }: TasksBlockProps) {
   )
 }
 
+// ── 根拠資料(熟読用) ──────────────────────────────────
+const KIND_COLOR: Record<RefKind, string> = { '法令': '#c9933a', '公的資料': '#7aa0c9', '倫理綱領': '#b08ad0', '研究': '#7ab88a', '専門書': '#a08a6a' }
+
+function SourceList({ data, accent }: { data: TaskRefs; accent: string }) {
+  return (
+    <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px dashed ${accent}55` }}>
+      <div style={{ fontSize: 10, letterSpacing: '0.15em', color: accent, marginBottom: 6 }}>📚 根拠・熟読する資料</div>
+      {data.note && (
+        <div style={{ fontSize: 11, lineHeight: 1.8, color: '#d8b070', background: '#1a1208', border: '1px solid #3d2a12', borderRadius: 3, padding: '6px 9px', marginBottom: 8 }}>
+          ⚠ {data.note}
+        </div>
+      )}
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        {data.refs.map((r, i) => (
+          <li key={i} style={{ marginBottom: 7, lineHeight: 1.7 }}>
+            <span style={{ display: 'inline-block', fontSize: 9, color: '#0a0702', background: KIND_COLOR[r.k], borderRadius: 2, padding: '0 5px', marginRight: 6, verticalAlign: 1 }}>{r.k}</span>
+            {r.u
+              ? <a href={r.u} target="_blank" rel="noopener noreferrer" style={{ color: '#e6c98a', textDecoration: 'underline', textUnderlineOffset: 2 }}>{r.t}</a>
+              : <span style={{ color: '#e6c98a' }}>{r.t}</span>}
+            {r.read && <div style={{ fontSize: 10.5, color: '#8a7350', marginLeft: 2 }}>読みどころ：{r.read}</div>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 // ── TaskRow: チェック行 + 答え折りたたみ ─────────────────
 interface TaskRowProps {
   id: string
@@ -193,9 +295,10 @@ interface TaskRowProps {
   unlocked: boolean
   accent: string
   onToggle: () => void
+  sources?: TaskRefs
 }
 
-function TaskRow({ id, label, answer, checked, unlocked, accent, onToggle }: TaskRowProps) {
+function TaskRow({ id, label, answer, sources, checked, unlocked, accent, onToggle }: TaskRowProps) {
   const [ansOpen, setAnsOpen] = useState(false)
   const hasAnswer = answer.trim().length > 0
 
@@ -273,8 +376,67 @@ function TaskRow({ id, label, answer, checked, unlocked, accent, onToggle }: Tas
           letterSpacing: '0.03em',
         }}>
           {answer}
+          {sources && <SourceList data={sources} accent={accent} />}
         </div>
       )}
+    </div>
+  )
+}
+
+function ReflectionBlock({ lv, value, onSave }: { lv: LevelData; value?: Reflection; onSave: (r: Reflection) => void }) {
+  const [editing, setEditing] = useState(!value)
+  const [draft, setDraft] = useState({ learned: value?.learned ?? '', remaining: value?.remaining ?? '', apply: value?.apply ?? '' })
+  const box: CSSProperties = { borderTop: '1px solid #2a1f0e', background: '#0c0904', padding: '16px 20px' }
+  const head = (
+    <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: 13, fontWeight: 700, color: lv.accent, letterSpacing: '0.08em', marginBottom: 10 }}>
+      振り返りの記
+      {value?.updatedAt && <span style={{ fontSize: 10, fontWeight: 400, color: '#7a6040', marginLeft: 10 }}>{fmtDate(value.updatedAt)} 記</span>}
+    </div>
+  )
+  if (!editing && value) {
+    return (
+      <div style={box}>
+        {head}
+        {REFLECTION_FIELDS.map(f => (
+          <div key={f.key} style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: 10, letterSpacing: '0.12em', color: '#8a6a3a', marginBottom: 3 }}>{f.label}</div>
+            <div style={{ fontSize: 13, lineHeight: 1.9, color: '#d8c7a4', whiteSpace: 'pre-wrap' }}>{value[f.key] || '—'}</div>
+          </div>
+        ))}
+        <button type="button" onClick={() => setEditing(true)}
+          style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+          書き直す
+        </button>
+      </div>
+    )
+  }
+  return (
+    <div style={box}>
+      {head}
+      <p style={{ fontSize: 11, color: '#8a6a3a', lineHeight: 1.8, marginBottom: 12 }}>
+        この等級で得たものを、自分の言葉で残しておきましょう。空欄があっても保存できます。
+      </p>
+      {REFLECTION_FIELDS.map(f => (
+        <label key={f.key} style={{ display: 'block', marginBottom: 12 }}>
+          <span style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', color: '#c9a96e', marginBottom: 4 }}>
+            {f.label}<span style={{ color: '#6b5030', marginLeft: 8, letterSpacing: 0 }}>{f.hint}</span>
+          </span>
+          <textarea value={draft[f.key]} onChange={e => setDraft(d => ({ ...d, [f.key]: e.target.value }))} rows={3} maxLength={2000}
+            style={{ width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '8px 10px', fontSize: 13, lineHeight: 1.8, fontFamily: 'inherit', resize: 'vertical' }} />
+        </label>
+      ))}
+      <div style={{ display: 'flex', gap: 10 }}>
+        <button type="button" onClick={() => { onSave({ ...draft, updatedAt: new Date().toISOString() }); setEditing(false) }}
+          style={{ fontSize: 12, color: '#0a0702', background: '#c9933a', border: 'none', borderRadius: 4, padding: '6px 14px', cursor: 'pointer', fontWeight: 700 }}>
+          記録する
+        </button>
+        {value && (
+          <button type="button" onClick={() => { setDraft({ learned: value.learned, remaining: value.remaining, apply: value.apply }); setEditing(false) }}
+            style={{ fontSize: 11, color: '#8a6a3a', background: 'transparent', border: '1px solid #3d2a12', borderRadius: 4, padding: '6px 12px', cursor: 'pointer' }}>
+            やめる
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -285,9 +447,11 @@ interface LevelCardProps {
   state: CheckState
   unlocked: boolean
   onToggle: (lvId: string, key: string) => void
+  reflection?: Reflection
+  onSaveReflection: (lvId: string, r: Reflection) => void
 }
 
-function LevelCard({ lv, idx, state, unlocked, onToggle }: LevelCardProps) {
+function LevelCard({ lv, idx, state, unlocked, onToggle, reflection, onSaveReflection }: LevelCardProps) {
   const [open, setOpen] = useState(false)
   const total = countAll(lv)
   const done = countDone(lv, state)
@@ -407,6 +571,9 @@ function LevelCard({ lv, idx, state, unlocked, onToggle }: LevelCardProps) {
               </div>
             </div>
           )}
+
+          {/* 振り返り(完全習得した等級だけ) */}
+          {allDone && <ReflectionBlock lv={lv} value={reflection} onSave={r => onSaveReflection(lv.id, r)} />}
 
           {/* ロック表示 */}
           {!unlocked && (
@@ -544,6 +711,30 @@ function ChronicleInner() {
     })
   }, [])
 
+  const [reflections, setReflections] = useState<Reflections>(loadReflections)
+  const handleSaveReflection = useCallback((lvId: string, r: Reflection) => {
+    setReflections(prev => {
+      const next = { ...prev, [lvId]: r }
+      saveReflections(next)
+      return next
+    })
+  }, [])
+  const [ioMsg, setIoMsg] = useState('')
+  const handleImport = async (file: File | undefined) => {
+    if (!file) return
+    if (file.size > 1_000_000) { setIoMsg('ファイルが大きすぎます。書き出したファイルを選んでください。'); return }
+    const next = parseImported(await file.text())
+    if (!next) { setIoMsg('読み込めませんでした。書き出したファイルを選んでください。'); return }
+    const msg = next.reflections
+      ? '今のチェック状態と振り返りを、このファイルの内容で置きかえます。よろしいですか？'
+      : '今のチェック状態を、このファイルの内容で置きかえます(このファイルに振り返りは入っていないので、振り返りは今のまま残します)。よろしいですか？'
+    if (!window.confirm(msg)) return
+    saveState(next.state)
+    setCheckState(next.state)
+    if (next.reflections) { saveReflections(next.reflections); setReflections(next.reflections) }
+    setIoMsg('読み込みました。')
+  }
+
   const totalAll = LEVELS.reduce((s, lv) => s + countAll(lv), 0)
   const doneAll = LEVELS.reduce((s, lv) => s + countDone(lv, checkState), 0)
   const globalPct = Math.round((doneAll / totalAll) * 100)
@@ -649,10 +840,37 @@ function ChronicleInner() {
                   state={checkState}
                   unlocked={prevDone}
                   onToggle={handleToggle}
+                  reflection={reflections[lv.id]}
+                  onSaveReflection={handleSaveReflection}
                 />
               )
             })}
           </div>
+
+          {/* 振り返りの記録(これまでの等級をまとめて読む) */}
+          {LEVELS.some(lv => reflections[lv.id]) && (
+            <details style={{ borderTop: '2px solid #3d2a12', background: '#0c0904', padding: '14px 24px', position: 'relative', zIndex: 1 }}>
+              <summary style={{ cursor: 'pointer', fontFamily: "'Shippori Mincho', serif", fontSize: 14, fontWeight: 700, color: '#e6b555', letterSpacing: '0.08em' }}>
+                振り返りの記録を読む({LEVELS.filter(lv => reflections[lv.id]).length}等級)
+              </summary>
+              {LEVELS.filter(lv => reflections[lv.id]).map(lv => {
+                const r = reflections[lv.id]
+                return (
+                  <div key={lv.id} style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #2a1f0e' }}>
+                    <div style={{ fontSize: 11, letterSpacing: '0.12em', color: lv.accent, marginBottom: 6 }}>
+                      {lv.num}　{lv.name}{r.updatedAt && <span style={{ color: '#7a6040', marginLeft: 8 }}>{fmtDate(r.updatedAt)}</span>}
+                    </div>
+                    {REFLECTION_FIELDS.map(f => (
+                      <div key={f.key} style={{ marginBottom: 8 }}>
+                        <div style={{ fontSize: 10, color: '#8a6a3a', letterSpacing: '0.1em' }}>{f.label}</div>
+                        <div style={{ fontSize: 13, lineHeight: 1.9, color: '#d8c7a4', whiteSpace: 'pre-wrap' }}>{r[f.key] || '—'}</div>
+                      </div>
+                    ))}
+                  </div>
+                )
+              })}
+            </details>
+          )}
 
           {/* フッター */}
           <footer style={{
@@ -663,7 +881,19 @@ function ChronicleInner() {
             background: '#080502',
             position: 'relative', zIndex: 1,
           }}>
-            ― チェック状態はこのブラウザに自動保存されます ―
+            ― チェック状態と振り返りはこのブラウザに自動保存されます ―
+            <div style={{ marginTop: 10, display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', letterSpacing: '0.05em' }}>
+              <button type="button" onClick={() => { exportState(checkState, reflections); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
+                style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+                記録を書き出す(控え)
+              </button>
+              <label style={{ fontSize: 11, color: '#c9a96e', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
+                控えから読み込む
+                <input type="file" accept="application/json,.json" style={{ display: 'none' }}
+                  onChange={e => { handleImport(e.target.files?.[0]); e.target.value = '' }} />
+              </label>
+            </div>
+            {ioMsg && <p role="status" style={{ marginTop: 6, fontSize: 11, color: '#8a7350', letterSpacing: '0.05em' }}>{ioMsg}</p>}
           </footer>
         </div>
       </div>
