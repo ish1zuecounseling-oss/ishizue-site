@@ -5,8 +5,9 @@
 import { useState, useCallback, type CSSProperties } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
-import { refsFor, type TaskRefs, type RefKind } from '../../data/chronicleRefs'
-import { EXAMINER_PROMPTS, EXAMINER_NAMES, EXAM_REQUIRED } from '../../data/chronicleExaminers'
+import { refsFor, STRENGTH_LABEL, type TaskRefs, type RefKind, type Ref, type Verify, type Strength } from '../../data/chronicleRefs'
+import { DailyPageBlock, loadDaily, saveDaily, cleanDaily, type DailyStore } from './ChronicleDaily'
+import { INDICATORS, type IndKey, EXAMINER_PROMPTS, EXAMINER_NAMES, EXAM_REQUIRED } from '../../data/chronicleExaminers'
 
 // ── パスワード設定 ──────────────────────────────────────
 // 自分用・非公開ページなので簡易実装。変更はこの1行だけ。
@@ -61,10 +62,42 @@ const fmtDate = (iso: string) => {
 
 // ── 本試験の結果(試験官プロンプトで受験し、結果を自分で記録する) ──
 const EXAM_KEY = 'ishizue_chronicle_exam_v1'
-type ExamResult = 'pass' | 'retry' | 'hold'
-type ExamRecord = { result: ExamResult; date: string; memo: string }
+type ExamResult = 'pass' | 'retry' | 'hold' | 'practice'
+// logic / sense … 試験官がつけた点数(0〜100)。現在地を見るためのもので、合否には使わない
+// ind … 面接全体の6指標(0〜4 または 'na'=観察なし)。indq … 根拠の発言の引用。どちらも振り返り用で、合否・2軸の点数には使わない
+type IndValue = number | 'na'
+type ExamRecord = { result: ExamResult; date: string; memo: string; logic?: number; sense?: number; ind?: Partial<Record<IndKey, IndValue>>; indq?: Partial<Record<IndKey, string>> }
 type ExamRecords = Record<string, ExamRecord[]>
-const EXAM_LABEL: Record<ExamResult, string> = { pass: '合格', retry: '再挑戦', hold: '判定保留' }
+const EXAM_LABEL: Record<ExamResult, string> = { pass: '合格', retry: '再挑戦', hold: '判定保留', practice: '練習' }
+const toInd = (v: unknown): IndValue | undefined => v === 'na' ? 'na' : typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 4 ? v : undefined
+function cleanInd(raw: unknown): { ind?: ExamRecord['ind']; indq?: ExamRecord['indq'] } {
+  if (!raw || typeof raw !== 'object') return {}
+  const r = raw as Record<string, unknown>
+  const ind: Partial<Record<IndKey, IndValue>> = {}, indq: Partial<Record<IndKey, string>> = {}
+  for (const d of INDICATORS) {
+    const v = toInd((r.ind as Record<string, unknown> | undefined)?.[d.key]); if (v !== undefined) ind[d.key] = v
+    const q = (r.indq as Record<string, unknown> | undefined)?.[d.key]; if (typeof q === 'string' && q.trim()) indq[d.key] = q.slice(0, 500)
+  }
+  return { ind: Object.keys(ind).length ? ind : undefined, indq: Object.keys(indq).length ? indq : undefined }
+}
+// 試験官の結果の【6指標】ブロックを読み取る
+function parseIndBlock(text: string): { ind: Partial<Record<IndKey, IndValue>>; indq: Partial<Record<IndKey, string>> } {
+  const ind: Partial<Record<IndKey, IndValue>> = {}, indq: Partial<Record<IndKey, string>> = {}
+  for (const line of text.split(/\r?\n/)) {
+    const m = line.trim().replace(/^[-・*]\s*/, '').match(/^(.+?)\s*[:：]\s*(観察なし|[0-4０-４])\s*(?:[|｜]\s*(.*))?$/)
+    if (!m) continue
+    const d = INDICATORS.find(x => x.name === m[1].trim())
+    if (!d) continue
+    ind[d.key] = m[2] === '観察なし' ? 'na' : Number(m[2].replace(/[０-４]/, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0)))
+    const q = (m[3] ?? '').trim().replace(/^「|」$/g, '')
+    if (q) indq[d.key] = q.slice(0, 500)
+  }
+  return { ind, indq }
+}
+const toScore = (v: unknown): number | undefined => {
+  const n = typeof v === 'number' ? v : typeof v === 'string' && v.trim() !== '' ? Number(v) : NaN
+  return Number.isFinite(n) && n >= 0 && n <= 100 ? Math.round(n) : undefined
+}
 
 function loadExams(): ExamRecords {
   try {
@@ -103,9 +136,9 @@ function levelComplete(lv: LevelData, state: CheckState, exams: ExamRecords) {
 }
 
 // ── 記録の書き出し・読み込み(ブラウザのデータが消えたときのための控え) ──
-function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords) {
+function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords, daily: DailyStore) {
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
-  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 3, savedAt: new Date().toISOString(), state: s, reflections, exams }, null, 2)], { type: 'application/json' })
+  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 4, savedAt: new Date().toISOString(), state: s, reflections, exams, daily: { pages: daily.pages, sched: daily.sched } }, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -114,7 +147,7 @@ function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null } | null {
+function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null; daily: DailyStore | null } | null {
   try {
     const raw = JSON.parse(text)
     // 振り返り(version 2 以降)。形が合わないものは読み飛ばす
@@ -144,11 +177,13 @@ function parseImported(text: string): { state: CheckState; reflections: Reflecti
         if (!Array.isArray(list)) continue
         exams[lv] = list
           .filter((x): x is Record<string, unknown> => !!x && typeof x === 'object')
-          .filter(x => x.result === 'pass' || x.result === 'retry' || x.result === 'hold')
-          .map(x => ({ result: x.result as ExamResult, date: typeof x.date === 'string' ? x.date.slice(0, 40) : '', memo: typeof x.memo === 'string' ? x.memo.slice(0, 2000) : '' }))
+          .filter(x => x.result === 'pass' || x.result === 'retry' || x.result === 'hold' || x.result === 'practice')
+          .map(x => ({ result: x.result as ExamResult, date: typeof x.date === 'string' ? x.date.slice(0, 40) : '', memo: typeof x.memo === 'string' ? x.memo.slice(0, 2000) : '', logic: toScore(x.logic), sense: toScore(x.sense), ...cleanInd(x) }))
       }
     }
-    return { state: out, reflections, exams }
+    // 今日の一頁(version 4 以降)
+    const daily = raw && typeof raw === 'object' && raw.daily ? cleanDaily(raw.daily) : null
+    return { state: out, reflections, exams, daily }
   } catch {
     return null
   }
@@ -304,26 +339,91 @@ function TasksBlock({ lv, state, unlocked, onToggle }: TasksBlockProps) {
 // ── 根拠資料(熟読用) ──────────────────────────────────
 const KIND_COLOR: Record<RefKind, string> = { '法令': '#c9933a', '公的資料': '#7aa0c9', '倫理綱領': '#b08ad0', '研究': '#7ab88a', '専門書': '#a08a6a' }
 
+const VERIFY_COLOR: Record<Verify, string> = { '本文確認': '#9fc98a', '所在確認': '#c9a96e', '未確認': '#8a7d70' }
+const STRENGTH_COLOR: Record<Strength, string> = { A: '#c9933a', B: '#7ab88a', C: '#7aa0c9', D: '#9a9086' }
+
+// リンク先で何が読めるか
+type Access = 'full' | 'abstract' | 'none'
+function access(r: Ref): Access { return !r.u ? 'none' : r.free ? 'full' : 'abstract' }
+const ACCESS: Record<Access, { label: string; c: string }> = {
+  full: { label: '無料で本文を読める', c: '#9fc98a' },
+  abstract: { label: 'リンク先は要旨・書誌のみ', c: '#c9a96e' },
+  none: { label: 'リンクなし(書籍)', c: '#8a7d70' },
+}
+
+function StartBox({ st, accent }: { st: NonNullable<TaskRefs['start']>; accent: string }) {
+  const r = st.r
+  return (
+    <div style={{ border: `1px solid ${accent}88`, background: '#120d06', borderRadius: 3, padding: '8px 10px', marginBottom: 10 }}>
+      <div style={{ fontSize: 10, letterSpacing: '0.12em', color: '#9fc98a', marginBottom: 4 }}>▶ まず読む{st.min ? `(約${st.min}分)` : ''}</div>
+      <div style={{ fontSize: 11.5, lineHeight: 1.7 }}>
+        {r.u
+          ? <a href={r.u} target="_blank" rel="noopener noreferrer" style={{ color: '#e6c98a', textDecoration: 'underline', textUnderlineOffset: 2 }}>{r.t}</a>
+          : <span style={{ color: '#e6c98a' }}>{r.t}</span>}
+      </div>
+      {st.where && <div style={{ fontSize: 11, color: '#c9b48a', marginTop: 2 }}>📍 {st.where}</div>}
+      <div style={{ fontSize: 11, color: '#d8c7a4', marginTop: 4, lineHeight: 1.7 }}>この課題との関係：{st.why}</div>
+    </div>
+  )
+}
+
+function RefItem({ r }: { r: Ref; key?: number }) {
+  return (
+    <li style={{ marginBottom: 7, lineHeight: 1.7 }}>
+      <span style={{ display: 'inline-block', fontSize: 9, color: '#0a0702', background: KIND_COLOR[r.k], borderRadius: 2, padding: '0 5px', marginRight: 6, verticalAlign: 1 }}>{r.k}</span>
+      {r.u
+        ? <a href={r.u} target="_blank" rel="noopener noreferrer" style={{ color: '#e6c98a', textDecoration: 'underline', textUnderlineOffset: 2 }}>{r.t}</a>
+        : <span style={{ color: '#e6c98a' }}>{r.t}</span>}
+      <span style={{ fontSize: 9, color: VERIFY_COLOR[r.v], border: `1px solid ${VERIFY_COLOR[r.v]}`, borderRadius: 2, padding: '0 4px', marginLeft: 6, verticalAlign: 1, whiteSpace: 'nowrap' }}>{r.v}</span>
+      <span style={{ fontSize: 9, color: '#0a0702', background: ACCESS[access(r)].c, borderRadius: 2, padding: '0 4px', marginLeft: 4, verticalAlign: 1, whiteSpace: 'nowrap' }}>{ACCESS[access(r)].label}</span>
+      {(r.where || r.min) && (
+        <div style={{ fontSize: 10.5, color: '#c9b48a', marginLeft: 2 }}>
+          {r.where && <>📍 {r.where}</>}{r.min ? <>{r.where ? '　' : ''}⏱ 約{r.min}分</> : null}
+        </div>
+      )}
+      {r.read && <div style={{ fontSize: 10.5, color: '#8a7350', marginLeft: 2 }}>読みどころ：{r.read}</div>}
+      {r.cite && <div style={{ fontSize: 10, color: '#a08a6a', marginLeft: 2 }}>※ {r.cite}</div>}
+    </li>
+  )
+}
+
+// 無料で読める資料 → 本文確認済み の順で先頭に並べる(同じ条件なら元の順)
+function sortRefs(list: Ref[]): Ref[] {
+  const score = (r: Ref) => (r.free && r.u ? 0 : 2) + (r.v === '本文確認' ? 0 : 1)
+  return list.map((r, i) => ({ r, i })).sort((a, b) => score(a.r) - score(b.r) || a.i - b.i).map(x => x.r)
+}
+
 function SourceList({ data, accent }: { data: TaskRefs; accent: string }) {
+  const refs = sortRefs(data.refs)
+  const see = data.see ? sortRefs(data.see) : []
+  const freeCount = [...refs, ...see].filter(r => r.free && r.u).length
   return (
     <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px dashed ${accent}55` }}>
-      <div style={{ fontSize: 10, letterSpacing: '0.15em', color: accent, marginBottom: 6 }}>📚 根拠・熟読する資料</div>
+      <div style={{ fontSize: 10, letterSpacing: '0.15em', color: accent, marginBottom: 6 }}>📚 関連資料と根拠の強さ</div>
+      <div style={{ fontSize: 11, marginBottom: 8, color: '#d8c7a4' }}>
+        <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, color: '#0a0702', background: STRENGTH_COLOR[data.level], borderRadius: 2, padding: '0 6px', marginRight: 6 }}>根拠 {data.level}</span>
+        {STRENGTH_LABEL[data.level]}
+      </div>
+      {data.start
+        ? <StartBox st={data.start} accent={accent} />
+        : <p style={{ fontSize: 10.5, color: '#8a7350', margin: '0 0 8px' }}>この課題には、ネットで短時間に読める本文を確かめた資料がまだありません。下の書籍・要旨から始めてください。</p>}
+      {freeCount > 0 && (
+        <div style={{ fontSize: 10.5, color: '#9fc98a', marginBottom: 6 }}>🌐 ネットで無料で読める資料 {freeCount}件(上から順に読むのがおすすめ)</div>
+      )}
       {data.note && (
         <div style={{ fontSize: 11, lineHeight: 1.8, color: '#d8b070', background: '#1a1208', border: '1px solid #3d2a12', borderRadius: 3, padding: '6px 9px', marginBottom: 8 }}>
           ⚠ {data.note}
         </div>
       )}
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {data.refs.map((r, i) => (
-          <li key={i} style={{ marginBottom: 7, lineHeight: 1.7 }}>
-            <span style={{ display: 'inline-block', fontSize: 9, color: '#0a0702', background: KIND_COLOR[r.k], borderRadius: 2, padding: '0 5px', marginRight: 6, verticalAlign: 1 }}>{r.k}</span>
-            {r.u
-              ? <a href={r.u} target="_blank" rel="noopener noreferrer" style={{ color: '#e6c98a', textDecoration: 'underline', textUnderlineOffset: 2 }}>{r.t}</a>
-              : <span style={{ color: '#e6c98a' }}>{r.t}</span>}
-            {r.read && <div style={{ fontSize: 10.5, color: '#8a7350', marginLeft: 2 }}>読みどころ：{r.read}</div>}
-          </li>
-        ))}
-      </ul>
+      {refs.length > 0
+        ? <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>{refs.map((r, i) => <RefItem key={i} r={r} />)}</ul>
+        : <p style={{ fontSize: 11, color: '#8a7350', margin: '0 0 6px' }}>この課題の文言を直接支える資料はありません。</p>}
+      {see.length > 0 && (
+        <>
+          <div style={{ fontSize: 10, color: '#8a7350', margin: '8px 0 4px' }}>参考(関連はあるが、課題の文言を直接は支えない)</div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, opacity: 0.85 }}>{see.map((r, i) => <RefItem key={i} r={r} />)}</ul>
+        </>
+      )}
     </div>
   )
 }
@@ -426,11 +526,72 @@ function TaskRow({ id, label, answer, sources, checked, unlocked, accent, onTogg
 }
 
 // ── 試験官(ロールプレイ試験のプロンプト) ─────────────────────
+// 6指標の現在地:6指標を記録した直近3回について、指標ごとに観察できた回だけで平均する(観察なしは数値を出さない)
+function IndicatorNow({ records }: { records: ExamRecord[] }) {
+  const recent = records.filter(r => r.ind && Object.keys(r.ind).length > 0).slice(-3)
+  if (recent.length === 0) return null
+  return (
+    <div style={{ marginTop: 12 }}>
+      <div style={{ fontSize: 10.5, color: '#c9a96e', marginBottom: 2 }}>6指標の現在地(6指標を記録した直近{recent.length}回)</div>
+      <p style={{ fontSize: 10, color: '#7a6040', margin: '0 0 4px', lineHeight: 1.6 }}>人を評価する点数ではなく、次に何を練習するかを見つけるための目安です。総合点は出しません。</p>
+      {INDICATORS.map(d => {
+        const vals = recent.map(r => r.ind?.[d.key])
+        const nums = vals.filter((v): v is number => typeof v === 'number')
+        const avg = nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : undefined
+        const c = d.axis === 'ロジック' ? '#9fc98a' : '#c98a9f'
+        return (
+          <div key={d.key} style={{ display: 'grid', gridTemplateColumns: '92px 1fr 92px', gap: 6, alignItems: 'center', fontSize: 10.5, color: '#b09a74', marginBottom: 3 }}>
+            <span style={{ color: c }}>{d.name}</span>
+            <div style={{ height: 8, background: '#1a1208', borderRadius: 2, overflow: 'hidden' }}>
+              {avg !== undefined && <div style={{ width: `${(avg / 4) * 100}%`, height: '100%', background: c }} />}
+            </div>
+            <span style={{ textAlign: 'right' }}>
+              {avg !== undefined ? `${avg.toFixed(1)} / 4` : '観察なし'}
+              <span style={{ display: 'block', fontSize: 9, color: '#7a6040' }}>{vals.map(v => v === undefined ? '–' : v === 'na' ? 'な' : v).join('→')}</span>
+            </span>
+          </div>
+        )
+      })}
+      <p style={{ fontSize: 9.5, color: '#7a6040', margin: '2px 0 0' }}>右下の数字は古い順の記録(な=観察なし、–=未入力)。平均は観察できた回だけで出しています。</p>
+    </div>
+  )
+}
+
+// 点数の推移(新しい順に最大8件を横棒で並べる)
+function ScoreTrend({ records }: { records: ExamRecord[] }) {
+  const scored = records.filter(r => r.logic !== undefined || r.sense !== undefined).slice(-8)
+  if (scored.length === 0) return null
+  const bar = (v: number | undefined, c: string) => (
+    <div style={{ flex: 1, height: 8, background: '#1a1208', borderRadius: 2, overflow: 'hidden' }}>
+      {v !== undefined && <div style={{ width: `${v}%`, height: '100%', background: c }} />}
+    </div>
+  )
+  return (
+    <div style={{ marginTop: 12 }}>
+      <div style={{ fontSize: 10.5, color: '#c9a96e', marginBottom: 4 }}>現在地(点数の推移・新しい順)<span style={{ marginLeft: 8, color: '#9fc98a' }}>■ ロジック</span><span style={{ marginLeft: 6, color: '#c98a9f' }}>■ 感覚</span></div>
+      {[...scored].reverse().map((r, i) => (
+        <div key={i} style={{ display: 'grid', gridTemplateColumns: '64px 1fr 34px', gap: 6, alignItems: 'center', fontSize: 10, color: '#8a7350', marginBottom: 3 }}>
+          <span>{fmtDate(r.date).slice(0, 10)}{r.result === 'practice' ? ' 練' : ''}</span>
+          <div style={{ display: 'grid', gap: 2 }}>{bar(r.logic, '#9fc98a')}{bar(r.sense, '#c98a9f')}</div>
+          <span style={{ textAlign: 'right' }}>{r.logic ?? '—'}/{r.sense ?? '—'}</span>
+        </div>
+      ))}
+      <p style={{ fontSize: 10, color: '#7a6040', margin: '4px 0 0', lineHeight: 1.6 }}>AIの点数は同じ回答でも数点〜十数点ぶれることがあります。1回の上下より、数回分の傾向で見てください。</p>
+    </div>
+  )
+}
+
 function ExaminerBlock({ lv, records, onAdd, onRemove }: { lv: LevelData; records: ExamRecord[]; onAdd: (r: ExamRecord) => void; onRemove: (i: number) => void }) {
   const prompt = EXAMINER_PROMPTS[lv.id]
   const [show, setShow] = useState(false)
   const [msg, setMsg] = useState('')
   const [memo, setMemo] = useState('')
+  const [logic, setLogic] = useState('')
+  const [sense, setSense] = useState('')
+  const [indText, setIndText] = useState('')
+  const [ind, setInd] = useState<Partial<Record<IndKey, IndValue>>>({})
+  const [indq, setIndq] = useState<Partial<Record<IndKey, string>>>({})
+  const [indOpen, setIndOpen] = useState(false)
   const required = EXAM_REQUIRED.includes(lv.id)
   const passed = records.some(r => r.result === 'pass')
   if (!prompt) return null
@@ -455,7 +616,7 @@ function ExaminerBlock({ lv, records, onAdd, onRemove }: { lv: LevelData; record
         </p>
       )}
       <p style={{ fontSize: 11, color: '#8a6a3a', lineHeight: 1.8, marginBottom: 10 }}>
-        プロンプトをAIチャットに貼り付けて送り、「練習開始」(ヒントあり・合否なし)か「試験開始」(合否あり)と送ると始まります。「終了」で口頭試問と判定に進みます。判定は「達成・一部達成・未達・判定不能」の4つで、点数はつきません。実在のクライアントの情報は書き込まないでください。
+        プロンプトをAIチャットに貼り付けて送り、「練習開始」(ヒントあり・合否なし)か「試験開始」(合否あり)と送ると始まります。「終了」で口頭試問と判定に進みます。判定は「達成・一部達成・未達・判定不能」の4つです。あわせて「ロジック」と「感覚」の2つの点数(各100点)が出ます。点数は現在地を見るためのもので、合否には使いません。実在のクライアントの情報は書き込まないでください。
       </p>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <button type="button" onClick={copy} style={{ ...btn, color: '#0a0702', background: '#c9933a', border: 'none', fontWeight: 700 }}>プロンプトをコピー</button>
@@ -469,32 +630,89 @@ function ExaminerBlock({ lv, records, onAdd, onRemove }: { lv: LevelData; record
 
       {/* 本試験の結果の記録 */}
       <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px dashed #3d2a12' }}>
-        <div style={{ fontSize: 11, letterSpacing: '0.1em', color: '#c9a96e', marginBottom: 6 }}>本試験の結果を記録する</div>
+        <div style={{ fontSize: 11, letterSpacing: '0.1em', color: '#c9a96e', marginBottom: 6 }}>結果と点数を記録する</div>
         <p style={{ fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7, marginBottom: 6 }}>
-          「試験開始」で受けた本試験の判定を記録します(練習モードの結果は記録しません)。メモには講評の要点などを。実在の情報は書かないでください。
+          本試験は判定を、練習は点数だけを記録できます(練習の記録は合否に数えません)。点数は試験官の結果の「点数のまとめ」から写してください。メモには講評の要点などを。実在の情報は書かないでください。
         </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 6 }}>
+          {([['ロジック', logic, setLogic], ['感覚', sense, setSense]] as const).map(([label, v, set]) => (
+            <label key={label} style={{ fontSize: 11, color: '#c9a96e' }}>
+              {label}
+              <input type="number" inputMode="numeric" min={0} max={100} value={v} onChange={e => set(e.target.value)} placeholder="0〜100"
+                style={{ width: 72, marginLeft: 6, background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '4px 6px', fontSize: 12 }} />
+              <span style={{ marginLeft: 3 }}>/ 100</span>
+            </label>
+          ))}
+        </div>
+        <button type="button" onClick={() => setIndOpen(v => !v)} style={{ ...btn, marginBottom: 6 }}>{indOpen ? '6指標の入力を閉じる' : '面接全体の6指標を入力する'}</button>
+        {indOpen && (
+          <div style={{ border: '1px solid #3d2a12', borderRadius: 4, padding: '8px 10px', marginBottom: 8 }}>
+            <p style={{ fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7, margin: '0 0 6px' }}>試験官の結果の【6指標】の6行を貼り付けて「読み取る」を押すか、下で直接選んでください。観察なしは欠点ではありません。</p>
+            <textarea value={indText} onChange={e => setIndText(e.target.value)} rows={3} placeholder={'【6指標】\n見立て: 3 |「…」\n…'}
+              style={{ width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '6px 9px', fontSize: 11.5, lineHeight: 1.6, fontFamily: 'inherit' }} />
+            <button type="button" style={{ ...btn, marginTop: 4 }} onClick={() => {
+              const r = parseIndBlock(indText)
+              const n = Object.keys(r.ind).length
+              if (n === 0) { window.alert('6指標の行を読み取れませんでした。「見立て: 3 |「引用」」の形か確かめてください。'); return }
+              setInd(r.ind); setIndq(r.indq)
+            }}>読み取る</button>
+            {INDICATORS.map(d => (
+              <div key={d.key} style={{ marginTop: 6 }}>
+                <label style={{ fontSize: 11, color: d.axis === 'ロジック' ? '#9fc98a' : '#c98a9f' }}>
+                  {d.name}
+                  <select value={ind[d.key] === undefined ? '' : String(ind[d.key])}
+                    onChange={e => { const v = e.target.value; setInd(o => { const n = { ...o }; if (v === '') delete n[d.key]; else n[d.key] = v === 'na' ? 'na' : Number(v); return n }) }}
+                    style={{ marginLeft: 6, background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, fontSize: 11.5 }}>
+                    <option value="">未入力</option><option value="na">観察なし</option>
+                    {[0, 1, 2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                </label>
+                <input value={indq[d.key] ?? ''} onChange={e => setIndq(o => ({ ...o, [d.key]: e.target.value.slice(0, 500) }))} placeholder="根拠の発言(引用)"
+                  style={{ display: 'block', width: '100%', boxSizing: 'border-box', marginTop: 2, background: '#080502', color: '#cdb98f', border: '1px solid #2a1f0e', borderRadius: 4, padding: '3px 7px', fontSize: 11 }} />
+              </div>
+            ))}
+          </div>
+        )}
         <textarea value={memo} onChange={e => setMemo(e.target.value)} rows={2} maxLength={2000} placeholder="例:例外の延長への対応が「一部達成」。代わりの手段を先に示す。"
           style={{ width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '6px 9px', fontSize: 12, lineHeight: 1.7, fontFamily: 'inherit', resize: 'vertical' }} />
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 6 }}>
-          {(['pass', 'retry', 'hold'] as ExamResult[]).map(r => (
+          {(['pass', 'retry', 'hold', 'practice'] as ExamResult[]).map(r => (
             <button key={r} type="button" style={btn}
               onClick={() => {
-                if (!window.confirm(`本試験の結果を「${EXAM_LABEL[r]}」として記録します。よろしいですか？`)) return
-                onAdd({ result: r, date: new Date().toISOString(), memo: memo.trim() }); setMemo('')
+                const lg = toScore(logic), sn = toScore(sense)
+                if ((logic.trim() !== '' && lg === undefined) || (sense.trim() !== '' && sn === undefined)) { window.alert('点数は0〜100の数字で入れてください。'); return }
+                const hasInd = Object.keys(ind).length > 0
+                if (r === 'practice' && lg === undefined && sn === undefined && !hasInd) { window.alert('練習の記録には、点数か6指標を少なくとも一つ入れてください。'); return }
+                const what = r === 'practice' ? '練習の点数' : `本試験の結果「${EXAM_LABEL[r]}」`
+                if (!window.confirm(`${what}を記録します。よろしいですか？`)) return
+                const q = Object.fromEntries(Object.entries(indq).filter(([, v]) => typeof v === 'string' && v.trim())) as ExamRecord['indq']
+                onAdd({ result: r, date: new Date().toISOString(), memo: memo.trim(), logic: lg, sense: sn, ind: hasInd ? { ...ind } : undefined, indq: q && Object.keys(q).length ? q : undefined })
+                setMemo(''); setLogic(''); setSense(''); setInd({}); setIndq({}); setIndText(''); setIndOpen(false)
               }}>
-              {EXAM_LABEL[r]}として記録
+              {r === 'practice' ? '練習の点数として記録' : `本試験「${EXAM_LABEL[r]}」として記録`}
             </button>
           ))}
         </div>
+        <ScoreTrend records={records} />
+        <IndicatorNow records={records} />
         {records.length > 0 && (
           <ul style={{ listStyle: 'none', padding: 0, margin: '10px 0 0' }}>
             {records.map((r, i) => ({ r, i })).reverse().map(({ r, i }) => (
               <li key={i} style={{ fontSize: 11.5, color: '#d8c7a4', lineHeight: 1.7, padding: '5px 0', borderBottom: '1px solid #1a1208' }}>
-                <span style={{ color: r.result === 'pass' ? '#9fc98a' : r.result === 'retry' ? '#e6b555' : '#9a9086', fontWeight: 700, marginRight: 8 }}>{EXAM_LABEL[r.result]}</span>
+                <span style={{ color: r.result === 'pass' ? '#9fc98a' : r.result === 'retry' ? '#e6b555' : r.result === 'practice' ? '#7aa0c9' : '#9a9086', fontWeight: 700, marginRight: 8 }}>{EXAM_LABEL[r.result]}</span>
                 <span style={{ color: '#7a6040' }}>{fmtDate(r.date)}</span>
+                {(r.logic !== undefined || r.sense !== undefined) && (
+                  <span style={{ marginLeft: 8, color: '#c9b48a' }}>ロジック {r.logic ?? '—'}・感覚 {r.sense ?? '—'}</span>
+                )}
+                {r.ind && (
+                  <details style={{ fontSize: 10.5, color: '#b09a74' }}>
+                    <summary style={{ cursor: 'pointer' }}>6指標:{INDICATORS.map(d => `${d.name} ${r.ind?.[d.key] === undefined ? '–' : r.ind[d.key] === 'na' ? '観察なし' : r.ind[d.key]}`).join('・')}</summary>
+                    {INDICATORS.filter(d => r.indq?.[d.key]).map(d => <div key={d.key}>{d.name}:「{r.indq?.[d.key]}」</div>)}
+                  </details>
+                )}
                 {r.memo && <div style={{ whiteSpace: 'pre-wrap', color: '#b09a74' }}>{r.memo}</div>}
                 <button type="button" onClick={() => { if (window.confirm('この記録を削除しますか？')) onRemove(i) }}
-                  style={{ fontSize: 10, color: '#6b5030', background: 'transparent', border: 'none', textDecoration: 'underline', cursor: 'pointer', padding: 0 }}>削除</button>
+                  style={{ fontSize: 10, color: '#6b5030', background: 'transparent', border: 'none', textDecoration: 'underline', cursor: 'pointer', padding: 0, marginLeft: 10 }}>削除</button>
               </li>
             ))}
           </ul>
@@ -866,22 +1084,26 @@ function ChronicleInner() {
       return next
     })
   }, [])
+  const [daily, setDaily] = useState<DailyStore>(loadDaily)
+  const handleDaily = useCallback((d: DailyStore) => { saveDaily(d); setDaily(d) }, [])
   const [ioMsg, setIoMsg] = useState('')
   const handleImport = async (file: File | undefined) => {
     if (!file) return
     if (file.size > 1_000_000) { setIoMsg('ファイルが大きすぎます。書き出したファイルを選んでください。'); return }
     const next = parseImported(await file.text())
     if (!next) { setIoMsg('読み込めませんでした。書き出したファイルを選んでください。'); return }
-    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : ''].filter(Boolean).join('と')
+    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : '', next.daily ? '今日の一頁の記録' : ''].filter(Boolean).join('と')
     const msg = `今の${parts}を、このファイルの内容で置きかえます(ファイルに入っていないものは今のまま残します)。よろしいですか？`
     if (!window.confirm(msg)) return
     saveState(next.state)
     setCheckState(next.state)
     if (next.reflections) { saveReflections(next.reflections); setReflections(next.reflections) }
     if (next.exams) { saveExams(next.exams); setExams(next.exams) }
+    if (next.daily) { saveDaily(next.daily); setDaily(next.daily) }
     setIoMsg('読み込みました。')
   }
 
+  const unlockedIds = LEVELS.filter((_, idx) => idx === 0 || levelComplete(LEVELS[idx - 1], checkState, exams)).map(l => l.id)
   const totalAll = LEVELS.reduce((s, lv) => s + countAll(lv), 0)
   const doneAll = LEVELS.reduce((s, lv) => s + countDone(lv, checkState), 0)
   const globalPct = Math.round((doneAll / totalAll) * 100)
@@ -974,6 +1196,9 @@ function ChronicleInner() {
             </div>
           </div>
 
+          {/* 今日の一頁(毎日の学習) */}
+          <DailyPageBlock levels={LEVELS} unlockedIds={unlockedIds} store={daily} onChange={handleDaily} examLists={Object.values(exams)} />
+
           {/* 等級カード群 */}
           <div style={{ position: 'relative', zIndex: 1 }}>
             {LEVELS.map((lv, idx) => {
@@ -1032,7 +1257,7 @@ function ChronicleInner() {
           }}>
             ― チェック状態・振り返り・本試験の記録はこのブラウザに自動保存されます ―
             <div style={{ marginTop: 10, display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', letterSpacing: '0.05em' }}>
-              <button type="button" onClick={() => { exportState(checkState, reflections, exams); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
+              <button type="button" onClick={() => { exportState(checkState, reflections, exams, daily); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
                 style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
                 記録を書き出す(控え)
               </button>
