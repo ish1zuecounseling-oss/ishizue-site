@@ -90,6 +90,7 @@ type ApiResult = {
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
   monthlyRecord?: Record<string, { users: number; lineClicks: number; reach: number | null; followers: number | null }>
   lineStep?: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
+  aiAssistant?: { ok: boolean; message?: string; pageViews?: number; pageUsers?: number; events?: Record<string, { count: number; users: number }> }
   titleTests?: { ok: boolean; message?: string; rows?: { path: string; since: string; until: string; days: number; clicks: number; impressions: number; position: number; before?: { clicks: number; impressions: number; position: number; days: number } }[] }
 }
 type LineInsight = { date: string; followers: number; targetedReaches: number; blocks: number }
@@ -105,7 +106,7 @@ type Plan = {
   capacity: number | null; launchMonth: string | null; expenseRate?: number; employmentIncome?: number; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
-type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search" | "feedback"
+type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search" | "ai" | "feedback"
 type SortKey = "views" | "change" | "line" | "impressions" | "position"
 
 /** GA4の流入元(デフォルト チャネル グループ)の日本語名と説明 */
@@ -150,6 +151,7 @@ const LINE_EVENT_LABEL: Record<string, string> = {
   closing_line_click: "トップ最下部",
   approach_line_click: "トップ(アプローチ)",
   ai_assistant_line_click: "AIアシスタント",
+  ai_assistant_paused_line_click: "AIアシスタント(受付停止中の案内)",
 }
 
 function readKey(): string {
@@ -1130,6 +1132,75 @@ function LineStepTable({ data }: { data: ApiResult }) {
           {other > 0 && <p className="text-[10px] text-stone-400 px-3 pb-2">日目がわからない訪問 {fmt(other)}回</p>}
         </div>
       )}
+    </div>
+  )
+}
+
+/* ------------------------------ AIアシスタント ------------------------------ */
+// 結果のタイプ・カテゴリ・危機の案内のイベントは 2026-11-06 から送っている(それ以前の期間は0になる)
+const AI_TRACK_SINCE = "2026-11-06"
+const AI_TYPE_LABEL: Record<string, string> = {
+  compassion: "感情を引き受けすぎている",
+  boundary: "境界線が薄くなっている",
+  other_axis: "判断基準が外側にある",
+  impostor: "実力がないと感じ続けている",
+  quit: "もう続けられないと感じている",
+  complex: "複数が重なっている",
+}
+const AI_CAT_LABEL: Record<string, string> = {
+  fatigue: "疲れ・消耗",
+  boundary: "抱え込み・断れない",
+  self_loss: "自分がわからない",
+  self_doubt: "自分への不信・自己否定",
+  career: "仕事・将来",
+  relational: "人間関係・職場",
+}
+
+function AIAssistantPanel({ data }: { data: ApiResult }) {
+  const ai = data.aiAssistant
+  if (!ai?.ok) return <p className="text-[12px] text-stone-400">取得できませんでした{ai?.message ? `(${ai.message})` : ""}</p>
+  const ev = ai.events ?? {}
+  const users = (k: string) => ev[k]?.users ?? 0
+  const count = (k: string) => ev[k]?.count ?? 0
+  const seen = ai.pageUsers ?? 0
+  const analyzed = users("ai_assistant_analyze")
+  const steps = [
+    { label: "ページを見た人", v: seen },
+    { label: "「整理する」を押した人", v: analyzed },
+    { label: "おすすめ記事を押した人", v: users("ai_assistant_matching_click") },
+    { label: "LINEボタンを押した人", v: users("ai_assistant_line_click") + users("ai_assistant_paused_line_click") },
+  ]
+  const types = Object.keys(AI_TYPE_LABEL).map((k) => ({ k, v: count(`ai_assistant_result_${k}`) })).sort((a, b) => b.v - a.v)
+  const typeTotal = types.reduce((n, t) => n + t.v, 0)
+  const cats = Object.keys(AI_CAT_LABEL).map((k) => ({ k, v: count(`ai_assistant_cat_${k}`) })).sort((a, b) => b.v - a.v)
+  const crisis = count("ai_assistant_crisis_shown")
+  const since = AI_TRACK_SINCE.slice(5).replace("-", "/")
+  return (
+    <div className="space-y-5">
+      <p className="text-[11px] text-stone-500 leading-relaxed">直近{data.days}日間(昨日まで)。書かれた文章や、どの項目にチェックしたかは記録していません。</p>
+      <Section title="どこまで進んだか" desc="人数。おすすめ記事とLINEは、同じ人が両方押すこともあります。">
+        <div className="space-y-2.5">
+          {steps.map((s, i) => (
+            <div key={s.label}><Bar label={s.label} value={s.v} max={Math.max(1, seen)} strong={i === 0}
+              right={`${fmt(s.v)}人${i > 0 && seen ? `(${pct(s.v / seen)})` : ""}`} /></div>
+          ))}
+        </div>
+        <p className="text-[10px] text-stone-400 mt-2">「整理する」を押した回数 {fmt(count("ai_assistant_analyze"))}回</p>
+      </Section>
+      <Section title="結果のタイプ" desc={`整理した回数のうち、どのタイプの結果が出たか(${since}以降の記録)。`}>
+        {typeTotal === 0
+          ? <p className="text-[12px] text-stone-400">まだ記録がありません</p>
+          : <div className="space-y-2.5">{types.map((t) => <div key={t.k}><Bar label={AI_TYPE_LABEL[t.k]} value={t.v} max={types[0].v} right={`${fmt(t.v)}回(${pct(t.v / typeTotal)})`} /></div>)}</div>}
+      </Section>
+      <Section title="チェックが入ったカテゴリ" desc={`整理したときに、そのカテゴリの項目が1つ以上チェックされていた回数(${since}以降の記録)。`}>
+        {cats.every((c) => c.v === 0)
+          ? <p className="text-[12px] text-stone-400">まだ記録がありません</p>
+          : <div className="space-y-2.5">{cats.map((c) => <div key={c.k}><Bar label={AI_CAT_LABEL[c.k]} value={c.v} max={Math.max(1, cats[0].v)} right={`${fmt(c.v)}回`} /></div>)}</div>}
+      </Section>
+      <Section title="相談窓口の案内を出した回数" desc={`自由記述に命に関わる言葉があり、相談窓口の案内を表示した回数(${since}以降の記録)。言葉の中身は記録していません。`}>
+        <p className="text-[13px]" style={{ color: INK }}>{fmt(crisis)}回{count("ai_assistant_analyze") > 0 && crisis > 0 ? `(整理した回数の${pct(crisis / count("ai_assistant_analyze"))})` : ""}</p>
+        {crisis > 0 && <p className="text-[10px] text-stone-500 mt-1 leading-relaxed">案内の文面と相談窓口の情報が今も正しいか、定期的に確かめてください。</p>}
+      </Section>
     </div>
   )
 }
@@ -2189,7 +2260,7 @@ export default function OpsDashboard() {
 
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
-          {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"], ["feedback", "ご意見"]] as [Tab, string][]).map(([v, l]) => (
+          {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"], ["ai", "AIアシスタント"], ["feedback", "ご意見"]] as [Tab, string][]).map(([v, l]) => (
             <button key={v} onClick={() => setTab(v)} className="relative px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>
               {l}
               {v === "feedback" && fbOpen > 0 && (
@@ -2385,6 +2456,7 @@ export default function OpsDashboard() {
         )}
 
         {/* ===================== ご意見 ===================== */}
+        {tab === "ai" && data && <AIAssistantPanel data={data} />}
         {tab === "feedback" && <FeedbackPanel adminKey={key} onOpenCount={setFbOpen} />}
 
         {/* ===================== ユーザー ===================== */}
