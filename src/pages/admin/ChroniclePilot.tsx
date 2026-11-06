@@ -224,7 +224,7 @@ export function buildScorePrompt(t: PilotTask, stage: 1 | 2 | 3, a: Answers): st
     '- お手本と言い回しが違っても、観点を満たしていれば「できた」にしてよい。お手本どおりでも、場面に合っていなければ「できた」にしない',
     '- 安全に関わる明らかな問題(話題をそらす、約束だけで済ませる、危険の見落としなど)があれば【安全】に一文で書く。なければ「なし」',
     '- 下の「出力形式」以外は書かない(前置き・まとめ・励ましは不要)')
-  const K = KIND[t.kind]
+  const K = { ...KIND[t.kind], ans: t.ansLabel || KIND[t.kind].ans }
   if (K.note) lines.push(`- ${K.note}`)
   lines.push('', '## 練習問題', `課題:${t.lv} ${t.title}`, `課題のねらい:${t.purpose}`, `段階:${STAGE_DESC[stage]}`, `学習者が書くもの:${t.ask}`, `場面:${sc.sit}`)
   if (sc.say) lines.push(`${t.who}:「${sc.say}」`)
@@ -377,7 +377,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
 
   const t = PILOT.find(p => p.key === key)
   const talk = t ? TALK[t.key] : undefined
-  const K = KIND[t?.kind ?? 'client']
+  const K = { ...KIND[t?.kind ?? 'client'], ans: t?.ansLabel || KIND[t?.kind ?? 'client'].ans }
 
   const reset = (k: string | null) => {
     setKey(k); setStage(1); setR1(''); setCmp1(false); setS1(EMPTY); setObs(''); setHyp(''); setR2(''); setCmp2(false); setS2(EMPTY)
