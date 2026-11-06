@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
 import { refsFor, STRENGTH_LABEL, type TaskRefs, type RefKind, type Ref, type Verify, type Strength } from '../../data/chronicleRefs'
 import { DailyPageBlock, loadDaily, saveDaily, cleanDaily, type DailyStore } from './ChronicleDaily'
+import { PilotBlock, loadPilot, savePilot, cleanPilot, type PilotStore } from './ChroniclePilot'
 import { INDICATORS, type IndKey, EXAMINER_PROMPTS, EXAMINER_NAMES, EXAM_REQUIRED } from '../../data/chronicleExaminers'
 
 // ── パスワード設定 ──────────────────────────────────────
@@ -136,9 +137,9 @@ function levelComplete(lv: LevelData, state: CheckState, exams: ExamRecords) {
 }
 
 // ── 記録の書き出し・読み込み(ブラウザのデータが消えたときのための控え) ──
-function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords, daily: DailyStore) {
+function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords, daily: DailyStore, pilot: PilotStore) {
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
-  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 4, savedAt: new Date().toISOString(), state: s, reflections, exams, daily: { pages: daily.pages, sched: daily.sched } }, null, 2)], { type: 'application/json' })
+  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 5, savedAt: new Date().toISOString(), state: s, reflections, exams, daily: { pages: daily.pages, sched: daily.sched }, pilot }, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -147,7 +148,7 @@ function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null; daily: DailyStore | null } | null {
+function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null; daily: DailyStore | null; pilot: PilotStore | null } | null {
   try {
     const raw = JSON.parse(text)
     // 振り返り(version 2 以降)。形が合わないものは読み飛ばす
@@ -183,7 +184,9 @@ function parseImported(text: string): { state: CheckState; reflections: Reflecti
     }
     // 今日の一頁(version 4 以降)
     const daily = raw && typeof raw === 'object' && raw.daily ? cleanDaily(raw.daily) : null
-    return { state: out, reflections, exams, daily }
+    // 試作練習(version 5 以降)
+    const pilot = raw && typeof raw === 'object' && raw.pilot ? cleanPilot(raw.pilot) : null
+    return { state: out, reflections, exams, daily, pilot }
   } catch {
     return null
   }
@@ -1086,13 +1089,15 @@ function ChronicleInner() {
   }, [])
   const [daily, setDaily] = useState<DailyStore>(loadDaily)
   const handleDaily = useCallback((d: DailyStore) => { saveDaily(d); setDaily(d) }, [])
+  const [pilot, setPilot] = useState<PilotStore>(loadPilot)
+  const handlePilot = useCallback((d: PilotStore) => { savePilot(d); setPilot(d) }, [])
   const [ioMsg, setIoMsg] = useState('')
   const handleImport = async (file: File | undefined) => {
     if (!file) return
     if (file.size > 1_000_000) { setIoMsg('ファイルが大きすぎます。書き出したファイルを選んでください。'); return }
     const next = parseImported(await file.text())
     if (!next) { setIoMsg('読み込めませんでした。書き出したファイルを選んでください。'); return }
-    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : '', next.daily ? '今日の一頁の記録' : ''].filter(Boolean).join('と')
+    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : '', next.daily ? '今日の一頁の記録' : '', next.pilot ? '試作練習の記録' : ''].filter(Boolean).join('と')
     const msg = `今の${parts}を、このファイルの内容で置きかえます(ファイルに入っていないものは今のまま残します)。よろしいですか？`
     if (!window.confirm(msg)) return
     saveState(next.state)
@@ -1100,6 +1105,7 @@ function ChronicleInner() {
     if (next.reflections) { saveReflections(next.reflections); setReflections(next.reflections) }
     if (next.exams) { saveExams(next.exams); setExams(next.exams) }
     if (next.daily) { saveDaily(next.daily); setDaily(next.daily) }
+    if (next.pilot) { savePilot(next.pilot); setPilot(next.pilot) }
     setIoMsg('読み込みました。')
   }
 
@@ -1199,6 +1205,9 @@ function ChronicleInner() {
           {/* 今日の一頁(毎日の学習) */}
           <DailyPageBlock levels={LEVELS} unlockedIds={unlockedIds} store={daily} onChange={handleDaily} examLists={Object.values(exams)} />
 
+          {/* 試作練習(7項目・5課題) */}
+          <PilotBlock store={pilot} onChange={handlePilot} />
+
           {/* 等級カード群 */}
           <div style={{ position: 'relative', zIndex: 1 }}>
             {LEVELS.map((lv, idx) => {
@@ -1257,7 +1266,7 @@ function ChronicleInner() {
           }}>
             ― チェック状態・振り返り・本試験の記録はこのブラウザに自動保存されます ―
             <div style={{ marginTop: 10, display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', letterSpacing: '0.05em' }}>
-              <button type="button" onClick={() => { exportState(checkState, reflections, exams, daily); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
+              <button type="button" onClick={() => { exportState(checkState, reflections, exams, daily, pilot); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
                 style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
                 記録を書き出す(控え)
               </button>

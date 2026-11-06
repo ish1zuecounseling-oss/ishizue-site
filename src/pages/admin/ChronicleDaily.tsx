@@ -14,6 +14,7 @@ import { useMemo, useState, type CSSProperties } from 'react'
 import type { LevelData } from '../../data/chronicleData'
 import { refsFor, DAILY_REFS } from '../../data/chronicleRefs'
 import { DAILY_SCENES, INDICATORS, type IndKey } from '../../data/chronicleExaminers'
+import { TALK, TALK_TYPES, SCENE_TALK, findTalk, type TalkEntry } from '../../data/chronicleTalk'
 
 // ── 出題の間隔(日)。使ってみて調整するときはここを変える ──
 export const DAILY_INTERVALS = {
@@ -162,13 +163,33 @@ function nextSched(prev: Sched | undefined, rating: Rating, date: string): Sched
   return { due: addDays(date, interval), interval, last: rating }
 }
 
+// ── トーク集の表示 ──
+export function TalkCard({ e, lvName, note }: { e: TalkEntry; lvName: string; note?: string }) {
+  return (
+    <div style={{ border: '1px solid #2a3d2a', borderRadius: 4, padding: '7px 10px', background: '#0d120b', marginTop: 6 }}>
+      <div style={{ fontSize: 10.5, color: '#9fc98a' }}>トーク集 {lvName} #{e.n} {e.title}{e.self ? '(自分への言葉)' : ''}{note ? ` ・${note}` : ''}</div>
+      <ul style={{ margin: '4px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#d8c7a4', lineHeight: 1.8 }}>
+        {e.lines.map((l, i) => <li key={i}>{l}</li>)}
+      </ul>
+      {e.byType && (
+        <details style={{ marginTop: 4 }}>
+          <summary style={{ fontSize: 10.5, color: '#9fc98a', cursor: 'pointer' }}>反応タイプ別({e.self ? '相手がこう反応したときの自分' : '相手がこう反応したら'})</summary>
+          <ul style={{ margin: '4px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#d8c7a4', lineHeight: 1.8 }}>
+            {TALK_TYPES.map(t => <li key={t.id}><span style={{ color: '#9fc98a' }}>{t.label}:</span>{e.byType![t.id]}</li>)}
+          </ul>
+        </details>
+      )}
+    </div>
+  )
+}
+
 // ── 見た目 ──
-const box: CSSProperties = { borderBottom: '1px solid #2a1f0e', background: '#0b0804', padding: '16px 20px', position: 'relative', zIndex: 1 }
-const btn: CSSProperties = { fontSize: 11.5, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '6px 12px', cursor: 'pointer' }
-const primary: CSSProperties = { ...btn, color: '#0a0702', background: '#c9933a', border: 'none', fontWeight: 700 }
-const area: CSSProperties = { width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '7px 10px', fontSize: 12.5, lineHeight: 1.7, fontFamily: 'inherit', resize: 'vertical' }
-const stepHead: CSSProperties = { fontSize: 11, letterSpacing: '0.12em', color: '#e6b555', margin: '14px 0 6px' }
-const quiet: CSSProperties = { fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7 }
+export const box: CSSProperties = { borderBottom: '1px solid #2a1f0e', background: '#0b0804', padding: '16px 20px', position: 'relative', zIndex: 1 }
+export const btn: CSSProperties = { fontSize: 11.5, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '6px 12px', cursor: 'pointer' }
+export const primary: CSSProperties = { ...btn, color: '#0a0702', background: '#c9933a', border: 'none', fontWeight: 700 }
+export const area: CSSProperties = { width: '100%', boxSizing: 'border-box', background: '#080502', color: '#e6d5b0', border: '1px solid #3d2a12', borderRadius: 4, padding: '7px 10px', fontSize: 12.5, lineHeight: 1.7, fontFamily: 'inherit', resize: 'vertical' }
+export const stepHead: CSSProperties = { fontSize: 11, letterSpacing: '0.12em', color: '#e6b555', margin: '14px 0 6px' }
+export const quiet: CSSProperties = { fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7 }
 
 export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists }: {
   levels: LevelData[]; unlockedIds: string[]; store: DailyStore; onChange: (d: DailyStore) => void; examLists: IndRecord[][]
@@ -185,6 +206,7 @@ export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists
   const [next, setNext] = useState('')
   const [histOpen, setHistOpen] = useState(false)
   const [whyOpen, setWhyOpen] = useState(false)
+  const [talkOpen, setTalkOpen] = useState(false)
 
   const total = store.pages.length
   const doneToday = store.pages.filter(p => p.date === date).length
@@ -203,7 +225,7 @@ export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists
   const src = task ? refsFor(task.lv.id, task.cat, task.i) : undefined
   const prevPage = task ? [...store.pages].reverse().find(p => p.task === task.key) : undefined
 
-  const reset = () => { setMode(null); setRecall(''); setShown(false); setRating(undefined); setReply(''); setLookShown(false); setRead(false); setNext('') }
+  const reset = () => { setMode(null); setTalkOpen(false); setRecall(''); setShown(false); setRating(undefined); setReply(''); setLookShown(false); setRead(false); setNext('') }
   const start = (m: 'full' | 'mini') => {
     if (!task) return
     if (!today || today.task !== task.key) onChange({ ...store, today: { date, task: task.key, scene: scene?.id, shift } })
@@ -273,6 +295,12 @@ export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists
                     前回({prevPage.date})のあなたの答え{prevPage.rating && `・${RATING_LABEL[prevPage.rating]}`}:{prevPage.recall || '(書かずに確認)'}
                   </div>
                 )}
+                {TALK[task.key] && (
+                  <div style={{ marginTop: 8 }}>
+                    <button type="button" style={{ ...btn, padding: '4px 10px', fontSize: 11 }} onClick={() => setTalkOpen(v => !v)}>{talkOpen ? 'トーク集を閉じる' : 'この課題のトーク集を見る'}</button>
+                    {talkOpen && <TalkCard e={TALK[task.key]} lvName={task.lv.num} />}
+                  </div>
+                )}
                 <div style={{ fontSize: 10.5, color: '#c9a96e', margin: '8px 0 4px' }}>自分の答えはどうでしたか(次に出る時期が決まります)</div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {(['ok', 'half', 'not'] as Rating[]).map(r => (
@@ -302,6 +330,24 @@ export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists
                   <div style={{ ...quiet, marginTop: 4 }}>正解の言い回しは一つではありません。見るポイントの行動が入っているかで見比べてください。</div>
                 </div>
               )}
+              {lookShown && (() => {
+                const fixed = (SCENE_TALK[scene.id] ?? []).filter(k => TALK[k])
+                const auto = reply.trim().length >= 8 ? findTalk(reply, unlockedIds, 2, fixed) : []
+                const lvOf = (k: string) => levels.find(l => l.id === k.split(':')[0])?.num ?? ''
+                return (
+                  <div style={{ marginTop: 8 }}>
+                    <div style={{ fontSize: 10.5, color: '#c9a96e' }}>この場面のトーク集</div>
+                    {fixed.map(k => <div key={k}><TalkCard e={TALK[k]} lvName={lvOf(k)} /></div>)}
+                    {auto.length > 0 && (
+                      <>
+                        <div style={{ fontSize: 10.5, color: '#c9a96e', marginTop: 10 }}>あなたの返答に近い言い回し(自動で探した候補)</div>
+                        {auto.map(r => <div key={r.key}><TalkCard e={r.entry} lvName={lvOf(r.key)} /></div>)}
+                      </>
+                    )}
+                    <p style={{ ...quiet, marginTop: 4 }}>{auto.length > 0 ? '下の候補は、書いた言葉に含まれる語からの機械的な推定です。合わないこともあります。' : reply.trim().length >= 8 ? '書いた返答に近い言い回しは、ほかに見つかりませんでした。' : ''}</p>
+                  </div>
+                )
+              })()}
             </>
           )}
 
