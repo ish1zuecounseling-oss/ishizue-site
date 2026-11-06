@@ -14,7 +14,7 @@
 // 1画面でやることは1つ。長い説明は折りたたむ。
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
-import { PILOT, PILOT_EVAL, PILOT_ANCHORS, type PilotEvalId, type PilotTask, type PilotKind } from '../../data/chroniclePilot'
+import { PILOT, PILOT_EVAL, PILOT_EVAL_KIND, type PilotEvalId, type PilotTask, type PilotKind } from '../../data/chroniclePilot'
 import { TALK } from '../../data/chronicleTalk'
 import { TalkCard, box, btn, primary, area, quiet } from './ChronicleDaily'
 
@@ -134,7 +134,7 @@ function Bubble({ who, text, mine }: { who: string; text: string; mine?: boolean
   )
 }
 /** 課題の種類ごとの言葉(相談者に返す / 後進などに説明する / 自分にかける) */
-const KIND: Record<PilotKind, { ans: string; hint: string; hint3: string; f1: string; f1h: string; f2: string; f2h: string; t1: string; t2: string; t3: string; note?: string }> = {
+const KIND: Record<PilotKind, { ans: string; hint: string; hint3: string; f1: string; f1h: string; f2: string; f2h: string; t1: string; t2: string; t3: string }> = {
   client: {
     ans: '相談者に返す言葉', hint: '実際に送る文を、そのまま1〜3文で書きます。説明や感想ではなく、相談者へのセリフです。', hint3: 'この返事を受けて、実際に送る文を1〜3文で',
     f1: '相談者が言ったこと・様子', f1h: '見たまま・書かれたままの事実だけ。例:「〜」と書いてきた、返事が急に短くなった',
@@ -146,14 +146,12 @@ const KIND: Record<PilotKind, { ans: string; hint: string; hint3: string; f1: st
     f1: '相手が言ったこと・つまずいていそうな点', f1h: '見たまま・聞いたままに。例:「〜」と聞いてきた。〜と〜を同じものだと思っていそう',
     f2: '何がわかっていないかの見立て(仮説)', f2h: 'まだ決めつけない見立て。例:〜の区別がついていないのかもしれない',
     t1: 'トーク集を見ながら、相手に伝える説明を書きます。', t2: 'トーク集は隠れています。別の質問に、自分の言葉で説明します。', t3: '相手が思いがけない反応をしました。それに合わせて、説明を直します。',
-    note: '4つの観点の「相談者」は、説明する相手と読みかえます。',
   },
   self: {
     ans: '自分にかける言葉と、次にすること', hint: '心の中で自分に言う一文と、次に何をするか(しないか)を書きます。', hint3: 'このことを受けて、自分にかける言葉と次にすること',
     f1: '自分の中で起きたこと', f1h: '気持ち・体の感じ・したくなったことを、見たままに。例:胸がざわついて、すぐ返事をしたくなった',
     f2: 'それがどこから来ているかの見立て(仮説)', f2h: 'まだ決めつけない見立て。例:自分が〜だったころと重ねているのかもしれない',
     t1: 'トーク集を見ながら、自分にかける言葉と次にすることを書きます。', t2: 'トーク集は隠れています。別の場面で、自分の言葉で書きます。', t3: '思いがけないことが起きました。それに合わせて、言葉と行動を直します。',
-    note: '4つの観点は、「相談者の発言」を「場面で起きたこと」、「必要な確認」を「SVや記録などの必要な手当て」、「対応を直す」を「自分の行動を直す」と読みかえます。',
   },
 }
 
@@ -189,11 +187,11 @@ function MarkButtons({ value, onChange, label }: { value?: Mark; onChange: (m: M
     </div>
   )
 }
-function Checks({ value, onChange }: { value: Evals; onChange: (e: Evals) => void }) {
+function Checks({ value, onChange, kind }: { value: Evals; onChange: (e: Evals) => void; kind: PilotKind }) {
   return (
     <div style={{ marginTop: 6 }}>
       <div style={{ fontSize: 11.5, color: '#8fb8e8', fontWeight: 700 }}>自分でつける(毎回この4つ)</div>
-      {PILOT_EVAL.map((p, i) => (
+      {PILOT_EVAL_KIND[kind].map((p, i) => (
         <div key={p.id} style={{ padding: '6px 0', borderBottom: '1px dashed #1e2a38' }}>
           <div style={{ fontSize: 12, color: '#d8c7a4', marginBottom: 4 }}>{i + 1}. {p.label}</div>
           <MarkButtons label={p.label} value={value[p.id]} onChange={m => onChange({ ...value, [p.id]: m })} />
@@ -204,7 +202,6 @@ function Checks({ value, onChange }: { value: Evals; onChange: (e: Evals) => voi
 }
 // ── 採点(AIの試験官) ──
 // サイトから外部AIには送らない。採点用の文章をコピーして、本人がAIチャットに貼る(本試験と同じやり方)。
-const SHORT: Record<PilotEvalId, string> = { grasp: '発言を捉える', fact: '事実と仮説', check: '必要な確認', adapt: '対応を直す' }
 const STAGE_DESC = {
   1: '段階1(トーク集のお手本を見ながら答える)',
   2: '段階2(お手本を見ずに、段階1から人物・職種だけを変えた場面で答える)',
@@ -225,7 +222,7 @@ export function buildScorePrompt(t: PilotTask, stage: 1 | 2 | 3, a: Answers): st
     '- 安全に関わる明らかな問題(話題をそらす、約束だけで済ませる、危険の見落としなど)があれば【安全】に一文で書く。なければ「なし」',
     '- 下の「出力形式」以外は書かない(前置き・まとめ・励ましは不要)')
   const K = { ...KIND[t.kind], ans: t.ansLabel || KIND[t.kind].ans }
-  if (K.note) lines.push(`- ${K.note}`)
+  const EV = PILOT_EVAL_KIND[t.kind]
   lines.push('', '## 練習問題', `課題:${t.lv} ${t.title}`, `課題のねらい:${t.purpose}`, `段階:${STAGE_DESC[stage]}`, `学習者が書くもの:${t.ask}`, `場面:${sc.sit}`)
   if (sc.say) lines.push(`${t.who}:「${sc.say}」`)
   if (stage === 3) { lines.push(`学習者の段階2の答え:「${a.r2 || '(なし)'}」`, `思いがけない反応(${t.twistWho}):${t.twist}`) }
@@ -234,8 +231,8 @@ export function buildScorePrompt(t: PilotTask, stage: 1 | 2 | 3, a: Answers): st
   if (stage === 2) lines.push(`①${K.f1}(事実として書いたもの):${a.obs || '(未記入)'}`, `②${K.f2}:${a.hyp || '(未記入)'}`, `③${K.ans}:「${a.r2 || ''}」`)
   if (stage === 3) lines.push(`${K.ans}:「${a.r3 || ''}」`)
   lines.push('', '## 採点の観点と目安')
-  PILOT_EVAL.forEach((p, i) => {
-    const an = PILOT_ANCHORS[p.id]
+  EV.forEach((p, i) => {
+    const an = p.anchors
     lines.push(`${i + 1}. ${p.label}${p.id === 'fact' && stage === 2 ? '(①事実と②仮説の書き分けも見る)' : ''}`,
       `   できた:${an.ok}`, `   半分:${an.half}`, `   まだ:${an.not}`)
   })
@@ -244,7 +241,7 @@ export function buildScorePrompt(t: PilotTask, stage: 1 | 2 | 3, a: Answers): st
     `考え方の手順:観察=${t.observe.obs} / 仮説=${t.observe.hyp} / 確認=${t.observe.check} / 対応=${t.observe.act}`)
   if (stage === 3) lines.push(`相手の反応がちがうときの言い回し:${t.apply.join(' / ')}`)
   lines.push('', '## 出力形式(この形のまま)', '【採点】')
-  PILOT_EVAL.forEach((p, i) => lines.push(`${i + 1}. ${SHORT[p.id]}:(できた・半分・まだ・判断できない のどれか1つ)|「引用」|理由を一文で`))
+  EV.forEach((p, i) => lines.push(`${i + 1}. ${p.short}:(できた・半分・まだ・判断できない のどれか1つ)|「引用」|理由を一文で`))
   lines.push('【安全】なし', '【次の一歩】次に意識するとよいことを一文で')
   return lines.join('\n')
 }
@@ -273,7 +270,7 @@ export function parseScore(text: string): Score | null {
   return { e, q, by: 'ai', note }
 }
 
-function ScoreBox({ prompt, value, onChange, stage, note }: { prompt: string; value: Score; onChange: (v: Score) => void; stage: 1 | 2 | 3; note?: string }) {
+function ScoreBox({ prompt, value, onChange, stage, kind }: { prompt: string; value: Score; onChange: (v: Score) => void; stage: 1 | 2 | 3; kind: PilotKind }) {
   const [pasted, setPasted] = useState('')
   const [info, setInfo] = useState('')
   const [showPrompt, setShowPrompt] = useState(false)
@@ -291,7 +288,7 @@ function ScoreBox({ prompt, value, onChange, stage, note }: { prompt: string; va
   return (
     <div style={{ marginTop: 10 }}>
       <div style={{ fontSize: 12, color: '#8fb8e8', fontWeight: 700 }}>AIの試験官に採点してもらう(段階{stage})</div>
-      <div style={{ fontSize: 10.5, color: '#8a6a3a', margin: '2px 0 6px' }}>毎回同じ4つの観点と目安で採点します。{note ? `${note}` : ''}答えに実在の相談者の情報は書かないでください。</div>
+      <div style={{ fontSize: 10.5, color: '#8a6a3a', margin: '2px 0 6px' }}>毎回同じ4つの観点と目安で採点します({kind === 'client' ? '相談者に返す' : kind === 'explain' ? '説明する' : '自分にかける'}課題用の観点)。答えに実在の相談者の情報は書かないでください。</div>
       <div style={{ fontSize: 12, color: '#d8c7a4', lineHeight: 1.9 }}>
         <div>{stepN('1')}<button type="button" style={primary} onClick={copy}>採点用の文章をコピー</button></div>
         <div>{stepN('2')}AIチャットに貼り付けて送る</div>
@@ -304,7 +301,7 @@ function ScoreBox({ prompt, value, onChange, stage, note }: { prompt: string; va
 
       {done && (
         <div style={{ marginTop: 8 }}>
-          {PILOT_EVAL.map((p, i) => {
+          {PILOT_EVAL_KIND[kind].map((p, i) => {
             const m = value.e[p.id]
             return (
               <div key={p.id} style={{ padding: '6px 0', borderBottom: '1px dashed #1e2a38' }}>
@@ -320,7 +317,7 @@ function ScoreBox({ prompt, value, onChange, stage, note }: { prompt: string; va
         </div>
       )}
       <More title="AIを使えないとき(自分でつける)">
-        <Checks value={value.by === 'self' ? value.e : {}} onChange={e => onChange({ e, q: {}, by: 'self' })} />
+        <Checks kind={kind} value={value.by === 'self' ? value.e : {}} onChange={e => onChange({ e, q: {}, by: 'self' })} />
       </More>
     </div>
   )
@@ -349,12 +346,12 @@ function pack(n: 1 | 2 | 3, sc: Score): Partial<PilotRecord> {
   return { e3: e, q3: q, by3: b, n3: sc.note }
 }
 const BY_LABEL: Record<By, string> = { ai: 'AIの採点', self: '自分でつけた' }
-function ScoreLine({ e, q, b, n }: { e?: Evals; q?: Quotes; b?: By; n?: string }) {
+function ScoreLine({ e, q, b, n, kind }: { e?: Evals; q?: Quotes; b?: By; n?: string; kind: PilotKind }) {
   if (!e && !q) return null
   return (
     <div style={{ paddingLeft: 8, borderLeft: '2px solid #1e2a38', margin: '2px 0 4px' }}>
       <div style={{ color: '#8fb8e8' }}>{b ? BY_LABEL[b] : '採点'}</div>
-      {PILOT_EVAL.map(x => (
+      {PILOT_EVAL_KIND[kind].map(x => (
         <div key={x.id}>{x.label}:{e?.[x.id] ? MARK_LABEL[e[x.id]!] : '—'}{q?.[x.id] ? `(${q[x.id]})` : ''}</div>
       ))}
       {n && <div>{n}</div>}
@@ -497,7 +494,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                   </Card>
                   {cmp1 && (
                     <Card role="check">
-                      <ScoreBox stage={1} note={K.note} prompt={buildScorePrompt(t, 1, answers)} value={s1} onChange={setS1} />
+                      <ScoreBox stage={1} kind={t.kind} prompt={buildScorePrompt(t, 1, answers)} value={s1} onChange={setS1} />
                       <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
                         <button type="button" style={primary} onClick={() => go(2)}>次へ:段階2(見ずに)</button>
                         {endBtn(1)}
@@ -527,7 +524,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                         <More title="お手本の言い回しと比べる"><Model t={t} /></More>
                         <More title="考え方の手順と比べる(①②の見直し)"><Observe t={t} /></More>
                         <More title="この課題で特に見る点"><List items={t.look} /></More>
-                        <ScoreBox stage={2} note={K.note} prompt={buildScorePrompt(t, 2, answers)} value={s2} onChange={setS2} />
+                        <ScoreBox stage={2} kind={t.kind} prompt={buildScorePrompt(t, 2, answers)} value={s2} onChange={setS2} />
                         <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
                           <button type="button" style={primary} onClick={() => go(3)}>次へ:段階3(想定外)</button>
                           {endBtn(2)}
@@ -558,7 +555,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                       <List items={t.apply} />
                       <More title="この課題で特に見る点"><List items={t.look} /></More>
                       {talk?.byType && <More title="トーク集:反応タイプ別"><TalkCard e={talk} lvName={t.lv} /></More>}
-                      <ScoreBox stage={3} note={K.note} prompt={buildScorePrompt(t, 3, answers)} value={s3} onChange={setS3} />
+                      <ScoreBox stage={3} kind={t.kind} prompt={buildScorePrompt(t, 3, answers)} value={s3} onChange={setS3} />
                       <Field label="ひとことメモ(なくてもよい)" hint="詰まったところ、お手本がないと出てこなかった言葉など" value={memo} onChange={setMemo} rows={2} />
                       <div style={{ marginTop: 12 }}><button type="button" style={primary} onClick={() => save(3)}>記録して終える</button></div>
                     </Card>
@@ -592,12 +589,12 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                         </summary>
                         <div style={{ fontSize: 11, color: '#c9b48a', lineHeight: 1.8, padding: '4px 0 4px 10px' }}>
                           {r.r1 && <div>段階1:{r.r1}</div>}
-                          <ScoreLine e={r.e1} q={r.q1} b={r.by1} n={r.n1} />
+                          <ScoreLine kind={p?.kind ?? 'client'} e={r.e1} q={r.q1} b={r.by1} n={r.n1} />
                           {(r.obs || r.hyp) && <div>判断の根拠:①事実「{r.obs ?? '—'}」/ ②仮説「{r.hyp ?? '—'}」</div>}
                           {r.r2 && <div>段階2:{r.r2}</div>}
-                          <ScoreLine e={r.e2} q={r.q2} b={r.by2} n={r.n2} />
+                          <ScoreLine kind={p?.kind ?? 'client'} e={r.e2} q={r.q2} b={r.by2} n={r.n2} />
                           {r.r3 && <div>段階3:{r.r3}</div>}
-                          <ScoreLine e={r.e3} q={r.q3} b={r.by3} n={r.n3} />
+                          <ScoreLine kind={p?.kind ?? 'client'} e={r.e3} q={r.q3} b={r.by3} n={r.n3} />
                           {r.memo && <div>メモ:{r.memo}</div>}
                         </div>
                       </details>
