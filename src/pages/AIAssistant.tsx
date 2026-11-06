@@ -9,7 +9,7 @@ import { motion, type Variants } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, MessageCircle, RotateCcw, Lock, Compass } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick, LINE_SUBTEXT } from "../data/siteStatus";
+import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, LINE_SUBTEXT } from "../data/siteStatus";
 
 const SAGE = "#8FAF9F";
 const LINE_BASE = "https://lin.ee/6H8Pzo6";
@@ -280,6 +280,16 @@ export default function AIAssistant() {
     }
     // 定型の集計なので待ち時間は置かない。結果を出したら、見出しへスクロールとフォーカスを移す
     const type = determineType(checkedItems);
+    // 集計用:結果のタイプ・チェックが入ったカテゴリ・危機の案内を出したか。
+    // 書いた文章や、どの項目にチェックしたかは送らない(カテゴリ単位の有無だけ)
+    try {
+      const ev = (k: string) => k.replace(/-/g, "_");
+      gtag("event", `ai_assistant_result_${ev(type)}`);
+      for (const cat of CATEGORIES) {
+        if (cat.items.some((_, i) => checked.has(`${cat.id}-${i}`))) gtag("event", `ai_assistant_cat_${ev(cat.id)}`);
+      }
+      if (hasCrisisWords(freeText)) gtag("event", "ai_assistant_crisis_shown");
+    } catch (_) { /* noop */ }
     setResult(TYPE_RESULTS[type]);
     setAnalyzed(true);
     timersRef.current.push(window.setTimeout(() => {
@@ -603,7 +613,7 @@ export default function AIAssistant() {
                     ) : (
                       <>
                         <p className="text-xs text-stone-600 leading-relaxed mb-4">今の状態は、外から一緒に構造を整理することが助けになりやすい段階です。現在、新規のご相談は休止中のため、再開時にLINEで先にお知らせします。</p>
-                        <a href={PAUSED_LINE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackPausedLineClick("ai_assistant_paused")} className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
+                        <a href={PAUSED_LINE_URL} target="_blank" rel="noopener noreferrer" onClick={() => { try { gtag("event", "ai_assistant_paused_line_click"); } catch (_) { /* noop */ } }} className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium text-white" style={{ background: "#2C1F14" }}>
                           再開のお知らせをLINEで受け取る <ArrowRight className="w-3.5 h-3.5" />
                         </a>
                         <p className="text-[10px] text-stone-400 mt-2">状態タイプ別の解説もLINEで届きます</p>
