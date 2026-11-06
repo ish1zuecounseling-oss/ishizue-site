@@ -102,7 +102,7 @@ const List = ({ items }: { items: string[] }) => (
 function More({ title, children }: { title: string; children: ReactNode }) {
   return (
     <details style={{ marginTop: 6 }}>
-      <summary style={{ fontSize: 11, color: '#c9a96e', cursor: 'pointer', padding: '2px 0' }}>{title}</summary>
+      <summary style={{ fontSize: 12, color: '#c9a96e', cursor: 'pointer', padding: '4px 0' }}>{title}</summary>
       <div style={{ paddingLeft: 4 }}>{children}</div>
     </details>
   )
@@ -165,7 +165,6 @@ function Checks({ value, onChange }: { value: Evals; onChange: (e: Evals) => voi
 function Model({ t }: { t: PilotTask }) {
   return (
     <>
-      <div style={{ fontSize: 11.5, color: '#8fb8e8', fontWeight: 700 }}>お手本の言い回し</div>
       {t.phrases.map((x, i) => <p key={i} style={{ ...txt, fontSize: 12.5, color: '#f0e6d0', marginTop: 2 }}>{x}</p>)}
       <p style={{ ...txt, fontSize: 11, color: '#a9a08a', marginTop: 4 }}>なぜこの言葉か:{t.why}</p>
     </>
@@ -287,7 +286,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                     <Scene sc={t.scene1} />
                   </Card>
                   <Card role="talk" sub="見ながら答えてかまいません">
-                    <Model t={t} />
+                    <More title="お手本の言い回し"><Model t={t} /></More>
                     <More title="避けたい言い方"><List items={t.avoid} /></More>
                     <More title="考え方の手順(観察 → 仮説 → 確認 → 対応)"><Observe t={t} /></More>
                     <More title="相手の反応がちがうとき"><List items={t.apply} /></More>
@@ -327,7 +326,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                   {cmp2 && (
                     <>
                       <Card role="check">
-                        <Model t={t} />
+                        <More title="お手本の言い回しと比べる"><Model t={t} /></More>
                         <More title="考え方の手順と比べる(①②の見直し)"><Observe t={t} /></More>
                         <More title="この課題で特に見る点"><List items={t.look} /></More>
                         <div style={{ marginTop: 10 }}><Checks value={e2} onChange={setE2} /></div>
