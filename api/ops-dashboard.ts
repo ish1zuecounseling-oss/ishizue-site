@@ -836,6 +836,30 @@ export default async function handler(req: Req, res: Res) {
       titleTests = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
+    /* AIアシスタント(/ai-assistant):ページの閲覧と、ai_assistant_ で始まるイベント */
+    let aiAssistant: { ok: boolean; message?: string; pageViews?: number; pageUsers?: number; events?: Record<string, { count: number; users: number }> }
+    try {
+      const [pv, ev] = await Promise.all([
+        ga4(token, GA4_PROPERTY_ID, {
+          dateRanges: [range],
+          metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
+          dimensionFilter: { filter: { fieldName: "pagePath", stringFilter: { matchType: "BEGINS_WITH", value: "/ai-assistant" } } },
+        }),
+        ga4(token, GA4_PROPERTY_ID, {
+          dateRanges: [range],
+          dimensions: [{ name: "eventName" }],
+          metrics: [{ name: "eventCount" }, { name: "totalUsers" }],
+          dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "BEGINS_WITH", value: "ai_assistant_" } } },
+          limit: 100,
+        }),
+      ])
+      const events: Record<string, { count: number; users: number }> = {}
+      for (const r of ev) events[r.dimensionValues[0].value] = { count: num(r.metricValues[0].value), users: num(r.metricValues[1].value) }
+      aiAssistant = { ok: true, pageViews: num(pv[0]?.metricValues[0].value ?? "0"), pageUsers: num(pv[0]?.metricValues[1].value ?? "0"), events }
+    } catch (e) {
+      aiAssistant = { ok: false, message: e instanceof Error ? e.message : "unknown" }
+    }
+
     const [line, manual, waitingLine] = await Promise.all([getLine(), getManual(), getWaitingFromLine()])
 
     /* 月ごとの実績を残す(再開までの計画と比べるため。GA4・LINEから取れる6か月より前の分も残るように) */
@@ -878,6 +902,7 @@ export default async function handler(req: Req, res: Res) {
       checkLevels,
       lineStep,
       titleTests,
+      aiAssistant,
     })
   } catch (e) {
     res.status(502).json({ error: "fetch_failed", message: e instanceof Error ? e.message : "unknown" })
