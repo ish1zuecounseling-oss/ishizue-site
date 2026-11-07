@@ -16,7 +16,6 @@ import Chronicle from "./pages/admin/Chronicle";
 import StaffSearch from "./pages/admin/StaffSearch";
 import ArticleViews from "./pages/admin/ArticleViews";
 import OpsDashboard from "./pages/admin/OpsDashboard";
-import Coping from "./pages/admin/Coping";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TokushoPage from "./pages/TokushoPage";
 import ServiceTerms from "./pages/ServiceTerms";
@@ -185,7 +184,6 @@ export function AppRoutes() {
         <Route path="/admin/search" element={<StaffSearch />} />
         <Route path="/admin/views" element={<ArticleViews />} />
         <Route path="/admin/dashboard" element={<OpsDashboard />} />
-        <Route path="/admin/coping" element={<Coping />} />
         <Route path="/*" element={<PublicPages />} />
       </Routes>
     </>
