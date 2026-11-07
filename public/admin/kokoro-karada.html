@@ -131,6 +131,32 @@ input,textarea,select{max-width:100%;box-sizing:border-box}
 .faq summary::before{content:'Q';color:var(--ai);font-weight:700;flex:none}
 .faq[open] summary{color:var(--ai)}
 .faq p{margin:0 0 8px;font-size:14px;color:var(--ink)}
+#report{position:fixed;inset:0;z-index:20;overflow:auto;background:var(--bg);padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+body.rep-open{overflow:hidden}
+.rep-bar{max-width:760px;margin:0 auto 16px;display:flex;flex-direction:column;gap:10px}
+.rep-doc-wrap{max-width:760px;margin:0 auto;background:#fff;color:#1a1a1a;border:1px solid var(--line);border-radius:10px;padding:20px;font-size:13px;line-height:1.6}
+.rep-doc-wrap h1.rep-h{font-family:var(--display);font-size:20px;margin:0}
+.rep-doc-wrap h2{font-size:15px;margin:18px 0 6px;border-bottom:1px solid #ccc;padding-bottom:2px;font-family:var(--body)}
+.rep-sub{margin:4px 0 0;color:#555}
+.rep-list{margin:0;padding-left:1.2em}
+.rep-t{font-size:12px;border-collapse:collapse;width:100%}
+.rep-t th,.rep-t td{border:1px solid #bbb;padding:3px 5px;text-align:center;white-space:nowrap;color:#1a1a1a}
+.rep-t th{background:#f0f2f4}
+.rep-t td.c0{color:#999}
+.rep-note{color:#555;font-size:11.5px;margin:6px 0 0}
+.rep-note-item{border-left:3px solid #ccc;padding:2px 0 2px 8px;margin:6px 0}
+.rep-doc{white-space:pre-wrap}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff!important;padding:0!important}
+  body>.wrap,.no-print{display:none!important}
+  #report{position:static;overflow:visible;padding:0;background:#fff}
+  .rep-doc-wrap{border:0;padding:0;max-width:none}
+  .grid{overflow:visible}
+  .rep-t tr{break-inside:avoid}
+}
+.ai-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--paper)}
+.ai-pre{white-space:pre-wrap;font-family:var(--body);font-size:12.5px;background:var(--bg);border-radius:8px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -262,6 +288,11 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   <!-- ふりかえり -->
   <section class="panel" role="tabpanel" aria-labelledby="t-look" id="p-look" hidden>
     <div class="card">
+      <h2>提出用のまとめ</h2>
+      <p class="note">主治医などに見せるために、期間を決めて記録を1枚にまとめます。入れる項目は選べます。メモやひとことなど、見せたくないものは初めから外してあります。</p>
+      <div class="row"><button class="btn" id="repOpen">まとめを作る</button></div>
+    </div>
+    <div class="card">
       <h2>この7日間</h2>
       <div class="grid"><table id="week"></table></div>
       <h3>天気・気温・気圧の変化</h3>
@@ -314,6 +345,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
       <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。</p></details>
+      <details class="faq"><summary>記録をまとめて提出するには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間(7・14・28・56日)と入れる項目を選びます。思考の癖メモ・気づき・ひとこと・食事の内容などは初めは外してあり、押すと入ります。「印刷・PDFにする」→ 共有ボタン →「ファイルに保存」でPDFになります。文字で送るときは「文字でコピー」を使います。</p></details>
       <details class="faq"><summary>主治医へのメモはどう使う?</summary><p>「最近2週間の記録から下書きを足す」で数字のまとめが入ります。自分の言葉で書き足して、受診のときに画面を見せるか、「コピー」してメモアプリなどに貼ります。</p></details>
     </div>
     <div class="card">
@@ -369,6 +401,18 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <div class="row"><button class="btn small ghost" id="importBtn">読み込む</button><button class="btn small ghost" id="undoImp" hidden>読み込む前に戻す</button><span class="saved" id="sv-io"></span></div>
     </div>
   </section>
+</div>
+
+<div id="report" hidden>
+  <div class="rep-bar no-print">
+    <div class="head"><h2>提出用のまとめ</h2><button class="btn small ghost" id="repClose">閉じる</button></div>
+    <div id="repOpts"></div>
+    <div class="row"><button class="btn small" id="repPrint">印刷・PDFにする</button><button class="btn small ghost" id="repCopy">文字でコピー</button><span class="saved" id="sv-rep"></span></div>
+    <p class="note">iPhoneでは「印刷・PDFにする」→ 共有ボタンから「ファイルに保存」でPDFになります。印刷画面でプレビューを2本指で広げても、PDFとして共有できます。</p>
+    <div class="item ai-box" id="aiBox"></div>
+    <textarea id="repText" hidden aria-label="コピー用の文字"></textarea>
+  </div>
+  <div id="repDoc" class="rep-doc-wrap"></div>
 </div>
 
 <script>
@@ -608,6 +652,117 @@ function renderSuggest(){
   box.querySelectorAll('[data-sug]').forEach(b=>b.addEventListener('click',()=>{const o=L[+b.dataset.sug];let x=S.exps.find(e=>e.name===o.txt);if(!x){x={id:'u'+Date.now(),name:o.txt,uses:{},rates:[]};S.exps.push(x)}S.active=x.id;save();renderTodayExp();renderExp();b.textContent='試す工夫にしました';b.disabled=true}));
 }
 
+// ── 提出用のまとめ ──
+let repN=14;
+const REP_OPT=[['sum','まとめ(平均・回数)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['wx','天気',false]];
+if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
+let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
+function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
+function openReport(){
+  $('repOpts').innerHTML=`<div class="filters">${[7,14,28,56].map(n=>`<button type="button" class="chip" data-rn="${n}" aria-pressed="${repN===n}">${n}日</button>`).join('')}</div>
+   <div class="chips">${REP_OPT.map(([k,l])=>`<button type="button" class="chip" data-ro="${k}" aria-pressed="${!!repSel[k]}">${l}</button>`).join('')}</div>`;
+  $('repOpts').querySelectorAll('[data-rn]').forEach(b=>b.addEventListener('click',()=>{repN=+b.dataset.rn;openReport()}));
+  $('repOpts').querySelectorAll('[data-ro]').forEach(b=>b.addEventListener('click',()=>{repSel[b.dataset.ro]=!repSel[b.dataset.ro];openReport()}));
+  $('repDoc').innerHTML=buildReport();
+  renderAiBox();
+  $('report').hidden=false;document.body.classList.add('rep-open');window.scrollTo(0,0);
+}
+function cell(v){return v==null||v===''?'<td class="c0">・</td>':`<td>${v}</td>`}
+function buildReport(){
+  const ks=repDays(), rec=ks.map(k=>S.days[k]||{});
+  let h=`<h1 class="rep-h">こころとからだの記録</h1><p class="rep-sub">期間:${md(ks[0])}〜${md(ks[ks.length-1])}(${repN}日間)/作成:${md(TODAY)}</p>`;
+  if(repSel.sum)h+=`<h2>まとめ</h2><ul class="rep-list">${sumLines(repN).slice(1).filter(l=>repSel.thought||!l.startsWith('思考の癖メモ')).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;
+  if(repSel.table){
+    const sy=S.symNames.map((n,i)=>[n,i]).filter(([n])=>n);
+    h+=`<h2>日ごとの記録</h2><div class="grid"><table class="rep-t"><tr><th>日付</th><th>睡眠</th><th>質</th><th>覚醒</th><th>体</th><th>心</th>${sy.map(([n])=>`<th>${esc(n.slice(0,8))}<br><small>強/支障</small></th>`).join('')}<th>食事<br><small>抜いた</small></th><th>サイン</th></tr>`+
+    ks.map((k,j)=>{const d=rec[j];const sh=sleepH(d);const m=d.meals||{};const sk=['am','noon','pm'].filter(x=>m[x]===false).map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]).join('');
+      return `<tr><td>${md(k)}</td>${cell(sh!=null?fmtH(sh):bedH(d)!=null?'('+fmtH(bedH(d))+')':'')}${cell(d.sq)}${cell(typeof d.wakeN==='number'?(d.wakeN===3?'3+':d.wakeN):'')}${cell(d.body)}${cell(d.mind)}${sy.map(([,i])=>{const x=(d.sym||[])[i]||{};return cell(typeof x.lv==='number'||typeof x.dis==='number'?(x.lv??'-')+'/'+(x.dis??'-'):'')}).join('')}${cell(sk)}${cell((d.signs||[]).map(s=>(SIGNS.find(x=>x[0]===s)||[0,s])[1]).join('、'))}</tr>`}).join('')+
+    `</table></div><p class="rep-note">睡眠:眠っていた時間の目安(かっこは布団にいた時間)。質:1〜5。覚醒:夜中に目が覚めた回数。体・心:1〜10(10が最もよい)。症状:強さ/生活への支障(0〜10)。・は未記入。</p>`}
+  if(repSel.basics)h+=`<h2>今日の4つ</h2><div class="grid"><table class="rep-t"><tr><th>日付</th>${BASICS.map(b=>`<th>${b.q.split(':')[0]}</th>`).join('')}</tr>`+ks.map((k,j)=>`<tr><td>${md(k)}</td>${BASICS.map(b=>{const v=rec[j][b.id];return cell(v===2?'○':v===1?'△':v===0?'—':'')}).join('')}</tr>`).join('')+`</table></div><p class="rep-note">○できた △少し —まだ</p>`;
+  const daysWith=f=>ks.map((k,j)=>[k,f(rec[j])]).filter(([,v])=>v);
+  if(repSel.meals){const L=daysWith(d=>{const m=d.meals||{};const t=['am','noon','pm'].map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]+':'+(m[x]===false?'抜いた':m[x]||'・')).join(' / ');return Object.keys(m).length?t:''});h+=`<h2>食事の内容</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.events){const L=daysWith(d=>(d.events||[]).map(e=>(EVENTS.find(x=>x[0]===e)||[0,e])[1]).join('、'));h+=`<h2>今日あったこと</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.memo){const L=daysWith(d=>(d.memo||'').trim());h+=`<h2>ひとこと</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
+  const TL=t=>(TAGS.find(x=>x[0]===t)||[0,t])[1];
+  if(repSel.thought){const L=S.notes.filter(n=>n.type==='thought'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
+    h+=`<h2>思考の癖メモ</h2>${L.length?L.map(n=>`<div class="rep-note-item"><b>${md(n.date)} ${n.at}</b>${n.scene?`<div>場面:${esc(n.scene)}</div>`:''}${n.thought?`<div>浮かんだ考え:${esc(n.thought)}</div>`:''}${n.tags&&n.tags.length?`<div>考えの癖:${n.tags.map(TL).join('・')}</div>`:''}${n.alt?`<div>別の見方:${esc(n.alt)}</div>`:''}</div>`).join(''):'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.aware){const L=S.notes.filter(n=>n.type==='aware'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
+    h+=`<h2>気づいたこと</h2>${L.length?`<ul class="rep-list">${L.map(n=>`<li><b>${md(n.date)}</b> ${esc(n.text)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.wx){const wx=S.wx||{};const L=ks.filter(k=>wx[k]);h+=`<h2>天気</h2>${L.length?`<div class="grid"><table class="rep-t"><tr><th>日付</th><th>天気</th><th>最高/最低℃</th><th>湿度%</th><th>気圧差hPa</th></tr>${L.map(k=>{const w=wx[k];return `<tr><td>${md(k)}</td><td>${WMO(w.code)}</td><td>${w.tmax}/${w.tmin}</td>${cell(w.hm)}${cell(w.dp)}</tr>`}).join('')}</table></div>`:'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.doc&&(S.doc||'').trim())h+=`<h2>主治医に伝えたいこと</h2><div class="rep-doc">${esc(S.doc)}</div>`;
+  h+=`<p class="rep-note">本人がスマートフォンで記録した内容をまとめたものです。点数は本人の主観による評価です。</p>`;
+  return h;
+}
+function reportText(){const el=document.createElement('div');el.innerHTML=$('repDoc').innerHTML;
+  el.querySelectorAll('tr').forEach(tr=>{tr.innerHTML=[...tr.children].map(c=>c.textContent.trim()).join(' | ');tr.insertAdjacentText('afterend','\n')});
+  el.querySelectorAll('h1,h2,li,p,div.rep-note-item,.rep-doc').forEach(x=>{x.insertAdjacentText('beforebegin','\n');x.insertAdjacentText('afterend','\n')});
+  el.querySelectorAll('h2').forEach(x=>x.textContent='【'+x.textContent+'】');
+  el.querySelectorAll('li').forEach(x=>x.textContent='・'+x.textContent);
+  el.querySelectorAll('.rep-note-item div').forEach(x=>x.insertAdjacentText('beforebegin','\n'));
+  return el.textContent.replace(/[ \t]+\n/g,'\n').replace(/\n\s*\n/g,'\n').replace(/\n【/g,'\n\n【').trim()}
+$('repOpen').addEventListener('click',openReport);
+$('repPrint').addEventListener('click',()=>window.print());
+$('repClose').addEventListener('click',()=>{$('report').hidden=true;document.body.classList.remove('rep-open')});
+$('repCopy').addEventListener('click',()=>copyRep(reportText()));
+function copyRep(text){const done=()=>flash('sv-rep','コピーしました');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(fb)}else fb();
+  function fb(){const t=$('repText');t.hidden=false;t.value=text;t.focus();t.select();flash('sv-rep','下の欄の文字を選んだので、コピーしてください')}}
+
+let aiUse='doctor';
+const AI_P={
+ doctor:`あなたは、診察の場で本人の状態を医師に正確に伝えるための文章づくりを手伝います。
+下の【記録】は、本人がスマートフォンで毎日つけた記録のまとめです。これをもとに、本人が主治医に渡す文章を作ってください。
+
+# 守ること
+- 【記録】に書かれていることだけを使う。書かれていない症状・出来事・原因を足さない
+- 診断名を挙げない。病気かどうか、原因が何かを推測しない
+- 数字(平均・最低・最高・日数・回数)はそのまま残す。丸めたり言い換えたりしない
+- 点数は本人の主観による評価だと分かる書き方にする
+- 「気になるサイン」の記録があれば、最初の段落で日数とあわせてはっきり書く
+- 本人の一人称(「私は」)で、ていねい語で書く
+- 医師への助言や治療の提案はしない
+
+# 形式(全体で600字以内)
+1. この期間の要点(2〜3文)
+2. 睡眠
+3. 体と心の調子
+4. 症状(記録があれば)
+5. 生活の様子(食事・休憩・区切りなど)
+6. 本人が伝えたいこと・相談したいこと(【記録】の「主治医に伝えたいこと」から。なければ省く)
+最後に、文章に入れなかった情報があれば、その項目名だけを箇条書きで添えてください。
+
+【記録】
+`,
+ self:`あなたは、本人が自分の記録をふりかえるのを手伝います。
+下の【記録】は、本人がスマートフォンで毎日つけた記録のまとめです。これをもとに、本人向けのふりかえりの文章を作ってください。
+
+# 守ること
+- 【記録】に書かれていることだけを使う。原因を断定せず、「同じ時期に〜があった」という書き方にする
+- 診断や病気の推測はしない
+- 責める言い方、がんばりを求める言い方をしない。できていたことを先に書く
+- 数字はそのまま使う
+- 「気になるサイン」の記録があれば、工夫より先に主治医や相談先に伝えることをすすめる
+
+# 形式(全体で500字以内)
+1. この期間にできていたこと
+2. 変化や波が見えたところ(同じ時期に起きていたこととあわせて)
+3. 次の1週間に試すなら、という工夫を1つだけ(記録の中の「工夫」や「自分の対処リスト」に近いものを優先)
+
+【記録】
+`};
+function aiPromptText(){return AI_P[aiUse]+reportText()}
+function renderAiBox(){
+  $('aiBox').innerHTML=`<span class="q">AIに文章にしてもらう</span>
+   <div class="filters"><button type="button" class="chip" data-ai="doctor" aria-pressed="${aiUse==='doctor'}">主治医に渡す文章</button><button type="button" class="chip" data-ai="self" aria-pressed="${aiUse==='self'}">自分のふりかえり</button></div>
+   <div class="row"><button class="btn small" id="aiCopy">指示文とまとめをコピー</button><span class="saved" id="sv-ai"></span></div>
+   <p class="note">コピーしたものを、ChatGPTやClaudeなどのチャットにそのまま貼って送ります。指示文には「記録にないことを足さない」「診断や原因の推測をしない」「数字を変えない」を入れてあります。</p>
+   <p class="note warnline">AIに送ると、記録の内容がそのサービスに渡ります。氏名や住所などは書き足さないでください。できあがった文章は、数字や内容が記録と合っているか必ず読み直してから使ってください。</p>
+   <details><summary>指示文を見る</summary><pre class="ai-pre">${esc(AI_P[aiUse])}</pre></details>`;
+  $('aiBox').querySelectorAll('[data-ai]').forEach(b=>b.addEventListener('click',()=>{aiUse=b.dataset.ai;renderAiBox()}));
+  $('aiCopy').addEventListener('click',()=>{const text=aiPromptText();const done=()=>flash('sv-ai','コピーしました');
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(fb)}else fb();
+    function fb(){const t=$('repText');t.hidden=false;t.value=text;t.focus();t.select();flash('sv-ai','下の欄の文字を選んだので、コピーしてください')}});
+}
+
 function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
 function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
@@ -746,12 +901,12 @@ function renderTrend(){
 // doctor note
 $('doc').value=S.doc||'';
 $('doc').addEventListener('input',e=>{S.doc=e.target.value;save('sv-doc')});
-$('docFill').addEventListener('click',()=>{
-  const ks=[];for(let i=13;i>=0;i--)ks.push(ymd(addDays(now,-i)));
+function sumLines(n){
+  const ks=[];for(let i=n-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));
   const rec=ks.map(k=>S.days[k]).filter(hasData);
   const st=id=>{const a=rec.map(d=>d[id]).filter(f=>typeof f==='number');return a.length?'平均 '+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1)+'(最低 '+Math.min(...a)+')':null};
   const cnt=id=>rec.filter(d=>d[id]===2).length;
-  const lines=['【最近2週間('+md(ks[0])+'〜'+md(ks[13])+')】','記録した日:'+rec.length+'日'];
+  const lines=['【最近'+(n===14?'2週間':n+'日間')+'('+md(ks[0])+'〜'+md(ks[n-1])+')】','記録した日:'+rec.length+'日'];
   const hs=rec.map(sleepH).filter(h=>h!=null);if(hs.length)lines.push('睡眠時間:平均 '+fmtH(hs.reduce((a,b)=>a+b,0)/hs.length)+'(最短 '+fmtH(Math.min(...hs))+')');
   if(st('sq'))lines.push('睡眠の質(5段階):'+st('sq'));
   S.symNames.forEach((n,i)=>{if(!n)return;const lv=rec.map(d=>((d.sym||[])[i]||{}).lv).filter(v=>typeof v==='number'),ds=rec.map(d=>((d.sym||[])[i]||{}).dis).filter(v=>typeof v==='number');
@@ -766,6 +921,8 @@ $('docFill').addEventListener('click',()=>{
   const big=ks.filter(k=>S.wx&&S.wx[k]&&S.wx[k].dp>=8);if(big.length)lines.push('気圧の変化が大きかった日(8hPa以上):'+big.map(md).join('、'));
   const sc={};rec.forEach(d=>(d.signs||[]).forEach(t=>sc[t]=(sc[t]||0)+1));const scs=SIGNS.filter(([id])=>sc[id]).map(([id,l])=>l+' '+sc[id]+'日');if(scs.length)lines.push('気になるサインがあった日:'+scs.join('、'));
   const x=activeExp(); if(x)lines.push('試している工夫:'+x.name);
+  return lines}
+$('docFill').addEventListener('click',()=>{const lines=sumLines(14);
   S.doc=(S.doc?S.doc+'\n\n':'')+lines.join('\n'); $('doc').value=S.doc; save('sv-doc');
 });
 function copy(text,id){const done=()=>flash(id,'コピーしました');
