@@ -157,6 +157,21 @@ body.rep-open{overflow:hidden}
 }
 .ai-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--paper)}
 .ai-pre{white-space:pre-wrap;font-family:var(--body);font-size:12.5px;background:var(--bg);border-radius:8px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
+.sort{display:flex;flex-direction:column;gap:10px}
+.sort-opts{display:flex;flex-direction:column;gap:8px}
+.sort-opt{font:inherit;text-align:left;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.sort-opt small{color:var(--sub);font-size:12px}
+.sort-opt[aria-pressed="true"]{border-color:var(--moss);background:var(--moss-soft)}
+.sort-h{font-size:13px;color:var(--moss);margin:6px 0 0}
+.sort-lead{font-family:var(--display);font-size:16px;margin:0}
+.sort-step{border-left:2px solid var(--moss);padding:2px 0 2px 12px;display:flex;flex-direction:column}
+.sort-step span{font-size:13px;color:var(--sub)}
+.sort-hint{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--sub)}
+.sort-hint b{color:var(--moss)}
+.breath{width:120px;height:120px;border-radius:50%;margin:12px auto;border:1.5px solid var(--moss);background:radial-gradient(circle,var(--moss-soft) 0%,transparent 70%);display:flex;align-items:center;justify-content:center;color:var(--moss);font-size:13px;animation:breathe 11s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.78);opacity:.55}18%,45%{transform:scale(1.18);opacity:1}82%{transform:scale(.78);opacity:.55}}
+@media (prefers-reduced-motion:reduce){.breath{animation:none}}
+.kind.sort{background:var(--ochre-soft);color:var(--ochre)}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -341,6 +356,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <h2>ほかのタブ</h2>
       <details class="faq"><summary>「今日のおすすめ」はどうやって選ばれる?</summary><p>昨日の記録(体と心の点数、区切り・休憩・食事など)、昨夜の睡眠、最近7日の思考の癖メモ、30日間の傾向から、決まった規則で最大3つ選びます。同じ種類のものは1つまでです。AIなどには送っていません。「工夫として試す」を押すと「工夫」タブの試す工夫になります。気になるサインがあった日は、おすすめの代わりに相談先を案内します。</p></details>
       <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を選び(3つまで)、毎日それぞれ「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
+      <details class="faq"><summary>「こころの整理」はどう使う?</summary><p>しんどいときや考えがまとまらないときに、「つらいとき」タブの「こころの整理」から使います。今の状態を選ぶ → 引っかかっていることを書く(とばしてもよい)→ 自分で変えられることかを切り分ける、の順で進み、最後に対処の見方が出ます。「記録して終わる」を押すと「メモ」タブの「これまでのメモ」の「整理」に残り、3件以上たまると、どんな状態になりやすいかのまとめが出ます。途中で「ひと呼吸」だけして終えてもかまいません。</p></details>
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
@@ -382,6 +398,10 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
         <span class="q">いのちSOS(NPO法人 自殺対策支援センターライフリンク)</span><span class="tel">0120-061-338</span>
         <p class="note">受付時間は変わることがあるので、つながらないときは各窓口のサイトで確かめてください。</p>
       </div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>こころの整理</h2><span class="saved" id="sv-sort"></span></div>
+      <div id="sortBody" class="sort"></div>
     </div>
     <div class="card">
       <div class="head"><h2>主治医に伝えたいこと</h2><span class="saved" id="sv-doc"></span></div>
@@ -657,7 +677,7 @@ function renderSuggest(){
 
 // ── 提出用のまとめ ──
 let repN=14;
-const REP_OPT=[['sum','まとめ(平均・回数)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['wx','天気',false]];
+const REP_OPT=[['sum','まとめ(平均・回数)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['wx','天気',false]];
 if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
 let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
 function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
@@ -689,6 +709,8 @@ function buildReport(){
   const TL=t=>(TAGS.find(x=>x[0]===t)||[0,t])[1];
   if(repSel.thought){const L=S.notes.filter(n=>n.type==='thought'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
     h+=`<h2>思考の癖メモ</h2>${L.length?L.map(n=>`<div class="rep-note-item"><b>${md(n.date)} ${n.at}</b>${n.scene?`<div>場面:${esc(n.scene)}</div>`:''}${n.thought?`<div>浮かんだ考え:${esc(n.thought)}</div>`:''}${n.tags&&n.tags.length?`<div>考えの癖:${n.tags.map(TL).join('・')}</div>`:''}${n.alt?`<div>別の見方:${esc(n.alt)}</div>`:''}</div>`).join(''):'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.sort){const L=S.notes.filter(n=>n.type==='sort'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
+    h+=`<h2>こころの整理</h2>${L.length?`<ul class="rep-list">${L.map(n=>`<li><b>${md(n.date)} ${n.at}</b> ${esc(SORT_CTRL[n.ctrl]||'')}:${esc(n.text||'(言葉にしなかった)')}(${(n.feel||[]).map(f=>(SORT_FEEL.find(x=>x[0]===f)||[0,0,0,f])[3]).join('/')})</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.aware){const L=S.notes.filter(n=>n.type==='aware'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
     h+=`<h2>気づいたこと</h2>${L.length?`<ul class="rep-list">${L.map(n=>`<li><b>${md(n.date)}</b> ${esc(n.text)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.wx){const wx=S.wx||{};const L=ks.filter(k=>wx[k]);h+=`<h2>天気</h2>${L.length?`<div class="grid"><table class="rep-t"><tr><th>日付</th><th>天気</th><th>最高/最低℃</th><th>湿度%</th><th>気圧差hPa</th></tr>${L.map(k=>{const w=wx[k];return `<tr><td>${md(k)}</td><td>${WMO(w.code)}</td><td>${w.tmax}/${w.tmin}</td>${cell(w.hm)}${cell(w.dp)}</tr>`}).join('')}</table></div>`:'<p class="rep-note">記録なし</p>'}`}
@@ -766,6 +788,58 @@ function renderAiBox(){
     function fb(){const t=$('repText');t.hidden=false;t.value=text;t.focus();t.select();flash('sv-ai','下の欄の文字を選んだので、コピーしてください')}});
 }
 
+// ── こころの整理(しんどいとき・考えがまとまらないとき) ──
+const SORT_FEEL=[['busy','頭がいっぱい・考えがぐるぐるする','情報・やること・心配ごとが多すぎる','頭がいっぱい'],['check','数字や結果が気になって、何度も確認したくなる','見ても変わらないと分かっているのに','何度も確認したくなる'],['zawa','気持ちがざわつく・落ち着かない','不安・焦り・イライラ','ざわつく'],['heavy','重い・動けない・無気力','エネルギーが切れている感じ','動けない'],['night','考えごとが止まらない(夜・休みの日)','休んでいるのに頭が働いている','考えが止まらない']];
+const SORT_EX=['仕事のこと','家庭のこと','人間関係のこと','体調・疲れのこと','お金のこと','先のこと(準備・見通し)','うまく言葉にならない何か'];
+const SORT_CTRL={can:'変えられる',cannot:'変えられない',mix:'混ざっている'};
+const SORT_CAN=`<h3 class="sort-h">変えられること:行動を一つ</h3><p class="sort-lead">「全部」ではなく、「次の小さな一つ」を決めます。</p>
+ <div class="sort-step"><b>① 一番小さな一歩に分ける</b><span>解決しようとしない。「次にとる、5分でできる行動」だけ決めます。</span></div>
+ <div class="sort-step"><b>② それ以外は、今は脇に置く</b><span>同時に全部は持てません。残りは「あとで」の箱へ。</span></div>
+ <div class="sort-step"><b>③ 一歩進めたら、自分に「やった」と言う</b><span>進んだ事実を、自分で認めます。</span></div>`;
+const SORT_CANNOT=`<h3 class="sort-h">変えられないこと:気持ちを手当てする</h3><p class="sort-lead">変えられないものは、「解決」ではなく「距離」で楽になります。</p>
+ <div class="sort-step"><b>① 「これは自分の管轄外」と区切る</b><span>「ここから先は、私の領域ではない」と線を引きます。</span></div>
+ <div class="sort-step"><b>② 気持ちを、否定せずに置いておく</b><span>不安でいい、悔しくていい。打ち消そうとしないほうが、通り過ぎやすくなります。</span></div>
+ <div class="sort-step"><b>③ 今ここの感覚に戻る</b><span>手元のこと(温かい飲み物・呼吸・歩く)に意識を移します。</span></div>`;
+let SO={step:'start',feel:[],what:'',ctrl:null};
+function renderSort(){
+  const b=$('sortBody');let h='';
+  const nav=(btns)=>`<div class="row" style="margin-top:4px">${btns}</div>`;
+  if(SO.step==='start')h=`<p class="note">しんどいとき、考えがまとまらないときに。問いに答えていくと、今できることが見えてきます。</p>
+    <span class="q">今、どんな感じですか(いくつでも)</span>
+    <div class="sort-opts">${SORT_FEEL.map(([id,l,s])=>`<button type="button" class="sort-opt" data-f="${id}" aria-pressed="${SO.feel.includes(id)}">${l}<small>${s}</small></button>`).join('')}</div>
+    ${nav(`<button class="btn small" id="soNext1" ${SO.feel.length?'':'disabled'}>次へ</button><button class="btn small ghost" id="soBreath">まず、ひと呼吸つきたい</button>`)}`;
+  else if(SO.step==='breath')h=`<div class="breath" aria-hidden="true">ゆっくり</div><p class="note" style="text-align:center;color:var(--ink)">円が広がるとき、ゆっくり吸って。縮むとき、長く吐いて。3〜4回くりかえします。吐く時間を、吸う時間より長く。</p>
+    ${nav(`<button class="btn small" id="soBack">落ち着いたら、整理する</button><button class="btn small ghost" id="soCalm">今日はこれで十分</button>`)}`;
+  else if(SO.step==='calm')h=`<p class="sort-lead">ひと呼吸つけたなら、それで十分です。</p><p class="note">無理に整理しなくていい。落ち着くことそのものが、立派な対処です。</p>${nav(`<button class="btn small ghost" id="soReset">もう一度はじめる</button>`)}`;
+  else if(SO.step==='what')h=`<span class="q">何が、いちばん引っかかっていますか</span><p class="note">ひとことでいい。書くと、頭の外に出せます。下の例を押してもかまいません。</p>
+    <div class="chips">${SORT_EX.map(e=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('')}</div>
+    <textarea id="soWhat" aria-label="引っかかっていること" placeholder="例:先のことを考えると焦る">${esc(SO.what)}</textarea>
+    ${nav(`<button class="btn small" id="soNext2">次へ</button><button class="btn small ghost" id="soSkip">うまく言えない・とばす</button>`)}`;
+  else if(SO.step==='ctrl')h=`<span class="q">それは、あなたが今、変えられることですか</span><p class="note">いちばん大事な切り分けです。直感で大丈夫です。</p>
+    <div class="sort-opts"><button type="button" class="sort-opt" data-c="can">自分の行動で、変えられる部分がある<small>やれることが、少しはある</small></button><button type="button" class="sort-opt" data-c="cannot">自分には、どうにもできないこと<small>相手・時間・結果など、自分の外にあるもの</small></button><button type="button" class="sort-opt" data-c="mix">どちらも混ざっている<small>迷ったらこれで。次の画面で分けます</small></button></div>
+    <div class="sort-hint"><b>分け方のヒント</b><br>・変えられる=自分の「行動」で動くもの(準備する、頼む、書く、決める、休む)<br>・変えられない=他人の気持ちや反応、過去、結果や数字、時間の経過<br>・例:「準備をする」は変えられる/「うまくいくか」は変えられない</div>`;
+  else if(SO.step==='result')h=(SO.ctrl==='can'?SORT_CAN:SO.ctrl==='cannot'?SORT_CANNOT:`<p class="sort-lead">「変えられること」と「変えられないこと」を、分けるだけで軽くなります。</p>${SORT_CAN}${SORT_CANNOT}`)+
+    (SO.what.trim()?`<div class="sort-hint">書いたこと:「${esc(SO.what.trim())}」<br>これを、上の見方で見てみてください。</div>`:'')+
+    nav(`<button class="btn small" id="soSave">記録して終わる</button><button class="btn small ghost" id="soBreath2">もう少し落ち着きたい</button>`);
+  else if(SO.step==='done')h=`<p class="sort-lead">記録しました。頭の中を、一度外に出せました。</p><p class="note">整理できたこと自体が前進です。記録がたまると、何に引っかかりやすいかが見えてきます(「メモ」タブの「これまでのメモ」→「整理」)。</p>
+    <div class="sort-hint">支援職に伝えてきたことを、今日は自分に。<br>「全部を抱えなくていい。休むことも、大切な仕事の一部です。」</div>${nav(`<button class="btn small ghost" id="soReset">もう一度はじめる</button>`)}`;
+  b.innerHTML=h;
+  b.querySelectorAll('[data-f]').forEach(x=>x.addEventListener('click',()=>{const id=x.dataset.f;SO.feel=SO.feel.includes(id)?SO.feel.filter(z=>z!==id):[...SO.feel,id];renderSort()}));
+  b.querySelectorAll('[data-ex]').forEach(x=>x.addEventListener('click',()=>{const t=$('soWhat');SO.what=t.value?t.value+'、'+x.dataset.ex:x.dataset.ex;renderSort()}));
+  b.querySelectorAll('[data-c]').forEach(x=>x.addEventListener('click',()=>{SO.ctrl=x.dataset.c;SO.step='result';renderSort()}));
+  const on=(id,f)=>{const e=$(id);if(e)e.addEventListener('click',f)};
+  if($('soWhat'))$('soWhat').addEventListener('input',e=>SO.what=e.target.value);
+  on('soNext1',()=>{SO.step='what';renderSort()});
+  on('soBreath',()=>{SO.step='breath';renderSort()});on('soBreath2',()=>{SO.step='breath';renderSort()});
+  on('soBack',()=>{SO.step=SO.feel.length?'what':'start';renderSort()});
+  on('soCalm',()=>{SO.step='calm';renderSort()});
+  on('soNext2',()=>{SO.step='ctrl';renderSort()});
+  on('soSkip',()=>{SO.what='';SO.step='ctrl';renderSort()});
+  on('soReset',()=>{SO={step:'start',feel:[],what:'',ctrl:null};renderSort()});
+  on('soSave',()=>{S.notes.push({...stamp(),type:'sort',feel:SO.feel.slice(),text:SO.what.trim().slice(0,2000),ctrl:SO.ctrl});
+    if(save('sv-sort')){SO.step='done';renderSort();renderNotes()}});
+}
+
 function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
 function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
@@ -789,21 +863,23 @@ $('aw-save').addEventListener('click',()=>{const t=$('aw-text').value.trim();if(
 $('nq').addEventListener('input',renderNotes);
 let delArm=null;
 function renderNotes(){
-  const F=[['all','すべて'],['thought','思考の癖'],['aware','気づき'],['day','ひとこと']];
+  const F=[['all','すべて'],['thought','思考の癖'],['aware','気づき'],['sort','整理'],['day','ひとこと']];
   $('nf').innerHTML=F.map(([id,l])=>`<button type="button" class="chip" data-f="${id}" aria-pressed="${nFilter===id}">${l}</button>`).join('');
   $('nf').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{nFilter=c.dataset.f;renderNotes()}));
   let items=S.notes.map(n=>({...n}));
   Object.keys(S.days).forEach(k=>{const m=S.days[k].memo;if(m&&m.trim())items.push({id:'d'+k,date:k,at:'',type:'day',text:m})});
   if(nFilter!=='all')items=items.filter(n=>n.type===nFilter);
   const q=$('nq').value.trim();
-  if(q)items=items.filter(n=>[n.scene,n.thought,n.alt,n.text,(n.tags||[]).map(t=>(TAGS.find(x=>x[0]===t)||[])[1]).join(' ')].join(' ').includes(q));
+  if(q)items=items.filter(n=>[n.scene,n.thought,n.alt,n.text,n.type==='sort'?SORT_CTRL[n.ctrl]:'',(n.tags||[]).map(t=>(TAGS.find(x=>x[0]===t)||[])[1]).join(' ')].join(' ').includes(q));
   items.sort((a,b)=>(b.date+b.at).localeCompare(a.date+a.at));
   const TL=t=>(TAGS.find(x=>x[0]===t)||[0,t])[1];
-  $('noteList').innerHTML=items.length?items.map(n=>{
-    const kind=n.type==='thought'?'<span class="kind">思考の癖</span>':n.type==='aware'?'<span class="kind aware">気づき</span>':'<span class="kind day">ひとこと</span>';
+  let pat='';if(nFilter==='sort'){const so=S.notes.filter(n=>n.type==='sort');if(so.length>=3){const cc={can:0,cannot:0,mix:0},fc={};so.forEach(n=>{cc[n.ctrl]=(cc[n.ctrl]||0)+1;(n.feel||[]).forEach(f=>fc[f]=(fc[f]||0)+1)});const tf=Object.entries(fc).sort((a,b)=>b[1]-a[1])[0];
+    pat=`<div class="sort-hint"><b>これまでの整理(${so.length}件)</b><br>変えられる ${cc.can}・変えられない ${cc.cannot}・混ざっている ${cc.mix}${tf?`<br>いちばん多い状態:${esc((SORT_FEEL.find(x=>x[0]===tf[0])||[0,tf[0]])[1])}(${tf[1]}回)`:''}<br>${cc.cannot>cc.can?'「変えられないこと」で消耗しやすいのかもしれません。距離をとる手当てを増やすと楽になりそうです。':'「変えられること」に目を向けられています。小さな一歩を続けていきましょう。'}</div>`}}
+  $('noteList').innerHTML=pat+(items.length?items.map(n=>{
+    const kind=n.type==='thought'?'<span class="kind">思考の癖</span>':n.type==='sort'?'<span class="kind sort">整理</span>':n.type==='aware'?'<span class="kind aware">気づき</span>':'<span class="kind day">ひとこと</span>';
     const del=n.type==='day'?'':`<button class="del" data-del="${n.id}">${delArm===n.id?'本当に消す':'消す'}</button>`;
-    let body=n.type==='thought'?`${n.scene?`<span class="k">場面</span><span>${esc(n.scene)}</span>`:''}${n.thought?`<span class="k">浮かんだ考え</span><span>${esc(n.thought)}</span>`:''}${n.tags&&n.tags.length?`<span class="k">考えの癖:${n.tags.map(TL).join('・')}</span>`:''}${n.alt?`<span class="k">別の見方</span><span>${esc(n.alt)}</span>`:''}`:`<span>${esc(n.text)}</span>`;
-    return `<div class="note-item"><div class="meta">${kind}<span>${md(n.date)} ${n.at}</span>${del}</div>${body}</div>`}).join(''):'<p class="note">まだメモはありません。</p>';
+    let body=n.type==='sort'?`<span class="k">切り分け:${SORT_CTRL[n.ctrl]||'—'}</span>${n.text?`<span>${esc(n.text)}</span>`:'<span class="k">(言葉にしなかった)</span>'}<span class="k">状態:${(n.feel||[]).map(f=>(SORT_FEEL.find(x=>x[0]===f)||[0,0,0,f])[3]).join('/')||'—'}</span>`:n.type==='thought'?`${n.scene?`<span class="k">場面</span><span>${esc(n.scene)}</span>`:''}${n.thought?`<span class="k">浮かんだ考え</span><span>${esc(n.thought)}</span>`:''}${n.tags&&n.tags.length?`<span class="k">考えの癖:${n.tags.map(TL).join('・')}</span>`:''}${n.alt?`<span class="k">別の見方</span><span>${esc(n.alt)}</span>`:''}`:`<span>${esc(n.text)}</span>`;
+    return `<div class="note-item"><div class="meta">${kind}<span>${md(n.date)} ${n.at}</span>${del}</div>${body}</div>`}).join(''):'<p class="note">まだメモはありません。</p>');
   $('noteList').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.del;
     if(delArm===id){S.notes=S.notes.filter(n=>n.id!==id);delArm=null;save();}else{delArm=id;setTimeout(()=>{if(delArm===id){delArm=null;renderNotes()}},4000)}renderNotes()}));
   renderSuggest();
@@ -968,7 +1044,8 @@ function validData(v){
     if(x.rates!=null){if(!Array.isArray(x.rates))return '工夫の評価の形式が違います';for(const r of x.rates)if(!isObj(r)||!realDate(r.date)||!rng(r.score,0,10)||r.score==null||!['keep','change','stop'].includes(r.keep))return '工夫の評価の形式が違います'}
   }
   if(v.notes!=null){if(!Array.isArray(v.notes))return 'メモの形式が違います';
-    for(const n of v.notes){if(!isObj(n)||!okId(n.id)||!realDate(n.date)||!(n.at===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(n.at||''))||!['thought','aware'].includes(n.type))return 'メモの形式が違います';
+    for(const n of v.notes){if(!isObj(n)||!okId(n.id)||!realDate(n.date)||!(n.at===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(n.at||''))||!['thought','aware','sort'].includes(n.type))return 'メモの形式が違います';
+      if(n.type==='sort'&&(!['can','cannot','mix'].includes(n.ctrl)||(n.feel!=null&&(!Array.isArray(n.feel)||n.feel.some(f=>!SORT_FEEL.some(x=>x[0]===f))))))return '整理の記録の形式が違います';
       for(const f of ['scene','thought','alt','text'])if(n[f]!=null&&!isStr(n[f],5000))return 'メモの形式が違います';
       if(n.tags!=null&&(!Array.isArray(n.tags)||n.tags.some(t=>!TAGS.some(x=>x[0]===t))))return 'メモの考えの癖の形式が違います'}}
   if(v.weeks!=null){if(!isObj(v.weeks))return '週のふりかえりの形式が違います';for(const [k,w] of Object.entries(v.weeks)){if(!realDate(k)||!isObj(w))return '週のふりかえりの形式が違います';for(const f of ['good','much','next'])if(w[f]!=null&&!isStr(w[f],5000))return '週のふりかえりの形式が違います'}}
@@ -1040,7 +1117,7 @@ $('calBtn').addEventListener('click',()=>{
 });
 function dayCheck(){if(ymd(new Date())!==TODAY)location.reload();else renderStatus()}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayCheck()});setInterval(dayCheck,60000);
-renderBasics(); renderTodayExp(); renderExp(); renderNotes();
+renderBasics(); renderTodayExp(); renderExp(); renderNotes(); renderSort();
 try{const t=localStorage.getItem(KEY+'_tab');if(t&&t!=='day'){const b=document.querySelector(`.tabs button[data-p="${t}"]`);b&&b.click()}}catch(e){}
 })();
 </script>
