@@ -124,6 +124,13 @@ input,textarea,select{max-width:100%;box-sizing:border-box}
 .scale.eleven button{font-size:12.5px;padding:7px 0}
 .sym{border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
 .sym .nm{font-weight:700}
+.faq{border-bottom:1px solid var(--line);padding-block:4px}
+.faq:last-child{border-bottom:0}
+.faq summary{color:var(--ink);font-size:14.5px;font-weight:500;padding-block:6px;list-style:none;cursor:pointer;display:flex;gap:8px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:'Q';color:var(--ai);font-weight:700;flex:none}
+.faq[open] summary{color:var(--ai)}
+.faq p{margin:0 0 8px;font-size:14px;color:var(--ink)}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -143,6 +150,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     <button role="tab" id="t-exp" aria-selected="false" data-p="exp" aria-controls="p-exp">工夫</button>
     <button role="tab" id="t-memo" aria-selected="false" data-p="memo" aria-controls="p-memo">メモ</button>
     <button role="tab" id="t-look" aria-selected="false" data-p="look" aria-controls="p-look">ふりかえり</button>
+    <button role="tab" id="t-faq" aria-selected="false" data-p="faq" aria-controls="p-faq">Q&amp;A</button>
     <button role="tab" id="t-help" aria-selected="false" data-p="help" aria-controls="p-help">つらいとき</button>
   </nav>
 
@@ -278,6 +286,51 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     </div>
   </section>
 
+  <!-- よくある質問 -->
+  <section class="panel" role="tabpanel" aria-labelledby="t-faq" id="p-faq" hidden>
+    <div class="card">
+      <h2>書きかた</h2>
+      <details class="faq"><summary>いつ書けばいい?</summary><p>朝と夜の2回です。朝は「昨夜の睡眠」を、起きてからお昼(12時)までに。夜は「体と心」「今日の4つ」「食事」「症状」などを、寝る前までに書きます。「今日」タブのいちばん上に、済んだものは✓、まだのものは「・」で出ます。</p></details>
+      <details class="faq"><summary>決定ボタンはある?</summary><p>ありません。押したり書いたりした時点で自動で保存されます。入力したら、そのまま閉じて大丈夫です。各欄の右上に「保存しました」と一瞬出ます。例外は「メモ」タブの「思考の癖メモ」と「気づいたこと」で、書いたあとに「メモを残す」を押します。</p></details>
+      <details class="faq"><summary>押し間違えたら?</summary><p>同じボタンをもう一度押すと取り消せます。文字の欄は、書き直せばそのまま保存されます。</p></details>
+      <details class="faq"><summary>日付が変わったらどうなる?</summary><p>「今日」タブは空の状態から始まります。前の日の記録はその日付のまま残り、引き継がれることはありません。開いたまま日付をまたいだときは、画面に戻った時点で自動で読み込み直します。</p></details>
+      <details class="faq"><summary>書き忘れた日は?</summary><p>夜の分は、翌日のお昼(12時)まで「今日」タブの「昨日の分を書き足す」から追加できます。お昼を過ぎたら、その日は空のままにします。空いた日は「ふりかえり」で「・」(未記入)になるだけで、集計にも入りません。</p></details>
+      <details class="faq"><summary>全部書けない日は?</summary><p>「体と心」の2つだけで十分です。何も書けない日があっても、そのままで大丈夫です。連続記録や達成率は出しません。</p></details>
+    </div>
+    <div class="card">
+      <h2>点数のつけかた</h2>
+      <details class="faq"><summary>体と心の点数で迷ったら?</summary><p>「10段階の基準を見る」を開き、今日の状態に一番近い言葉の数字を選びます。前の日と比べて決めなくてかまいません。</p></details>
+      <details class="faq"><summary>症状の点数は何回つける?</summary><p>1日1回、寝る前に1日分をまとめてつけます。日中に何度もつけると、かえって症状に注意が向きやすくなるためです。「強さ」は症状そのものの強さ、「生活への支障」はその日どれだけ生活の邪魔をしたかです。</p></details>
+      <details class="faq"><summary>症状の強さが「いつもより高い」と出たら?</summary><p>この7日間の平均より3以上高い日に出る案内です。いつもと違う感じがあれば「気になるサイン」の「体の症状がいつもと違う」を押し、主治医に伝える材料にします。</p></details>
+      <details class="faq"><summary>「気になるサイン」を押すとどうなる?</summary><p>相談を考える目安と、相談先へのボタンが出るだけです。どこかに連絡が行くことはありません。押した日数は、主治医へのメモの下書きに入ります。</p></details>
+      <details class="faq"><summary>中途覚醒の「目が覚めていた時間」は正確でないとだめ?</summary><p>だいたいで大丈夫です。睡眠時間の目安を出すのに使うだけです。</p></details>
+    </div>
+    <div class="card">
+      <h2>ほかのタブ</h2>
+      <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を1つだけ選び、毎日「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
+      <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
+      <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
+      <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
+      <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。</p></details>
+      <details class="faq"><summary>主治医へのメモはどう使う?</summary><p>「最近2週間の記録から下書きを足す」で数字のまとめが入ります。自分の言葉で書き足して、受診のときに画面を見せるか、「コピー」してメモアプリなどに貼ります。</p></details>
+    </div>
+    <div class="card">
+      <h2>記録の保存と安全</h2>
+      <details class="faq"><summary>記録はどこに保存される?</summary><p>このスマホのブラウザ(Safari)の中だけです。サイトにも外部にも送られません。ページのアドレスを知っている人がページを開いても、あなたの記録は見えません。</p></details>
+      <details class="faq"><summary>記録が消えることはある?</summary><p>Safariの「履歴とWebサイトデータを消去」をすると消えます。プライベートブラウズで開くと保存されません。また、ホーム画面に追加したアイコンから開く場合とSafariで開く場合は、保存場所が別になります。開き方はどちらか一つに決めてください。</p></details>
+      <details class="faq"><summary>控えをとるには?</summary><p>「つらいとき」タブの「書き出す(コピー)」を押し、メモアプリなどに貼っておきます。月に1回くらいが目安です。</p></details>
+      <details class="faq"><summary>スマホを替えたら?</summary><p>前のスマホで「書き出す(コピー)」→ 新しいスマホでこのページを開き、「読み込む」の欄に貼って「読み込む」を2回押します。読み込む前の記録は控えが残り、「読み込む前に戻す」で戻せます。</p></details>
+    </div>
+    <div class="card">
+      <h2>天気と通知</h2>
+      <details class="faq"><summary>天気はどうやって記録される?</summary><p>最初に「現在地の天気を自動で記録する」を押して位置情報を許可すると、以後はページを開いたときに自動で取ります(1時間に1回まで)。開かなかった日の分も、次に開いたときに過去7日分を埋めます。</p></details>
+      <details class="faq"><summary>位置情報は送られる?</summary><p>天気を取るために、約10km単位に丸めた位置だけを Open-Meteo(天気データのサービス)に送ります。位置そのものは保存しません。</p></details>
+      <details class="faq"><summary>位置情報を許可しなかったら?</summary><p>天気以外はすべて使えます。あとから使うときは、iPhoneの「設定」→「プライバシーとセキュリティ」→「位置情報サービス」→「Safariのサイト」で許可します。</p></details>
+      <details class="faq"><summary>湿度と気圧差の意味は?</summary><p>湿度はその日の平均と、最低〜最高です。気圧差はその日の気圧の最高と最低の差(hPa)で、8hPa以上の日は主治医へのメモにも書き出されます。</p></details>
+      <details class="faq"><summary>記録の時間に通知を出したい</summary><p>「今日」タブの「決まった時刻に通知を出す」で時刻を決めて「カレンダーに追加」を押し、カレンダーの画面で「追加」を押します。毎日その時刻に通知が出ます。やめるときは、カレンダーの予定を削除します。</p></details>
+    </div>
+  </section>
+
   <!-- つらいとき -->
   <section class="panel" role="tabpanel" aria-labelledby="t-help" id="p-help" hidden>
     <div class="card alert">
@@ -387,7 +440,7 @@ $('word').innerHTML=esc(WORDS[dayNo%WORDS.length])+'<small>今日の一言</smal
 // tabs
 document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));
-  ['day','exp','memo','look','help'].forEach(p=>$('p-'+p).hidden=p!==b.dataset.p);
+  ['day','exp','memo','look','faq','help'].forEach(p=>$('p-'+p).hidden=p!==b.dataset.p);
   if(b.dataset.p==='look')renderLook(); if(b.dataset.p==='memo')renderNotes(); if(b.dataset.p==='exp'||b.dataset.p==='help')renderExp();
   document.querySelectorAll('.tabs button').forEach(x=>x.tabIndex=x===b?0:-1);
   try{localStorage.setItem(KEY+'_tab',b.dataset.p)}catch(e){}
