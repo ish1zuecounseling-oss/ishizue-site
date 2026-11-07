@@ -303,7 +303,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details class="faq"><summary>症状の点数は何回つける?</summary><p>1日1回、寝る前に1日分をまとめてつけます。日中に何度もつけると、かえって症状に注意が向きやすくなるためです。「強さ」は症状そのものの強さ、「生活への支障」はその日どれだけ生活の邪魔をしたかです。</p></details>
       <details class="faq"><summary>症状の強さが「いつもより高い」と出たら?</summary><p>この7日間の平均より3以上高い日に出る案内です。いつもと違う感じがあれば「気になるサイン」の「体の症状がいつもと違う」を押し、主治医に伝える材料にします。</p></details>
       <details class="faq"><summary>「気になるサイン」を押すとどうなる?</summary><p>相談を考える目安と、相談先へのボタンが出るだけです。どこかに連絡が行くことはありません。押した日数は、主治医へのメモの下書きに入ります。</p></details>
-      <details class="faq"><summary>中途覚醒の「目が覚めていた時間」は正確でないとだめ?</summary><p>だいたいで大丈夫です。睡眠時間の目安を出すのに使うだけです。</p></details>
+      <details class="faq"><summary>中途覚醒の「目が覚めていた時間」は正確でないとだめ?</summary><p>だいたいで大丈夫です。夜中に目が覚めた日は、これを選ぶと「眠っていた時間」の目安が出ます。選ばない日は、布団にいた時間だけを出し、睡眠時間の集計には入れません。</p></details>
     </div>
     <div class="card">
       <h2>ほかのタブ</h2>
@@ -420,7 +420,7 @@ const PRESET=[
 
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')return s}catch(e){}return null}
 let S=load()||{days:{},exps:PRESET.map((n,i)=>({id:'p'+i,name:n,uses:{},rates:[]})),active:null,weeks:{},doc:''};
-function save(id){try{localStorage.setItem(KEY,JSON.stringify(S));flash(id,'保存しました')}catch(e){flash(id,'この画面では保存できません')}}
+function save(id){try{localStorage.setItem(KEY,JSON.stringify(S));flash(id,'保存しました');return true}catch(e){flash(id,'保存できませんでした。端末の空き容量やブラウザの設定を確かめてください');return false}}
 function flash(id,t){const el=document.getElementById(id);if(!el)return;el.textContent=t;clearTimeout(el._t);el._t=setTimeout(()=>el.textContent='',1600)}
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
@@ -478,7 +478,7 @@ function renderBasics(){
   $('awakeBox').hidden=!(d.wakeN>=1);
   $('sc-aw').innerHTML=AW.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${d.awake===v}" class="${d.awake===v?'pick':''}">${l}</button>`).join('');
   $('sc-aw').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),v=+b.dataset.v;dd.awake=dd.awake===v?undefined:v;save('sv-sleep');renderBasics()}));
-  const hrs=sleepH(d),bedh=bedH(d); $('sleepHours').textContent=hrs==null?'寝た時刻と起きた時刻を入れると、睡眠時間が出ます':(bedh!==hrs?'布団にいた時間:'+fmtH(bedh)+'\n眠っていた時間(目安):'+fmtH(hrs):'睡眠時間:'+fmtH(hrs));
+  const hrs=sleepH(d),bedh=bedH(d); $('sleepHours').textContent=bedh==null?'寝た時刻と起きた時刻を入れると、睡眠時間が出ます':hrs==null?'布団にいた時間:'+fmtH(bedh)+'\n眠っていた時間:目が覚めていた時間を選ぶと出ます':(bedh!==hrs?'布団にいた時間:'+fmtH(bedh)+'\n眠っていた時間(目安):'+fmtH(hrs):'睡眠時間:'+fmtH(hrs));
   $('sc-sq').innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-pressed="${d.sq===n}" aria-label="${n}:${SQ[n]}">${n}</button>`).join('');
   $('an-sq').textContent=typeof d.sq==='number'?d.sq+':'+SQ[d.sq]:'未記入';
   $('sc-sq').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd.sq=dd.sq===n?undefined:n;save('sv-sleep');renderBasics()}));
@@ -535,9 +535,10 @@ function renderStatus(){
   if($('stBack'))$('stBack').addEventListener('click',()=>{T=TODAY;renderBasics();renderTodayExp()});
   if(past&&!(hr<12&&T===yd)){T=TODAY;renderBasics();renderTodayExp()}
 }
-function evOf(d,id){const e=d.events||[];if(!e.length)return null;if(e.includes('none'))return false;return e.includes(id)}
+function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
+function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
 function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
-function sleepH(d){const h=bedH(d);if(h==null)return null;const a=AW.find(x=>x[0]===d.awake);return a&&d.wakeN>=1?Math.max(0,h-a[2]/60):h}
+function sleepH(d){const h=bedH(d);if(h==null)return null;if(d.wakeN>=1){const a=AW.find(x=>x[0]===d.awake);return a?Math.max(0,h-a[2]/60):null}return h}
 function fmtH(h){const m=Math.round(h*60);return Math.floor(m/60)+'時間'+(m%60?m%60+'分':'')}
 ['bed','wake'].forEach(id=>$(id).addEventListener('change',e=>{day(T)[id]=e.target.value;save('sv-sleep');renderBasics()}));
 
@@ -657,8 +658,8 @@ function renderTrend(){
    ['休憩できた / できなかった',r=>r.d.rest===2?true:r.d.rest===0?false:null],
    ['区切りで終えた / 終えられなかった',r=>r.d.stop===2?true:r.d.stop===0?false:null],
    ['食事を抜かなかった / 抜いた',r=>{const m=r.d.meals||{};const v=['am','noon','pm'].map(t=>m[t]);if(v.includes(false))return false;return v.every(y=>typeof y==='string'&&y.trim())?true:null}],
-   ['人と会った / 会わなかった',r=>evOf(r.d,'meet')],
-   ['予定が多かった / そうでない',r=>evOf(r.d,'busy')],
+   ['人と会った / 「特になし」の日',r=>evOf(r.d,'meet')],
+   ['予定が多かった / 「特になし」の日',r=>evOf(r.d,'busy')],
    ['気圧の変化 8hPa未満 / 以上',r=>wx[r.k]&&wx[r.k].dp!=null?wx[r.k].dp<8:null]];
   if(x)C.push(['工夫を使えた / 使えなかった',r=>x.uses[r.k]===true?true:x.uses[r.k]===false?false:null]);
   let out='<div class="t" style="color:var(--sub);font-size:12px"><span style="white-space:normal">条件</span><span>体</span><span>心</span></div>';let n=0;
@@ -673,7 +674,7 @@ $('doc').value=S.doc||'';
 $('doc').addEventListener('input',e=>{S.doc=e.target.value;save('sv-doc')});
 $('docFill').addEventListener('click',()=>{
   const ks=[];for(let i=13;i>=0;i--)ks.push(ymd(addDays(now,-i)));
-  const rec=ks.map(k=>S.days[k]).filter(Boolean);
+  const rec=ks.map(k=>S.days[k]).filter(hasData);
   const st=id=>{const a=rec.map(d=>d[id]).filter(f=>typeof f==='number');return a.length?'平均 '+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1)+'(最低 '+Math.min(...a)+')':null};
   const cnt=id=>rec.filter(d=>d[id]===2).length;
   const lines=['【最近2週間('+md(ks[0])+'〜'+md(ks[13])+')】','記録した日:'+rec.length+'日'];
@@ -700,22 +701,43 @@ $('docCopy').addEventListener('click',()=>copy($('doc').value,'sv-doc'));
 $('exportBtn').addEventListener('click',()=>{S.v=2;S.exportedAt=new Date().toISOString();copy(JSON.stringify(S),'sv-io');save()});
 let impArm=false;
 function validData(v){
-  const isObj=o=>o&&typeof o==='object'&&!Array.isArray(o);
-  if(!isObj(v)||!isObj(v.days)||!Array.isArray(v.exps))return '記録の形式が違います';
-  if(v.v!=null&&v.v>2)return 'このページより新しい形式の記録です';
-  if(v.notes!=null&&!Array.isArray(v.notes))return 'メモの形式が違います';
-  if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.some(x=>typeof x!=='string')))return '症状の名前の形式が違います';
-  if(v.weeks!=null&&!isObj(v.weeks))return '週のふりかえりの形式が違います';
+  const isObj=o=>!!o&&typeof o==='object'&&!Array.isArray(o);
+  const isStr=(x,max)=>typeof x==='string'&&x.length<=max;
+  const okId=x=>typeof x==='string'&&/^[A-Za-z0-9_-]{1,40}$/.test(x);
+  const realDate=k=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return false;const d=new Date(k+'T00:00:00');return !isNaN(d)&&ymd(d)===k};
   const rng=(x,a,b)=>x==null||(Number.isInteger(x)&&x>=a&&x<=b);
+  const tm=x=>x==null||x===''||(typeof x==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(x));
+  if(!isObj(v)||!isObj(v.days)||!Array.isArray(v.exps))return '記録の形式が違います';
+  if(v.v!=null&&!(Number.isInteger(v.v)&&v.v>=1&&v.v<=2))return 'このページでは読めない形式の記録です';
+  if(v.exportedAt!=null&&!isStr(v.exportedAt,40))return '書き出した日時の形式が違います';
+  if(v.doc!=null&&!isStr(v.doc,50000))return '主治医へのメモの形式が違います';
+  if(v.active!=null&&!okId(v.active))return '試している工夫の形式が違います';
+  if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.length>2||v.symNames.some(x=>!isStr(x,20))))return '症状の名前の形式が違います';
+  for(const k of ['wxOn'])if(v[k]!=null&&typeof v[k]!=='boolean')return '設定の形式が違います';
+  if(v.wxAt!=null&&typeof v.wxAt!=='number')return '設定の形式が違います';
+  const SIG=SIGNS.map(x=>x[0]),EVT=EVENTS.map(x=>x[0]);
   for(const [k,d] of Object.entries(v.days)){
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!isObj(d))return '日付 '+k+' の記録の形式が違います';
+    if(!realDate(k)||!isObj(d))return '日付 '+k.slice(0,12)+' の記録の形式が違います';
     if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5)||!rng(d.wakeN,0,3)||!rng(d.awake,1,4))return k+' の点数が範囲外です';
     for(const b of ['meal','rest','stop','free','sleep'])if(!rng(d[b],0,2))return k+' の記録の値が範囲外です';
-    if(d.meals!=null&&!isObj(d.meals))return k+' の食事の形式が違います';
-    for(const a of ['signs','events'])if(d[a]!=null&&!Array.isArray(d[a]))return k+' の記録の形式が違います';
-    if(d.sym!=null){if(!Array.isArray(d.sym))return k+' の症状の形式が違います';for(const x of d.sym)if(x&&(!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
+    if(!tm(d.bed)||!tm(d.wake))return k+' の睡眠の時刻の形式が違います';
+    if(d.memo!=null&&!isStr(d.memo,5000))return k+' のひとことの形式が違います';
+    if(d.meals!=null){if(!isObj(d.meals))return k+' の食事の形式が違います';for(const [m,x] of Object.entries(d.meals)){if(!['am','noon','pm'].includes(m)||!(x==null||x===false||isStr(x,500)))return k+' の食事の形式が違います'}}
+    if(d.signs!=null&&(!Array.isArray(d.signs)||d.signs.some(x=>!SIG.includes(x))))return k+' の気になるサインの形式が違います';
+    if(d.events!=null&&(!Array.isArray(d.events)||d.events.some(x=>!EVT.includes(x))))return k+' の今日あったことの形式が違います';
+    if(d.sym!=null){if(!Array.isArray(d.sym)||d.sym.length>2)return k+' の症状の形式が違います';for(const x of d.sym)if(x!=null&&(!isObj(x)||!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
   }
-  for(const x of v.exps)if(!isObj(x)||typeof x.name!=='string'||!isObj(x.uses||{})||!Array.isArray(x.rates||[]))return '工夫の記録の形式が違います';
+  for(const x of v.exps){
+    if(!isObj(x)||!okId(x.id)||!isStr(x.name,200))return '工夫の記録の形式が違います';
+    if(x.uses!=null){if(!isObj(x.uses))return '工夫の記録の形式が違います';for(const [k,u] of Object.entries(x.uses))if(!realDate(k)||typeof u!=='boolean')return '工夫の記録の形式が違います'}
+    if(x.rates!=null){if(!Array.isArray(x.rates))return '工夫の評価の形式が違います';for(const r of x.rates)if(!isObj(r)||!realDate(r.date)||!rng(r.score,0,10)||r.score==null||!['keep','change','stop'].includes(r.keep))return '工夫の評価の形式が違います'}
+  }
+  if(v.notes!=null){if(!Array.isArray(v.notes))return 'メモの形式が違います';
+    for(const n of v.notes){if(!isObj(n)||!okId(n.id)||!realDate(n.date)||!(n.at===''||/^\d{2}:\d{2}$/.test(n.at||''))||!['thought','aware'].includes(n.type))return 'メモの形式が違います';
+      for(const f of ['scene','thought','alt','text'])if(n[f]!=null&&!isStr(n[f],5000))return 'メモの形式が違います';
+      if(n.tags!=null&&(!Array.isArray(n.tags)||n.tags.some(t=>!TAGS.some(x=>x[0]===t))))return 'メモの考えの癖の形式が違います'}}
+  if(v.weeks!=null){if(!isObj(v.weeks))return '週のふりかえりの形式が違います';for(const [k,w] of Object.entries(v.weeks)){if(!realDate(k)||!isObj(w))return '週のふりかえりの形式が違います';for(const f of ['good','much','next'])if(w[f]!=null&&!isStr(w[f],5000))return '週のふりかえりの形式が違います'}}
+  if(v.wx!=null){if(!isObj(v.wx))return '天気の記録の形式が違います';const num=x=>x==null||(typeof x==='number'&&isFinite(x));for(const [k,w] of Object.entries(v.wx)){if(!realDate(k)||!isObj(w)||!Number.isInteger(w.code)||!num(w.tmax)||!num(w.tmin)||!num(w.dp)||!num(w.hm)||!num(w.hmMin)||!num(w.hmMax))return '天気の記録の形式が違います'}}
   return null}
 $('importBtn').addEventListener('click',()=>{let v;try{v=JSON.parse($('importText').value)}catch(e){flash('sv-io','読み込めませんでした。書き出した文字をそのまま貼ってください');return}
   const bad=validData(v);if(bad){flash('sv-io','読み込めませんでした:'+bad);return}
@@ -723,8 +745,15 @@ $('importBtn').addEventListener('click',()=>{let v;try{v=JSON.parse($('importTex
   if(!impArm){impArm=true;$('importBtn').textContent='今の記録と置き換える(もう一度押す)';flash('sv-io',(v.exportedAt?v.exportedAt.slice(0,10)+' に書き出した記録です。':'')+'今の記録は、置き換える前に控えを残します');setTimeout(()=>{impArm=false;$('importBtn').textContent='読み込む'},6000);return}
   impArm=false;$('importBtn').textContent='読み込む';
   try{localStorage.setItem(KEY+'_before_import',JSON.stringify(S))}catch(e){flash('sv-io','今の記録の控えを残せなかったので、読み込みを中止しました');return}
-  S=v;S.notes=S.notes||[];save('sv-io');$('importText').value='';$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=false;flash('sv-io','読み込みました')});
-$('undoImp').addEventListener('click',()=>{try{const p=JSON.parse(localStorage.getItem(KEY+'_before_import')||'null');if(!p)throw 0;S=p;save('sv-io');try{localStorage.removeItem(KEY+'_before_import')}catch(e){};$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')}catch(e){flash('sv-io','戻せる控えがありません')}});
+  const prev=S; S=v;
+  if(!save()){S=prev;flash('sv-io','保存できなかったので、読み込みを中止しました。今の記録はそのままです');return}
+  $('importText').value='';$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=false;flash('sv-io','読み込みました')});
+$('undoImp').addEventListener('click',()=>{let p;try{p=JSON.parse(localStorage.getItem(KEY+'_before_import')||'null')}catch(e){p=null}
+  if(!p){flash('sv-io','戻せる控えがありません');return}
+  const prev=S;S=p;
+  if(!save()){S=prev;flash('sv-io','保存できなかったので、戻せませんでした。控えは残してあります');return}
+  try{localStorage.removeItem(KEY+'_before_import')}catch(e){}
+  $('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')});
 try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
 function rerenderAll(){S.notes=S.notes||[];S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
