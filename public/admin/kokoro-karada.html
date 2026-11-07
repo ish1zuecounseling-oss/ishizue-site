@@ -31,8 +31,8 @@ h3{font-size:14px;margin:0;color:var(--sub);font-weight:700;letter-spacing:.04em
 .date{color:var(--sub);font-size:13px;font-variant-numeric:tabular-nums}
 .word{background:var(--ai-soft);border-radius:14px;padding:14px 16px;font-family:var(--display);font-size:16px;color:var(--ai)}
 .word small{display:block;font-family:var(--body);font-size:12px;color:var(--sub);margin-top:4px}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
-.tabs button{border:0;background:transparent;color:var(--sub);font:inherit;font-size:12px;font-weight:700;padding:8px 0;white-space:nowrap;letter-spacing:-.02em;border-radius:9px;cursor:pointer}
+.tabs{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.tabs button{border:0;background:transparent;color:var(--sub);font:inherit;font-size:clamp(10.5px,3.1vw,13px);font-weight:700;padding:8px 0;white-space:nowrap;letter-spacing:-.02em;flex:1 1 auto;padding-inline:4px;border-radius:9px;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--ai);color:var(--paper)}
 section.panel{display:flex;flex-direction:column;gap:14px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -99,6 +99,13 @@ input[type=time]{font:inherit;color:var(--ink);background:var(--bg);border:1px s
 .kind.aware{background:var(--moss-soft);color:var(--moss)}
 .kind.day{background:var(--bg);color:var(--sub)}
 .del{font:inherit;font-size:12px;margin-left:auto;border:0;background:transparent;color:var(--sub);cursor:pointer;text-decoration:underline}
+.chip.sign[aria-pressed="true"]{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.trend{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.trend .t{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:4px}
+.trend .t span{font-variant-numeric:tabular-nums;white-space:nowrap}
+.seg button.on2{background:var(--moss-soft);border-color:var(--moss);color:var(--moss);font-weight:700}
+.seg button.on0{background:var(--ai-soft);border-color:var(--sub);color:var(--sub);font-weight:700}
+.dot.n{background:var(--ai-soft);border-color:var(--sub)}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -114,15 +121,15 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   <div class="word" id="word"></div>
 
   <nav class="tabs" role="tablist">
-    <button role="tab" id="t-day" aria-selected="true" data-p="day">今日</button>
-    <button role="tab" id="t-exp" aria-selected="false" data-p="exp">工夫</button>
-    <button role="tab" id="t-memo" aria-selected="false" data-p="memo">メモ</button>
-    <button role="tab" id="t-look" aria-selected="false" data-p="look">ふりかえり</button>
-    <button role="tab" id="t-help" aria-selected="false" data-p="help">つらいとき</button>
+    <button role="tab" id="t-day" aria-selected="true" data-p="day" aria-controls="p-day">今日</button>
+    <button role="tab" id="t-exp" aria-selected="false" data-p="exp" aria-controls="p-exp">工夫</button>
+    <button role="tab" id="t-memo" aria-selected="false" data-p="memo" aria-controls="p-memo">メモ</button>
+    <button role="tab" id="t-look" aria-selected="false" data-p="look" aria-controls="p-look">ふりかえり</button>
+    <button role="tab" id="t-help" aria-selected="false" data-p="help" aria-controls="p-help">つらいとき</button>
   </nav>
 
   <!-- 今日 -->
-  <section class="panel" id="p-day">
+  <section class="panel" role="tabpanel" aria-labelledby="t-day" id="p-day">
     <div class="card">
       <div class="head"><h2>昨夜の睡眠</h2><span class="saved" id="sv-sleep"></span></div>
       <div class="sleeprow">
@@ -138,7 +145,13 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <div id="basics"></div>
       <div class="item"><span class="q" id="q-body">体の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-body" id="sc-body"></div><p class="anchor" id="an-body"></p></div>
       <div class="item"><span class="q" id="q-mind">心の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-mind" id="sc-mind"></div><p class="anchor" id="an-mind"></p></div>
-      <p class="note warnline" id="lowNote" hidden>2以下の日は、工夫より先に相談を考える日です。「つらいとき」のタブを開いてください。</p>
+      <div class="item"><span class="q">気になるサイン(あれば押す)</span><div class="chips" id="signs"></div>
+        <div id="signNote" hidden style="display:flex;flex-direction:column;gap:6px">
+          <p class="note warnline">このサインがある日は、点数に関係なく、工夫より先に相談を考えます。</p>
+          <p class="note warnline" id="dieNote" hidden style="font-weight:700">消えてしまいたい気持ちがあるときは、ひとりで抱えずに今日のうちに誰かに伝えます。主治医か相談窓口へ。自分の安全を保てないと感じるときは、119に電話するか、身近な人にそばにいてもらってください。</p>
+          <div class="row"><button class="btn small" id="goHelp">相談先を見る</button></div>
+        </div>
+        <p class="note" id="lowNote" hidden>調子が低い日です。無理をせず、続くようなら主治医に伝えます。</p></div>
       <details><summary>10段階の基準を見る</summary><div class="grid" style="margin-top:8px"><table id="scaleTable"></table></div></details>
       <div class="item"><span class="q">食事の内容</span>
         <div class="meals">
@@ -148,6 +161,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
         </div>
         <p class="note">食べたものを短く書くだけで十分です。量やカロリーは記録しません。</p>
       </div>
+      <div class="item"><span class="q">今日あったこと(なくてもよい)</span><div class="chips" id="events"></div></div>
       <div class="item">
         <label class="q" for="memo">ひとこと(なくてもよい)</label>
         <textarea id="memo" placeholder="例:午後に作業を止められた。夕食は簡単にすませた"></textarea>
@@ -157,12 +171,12 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     <div class="card" id="wxCard">
       <div class="head"><h2>今日の天気</h2><span class="saved" id="sv-wx"></span></div>
       <div id="wxBody"></div>
-      <p class="note">現在地(約10km単位に丸めた位置)から、Open-Meteo の天気データを自動で記録します。記録するのは天気・最高/最低気温・1日の気圧の変化幅だけで、位置は保存しません。</p>
+      <p class="note">このページを開いたときに、現在地(約10km単位に丸めた位置)を Open-Meteo に送って天気を取り、記録します(1時間に1回まで)。開かなかった日も、次に開いたときに過去7日分を埋めます。位置は保存しません。</p>
     </div>
   </section>
 
   <!-- 工夫 -->
-  <section class="panel" id="p-exp" hidden>
+  <section class="panel" role="tabpanel" aria-labelledby="t-exp" id="p-exp" hidden>
     <div class="card">
       <h2>工夫は1つずつ</h2>
       <p class="note">試す工夫を1つだけ選び、1週間ほど続けて「使えたか・役に立ったか」を見ます。合わなければ変えればいいので、失敗はありません。</p>
@@ -180,7 +194,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   </section>
 
   <!-- メモ -->
-  <section class="panel" id="p-memo" hidden>
+  <section class="panel" role="tabpanel" aria-labelledby="t-memo" id="p-memo" hidden>
     <div class="card">
       <div class="head"><h2>思考の癖メモ</h2><span class="saved" id="sv-th"></span></div>
       <p class="note">気持ちが動いた場面で、浮かんだ考えをそのまま書きます。癖に当てはめるのは、あとからでかまいません。</p>
@@ -204,7 +218,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   </section>
 
   <!-- ふりかえり -->
-  <section class="panel" id="p-look" hidden>
+  <section class="panel" role="tabpanel" aria-labelledby="t-look" id="p-look" hidden>
     <div class="card">
       <h2>この7日間</h2>
       <div class="grid"><table id="week"></table></div>
@@ -214,6 +228,12 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details><summary>7日間の食事を見る</summary><div id="mealWeek" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;font-size:13px"></div></details>
       <h3>睡眠(時間・質1〜5)と、体と心の調子(10が最もよい)</h3>
       <div class="grid"><table id="cond"></table></div>
+    </div>
+    <div class="card">
+      <div class="head"><h2>同じ日に起きていた傾向</h2></div>
+      <div class="filters" id="trSpan"></div>
+      <div id="trend" class="trend"></div>
+      <p class="note">条件ごとに、その日の体と心の調子の平均を並べています。かっこ内は平均に使った日数です。どちらの側も3日以上記録があるときだけ出し、「少し」や未記入の日は比べる対象から外しています。同じ日に起きていたというだけで、原因とは限りません。</p>
     </div>
     <div class="card">
       <div class="head"><h2>週に一度の3つの問い</h2><span class="saved" id="sv-week"></span></div>
@@ -226,7 +246,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   </section>
 
   <!-- つらいとき -->
-  <section class="panel" id="p-help" hidden>
+  <section class="panel" role="tabpanel" aria-labelledby="t-help" id="p-help" hidden>
     <div class="card alert">
       <h2>工夫より先に、相談するとき</h2>
       <ul class="plain">
@@ -255,10 +275,10 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     </div>
     <div class="card">
       <h2>記録の保管</h2>
-      <p class="note">記録はこの端末のブラウザの中だけにあり、どこにも送られません。ブラウザのデータを消すと記録も消えるので、ときどき書き出して、メモアプリなどに貼っておいてください。</p>
+      <p class="note">記録はこの端末のブラウザの中だけに保存され、サイトにも外部にも送られません(天気の取得では丸めた位置だけを Open-Meteo に送り、文字の表示に Google Fonts を読み込みます)。ブラウザのデータを消すと記録も消えるので、ときどき書き出して、メモアプリなどに貼っておいてください。</p>
       <div class="row"><button class="btn small" id="exportBtn">書き出す(コピー)</button></div>
       <textarea id="importText" placeholder="書き出した文字をここに貼り付けて「読み込む」" aria-label="読み込む文字"></textarea>
-      <div class="row"><button class="btn small ghost" id="importBtn">読み込む</button><span class="saved" id="sv-io"></span></div>
+      <div class="row"><button class="btn small ghost" id="importBtn">読み込む</button><button class="btn small ghost" id="undoImp" hidden>読み込む前に戻す</button><span class="saved" id="sv-io"></span></div>
     </div>
   </section>
 </div>
@@ -272,6 +292,8 @@ const BASICS=[
  {id:'stop',q:'区切り:決めた時間で作業を終えた'},
  {id:'free',q:'気晴らし:仕事以外のことをした'}];
 const LABEL={2:'できた',1:'少し',0:'まだ'};
+const SIGNS=[['die','消えてしまいたい気持ち'],['nosleep','眠れない日が続いている'],['noeat','食べられない'],['odd','体の症状がいつもと違う']];
+const EVENTS=[['none','特になし'],['meet','人と会った'],['out','外出した'],['busy','予定が多かった'],['bad','嫌なことがあった'],['good','よいことがあった'],['work','仕事のことをした']];
 const SQ=['','ほとんど眠れなかった','浅く、何度も目が覚めた','ふつう。少し寝足りない','まあ眠れた。朝に疲れが少し残る','ぐっすり眠れた。すっきり起きられた'];
 const TAGS=[
  ['bw','白か黒か','少しでも欠けると「全部だめ」と考える'],
@@ -284,8 +306,8 @@ const TAGS=[
  ['emo','気分で決めつけ','「そう感じるから、そうに違いない」と考える'],
  ['label','レッテル貼り','「自分はだめな人間だ」と一言でまとめる']];
 const SCALE={
- body:['','最悪。起き上がれない。すぐに受診や相談が必要','とてもつらい。身の回りのことも難しい','つらい。横になっている時間が長い','かなり不調。身の回りの最低限がやっと','不調。予定の半分くらいしかできない','少し不調。休み休みなら動ける','まあまあ。疲れや違和感はあるが、予定はこなせる','おおむね良い。少し疲れはあるが、普段どおり動ける','良い。気になるところはほとんどない','とても良い。体が軽く、何でもできそう'],
- mind:['','最悪。消えてしまいたい気持ちがある。すぐに相談が必要','とてもつらい。何も手につかない。強い不安や絶望感がある','つらい。何をしても気が晴れない','かなり不調。気持ちが沈み、人と話すのがおっくう','不調。楽しめることが減り、考えごとが止まりにくい','少し不調。不安やイライラが続くが、何とか過ごせる','まあまあ。気がかりはあるが、切り替えられる','おおむね良い。小さな心配はあるが、あまり気にならない','良い。落ち着いていて、楽しめる','とても良い。前向きで、やりたいことに気持ちが向く']};
+ body:['','最悪。起き上がれない','とてもつらい。身の回りのことも難しい','つらい。横になっている時間が長い','かなり不調。身の回りの最低限がやっと','不調。予定の半分くらいしかできない','少し不調。休み休みなら動ける','まあまあ。疲れや違和感はあるが、予定はこなせる','おおむね良い。少し疲れはあるが、普段どおり動ける','良い。気になるところはほとんどない','とても良い。体が軽く、何でもできそう'],
+ mind:['','最悪。何もできず、強い苦しさが続いている','とてもつらい。何も手につかない。強い不安や絶望感がある','つらい。何をしても気が晴れない','かなり不調。気持ちが沈み、人と話すのがおっくう','不調。楽しめることが減り、考えごとが止まりにくい','少し不調。不安やイライラが続くが、何とか過ごせる','まあまあ。気がかりはあるが、切り替えられる','おおむね良い。小さな心配はあるが、あまり気にならない','良い。落ち着いていて、楽しめる','とても良い。前向きで、やりたいことに気持ちが向く']};
 const WORDS=[
  '療養中の今は、休むことがいちばんの仕事。',
  '「まだできる」と思ったときが、止めどき。',
@@ -330,8 +352,12 @@ document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',
   document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));
   ['day','exp','memo','look','help'].forEach(p=>$('p-'+p).hidden=p!==b.dataset.p);
   if(b.dataset.p==='look')renderLook(); if(b.dataset.p==='memo')renderNotes(); if(b.dataset.p==='exp'||b.dataset.p==='help')renderExp();
+  document.querySelectorAll('.tabs button').forEach(x=>x.tabIndex=x===b?0:-1);
   try{localStorage.setItem(KEY+'_tab',b.dataset.p)}catch(e){}
 }));
+document.querySelector('.tabs').addEventListener('keydown',e=>{const bs=[...document.querySelectorAll('.tabs button')];const i=bs.indexOf(document.activeElement);if(i<0)return;
+  let n=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:e.key==='Home'?0:e.key==='End'?bs.length-1:null;if(n==null)return;e.preventDefault();n=(n+bs.length)%bs.length;bs[n].focus();bs[n].click()});
+document.querySelectorAll('.tabs button').forEach((x,i)=>x.tabIndex=i?-1:0);
 
 // today
 function renderBasics(){
@@ -345,7 +371,14 @@ function renderBasics(){
     $('an-'+k).textContent=typeof v==='number'?v+':'+SCALE[k][v]:'未記入(数字を押すと、その基準が出ます)';
     $('sc-'+k).querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd[k]=dd[k]===n?undefined:n;save('sv-day');renderBasics()}));
   });
-  $('lowNote').hidden=!((d.body&&d.body<=2)||(d.mind&&d.mind<=2));
+  const sg=d.signs||[];
+  $('signs').innerHTML=SIGNS.map(([id,l])=>`<button type="button" class="chip sign" data-s="${id}" aria-pressed="${sg.includes(id)}">${l}</button>`).join('');
+  $('signs').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{const dd=day(T);dd.signs=dd.signs||[];const i=dd.signs.indexOf(c.dataset.s);i<0?dd.signs.push(c.dataset.s):dd.signs.splice(i,1);save('sv-day');renderBasics()}));
+  $('signNote').hidden=!sg.length; $('dieNote').hidden=!sg.includes('die');
+  $('lowNote').hidden=!!sg.length||!((d.body&&d.body<=3)||(d.mind&&d.mind<=3));
+  const ev=d.events||[];
+  $('events').innerHTML=EVENTS.map(([id,l])=>`<button type="button" class="chip" data-e="${id}" aria-pressed="${ev.includes(id)}">${l}</button>`).join('');
+  $('events').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{const dd=day(T);dd.events=dd.events||[];const e=c.dataset.e;const i=dd.events.indexOf(e);if(i>=0)dd.events.splice(i,1);else if(e==='none')dd.events=['none'];else{dd.events=dd.events.filter(z=>z!=='none');dd.events.push(e)}save('sv-day');renderBasics()}));
   $('memo').value=d.memo||'';
   $('bed').value=d.bed||''; $('wake').value=d.wake||'';
   const hrs=sleepH(d); $('sleepHours').textContent=hrs==null?'寝た時刻と起きた時刻を入れると、睡眠時間が出ます':'睡眠時間:'+fmtH(hrs);
@@ -359,6 +392,8 @@ function renderBasics(){
 }
 $('scaleTable').innerHTML='<tr><th>点</th><th>体</th><th>心</th></tr>'+[10,9,8,7,6,5,4,3,2,1].map(n=>`<tr><td>${n}</td><td>${SCALE.body[n]}</td><td>${SCALE.mind[n]}</td></tr>`).join('');
 $('memo').addEventListener('input',e=>{day(T).memo=e.target.value;save('sv-day')});
+$('goHelp').addEventListener('click',()=>{$('t-help').click();window.scrollTo(0,0)});
+function evOf(d,id){const e=d.events||[];if(!e.length)return null;if(e.includes('none'))return false;return e.includes(id)}
 function sleepH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
 function fmtH(h){const m=Math.round(h*60);return Math.floor(m/60)+'時間'+(m%60?m%60+'分':'')}
 ['bed','wake'].forEach(id=>$(id).addEventListener('change',e=>{day(T)[id]=e.target.value;save('sv-sleep');renderBasics()}));
@@ -408,17 +443,17 @@ function lastRate(x){return x.rates&&x.rates.length?x.rates[x.rates.length-1]:nu
 function renderTodayExp(){
   const x=activeExp(), box=$('todayExp');
   if(!x){box.innerHTML=`<h2>試している工夫</h2><p class="note">まだ選んでいません。「工夫」のタブから1つ選ぶと、ここで毎日「使えた」を押せます。</p>`;return}
-  const used=!!x.uses[T];
+  const u=x.uses[T];
   box.innerHTML=`<h2>試している工夫</h2><div class="exp on"><span class="name">${esc(x.name)}</span>
-   <div class="row"><button class="btn small ${used?'':'ghost'}" id="useBtn" aria-pressed="${used}">${used?'今日は使えた':'今日使えたら押す'}</button></div>
-   <div class="dots" aria-label="この7日間">${last7().map(k=>`<span class="dot ${x.uses[k]?'y':''}" title="${md(k)}">${new Date(k+'T00:00:00').getDate()}</span>`).join('')}</div></div>`;
-  $('useBtn').addEventListener('click',()=>{x.uses[T]=!x.uses[T]||undefined; if(!x.uses[T])delete x.uses[T]; save('sv-day'); renderTodayExp()});
+   <div class="seg" role="group" aria-label="今日この工夫を"><button type="button" data-u="1" aria-pressed="${u===true}" class="${u===true?'on2':''}">使えた</button><button type="button" data-u="0" aria-pressed="${u===false}" class="${u===false?'on0':''}">使えなかった</button><button type="button" data-u="" aria-pressed="false">未記入に戻す</button></div>
+   <div class="dots" aria-label="この7日間">${last7().map(k=>`<span class="dot ${x.uses[k]===true?'y':x.uses[k]===false?'n':''}" title="${md(k)}">${new Date(k+'T00:00:00').getDate()}</span>`).join('')}</div></div>`;
+  box.querySelectorAll('[data-u]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.u;if(v==='')delete x.uses[T];else x.uses[T]=v==='1';save('sv-day');renderTodayExp()}));
 }
 function last7(){const a=[];for(let i=6;i>=0;i--)a.push(ymd(addDays(now,-i)));return a}
 function renderExp(){
   const list=$('expList');
   list.innerHTML=S.exps.map(x=>{
-    const on=x.id===S.active, r=lastRate(x), n=Object.keys(x.uses).length;
+    const on=x.id===S.active, r=lastRate(x), n=Object.values(x.uses).filter(v=>v===true).length;
     let meta=r?`<span class="pill ${r.keep==='keep'?'':'gray'}">役立ち度 ${r.score}・${{keep:'続ける',change:'変えてみる',stop:'やめる'}[r.keep]}</span>`:(n?`<span class="pill gray">使えた日 ${n}</span>`:'');
     let rate=on?`<details><summary>1週間たったら:役に立ったかを記録する</summary>
       <div class="item" style="margin-top:8px"><label class="q" for="rs-${x.id}">役立ち度(0〜10)</label>
@@ -454,11 +489,36 @@ function renderLook(){
    +'<tr><td>最低℃</td>'+ks.map(k=>`<td>${wx[k]?wx[k].tmin:'・'}</td>`).join('')+'</tr>'
    +'<tr><td>気圧差</td>'+ks.map(k=>`<td>${wx[k]&&wx[k].dp!=null?wx[k].dp:'・'}</td>`).join('')+'</tr>'
    +'<tr><td colspan="8" class="note" style="text-align:left;border:0">気圧差=その日の気圧の最高と最低の差(hPa)。天気と体調の関係は、数週間たってから見比べてください。</td></tr>';
+  renderTrend();
   const w=monday(now), wk=S.weeks[w]||{};
   $('weekLabel').textContent=md(w)+'からの週';
   $('w-good').value=wk.good||''; $('w-much').value=wk.much||''; $('w-next').value=wk.next||'';
   const past=Object.keys(S.weeks).filter(k=>k<w).sort().reverse().slice(0,8);
   $('pastWeeks').innerHTML=past.length?past.map(k=>{const x=S.weeks[k];return `<div class="exp"><span class="name">${md(k)}からの週</span><span>うまくいった:${esc(x.good||'—')}</span><span>無理をした:${esc(x.much||'—')}</span><span>変える:${esc(x.next||'—')}</span></div>`}).join(''):'<p class="note">まだありません。</p>';
+}
+let trN=30;
+function renderTrend(){
+  $('trSpan').innerHTML=[14,30,90].map(n=>`<button type="button" class="chip" data-n="${n}" aria-pressed="${trN===n}">${n}日</button>`).join('');
+  $('trSpan').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{trN=+c.dataset.n;renderTrend()}));
+  const ks=[];for(let i=trN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));
+  const rows=ks.map(k=>({k,d:S.days[k]||{}})).filter(r=>typeof r.d.body==='number'||typeof r.d.mind==='number');
+  const avg=(a,id)=>{const v=a.map(r=>r.d[id]).filter(x=>typeof x==='number');return v.length?(v.reduce((x,y)=>x+y,0)/v.length).toFixed(1)+`<small style="color:var(--sub)">(${v.length})</small>`:'—'};
+  const x=activeExp();
+  const wx=S.wx||{};
+  const C=[
+   ['睡眠6時間以上 / 未満',r=>{const h=sleepH(r.d);return h==null?null:h>=6}],
+   ['眠りの質4以上 / 3以下',r=>typeof r.d.sq!=='number'?null:r.d.sq>=4],
+   ['休憩できた / できなかった',r=>r.d.rest===2?true:r.d.rest===0?false:null],
+   ['区切りで終えた / 終えられなかった',r=>r.d.stop===2?true:r.d.stop===0?false:null],
+   ['食事を抜かなかった / 抜いた',r=>{const m=r.d.meals||{};const v=['am','noon','pm'].map(t=>m[t]);if(v.includes(false))return false;return v.every(y=>typeof y==='string'&&y.trim())?true:null}],
+   ['人と会った / 会わなかった',r=>evOf(r.d,'meet')],
+   ['予定が多かった / そうでない',r=>evOf(r.d,'busy')],
+   ['気圧の変化 8hPa未満 / 以上',r=>wx[r.k]&&wx[r.k].dp!=null?wx[r.k].dp<8:null]];
+  if(x)C.push(['工夫を使えた / 使えなかった',r=>x.uses[r.k]===true?true:x.uses[r.k]===false?false:null]);
+  let out='<div class="t" style="color:var(--sub);font-size:12px"><span style="white-space:normal">条件</span><span>体</span><span>心</span></div>';let n=0;
+  C.forEach(([l,f])=>{const a=rows.filter(r=>f(r)===true),b=rows.filter(r=>f(r)===false);if(a.length<3||b.length<3)return;n++;
+    const [la,lb]=l.split(' / ');out+=`<div class="t"><span style="white-space:normal">${esc(la)}(${a.length}日)</span><span>${avg(a,'body')}</span><span>${avg(a,'mind')}</span></div><div class="t" style="color:var(--sub)"><span style="white-space:normal">${esc(lb.replace(/\(.*$/,''))}(${b.length}日)</span><span>${avg(b,'body')}</span><span>${avg(b,'mind')}</span></div>`});
+  $('trend').innerHTML=n?out:`<p class="note" style="color:var(--ink)">まだ比べられるだけの記録がありません(この${trN}日で、体か心を記録した日:${rows.length}日)。2〜3週間たつと出てきます。</p>`;
 }
 ['good','much','next'].forEach(f=>$('w-'+f).addEventListener('input',e=>{const w=monday(now);(S.weeks[w]=S.weeks[w]||{})[f]=e.target.value;save('sv-week')}));
 
@@ -480,6 +540,7 @@ $('docFill').addEventListener('click',()=>{
   const sk={am:0,noon:0,pm:0};rec.forEach(d=>{const m=d.meals||{};for(const x in sk)if(m[x]===false)sk[x]++});
   if(sk.am+sk.noon+sk.pm)lines.push('食事を抜いた回数:朝 '+sk.am+'回・昼 '+sk.noon+'回・夜 '+sk.pm+'回');
   const big=ks.filter(k=>S.wx&&S.wx[k]&&S.wx[k].dp>=8);if(big.length)lines.push('気圧の変化が大きかった日(8hPa以上):'+big.map(md).join('、'));
+  const sc={};rec.forEach(d=>(d.signs||[]).forEach(t=>sc[t]=(sc[t]||0)+1));const scs=SIGNS.filter(([id])=>sc[id]).map(([id,l])=>l+' '+sc[id]+'日');if(scs.length)lines.push('気になるサインがあった日:'+scs.join('、'));
   const x=activeExp(); if(x)lines.push('試している工夫:'+x.name);
   S.doc=(S.doc?S.doc+'\n\n':'')+lines.join('\n'); $('doc').value=S.doc; save('sv-doc');
 });
@@ -487,8 +548,34 @@ function copy(text,id){const done=()=>flash(id,'コピーしました');
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>fallback())}else fallback();
   function fallback(){const t=$('importText');t.value=text;t.focus();t.select();flash(id,'下の欄の文字を選んだので、コピーしてください')}}
 $('docCopy').addEventListener('click',()=>copy($('doc').value,'sv-doc'));
-$('exportBtn').addEventListener('click',()=>copy(JSON.stringify(S),'sv-io'));
-$('importBtn').addEventListener('click',()=>{try{const v=JSON.parse($('importText').value);if(!v||!v.days||!v.exps)throw 0;S=v;save('sv-io');$('importText').value='';$('doc').value=S.doc||'';S.wx=S.wx||{};S.notes=S.notes||[];renderBasics();renderTodayExp();renderExp();renderNotes();renderWx();flash('sv-io','読み込みました')}catch(e){flash('sv-io','読み込めませんでした。書き出した文字をそのまま貼ってください')}});
+$('exportBtn').addEventListener('click',()=>{S.v=2;S.exportedAt=new Date().toISOString();copy(JSON.stringify(S),'sv-io');save()});
+let impArm=false;
+function validData(v){
+  const isObj=o=>o&&typeof o==='object'&&!Array.isArray(o);
+  if(!isObj(v)||!isObj(v.days)||!Array.isArray(v.exps))return '記録の形式が違います';
+  if(v.v!=null&&v.v>2)return 'このページより新しい形式の記録です';
+  if(v.notes!=null&&!Array.isArray(v.notes))return 'メモの形式が違います';
+  if(v.weeks!=null&&!isObj(v.weeks))return '週のふりかえりの形式が違います';
+  const rng=(x,a,b)=>x==null||(Number.isInteger(x)&&x>=a&&x<=b);
+  for(const [k,d] of Object.entries(v.days)){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!isObj(d))return '日付 '+k+' の記録の形式が違います';
+    if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5))return k+' の点数が範囲外です';
+    for(const b of ['meal','rest','stop','free','sleep'])if(!rng(d[b],0,2))return k+' の記録の値が範囲外です';
+    if(d.meals!=null&&!isObj(d.meals))return k+' の食事の形式が違います';
+    for(const a of ['signs','events'])if(d[a]!=null&&!Array.isArray(d[a]))return k+' の記録の形式が違います';
+  }
+  for(const x of v.exps)if(!isObj(x)||typeof x.name!=='string'||!isObj(x.uses||{})||!Array.isArray(x.rates||[]))return '工夫の記録の形式が違います';
+  return null}
+$('importBtn').addEventListener('click',()=>{let v;try{v=JSON.parse($('importText').value)}catch(e){flash('sv-io','読み込めませんでした。書き出した文字をそのまま貼ってください');return}
+  const bad=validData(v);if(bad){flash('sv-io','読み込めませんでした:'+bad);return}
+  v.exps.forEach(x=>{x.uses=x.uses||{};x.rates=x.rates||[]});
+  if(!impArm){impArm=true;$('importBtn').textContent='今の記録と置き換える(もう一度押す)';flash('sv-io',(v.exportedAt?v.exportedAt.slice(0,10)+' に書き出した記録です。':'')+'今の記録は、置き換える前に控えを残します');setTimeout(()=>{impArm=false;$('importBtn').textContent='読み込む'},6000);return}
+  impArm=false;$('importBtn').textContent='読み込む';
+  try{localStorage.setItem(KEY+'_before_import',JSON.stringify(S))}catch(e){flash('sv-io','今の記録の控えを残せなかったので、読み込みを中止しました');return}
+  S=v;S.notes=S.notes||[];save('sv-io');$('importText').value='';$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=false;flash('sv-io','読み込みました')});
+$('undoImp').addEventListener('click',()=>{try{const p=JSON.parse(localStorage.getItem(KEY+'_before_import')||'null');if(!p)throw 0;S=p;save('sv-io');try{localStorage.removeItem(KEY+'_before_import')}catch(e){};$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')}catch(e){flash('sv-io','戻せる控えがありません')}});
+try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
+function rerenderAll(){S.notes=S.notes||[];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
 
 // weather (Open-Meteo, 位置は小数1桁に丸める)
@@ -500,7 +587,7 @@ function renderWx(msg){
   let h='';
   if(w)h=`<div class="row" style="gap:16px"><span style="font-family:var(--display);font-size:22px">${WMO(w.code)}</span><span style="font-variant-numeric:tabular-nums">${w.tmax}℃ / ${w.tmin}℃</span><span class="pill gray">気圧の変化 ${w.dp}hPa</span></div>`;
   else h='<p class="note" style="color:var(--ink)">まだ記録していません。</p>';
-  h+=`<div class="row">${S.wxOn?'<span class="pill">自動で記録中</span><button class="btn small ghost" id="wxOff">自動をやめる</button>':'<button class="btn small" id="wxOn">現在地の天気を自動で記録する</button>'}<button class="btn small ghost" id="wxNow">今すぐ更新</button></div>`;
+  h+=`<div class="row">${S.wxOn?'<span class="pill">開いたときに自動で更新</span><button class="btn small ghost" id="wxOff">自動をやめる</button>':'<button class="btn small" id="wxOn">現在地の天気を自動で記録する</button>'}<button class="btn small ghost" id="wxNow">今すぐ更新</button></div>`;
   if(msg)h+=`<p class="note" style="color:var(--warn)">${esc(msg)}</p>`;
   $('wxBody').innerHTML=h;
   const on=$('wxOn'),off=$('wxOff');
@@ -528,6 +615,8 @@ function getWx(force){
   },err=>{renderWx(err.code===1?'位置情報の利用が許可されていません。ブラウザの設定でこのサイトの位置情報を許可してください。':'現在地を取得できませんでした。')},{maximumAge:3600000,timeout:15000});
 }
 renderWx(); if(S.wxOn)getWx(false);
+function dayCheck(){if(ymd(new Date())!==T)location.reload()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayCheck()});setInterval(dayCheck,60000);
 renderBasics(); renderTodayExp(); renderExp(); renderNotes();
 try{const t=localStorage.getItem(KEY+'_tab');if(t&&t!=='day'){const b=document.querySelector(`.tabs button[data-p="${t}"]`);b&&b.click()}}catch(e){}
 })();
