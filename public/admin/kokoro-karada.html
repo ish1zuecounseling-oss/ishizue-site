@@ -246,8 +246,8 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   <!-- 工夫 -->
   <section class="panel" role="tabpanel" aria-labelledby="t-exp" id="p-exp" hidden>
     <div class="card">
-      <h2>工夫は1つずつ</h2>
-      <p class="note">試す工夫を1つだけ選び、1週間ほど続けて「使えたか・役に立ったか」を見ます。合わなければ変えればいいので、失敗はありません。</p>
+      <div class="head"><h2>試す工夫(3つまで)</h2><span class="saved" id="sv-exp"></span></div>
+      <p class="note">試す工夫を選び、1週間ほど続けて「使えたか・役に立ったか」を見ます。3つまで同時に試せますが、少ないほど、どれが役に立ったかが分かりやすくなります。合わなければ変えればいいので、失敗はありません。</p>
       <div id="expList" style="display:flex;flex-direction:column;gap:8px"></div>
       <div class="row">
         <input type="text" id="newExp" placeholder="自分で考えた工夫を足す" aria-label="自分で考えた工夫" style="flex:1;min-width:0">
@@ -340,7 +340,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     <div class="card">
       <h2>ほかのタブ</h2>
       <details class="faq"><summary>「今日のおすすめ」はどうやって選ばれる?</summary><p>昨日の記録(体と心の点数、区切り・休憩・食事など)、昨夜の睡眠、最近7日の思考の癖メモ、30日間の傾向から、決まった規則で最大3つ選びます。同じ種類のものは1つまでです。AIなどには送っていません。「工夫として試す」を押すと「工夫」タブの試す工夫になります。気になるサインがあった日は、おすすめの代わりに相談先を案内します。</p></details>
-      <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を1つだけ選び、毎日「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
+      <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を選び(3つまで)、毎日それぞれ「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
@@ -466,6 +466,9 @@ const PRESET=[
 
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')return s}catch(e){}return null}
 let S=load()||{days:{},exps:PRESET.map((n,i)=>({id:'p'+i,name:n,uses:{},rates:[]})),active:null,weeks:{},doc:''};
+const MAX_EXP=3;
+function migrateActive(){if(!Array.isArray(S.actives))S.actives=S.active?[S.active]:[];delete S.active;S.actives=S.actives.filter((id,i,a)=>a.indexOf(id)===i&&S.exps.some(x=>x.id===id)).slice(0,MAX_EXP)}
+migrateActive();
 function save(id){try{localStorage.setItem(KEY,JSON.stringify(S));flash(id,'保存しました');return true}catch(e){flash(id,'保存できませんでした。端末の空き容量やブラウザの設定を確かめてください');return false}}
 function flash(id,t){const el=document.getElementById(id);if(!el)return;el.textContent=t;clearTimeout(el._t);el._t=setTimeout(()=>el.textContent='',1600)}
 const $=id=>document.getElementById(id);
@@ -649,7 +652,7 @@ function renderSuggest(){
   box.innerHTML=`<h2>今日のおすすめ</h2><p class="note">昨日の記録と最近の傾向から選んでいます。よければ1つだけ。何もしない日があってもかまいません。</p>`+
    L.map((o,i)=>`<div class="exp"><span class="name">${esc(o.txt)}</span><span class="note">${esc(o.why)}</span>${o.note?`<span class="note">${esc(o.note)}</span>`:''}<div class="row"><button class="btn small ghost" data-sug="${i}">工夫として試す</button></div></div>`).join('')+
    `<p class="note">記録から決まった規則で選んでいるだけで、診断や指示ではありません。</p>`;
-  box.querySelectorAll('[data-sug]').forEach(b=>b.addEventListener('click',()=>{const o=L[+b.dataset.sug];let x=S.exps.find(e=>e.name===o.txt);if(!x){x={id:'u'+Date.now(),name:o.txt,uses:{},rates:[]};S.exps.push(x)}S.active=x.id;save();renderTodayExp();renderExp();b.textContent='試す工夫にしました';b.disabled=true}));
+  box.querySelectorAll('[data-sug]').forEach(b=>b.addEventListener('click',()=>{const o=L[+b.dataset.sug];let x=S.exps.find(e=>e.name===o.txt);if(!x){x={id:'u'+Date.now(),name:o.txt,uses:{},rates:[]};S.exps.push(x)}if(!addActive(x.id)){b.textContent='試せるのは'+MAX_EXP+'つまでです(「工夫」タブで外せます)';return}save();renderTodayExp();renderExp();b.textContent='試す工夫にしました';b.disabled=true}));
 }
 
 // ── 提出用のまとめ ──
@@ -811,22 +814,22 @@ function renderNotes(){
 });
 
 // experiments
-function activeExp(){return S.exps.find(x=>x.id===S.active)}
+function activeExps(){return S.actives.map(id=>S.exps.find(x=>x.id===id)).filter(Boolean)}
+function addActive(id){if(S.actives.includes(id))return true;if(S.actives.length>=MAX_EXP)return false;S.actives.push(id);return true}
 function lastRate(x){return x.rates&&x.rates.length?x.rates[x.rates.length-1]:null}
 function renderTodayExp(){
-  const x=activeExp(), box=$('todayExp');
-  if(!x){box.innerHTML=`<h2>試している工夫</h2><p class="note">まだ選んでいません。「工夫」のタブから1つ選ぶと、ここで毎日「使えた」を押せます。</p>`;return}
-  const u=x.uses[T];
-  box.innerHTML=`<h2>試している工夫</h2><div class="exp on"><span class="name">${esc(x.name)}</span>
-   <div class="seg" role="group" aria-label="今日この工夫を"><button type="button" data-u="1" aria-pressed="${u===true}" class="${u===true?'on2':''}">使えた</button><button type="button" data-u="0" aria-pressed="${u===false}" class="${u===false?'on0':''}">使えなかった</button><button type="button" data-u="" aria-pressed="false">未記入に戻す</button></div>
-   <div class="dots" aria-label="この7日間">${last7().map(k=>`<span class="dot ${x.uses[k]===true?'y':x.uses[k]===false?'n':''}" title="${md(k)}">${new Date(k+'T00:00:00').getDate()}</span>`).join('')}</div></div>`;
-  box.querySelectorAll('[data-u]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.u;if(v==='')delete x.uses[T];else x.uses[T]=v==='1';save('sv-day');renderTodayExp()}));
+  const L=activeExps(), box=$('todayExp');
+  if(!L.length){box.innerHTML=`<h2>試している工夫</h2><p class="note">まだ選んでいません。「工夫」のタブから選ぶと(${MAX_EXP}つまで)、ここで毎日「使えた」を押せます。</p>`;return}
+  box.innerHTML=`<h2>試している工夫</h2>`+L.map(x=>{const u=x.uses[T];return `<div class="exp on"><span class="name">${esc(x.name)}</span>
+   <div class="seg" role="group" aria-label="今日この工夫を"><button type="button" data-x="${x.id}" data-u="1" aria-pressed="${u===true}" class="${u===true?'on2':''}">使えた</button><button type="button" data-x="${x.id}" data-u="0" aria-pressed="${u===false}" class="${u===false?'on0':''}">使えなかった</button><button type="button" data-x="${x.id}" data-u="" aria-pressed="false">未記入に戻す</button></div>
+   <div class="dots" aria-label="この7日間">${last7().map(k=>`<span class="dot ${x.uses[k]===true?'y':x.uses[k]===false?'n':''}" title="${md(k)}">${new Date(k+'T00:00:00').getDate()}</span>`).join('')}</div></div>`}).join('');
+  box.querySelectorAll('[data-u]').forEach(b=>b.addEventListener('click',()=>{const x=S.exps.find(e=>e.id===b.dataset.x);if(!x)return;const v=b.dataset.u;if(v==='')delete x.uses[T];else x.uses[T]=v==='1';save('sv-day');renderTodayExp()}));
 }
 function last7(){const a=[];for(let i=6;i>=0;i--)a.push(ymd(addDays(now,-i)));return a}
 function renderExp(){
   const list=$('expList');
   list.innerHTML=S.exps.map(x=>{
-    const on=x.id===S.active, r=lastRate(x), n=Object.values(x.uses).filter(v=>v===true).length;
+    const on=S.actives.includes(x.id), r=lastRate(x), n=Object.values(x.uses).filter(v=>v===true).length;
     let meta=r?`<span class="pill ${r.keep==='keep'?'':'gray'}">役立ち度 ${r.score}・${{keep:'続ける',change:'変えてみる',stop:'やめる'}[r.keep]}</span>`:(n?`<span class="pill gray">使えた日 ${n}</span>`:'');
     let rate=on?`<details><summary>1週間たったら:役に立ったかを記録する</summary>
       <div class="item" style="margin-top:8px"><label class="q" for="rs-${x.id}">役立ち度(0〜10)</label>
@@ -835,11 +838,11 @@ function renderExp(){
        <button type="button" data-keep="keep" data-x="${x.id}">続ける</button><button type="button" data-keep="change" data-x="${x.id}">変えてみる</button><button type="button" data-keep="stop" data-x="${x.id}">やめる</button></div></div></details>`:'';
     return `<div class="exp ${on?'on':''}"><span class="name">${esc(x.name)}</span><div class="row">${meta}
       <button class="btn small ${on?'':'ghost'}" data-pick="${x.id}">${on?'試している':'これを試す'}</button></div>${rate}</div>`}).join('');
-  list.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{S.active=S.active===b.dataset.pick?null:b.dataset.pick;save();renderExp();renderTodayExp()}));
+  list.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.pick;if(S.actives.includes(id))S.actives=S.actives.filter(z=>z!==id);else if(!addActive(id)){flash('sv-exp','試せるのは'+MAX_EXP+'つまでです。どれかを「試している」から外してください');return}save('sv-exp');renderExp();renderTodayExp()}));
   list.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>{$('ro-'+r.id.slice(3)).textContent=r.value}));
   list.querySelectorAll('[data-keep]').forEach(b=>b.addEventListener('click',()=>{
     const x=S.exps.find(e=>e.id===b.dataset.x); const score=+$('rs-'+x.id).value;
-    x.rates.push({date:T,score,keep:b.dataset.keep}); if(b.dataset.keep!=='keep')S.active=null; save(); renderExp(); renderTodayExp()}));
+    x.rates.push({date:T,score,keep:b.dataset.keep}); if(b.dataset.keep!=='keep')S.actives=S.actives.filter(z=>z!==x.id); save(); renderExp(); renderTodayExp()}));
   const keep=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6});
   const html=keep.length?keep.map(x=>`<li>${esc(x.name)}(役立ち度 ${lastRate(x).score})</li>`).join(''):'<li class="note" style="list-style:none;margin-left:-1.2em">まだありません。工夫を1週間試して記録すると、ここに増えていきます。</li>';
   $('keepList').innerHTML=html; $('keepList2').innerHTML=html;
@@ -877,7 +880,6 @@ function renderTrend(){
   const ks=[];for(let i=trN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));
   const rows=ks.map(k=>({k,d:S.days[k]||{}})).filter(r=>typeof r.d.body==='number'||typeof r.d.mind==='number');
   const avg=(a,id)=>{const v=a.map(r=>r.d[id]).filter(x=>typeof x==='number');return v.length?(v.reduce((x,y)=>x+y,0)/v.length).toFixed(1)+`<small style="color:var(--sub)">(${v.length})</small>`:'—'};
-  const x=activeExp();
   const wx=S.wx||{};
   const C=[
    ['睡眠6時間以上 / 未満',r=>{const h=sleepH(r.d);return h==null?null:h>=6}],
@@ -890,7 +892,7 @@ function renderTrend(){
    ['人と会った / 「特になし」の日',r=>evOf(r.d,'meet')],
    ['予定が多かった / 「特になし」の日',r=>evOf(r.d,'busy')],
    ['気圧の変化 8hPa未満 / 以上',r=>wx[r.k]&&wx[r.k].dp!=null?wx[r.k].dp<8:null]];
-  if(x)C.push(['工夫を使えた / 使えなかった',r=>x.uses[r.k]===true?true:x.uses[r.k]===false?false:null]);
+  activeExps().forEach(x=>C.push(['「'+x.name.slice(0,12)+(x.name.length>12?'…':'')+'」を使えた / 使えなかった',r=>x.uses[r.k]===true?true:x.uses[r.k]===false?false:null]));
   let out='<div class="t" style="color:var(--sub);font-size:12px"><span style="white-space:normal">条件</span><span>体</span><span>心</span></div>';let n=0;
   C.forEach(([l,f])=>{const a=rows.filter(r=>f(r)===true),b=rows.filter(r=>f(r)===false);if(a.length<3||b.length<3)return;n++;
     const [la,lb]=l.split(' / ');out+=`<div class="t"><span style="white-space:normal">${esc(la)}(${a.length}日)</span><span>${avg(a,'body')}</span><span>${avg(a,'mind')}</span></div><div class="t" style="color:var(--sub)"><span style="white-space:normal">${esc(lb.replace(/\(.*$/,''))}(${b.length}日)</span><span>${avg(b,'body')}</span><span>${avg(b,'mind')}</span></div>`});
@@ -920,7 +922,7 @@ function sumLines(n){
   if(sk.am+sk.noon+sk.pm)lines.push('食事を抜いた回数:朝 '+sk.am+'回・昼 '+sk.noon+'回・夜 '+sk.pm+'回');
   const big=ks.filter(k=>S.wx&&S.wx[k]&&S.wx[k].dp>=8);if(big.length)lines.push('気圧の変化が大きかった日(8hPa以上):'+big.map(md).join('、'));
   const sc={};rec.forEach(d=>(d.signs||[]).forEach(t=>sc[t]=(sc[t]||0)+1));const scs=SIGNS.filter(([id])=>sc[id]).map(([id,l])=>l+' '+sc[id]+'日');if(scs.length)lines.push('気になるサインがあった日:'+scs.join('、'));
-  const x=activeExp(); if(x)lines.push('試している工夫:'+x.name);
+  const ax=activeExps(); if(ax.length)lines.push('試している工夫:'+ax.map(x=>x.name).join('、'));
   return lines}
 $('docFill').addEventListener('click',()=>{const lines=sumLines(14);
   S.doc=(S.doc?S.doc+'\n\n':'')+lines.join('\n'); $('doc').value=S.doc; save('sv-doc');
@@ -943,6 +945,7 @@ function validData(v){
   if(v.exportedAt!=null&&!isStr(v.exportedAt,40))return '書き出した日時の形式が違います';
   if(v.doc!=null&&!isStr(v.doc,50000))return '主治医へのメモの形式が違います';
   if(v.active!=null&&!okId(v.active))return '試している工夫の形式が違います';
+  if(v.actives!=null&&(!Array.isArray(v.actives)||v.actives.length>3||v.actives.some(x=>!okId(x))))return '試している工夫の形式が違います';
   if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.length>2||v.symNames.some(x=>!isStr(x,20))))return '症状の名前の形式が違います';
   for(const k of ['wxOn'])if(v[k]!=null&&typeof v[k]!=='boolean')return '設定の形式が違います';
   if(v.wxAt!=null&&typeof v.wxAt!=='number')return '設定の形式が違います';
@@ -987,7 +990,7 @@ $('undoImp').addEventListener('click',()=>{let p;try{p=JSON.parse(localStorage.g
   try{localStorage.removeItem(KEY+'_before_import')}catch(e){}
   $('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')});
 try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
-function rerenderAll(){S.notes=S.notes||[];S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
+function rerenderAll(){S.notes=S.notes||[];migrateActive();S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
 
 // weather (Open-Meteo, 位置は小数1桁に丸める)
