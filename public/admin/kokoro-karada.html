@@ -84,9 +84,11 @@ th:first-child,td:first-child{text-align:left;white-space:nowrap}
 .meals input{min-width:0}
 .skip{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--paper);color:var(--sub);border-radius:8px;padding:8px;cursor:pointer;white-space:nowrap}
 .skip[aria-pressed="true"]{background:var(--ochre-soft);border-color:var(--ochre);color:var(--ochre);font-weight:700}
-.sleeprow{display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center}
+.sleeprow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 10px;align-items:center}
 .sleeprow label{font-weight:500;color:var(--sub)}
-input[type=time]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
+input[type=time]{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%;max-width:100%;min-height:2.6em;text-align:left}
+input[type=time]::-webkit-date-and-time-value{text-align:left}
+input,textarea,select{max-width:100%;box-sizing:border-box}
 .scale.five{grid-template-columns:repeat(5,1fr)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer}
@@ -106,6 +108,22 @@ input[type=time]{font:inherit;color:var(--ink);background:var(--bg);border:1px s
 .seg button.on2{background:var(--moss-soft);border-color:var(--moss);color:var(--moss);font-weight:700}
 .seg button.on0{background:var(--ai-soft);border-color:var(--sub);color:var(--sub);font-weight:700}
 .dot.n{background:var(--ai-soft);border-color:var(--sub)}
+.seg.four{grid-template-columns:repeat(4,1fr)}
+.seg.four button{font-size:13px;padding:8px 2px}
+.seg button.pick{background:var(--ai-soft);border-color:var(--ai);color:var(--ai);font-weight:700}
+.status{border-color:var(--ai)}
+.st-row{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;font-size:14px}
+.st-row .lab{font-weight:700;color:var(--ai);white-space:nowrap}
+.st-items{display:flex;flex-wrap:wrap;gap:4px 10px}
+.st-items span{white-space:nowrap}
+.st-items .ok{color:var(--moss);font-weight:700}
+.st-items .no{color:var(--sub)}
+.when{display:inline-block;font-family:var(--body);font-size:12px;font-weight:700;background:var(--ai-soft);color:var(--ai);border-radius:6px;padding:1px 8px;margin-right:8px;vertical-align:3px}
+.editing-past{background:var(--ochre-soft);border-color:var(--ochre)}
+.scale.eleven{grid-template-columns:repeat(11,1fr);gap:2px}
+.scale.eleven button{font-size:12.5px;padding:7px 0}
+.sym{border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.sym .nm{font-weight:700}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -130,21 +148,36 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
 
   <!-- 今日 -->
   <section class="panel" role="tabpanel" aria-labelledby="t-day" id="p-day">
+    <div class="card status" id="statusCard">
+      <div class="head"><h2 id="stTitle">今日の記録</h2><span class="date" id="stNow"></span></div>
+      <div id="stBody"></div>
+        <details id="calBox"><summary>決まった時刻に通知を出す</summary>
+          <div class="item" style="margin-top:8px">
+            <p class="note">iPhoneのカレンダーに、毎日の予定(通知つき)として追加します。時刻は変えられます。</p>
+            <div class="sleeprow"><label for="remAm">朝</label><input type="time" id="remAm" value="09:00"><label for="remPm">夜</label><input type="time" id="remPm" value="21:30"></div>
+            <div class="row"><button class="btn small" id="calBtn">カレンダーに追加</button><span class="saved" id="sv-cal"></span></div>
+            <p class="note">ホーム画面に追加して開く場合は、Safariで開くときと記録の保存場所が別になります。開き方はどちらか一つに決めてください。</p>
+          </div>
+        </details>
+    </div>
     <div class="card">
-      <div class="head"><h2>昨夜の睡眠</h2><span class="saved" id="sv-sleep"></span></div>
+      <div class="head"><h2><span class="when">朝</span>昨夜の睡眠</h2><span class="saved" id="sv-sleep"></span></div>
       <div class="sleeprow">
         <label for="bed">寝た時刻</label><input type="time" id="bed">
         <label for="wake">起きた時刻</label><input type="time" id="wake">
       </div>
-      <p class="anchor" id="sleepHours"></p>
+      <div class="item"><span class="q" id="q-wn">夜中に目が覚めた回数(中途覚醒)</span><div class="seg four" role="group" aria-labelledby="q-wn" id="sc-wn"></div></div>
+      <div class="item" id="awakeBox" hidden><span class="q" id="q-aw">目が覚めていた時間(合計のだいたい)</span><div class="seg four" role="group" aria-labelledby="q-aw" id="sc-aw"></div></div>
+      <p class="anchor" id="sleepHours" style="white-space:pre-line"></p>
       <div class="item"><span class="q" id="q-sq">睡眠の質(1〜5)</span><div class="scale five" role="group" aria-labelledby="q-sq" id="sc-sq"></div><p class="anchor" id="an-sq"></p></div>
     </div>
     <div class="card">
-      <div class="head"><h2>今日の4つ</h2><span class="saved" id="sv-day"></span></div>
-      <p class="note">1分で終わらせる。全部「できた」でなくてかまいません。夜に、今日の分だけ押します。</p>
+      <div class="head"><h2><span class="when">夜</span>今日の4つ</h2><span class="saved" id="sv-day"></span></div>
+      <p class="note">寝る前に、今日の分だけ押します。全部「できた」でなくてかまいません。</p>
       <div id="basics"></div>
       <div class="item"><span class="q" id="q-body">体の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-body" id="sc-body"></div><p class="anchor" id="an-body"></p></div>
       <div class="item"><span class="q" id="q-mind">心の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-mind" id="sc-mind"></div><p class="anchor" id="an-mind"></p></div>
+      <div class="item" id="symBox"></div>
       <div class="item"><span class="q">気になるサイン(あれば押す)</span><div class="chips" id="signs"></div>
         <div id="signNote" hidden style="display:flex;flex-direction:column;gap:6px">
           <p class="note warnline">このサインがある日は、点数に関係なく、工夫より先に相談を考えます。</p>
@@ -294,6 +327,10 @@ const BASICS=[
 const LABEL={2:'できた',1:'少し',0:'まだ'};
 const SIGNS=[['die','消えてしまいたい気持ち'],['nosleep','眠れない日が続いている'],['noeat','食べられない'],['odd','体の症状がいつもと違う']];
 const EVENTS=[['none','特になし'],['meet','人と会った'],['out','外出した'],['busy','予定が多かった'],['bad','嫌なことがあった'],['good','よいことがあった'],['work','仕事のことをした']];
+const SYM_LV=['なし','かすかにある。気にしなければ忘れる','かすかにある。ときどき気づく','少しある。ときどき気になる','少しある。気になる時間が増える','はっきりある。気になるが、していることは続けられる','はっきりある。気になって、ときどき手が止まる','強い。手を止めることが多い','強い。ほかのことに集中しにくい','とても強い。ほとんどそのことしか考えられない','これまでで一番強い'];
+const SYM_DIS=['普段どおり過ごせた','ほとんど影響なし','少し影響があった','少しペースを落とした','ペースを落とした時間が長かった','予定の一部をやめた','予定のいくつかをやめた','予定の多くをやめた','最低限のことだけした','ほぼ何もできなかった','何もできなかった'];
+const WN=['0回','1回','2回','3回以上'];
+const AW=[[1,'15分未満',7],[2,'15〜30分',22],[3,'30〜60分',45],[4,'60分以上',75]];
 const SQ=['','ほとんど眠れなかった','浅く、何度も目が覚めた','ふつう。少し寝足りない','まあ眠れた。朝に疲れが少し残る','ぐっすり眠れた。すっきり起きられた'];
 const TAGS=[
  ['bw','白か黒か','少しでも欠けると「全部だめ」と考える'],
@@ -336,14 +373,14 @@ const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
 function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
-const now=new Date(); const T=ymd(now);
+const now=new Date(); const TODAY=ymd(now); let T=TODAY;
 const WD='日月火水木金土';
 function md(s){const d=new Date(s+'T00:00:00');return (d.getMonth()+1)+'/'+d.getDate()+'('+WD[d.getDay()]+')'}
 function monday(d){const x=new Date(d);const k=(x.getDay()+6)%7;x.setDate(x.getDate()-k);return ymd(x)}
 function day(k){return S.days[k]||(S.days[k]={})}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
-$('today').textContent=md(T);
+$('today').textContent=md(TODAY);
 const dayNo=Math.floor(now.getTime()/86400000);
 $('word').innerHTML=esc(WORDS[dayNo%WORDS.length])+'<small>今日の一言</small>';
 
@@ -376,12 +413,19 @@ function renderBasics(){
   $('signs').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{const dd=day(T);dd.signs=dd.signs||[];const i=dd.signs.indexOf(c.dataset.s);i<0?dd.signs.push(c.dataset.s):dd.signs.splice(i,1);save('sv-day');renderBasics()}));
   $('signNote').hidden=!sg.length; $('dieNote').hidden=!sg.includes('die');
   $('lowNote').hidden=!!sg.length||!((d.body&&d.body<=3)||(d.mind&&d.mind<=3));
+  renderSym(d);
+  renderStatus();
   const ev=d.events||[];
   $('events').innerHTML=EVENTS.map(([id,l])=>`<button type="button" class="chip" data-e="${id}" aria-pressed="${ev.includes(id)}">${l}</button>`).join('');
   $('events').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{const dd=day(T);dd.events=dd.events||[];const e=c.dataset.e;const i=dd.events.indexOf(e);if(i>=0)dd.events.splice(i,1);else if(e==='none')dd.events=['none'];else{dd.events=dd.events.filter(z=>z!=='none');dd.events.push(e)}save('sv-day');renderBasics()}));
   $('memo').value=d.memo||'';
   $('bed').value=d.bed||''; $('wake').value=d.wake||'';
-  const hrs=sleepH(d); $('sleepHours').textContent=hrs==null?'寝た時刻と起きた時刻を入れると、睡眠時間が出ます':'睡眠時間:'+fmtH(hrs);
+  $('sc-wn').innerHTML=WN.map((l,n)=>`<button type="button" data-n="${n}" aria-pressed="${d.wakeN===n}" class="${d.wakeN===n?'pick':''}">${l}</button>`).join('');
+  $('sc-wn').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd.wakeN=dd.wakeN===n?undefined:n;if(!dd.wakeN)delete dd.awake;save('sv-sleep');renderBasics()}));
+  $('awakeBox').hidden=!(d.wakeN>=1);
+  $('sc-aw').innerHTML=AW.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${d.awake===v}" class="${d.awake===v?'pick':''}">${l}</button>`).join('');
+  $('sc-aw').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),v=+b.dataset.v;dd.awake=dd.awake===v?undefined:v;save('sv-sleep');renderBasics()}));
+  const hrs=sleepH(d),bedh=bedH(d); $('sleepHours').textContent=hrs==null?'寝た時刻と起きた時刻を入れると、睡眠時間が出ます':(bedh!==hrs?'布団にいた時間:'+fmtH(bedh)+'\n眠っていた時間(目安):'+fmtH(hrs):'睡眠時間:'+fmtH(hrs));
   $('sc-sq').innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-pressed="${d.sq===n}" aria-label="${n}:${SQ[n]}">${n}</button>`).join('');
   $('an-sq').textContent=typeof d.sq==='number'?d.sq+':'+SQ[d.sq]:'未記入';
   $('sc-sq').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd.sq=dd.sq===n?undefined:n;save('sv-sleep');renderBasics()}));
@@ -393,8 +437,54 @@ function renderBasics(){
 $('scaleTable').innerHTML='<tr><th>点</th><th>体</th><th>心</th></tr>'+[10,9,8,7,6,5,4,3,2,1].map(n=>`<tr><td>${n}</td><td>${SCALE.body[n]}</td><td>${SCALE.mind[n]}</td></tr>`).join('');
 $('memo').addEventListener('input',e=>{day(T).memo=e.target.value;save('sv-day')});
 $('goHelp').addEventListener('click',()=>{$('t-help').click();window.scrollTo(0,0)});
+S.symNames=S.symNames||['',''];
+function avg7lv(i){const a=[];for(let k=1;k<=7;k++){const x=((S.days[ymd(addDays(new Date(T+'T00:00:00'),-k))]||{}).sym||[])[i];if(x&&typeof x.lv==='number')a.push(x.lv)}return a.length>=3?a.reduce((p,q)=>p+q,0)/a.length:null}
+function renderSym(d){
+  const names=S.symNames, any=names.some(n=>n);
+  let h=`<span class="q">症状(1日1回、寝る前に)</span>`;
+  if(!any)h+=`<p class="note">記録したい症状があれば、名前を登録します(2つまで)。日中に何度もつけず、寝る前に1日分をまとめてつけます。</p>`;
+  names.forEach((nm,i)=>{if(!nm)return;const x=(d.sym||[])[i]||{};
+    h+=`<div class="sym"><span class="nm">${esc(nm)}</span>
+      <span class="note">強さ(0〜10)</span><div class="scale eleven" role="group" aria-label="${esc(nm)}の強さ">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" data-i="${i}" data-f="lv" data-n="${n}" aria-pressed="${x.lv===n}" aria-label="${n}:${SYM_LV[n]}">${n}</button>`).join('')}</div>
+      <p class="anchor">${typeof x.lv==='number'?x.lv+':'+SYM_LV[x.lv]:'未記入'}</p>
+      <span class="note">生活への支障(0〜10)</span><div class="scale eleven" role="group" aria-label="${esc(nm)}の生活への支障">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" data-i="${i}" data-f="dis" data-n="${n}" aria-pressed="${x.dis===n}" aria-label="${n}:${SYM_DIS[n]}">${n}</button>`).join('')}</div>
+      <p class="anchor">${typeof x.dis==='number'?x.dis+':'+SYM_DIS[x.dis]:'未記入'}</p>
+      ${(()=>{const a=avg7lv(i);return a!=null&&typeof x.lv==='number'&&x.lv-a>=3?`<p class="note warnline">この7日間の平均(${a.toFixed(1)})より3以上高い日です。いつもと違う感じがあれば、下の「気になるサイン」で「体の症状がいつもと違う」を押してください。</p>`:''})()}
+    </div>`});
+  h+=`<details><summary>${any?'症状の名前を変える・基準を見る':'症状を登録する'}</summary><div class="item" style="margin-top:8px">
+    ${[0,1].map(i=>`<label class="note" for="symN${i}">症状${i+1}の名前</label><input type="text" id="symN${i}" value="${esc(names[i]||'')}" placeholder="${i?'例:肩こり':'例:頭痛'}">`).join('')}
+    <div class="row"><button class="btn small" id="symSave">登録する</button></div>
+    <p class="note">名前を別の症状に変えると、それまでの記録も新しい名前で表示されます。別の症状にするときは、空いている欄を使ってください。</p>
+    <div class="grid"><table id="symTable"><tr><th>点</th><th>強さ</th><th>生活への支障</th></tr>${[10,9,8,7,6,5,4,3,2,1,0].map(n=>`<tr><td>${n}</td><td style="text-align:left">${SYM_LV[n]}</td><td style="text-align:left">${SYM_DIS[n]}</td></tr>`).join('')}</table></div></div></details>`;
+  $('symBox').innerHTML=h;
+  $('symBox').querySelectorAll('.scale button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),i=+b.dataset.i,f=b.dataset.f,n=+b.dataset.n;dd.sym=dd.sym||[{},{}];dd.sym[i]=dd.sym[i]||{};dd.sym[i][f]=dd.sym[i][f]===n?undefined:n;save('sv-day');renderBasics()}));
+  $('symSave').addEventListener('click',()=>{S.symNames=[0,1].map(i=>$('symN'+i).value.trim().slice(0,20));save('sv-day');renderBasics()});
+}
+function symDone(d,i){const x=(d.sym||[])[i]||{};return typeof x.lv==='number'&&typeof x.dis==='number'}
+function nightParts(d){const p=[['体と心',typeof d.body==='number'&&typeof d.mind==='number'],['今日の4つ',BASICS.every(b=>typeof d[b.id]==='number'),BASICS.filter(b=>typeof d[b.id]==='number').length+'/4'],['食事',['am','noon','pm'].every(m=>{const v=(d.meals||{})[m];return v===false||(typeof v==='string'&&v.trim())}),['am','noon','pm'].filter(m=>{const v=(d.meals||{})[m];return v===false||(typeof v==='string'&&v.trim())}).length+'/3']];
+  S.symNames.forEach((n,i)=>{if(n)p.push([n,symDone(d,i)])});return p}
+function renderStatus(){
+  const nowD=new Date(), hr=nowD.getHours(), yd=ymd(addDays(new Date(TODAY+'T00:00:00'),-1));
+  const past=T!==TODAY, d=S.days[T]||{};
+  $('statusCard').classList.toggle('editing-past',past);
+  $('stTitle').textContent=past?md(T)+'の分を書き足しています':'今日の記録';
+  $('stNow').textContent=past?'':md(TODAY);
+  const sl=!!(d.bed&&d.wake)||typeof d.sq==='number';
+  const it=(l,ok,c)=>`<span class="${ok?'ok':'no'}">${ok?'✓':'・'}${esc(l)}${!ok&&c?'('+c+')':''}</span>`;
+  let h=`<div class="st-row"><span class="lab">朝</span><div><div class="st-items">${it('睡眠',sl)}</div><span class="note">起きてから、お昼(12時)までに</span></div>
+    <span class="lab">夜</span><div><div class="st-items">${nightParts(d).map(([l,ok,c])=>it(l,ok,c)).join('')}</div><span class="note">寝る前までに。書き忘れたら、翌日のお昼(12時)まで書き足せます</span></div></div>
+    <p class="note">つらい日や時間がない日は、「体と心」の2つだけで十分です。空いた日があっても、そのままで大丈夫です。</p>`;
+  const ydD=S.days[yd]||{};
+  if(!past&&hr<12&&nightParts(ydD).some(x=>!x[1]))h+=`<div class="row"><button class="btn small" id="stPrev">昨日(${md(yd)})の分を書き足す</button><span class="note">お昼まで</span></div>`;
+  if(past)h+=`<div class="row"><button class="btn small" id="stBack">今日の記録に戻る</button></div>`;
+  $('stBody').innerHTML=h;
+  if($('stPrev'))$('stPrev').addEventListener('click',()=>{T=yd;renderBasics();renderTodayExp();window.scrollTo(0,0)});
+  if($('stBack'))$('stBack').addEventListener('click',()=>{T=TODAY;renderBasics();renderTodayExp()});
+  if(past&&!(hr<12&&T===yd)){T=TODAY;renderBasics();renderTodayExp()}
+}
 function evOf(d,id){const e=d.events||[];if(!e.length)return null;if(e.includes('none'))return false;return e.includes(id)}
-function sleepH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
+function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
+function sleepH(d){const h=bedH(d);if(h==null)return null;const a=AW.find(x=>x[0]===d.awake);return a&&d.wakeN>=1?Math.max(0,h-a[2]/60):h}
 function fmtH(h){const m=Math.round(h*60);return Math.floor(m/60)+'時間'+(m%60?m%60+'分':'')}
 ['bed','wake'].forEach(id=>$(id).addEventListener('change',e=>{day(T)[id]=e.target.value;save('sv-sleep');renderBasics()}));
 
@@ -481,12 +571,13 @@ function renderLook(){
   $('week').innerHTML=h+'<tr><td colspan="8" class="note" style="text-align:left;border:0">○できた △少し —まだ ・未記入</td></tr>';
   const ML={am:'朝',noon:'昼',pm:'夜'};
   $('mealWeek').innerHTML=ks.slice().reverse().map(k=>{const m=(S.days[k]||{}).meals||{};return `<div><b>${md(k)}</b> `+['am','noon','pm'].map(x=>ML[x]+':'+(m[x]===false?'<span style="color:var(--ochre)">抜いた</span>':m[x]?esc(m[x]):'・')).join(' / ')+'</div>'}).join('');
-  $('cond').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'+`<tr><td>睡眠</td>`+ks.map(k=>{const h=sleepH(S.days[k]);return `<td>${h==null?'・':(Math.round(h*10)/10)}</td>`}).join('')+'</tr>'+`<tr><td>眠りの質</td>`+ks.map(k=>{const v=(S.days[k]||{}).sq;return `<td>${v||'・'}</td>`}).join('')+'</tr>'+[['body','体'],['mind','心']].map(([id,l])=>`<tr><td>${l}</td>`+ks.map(k=>{const v=(S.days[k]||{})[id];return typeof v==='number'?`<td class="${v<=3?'c0':v>=7?'c2':'c1'}" style="${v<=3?'color:var(--warn)':''}">${v}</td>`:'<td class="c0">・</td>'}).join('')+'</tr>').join('');
+  $('cond').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'+`<tr><td>睡眠</td>`+ks.map(k=>{const h=sleepH(S.days[k]);return `<td>${h==null?'・':(Math.round(h*10)/10)}</td>`}).join('')+'</tr>'+S.symNames.map((n,i)=>n?`<tr><td>${esc(n.slice(0,6))} 強</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.lv==='number'?x.lv:'・'}</td>`}).join('')+`</tr><tr><td>${esc(n.slice(0,6))} 支障</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.dis==='number'?x.dis:'・'}</td>`}).join('')+'</tr>':'').join('')+`<tr><td>中途覚醒</td>`+ks.map(k=>{const v=(S.days[k]||{}).wakeN;return `<td>${v==null?'・':v===3?'3+':v}</td>`}).join('')+'</tr>'+`<tr><td>眠りの質</td>`+ks.map(k=>{const v=(S.days[k]||{}).sq;return `<td>${v||'・'}</td>`}).join('')+'</tr>'+[['body','体'],['mind','心']].map(([id,l])=>`<tr><td>${l}</td>`+ks.map(k=>{const v=(S.days[k]||{})[id];return typeof v==='number'?`<td class="${v<=3?'c0':v>=7?'c2':'c1'}" style="${v<=3?'color:var(--warn)':''}">${v}</td>`:'<td class="c0">・</td>'}).join('')+'</tr>').join('');
   const wx=S.wx||{};
   $('wxWeek').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'
    +'<tr><td>天気</td>'+ks.map(k=>`<td>${wx[k]?WSHORT(wx[k].code):'・'}</td>`).join('')+'</tr>'
    +'<tr><td>最高℃</td>'+ks.map(k=>`<td>${wx[k]?wx[k].tmax:'・'}</td>`).join('')+'</tr>'
    +'<tr><td>最低℃</td>'+ks.map(k=>`<td>${wx[k]?wx[k].tmin:'・'}</td>`).join('')+'</tr>'
+   +'<tr><td>湿度%</td>'+ks.map(k=>`<td>${wx[k]&&wx[k].hm!=null?wx[k].hm:'・'}</td>`).join('')+'</tr>'
    +'<tr><td>気圧差</td>'+ks.map(k=>`<td>${wx[k]&&wx[k].dp!=null?wx[k].dp:'・'}</td>`).join('')+'</tr>'
    +'<tr><td colspan="8" class="note" style="text-align:left;border:0">気圧差=その日の気圧の最高と最低の差(hPa)。天気と体調の関係は、数週間たってから見比べてください。</td></tr>';
   renderTrend();
@@ -507,6 +598,8 @@ function renderTrend(){
   const wx=S.wx||{};
   const C=[
    ['睡眠6時間以上 / 未満',r=>{const h=sleepH(r.d);return h==null?null:h>=6}],
+   ['夜中に目が覚めなかった / 覚めた',r=>typeof r.d.wakeN!=='number'?null:r.d.wakeN===0],
+   ...S.symNames.map((n,i)=>n?[n.slice(0,10)+'の強さ4以下 / 5以上',r=>{const x=((r.d.sym||[])[i]||{});return typeof x.lv!=='number'?null:x.lv<=4}]:null).filter(Boolean),
    ['眠りの質4以上 / 3以下',r=>typeof r.d.sq!=='number'?null:r.d.sq>=4],
    ['休憩できた / できなかった',r=>r.d.rest===2?true:r.d.rest===0?false:null],
    ['区切りで終えた / 終えられなかった',r=>r.d.stop===2?true:r.d.stop===0?false:null],
@@ -533,6 +626,9 @@ $('docFill').addEventListener('click',()=>{
   const lines=['【最近2週間('+md(ks[0])+'〜'+md(ks[13])+')】','記録した日:'+rec.length+'日'];
   const hs=rec.map(sleepH).filter(h=>h!=null);if(hs.length)lines.push('睡眠時間:平均 '+fmtH(hs.reduce((a,b)=>a+b,0)/hs.length)+'(最短 '+fmtH(Math.min(...hs))+')');
   if(st('sq'))lines.push('睡眠の質(5段階):'+st('sq'));
+  S.symNames.forEach((n,i)=>{if(!n)return;const lv=rec.map(d=>((d.sym||[])[i]||{}).lv).filter(v=>typeof v==='number'),ds=rec.map(d=>((d.sym||[])[i]||{}).dis).filter(v=>typeof v==='number');
+    if(lv.length)lines.push(n+':強さ 平均 '+(lv.reduce((a,b)=>a+b,0)/lv.length).toFixed(1)+'(最高 '+Math.max(...lv)+')'+(ds.length?'、生活への支障 平均 '+(ds.reduce((a,b)=>a+b,0)/ds.length).toFixed(1)+'(最高 '+Math.max(...ds)+')':'')+'、記録 '+lv.length+'日')});
+  const wn=rec.map(d=>d.wakeN).filter(v=>typeof v==='number');if(wn.length)lines.push('中途覚醒:記録した'+wn.length+'日のうち、目が覚めた日 '+wn.filter(v=>v>=1).length+'日(2回以上 '+wn.filter(v=>v>=2).length+'日)');
   const tc={};S.notes.filter(n=>n.type==='thought'&&ks.includes(n.date)).forEach(n=>(n.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
   const tcs=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>(TAGS.find(x=>x[0]===t)||[0,t])[1]+' '+c+'回');if(tcs.length)lines.push('思考の癖メモで多かった癖:'+tcs.join('、'));
   if(st('body'))lines.push('体の調子(10段階):'+st('body')); if(st('mind'))lines.push('心の調子(10段階):'+st('mind'));
@@ -555,14 +651,16 @@ function validData(v){
   if(!isObj(v)||!isObj(v.days)||!Array.isArray(v.exps))return '記録の形式が違います';
   if(v.v!=null&&v.v>2)return 'このページより新しい形式の記録です';
   if(v.notes!=null&&!Array.isArray(v.notes))return 'メモの形式が違います';
+  if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.some(x=>typeof x!=='string')))return '症状の名前の形式が違います';
   if(v.weeks!=null&&!isObj(v.weeks))return '週のふりかえりの形式が違います';
   const rng=(x,a,b)=>x==null||(Number.isInteger(x)&&x>=a&&x<=b);
   for(const [k,d] of Object.entries(v.days)){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!isObj(d))return '日付 '+k+' の記録の形式が違います';
-    if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5))return k+' の点数が範囲外です';
+    if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5)||!rng(d.wakeN,0,3)||!rng(d.awake,1,4))return k+' の点数が範囲外です';
     for(const b of ['meal','rest','stop','free','sleep'])if(!rng(d[b],0,2))return k+' の記録の値が範囲外です';
     if(d.meals!=null&&!isObj(d.meals))return k+' の食事の形式が違います';
     for(const a of ['signs','events'])if(d[a]!=null&&!Array.isArray(d[a]))return k+' の記録の形式が違います';
+    if(d.sym!=null){if(!Array.isArray(d.sym))return k+' の症状の形式が違います';for(const x of d.sym)if(x&&(!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
   }
   for(const x of v.exps)if(!isObj(x)||typeof x.name!=='string'||!isObj(x.uses||{})||!Array.isArray(x.rates||[]))return '工夫の記録の形式が違います';
   return null}
@@ -575,7 +673,7 @@ $('importBtn').addEventListener('click',()=>{let v;try{v=JSON.parse($('importTex
   S=v;S.notes=S.notes||[];save('sv-io');$('importText').value='';$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=false;flash('sv-io','読み込みました')});
 $('undoImp').addEventListener('click',()=>{try{const p=JSON.parse(localStorage.getItem(KEY+'_before_import')||'null');if(!p)throw 0;S=p;save('sv-io');try{localStorage.removeItem(KEY+'_before_import')}catch(e){};$('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')}catch(e){flash('sv-io','戻せる控えがありません')}});
 try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
-function rerenderAll(){S.notes=S.notes||[];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
+function rerenderAll(){S.notes=S.notes||[];S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
 
 // weather (Open-Meteo, 位置は小数1桁に丸める)
@@ -585,7 +683,7 @@ S.wx=S.wx||{}; S.wxOn=S.wxOn||false;
 function renderWx(msg){
   const w=S.wx[T];
   let h='';
-  if(w)h=`<div class="row" style="gap:16px"><span style="font-family:var(--display);font-size:22px">${WMO(w.code)}</span><span style="font-variant-numeric:tabular-nums">${w.tmax}℃ / ${w.tmin}℃</span><span class="pill gray">気圧の変化 ${w.dp}hPa</span></div>`;
+  if(w)h=`<div class="row" style="gap:16px"><span style="font-family:var(--display);font-size:22px">${WMO(w.code)}</span><span style="font-variant-numeric:tabular-nums">${w.tmax}℃ / ${w.tmin}℃</span>${w.hm!=null?`<span style="font-variant-numeric:tabular-nums">湿度 ${w.hm}%<small style="color:var(--sub)">(${w.hmMin}〜${w.hmMax}%)</small></span>`:''}<span class="pill gray">気圧の変化 ${w.dp}hPa</span></div>`;
   else h='<p class="note" style="color:var(--ink)">まだ記録していません。</p>';
   h+=`<div class="row">${S.wxOn?'<span class="pill">開いたときに自動で更新</span><button class="btn small ghost" id="wxOff">自動をやめる</button>':'<button class="btn small" id="wxOn">現在地の天気を自動で記録する</button>'}<button class="btn small ghost" id="wxNow">今すぐ更新</button></div>`;
   if(msg)h+=`<p class="note" style="color:var(--warn)">${esc(msg)}</p>`;
@@ -602,20 +700,28 @@ function getWx(force){
   navigator.geolocation.getCurrentPosition(async pos=>{
     const lat=pos.coords.latitude.toFixed(1),lon=pos.coords.longitude.toFixed(1);
     try{
-      const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=pressure_msl&timezone=Asia%2FTokyo&past_days=7&forecast_days=1`;
+      const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&hourly=pressure_msl,relative_humidity_2m&timezone=Asia%2FTokyo&past_days=7&forecast_days=1`;
       const r=await fetch(u); if(!r.ok)throw new Error(r.status);
       const j=await r.json();
       j.daily.time.forEach((d,i)=>{
         const ps=j.hourly.time.map((t,k)=>t.startsWith(d)?j.hourly.pressure_msl[k]:null).filter(v=>typeof v==='number');
+        const hs=j.hourly.time.map((t,k)=>t.startsWith(d)?(j.hourly.relative_humidity_2m||[])[k]:null).filter(v=>typeof v==='number');
         if(j.daily.weather_code[i]==null)return;
-        S.wx[d]={code:j.daily.weather_code[i],tmax:Math.round(j.daily.temperature_2m_max[i]),tmin:Math.round(j.daily.temperature_2m_min[i]),dp:ps.length?Math.round(Math.max(...ps)-Math.min(...ps)):null};
+        S.wx[d]={code:j.daily.weather_code[i],tmax:Math.round(j.daily.temperature_2m_max[i]),tmin:Math.round(j.daily.temperature_2m_min[i]),dp:ps.length?Math.round(Math.max(...ps)-Math.min(...ps)):null,hm:hs.length?Math.round(hs.reduce((a,b)=>a+b,0)/hs.length):null,hmMin:hs.length?Math.round(Math.min(...hs)):null,hmMax:hs.length?Math.round(Math.max(...hs)):null};
       });
       S.wxAt=Date.now(); save('sv-wx'); renderWx(); if(!$('p-look').hidden)renderLook();
     }catch(e){renderWx('天気を取得できませんでした。通信状態を確かめて「今すぐ更新」を押してください。')}
   },err=>{renderWx(err.code===1?'位置情報の利用が許可されていません。ブラウザの設定でこのサイトの位置情報を許可してください。':'現在地を取得できませんでした。')},{maximumAge:3600000,timeout:15000});
 }
 renderWx(); if(S.wxOn)getWx(false);
-function dayCheck(){if(ymd(new Date())!==T)location.reload()}
+$('calBtn').addEventListener('click',()=>{
+  const t=id=>$(id).value.replace(':','')+'00', st=TODAY.replace(/-/g,''), stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  const ev=(uid,tm,title,desc)=>['BEGIN:VEVENT','UID:'+uid+'@ishizue-kokoro-karada','DTSTAMP:'+stamp,'DTSTART;TZID=Asia/Tokyo:'+st+'T'+tm,'DURATION:PT5M','RRULE:FREQ=DAILY','SUMMARY:'+title,'DESCRIPTION:'+desc+'\\nhttps://www.ishizue-counseling.jp/kokoro-karada.html','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+title,'TRIGGER:PT0M','END:VALARM','END:VEVENT'];
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ishizue//kokoro-karada//JA','CALSCALE:GREGORIAN',
+    ...ev('am',t('remAm'),'朝の記録(睡眠)','起きてから、お昼までに'),...ev('pm',t('remPm'),'夜の記録','寝る前に。体と心だけでも十分'),'END:VCALENDAR'].join('\r\n');
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='kokoro-karada.ics';document.body.appendChild(a);a.click();a.remove();flash('sv-cal','カレンダーの画面で「追加」を押してください')}catch(e){flash('sv-cal','この画面では追加できませんでした')}
+});
+function dayCheck(){if(ymd(new Date())!==TODAY)location.reload();else renderStatus()}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayCheck()});setInterval(dayCheck,60000);
 renderBasics(); renderTodayExp(); renderExp(); renderNotes();
 try{const t=localStorage.getItem(KEY+'_tab');if(t&&t!=='day'){const b=document.querySelector(`.tabs button[data-p="${t}"]`);b&&b.click()}}catch(e){}
