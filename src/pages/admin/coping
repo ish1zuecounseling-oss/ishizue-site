@@ -2,12 +2,10 @@
 // 管理画面 — こころの整理ガイド（自分用ストレスコーピングツール）
 // ルーティング: <Route path="/admin/coping" element={<Coping />} />
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, type CSSProperties } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-// ── パスワード設定 ──────────────────────────────────────
-// 自分用・非公開ページ。デプロイ前にここを書き換えること（'ishizue' 以外を推奨）。
-const ADMIN_PASS = 'CHANGE_ME'
+// 自分用ページ。合言葉の画面はなし(検索エンジンには載せない)。記録はこの端末のブラウザ内だけに保存される。
 
 // ── ローカルストレージ ──────────────────────────────────
 const STORAGE_KEY = 'ishizue_coping_v1'
@@ -48,15 +46,15 @@ const C = {
   sage: '#7eb8a4', sageSoft: 'rgba(126,184,164,0.14)',
   line: 'rgba(126,184,164,0.22)', amber: '#d9b27a',
 }
-const cardStyle: React.CSSProperties = {
+const cardStyle: CSSProperties = {
   background: C.card, border: `1px solid ${C.line}`, borderRadius: 20, padding: '26px 22px',
 }
-const qStyle: React.CSSProperties = {
+const qStyle: CSSProperties = {
   fontFamily: "'Hiragino Mincho ProN','Yu Mincho',serif",
   fontSize: 18, lineHeight: 1.7, marginBottom: 6, letterSpacing: '0.03em', color: C.ink,
 }
-const qSubStyle: React.CSSProperties = { color: C.dim, fontSize: 12.5, marginBottom: 18 }
-const optStyle = (sel: boolean): React.CSSProperties => ({
+const qSubStyle: CSSProperties = { color: C.dim, fontSize: 12.5, marginBottom: 18 }
+const optStyle = (sel: boolean): CSSProperties => ({
   display: 'block', width: '100%', textAlign: 'left',
   background: sel ? C.sageSoft : 'rgba(255,255,255,0.02)',
   border: `1px solid ${sel ? C.sage : C.line}`, color: C.ink,
@@ -64,22 +62,22 @@ const optStyle = (sel: boolean): React.CSSProperties => ({
   fontSize: 14.5, fontFamily: 'inherit', lineHeight: 1.6, cursor: 'pointer',
   position: 'relative', transition: '.22s',
 })
-const subStyle: React.CSSProperties = { display: 'block', color: C.dim, fontSize: 11.5, marginTop: 2 }
-const btnStyle: React.CSSProperties = {
+const subStyle: CSSProperties = { display: 'block', color: C.dim, fontSize: 11.5, marginTop: 2 }
+const btnStyle: CSSProperties = {
   display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
   background: C.sage, color: '#0d1f1a', border: 'none', borderRadius: 999,
   padding: '13px 26px', fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
   cursor: 'pointer', marginTop: 6,
 }
-const ghostStyle: React.CSSProperties = {
+const ghostStyle: CSSProperties = {
   ...btnStyle, background: 'transparent', border: `1px solid ${C.line}`, color: C.dim, fontWeight: 500,
 }
-const hintStyle: React.CSSProperties = {
+const hintStyle: CSSProperties = {
   background: 'rgba(255,255,255,0.02)', border: `1px solid ${C.line}`, borderRadius: 12,
   padding: '13px 15px', margin: '14px 0 6px', fontSize: 12, color: C.dim, lineHeight: 1.9,
 }
-const stepStyle: React.CSSProperties = { borderLeft: `2px solid ${C.sage}`, padding: '4px 0 4px 16px', margin: '13px 0' }
-const noteStyle: React.CSSProperties = {
+const stepStyle: CSSProperties = { borderLeft: `2px solid ${C.sage}`, padding: '4px 0 4px 16px', margin: '13px 0' }
+const noteStyle: CSSProperties = {
   color: C.dim, fontSize: 12, lineHeight: 1.9, marginTop: 16,
   background: 'rgba(255,255,255,0.02)', border: `1px solid ${C.line}`, borderRadius: 12, padding: 14,
 }
@@ -141,49 +139,6 @@ type View =
   | { name: 'done' } | { name: 'log' }
 
 export default function Coping() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('coping_auth') === ADMIN_PASS)
-  const [pw, setPw] = useState('')
-  const [pwErr, setPwErr] = useState(false)
-
-  if (!authed) {
-    const tryAuth = () => {
-      if (pw === ADMIN_PASS) { sessionStorage.setItem('coping_auth', ADMIN_PASS); setAuthed(true) }
-      else { setPwErr(true); setPw('') }
-    }
-    return (
-      <>
-        <Helmet>
-          <title>管理ページ | こころの相談室 いしずえ</title>
-          <meta name="robots" content="noindex, nofollow" />
-        </Helmet>
-        <div style={{
-          minHeight: '100vh', background: C.bg,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Hiragino Sans',system-ui,sans-serif", padding: 20,
-        }}>
-          <div style={{ ...cardStyle, width: '100%', maxWidth: 320, textAlign: 'center' }}>
-            <div style={{ fontSize: 11, letterSpacing: '0.32em', color: C.sage, textTransform: 'uppercase', marginBottom: 14, fontWeight: 600 }}>for you</div>
-            <div style={{ ...qStyle, fontSize: 16, marginBottom: 22 }}>こころの整理ガイド</div>
-            <input
-              type="password" value={pw} placeholder="合言葉"
-              onChange={e => { setPw(e.target.value); setPwErr(false) }}
-              onKeyDown={e => e.key === 'Enter' && tryAuth()}
-              autoFocus
-              style={{
-                width: '100%', padding: '11px 14px', background: 'rgba(255,255,255,0.03)',
-                border: `1px solid ${pwErr ? '#a85b5b' : C.line}`, borderRadius: 12,
-                color: C.ink, fontSize: 14, fontFamily: 'inherit', outline: 'none',
-                textAlign: 'center', letterSpacing: '0.15em',
-              }}
-            />
-            {pwErr && <div style={{ fontSize: 11, color: '#c98686', marginTop: 8 }}>合言葉が違います</div>}
-            <button onClick={tryAuth} style={{ ...btnStyle, width: '100%', marginTop: 16 }}>ひらく</button>
-          </div>
-        </div>
-      </>
-    )
-  }
-
   return (
     <>
       <Helmet>
