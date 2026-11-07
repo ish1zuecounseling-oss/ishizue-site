@@ -168,6 +168,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
           </div>
         </details>
     </div>
+    <div class="card" id="sugCard"></div>
     <div class="card">
       <div class="head"><h2><span class="when">朝</span>昨夜の睡眠</h2><span class="saved" id="sv-sleep"></span></div>
       <div class="sleeprow">
@@ -307,6 +308,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     </div>
     <div class="card">
       <h2>ほかのタブ</h2>
+      <details class="faq"><summary>「今日のおすすめ」はどうやって選ばれる?</summary><p>昨日の記録(体と心の点数、区切り・休憩・食事など)、昨夜の睡眠、最近7日の思考の癖メモ、30日間の傾向から、決まった規則で最大3つ選びます。同じ種類のものは1つまでです。AIなどには送っていません。「工夫として試す」を押すと「工夫」タブの試す工夫になります。気になるサインがあった日は、おすすめの代わりに相談先を案内します。</p></details>
       <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を1つだけ選び、毎日「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
@@ -531,10 +533,81 @@ function renderStatus(){
   if(!past&&hr<12&&nightParts(ydD).some(x=>!x[1]))h+=`<div class="row"><button class="btn small" id="stPrev">昨日(${md(yd)})の分を書き足す</button><span class="note">お昼まで</span></div>`;
   if(past)h+=`<div class="row"><button class="btn small" id="stBack">今日の記録に戻る</button></div>`;
   $('stBody').innerHTML=h;
+  renderSuggest();
   if($('stPrev'))$('stPrev').addEventListener('click',()=>{T=yd;renderBasics();renderTodayExp();window.scrollTo(0,0)});
   if($('stBack'))$('stBack').addEventListener('click',()=>{T=TODAY;renderBasics();renderTodayExp()});
   if(past&&!(hr<12&&T===yd)){T=TODAY;renderBasics();renderTodayExp()}
 }
+// ── おすすめのセルフコーピング(記録からの規則で選ぶ。AIには送らない) ──
+const COPE={
+ nap:['昼寝は20分まで、15時より前に','眠りが浅かった日は、昼に長く寝ると今夜の眠りに響きやすくなります'],
+ light:['起きたら外の光を5分浴びる','朝の光は体内時計を整え、夜の眠りにつながります'],
+ screen:['寝る1時間前に画面を閉じ、部屋を暗めにする','寝る前の明るい光や考えごとは、眠りを浅くしやすくなります'],
+ stopTime:['作業の終わりの時間を先に決めて、アラームをかける',''],
+ pomodoro:['25分作業したら、5分は画面から離れる',''],
+ mealPlan:['食事の時間を予定に入れる。すぐ食べられるものを1つ用意しておく',''],
+ free:['仕事と関係ないことを10分だけする',''],
+ oneThing:['今日やることを1つに絞り、ほかは「やらないこと」に回す',''],
+ write:['気になっている考えを「メモ」タブに1つ書き出す','頭の中で回している考えは、書き出すと少し距離がとれます'],
+ talk:['誰かと短く話す(メッセージでもよい)',''],
+ halfPlan:['予定を半分にして、横になる時間を先に決める',''],
+ symAttn:['必要な対処をしたうえで、症状だけに意識を向け続けず、できる範囲でいましていることに注意を戻してみる','点数は夜に1回つければ十分です。強さや感じ方がいつもと違うときは、主治医に伝えます'],
+ buffer:['予定と予定の間に15分の空白を入れる',''],
+ weather:['気圧の変化が大きい予報の日は、予定を詰めすぎない',''],
+};
+const TAG_Q={bw:'「全部だめ」以外に、できていた部分を1つ探す',fore:'「そうならなかったら?」の筋書きも1つ書いてみる',mind:'相手の気持ちは、確かめるまでは仮説として置いておく',should:'「〜すべき」を「〜できたらいい」に言いかえてみる',self:'自分以外の理由を3つ挙げてみる',over:'「いつも」ではなかった例を1つ思い出す',mag:'良かったことも同じ大きさで1つ書く',emo:'「そう感じる」と「事実」を分けて書く',label:'一つの出来事と、自分全体を分けて考える'};
+function suggest(){
+  const cand=[];let cat='',pr=9;const add=(key,why,txt)=>cand.push({cat,pr,key,txt:txt||COPE[key][0],why,note:key&&COPE[key]?COPE[key][1]:''});
+  const tD=S.days[TODAY]||{}, yk=ymd(addDays(new Date(TODAY+'T00:00:00'),-1)), y=S.days[yk]||{};
+  // 0) 自分の対処リストから1つ
+  const keep=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6});
+  cat='keep';pr=0;if(keep.length)add(null,'自分の対処リストから(役立ち度 '+lastRate(keep[dayNo%keep.length]).score+')',keep[dayNo%keep.length].name);
+  // 1) 昨夜の睡眠
+  cat='sleep';pr=2;const sh=sleepH(tD);
+  if(sh!=null&&sh<6)add('nap','昨夜の睡眠が短め('+fmtH(sh)+')でした');
+  else if(tD.wakeN>=2)add('screen','昨夜は夜中に'+(tD.wakeN>=3?'3回以上':'2回')+'目が覚めました');
+  else if(typeof tD.sq==='number'&&tD.sq<=2)add('light','昨夜の眠りの質が '+tD.sq+' でした');
+  // 2) 昨日の記録
+  cat='act';pr=3;if(y.stop===0)add('stopTime','昨日は決めた時間で作業を終えられませんでした');
+  if(y.rest===0)add('pomodoro','昨日は作業の合間に休めませんでした');
+  const ym=y.meals||{};if(['am','noon','pm'].some(m=>ym[m]===false))add('mealPlan','昨日は食事を抜いた時間がありました');
+  cat='mind';pr=1;if(typeof y.mind==='number'&&y.mind<=4){add('oneThing','昨日の心の調子が '+y.mind+' でした');add('write','昨日の心の調子が '+y.mind+' でした')}
+  cat='body';pr=1;if(typeof y.body==='number'&&y.body<=4)add('halfPlan','昨日の体の調子が '+y.body+' でした');
+  cat='sym';pr=2;(y.sym||[]).forEach((x,i)=>{if(x&&typeof x.lv==='number'&&x.lv>=6&&S.symNames[i])add('symAttn','昨日の「'+S.symNames[i]+'」の強さが '+x.lv+' でした')});
+  cat='act';pr=3;if((y.events||[]).includes('busy')&&typeof y.mind==='number'&&y.mind<=5)add('buffer','昨日は予定が多く、心の調子が '+y.mind+' でした');
+  cat='act';pr=3;if(y.free===0)add('free','昨日は仕事以外のことができませんでした');
+  // 3) 天気(サイト版のみ)
+  cat='wx';pr=5;const w=(S.wx||{})[TODAY];if(w&&w.dp!=null&&w.dp>=8)add('weather','今日は気圧の変化が '+w.dp+'hPa の予報です');
+  // 4) 最近7日の思考の癖
+  const wk=[];for(let i=0;i<7;i++)wk.push(ymd(addDays(new Date(TODAY+'T00:00:00'),-i)));
+  const tc={};S.notes.filter(n=>n.type==='thought'&&wk.includes(n.date)).forEach(n=>(n.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
+  cat='thought';pr=4;const top=Object.entries(tc).sort((a,b)=>b[1]-a[1])[0];if(top&&top[1]>=2)add(null,'この7日間で「'+TAGS.find(x=>x[0]===top[0])[1]+'」が '+top[1]+' 回ありました',TAG_Q[top[0]]);
+  // 5) 30日の傾向(差が1.0以上のとき)
+  cat='trend';pr=4;const ks=[];for(let i=1;i<=30;i++)ks.push(ymd(addDays(new Date(TODAY+'T00:00:00'),-i)));
+  const rows=ks.map(k=>S.days[k]||{}).filter(d=>typeof d.body==='number'||typeof d.mind==='number');
+  const sc=d=>{const a=[d.body,d.mind].filter(x=>typeof x==='number');return a.reduce((p,q)=>p+q,0)/a.length};
+  [['pomodoro','休憩できた日',d=>d.rest===2?true:d.rest===0?false:null],['stopTime','決めた時間で作業を終えた日',d=>d.stop===2?true:d.stop===0?false:null],['free','仕事以外のことをした日',d=>d.free===2?true:d.free===0?false:null],['talk','人と会った日',d=>evOf(d,'meet')],['mealPlan','食事を抜かなかった日',d=>{const m=d.meals||{};const v=['am','noon','pm'].map(t=>m[t]);if(v.includes(false))return false;return v.every(x=>typeof x==='string'&&x.trim())?true:null}]]
+   .map(([key,l,f])=>{const a=rows.filter(d=>f(d)===true),b=rows.filter(d=>f(d)===false);if(a.length<3||b.length<3)return null;const da=a.reduce((p,d)=>p+sc(d),0)/a.length,db=b.reduce((p,d)=>p+sc(d),0)/b.length;return da-db>=1?{key,l,diff:da-db}:null})
+   .filter(Boolean).sort((a,b)=>b.diff-a.diff).forEach(t=>add(t.key,'記録では、'+t.l+'のほうが体と心の平均が '+t.diff.toFixed(1)+' 高い傾向です'));
+  const out=[],used=new Set(),seen=new Set();
+  cand.slice().sort((a,b)=>a.pr-b.pr).forEach(c=>{if(out.length<3&&!used.has(c.cat)&&!seen.has(c.txt)){out.push(c);used.add(c.cat);seen.add(c.txt)}});
+  return out;
+}
+function renderSuggest(){
+  const box=$('sugCard'); if(!box)return;
+  const tD=S.days[TODAY]||{}, yk=ymd(addDays(new Date(TODAY+'T00:00:00'),-1)), y=S.days[yk]||{};
+  if(T!==TODAY){box.hidden=true;return} box.hidden=false;
+  if((tD.signs||[]).length||(y.signs||[]).length){
+    box.innerHTML=`<h2>今日のおすすめ</h2><p class="note warnline">${(tD.signs||[]).length?'今日':'昨日'}は「気になるサイン」がありました。今日は工夫より先に、主治医や相談先に伝えることを優先してください。</p><div class="row"><button class="btn small" id="sugHelp">相談先を見る</button></div>`;
+    $('sugHelp').addEventListener('click',()=>{$('t-help').click();window.scrollTo(0,0)});return}
+  const L=suggest();
+  if(!L.length){box.innerHTML=`<h2>今日のおすすめ</h2><p class="note">昨日の記録から、特に気になるところは見つかりませんでした。いつもどおりで大丈夫です。記録が増えると、傾向にもとづくおすすめも出てきます。</p>`;return}
+  box.innerHTML=`<h2>今日のおすすめ</h2><p class="note">昨日の記録と最近の傾向から選んでいます。よければ1つだけ。何もしない日があってもかまいません。</p>`+
+   L.map((o,i)=>`<div class="exp"><span class="name">${esc(o.txt)}</span><span class="note">${esc(o.why)}</span>${o.note?`<span class="note">${esc(o.note)}</span>`:''}<div class="row"><button class="btn small ghost" data-sug="${i}">工夫として試す</button></div></div>`).join('')+
+   `<p class="note">記録から決まった規則で選んでいるだけで、診断や指示ではありません。</p>`;
+  box.querySelectorAll('[data-sug]').forEach(b=>b.addEventListener('click',()=>{const o=L[+b.dataset.sug];let x=S.exps.find(e=>e.name===o.txt);if(!x){x={id:'u'+Date.now(),name:o.txt,uses:{},rates:[]};S.exps.push(x)}S.active=x.id;save();renderTodayExp();renderExp();b.textContent='試す工夫にしました';b.disabled=true}));
+}
+
 function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
 function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
@@ -575,6 +648,7 @@ function renderNotes(){
     return `<div class="note-item"><div class="meta">${kind}<span>${md(n.date)} ${n.at}</span>${del}</div>${body}</div>`}).join(''):'<p class="note">まだメモはありません。</p>';
   $('noteList').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.del;
     if(delArm===id){S.notes=S.notes.filter(n=>n.id!==id);delArm=null;save();}else{delArm=id;setTimeout(()=>{if(delArm===id){delArm=null;renderNotes()}},4000)}renderNotes()}));
+  renderSuggest();
 }
 ['am','noon','pm'].forEach(m=>{
   $('meal-'+m).addEventListener('input',e=>{const d=day(T);(d.meals=d.meals||{})[m]=e.target.value;save('sv-day')});
@@ -724,7 +798,8 @@ function validData(v){
     if(d.memo!=null&&!isStr(d.memo,5000))return k+' のひとことの形式が違います';
     if(d.meals!=null){if(!isObj(d.meals))return k+' の食事の形式が違います';for(const [m,x] of Object.entries(d.meals)){if(!['am','noon','pm'].includes(m)||!(x==null||x===false||isStr(x,500)))return k+' の食事の形式が違います'}}
     if(d.signs!=null&&(!Array.isArray(d.signs)||d.signs.some(x=>!SIG.includes(x))))return k+' の気になるサインの形式が違います';
-    if(d.events!=null&&(!Array.isArray(d.events)||d.events.some(x=>!EVT.includes(x))))return k+' の今日あったことの形式が違います';
+    if(d.events!=null&&(!Array.isArray(d.events)||d.events.some(x=>!EVT.includes(x))||(d.events.includes('none')&&d.events.length>1)||new Set(d.events).size!==d.events.length))return k+' の今日あったことの形式が違います';
+    if(d.signs!=null&&new Set(d.signs).size!==d.signs.length)return k+' の気になるサインの形式が違います';
     if(d.sym!=null){if(!Array.isArray(d.sym)||d.sym.length>2)return k+' の症状の形式が違います';for(const x of d.sym)if(x!=null&&(!isObj(x)||!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
   }
   for(const x of v.exps){
@@ -733,7 +808,7 @@ function validData(v){
     if(x.rates!=null){if(!Array.isArray(x.rates))return '工夫の評価の形式が違います';for(const r of x.rates)if(!isObj(r)||!realDate(r.date)||!rng(r.score,0,10)||r.score==null||!['keep','change','stop'].includes(r.keep))return '工夫の評価の形式が違います'}
   }
   if(v.notes!=null){if(!Array.isArray(v.notes))return 'メモの形式が違います';
-    for(const n of v.notes){if(!isObj(n)||!okId(n.id)||!realDate(n.date)||!(n.at===''||/^\d{2}:\d{2}$/.test(n.at||''))||!['thought','aware'].includes(n.type))return 'メモの形式が違います';
+    for(const n of v.notes){if(!isObj(n)||!okId(n.id)||!realDate(n.date)||!(n.at===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(n.at||''))||!['thought','aware'].includes(n.type))return 'メモの形式が違います';
       for(const f of ['scene','thought','alt','text'])if(n[f]!=null&&!isStr(n[f],5000))return 'メモの形式が違います';
       if(n.tags!=null&&(!Array.isArray(n.tags)||n.tags.some(t=>!TAGS.some(x=>x[0]===t))))return 'メモの考えの癖の形式が違います'}}
   if(v.weeks!=null){if(!isObj(v.weeks))return '週のふりかえりの形式が違います';for(const [k,w] of Object.entries(v.weeks)){if(!realDate(k)||!isObj(w))return '週のふりかえりの形式が違います';for(const f of ['good','much','next'])if(w[f]!=null&&!isStr(w[f],5000))return '週のふりかえりの形式が違います'}}
