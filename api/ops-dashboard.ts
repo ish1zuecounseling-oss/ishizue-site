@@ -785,6 +785,26 @@ export default async function handler(req: Req, res: Res) {
       checkLevels = { ok: false, message: e instanceof Error ? e.message : "unknown" }
     }
 
+    /* 「合う人・合わない人」チェックで選ばれた項目(イベント名 cm_item_01〜10。カスタム定義の登録は不要) */
+    let matchingItems: { ok: boolean; message?: string; rows?: { item: number; users: number }[] }
+    try {
+      const rows = await ga4(token, GA4_PROPERTY_ID, {
+        dateRanges: [range],
+        dimensions: [{ name: "eventName" }],
+        metrics: [{ name: "totalUsers" }],
+        dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "BEGINS_WITH", value: "cm_item_" } } },
+        limit: 50,
+      })
+      matchingItems = {
+        ok: true,
+        rows: rows
+          .map((r) => ({ item: Number(r.dimensionValues[0].value.replace("cm_item_", "")), users: num(r.metricValues[0].value) }))
+          .filter((x) => Number.isInteger(x.item) && x.item >= 1 && x.item <= 10),
+      }
+    } catch (e) {
+      matchingItems = { ok: false, message: e instanceof Error ? e.message : "unknown" }
+    }
+
     /* LINEステップ配信(2026年11月版)から来た訪問。配信リンクの utm_content=day1〜7 で分ける */
     let lineStep: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
     try {
@@ -900,6 +920,7 @@ export default async function handler(req: Req, res: Res) {
       gsc,
       siteSearch,
       checkLevels,
+      matchingItems,
       lineStep,
       titleTests,
       aiAssistant,
