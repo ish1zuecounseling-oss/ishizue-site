@@ -4,6 +4,7 @@
 // データ取得: /api/ops-dashboard(閲覧キーは /admin/views と共通)
 
 import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { MATCHING_CHECK_ITEMS } from "../../data/matchingCheckItems"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
 // 統合で消した記事の転送先(検索の数字に古いURLが残っている間、転送先の記事名で表示するため)
@@ -88,6 +89,7 @@ type ApiResult = {
   manual?: { ok: boolean; message?: string; data?: Manual }
   waitingLine?: { count: number; byMonthEnd: Record<string, number> } | null
   checkLevels?: { ok: boolean; message?: string; rows?: { path: string; level: string; completes: number; lines: number }[] }
+  matchingItems?: { ok: boolean; message?: string; rows?: { item: number; users: number }[] }
   monthlyRecord?: Record<string, { users: number; lineClicks: number; reach: number | null; followers: number | null }>
   lineStep?: { ok: boolean; message?: string; since?: string; rows?: { day: string; sessions: number; users: number; engagedSessions: number }[] }
   aiAssistant?: { ok: boolean; message?: string; pageViews?: number; pageUsers?: number; events?: Record<string, { count: number; users: number }> }
@@ -286,7 +288,50 @@ function benchCtr(pos: number): number {
   if (pos <= 10) return 0.04
   return 0.015
 }
-const LEVEL_LABEL: Record<string, string> = { low: "軽め", mid: "中くらい", high: "強め", severe: "とても強い", p0: "消耗の中", p1: "休養", p2: "整理", p3: "再構築", p4: "維持" }
+const LEVEL_LABEL: Record<string, string> = { fit: "合う", early: "まだ早い", different: "別の支援", low: "軽め", mid: "中くらい", high: "強め", severe: "とても強い", p0: "消耗の中", p1: "休養", p2: "整理", p3: "再構築", p4: "維持" }
+
+/** 「合う人・合わない人」チェック:項目ごとの選ばれた割合 */
+function MatchingItems({ data, rows }: { data: ApiResult; rows: Row[] }) {
+  const mi = data.matchingItems
+  const page = rows.find((r) => r.path === "/articles/counseling-matching-check")
+  const completes = page?.checkCompletes ?? 0
+  const lv = (data.checkLevels?.ok ? data.checkLevels.rows ?? [] : []).filter((x) => x.path === "/articles/counseling-matching-check" && x.completes > 0)
+  const counts = new Map<number, number>((mi?.ok ? mi.rows ?? [] : []).map((x) => [x.item, x.users] as [number, number]))
+  const total = [...counts.values()].reduce((a, b) => a + b, 0)
+  return (
+    <div>
+      <p className="text-xs font-medium text-stone-700">「合う人・合わない人」チェックの集計</p>
+      <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">結果を見た人が、どの項目を選んだか(項目ごとの人数と、完了した人に対する割合)。どんな人がこのカウンセリングに関心を持っているかを見る材料です。少人数のうちは傾向として読み、断定しないでください。</p>
+      {!mi?.ok ? (
+        <p className="text-[12px] text-stone-400">取得できませんでした{mi?.message ? `(${mi.message})` : ""}。</p>
+      ) : total === 0 ? (
+        <p className="text-[12px] text-stone-400">この期間の項目データはまだありません(項目ごとの計測は、この機能を公開した日以降の分から集まります)。</p>
+      ) : (
+        <div className="bg-white rounded-xl border border-stone-200 p-3 space-y-2">
+          <p className="text-[10px] text-stone-500">
+            完了{fmt(completes)}人{lv.length > 0 ? ` ／ 結果:${lv.map((x) => `${LEVEL_LABEL[x.level] ?? x.level} ${x.completes}人`).join("・")}` : ""}
+          </p>
+          {MATCHING_CHECK_ITEMS.map((label, i) => {
+            const n = counts.get(i + 1) ?? 0
+            const rate = completes ? Math.min(1, n / completes) : 0
+            return (
+              <div key={i}>
+                <div className="flex items-start justify-between gap-3">
+                  <span className="text-[11px] leading-snug" style={{ color: INK }}>{i + 1}. {label}</span>
+                  <span className="text-[11px] font-medium flex-shrink-0 tabular-nums" style={{ color: INK }}>{fmt(n)}人{completes ? `・${pct(rate)}` : ""}</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-stone-100 mt-1 overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: `${Math.round(rate * 100)}%`, background: SAGE }} />
+                </div>
+              </div>
+            )
+          })}
+          <p className="text-[10px] text-stone-400">割合は「その項目を選んだ人 ÷ チェックを完了した人」。完了の数え方の違いで、まれに100%近くになることがあります。</p>
+        </div>
+      )}
+    </div>
+  )
+}
 
 type Cand = { row: Row; reason: string; score: number }
 
@@ -401,6 +446,8 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
           <p className="text-[10px] text-stone-400 mt-1">結果のレベル別(軽め・強めなど)は、GA4に「level」をカスタム定義として登録すると、その日以降の分から表示されます。</p>
         )}
       </div>
+
+      <MatchingItems data={data} rows={rows} />
 
       <CandList
         title="タイトル・説明文を見直す"
