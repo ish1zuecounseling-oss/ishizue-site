@@ -2,23 +2,13 @@ import { useState, useEffect } from "react"
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
-import { trackCheckComplete, trackLineClickFromCheck } from "../../lib/analytics"
+import { trackCheckComplete, trackLineClickFromCheck, trackCheckItems } from "../../lib/analytics"
+import { MATCHING_CHECK_ITEMS, MATCHING_ITEM_EVENT_PREFIX } from "../../data/matchingCheckItems"
 import { FREE_FIRST } from "../../data/siteStatus"
 
 const CHECK_NAME = "counseling-matching-check"
 
-const checkItems = [
-  "「なぜそうなるのか」を理解したい気持ちが強い",
-  "漠然とした不安を、構造として整理したい",
-  "自分の感情パターンを客観視できるようになりたい",
-  "ただ共感されるより、現実的な変化を望んでいる",
-  "厳しい指摘でも、構造のためなら受け取れる",
-  "「自分で考える」プロセスを大事にしたい",
-  "表面的な対処より、根本的な理解を優先したい",
-  "対人援助職(看護・介護・福祉・心理・教育など)である、または近い立場",
-  "今の消耗や違和感を「言葉にして整理したい」と感じている",
-  "回数を重ねるより、短期間でも整理できるカウンセリングを希望する",
-]
+const checkItems = MATCHING_CHECK_ITEMS
 
 type Level = "fit" | "early" | "different" | null
 
@@ -126,6 +116,7 @@ export default function CounselingMatchingCheck() {
     setShown(true)
     if (level) {
       trackCheckComplete(CHECK_NAME, score, level, 10)
+      trackCheckItems(MATCHING_ITEM_EVENT_PREFIX, checked.flatMap((c, i) => (c ? [i] : [])))
     }
   }
 
