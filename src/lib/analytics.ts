@@ -104,3 +104,19 @@ export function trackRelatedClickFromCheck(
     destination: destination,
   })
 }
+
+/**
+ * チェックで選ばれた項目を、項目ごとのイベントとしてGA4に送る(集計用)。
+ * イベント名に項目番号を入れるので、GA4のカスタム定義の登録は不要。
+ * 送るのは「何番の項目が選ばれたか」だけで、自由記述や個人を特定する情報は送らない。
+ * @param prefix イベント名の頭(例: "cm_item_")
+ * @param indices 選ばれた項目の番号(0始まり)
+ */
+export function trackCheckItems(prefix: string, indices: number[]): void {
+  if (typeof window === "undefined") return
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+  if (typeof gtag !== "function") return
+  for (const i of indices) {
+    gtag("event", prefix + String(i + 1).padStart(2, "0"))
+  }
+}
