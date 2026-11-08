@@ -172,6 +172,8 @@ body.rep-open{overflow:hidden}
 @keyframes breathe{0%,100%{transform:scale(.78);opacity:.55}18%,45%{transform:scale(1.18);opacity:1}82%{transform:scale(.78);opacity:.55}}
 @media (prefers-reduced-motion:reduce){.breath{animation:none}}
 .kind.sort{background:var(--ochre-soft);color:var(--ochre)}
+.medrow{display:grid;grid-template-columns:4.5em 1fr;gap:8px;align-items:center}
+.medrow .lab{font-size:13px;color:var(--sub);font-weight:700}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -222,9 +224,15 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <div class="item"><span class="q" id="q-sq">睡眠の質(1〜5)</span><div class="scale five" role="group" aria-labelledby="q-sq" id="sc-sq"></div><p class="anchor" id="an-sq"></p></div>
     </div>
     <div class="card">
+      <div class="head"><h2>服薬</h2><span class="saved" id="sv-med"></span></div>
+      <div id="medBody" class="sort"></div>
+    </div>
+    <div class="card">
       <div class="head"><h2><span class="when">夜</span>今日の4つ</h2><span class="saved" id="sv-day"></span></div>
       <p class="note">寝る前に、今日の分だけ押します。全部「できた」でなくてかまいません。</p>
       <div id="basics"></div>
+      <div class="item"><span class="q" id="q-nap">昼寝</span><div class="seg four" role="group" aria-labelledby="q-nap" id="sc-nap"></div>
+        <div class="seg" role="group" aria-label="昼寝の時間帯" id="sc-napT" hidden style="grid-template-columns:repeat(2,1fr)"></div></div>
       <div class="item"><span class="q" id="q-body">体の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-body" id="sc-body"></div><p class="anchor" id="an-body"></p></div>
       <div class="item"><span class="q" id="q-mind">心の調子(1〜10)</span><div class="scale" role="group" aria-labelledby="q-mind" id="sc-mind"></div><p class="anchor" id="an-mind"></p></div>
       <div class="item" id="symBox"></div>
@@ -241,6 +249,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
           <label for="meal-am">朝</label><input type="text" id="meal-am" placeholder="例:トースト、ヨーグルト"><button type="button" class="skip" data-m="am">抜いた</button>
           <label for="meal-noon">昼</label><input type="text" id="meal-noon" placeholder="例:うどん"><button type="button" class="skip" data-m="noon">抜いた</button>
           <label for="meal-pm">夜</label><input type="text" id="meal-pm" placeholder="例:ごはん、焼き魚、みそ汁"><button type="button" class="skip" data-m="pm">抜いた</button>
+          <label for="meal-snack">間食</label><input type="text" id="meal-snack" placeholder="例:チョコ2つ、コーヒー"><button type="button" class="skip" data-m="snack">なし</button>
         </div>
         <p class="note">食べたものを短く書くだけで十分です。量やカロリーは記録しません。</p>
       </div>
@@ -350,6 +359,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details class="faq"><summary>症状の点数は何回つける?</summary><p>1日1回、寝る前に1日分をまとめてつけます。日中に何度もつけると、かえって症状に注意が向きやすくなるためです。「強さ」は症状そのものの強さ、「生活への支障」はその日どれだけ生活の邪魔をしたかです。</p></details>
       <details class="faq"><summary>症状の強さが「いつもより高い」と出たら?</summary><p>この7日間の平均より3以上高い日に出る案内です。いつもと違う感じがあれば「気になるサイン」の「体の症状がいつもと違う」を押し、主治医に伝える材料にします。</p></details>
       <details class="faq"><summary>「気になるサイン」を押すとどうなる?</summary><p>相談を考える目安と、相談先へのボタンが出るだけです。どこかに連絡が行くことはありません。押した日数は、主治医へのメモの下書きに入ります。</p></details>
+      <details class="faq"><summary>服薬の記録はどう使う?</summary><p>「今日」タブの「服薬」で「薬を登録する」を押し、薬の名前と飲む時間(朝・昼・夕・寝る前)を選びます(5つまで)。必要なときだけ飲む薬は「頓服」を選ぶと、1日の回数を記録できます。毎日「飲んだ/飲み忘れた」を押すと、ふりかえりの表、提出用のまとめ、主治医へのメモの下書きに入ります。薬の名前はこの端末の中だけに保存されます。飲み方を変えたいときは、主治医や薬剤師に相談してください。</p></details>
       <details class="faq"><summary>中途覚醒の「目が覚めていた時間」は正確でないとだめ?</summary><p>だいたいで大丈夫です。夜中に目が覚めた日は、これを選ぶと「眠っていた時間」の目安が出ます。選ばない日は、布団にいた時間だけを出し、睡眠時間の集計には入れません。</p></details>
     </div>
     <div class="card">
@@ -450,6 +460,7 @@ const SYM_LV=['なし','かすかにある。気にしなければ忘れる','�
 const SYM_DIS=['普段どおり過ごせた','ほとんど影響なし','少し影響があった','少しペースを落とした','ペースを落とした時間が長かった','予定の一部をやめた','予定のいくつかをやめた','予定の多くをやめた','最低限のことだけした','ほぼ何もできなかった','何もできなかった'];
 const WN=['0回','1回','2回','3回以上'];
 const AW=[[1,'15分未満',7],[2,'15〜30分',22],[3,'30〜60分',45],[4,'60分以上',75]];
+const NAP=['しなかった','20分以内','20〜60分','1時間以上'];
 const SQ=['','ほとんど眠れなかった','浅く、何度も目が覚めた','ふつう。少し寝足りない','まあ眠れた。朝に疲れが少し残る','ぐっすり眠れた。すっきり起きられた'];
 const TAGS=[
  ['bw','白か黒か','少しでも欠けると「全部だめ」と考える'],
@@ -535,7 +546,13 @@ function renderBasics(){
   $('signs').querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{const dd=day(T);dd.signs=dd.signs||[];const i=dd.signs.indexOf(c.dataset.s);i<0?dd.signs.push(c.dataset.s):dd.signs.splice(i,1);save('sv-day');renderBasics()}));
   $('signNote').hidden=!sg.length; $('dieNote').hidden=!sg.includes('die');
   $('lowNote').hidden=!!sg.length||!((d.body&&d.body<=3)||(d.mind&&d.mind<=3));
+  $('sc-nap').innerHTML=NAP.map((l,n)=>`<button type="button" data-n="${n}" aria-pressed="${d.nap===n}" class="${d.nap===n?'pick':''}">${l}</button>`).join('');
+  $('sc-nap').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd.nap=dd.nap===n?undefined:n;if(!(dd.nap>=1))delete dd.napLate;save('sv-day');renderBasics()}));
+  $('sc-napT').hidden=!(d.nap>=1);
+  $('sc-napT').innerHTML=[[false,'15時より前'],[true,'15時以降']].map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${d.napLate===v}" class="${d.napLate===v?'pick':''}">${l}</button>`).join('');
+  $('sc-napT').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),v=b.dataset.v==='true';dd.napLate=dd.napLate===v?undefined:v;save('sv-day');renderBasics()}));
   renderSym(d);
+  renderMed();
   renderStatus();
   const ev=d.events||[];
   $('events').innerHTML=EVENTS.map(([id,l])=>`<button type="button" class="chip" data-e="${id}" aria-pressed="${ev.includes(id)}">${l}</button>`).join('');
@@ -551,9 +568,9 @@ function renderBasics(){
   $('sc-sq').innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-pressed="${d.sq===n}" aria-label="${n}:${SQ[n]}">${n}</button>`).join('');
   $('an-sq').textContent=typeof d.sq==='number'?d.sq+':'+SQ[d.sq]:'未記入';
   $('sc-sq').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),n=+b.dataset.n;dd.sq=dd.sq===n?undefined:n;save('sv-sleep');renderBasics()}));
-  ['am','noon','pm'].forEach(m=>{const v=(d.meals||{})[m]; const skip=v===false; const inp=$('meal-'+m);
+  ['am','noon','pm','snack'].forEach(m=>{const v=(d.meals||{})[m]; const skip=v===false; const inp=$('meal-'+m);
     if(!inp.dataset.ph)inp.dataset.ph=inp.placeholder;
-    inp.value=skip?'':(v||''); inp.disabled=skip; inp.placeholder=skip?'抜いた':inp.dataset.ph;
+    inp.value=skip?'':(v||''); inp.disabled=skip; inp.placeholder=skip?(m==='snack'?'なし':'抜いた'):inp.dataset.ph;
     document.querySelector(`.skip[data-m="${m}"]`).setAttribute('aria-pressed',skip)});
 }
 $('scaleTable').innerHTML='<tr><th>点</th><th>体</th><th>心</th></tr>'+[10,9,8,7,6,5,4,3,2,1].map(n=>`<tr><td>${n}</td><td>${SCALE.body[n]}</td><td>${SCALE.mind[n]}</td></tr>`).join('');
@@ -584,7 +601,9 @@ function renderSym(d){
 }
 function symDone(d,i){const x=(d.sym||[])[i]||{};return typeof x.lv==='number'&&typeof x.dis==='number'}
 function nightParts(d){const p=[['体と心',typeof d.body==='number'&&typeof d.mind==='number'],['今日の4つ',BASICS.every(b=>typeof d[b.id]==='number'),BASICS.filter(b=>typeof d[b.id]==='number').length+'/4'],['食事',['am','noon','pm'].every(m=>{const v=(d.meals||{})[m];return v===false||(typeof v==='string'&&v.trim())}),['am','noon','pm'].filter(m=>{const v=(d.meals||{})[m];return v===false||(typeof v==='string'&&v.trim())}).length+'/3']];
-  S.symNames.forEach((n,i)=>{if(n)p.push([n,symDone(d,i)])});return p}
+  S.symNames.forEach((n,i)=>{if(n)p.push([n,symDone(d,i)])});
+  if(medSlots(d).length){const L=medSlots(d);p.push(['服薬',medDone(d),L.filter(x=>typeof x[2]==='boolean').length+'/'+L.length])}
+  return p}
 function renderStatus(){
   const nowD=new Date(), hr=nowD.getHours(), yd=ymd(addDays(new Date(TODAY+'T00:00:00'),-1));
   const past=T!==TODAY, d=S.days[T]||{};
@@ -631,7 +650,8 @@ function suggest(){
   cat='keep';pr=0;if(keep.length)add(null,'自分の対処リストから(役立ち度 '+lastRate(keep[dayNo%keep.length]).score+')',keep[dayNo%keep.length].name);
   // 1) 昨夜の睡眠
   cat='sleep';pr=2;const sh=sleepH(tD);
-  if(sh!=null&&sh<6)add('nap','昨夜の睡眠が短め('+fmtH(sh)+')でした');
+  if((y.nap>=2||(y.nap>=1&&y.napLate))&&((typeof tD.sq==='number'&&tD.sq<=2)||tD.wakeN>=2||(sh!=null&&sh<6)))add('nap','昨日の昼寝が'+(y.nap>=2?'長め':'15時以降')+'で、昨夜の眠りが浅めでした');
+  else if(sh!=null&&sh<6)add('nap','昨夜の睡眠が短め('+fmtH(sh)+')でした');
   else if(tD.wakeN>=2)add('screen','昨夜は夜中に'+(tD.wakeN>=3?'3回以上':'2回')+'目が覚めました');
   else if(typeof tD.sq==='number'&&tD.sq<=2)add('light','昨夜の眠りの質が '+tD.sq+' でした');
   // 2) 昨日の記録
@@ -697,13 +717,13 @@ function buildReport(){
   if(repSel.sum)h+=`<h2>まとめ</h2><ul class="rep-list">${sumLines(repN).slice(1).filter(l=>repSel.thought||!l.startsWith('思考の癖メモ')).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;
   if(repSel.table){
     const sy=S.symNames.map((n,i)=>[n,i]).filter(([n])=>n);
-    h+=`<h2>日ごとの記録</h2><div class="grid"><table class="rep-t"><tr><th>日付</th><th>睡眠</th><th>質</th><th>覚醒</th><th>体</th><th>心</th>${sy.map(([n])=>`<th>${esc(n.slice(0,8))}<br><small>強/支障</small></th>`).join('')}<th>食事<br><small>抜いた</small></th><th>サイン</th></tr>`+
+    h+=`<h2>日ごとの記録</h2><div class="grid"><table class="rep-t"><tr><th>日付</th><th>睡眠</th><th>質</th><th>覚醒</th><th>体</th><th>心</th>${sy.map(([n])=>`<th>${esc(n.slice(0,8))}<br><small>強/支障</small></th>`).join('')}${S.meds.length?'<th>服薬<br><small>飲み忘れ</small></th>':''}<th>昼寝</th><th>食事<br><small>抜いた</small></th><th>サイン</th></tr>`+
     ks.map((k,j)=>{const d=rec[j];const sh=sleepH(d);const m=d.meals||{};const sk=['am','noon','pm'].filter(x=>m[x]===false).map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]).join('');
-      return `<tr><td>${md(k)}</td>${cell(sh!=null?fmtH(sh):bedH(d)!=null?'('+fmtH(bedH(d))+')':'')}${cell(d.sq)}${cell(typeof d.wakeN==='number'?(d.wakeN===3?'3+':d.wakeN):'')}${cell(d.body)}${cell(d.mind)}${sy.map(([,i])=>{const x=(d.sym||[])[i]||{};return cell(typeof x.lv==='number'||typeof x.dis==='number'?(x.lv??'-')+'/'+(x.dis??'-'):'')}).join('')}${cell(sk)}${cell((d.signs||[]).map(s=>(SIGNS.find(x=>x[0]===s)||[0,s])[1]).join('、'))}</tr>`}).join('')+
-    `</table></div><p class="rep-note">睡眠:眠っていた時間の目安(かっこは布団にいた時間)。質:1〜5。覚醒:夜中に目が覚めた回数。体・心:1〜10(10が最もよい)。症状:強さ/生活への支障(0〜10)。・は未記入。</p>`}
+      return `<tr><td>${md(k)}</td>${cell(sh!=null?fmtH(sh):bedH(d)!=null?'('+fmtH(bedH(d))+')':'')}${cell(d.sq)}${cell(typeof d.wakeN==='number'?(d.wakeN===3?'3+':d.wakeN):'')}${cell(d.body)}${cell(d.mind)}${sy.map(([,i])=>{const x=(d.sym||[])[i]||{};return cell(typeof x.lv==='number'||typeof x.dis==='number'?(x.lv??'-')+'/'+(x.dis??'-'):'')}).join('')}${S.meds.length?cell((()=>{const L=medSlots(d);const f=L.filter(x=>x[2]===false);const prn=S.meds.filter(m=>m.prn&&((d.med||{})[m.id]||{}).prn>0).map(m=>'頓服'+(d.med[m.id].prn===3?'3+':d.med[m.id].prn));const r=L.some(x=>typeof x[2]==='boolean')?(f.length?f.map(x=>x[0].name.slice(0,6)+MSLOT.find(y=>y[0]===x[1])[1]).join(' '):'なし'):'';return [r,...prn].filter(Boolean).join(' ')})()):''}${cell(typeof d.nap==='number'?(d.nap===0?'なし':['','〜20分','〜60分','60分+'][d.nap]+(d.napLate?'(15時〜)':'')):'')}${cell(sk)}${cell((d.signs||[]).map(s=>(SIGNS.find(x=>x[0]===s)||[0,s])[1]).join('、'))}</tr>`}).join('')+
+    `</table></div><p class="rep-note">睡眠:眠っていた時間の目安(かっこは布団にいた時間)。質:1〜5。覚醒:夜中に目が覚めた回数。昼寝:長さ(15時以降は表示あり)。体・心:1〜10(10が最もよい)。症状:強さ/生活への支障(0〜10)。・は未記入。</p>`}
   if(repSel.basics)h+=`<h2>今日の4つ</h2><div class="grid"><table class="rep-t"><tr><th>日付</th>${BASICS.map(b=>`<th>${b.q.split(':')[0]}</th>`).join('')}</tr>`+ks.map((k,j)=>`<tr><td>${md(k)}</td>${BASICS.map(b=>{const v=rec[j][b.id];return cell(v===2?'○':v===1?'△':v===0?'—':'')}).join('')}</tr>`).join('')+`</table></div><p class="rep-note">○できた △少し —まだ</p>`;
   const daysWith=f=>ks.map((k,j)=>[k,f(rec[j])]).filter(([,v])=>v);
-  if(repSel.meals){const L=daysWith(d=>{const m=d.meals||{};const t=['am','noon','pm'].map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]+':'+(m[x]===false?'抜いた':m[x]||'・')).join(' / ');return Object.keys(m).length?t:''});h+=`<h2>食事の内容</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.meals){const L=daysWith(d=>{const m=d.meals||{};const t=['am','noon','pm'].map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]+':'+(m[x]===false?'抜いた':m[x]||'・')).join(' / ')+(m.snack===false?' / 間食:なし':m.snack?' / 間食:'+m.snack:'');return Object.keys(m).length?t:''});h+=`<h2>食事の内容</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.events){const L=daysWith(d=>(d.events||[]).map(e=>(EVENTS.find(x=>x[0]===e)||[0,e])[1]).join('、'));h+=`<h2>今日あったこと</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.memo){const L=daysWith(d=>(d.memo||'').trim());h+=`<h2>ひとこと</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   const TL=t=>(TAGS.find(x=>x[0]===t)||[0,t])[1];
@@ -840,7 +860,44 @@ function renderSort(){
     if(save('sv-sort')){SO.step='done';renderSort();renderNotes()}});
 }
 
-function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
+// ── 服薬 ──
+const MSLOT=[['am','朝'],['noon','昼'],['eve','夕'],['bed','寝る前']];
+S.meds=Array.isArray(S.meds)?S.meds:[];
+function medSlots(d){const out=[];S.meds.forEach(m=>m.slots.forEach(sl=>out.push([m,sl,((d.med||{})[m.id]||{})[sl]])));return out}
+function medDone(d){const L=medSlots(d);return L.length?L.every(x=>typeof x[2]==='boolean'):true}
+let medEdit=false;
+function renderMed(){
+  const box=$('medBody'); if(!box)return; const d=S.days[T]||{};
+  let h='';
+  if(!S.meds.length&&!medEdit)h+=`<p class="note">飲んでいる薬を登録すると、毎日「飲んだ/飲み忘れた」を記録できます。名前はこの端末の中だけに保存されます。</p>`;
+  if(!medEdit){
+    S.meds.forEach(m=>{const r=(d.med||{})[m.id]||{};
+      h+=`<div class="sym"><span class="nm">${esc(m.name)}</span>`+
+        m.slots.map(sl=>`<div class="medrow"><span class="lab">${MSLOT.find(x=>x[0]===sl)[1]}</span><div class="seg" role="group" aria-label="${esc(m.name)} ${MSLOT.find(x=>x[0]===sl)[1]}" style="grid-template-columns:repeat(2,1fr)"><button type="button" data-m="${m.id}" data-s="${sl}" data-mv="1" class="${r[sl]===true?'on2':''}" aria-pressed="${r[sl]===true}">飲んだ</button><button type="button" data-m="${m.id}" data-s="${sl}" data-mv="0" class="${r[sl]===false?'on0':''}" aria-pressed="${r[sl]===false}">飲み忘れた</button></div></div>`).join('')+
+        (m.prn?`<div class="medrow"><span class="lab">頓服</span><div class="seg four" role="group" aria-label="${esc(m.name)} 頓服の回数">${['0回','1回','2回','3回〜'].map((l,n)=>`<button type="button" data-m="${m.id}" data-p="${n}" class="${r.prn===n?'pick':''}" aria-pressed="${r.prn===n}">${l}</button>`).join('')}</div></div>`:'')+`</div>`});
+    h+=`<div class="row"><button class="btn small ghost" id="medEditBtn">${S.meds.length?'薬の登録を変える':'薬を登録する'}</button></div>`;
+    if(S.meds.length)h+=`<p class="note">飲み方を変えたいときは、自己判断せずに主治医や薬剤師に相談してください。</p>`;
+  }else{
+    h+=`<p class="note">名前と飲む時間を選びます(5つまで)。必要なときだけ飲む薬は「頓服」を選びます。</p>`+
+      [0,1,2,3,4].map(i=>{const m=S.meds[i]||{name:'',slots:[],prn:false};return `<div class="sym"><label class="note" for="medN${i}">薬${i+1}の名前</label><input type="text" id="medN${i}" value="${esc(m.name)}" maxlength="30" placeholder="${i?'':'例:朝の薬'}">
+       <div class="chips" data-row="${i}">${MSLOT.map(([sl,l])=>`<button type="button" class="chip" data-sl="${sl}" aria-pressed="${m.slots.includes(sl)}">${l}</button>`).join('')}<button type="button" class="chip" data-sl="prn" aria-pressed="${!!m.prn}">頓服</button></div></div>`}).join('')+
+      `<div class="row"><button class="btn small" id="medSave">登録する</button><button class="btn small ghost" id="medCancel">やめる</button></div><p class="note">名前を消すと、その薬は表示されなくなります(それまでの記録は残ります)。</p>`;
+  }
+  box.innerHTML=h;
+  box.querySelectorAll('[data-mv]').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),id=b.dataset.m,sl=b.dataset.s,v=b.dataset.mv==='1';dd.med=dd.med||{};dd.med[id]=dd.med[id]||{};dd.med[id][sl]=dd.med[id][sl]===v?undefined:v;save('sv-med');renderMed();renderStatus()}));
+  box.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),id=b.dataset.m,n=+b.dataset.p;dd.med=dd.med||{};dd.med[id]=dd.med[id]||{};dd.med[id].prn=dd.med[id].prn===n?undefined:n;save('sv-med');renderMed()}));
+  box.querySelectorAll('[data-row] .chip').forEach(c=>c.addEventListener('click',()=>{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true')}));
+  const on=(id,f)=>{const e=$(id);if(e)e.addEventListener('click',f)};
+  on('medEditBtn',()=>{medEdit=true;renderMed()});
+  on('medCancel',()=>{medEdit=false;renderMed()});
+  on('medSave',()=>{const next=[];[0,1,2,3,4].forEach(i=>{const name=$('medN'+i).value.trim().slice(0,30);if(!name)return;const row=box.querySelector(`[data-row="${i}"]`);
+      const slots=[...row.querySelectorAll('.chip')].filter(c=>c.dataset.sl!=='prn'&&c.getAttribute('aria-pressed')==='true').map(c=>c.dataset.sl);
+      const prn=row.querySelector('[data-sl="prn"]').getAttribute('aria-pressed')==='true';
+      const old=S.meds[i];next.push({id:old?old.id:'m'+Date.now()+i,name,slots,prn})});
+    S.meds=next;medEdit=false;save('sv-med');renderMed();renderStatus()});
+}
+
+function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return k==='med'?Object.values(v).some(r=>r&&Object.values(r).some(x=>typeof x==='boolean'||typeof x==='number')):Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
 function bedH(d){if(!d||!d.bed||!d.wake)return null;const [a,b]=d.bed.split(':').map(Number),[c,e]=d.wake.split(':').map(Number);let m=(c*60+e)-(a*60+b);if(m<=0)m+=1440;return m/60}
 function sleepH(d){const h=bedH(d);if(h==null)return null;if(d.wakeN>=1){const a=AW.find(x=>x[0]===d.awake);return a?Math.max(0,h-a[2]/60):null}return h}
@@ -884,7 +941,7 @@ function renderNotes(){
     if(delArm===id){S.notes=S.notes.filter(n=>n.id!==id);delArm=null;save();}else{delArm=id;setTimeout(()=>{if(delArm===id){delArm=null;renderNotes()}},4000)}renderNotes()}));
   renderSuggest();
 }
-['am','noon','pm'].forEach(m=>{
+['am','noon','pm','snack'].forEach(m=>{
   $('meal-'+m).addEventListener('input',e=>{const d=day(T);(d.meals=d.meals||{})[m]=e.target.value;save('sv-day')});
   document.querySelector(`.skip[data-m="${m}"]`).addEventListener('click',()=>{const d=day(T);d.meals=d.meals||{};d.meals[m]=d.meals[m]===false?'':false;save('sv-day');renderBasics()});
 });
@@ -931,9 +988,9 @@ function renderLook(){
   let h='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}<br><span style="font-weight:400">${WD[new Date(k+'T00:00:00').getDay()]}</span></th>`).join('')+'</tr>';
   BASICS.forEach(b=>{h+=`<tr><td>${b.q.split(':')[0]}</td>`+ks.map(k=>{const v=(S.days[k]||{})[b.id];return v===undefined?'<td class="c0">・</td>':`<td class="c${v}">${v===2?'○':v===1?'△':'—'}</td>`}).join('')+'</tr>'});
   $('week').innerHTML=h+'<tr><td colspan="8" class="note" style="text-align:left;border:0">○できた △少し —まだ ・未記入</td></tr>';
-  const ML={am:'朝',noon:'昼',pm:'夜'};
-  $('mealWeek').innerHTML=ks.slice().reverse().map(k=>{const m=(S.days[k]||{}).meals||{};return `<div><b>${md(k)}</b> `+['am','noon','pm'].map(x=>ML[x]+':'+(m[x]===false?'<span style="color:var(--ochre)">抜いた</span>':m[x]?esc(m[x]):'・')).join(' / ')+'</div>'}).join('');
-  $('cond').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'+`<tr><td>睡眠</td>`+ks.map(k=>{const h=sleepH(S.days[k]);return `<td>${h==null?'・':(Math.round(h*10)/10)}</td>`}).join('')+'</tr>'+S.symNames.map((n,i)=>n?`<tr><td>${esc(n.slice(0,6))} 強</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.lv==='number'?x.lv:'・'}</td>`}).join('')+`</tr><tr><td>${esc(n.slice(0,6))} 支障</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.dis==='number'?x.dis:'・'}</td>`}).join('')+'</tr>':'').join('')+`<tr><td>中途覚醒</td>`+ks.map(k=>{const v=(S.days[k]||{}).wakeN;return `<td>${v==null?'・':v===3?'3+':v}</td>`}).join('')+'</tr>'+`<tr><td>眠りの質</td>`+ks.map(k=>{const v=(S.days[k]||{}).sq;return `<td>${v||'・'}</td>`}).join('')+'</tr>'+[['body','体'],['mind','心']].map(([id,l])=>`<tr><td>${l}</td>`+ks.map(k=>{const v=(S.days[k]||{})[id];return typeof v==='number'?`<td class="${v<=3?'c0':v>=7?'c2':'c1'}" style="${v<=3?'color:var(--warn)':''}">${v}</td>`:'<td class="c0">・</td>'}).join('')+'</tr>').join('');
+  const ML={am:'朝',noon:'昼',pm:'夜',snack:'間食'};
+  $('mealWeek').innerHTML=ks.slice().reverse().map(k=>{const m=(S.days[k]||{}).meals||{};return `<div><b>${md(k)}</b> `+['am','noon','pm'].map(x=>ML[x]+':'+(m[x]===false?'<span style="color:var(--ochre)">抜いた</span>':m[x]?esc(m[x]):'・')).join(' / ')+(m.snack===false?' / 間食:なし':m.snack?' / 間食:'+esc(m.snack):'')+'</div>'}).join('');
+  $('cond').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'+`<tr><td>睡眠</td>`+ks.map(k=>{const h=sleepH(S.days[k]);return `<td>${h==null?'・':(Math.round(h*10)/10)}</td>`}).join('')+'</tr>'+S.symNames.map((n,i)=>n?`<tr><td>${esc(n.slice(0,6))} 強</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.lv==='number'?x.lv:'・'}</td>`}).join('')+`</tr><tr><td>${esc(n.slice(0,6))} 支障</td>`+ks.map(k=>{const x=((S.days[k]||{}).sym||[])[i]||{};return `<td>${typeof x.dis==='number'?x.dis:'・'}</td>`}).join('')+'</tr>':'').join('')+(S.meds.length?`<tr><td>服薬</td>`+ks.map(k=>{const L=medSlots(S.days[k]||{});const t=L.filter(x=>x[2]===true).length,f=L.filter(x=>x[2]===false).length;return `<td style="${f?'color:var(--warn)':''}">${t+f?t+'/'+L.length:'・'}</td>`}).join('')+'</tr>':'')+`<tr><td>昼寝</td>`+ks.map(k=>{const d=S.days[k]||{};return `<td>${typeof d.nap!=='number'?'・':['なし','〜20分','〜60分','60分+'][d.nap]+(d.napLate?'*':'')}</td>`}).join('')+'</tr>'+`<tr><td>中途覚醒</td>`+ks.map(k=>{const v=(S.days[k]||{}).wakeN;return `<td>${v==null?'・':v===3?'3+':v}</td>`}).join('')+'</tr>'+`<tr><td>眠りの質</td>`+ks.map(k=>{const v=(S.days[k]||{}).sq;return `<td>${v||'・'}</td>`}).join('')+'</tr>'+[['body','体'],['mind','心']].map(([id,l])=>`<tr><td>${l}</td>`+ks.map(k=>{const v=(S.days[k]||{})[id];return typeof v==='number'?`<td class="${v<=3?'c0':v>=7?'c2':'c1'}" style="${v<=3?'color:var(--warn)':''}">${v}</td>`:'<td class="c0">・</td>'}).join('')+'</tr>').join('');
   const wx=S.wx||{};
   $('wxWeek').innerHTML='<tr><th></th>'+ks.map(k=>`<th>${new Date(k+'T00:00:00').getDate()}</th>`).join('')+'</tr>'
    +'<tr><td>天気</td>'+ks.map(k=>`<td>${wx[k]?WSHORT(wx[k].code):'・'}</td>`).join('')+'</tr>'
@@ -961,6 +1018,7 @@ function renderTrend(){
    ['睡眠6時間以上 / 未満',r=>{const h=sleepH(r.d);return h==null?null:h>=6}],
    ['夜中に目が覚めなかった / 覚めた',r=>typeof r.d.wakeN!=='number'?null:r.d.wakeN===0],
    ...S.symNames.map((n,i)=>n?[n.slice(0,10)+'の強さ4以下 / 5以上',r=>{const x=((r.d.sym||[])[i]||{});return typeof x.lv!=='number'?null:x.lv<=4}]:null).filter(Boolean),
+   ['昼寝なし・20分以内 / 20分より長い',r=>typeof r.d.nap!=='number'?null:r.d.nap<=1],
    ['眠りの質4以上 / 3以下',r=>typeof r.d.sq!=='number'?null:r.d.sq>=4],
    ['休憩できた / できなかった',r=>r.d.rest===2?true:r.d.rest===0?false:null],
    ['区切りで終えた / 終えられなかった',r=>r.d.stop===2?true:r.d.stop===0?false:null],
@@ -987,6 +1045,9 @@ function sumLines(n){
   const lines=['【最近'+(n===14?'2週間':n+'日間')+'('+md(ks[0])+'〜'+md(ks[n-1])+')】','記録した日:'+rec.length+'日'];
   const hs=rec.map(sleepH).filter(h=>h!=null);if(hs.length)lines.push('睡眠時間:平均 '+fmtH(hs.reduce((a,b)=>a+b,0)/hs.length)+'(最短 '+fmtH(Math.min(...hs))+')');
   if(st('sq'))lines.push('睡眠の質(5段階):'+st('sq'));
+  S.meds.forEach(m=>{let miss=0,rec2=0,prnD=0,prnN=0,prnMax=false;rec.forEach(d=>{const r=(d.med||{})[m.id]||{};m.slots.forEach(sl=>{if(typeof r[sl]==='boolean'){rec2++;if(r[sl]===false)miss++}});if(m.prn&&r.prn>0){prnD++;prnN+=r.prn;if(r.prn===3)prnMax=true}});
+    if(rec2||prnD)lines.push('服薬('+m.name+'):'+(rec2?'記録 '+rec2+'回のうち飲み忘れ '+miss+'回':'')+(m.prn&&prnD?(rec2?'、':'')+'頓服を使った日 '+prnD+'日(計 '+prnN+'回'+(prnMax?'以上':'')+')':''))});
+  const np=rec.map(d=>d.nap).filter(v=>typeof v==='number');if(np.length)lines.push('昼寝:記録した'+np.length+'日のうち、した日 '+np.filter(v=>v>=1).length+'日(1時間以上 '+np.filter(v=>v>=3).length+'日、15時以降 '+rec.filter(d=>d.nap>=1&&d.napLate).length+'日)');
   S.symNames.forEach((n,i)=>{if(!n)return;const lv=rec.map(d=>((d.sym||[])[i]||{}).lv).filter(v=>typeof v==='number'),ds=rec.map(d=>((d.sym||[])[i]||{}).dis).filter(v=>typeof v==='number');
     if(lv.length)lines.push(n+':強さ 平均 '+(lv.reduce((a,b)=>a+b,0)/lv.length).toFixed(1)+'(最高 '+Math.max(...lv)+')'+(ds.length?'、生活への支障 平均 '+(ds.reduce((a,b)=>a+b,0)/ds.length).toFixed(1)+'(最高 '+Math.max(...ds)+')':'')+'、記録 '+lv.length+'日')});
   const wn=rec.map(d=>d.wakeN).filter(v=>typeof v==='number');if(wn.length)lines.push('中途覚醒:記録した'+wn.length+'日のうち、目が覚めた日 '+wn.filter(v=>v>=1).length+'日(2回以上 '+wn.filter(v=>v>=2).length+'日)');
@@ -1022,20 +1083,22 @@ function validData(v){
   if(v.doc!=null&&!isStr(v.doc,50000))return '主治医へのメモの形式が違います';
   if(v.active!=null&&!okId(v.active))return '試している工夫の形式が違います';
   if(v.actives!=null&&(!Array.isArray(v.actives)||v.actives.length>3||v.actives.some(x=>!okId(x))))return '試している工夫の形式が違います';
+  if(v.meds!=null){if(!Array.isArray(v.meds)||v.meds.length>5)return '薬の登録の形式が違います';for(const m of v.meds)if(!isObj(m)||!okId(m.id)||!isStr(m.name,30)||!Array.isArray(m.slots)||m.slots.some(x=>!MSLOT.some(y=>y[0]===x))||typeof m.prn!=='boolean')return '薬の登録の形式が違います'}
   if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.length>2||v.symNames.some(x=>!isStr(x,20))))return '症状の名前の形式が違います';
   for(const k of ['wxOn'])if(v[k]!=null&&typeof v[k]!=='boolean')return '設定の形式が違います';
   if(v.wxAt!=null&&typeof v.wxAt!=='number')return '設定の形式が違います';
   const SIG=SIGNS.map(x=>x[0]),EVT=EVENTS.map(x=>x[0]);
   for(const [k,d] of Object.entries(v.days)){
     if(!realDate(k)||!isObj(d))return '日付 '+k.slice(0,12)+' の記録の形式が違います';
-    if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5)||!rng(d.wakeN,0,3)||!rng(d.awake,1,4))return k+' の点数が範囲外です';
+    if(!rng(d.body,1,10)||!rng(d.mind,1,10)||!rng(d.sq,1,5)||!rng(d.wakeN,0,3)||!rng(d.awake,1,4)||!rng(d.nap,0,3)||(d.napLate!=null&&typeof d.napLate!=='boolean'))return k+' の点数が範囲外です';
     for(const b of ['meal','rest','stop','free','sleep'])if(!rng(d[b],0,2))return k+' の記録の値が範囲外です';
     if(!tm(d.bed)||!tm(d.wake))return k+' の睡眠の時刻の形式が違います';
     if(d.memo!=null&&!isStr(d.memo,5000))return k+' のひとことの形式が違います';
-    if(d.meals!=null){if(!isObj(d.meals))return k+' の食事の形式が違います';for(const [m,x] of Object.entries(d.meals)){if(!['am','noon','pm'].includes(m)||!(x==null||x===false||isStr(x,500)))return k+' の食事の形式が違います'}}
+    if(d.meals!=null){if(!isObj(d.meals))return k+' の食事の形式が違います';for(const [m,x] of Object.entries(d.meals)){if(!['am','noon','pm','snack'].includes(m)||!(x==null||x===false||isStr(x,500)))return k+' の食事の形式が違います'}}
     if(d.signs!=null&&(!Array.isArray(d.signs)||d.signs.some(x=>!SIG.includes(x))))return k+' の気になるサインの形式が違います';
     if(d.events!=null&&(!Array.isArray(d.events)||d.events.some(x=>!EVT.includes(x))||(d.events.includes('none')&&d.events.length>1)||new Set(d.events).size!==d.events.length))return k+' の今日あったことの形式が違います';
     if(d.signs!=null&&new Set(d.signs).size!==d.signs.length)return k+' の気になるサインの形式が違います';
+    if(d.med!=null){if(!isObj(d.med))return k+' の服薬の形式が違います';for(const [id,r] of Object.entries(d.med)){if(!okId(id)||!isObj(r))return k+' の服薬の形式が違います';for(const [sl,x] of Object.entries(r)){if(sl==='prn'){if(!rng(x,0,3))return k+' の頓服の回数が範囲外です'}else if(!MSLOT.some(y=>y[0]===sl)||(x!=null&&typeof x!=='boolean'))return k+' の服薬の形式が違います'}}}
     if(d.sym!=null){if(!Array.isArray(d.sym)||d.sym.length>2)return k+' の症状の形式が違います';for(const x of d.sym)if(x!=null&&(!isObj(x)||!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
   }
   for(const x of v.exps){
@@ -1067,7 +1130,7 @@ $('undoImp').addEventListener('click',()=>{let p;try{p=JSON.parse(localStorage.g
   try{localStorage.removeItem(KEY+'_before_import')}catch(e){}
   $('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')});
 try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
-function rerenderAll(){S.notes=S.notes||[];migrateActive();S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
+function rerenderAll(){S.notes=S.notes||[];S.meds=Array.isArray(S.meds)?S.meds:[];migrateActive();S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
 
 // weather (Open-Meteo, 位置は小数1桁に丸める)
