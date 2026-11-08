@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete, trackLineClickFromCheck, trackCheckItems } from "../../lib/analytics"
 import { MATCHING_CHECK_ITEMS, MATCHING_ITEM_EVENT_PREFIX } from "../../data/matchingCheckItems"
-import { FREE_FIRST } from "../../data/siteStatus"
+import { FREE_FIRST, ACCEPTING_NEW_CLIENTS, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
 const CHECK_NAME = "counseling-matching-check"
 
@@ -28,7 +28,7 @@ const resultConfig = {
     message: "「なぜそうなるのか」「どうすれば変えられるのか」を構造的に理解しながら進めたい方に向いています。共感だけでなく、現実的な変化を望むあなたには、いしずえカウンセリングのアプローチが合う可能性が高いです。",
     cta: {
       heading: "あなたに合う進め方で、一度整理してみませんか?",
-      body: "あなたの状態を、まず構造として整理します。意志や性格の問題として捉えず、構造的に見ることで「なぜそうなるのか」「どこから変えられるのか」が見えてきます。初回はメール相談で30分無料。続けるかは、それから決めても大丈夫です。",
+      body: "あなたの状態を、まず構造として整理します。意志や性格の問題として捉えず、構造的に見ることで「なぜそうなるのか」「どこから変えられるのか」が見えてきます。" + (ACCEPTING_NEW_CLIENTS ? "初回はメール相談で30分無料。続けるかは、それから決めても大丈夫です。" : "いまは新規の受付を休止しています。LINEでは状態別の解説をお送りし、受付を再開したときに先にお知らせします。"),
       buttonText: `今の状態を整理してみる${FREE_FIRST}`,
       href: "/#contact",
       sub: "支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK",
@@ -71,7 +71,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "「合わない」と出たら、もう申し込めないのですか?",
-    a: "もちろん申し込んでいただけます。このチェックはあくまで「今の状態でフィットしやすいか」の目安です。「合わない」と出ても、状態が変わったり、心境が変わったタイミングで、もう一度検討してください。また、初回はメール相談(無料)なので、合うかどうかを気軽に確かめる方法もあります。",
+    a: "もちろん申し込んでいただけます。このチェックはあくまで「今の状態でフィットしやすいか」の目安です。「合わない」と出ても、状態が変わったり、心境が変わったタイミングで、もう一度検討してください。" + (ACCEPTING_NEW_CLIENTS ? "また、初回はメール相談(無料)なので、合うかどうかを気軽に確かめる方法もあります。" : "なお、現在は新規の受付を休止しています。再開のお知らせはLINEでお送りします。"),
   },
   {
     q: "構造整理型カウンセリングとは何ですか?",
@@ -294,9 +294,10 @@ export default function CounselingMatchingCheck() {
               <p style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.75, marginBottom: "1.25rem" }}>
                 {result.cta.body}
               </p>
-              <a href={result.cta.href}
+              <a href={ACCEPTING_NEW_CLIENTS ? result.cta.href : CONTACT_HREF} {...CONTACT_LINK_PROPS}
+                onClick={() => { if (!ACCEPTING_NEW_CLIENTS) handleLineClick() }}
                 style={{ display: "inline-block", background: "#2C1F14", color: "#fff", borderRadius: "99px", padding: "13px 24px", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", marginBottom: "0.6rem" }}>
-                {result.cta.buttonText}
+                {ctaText(result.cta.buttonText)}
               </a>
               <p style={{ fontSize: "0.75rem", color: "#aaa", margin: 0 }}>
                 {result.cta.sub}
