@@ -26,6 +26,26 @@ const TARGET_IG_PER_WEEK = 3
 const TARGET_IG_WEEKS = 8
 const TARGET_IG_LINE = 5
 const TARGET_WAITING = 3
+/** 基準3の目標率の土台にした「年間の売上目標」(この額のとき5%) */
+const BASE_ANNUAL_TARGET = 4000000
+/**
+ * 基準3「チェック結果→LINE」の目標率。年間計画の売上目標(めざす年収から雇用の年収を引いて決める)に比例させる。
+ * 売上目標が小さいほど(雇用で補う分が多いほど)低く、大きいほど高くなる。2〜10%の範囲、0.5%きざみ。
+ */
+function checkRateTarget(plan?: { annualTarget?: number }): number {
+  const t = plan?.annualTarget ?? BASE_ANNUAL_TARGET
+  const r = Math.round((TARGET_CHECK_RATE * t / BASE_ANNUAL_TARGET) / 0.005) * 0.005
+  return Math.min(0.1, Math.max(0.02, Math.round(r * 1000) / 1000))
+}
+/**
+ * 基準5「リーチの純増」の、その月の目標。年間計画(再開までの道のり)の月ごとの純増に合わせる。
+ * 計画より前の月は最初の月、あとの月は最後の月(月+12人)を使う。
+ */
+function reachGainTarget(ym: string): number {
+  const hit = ROADMAP.find((p) => p.ym === ym)
+  if (hit) return hit.net
+  return ym < ROADMAP[0].ym ? ROADMAP[0].net : ROADMAP[ROADMAP.length - 1].net
+}
 /**
  * 判断から外している(保留中の)項目の番号。
  * 療養中は Instagram を運用しないため 6・7 を保留にしている(2026-10-30)。
@@ -105,7 +125,7 @@ type Manual = {
 type Plan = {
   annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
   friendToClient: number; clickToAdd: number | null; userToClick: number | null
-  capacity: number | null; launchMonth: string | null; expenseRate?: number; employmentIncome?: number; updatedAt?: string
+  capacity: number | null; launchMonth: string | null; expenseRate?: number; employmentIncome?: number; targetIncome?: number | null; updatedAt?: string
 }
 type Row = ApiArticle & { title: string; date: string; thinker: boolean }
 type Tab = "launch" | "plan" | "users" | "todo" | "articles" | "search" | "ai" | "feedback"
@@ -405,6 +425,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
     .filter((r) => r.checkCompletes > 0)
     .sort((a, b) => b.checkCompletes - a.checkCompletes)
   const levels = data.checkLevels?.ok ? data.checkLevels.rows ?? [] : []
+  const tgt3 = checkRateTarget(data.manual?.data?.plan)
 
   return (
     <div className="space-y-6">
@@ -417,7 +438,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
       {/* チェック別 */}
       <div>
         <p className="text-xs font-medium text-stone-700">チェックごとの結果→LINE</p>
-        <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">完了した人のうち、結果画面からLINEに進んだ人の割合。目標は5%。完了が多いのに率が低いチェックほど、結果画面を直す効果が大きくなります。</p>
+        <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">完了した人のうち、結果画面からLINEに進んだ人の割合。目標は{pct(tgt3)}(年間計画の売上目標に合わせて変わります)。完了が多いのに率が低いチェックほど、結果画面を直す効果が大きくなります。</p>
         {checks.length === 0 ? (
           <p className="text-[12px] text-stone-400">この期間のチェック完了はありません。</p>
         ) : (
@@ -429,7 +450,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
                 <div key={r.path} className="px-3 py-2">
                   <div className="flex items-start justify-between gap-3">
                     <a href={r.path} target="_blank" rel="noopener noreferrer" className="text-[12px] leading-snug hover:underline" style={{ color: INK }}>{r.title}</a>
-                    <span className="text-[12px] font-medium flex-shrink-0" style={{ color: rate >= TARGET_CHECK_RATE ? "#047857" : "#b45309" }}>{pct(rate)}</span>
+                    <span className="text-[12px] font-medium flex-shrink-0" style={{ color: rate >= tgt3 ? "#047857" : "#b45309" }}>{pct(rate)}</span>
                   </div>
                   <p className="text-[10px] text-stone-500 mt-0.5">完了{fmt(r.checkCompletes)}人 ／ LINE{fmt(r.lineFromCheckUsers)}人</p>
                   {lv.length > 0 && (
@@ -634,14 +655,14 @@ function AchievementTrend({ data }: { data: ApiResult }) {
     }) },
     { label: "2. LINEボタンのクリック", cells: months.map((ym) => (mo(ym)?.lineClicks ?? 0) / TARGET_LINE) },
     { label: "3. チェック結果→LINE", cells: months.map((ym) => {
-      const m = mo(ym); return m && m.checkCompleteUsers ? (m.lineFromCheckUsers / m.checkCompleteUsers) / TARGET_CHECK_RATE : 0
+      const m = mo(ym); return m && m.checkCompleteUsers ? (m.lineFromCheckUsers / m.checkCompleteUsers) / checkRateTarget(md.plan) : 0
     }) },
     { label: "4. LINEリーチ(累計)", cells: months.map((ym) => {
       const v = reachEnd(ym); return data.line?.ok && v !== undefined ? v / TARGET_REACH : null
     }) },
     { label: "5. LINEリーチの純増", cells: months.map((ym) => {
       const a = reachEnd(ym), b = reachEnd(prevYm(ym))
-      return data.line?.ok && a !== undefined && b !== undefined ? Math.max(0, a - b) / TARGET_REACH_GAIN : null
+      return data.line?.ok && a !== undefined && b !== undefined ? Math.max(0, a - b) / reachGainTarget(ym) : null
     }) },
     { label: "6. Instagram投稿(週3回×8週)", cells: months.map((ym) =>
       manualOk ? igStreakAt(md.igPosts ?? {}, ym === curYm ? new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10) : lastDayOf(ym), ym === curYm) / TARGET_IG_WEEKS : null) },
@@ -1394,7 +1415,7 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
 /* ------------------------------ 年間計画 ------------------------------ */
 const PLAN_DEFAULT: Plan = {
   annualTarget: 4000000, unitPrice: 10000, sessionsPerClient: 6, sessionsPerMonth: 2,
-  friendToClient: 0.05, clickToAdd: null, userToClick: null, capacity: null, launchMonth: null, expenseRate: 0.2, employmentIncome: 0,
+  friendToClient: 0.05, clickToAdd: null, userToClick: null, capacity: null, launchMonth: null, expenseRate: 0.2, employmentIncome: 0, targetIncome: null,
 }
 
 /** 今のサイトの実績(直近の締まった月)から、転換率を出す */
@@ -1832,6 +1853,18 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
           経費({pct(p.expenseRate ?? 0.2)})を引いた手元のもうけ:年 約{fmt(Math.round(p.annualTarget * (1 - (p.expenseRate ?? 0.2)) / 10000))}万円
           {(p.employmentIncome ?? 0) > 0 && <>　＋ 雇用の年収 {fmt(Math.round((p.employmentIncome ?? 0) / 10000))}万円 ＝ <strong>合計 約{fmt(Math.round((p.annualTarget * (1 - (p.expenseRate ?? 0.2)) + (p.employmentIncome ?? 0)) / 10000))}万円</strong></>}
         </p>
+        {(p.targetIncome ?? 0) > 0 && (() => {
+          const need = Math.max(0, Math.round(((p.targetIncome ?? 0) - (p.employmentIncome ?? 0)) / (1 - (p.expenseRate ?? 0.2)) / 100000) * 100000)
+          return (
+            <p className="text-[11px] text-stone-600 mt-1 leading-relaxed">
+              めざす年収 {fmt(Math.round((p.targetIncome ?? 0) / 10000))}万円 − 雇用の年収 {fmt(Math.round((p.employmentIncome ?? 0) / 10000))}万円 を、経費率で割り戻すと、開業で必要な売上は<strong>年 約{fmt(Math.round(need / 10000))}万円</strong>です。
+              {need !== p.annualTarget
+                ? <button type="button" onClick={() => setP((d) => ({ ...d, annualTarget: need }))} className="ml-2 underline text-stone-700">年間の売上目標にする</button>
+                : <span className="ml-2 text-stone-400">(売上目標と同じです)</span>}
+              <span className="block text-[10px] text-stone-400">売上目標を変えたら「前提を保存」を押すと、開業判断の基準3の目標率({pct(checkRateTarget({ annualTarget: p.annualTarget }))})も変わります。</span>
+            </p>
+          )
+        })()}
         <p className="text-[10px] text-stone-400 mt-1 leading-relaxed">
           「今」は {act.month ? monthLabel(act.month) : "直近の月"} の実績。1年目は相談者が少しずつ積み上がるので、2年目以降の毎月の面談は約{Math.round(steadySessions)}回({fmt(Math.round(steadySessions * p.unitPrice))}円/月)になります。
         </p>
@@ -2006,6 +2039,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
           {field("LINEボタン→友だち追加の割合", "clickToAdd", { unit: "%", scale: 100, step: "1", placeholder: act.clickToAdd !== null ? `実績 ${(act.clickToAdd * 100).toFixed(0)}` : "実績なし(40で計算)", hint: "空欄なら実績(LINEの友だち増加÷ボタンが押された回数)" })}
           {field("サイトのユーザー→LINEボタンの割合", "userToClick", { unit: "%", scale: 100, step: "0.1", placeholder: act.userToClick !== null ? `実績 ${(act.userToClick * 100).toFixed(2)}` : "実績なし(1で計算)", hint: "空欄なら直近の月の実績" })}
           {field("雇用の年収(額面)", "employmentIncome", { unit: "円", step: "100000", hint: "開業しても足りない分を雇用で補う場合に入れると、合計の年収が出ます" })}
+          {field("めざす年収(雇用+開業の合計・額面)", "targetIncome", { unit: "円", step: "100000", placeholder: "未設定", hint: "入れると、開業で必要な売上が下に出ます。売上目標に反映すると、開業判断の「チェック結果→LINE」の目標率も連動します" })}
           {field("経費率", "expenseRate", { unit: "%", scale: 100, step: "1", hint: "事業計画のシートと同じ20%を初期値に" })}
           {field("月に受けられる面談の上限", "capacity", { unit: "回", step: "1", placeholder: "未設定", hint: "決まったら入れると、超える月に印がつきます" })}
           {field("開業(再開)した月", "launchMonth", { type: "month", hint: "決まるまでは「1か月目」で表示" })}
@@ -2244,12 +2278,14 @@ export default function OpsDashboard() {
   const checklistDone = CHECKLIST.filter(([k]) => manualData.checklist?.[k]).length
   const waitingOk = !!data?.waitingLine
   const waiting = data?.waitingLine?.count ?? 0
+  const tgt3 = checkRateTarget(manualData.plan)
+  const gainTarget = reachGainTarget(monthKey(1))
   const met: boolean[] = [
     last2.length === 2 && last2.every((mo) => mo.users >= TARGET_USERS),
     !!last && last.lineClicks >= TARGET_LINE,
-    !!last && checkRate(last) >= TARGET_CHECK_RATE,
+    !!last && checkRate(last) >= tgt3,
     (lineLatest?.targetedReaches ?? 0) >= TARGET_REACH,
-    (reachGainLast ?? 0) >= TARGET_REACH_GAIN,
+    (reachGainLast ?? 0) >= gainTarget,
     streak >= TARGET_IG_WEEKS,
     (igLineAdds[monthKey(1)] ?? 0) >= TARGET_IG_LINE,
     checklistDone === CHECKLIST.length,
@@ -2362,8 +2398,8 @@ export default function OpsDashboard() {
                 no={3} title="チェック結果→LINE"
                 value={last ? `${monthLabel(last.month)} ${pct(checkRate(last))}` : "—"}
                 sub={last ? `完了${fmt(last.checkCompleteUsers)}人中 ${fmt(last.lineFromCheckUsers)}人` : undefined}
-                goal={`${TARGET_CHECK_RATE * 100}%以上`}
-                ratio={last ? checkRate(last) / TARGET_CHECK_RATE : 0}
+                goal={`${pct(tgt3)}以上(売上目標${fmt(Math.round((manualData.plan?.annualTarget ?? BASE_ANNUAL_TARGET) / 10000))}万円に合わせた値)`}
+                ratio={last ? checkRate(last) / tgt3 : 0}
                 note={cur ? `今月 ${pct(checkRate(cur))}(${fmt(cur.lineFromCheckUsers)}/${fmt(cur.checkCompleteUsers)}人)` : undefined}
               />
               <GoalCard
@@ -2378,8 +2414,8 @@ export default function OpsDashboard() {
                 no={5} title="LINEターゲットリーチの純増"
                 value={reachGainLast !== null ? `${monthLabel(monthKey(1))} ${reachGainLast >= 0 ? "+" : ""}${reachGainLast}人` : "—"}
                 sub={reachGainCur !== null ? `今月 ${reachGainCur >= 0 ? "+" : ""}${reachGainCur}人` : undefined}
-                goal={`月+${TARGET_REACH_GAIN}人以上`}
-                ratio={data.line?.ok ? Math.max(0, reachGainLast ?? 0) / TARGET_REACH_GAIN : null}
+                goal={`${monthLabel(monthKey(1))}の目標ペース +${gainTarget}人以上(最終は月+${TARGET_REACH_GAIN}人)`}
+                ratio={data.line?.ok ? Math.max(0, reachGainLast ?? 0) / gainTarget : null}
                 note={data.line?.ok ? undefined : "LINE未接続"}
               />
               <GoalCard
