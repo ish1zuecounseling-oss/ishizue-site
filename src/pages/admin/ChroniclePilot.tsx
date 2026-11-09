@@ -379,6 +379,103 @@ function pack(n: 1 | 2 | 3, sc: Score): Partial<PilotRecord> {
   return { e3: e, q3: q, by3: b, n3: sc.note }
 }
 const BY_LABEL: Record<By, string> = { ai: 'AIの採点', self: '自分でつけた' }
+/* ── 採点のあとの「進み方の目安」 ──
+   決まりごと(採点結果だけで判断。AIには何も送らない):
+   - 【安全】の指摘あり、または「まだ」が2つ以上 → この段階をやり直してから
+   - 「まだ」が1つ、または「半分」が2つ以上 → 進んでよい。ただし弱い観点を1つ決めて意識する
+   - それ以外 → 進んでよい
+   - 「判断できない」が2つ以上 → 目安を出さない(採点が足りない) */
+type Verdict = 'none' | 'go' | 'focus' | 'redo'
+function judge(sc: Score, kind: PilotKind): { v: Verdict; weak: { id: PilotEvalId; short: string; m: Mark }[]; safety: boolean } {
+  const items = PILOT_EVAL_KIND[kind]
+  const marks = items.map(p => sc.e[p.id])
+  const not = marks.filter(m => m === 'not').length
+  const half = marks.filter(m => m === 'half').length
+  const unknown = marks.filter(m => !m).length
+  const safety = !!sc.note && /安全:/.test(sc.note)
+  const weak = items.filter(p => sc.e[p.id] === 'not' || sc.e[p.id] === 'half')
+    .map(p => ({ id: p.id, short: p.short, m: sc.e[p.id] as Mark }))
+    .sort((a, b) => (a.m === 'not' ? 0 : 1) - (b.m === 'not' ? 0 : 1))
+  if (unknown >= 2 && !safety) return { v: 'none', weak, safety }
+  if (safety || not >= 2) return { v: 'redo', weak, safety }
+  if (not === 1 || half >= 2) return { v: 'focus', weak, safety }
+  return { v: 'go', weak, safety }
+}
+
+/** 弱い観点ごとの「別の練習」。どの課題の種類でも使える言い方にしている */
+const DRILL: Record<PilotEvalId, string> = {
+  grasp: '相手の言葉(または自分の反応)を1つそのまま書き写してから返す練習。段階2の①に、引用を1つ入れて書き直す',
+  fact: '①事実と②仮説を分けて書く練習。「考え方の手順」を開き、①②だけを書き直す(③はそのままでよい)',
+  check: '「この課題で特に見る点」を開き、抜けていた確認・条件を1つだけ足して書き直す',
+  adapt: '「相手の反応がちがうとき」やトーク集の反応タイプ別を読み、反応を1つ選んで返しを書いてみる',
+}
+
+const NEXT_LABEL: Record<1 | 2, string> = { 1: '段階2(見ずに)', 2: '段階3(想定外)' }
+
+function NextStep({ stage, kind, score, onNext, onRetry, onBack, onEnd }: {
+  stage: 1 | 2 | 3; kind: PilotKind; score: Score
+  onNext?: () => void; onRetry: () => void; onBack?: () => void; onEnd: () => void
+}) {
+  const { v, weak, safety } = judge(score, kind)
+  const focus = weak[0]
+  const nextBtn = stage < 3 && onNext
+    ? <button type="button" style={v === 'redo' ? btn : primary} onClick={onNext}>{v === 'redo' ? `それでも${NEXT_LABEL[stage as 1 | 2]}へ` : `次へ:${NEXT_LABEL[stage as 1 | 2]}`}</button>
+    : null
+  const retryBtn = <button type="button" style={v === 'redo' ? primary : btn} onClick={onRetry}>答えを書き直して、もう一度採点</button>
+  const backBtn = onBack ? <button type="button" style={btn} onClick={onBack}>段階1(見ながら)に戻る</button> : null
+  const endBtn = <button type="button" style={stage === 3 && v !== 'redo' ? primary : btn} onClick={onEnd}>{stage === 3 ? '記録して終える' : '記録して終える(別の課題へ)'}</button>
+
+  const head: Record<Verdict, { c: string; t: string }> = {
+    none: { c: '#a9a08a', t: '採点がそろうと、進み方の目安が出ます' },
+    go: { c: '#8fb8e8', t: stage === 3 ? 'この課題は一区切りです' : '次の段階へ進んでよい状態です' },
+    focus: { c: '#c9a96e', t: stage === 3 ? '一区切り。ただし重点が1つ残っています' : '進んでよい状態です(1つだけ意識して)' },
+    redo: { c: '#e09a7a', t: safety ? '安全に関わる指摘があります。進む前に書き直しを' : stage === 1 ? 'お手本を見ながらでも難しかった段階です。書き直しを先に' : 'この段階をもう一度やってから進むのがおすすめです' },
+  }
+  const body: Record<Verdict, string> = {
+    none: '「判断できない」が2つ以上あります。AIの答えを貼り直すか、自分で採点してください。目安なしで進んでもかまいません。',
+    go: stage === 1 ? '見ながらできていれば十分です。次は見ずに、同じ難しさの場面で再現できるかを確かめます。'
+      : stage === 2 ? '見ずに再現できています。次は相手の反応が想定とちがうときに、言い方を直せるかを確かめます。'
+      : '見ずに書けて、想定外にも対応できました。日を置いて(数日〜1週間)段階2をもう一度やると、身についたかが確かめられます。',
+    focus: `弱いのは「${focus?.short ?? ''}」です。${stage < 3 ? '進みながら、次の段階ではこの観点だけを意識してください。' : '次の練習では、この観点だけを意識してください。'}気になるなら、先に下の「別の練習」で1回だけ書き直してもかまいません。`,
+    redo: safety
+      ? '採点メモの「安全」を読み、お手本と根拠資料で確かめてから書き直してください。迷う内容はメモに残し、SVで確認する点にします。'
+      : stage === 1 ? 'まだ答えの型が入っていない状態です。お手本と考え方の手順を見て、書き直してください。何度か直しても難しい課題は、記録して、一つ下のレベルの課題から始めるのも選択肢です。'
+      : stage === 2 ? '見ずに書くと抜ける観点が複数あります。書き直すか、段階1に戻ってお手本を見ながらもう一度型をなぞってください。'
+      : '想定外への対応で抜けが複数あります。反応タイプ別の言い回しを読んでから書き直すか、今日は記録して、日を置いて段階2からやり直してください。',
+  }
+  const showDrill = v === 'focus' || v === 'redo'
+
+  return (
+    <div style={{ marginTop: 12, border: `1px solid ${head[v].c}`, borderRadius: 4, padding: '8px 10px' }} aria-live="polite">
+      <div style={{ fontSize: 12, fontWeight: 700, color: head[v].c }}>進み方の目安:{head[v].t}</div>
+      <p style={{ ...txt, fontSize: 11.5, marginTop: 4 }}>{body[v]}</p>
+      {showDrill && weak.length > 0 && (
+        <div style={{ marginTop: 6 }}>
+          <div style={{ fontSize: 11, color: '#c9b48a', fontWeight: 700 }}>別の練習(弱い観点ごと)</div>
+          <ul style={{ margin: '2px 0 0', paddingLeft: 18 }}>
+            {weak.slice(0, 2).map(w => (
+              <li key={w.id} style={{ fontSize: 11, color: '#d8c7a4', lineHeight: 1.7 }}>
+                <b>{w.short}</b>({MARK_LABEL[w.m]}):{DRILL[w.id]}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+        {v === 'redo' ? <>{retryBtn}{backBtn}{nextBtn}{endBtn}</> : <>{nextBtn}{showDrill || v === 'none' ? retryBtn : null}{endBtn}</>}
+      </div>
+      <More title="この目安の決め方">
+        <ul style={{ margin: 0, paddingLeft: 18, fontSize: 10.5, color: '#a9a08a', lineHeight: 1.7 }}>
+          <li>「安全」の指摘がある、または「まだ」が2つ以上 → この段階をやり直してから</li>
+          <li>「まだ」が1つ、または「半分」が2つ以上 → 進んでよい(弱い観点を1つ意識)</li>
+          <li>それ以外 → 進んでよい</li>
+          <li>目安なので、決めるのは自分です。書き直す前の採点は、ひとことメモに残ります</li>
+        </ul>
+      </More>
+    </div>
+  )
+}
+
 function ScoreLine({ e, q, b, n, kind }: { e?: Evals; q?: Quotes; b?: By; n?: string; kind: PilotKind }) {
   if (!e && !q) return null
   return (
@@ -444,7 +541,12 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
   }
   const byTask = (k: string) => store.records.filter(r => r.key === k)
   const answers: Answers = { r1: r1.trim(), obs: obs.trim(), hyp: hyp.trim(), r2: r2.trim(), r3: r3.trim() }
-  const endBtn = (n: 1 | 2) => <button type="button" style={btn} onClick={() => save(n)}>ここで記録して終える</button>
+  const retry = (n: 1 | 2 | 3) => {
+    const sc = n === 1 ? s1 : n === 2 ? s2 : s3
+    const sum = evalSummary(sc.e)
+    if (sum !== '未評価') setMemo(m => `${m ? m + '\n' : ''}[段階${n}・書き直し前] ${sum}`)
+    if (n === 1) { setCmp1(false); setS1(EMPTY) } else if (n === 2) { setCmp2(false); setS2(EMPTY) } else { setCmp3(false); setS3(EMPTY) }
+  }
 
   return (
     <section aria-label="試作練習" style={box} id="pilot-top">
@@ -556,10 +658,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                   {cmp1 && (
                     <Card role="check">
                       <ScoreBox stage={1} kind={t.kind} prompt={buildScorePrompt(t, 1, answers)} value={s1} onChange={setS1} />
-                      <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
-                        <button type="button" style={primary} onClick={() => go(2)}>次へ:段階2(見ずに)</button>
-                        {endBtn(1)}
-                      </div>
+                      <NextStep stage={1} kind={t.kind} score={s1} onNext={() => go(2)} onRetry={() => retry(1)} onEnd={() => save(1)} />
                     </Card>
                   )}
                 </>
@@ -586,10 +685,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                         <More title="考え方の手順と比べる(①②の見直し)"><Observe t={t} /></More>
                         <More title="この課題で特に見る点"><List items={t.look} /></More>
                         <ScoreBox stage={2} kind={t.kind} prompt={buildScorePrompt(t, 2, answers)} value={s2} onChange={setS2} />
-                        <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
-                          <button type="button" style={primary} onClick={() => go(3)}>次へ:段階3(想定外)</button>
-                          {endBtn(2)}
-                        </div>
+                        <NextStep stage={2} kind={t.kind} score={s2} onNext={() => go(3)} onRetry={() => retry(2)} onBack={() => go(1)} onEnd={() => save(2)} />
                       </Card>
                     </>
                   )}
@@ -618,7 +714,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                       {talk?.byType && <More title="トーク集:反応タイプ別"><TalkCard e={talk} lvName={t.lv} /></More>}
                       <ScoreBox stage={3} kind={t.kind} prompt={buildScorePrompt(t, 3, answers)} value={s3} onChange={setS3} />
                       <Field label="ひとことメモ(なくてもよい)" hint="詰まったところ、お手本がないと出てこなかった言葉など" value={memo} onChange={setMemo} rows={2} />
-                      <div style={{ marginTop: 12 }}><button type="button" style={primary} onClick={() => save(3)}>記録して終える</button></div>
+                      <NextStep stage={3} kind={t.kind} score={s3} onRetry={() => retry(3)} onEnd={() => save(3)} />
                     </Card>
                   )}
                 </>
