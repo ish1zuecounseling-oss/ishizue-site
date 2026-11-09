@@ -13,7 +13,7 @@
 // 画面の見た目は役割ごとに色とラベルを分ける(練習問題=金 / トーク集=緑 / 回答欄=白 / 答え合わせ=青)。
 // 1画面でやることは1つ。長い説明は折りたたむ。
 
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useState, useEffect, type CSSProperties, type ReactNode } from 'react'
 import { PILOT, PILOT_EVAL, PILOT_EVAL_KIND, type PilotEvalId, type PilotTask, type PilotKind } from '../../data/chroniclePilot'
 import { TALK } from '../../data/chronicleTalk'
 import { TalkCard, box, btn, primary, area, quiet } from './ChronicleDaily'
@@ -43,6 +43,7 @@ export interface PilotRecord {
 export interface PilotStore { records: PilotRecord[] }
 
 const PILOT_KEY = 'ishizue_chronicle_pilot_v1'
+const DRAFT_KEY = 'ishizue_chronicle_pilot_draft_v1'
 const todayJst = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
 const s = (v: unknown, n: number) => (typeof v === 'string' && v ? v.slice(0, n) : undefined)
 const mark = (v: unknown): Mark | undefined => (v === 'ok' || v === 'half' || v === 'not' ? v : undefined)
@@ -76,6 +77,20 @@ export function cleanPilot(raw: unknown): PilotStore | null {
       r3: s(x.r3, 2000), e3: evals(x.e3), q3: quotes(x.q3), by3: by(x.by3), n3: s(x.n3, 600), memo: s(x.memo, 500),
     }))
   return { records }
+}
+interface Draft { key: string; stage: 1 | 2 | 3; r1: string; cmp1: boolean; s1: Score; obs: string; hyp: string; r2: string; cmp2: boolean; s2: Score; r3: string; cmp3: boolean; s3: Score; memo: string; at: string }
+function loadDraft(): Draft | null {
+  try {
+    const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null')
+    if (!d || typeof d !== 'object' || typeof d.key !== 'string' || !PILOT.some(p => p.key === d.key)) return null
+    const str = (v: unknown, n: number) => (typeof v === 'string' ? v.slice(0, n) : '')
+    const sc = (v: unknown): Score => { const o = (v && typeof v === 'object' ? v : {}) as Record<string, unknown>; return { e: evals(o.e) ?? {}, q: quotes(o.q) ?? {}, by: by(o.by), note: s(o.note, 600) } }
+    return {
+      key: d.key, stage: d.stage === 3 ? 3 : d.stage === 2 ? 2 : 1,
+      r1: str(d.r1, 2000), cmp1: !!d.cmp1, s1: sc(d.s1), obs: str(d.obs, 1000), hyp: str(d.hyp, 1000),
+      r2: str(d.r2, 2000), cmp2: !!d.cmp2, s2: sc(d.s2), r3: str(d.r3, 2000), cmp3: !!d.cmp3, s3: sc(d.s3), memo: str(d.memo, 500), at: str(d.at, 40),
+    }
+  } catch { return null }
 }
 export function loadPilot(): PilotStore {
   try { return cleanPilot(JSON.parse(localStorage.getItem(PILOT_KEY) || '{}')) ?? { records: [] } } catch { return { records: [] } }
@@ -246,26 +261,43 @@ export function buildScorePrompt(t: PilotTask, stage: 1 | 2 | 3, a: Answers): st
   return lines.join('\n')
 }
 
-/** AIの採点結果を読み取る。4点のうち1つも読めなければ null */
+/** AIの採点結果を読み取る。4点のうち1つも読めなければ null。
+ *  AIの書き方の揺れ(表・太字・丸数字・番号なし・区切りが | だけ など)に合わせ、
+ *  行の中の「観点の番号か名前」と、そのあとに最初に出てくる「できた/半分/まだ/判断できない」を拾う。 */
+const CIRCLED: Record<string, number> = { '①': 1, '②': 2, '③': 3, '④': 4 }
+const LABEL_INDEX: [string, number][] = (Object.values(PILOT_EVAL_KIND).flatMap(list => list.flatMap((p, i) => [[p.short, i], [p.label, i]] as [string, number][])) as [string, number][])
+  .filter(([l]) => !!l).sort((a, b) => b[0].length - a[0].length)
 export function parseScore(text: string): Score | null {
   const e: Evals = {}; const q: Quotes = {}
   const val: Record<string, Mark | undefined> = { 'できた': 'ok', '半分': 'half', 'まだ': 'not', '判断できない': undefined }
-  let found = 0
-  for (const line of text.split(/\r?\n/)) {
-    const m = line.match(/^\s*[*#\-\s]*([1-4１-４])\s*[.．、)）]\s*[^:：|｜]*[:：]\s*\**\s*(できた|半分|まだ|判断できない)\s*\**\s*[|｜]?\s*(.*)$/)
-    if (!m) continue
-    const n = Number(m[1].replace(/[１-４]/, c => String(c.charCodeAt(0) - 0xFF10))) - 1
+  const seen = new Set<number>()
+  const norm = (x: string) => x.replace(/[１-４]/g, c => String(c.charCodeAt(0) - 0xFF10)).replace(/\*\*|__|`/g, '').replace(/ /g, ' ')
+  const body = norm(text).split(/【安全】|【次の一歩】/)[0]
+  for (const raw of body.split(/\r?\n/)) {
+    const line = raw.replace(/^[\s|｜>#*\-・]+/, '')
+    if (!line.trim()) continue
+    let n = -1, pos = 0
+    const num = line.match(/^([1-4])\s*[.．、)）:：]|^([①②③④])/)
+    if (num) { n = num[1] ? Number(num[1]) - 1 : CIRCLED[num[2]] - 1; pos = num[0].length }
+    else {
+      const hit = LABEL_INDEX.find(([l]) => line.startsWith(l))
+      if (hit) { n = hit[1]; pos = hit[0].length }
+    }
+    if (n < 0 || n > 3 || seen.has(n)) continue
+    const after = line.slice(pos)
+    const mm = after.match(/判断できない|できた|半分|まだ/)
+    if (!mm || mm.index === undefined) continue
     const id = PILOT_EVAL[n]?.id
     if (!id) continue
-    found++
-    const mk = val[m[2]]
+    seen.add(n)
+    const mk = val[mm[0]]
     if (mk) e[id] = mk
-    const rest = m[3].replace(/[|｜]/g, ' ').replace(/\*\*/g, '').trim()
+    const rest = after.slice(mm.index + mm[0].length).replace(/^[\s:：|｜)）\]】]+/, '').replace(/[|｜]/g, ' ').replace(/\s{2,}/g, ' ').trim()
     if (rest) q[id] = rest.slice(0, 300)
   }
-  if (!found) return null
-  const safety = text.match(/【安全】\s*[:：]?\s*(.+)/)?.[1]?.trim()
-  const next = text.match(/【次の一歩】\s*[:：]?\s*(.+)/)?.[1]?.trim()
+  if (!seen.size) return null
+  const safety = norm(text).match(/【安全】\s*[:：]?\s*(.+)/)?.[1]?.replace(/^[|｜\s]+|[|｜\s]+$/g, '').trim()
+  const next = norm(text).match(/【次の一歩】\s*[:：]?\s*(.+)/)?.[1]?.replace(/^[|｜\s]+|[|｜\s]+$/g, '').trim()
   const note = [safety && safety !== 'なし' ? `安全:${safety}` : '', next ? `次の一歩:${next}` : ''].filter(Boolean).join(' / ').slice(0, 600) || undefined
   return { e, q, by: 'ai', note }
 }
@@ -281,7 +313,8 @@ function ScoreBox({ prompt, value, onChange, stage, kind }: { prompt: string; va
   const read = () => {
     const r = parseScore(pasted)
     if (!r) { setInfo('採点結果を読み取れませんでした。AIの返事を、【採点】から【次の一歩】まで全部貼り付けてください。'); return }
-    onChange(r); setInfo('読み取りました。')
+    const n = Object.keys(r.e).length + Object.keys(r.q).length ? new Set([...Object.keys(r.e), ...Object.keys(r.q)]).size : 0
+    onChange(r); setInfo(n >= 4 ? '読み取りました。' : `4つの観点のうち${n}つを読み取りました。足りない観点は「判断できない」として残ります。`)
   }
   const done = value.by === 'ai' && Object.keys(value.e).length + Object.keys(value.q).length > 0
   const stepN = (n: string) => <span style={{ display: 'inline-block', minWidth: 18, height: 18, lineHeight: '18px', textAlign: 'center', borderRadius: 9, background: '#8fb8e8', color: '#0a0702', fontSize: 11, fontWeight: 700, marginRight: 6 }}>{n}</span>
@@ -372,6 +405,19 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
   const [histOpen, setHistOpen] = useState(false)
   const [selLv, setSelLv] = useState(LVS[0])
 
+  // 途中の答えを端末に残しておき、あとで続きから再開できるようにする
+  const [draft, setDraft] = useState<Draft | null>(() => loadDraft())
+  useEffect(() => {
+    if (!key) return
+    const d: Draft = { key, stage, r1, cmp1, s1, obs, hyp, r2, cmp2, s2, r3, cmp3, s3, memo, at: new Date().toISOString() }
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)) } catch { /* 保存できない環境では何もしない */ }
+    setDraft(d)
+  }, [key, stage, r1, cmp1, s1, obs, hyp, r2, cmp2, s2, r3, cmp3, s3, memo])
+  const clearDraft = () => { try { localStorage.removeItem(DRAFT_KEY) } catch { /* noop */ } setDraft(null) }
+  const resume = (d: Draft) => {
+    setKey(d.key); setStage(d.stage); setR1(d.r1); setCmp1(d.cmp1); setS1(d.s1); setObs(d.obs); setHyp(d.hyp); setR2(d.r2)
+    setCmp2(d.cmp2); setS2(d.s2); setR3(d.r3); setCmp3(d.cmp3); setS3(d.s3); setMemo(d.memo); setMsg('')
+  }
   const t = PILOT.find(p => p.key === key)
   const talk = t ? TALK[t.key] : undefined
   const K = { ...KIND[t?.kind ?? 'client'], ans: t?.ansLabel || KIND[t?.kind ?? 'client'].ans }
@@ -394,6 +440,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
     onChange({ records: [...store.records, rec] })
     setMsg(`${t.lv}「${t.title}」を段階${reached}まで記録しました。`)
     reset(null)
+    clearDraft()
   }
   const byTask = (k: string) => store.records.filter(r => r.key === k)
   const answers: Answers = { r1: r1.trim(), obs: obs.trim(), hyp: hyp.trim(), r2: r2.trim(), r3: r3.trim() }
@@ -424,6 +471,20 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
                   </div>
                 ))}
               </div>
+              {draft && PILOT.some(p => p.key === draft.key) && (() => {
+                const dt = PILOT.find(p => p.key === draft.key)!
+                return (
+                  <div style={{ border: '1px solid #c9933a', borderRadius: 6, padding: '8px 10px', marginBottom: 10, background: '#1a1206' }}>
+                    <div style={{ fontSize: 12, color: '#e6b555', fontWeight: 700 }}>途中の練習があります</div>
+                    <div style={{ fontSize: 12, color: '#f0e6d0', margin: '2px 0 6px' }}>{dt.lv} {dt.title}(段階{draft.stage}まで)</div>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      <button type="button" style={primary} onClick={() => resume(draft)}>続きから</button>
+                      <button type="button" style={btn} onClick={clearDraft}>途中の答えを消す</button>
+                    </div>
+                    <div style={{ ...quiet, marginTop: 4 }}>別の課題を始めると、この途中の答えは新しい課題に置き換わります。</div>
+                  </div>
+                )
+              })()}
               <div style={{ fontSize: 12, color: '#f0e6d0', marginBottom: 6 }}>練習する課題を選んでください</div>
               <div role="tablist" aria-label="等級" style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 8 }}>
                 {LVS.map(lv => (
