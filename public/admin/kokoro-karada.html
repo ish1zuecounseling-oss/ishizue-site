@@ -174,6 +174,10 @@ body.rep-open{overflow:hidden}
 .kind.sort{background:var(--ochre-soft);color:var(--ochre)}
 .medrow{display:grid;grid-template-columns:4.5em 1fr;gap:8px;align-items:center}
 .medrow .lab{font-size:13px;color:var(--sub);font-weight:700}
+.keep-li{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.keep-li>span{min-width:0;overflow-wrap:anywhere}
+.keep-tag{display:block;font-size:11px;color:var(--sub)}
+.keep-li .del{white-space:nowrap;flex:none}
 .alert{background:var(--warn-soft);border-color:var(--warn)}
 .alert h2{color:var(--warn)}
 ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
@@ -280,7 +284,12 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
     </div>
     <div class="card">
       <h2>自分の対処リスト</h2>
-      <p class="note">役立ち度6以上で「続ける」にした工夫が、ここに残ります。つらいときに見返すためのリストです。</p>
+      <p class="note">つらいときに見返すための、自分に効いた対処のリストです。入る道は3つあります。</p>
+      <ol class="note" style="margin:0;padding-left:1.4em">
+        <li>工夫を1週間ほど試し、「役に立ったかを記録する」で役立ち度を6以上にして「続ける」を押す</li>
+        <li>「メモ」タブの「これまでのメモ」で、気づき・ひとこと・思考の癖の「別の見方」にある「対処リストに入れる」を押す</li>
+        <li>下の欄に直接書いて「追加」を押す</li>
+      </ol>
       <ul class="plain list" id="keepList"></ul>
     </div>
   </section>
@@ -359,13 +368,13 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details class="faq"><summary>症状の点数は何回つける?</summary><p>1日1回、寝る前に1日分をまとめてつけます。日中に何度もつけると、かえって症状に注意が向きやすくなるためです。「強さ」は症状そのものの強さ、「生活への支障」はその日どれだけ生活の邪魔をしたかです。</p></details>
       <details class="faq"><summary>症状の強さが「いつもより高い」と出たら?</summary><p>この7日間の平均より3以上高い日に出る案内です。いつもと違う感じがあれば「気になるサイン」の「体の症状がいつもと違う」を押し、主治医に伝える材料にします。</p></details>
       <details class="faq"><summary>「気になるサイン」を押すとどうなる?</summary><p>相談を考える目安と、相談先へのボタンが出るだけです。どこかに連絡が行くことはありません。押した日数は、主治医へのメモの下書きに入ります。</p></details>
-      <details class="faq"><summary>服薬の記録はどう使う?</summary><p>「今日」タブの「服薬」で「薬を登録する」を押し、薬の名前と飲む時間(朝・昼・夕・寝る前)を選びます(5つまで)。必要なときだけ飲む薬は「頓服」を選ぶと、1日の回数を記録できます。毎日「飲んだ/飲み忘れた」を押すと、ふりかえりの表、提出用のまとめ、主治医へのメモの下書きに入ります。薬の名前はこの端末の中だけに保存されます。飲み方を変えたいときは、主治医や薬剤師に相談してください。</p></details>
+      <details class="faq"><summary>服薬の記録はどう使う?</summary><p>「今日」タブの「服薬」で「薬を登録する」を押し、薬の名前と飲む時間(朝・昼・夕・寝る前)を選びます(5つまで)。必要なときだけ飲む薬は「頓服」を選ぶと、1日の回数を記録できます。毎日「飲んだ/飲み忘れた」を押すと、ふりかえりの表、提出用のまとめ、主治医へのメモの下書きに入ります。薬の名前はこの端末の中だけに保存されます。「薬の説明を見る」から、PMDAおくすりサーチとくすりのしおり(公式の患者向け説明)を開けます。気になる体の変化は「薬のことで気になる体の変化」に書くと、主治医へのメモの下書きと提出用のまとめに入ります。飲み方を変えたいときは、主治医や薬剤師に相談してください。</p></details>
       <details class="faq"><summary>中途覚醒の「目が覚めていた時間」は正確でないとだめ?</summary><p>だいたいで大丈夫です。夜中に目が覚めた日は、これを選ぶと「眠っていた時間」の目安が出ます。選ばない日は、布団にいた時間だけを出し、睡眠時間の集計には入れません。</p></details>
     </div>
     <div class="card">
       <h2>ほかのタブ</h2>
       <details class="faq"><summary>「今日のおすすめ」はどうやって選ばれる?</summary><p>昨日の記録(体と心の点数、区切り・休憩・食事など)、昨夜の睡眠、最近7日の思考の癖メモ、30日間の傾向から、決まった規則で最大3つ選びます。同じ種類のものは1つまでです。AIなどには送っていません。「工夫として試す」を押すと「工夫」タブの試す工夫になります。気になるサインがあった日は、おすすめの代わりに相談先を案内します。</p></details>
-      <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を選び(3つまで)、毎日それぞれ「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。</p></details>
+      <details class="faq"><summary>「工夫」はどう使う?</summary><p>試す工夫を選び(3つまで)、毎日それぞれ「使えた/使えなかった」を押します。1週間ほどたったら役立ち度(0〜10)をつけて、続ける・変える・やめるを決めます。役立ち度6以上で続けると決めたものが「自分の対処リスト」に残ります。対処リストには、メモから「対処リストに入れる」で入れたり、直接書いて追加したりもできます。</p></details>
       <details class="faq"><summary>「こころの整理」はどう使う?</summary><p>しんどいときや考えがまとまらないときに、「つらいとき」タブの「こころの整理」から使います。今の状態を選ぶ → 引っかかっていることを書く(とばしてもよい)→ 自分で変えられることかを切り分ける、の順で進み、最後に対処の見方が出ます。「記録して終わる」を押すと「メモ」タブの「これまでのメモ」の「整理」に残り、3件以上たまると、どんな状態になりやすいかのまとめが出ます。途中で「ひと呼吸」だけして終えてもかまいません。</p></details>
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
@@ -646,8 +655,8 @@ function suggest(){
   const cand=[];let cat='',pr=9;const add=(key,why,txt)=>cand.push({cat,pr,key,txt:txt||COPE[key][0],why,note:key&&COPE[key]?COPE[key][1]:''});
   const tD=S.days[TODAY]||{}, yk=ymd(addDays(new Date(TODAY+'T00:00:00'),-1)), y=S.days[yk]||{};
   // 0) 自分の対処リストから1つ
-  const keep=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6});
-  cat='keep';pr=0;if(keep.length)add(null,'自分の対処リストから(役立ち度 '+lastRate(keep[dayNo%keep.length]).score+')',keep[dayNo%keep.length].name);
+  const keep=keepItems();
+  cat='keep';pr=0;if(keep.length){const k=keep[dayNo%keep.length];add(null,'自分の対処リストから('+k.tag+')',k.text)}
   // 1) 昨夜の睡眠
   cat='sleep';pr=2;const sh=sleepH(tD);
   if((y.nap>=2||(y.nap>=1&&y.napLate))&&((typeof tD.sq==='number'&&tD.sq<=2)||tD.wakeN>=2||(sh!=null&&sh<6)))add('nap','昨日の昼寝が'+(y.nap>=2?'長め':'15時以降')+'で、昨夜の眠りが浅めでした');
@@ -697,7 +706,7 @@ function renderSuggest(){
 
 // ── 提出用のまとめ ──
 let repN=14;
-const REP_OPT=[['sum','まとめ(平均・回数)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['wx','天気',false]];
+const REP_OPT=[['sum','まとめ(平均・回数)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['mednote','薬のことで気になる体の変化',true],['wx','天気',false]];
 if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
 let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
 function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
@@ -729,6 +738,7 @@ function buildReport(){
   const TL=t=>(TAGS.find(x=>x[0]===t)||[0,t])[1];
   if(repSel.thought){const L=S.notes.filter(n=>n.type==='thought'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
     h+=`<h2>思考の癖メモ</h2>${L.length?L.map(n=>`<div class="rep-note-item"><b>${md(n.date)} ${n.at}</b>${n.scene?`<div>場面:${esc(n.scene)}</div>`:''}${n.thought?`<div>浮かんだ考え:${esc(n.thought)}</div>`:''}${n.tags&&n.tags.length?`<div>考えの癖:${n.tags.map(TL).join('・')}</div>`:''}${n.alt?`<div>別の見方:${esc(n.alt)}</div>`:''}</div>`).join(''):'<p class="rep-note">記録なし</p>'}`}
+  if(repSel.mednote&&S.meds.length){const L=daysWith(d=>(d.medNote||'').trim());if(L.length)h+=`<h2>薬のことで気になる体の変化</h2><ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`}
   if(repSel.sort){const L=S.notes.filter(n=>n.type==='sort'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
     h+=`<h2>こころの整理</h2>${L.length?`<ul class="rep-list">${L.map(n=>`<li><b>${md(n.date)} ${n.at}</b> ${esc(SORT_CTRL[n.ctrl]||'')}:${esc(n.text||'(言葉にしなかった)')}(${(n.feel||[]).map(f=>(SORT_FEEL.find(x=>x[0]===f)||[0,0,0,f])[3]).join('/')})</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.aware){const L=S.notes.filter(n=>n.type==='aware'&&ks.includes(n.date)).sort((a,b)=>(a.date+a.at).localeCompare(b.date+b.at));
@@ -879,7 +889,16 @@ function renderMed(){
         m.slots.map(sl=>`<div class="medrow"><span class="lab">${MSLOT.find(x=>x[0]===sl)[1]}</span><div class="seg" role="group" aria-label="${esc(m.name)} ${MSLOT.find(x=>x[0]===sl)[1]}" style="grid-template-columns:repeat(2,1fr)"><button type="button" data-m="${m.id}" data-s="${sl}" data-mv="1" class="${r[sl]===true?'on2':''}" aria-pressed="${r[sl]===true}">飲んだ</button><button type="button" data-m="${m.id}" data-s="${sl}" data-mv="0" class="${r[sl]===false?'on0':''}" aria-pressed="${r[sl]===false}">飲み忘れた</button></div></div>`).join('')+
         (m.prn?`<div class="medrow"><span class="lab">頓服</span><div class="seg four" role="group" aria-label="${esc(m.name)} 頓服の回数">${['0回','1回','2回','3回〜'].map((l,n)=>`<button type="button" data-m="${m.id}" data-p="${n}" class="${r.prn===n?'pick':''}" aria-pressed="${r.prn===n}">${l}</button>`).join('')}</div></div>`:'')+`</div>`});
     h+=`<div class="row"><button class="btn small ghost" id="medEditBtn">${S.meds.length?'薬の登録を変える':'薬を登録する'}</button></div>`;
-    if(S.meds.length)h+=`<p class="note">飲み方を変えたいときは、自己判断せずに主治医や薬剤師に相談してください。</p>`;
+    if(S.meds.length){
+      const dn=(d.medNote||'');
+      h+=`<div class="item"><label class="q" for="medNote">薬のことで気になる体の変化(なくてもよい)</label><textarea id="medNote" maxlength="1000" placeholder="例:飲み始めてから朝に眠気が残る">${esc(dn)}</textarea><p class="note">副作用かどうかは自分で決めず、ここに書いて主治医や薬剤師に伝えます。主治医へのメモの下書きにも入ります。</p></div>`;
+      h+=`<details><summary>薬の説明を見る(公式のページ)</summary><div class="sort" style="margin-top:8px">
+        <p class="note">ボタンを押すと薬の名前をコピーして、検索ページを開きます。開いたページの検索欄に貼り付けて探してください。商品名でも一般名でも探せます。</p>
+        ${S.meds.map(m=>`<div class="medrow" style="grid-template-columns:1fr"><span class="nm">${esc(m.name)}</span><div class="row"><a class="btn small ghost" href="https://www.pmda.go.jp/okusuri_search/" target="_blank" rel="noopener noreferrer" data-cp="${esc(m.name)}">PMDAおくすりサーチ</a><a class="btn small ghost" href="https://www.rad-ar.or.jp/siori/" target="_blank" rel="noopener noreferrer" data-cp="${esc(m.name)}">くすりのしおり</a></div></div>`).join('')}
+        <p class="note">PMDAおくすりサーチは医薬品医療機器総合機構(国の機関)の患者向け検索、くすりのしおりは、くすりの適正使用協議会がつくる患者向けの説明書です。副作用の一覧は「起こることがある」ものを並べたもので、自分に起きているとは限りません。気になることは主治医や薬剤師に聞いてください。</p>
+      </div></details>`;
+      h+=`<p class="note">飲み方を変えたいときは、自己判断せずに主治医や薬剤師に相談してください。</p>`;
+    }
   }else{
     h+=`<p class="note">名前と飲む時間を選びます(5つまで)。必要なときだけ飲む薬は「頓服」を選びます。</p>`+
       [0,1,2,3,4].map(i=>{const m=S.meds[i]||{name:'',slots:[],prn:false};return `<div class="sym"><label class="note" for="medN${i}">薬${i+1}の名前</label><input type="text" id="medN${i}" value="${esc(m.name)}" maxlength="30" placeholder="${i?'':'例:朝の薬'}">
@@ -887,6 +906,8 @@ function renderMed(){
       `<div class="row"><button class="btn small" id="medSave">登録する</button><button class="btn small ghost" id="medCancel">やめる</button></div><p class="note">名前を消すと、その薬は表示されなくなります(それまでの記録は残ります)。</p>`;
   }
   box.innerHTML=h;
+  if($('medNote'))$('medNote').addEventListener('input',e=>{const dd=day(T);dd.medNote=e.target.value.slice(0,1000);save('sv-med')});
+  box.querySelectorAll('[data-cp]').forEach(a=>a.addEventListener('click',()=>{try{navigator.clipboard&&navigator.clipboard.writeText(a.dataset.cp).then(()=>flash('sv-med','薬の名前をコピーしました')).catch(()=>{})}catch(e){}}));
   box.querySelectorAll('[data-mv]').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),id=b.dataset.m,sl=b.dataset.s,v=b.dataset.mv==='1';dd.med=dd.med||{};dd.med[id]=dd.med[id]||{};dd.med[id][sl]=dd.med[id][sl]===v?undefined:v;save('sv-med');renderMed();renderStatus()}));
   box.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{const dd=day(T),id=b.dataset.m,n=+b.dataset.p;dd.med=dd.med||{};dd.med[id]=dd.med[id]||{};dd.med[id].prn=dd.med[id].prn===n?undefined:n;save('sv-med');renderMed()}));
   box.querySelectorAll('[data-row] .chip').forEach(c=>c.addEventListener('click',()=>{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true')}));
@@ -921,6 +942,27 @@ function scaleGuideRows(){
 }
 function scaleGuideHTML(){return `<h2>数字の見方(点数の基準)</h2>`+scaleGuideRows().map(([t,L])=>`<div class="rep-note-item"><b>${esc(t)}</b>${L.map(x=>`<div>${esc(x)}</div>`).join('')}</div>`).join('')}
 function scaleGuideText(){return '\n\n【数字の見方(点数の基準)】\n'+scaleGuideRows().map(([t,L])=>'■'+t+'\n'+L.join('\n')).join('\n')}
+
+
+// ── 自分の対処リスト:工夫(役立ち度6以上で「続ける」)+ 自分で入れたもの(メモ・ひとこと・直接入力) ──
+S.copes=Array.isArray(S.copes)?S.copes:[];
+const COPE_FROM={manual:'自分で追加',aware:'気づきから',day:'ひとことから',thought:'別の見方から'};
+function keepItems(){
+  const a=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6&&!x.hideKeep}).map(x=>({id:'e:'+x.id,text:x.name,tag:'工夫・役立ち度 '+lastRate(x).score}));
+  const b=S.copes.map(c=>({id:'c:'+c.id,text:c.text,tag:COPE_FROM[c.from]||''}));
+  return [...a,...b];
+}
+function addCope(text,from){text=String(text||'').trim().slice(0,300);if(!text)return 'empty';if(keepItems().some(k=>k.text===text))return 'dup';S.copes.push({id:'k'+Date.now(),text,from,date:TODAY});return save()?'ok':'fail'}
+let keepDel=null;
+function renderKeep(){
+  const L=keepItems();
+  const html=(L.length?L.map(k=>`<li class="keep-li"><span>${esc(k.text)}<small class="keep-tag">${esc(k.tag)}</small></span><button class="del" data-kdel="${k.id}">${keepDel===k.id?'本当に外す':'外す'}</button></li>`).join(''):'<li class="note" style="list-style:none;margin-left:-1.2em">まだありません。</li>')
+    +`<li style="list-style:none;margin-left:-1.2em"><div class="row" style="margin-top:6px"><input type="text" class="keep-in" aria-label="対処を直接追加" placeholder="例:温かいお茶を飲んで5分座る" style="flex:1;min-width:0"><button class="btn small keep-add">追加</button></div></li>`;
+  ['keepList','keepList2'].forEach(id=>{const ul=$(id);if(!ul)return;ul.innerHTML=html;
+    ul.querySelector('.keep-add').addEventListener('click',()=>{const inp=ul.querySelector('.keep-in');const r=addCope(inp.value,'manual');if(r==='ok'){inp.value='';renderKeep()}else if(r==='dup'){inp.value='';inp.placeholder='すでにリストにあります'}});
+    ul.querySelectorAll('[data-kdel]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.kdel;if(keepDel!==id){keepDel=id;renderKeep();setTimeout(()=>{if(keepDel===id){keepDel=null;renderKeep()}},4000);return}
+      keepDel=null;if(id.startsWith('c:'))S.copes=S.copes.filter(c=>c.id!==id.slice(2));else{const x=S.exps.find(e=>e.id===id.slice(2));if(x)x.hideKeep=true}save();renderKeep()}))});
+}
 
 function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return k==='med'?Object.values(v).some(r=>r&&Object.values(r).some(x=>typeof x==='boolean'||typeof x==='number')):Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
@@ -961,7 +1003,12 @@ function renderNotes(){
     const kind=n.type==='thought'?'<span class="kind">思考の癖</span>':n.type==='sort'?'<span class="kind sort">整理</span>':n.type==='aware'?'<span class="kind aware">気づき</span>':'<span class="kind day">ひとこと</span>';
     const del=n.type==='day'?'':`<button class="del" data-del="${n.id}">${delArm===n.id?'本当に消す':'消す'}</button>`;
     let body=n.type==='sort'?`<span class="k">切り分け:${SORT_CTRL[n.ctrl]||'—'}</span>${n.text?`<span>${esc(n.text)}</span>`:'<span class="k">(言葉にしなかった)</span>'}<span class="k">状態:${(n.feel||[]).map(f=>(SORT_FEEL.find(x=>x[0]===f)||[0,0,0,f])[3]).join('/')||'—'}</span>`:n.type==='thought'?`${n.scene?`<span class="k">場面</span><span>${esc(n.scene)}</span>`:''}${n.thought?`<span class="k">浮かんだ考え</span><span>${esc(n.thought)}</span>`:''}${n.tags&&n.tags.length?`<span class="k">考えの癖:${n.tags.map(TL).join('・')}</span>`:''}${n.alt?`<span class="k">別の見方</span><span>${esc(n.alt)}</span>`:''}`:`<span>${esc(n.text)}</span>`;
-    return `<div class="note-item"><div class="meta">${kind}<span>${md(n.date)} ${n.at}</span>${del}</div>${body}</div>`}).join(''):'<p class="note">まだメモはありません。</p>');
+    const ct=n.type==='aware'||n.type==='day'?n.text:n.type==='thought'?n.alt:'';const inK=ct&&keepItems().some(k=>k.text===String(ct).trim().slice(0,300));
+    const kb=ct?`<div><button class="btn small ghost" data-tokeep="${n.id}" ${inK?'disabled':''}>${inK?'対処リストに入っています':'対処リストに入れる'}</button></div>`:'';
+    return `<div class="note-item"><div class="meta">${kind}<span>${md(n.date)} ${n.at}</span>${del}</div>${body}${kb}</div>`}).join(''):'<p class="note">まだメモはありません。</p>');
+  $('noteList').querySelectorAll('[data-tokeep]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.tokeep;let txt='',from='aware';
+    if(id.startsWith('d')&&!S.notes.some(n=>n.id===id)){txt=(S.days[id.slice(1)]||{}).memo||'';from='day'}else{const n=S.notes.find(x=>x.id===id);if(!n)return;txt=n.type==='thought'?n.alt:n.text;from=n.type==='thought'?'thought':'aware'}
+    if(addCope(txt,from)==='ok'){renderNotes();renderKeep()}}));
   $('noteList').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.del;
     if(delArm===id){S.notes=S.notes.filter(n=>n.id!==id);delArm=null;save();}else{delArm=id;setTimeout(()=>{if(delArm===id){delArm=null;renderNotes()}},4000)}renderNotes()}));
   renderSuggest();
@@ -1001,9 +1048,7 @@ function renderExp(){
   list.querySelectorAll('[data-keep]').forEach(b=>b.addEventListener('click',()=>{
     const x=S.exps.find(e=>e.id===b.dataset.x); const score=+$('rs-'+x.id).value;
     x.rates.push({date:T,score,keep:b.dataset.keep}); if(b.dataset.keep!=='keep')S.actives=S.actives.filter(z=>z!==x.id); save(); renderExp(); renderTodayExp()}));
-  const keep=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6});
-  const html=keep.length?keep.map(x=>`<li>${esc(x.name)}(役立ち度 ${lastRate(x).score})</li>`).join(''):'<li class="note" style="list-style:none;margin-left:-1.2em">まだありません。工夫を1週間試して記録すると、ここに増えていきます。</li>';
-  $('keepList').innerHTML=html; $('keepList2').innerHTML=html;
+  renderKeep();
 }
 $('addExp').addEventListener('click',()=>{const v=$('newExp').value.trim(); if(!v)return; S.exps.push({id:'u'+Date.now(),name:v,uses:{},rates:[]}); $('newExp').value=''; save(); renderExp()});
 
@@ -1071,6 +1116,7 @@ function sumLines(n){
   const lines=['【最近'+(n===14?'2週間':n+'日間')+'('+md(ks[0])+'〜'+md(ks[n-1])+')】','記録した日:'+rec.length+'日'];
   const hs=rec.map(sleepH).filter(h=>h!=null);if(hs.length)lines.push('睡眠時間:平均 '+fmtH(hs.reduce((a,b)=>a+b,0)/hs.length)+'(最短 '+fmtH(Math.min(...hs))+')');
   if(st('sq'))lines.push('睡眠の質(5段階):'+st('sq'));
+  const mn=ks.map(k=>[k,((S.days[k]||{}).medNote||'').trim()]).filter(([,v])=>v);if(mn.length)lines.push('薬のことで気になった体の変化:'+mn.map(([k,v])=>md(k)+' '+v).join(' / '));
   S.meds.forEach(m=>{let miss=0,rec2=0,prnD=0,prnN=0,prnMax=false;rec.forEach(d=>{const r=(d.med||{})[m.id]||{};m.slots.forEach(sl=>{if(typeof r[sl]==='boolean'){rec2++;if(r[sl]===false)miss++}});if(m.prn&&r.prn>0){prnD++;prnN+=r.prn;if(r.prn===3)prnMax=true}});
     if(rec2||prnD)lines.push('服薬('+m.name+'):'+(rec2?'記録 '+rec2+'回のうち飲み忘れ '+miss+'回':'')+(m.prn&&prnD?(rec2?'、':'')+'頓服を使った日 '+prnD+'日(計 '+prnN+'回'+(prnMax?'以上':'')+')':''))});
   const np=rec.map(d=>d.nap).filter(v=>typeof v==='number');if(np.length)lines.push('昼寝:記録した'+np.length+'日のうち、した日 '+np.filter(v=>v>=1).length+'日(1時間以上 '+np.filter(v=>v>=3).length+'日、15時以降 '+rec.filter(d=>d.nap>=1&&d.napLate).length+'日)');
@@ -1110,6 +1156,7 @@ function validData(v){
   if(v.active!=null&&!okId(v.active))return '試している工夫の形式が違います';
   if(v.actives!=null&&(!Array.isArray(v.actives)||v.actives.length>3||v.actives.some(x=>!okId(x))))return '試している工夫の形式が違います';
   if(v.meds!=null){if(!Array.isArray(v.meds)||v.meds.length>5)return '薬の登録の形式が違います';for(const m of v.meds)if(!isObj(m)||!okId(m.id)||!isStr(m.name,30)||!Array.isArray(m.slots)||m.slots.some(x=>!MSLOT.some(y=>y[0]===x))||typeof m.prn!=='boolean')return '薬の登録の形式が違います'}
+  if(v.copes!=null){if(!Array.isArray(v.copes))return '対処リストの形式が違います';for(const c of v.copes)if(!isObj(c)||!okId(c.id)||!isStr(c.text,300)||!['manual','aware','day','thought'].includes(c.from)||!realDate(c.date))return '対処リストの形式が違います'}
   if(v.symNames!=null&&(!Array.isArray(v.symNames)||v.symNames.length>2||v.symNames.some(x=>!isStr(x,20))))return '症状の名前の形式が違います';
   for(const k of ['wxOn'])if(v[k]!=null&&typeof v[k]!=='boolean')return '設定の形式が違います';
   if(v.wxAt!=null&&typeof v.wxAt!=='number')return '設定の形式が違います';
@@ -1124,6 +1171,7 @@ function validData(v){
     if(d.signs!=null&&(!Array.isArray(d.signs)||d.signs.some(x=>!SIG.includes(x))))return k+' の気になるサインの形式が違います';
     if(d.events!=null&&(!Array.isArray(d.events)||d.events.some(x=>!EVT.includes(x))||(d.events.includes('none')&&d.events.length>1)||new Set(d.events).size!==d.events.length))return k+' の今日あったことの形式が違います';
     if(d.signs!=null&&new Set(d.signs).size!==d.signs.length)return k+' の気になるサインの形式が違います';
+    if(d.medNote!=null&&!isStr(d.medNote,1000))return k+' の薬のメモの形式が違います';
     if(d.med!=null){if(!isObj(d.med))return k+' の服薬の形式が違います';for(const [id,r] of Object.entries(d.med)){if(!okId(id)||!isObj(r))return k+' の服薬の形式が違います';for(const [sl,x] of Object.entries(r)){if(sl==='prn'){if(!rng(x,0,3))return k+' の頓服の回数が範囲外です'}else if(!MSLOT.some(y=>y[0]===sl)||(x!=null&&typeof x!=='boolean'))return k+' の服薬の形式が違います'}}}
     if(d.sym!=null){if(!Array.isArray(d.sym)||d.sym.length>2)return k+' の症状の形式が違います';for(const x of d.sym)if(x!=null&&(!isObj(x)||!rng(x.lv,0,10)||!rng(x.dis,0,10)))return k+' の症状の点数が範囲外です'}
   }
@@ -1156,7 +1204,7 @@ $('undoImp').addEventListener('click',()=>{let p;try{p=JSON.parse(localStorage.g
   try{localStorage.removeItem(KEY+'_before_import')}catch(e){}
   $('doc').value=S.doc||'';rerenderAll();$('undoImp').hidden=true;flash('sv-io','読み込む前の記録に戻しました')});
 try{if(localStorage.getItem(KEY+'_before_import'))$('undoImp').hidden=false}catch(e){}
-function rerenderAll(){S.notes=S.notes||[];S.meds=Array.isArray(S.meds)?S.meds:[];migrateActive();S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
+function rerenderAll(){S.notes=S.notes||[];S.copes=Array.isArray(S.copes)?S.copes:[];S.meds=Array.isArray(S.meds)?S.meds:[];migrateActive();S.symNames=S.symNames||['',''];renderBasics();renderTodayExp();renderExp();renderNotes();if(typeof renderWx==='function'){S.wx=S.wx||{};renderWx()}}
 
 
 // weather (Open-Meteo, 位置は小数1桁に丸める)
