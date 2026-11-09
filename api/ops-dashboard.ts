@@ -288,7 +288,7 @@ function sanitizeManual(input: unknown) {
 type Plan = {
   annualTarget: number; unitPrice: number; sessionsPerClient: number; sessionsPerMonth: number
   friendToClient: number; clickToAdd: number | null; userToClick: number | null
-  capacity: number | null; launchMonth: string | null; expenseRate: number; employmentIncome: number; updatedAt: string
+  capacity: number | null; launchMonth: string | null; expenseRate: number; employmentIncome: number; targetIncome: number | null; updatedAt: string
 }
 
 function sanitizePlan(input: unknown): Plan {
@@ -313,6 +313,7 @@ function sanitizePlan(input: unknown): Plan {
     capacity: opt(src.capacity, 1, 500),
     expenseRate: n(src.expenseRate, 0, 0.9, 0.2),
     employmentIncome: Math.round(n(src.employmentIncome, 0, 50000000, 0)),
+    targetIncome: opt(src.targetIncome, 0, 100000000),
     launchMonth: typeof src.launchMonth === "string" && /^\d{4}-\d{2}$/.test(src.launchMonth) ? src.launchMonth : null,
     updatedAt: new Date().toISOString(),
   }
