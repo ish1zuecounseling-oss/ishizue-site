@@ -697,7 +697,7 @@ function renderSuggest(){
 
 // ── 提出用のまとめ ──
 let repN=14;
-const REP_OPT=[['sum','まとめ(平均・回数)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['wx','天気',false]];
+const REP_OPT=[['sum','まとめ(平均・回数)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['wx','天気',false]];
 if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
 let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
 function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
@@ -735,6 +735,7 @@ function buildReport(){
     h+=`<h2>気づいたこと</h2>${L.length?`<ul class="rep-list">${L.map(n=>`<li><b>${md(n.date)}</b> ${esc(n.text)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.wx){const wx=S.wx||{};const L=ks.filter(k=>wx[k]);h+=`<h2>天気</h2>${L.length?`<div class="grid"><table class="rep-t"><tr><th>日付</th><th>天気</th><th>最高/最低℃</th><th>湿度%</th><th>気圧差hPa</th></tr>${L.map(k=>{const w=wx[k];return `<tr><td>${md(k)}</td><td>${WMO(w.code)}</td><td>${w.tmax}/${w.tmin}</td>${cell(w.hm)}${cell(w.dp)}</tr>`}).join('')}</table></div>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.doc&&(S.doc||'').trim())h+=`<h2>主治医に伝えたいこと</h2><div class="rep-doc">${esc(S.doc)}</div>`;
+  if(repSel.scale)h+=scaleGuideHTML();
   h+=`<p class="rep-note">本人がスマートフォンで記録した内容をまとめたものです。点数は本人の主観による評価です。</p>`;
   return h;
 }
@@ -759,6 +760,7 @@ const AI_P={
 
 # 守ること
 - 【記録】に書かれていることだけを使う。書かれていない症状・出来事・原因を足さない
+- 数字を書くときは、【数字の見方】の基準の言葉を必ず添える(例:「心の調子は10段階で平均4.2(4は『かなり不調。気持ちが沈み、人と話すのがおっくう』)」)。基準にない意味づけをしない
 - 診断名を挙げない。病気かどうか、原因が何かを推測しない
 - 数字(平均・最低・最高・日数・回数)はそのまま残す。丸めたり言い換えたりしない
 - 点数は本人の主観による評価だと分かる書き方にする
@@ -766,7 +768,7 @@ const AI_P={
 - 本人の一人称(「私は」)で、ていねい語で書く
 - 医師への助言や治療の提案はしない
 
-# 形式(全体で600字以内)
+# 形式(全体で800字以内)
 1. この期間の要点(2〜3文)
 2. 睡眠
 3. 体と心の調子
@@ -782,6 +784,7 @@ const AI_P={
 
 # 守ること
 - 【記録】に書かれていることだけを使う。原因を断定せず、「同じ時期に〜があった」という書き方にする
+- 数字を書くときは、【数字の見方】の基準の言葉を添えて、数字が何を意味するか分かるようにする
 - 診断や病気の推測はしない
 - 責める言い方、がんばりを求める言い方をしない。できていたことを先に書く
 - 数字はそのまま使う
@@ -794,7 +797,7 @@ const AI_P={
 
 【記録】
 `};
-function aiPromptText(){return AI_P[aiUse]+reportText()}
+function aiPromptText(){return AI_P[aiUse]+reportText()+(repSel.scale?'':scaleGuideText())}
 function renderAiBox(){
   $('aiBox').innerHTML=`<span class="q">AIに文章にしてもらう</span>
    <div class="filters"><button type="button" class="chip" data-ai="doctor" aria-pressed="${aiUse==='doctor'}">主治医に渡す文章</button><button type="button" class="chip" data-ai="self" aria-pressed="${aiUse==='self'}">自分のふりかえり</button></div>
@@ -896,6 +899,28 @@ function renderMed(){
       const old=S.meds[i];next.push({id:old?old.id:'m'+Date.now()+i,name,slots,prn})});
     S.meds=next;medEdit=false;save('sv-med');renderMed();renderStatus()});
 }
+
+
+// ── 数字の見方(点数の基準)。まとめ・AIへの指示文・医師への説明で同じ基準を使う ──
+function anchorOf(avg,arr,lo){if(avg==null||isNaN(avg))return '';const n=Math.min(arr.length-1,Math.max(lo,Math.round(avg)));return arr[n]?'(目安:'+n+'「'+arr[n]+'」)':''}
+function scaleGuideRows(){
+  const R=[];
+  R.push(['体の調子(1〜10。10が最もよい)',[10,9,8,7,6,5,4,3,2,1].map(n=>n+':'+SCALE.body[n])]);
+  R.push(['心の調子(1〜10。10が最もよい)',[10,9,8,7,6,5,4,3,2,1].map(n=>n+':'+SCALE.mind[n])]);
+  R.push(['睡眠の質(1〜5。5が最もよい)',[5,4,3,2,1].map(n=>n+':'+SQ[n])]);
+  R.push(['睡眠時間',['寝た時刻から起きた時刻までが「布団にいた時間」。夜中に目が覚めていた時間(本人が4段階で選んだものの中央値)を引いたものが「眠っていた時間の目安」。目が覚めていた時間を選んでいない日は、睡眠時間の平均に入れていない']]);
+  R.push(['中途覚醒',['夜中に目が覚めた回数(0回・1回・2回・3回以上)。目が覚めていた時間は 15分未満/15〜30分/30〜60分/60分以上 から選ぶ']]);
+  R.push(['昼寝',['しなかった/20分以内/20〜60分/1時間以上。15時以降かどうかも記録']]);
+  if(S.symNames.some(n=>n)){R.push(['症状の強さ(0〜10。0がなし)',[10,9,8,7,6,5,4,3,2,1,0].map(n=>n+':'+SYM_LV[n])]);R.push(['症状による生活への支障(0〜10。0が普段どおり)',[10,9,8,7,6,5,4,3,2,1,0].map(n=>n+':'+SYM_DIS[n])])}
+  R.push(['今日の4つ(食事・休憩・区切り・気晴らし)',['○できた/△少し/—まだ。食事=食事を抜かなかった、休憩=作業の合間に休んだ、区切り=決めた時間で作業を終えた、気晴らし=仕事以外のことをした']]);
+  if(S.meds.length)R.push(['服薬',['登録した時間ごとに「飲んだ/飲み忘れた」を記録。表の数字は「飲んだ数/予定の数」。頓服は1日の使用回数(3は3回以上)']]);
+  R.push(['気になるサイン',['点数とは別に、本人が「消えてしまいたい気持ち」「眠れない日が続いている」「食べられない」「体の症状がいつもと違う」のどれかがあった日に押したもの']]);
+  if(document.getElementById('wxCard'))R.push(['気圧差',['その日の気圧の最高と最低の差(hPa)。天気データは Open-Meteo による']]);
+  R.push(['共通',['点数はすべて本人の主観による自己評価で、検査や医師の評価ではない。・は未記入']]);
+  return R;
+}
+function scaleGuideHTML(){return `<h2>数字の見方(点数の基準)</h2>`+scaleGuideRows().map(([t,L])=>`<div class="rep-note-item"><b>${esc(t)}</b>${L.map(x=>`<div>${esc(x)}</div>`).join('')}</div>`).join('')}
+function scaleGuideText(){return '\n\n【数字の見方(点数の基準)】\n'+scaleGuideRows().map(([t,L])=>'■'+t+'\n'+L.join('\n')).join('\n')}
 
 function hasData(d){if(!d)return false;return Object.entries(d).some(([k,v])=>{if(v==null||v==='')return false;if(Array.isArray(v))return k==='sym'?v.some(x=>x&&(typeof x.lv==='number'||typeof x.dis==='number')):v.length>0;if(typeof v==='object')return k==='med'?Object.values(v).some(r=>r&&Object.values(r).some(x=>typeof x==='boolean'||typeof x==='number')):Object.values(v).some(x=>x===false||(typeof x==='string'&&x.trim()));if(typeof v==='string')return !!v.trim();return true})}
 function evOf(d,id){const e=d.events||[];if(e.includes('none'))return false;return e.includes(id)?true:null}
@@ -1040,7 +1065,8 @@ $('doc').addEventListener('input',e=>{S.doc=e.target.value;save('sv-doc')});
 function sumLines(n){
   const ks=[];for(let i=n-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));
   const rec=ks.map(k=>S.days[k]).filter(hasData);
-  const st=id=>{const a=rec.map(d=>d[id]).filter(f=>typeof f==='number');return a.length?'平均 '+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1)+'(最低 '+Math.min(...a)+')':null};
+  const AR={body:[SCALE.body,1],mind:[SCALE.mind,1],sq:[SQ,1]};
+  const st=id=>{const a=rec.map(d=>d[id]).filter(f=>typeof f==='number');if(!a.length)return null;const av=a.reduce((x,y)=>x+y,0)/a.length;return '平均 '+av.toFixed(1)+(AR[id]?anchorOf(av,AR[id][0],AR[id][1]):'')+'、最低 '+Math.min(...a)+(AR[id]?anchorOf(Math.min(...a),AR[id][0],AR[id][1]):'')};
   const cnt=id=>rec.filter(d=>d[id]===2).length;
   const lines=['【最近'+(n===14?'2週間':n+'日間')+'('+md(ks[0])+'〜'+md(ks[n-1])+')】','記録した日:'+rec.length+'日'];
   const hs=rec.map(sleepH).filter(h=>h!=null);if(hs.length)lines.push('睡眠時間:平均 '+fmtH(hs.reduce((a,b)=>a+b,0)/hs.length)+'(最短 '+fmtH(Math.min(...hs))+')');
@@ -1049,7 +1075,7 @@ function sumLines(n){
     if(rec2||prnD)lines.push('服薬('+m.name+'):'+(rec2?'記録 '+rec2+'回のうち飲み忘れ '+miss+'回':'')+(m.prn&&prnD?(rec2?'、':'')+'頓服を使った日 '+prnD+'日(計 '+prnN+'回'+(prnMax?'以上':'')+')':''))});
   const np=rec.map(d=>d.nap).filter(v=>typeof v==='number');if(np.length)lines.push('昼寝:記録した'+np.length+'日のうち、した日 '+np.filter(v=>v>=1).length+'日(1時間以上 '+np.filter(v=>v>=3).length+'日、15時以降 '+rec.filter(d=>d.nap>=1&&d.napLate).length+'日)');
   S.symNames.forEach((n,i)=>{if(!n)return;const lv=rec.map(d=>((d.sym||[])[i]||{}).lv).filter(v=>typeof v==='number'),ds=rec.map(d=>((d.sym||[])[i]||{}).dis).filter(v=>typeof v==='number');
-    if(lv.length)lines.push(n+':強さ 平均 '+(lv.reduce((a,b)=>a+b,0)/lv.length).toFixed(1)+'(最高 '+Math.max(...lv)+')'+(ds.length?'、生活への支障 平均 '+(ds.reduce((a,b)=>a+b,0)/ds.length).toFixed(1)+'(最高 '+Math.max(...ds)+')':'')+'、記録 '+lv.length+'日')});
+    if(lv.length){const al=lv.reduce((a,b)=>a+b,0)/lv.length,ad=ds.length?ds.reduce((a,b)=>a+b,0)/ds.length:null;lines.push(n+':強さ 平均 '+al.toFixed(1)+anchorOf(al,SYM_LV,0)+'、最高 '+Math.max(...lv)+(ds.length?'/生活への支障 平均 '+ad.toFixed(1)+anchorOf(ad,SYM_DIS,0)+'、最高 '+Math.max(...ds):'')+'、記録 '+lv.length+'日')}});
   const wn=rec.map(d=>d.wakeN).filter(v=>typeof v==='number');if(wn.length)lines.push('中途覚醒:記録した'+wn.length+'日のうち、目が覚めた日 '+wn.filter(v=>v>=1).length+'日(2回以上 '+wn.filter(v=>v>=2).length+'日)');
   const tc={};S.notes.filter(n=>n.type==='thought'&&ks.includes(n.date)).forEach(n=>(n.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
   const tcs=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>(TAGS.find(x=>x[0]===t)||[0,t])[1]+' '+c+'回');if(tcs.length)lines.push('思考の癖メモで多かった癖:'+tcs.join('、'));
