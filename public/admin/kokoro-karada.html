@@ -146,6 +146,8 @@ body.rep-open{overflow:hidden}
 .rep-note{color:#555;font-size:11.5px;margin:6px 0 0}
 .rep-note-item{border-left:3px solid #ccc;padding:2px 0 2px 8px;margin:6px 0}
 .rep-doc{white-space:pre-wrap}
+.rep-doc-wrap h3.rep-ch{font-size:13px;margin:10px 0 2px;font-family:var(--body)}
+.rep-chart svg{max-width:100%;height:auto}
 @media print{
   @page{size:A4;margin:12mm}
   body{background:#fff!important;padding:0!important}
@@ -154,6 +156,9 @@ body.rep-open{overflow:hidden}
   .rep-doc-wrap{border:0;padding:0;max-width:none}
   .grid{overflow:visible}
   .rep-t tr{break-inside:avoid}
+  .rep-chart{break-inside:avoid}
+  .rep-doc-wrap h2,.rep-doc-wrap h3{break-after:avoid}
+  .rep-note-item{break-inside:avoid}
 }
 .ai-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--paper)}
 .ai-pre{white-space:pre-wrap;font-family:var(--body);font-size:12.5px;background:var(--bg);border-radius:8px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
@@ -381,6 +386,7 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
       <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。</p></details>
       <details class="faq"><summary>記録をまとめて提出するには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間(7・14・28・56日)と入れる項目を選びます。思考の癖メモ・気づき・ひとこと・食事の内容などは初めは外してあり、押すと入ります。「印刷・PDFにする」→ 共有ボタン →「ファイルに保存」でPDFになります。文字で送るときは「文字でコピー」を使います。</p></details>
+      <details class="faq"><summary>主治医に見てもらうには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間と入れる項目を選びます。体・心・睡眠・症状のグラフと日ごとの表が1枚に入ります。いちばん確実なのは「印刷・PDFにする」でPDFにして、メールやLINEなどで送るか、受診のときに画面を見せる方法です。最初から、グラフ・日ごとの表・セルフケアの取り組み(試した工夫と評価、対処リスト、週のふりかえり)・この記録ページの使い方が入ります。選んだ項目は次回も残ります。「閲覧用ファイルを保存」は、同じ内容を1つのHTMLファイルにしたものです。ページのアドレスだけで主治医が見られる仕組みは、記録を外部のサーバーに置くことになるため、作っていません。</p></details>
       <details class="faq"><summary>主治医へのメモはどう使う?</summary><p>「最近2週間の記録から下書きを足す」で数字のまとめが入ります。自分の言葉で書き足して、受診のときに画面を見せるか、「コピー」してメモアプリなどに貼ります。</p></details>
     </div>
     <div class="card">
@@ -446,7 +452,8 @@ details summary{cursor:pointer;color:var(--sub);font-size:13px}
   <div class="rep-bar no-print">
     <div class="head"><h2>提出用のまとめ</h2><button class="btn small ghost" id="repClose">閉じる</button></div>
     <div id="repOpts"></div>
-    <div class="row"><button class="btn small" id="repPrint">印刷・PDFにする</button><button class="btn small ghost" id="repCopy">文字でコピー</button><span class="saved" id="sv-rep"></span></div>
+    <div class="row"><button class="btn small" id="repPrint">印刷・PDFにする</button><button class="btn small ghost" id="repCopy">文字でコピー</button><button class="btn small ghost" id="repFile">閲覧用ファイルを保存</button><span class="saved" id="sv-rep"></span></div>
+    <p class="note">主治医に見せるときは、PDFが確実です。「閲覧用ファイル」は、同じ内容を1つのHTMLファイルにしたもので、受け取る側のブラウザで開けます(記録の内容がそのまま入るので、送る相手に注意してください)。</p>
     <p class="note">iPhoneでは「印刷・PDFにする」→ 共有ボタンから「ファイルに保存」でPDFになります。印刷画面でプレビューを2本指で広げても、PDFとして共有できます。</p>
     <div class="item ai-box" id="aiBox"></div>
     <textarea id="repText" hidden aria-label="コピー用の文字"></textarea>
@@ -706,24 +713,63 @@ function renderSuggest(){
 
 // ── 提出用のまとめ ──
 let repN=14;
-const REP_OPT=[['sum','まとめ(平均・回数)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['basics','今日の4つ(日ごと)',false],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['mednote','薬のことで気になる体の変化',true],['wx','天気',false]];
+const REP_OPT=[['sum','まとめ(平均・回数)',true],['chart','グラフ(体・心・睡眠)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['flow','このページの使い方(取り組みの流れ)',true],['exp','試した工夫と、その評価',true],['cope','自分の対処リスト',true],['week','週のふりかえり',true],['basics','今日の4つ(日ごと)',true],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['mednote','薬のことで気になる体の変化',true],['wx','天気',false]];
 if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
 let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
+if(S.repSel&&typeof S.repSel==='object')REP_OPT.forEach(([k])=>{if(typeof S.repSel[k]==='boolean')repSel[k]=S.repSel[k]});
 function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
 function openReport(){
   $('repOpts').innerHTML=`<div class="filters">${[7,14,28,56].map(n=>`<button type="button" class="chip" data-rn="${n}" aria-pressed="${repN===n}">${n}日</button>`).join('')}</div>
-   <div class="chips">${REP_OPT.map(([k,l])=>`<button type="button" class="chip" data-ro="${k}" aria-pressed="${!!repSel[k]}">${l}</button>`).join('')}</div>`;
+   <div class="chips">${REP_OPT.map(([k,l])=>`<button type="button" class="chip" data-ro="${k}" aria-pressed="${!!repSel[k]}">${l}</button>`).join('')}</div>
+   <div class="row"><button type="button" class="btn small ghost" id="repReset">おすすめの選択に戻す</button></div>
+   <p class="note">見せておくとよい項目は、最初から入っています。選んだ内容は、次に開いたときも残ります。メモ・ひとこと・食事の内容などは、見せたくない場合があるので、最初は外してあります。</p>`;
+  $('repReset').addEventListener('click',()=>{REP_OPT.forEach(([k,,v])=>repSel[k]=v);delete S.repSel;save('sv-rep');openReport()});
   $('repOpts').querySelectorAll('[data-rn]').forEach(b=>b.addEventListener('click',()=>{repN=+b.dataset.rn;openReport()}));
-  $('repOpts').querySelectorAll('[data-ro]').forEach(b=>b.addEventListener('click',()=>{repSel[b.dataset.ro]=!repSel[b.dataset.ro];openReport()}));
+  $('repOpts').querySelectorAll('[data-ro]').forEach(b=>b.addEventListener('click',()=>{repSel[b.dataset.ro]=!repSel[b.dataset.ro];S.repSel=Object.assign({},repSel);save('sv-rep');openReport()}));
   $('repDoc').innerHTML=buildReport();
   renderAiBox();
   $('report').hidden=false;document.body.classList.add('rep-open');window.scrollTo(0,0);
+}
+
+// ── 提出用:グラフ(色だけに頼らず、線の種類と点の形でも区別する) ──
+function chartSVG(ks,series,o){
+  const W=640,H=o.h||180,pl=30,pr=12,pt=14,pb=24,n=ks.length,ymin=o.min,ymax=o.max;
+  const X=i=>pl+(n===1?(W-pl-pr)/2:i*(W-pl-pr)/(n-1)), Y=v=>pt+(H-pt-pb)*(1-(v-ymin)/(ymax-ymin));
+  let g='';
+  (o.ticks||[ymin,ymax]).forEach(t=>{g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(t)}" y2="${Y(t)}" stroke="#ddd"/><text x="${pl-5}" y="${Y(t)+4}" text-anchor="end" font-size="10" fill="#555">${t}</text>`});
+  const step=Math.max(1,Math.ceil(n/8));
+  ks.forEach((k,i)=>{if(i%step===0||i===n-1)g+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#555">${md(k).replace(/\(.\)/,'')}</text>`});
+  if(o.bars){
+    const bw=Math.max(3,Math.min(26,(W-pl-pr)/n*0.6));
+    series[0].vals.forEach((v,i)=>{if(v==null)return;g+=`<rect x="${X(i)-bw/2}" y="${Y(Math.min(v,ymax))}" width="${bw}" height="${Y(ymin)-Y(Math.min(v,ymax))}" fill="#7d93ad"/>`+(n<=14?`<text x="${X(i)}" y="${Y(Math.min(v,ymax))-3}" text-anchor="middle" font-size="9" fill="#333">${Math.round(v*10)/10}</text>`:'')});
+  }else{
+    const COL=['#2f4a6b','#a7792b','#5f7d5a','#9b3d3d'],DASH=['','6 3','2 3','8 3 2 3'];
+    series.forEach((s,si)=>{
+      let seg=[];const flush=()=>{if(seg.length>1)g+=`<polyline points="${seg.join(' ')}" fill="none" stroke="${COL[si%4]}" stroke-width="1.8"${DASH[si%4]?` stroke-dasharray="${DASH[si%4]}"`:''}/>`;seg=[]};
+      s.vals.forEach((v,i)=>{if(v==null){flush();return}seg.push(X(i).toFixed(1)+','+Y(v).toFixed(1))});flush();
+      s.vals.forEach((v,i)=>{if(v==null)return;const x=X(i),y=Y(v),c=COL[si%4];
+        g+=si%3===0?`<circle cx="${x}" cy="${y}" r="3" fill="${c}"/>`:si%3===1?`<rect x="${x-3}" y="${y-3}" width="6" height="6" fill="${c}"/>`:`<path d="M${x} ${y-4}L${x+4} ${y+3}L${x-4} ${y+3}Z" fill="${c}"/>`});
+    });
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(o.label)}" style="max-width:640px;display:block">${g}</svg>`;
+}
+function repChartsHTML(ks,rec){
+  const bm=rec.map(d=>typeof d.body==='number'?d.body:null), mm=rec.map(d=>typeof d.mind==='number'?d.mind:null), sl=rec.map(d=>{const h=sleepH(d);return h==null?null:h});
+  let h='<h2>グラフ</h2><div class="rep-chart">';
+  if(bm.some(v=>v!=null)||mm.some(v=>v!=null))h+=`<h3 class="rep-ch">体と心の調子(1〜10、10が最もよい)</h3><p class="rep-note" style="margin:0">体=実線・丸 / 心=破線・四角</p>`+chartSVG(ks,[{vals:bm},{vals:mm}],{min:1,max:10,ticks:[1,5,10],label:'体と心の調子の推移'});
+  if(sl.some(v=>v!=null))h+=`<h3 class="rep-ch">睡眠時間(眠っていた時間の目安・時間)</h3>`+chartSVG(ks,[{vals:sl}],{min:0,max:Math.max(12,Math.ceil(Math.max(...sl.filter(v=>v!=null)))),ticks:[0,4,8,12],bars:true,h:150,label:'睡眠時間の推移'});
+  const sy=S.symNames.map((n,i)=>[n,i]).filter(([n])=>n).map(([n,i])=>({n,vals:rec.map(d=>{const x=(d.sym||[])[i]||{};return typeof x.lv==='number'?x.lv:null})})).filter(x=>x.vals.some(v=>v!=null));
+  if(sy.length)h+=`<h3 class="rep-ch">症状の強さ(0〜10)</h3><p class="rep-note" style="margin:0">${sy.map((x,i)=>esc(x.n)+'='+['実線・丸','破線・四角','点線・三角','一点鎖線・丸'][i%4]).join(' / ')}</p>`+chartSVG(ks,sy,{min:0,max:10,ticks:[0,5,10],label:'症状の強さの推移'});
+  if(h.endsWith('<div class="rep-chart">'))return '';
+  return h+'<p class="rep-note">点がない日は未記入です。線は、記録のある日どうしだけをつないでいます。</p></div>';
 }
 function cell(v){return v==null||v===''?'<td class="c0">・</td>':`<td>${v}</td>`}
 function buildReport(){
   const ks=repDays(), rec=ks.map(k=>S.days[k]||{});
   let h=`<h1 class="rep-h">こころとからだの記録</h1><p class="rep-sub">期間:${md(ks[0])}〜${md(ks[ks.length-1])}(${repN}日間)/作成:${md(TODAY)}</p>`;
+  if(repSel.flow)h+=`<div class="rep-flow"><h2>この記録ページについて</h2><p style="margin:0 0 4px">本人が自分用に作った、スマートフォンのブラウザで使う記録ページです。記録は本人の端末の中だけに保存され、外部には送られません。使い方の流れは次のとおりです。</p><ol style="margin:0;padding-left:1.4em"><li>朝と夜に、睡眠・体と心の調子(10段階)・症状・食事・服薬などを記録する。点数には基準の言葉がついており、数字の意味を後から説明できる。</li><li>記録から、いつもと違う日や同じ日に起きていた傾向を見つける(原因の断定はしない)。</li><li>小さな工夫を最大3つまで選んで試し、毎日「使えた/使えなかった」を記録する。</li><li>1週間ほどで役立ち度(0〜10)をつけ、続ける・変える・やめるを決める。</li><li>役立つと分かったものを「自分の対処リスト」に残し、しんどい日に使う。</li><li>週に1回、3つの問いでふりかえる。気になるサインがある日は、工夫より先に相談先を案内する。</li></ol><p class="rep-note">診断や治療の判断を目的としたものではなく、日々の記録と、自分でできる工夫の管理のために使っています。</p></div>`;
   if(repSel.sum)h+=`<h2>まとめ</h2><ul class="rep-list">${sumLines(repN).slice(1).filter(l=>repSel.thought||!l.startsWith('思考の癖メモ')).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;
+  if(repSel.chart)h+=repChartsHTML(ks,rec);
   if(repSel.table){
     const sy=S.symNames.map((n,i)=>[n,i]).filter(([n])=>n);
     h+=`<h2>日ごとの記録</h2><div class="grid"><table class="rep-t"><tr><th>日付</th><th>睡眠</th><th>質</th><th>覚醒</th><th>体</th><th>心</th>${sy.map(([n])=>`<th>${esc(n.slice(0,8))}<br><small>強/支障</small></th>`).join('')}${S.meds.length?'<th>服薬<br><small>飲み忘れ</small></th>':''}<th>昼寝</th><th>食事<br><small>抜いた</small></th><th>サイン</th></tr>`+
@@ -731,6 +777,13 @@ function buildReport(){
       return `<tr><td>${md(k)}</td>${cell(sh!=null?fmtH(sh):bedH(d)!=null?'('+fmtH(bedH(d))+')':'')}${cell(d.sq)}${cell(typeof d.wakeN==='number'?(d.wakeN===3?'3+':d.wakeN):'')}${cell(d.body)}${cell(d.mind)}${sy.map(([,i])=>{const x=(d.sym||[])[i]||{};return cell(typeof x.lv==='number'||typeof x.dis==='number'?(x.lv??'-')+'/'+(x.dis??'-'):'')}).join('')}${S.meds.length?cell((()=>{const L=medSlots(d);const f=L.filter(x=>x[2]===false);const prn=S.meds.filter(m=>m.prn&&((d.med||{})[m.id]||{}).prn>0).map(m=>'頓服'+(d.med[m.id].prn===3?'3+':d.med[m.id].prn));const r=L.some(x=>typeof x[2]==='boolean')?(f.length?f.map(x=>x[0].name.slice(0,6)+MSLOT.find(y=>y[0]===x[1])[1]).join(' '):'なし'):'';return [r,...prn].filter(Boolean).join(' ')})()):''}${cell(typeof d.nap==='number'?(d.nap===0?'なし':['','〜20分','〜60分','60分+'][d.nap]+(d.napLate?'(15時〜)':'')):'')}${cell(sk)}${cell((d.signs||[]).map(s=>(SIGNS.find(x=>x[0]===s)||[0,s])[1]).join('、'))}</tr>`}).join('')+
     `</table></div><p class="rep-note">睡眠:眠っていた時間の目安(かっこは布団にいた時間)。質:1〜5。覚醒:夜中に目が覚めた回数。昼寝:長さ(15時以降は表示あり)。体・心:1〜10(10が最もよい)。症状:強さ/生活への支障(0〜10)。・は未記入。</p>`}
   if(repSel.basics)h+=`<h2>今日の4つ</h2><div class="grid"><table class="rep-t"><tr><th>日付</th>${BASICS.map(b=>`<th>${b.q.split(':')[0]}</th>`).join('')}</tr>`+ks.map((k,j)=>`<tr><td>${md(k)}</td>${BASICS.map(b=>{const v=rec[j][b.id];return cell(v===2?'○':v===1?'△':v===0?'—':'')}).join('')}</tr>`).join('')+`</table></div><p class="rep-note">○できた △少し —まだ</p>`;
+  if(repSel.exp){
+    const KL={keep:'続ける',change:'変えてみる',stop:'やめる'};
+    const L=S.exps.map(x=>{const u=ks.map(k=>(x.uses||{})[k]).filter(v=>typeof v==='boolean');return {x,y:u.filter(v=>v).length,n:u.length,act:(S.actives||[]).includes(x.id)}}).filter(o=>o.n>0||o.act||(o.x.rates||[]).some(r=>ks.includes(r.date)));
+    h+=`<h2>試した工夫と、その評価</h2>`+(L.length?`<div class="grid"><table class="rep-t"><tr><th>工夫</th><th>使えた日<br><small>/記録した日</small></th><th>役立ち度(0〜10)と判断</th></tr>`+L.map(o=>{const rs=(o.x.rates||[]).map(r=>md(r.date).replace(/\(.\)/,'')+' '+r.score+'点・'+(KL[r.keep]||'')).join('<br>');return `<tr><td style="text-align:left;white-space:normal">${esc(o.x.name)}${o.act?'<br><small>試している途中</small>':''}</td>${cell(o.n?o.y+'/'+o.n:'')}${cell(rs)}</tr>`}).join('')+`</table></div><p class="rep-note">役立ち度は本人がつけた主観の点数です。6点以上で「続ける」と決めたものが、自分の対処リストに残ります。</p>`:'<p class="rep-note">この期間に試した工夫の記録はありません</p>');
+  }
+  if(repSel.cope){const L=keepItems();if(L.length)h+=`<h2>自分の対処リスト</h2><ul class="rep-list">${L.map(k=>`<li>${esc(k.text)}<small>(${esc(k.tag)})</small></li>`).join('')}</ul><p class="rep-note">試して役立つと本人が判断したもの、または本人が書き足したものです。</p>`}
+  if(repSel.week){const w0=monday(new Date(ks[0]+'T00:00:00')),W=S.weeks||{};const L=Object.keys(W).filter(k=>k>=w0&&k<=ks[ks.length-1]&&(W[k].good||W[k].much||W[k].next)).sort();h+=`<h2>週のふりかえり</h2>`+(L.length?L.map(k=>{const x=W[k];return `<div class="rep-note-item"><b>${md(k)}からの週</b><div>うまくいったこと:${esc(x.good||'—')}</div><div>無理をしたこと:${esc(x.much||'—')}</div><div>変えること:${esc(x.next||'—')}</div></div>`}).join(''):'<p class="rep-note">記録なし</p>')}
   const daysWith=f=>ks.map((k,j)=>[k,f(rec[j])]).filter(([,v])=>v);
   if(repSel.meals){const L=daysWith(d=>{const m=d.meals||{};const t=['am','noon','pm'].map(x=>({am:'朝',noon:'昼',pm:'夜'})[x]+':'+(m[x]===false?'抜いた':m[x]||'・')).join(' / ')+(m.snack===false?' / 間食:なし':m.snack?' / 間食:'+m.snack:'');return Object.keys(m).length?t:''});h+=`<h2>食事の内容</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
   if(repSel.events){const L=daysWith(d=>(d.events||[]).map(e=>(EVENTS.find(x=>x[0]===e)||[0,e])[1]).join('、'));h+=`<h2>今日あったこと</h2>${L.length?`<ul class="rep-list">${L.map(([k,v])=>`<li><b>${md(k)}</b> ${esc(v)}</li>`).join('')}</ul>`:'<p class="rep-note">記録なし</p>'}`}
@@ -749,7 +802,7 @@ function buildReport(){
   h+=`<p class="rep-note">本人がスマートフォンで記録した内容をまとめたものです。点数は本人の主観による評価です。</p>`;
   return h;
 }
-function reportText(){const el=document.createElement('div');el.innerHTML=$('repDoc').innerHTML;
+function reportText(){const el=document.createElement('div');el.innerHTML=$('repDoc').innerHTML;el.querySelectorAll('.rep-chart,.rep-flow').forEach(x=>x.remove());el.querySelectorAll('h2').forEach(x=>{if(x.textContent==='グラフ')x.remove()});
   el.querySelectorAll('tr').forEach(tr=>{tr.innerHTML=[...tr.children].map(c=>c.textContent.trim()).join(' | ');tr.insertAdjacentText('afterend','\n')});
   el.querySelectorAll('h1,h2,li,p,div.rep-note-item,.rep-doc').forEach(x=>{x.insertAdjacentText('beforebegin','\n');x.insertAdjacentText('afterend','\n')});
   el.querySelectorAll('h2').forEach(x=>x.textContent='【'+x.textContent+'】');
@@ -760,6 +813,19 @@ $('repOpen').addEventListener('click',openReport);
 $('repPrint').addEventListener('click',()=>window.print());
 $('repClose').addEventListener('click',()=>{$('report').hidden=true;document.body.classList.remove('rep-open')});
 $('repCopy').addEventListener('click',()=>copyRep(reportText()));
+$('repFile').addEventListener('click',saveViewer);
+function viewerHTML(){
+  const css=`body{margin:0;background:#f3f5f6;color:#1a1a1a;font:14px/1.7 -apple-system,"Hiragino Sans","Noto Sans JP",sans-serif}.bar{background:#2f4a6b;color:#fff;padding:8px 14px;font-size:12.5px}.doc{max-width:760px;margin:12px auto;background:#fff;padding:18px;border-radius:8px}h1.rep-h{font-size:20px;margin:0}h2{font-size:15px;margin:18px 0 6px;border-bottom:1px solid #ccc;padding-bottom:2px}h3{font-size:13px;margin:10px 0 2px}.rep-sub{margin:4px 0 0;color:#555}.rep-list{margin:0;padding-left:1.2em}.grid{overflow-x:auto}.rep-t{font-size:12px;border-collapse:collapse;width:100%}.rep-t th,.rep-t td{border:1px solid #bbb;padding:3px 5px;text-align:center;white-space:nowrap}.rep-t th{background:#f0f2f4}.rep-t td.c0,.c0{color:#999}.rep-note{color:#555;font-size:11.5px;margin:6px 0 0}.rep-note-item{border-left:3px solid #ccc;padding:2px 0 2px 8px;margin:6px 0}.rep-doc{white-space:pre-wrap}@page{size:A4;margin:12mm}@media print{h2,h3{break-after:avoid}.rep-note-item,.rep-chart{break-inside:avoid}body{background:#fff}.bar{display:none}.doc{margin:0;padding:0;max-width:none}.grid{overflow:visible}.rep-t tr{break-inside:avoid}}`;
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>こころとからだの記録(閲覧用)</title><style>${css}</style></head><body><div class="bar">閲覧用のコピーです(${md(TODAY)}時点の記録)。この画面から記録を書き換えることはできません。</div><div class="doc">${buildReport()}</div></body></html>`;
+}
+async function saveViewer(){
+  const html=viewerHTML(),name='こころとからだの記録_'+TODAY.replace(/-/g,'')+'.html';
+  try{const f=new File([html],name,{type:'text/html'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f]});flash('sv-rep','共有しました');return}}
+  catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);flash('sv-rep','保存しました');
+}
+
 function copyRep(text){const done=()=>flash('sv-rep','コピーしました');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(fb)}else fb();
   function fb(){const t=$('repText');t.hidden=false;t.value=text;t.focus();t.select();flash('sv-rep','下の欄の文字を選んだので、コピーしてください')}}
 
@@ -783,7 +849,7 @@ const AI_P={
 2. 睡眠
 3. 体と心の調子
 4. 症状(記録があれば)
-5. 生活の様子(食事・休憩・区切りなど)
+5. 生活の様子と取り組み(食事・休憩・区切り、試した工夫と役立ち度など)
 6. 本人が伝えたいこと・相談したいこと(【記録】の「主治医に伝えたいこと」から。なければ省く)
 最後に、文章に入れなかった情報があれば、その項目名だけを箇条書きで添えてください。
 
