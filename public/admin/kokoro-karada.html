@@ -88,6 +88,8 @@ th:first-child,td:first-child{text-align:left;white-space:nowrap}
 .sleeprow label{font-weight:500;color:var(--sub)}
 input[type=time]{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%;max-width:100%;min-height:2.6em;text-align:left}
 input[type=time]::-webkit-date-and-time-value{text-align:left}
+input[type=date]{-webkit-appearance:none;appearance:none;box-sizing:border-box;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;min-height:38px}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
 input,textarea,select{max-width:100%;box-sizing:border-box}
 .scale.five{grid-template-columns:repeat(5,1fr)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -713,19 +715,30 @@ function renderSuggest(){
 }
 
 // ── 提出用のまとめ ──
-let repN=14;
+let repFrom=ymd(addDays(now,-13)),repTo=TODAY;
+function repLen(){return Math.round((new Date(repTo+'T00:00:00')-new Date(repFrom+'T00:00:00'))/86400000)+1}
+function repNorm(){if(repTo>TODAY)repTo=TODAY;if(repFrom>repTo)repFrom=repTo;if(repLen()>120)repFrom=ymd(addDays(new Date(repTo+'T00:00:00'),-119))}
+function repNote(){const e=$('repRangeNote');if(e)e.textContent=repLen()+'日間分です(最長120日まで)。'}
+function refreshRep(){$('repFrom').value=repFrom;$('repTo').value=repTo;repNote();$('repDoc').innerHTML=buildReport();renderAiBox()}
 const REP_OPT=[['sum','まとめ(平均・回数)',true],['chart','グラフ(体・心・睡眠)',true],['scale','数字の見方(点数の基準)',true],['table','日ごとの表',true],['doc','主治医に伝えたいこと',true],['flow','このページの使い方(取り組みの流れ)',true],['exp','試した工夫と、その評価',true],['cope','自分の対処リスト',true],['week','週のふりかえり',true],['basics','今日の4つ(日ごと)',true],['meals','食事の内容',false],['events','今日あったこと',false],['memo','ひとこと',false],['thought','思考の癖メモ',false],['aware','気づいたこと',false],['sort','こころの整理',false],['mednote','薬のことで気になる体の変化',true],['wx','天気',false]];
 if(!document.getElementById('wxCard'))REP_OPT.splice(REP_OPT.findIndex(x=>x[0]==='wx'),1);
 let repSel={};REP_OPT.forEach(([k,,v])=>repSel[k]=v);
 if(S.repSel&&typeof S.repSel==='object')REP_OPT.forEach(([k])=>{if(typeof S.repSel[k]==='boolean')repSel[k]=S.repSel[k]});
-function repDays(){const ks=[];for(let i=repN-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));return ks}
+function repDays(){const ks=[],s0=new Date(repFrom+'T00:00:00'),n=repLen();for(let i=0;i<n;i++)ks.push(ymd(addDays(s0,i)));return ks}
 function openReport(){
-  $('repOpts').innerHTML=`<div class="filters">${[7,14,28,56].map(n=>`<button type="button" class="chip" data-rn="${n}" aria-pressed="${repN===n}">${n}日</button>`).join('')}</div>
+  $('repOpts').innerHTML=`<div class="row" style="align-items:flex-end;gap:8px">
+     <label style="display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--sub)">開始日<input type="date" id="repFrom" value="${repFrom}" max="${TODAY}"></label><span style="padding-bottom:8px">～</span>
+     <label style="display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--sub)">終了日<input type="date" id="repTo" value="${repTo}" max="${TODAY}"></label></div>
+   <p class="note" id="repRangeNote" style="margin:2px 0"></p>
+   <div class="filters">${[7,14,28,56].map(n=>`<button type="button" class="chip" data-rn="${n}" aria-pressed="${repTo===TODAY&&repLen()===n}">直近${n}日</button>`).join('')}</div>
    <div class="chips">${REP_OPT.map(([k,l])=>`<button type="button" class="chip" data-ro="${k}" aria-pressed="${!!repSel[k]}">${l}</button>`).join('')}</div>
    <div class="row"><button type="button" class="btn small ghost" id="repReset">おすすめの選択に戻す</button></div>
    <p class="note">見せておくとよい項目は、最初から入っています。選んだ内容は、次に開いたときも残ります。メモ・ひとこと・食事の内容などは、見せたくない場合があるので、最初は外してあります。</p>`;
   $('repReset').addEventListener('click',()=>{REP_OPT.forEach(([k,,v])=>repSel[k]=v);delete S.repSel;save('sv-rep');openReport()});
-  $('repOpts').querySelectorAll('[data-rn]').forEach(b=>b.addEventListener('click',()=>{repN=+b.dataset.rn;openReport()}));
+  $('repOpts').querySelectorAll('[data-rn]').forEach(b=>b.addEventListener('click',()=>{repTo=TODAY;repFrom=ymd(addDays(now,-(+b.dataset.rn-1)));openReport()}));
+  $('repFrom').addEventListener('change',e=>{if(!e.target.value)return;repFrom=e.target.value;if(repFrom>repTo)repTo=repFrom;repNorm();refreshRep()});
+  $('repTo').addEventListener('change',e=>{if(!e.target.value)return;repTo=e.target.value;if(repTo<repFrom)repFrom=repTo;repNorm();refreshRep()});
+  repNote();
   $('repOpts').querySelectorAll('[data-ro]').forEach(b=>b.addEventListener('click',()=>{repSel[b.dataset.ro]=!repSel[b.dataset.ro];S.repSel=Object.assign({},repSel);save('sv-rep');openReport()}));
   $('repDoc').innerHTML=buildReport();
   renderAiBox();
@@ -767,9 +780,9 @@ function repChartsHTML(ks,rec){
 function cell(v){return v==null||v===''?'<td class="c0">・</td>':`<td>${v}</td>`}
 function buildReport(){
   const ks=repDays(), rec=ks.map(k=>S.days[k]||{});
-  let h=`<h1 class="rep-h">こころとからだの記録</h1><p class="rep-sub">期間:${mdj(ks[0])}～${mdj(ks[ks.length-1])}(${repN}日間)/作成:${mdj(TODAY)}</p>`;
+  let h=`<h1 class="rep-h">こころとからだの記録</h1><p class="rep-sub">期間:${mdj(ks[0])}～${mdj(ks[ks.length-1])}/作成:${mdj(TODAY)}</p>`;
   if(repSel.flow)h+=`<div class="rep-flow"><h2>この記録ページについて</h2><p style="margin:0 0 4px">本人が自分用に作った、スマートフォンのブラウザで使う記録ページです。記録は本人の端末の中だけに保存され、外部には送られません。使い方の流れは次のとおりです。</p><ol style="margin:0;padding-left:1.4em"><li>朝と夜に、睡眠・体と心の調子(10段階)・症状・食事・服薬などを記録する。点数には基準の言葉がついており、数字の意味を後から説明できる。</li><li>記録から、いつもと違う日や同じ日に起きていた傾向を見つける(原因の断定はしない)。</li><li>小さな工夫を最大3つまで選んで試し、毎日「使えた/使えなかった」を記録する。</li><li>1週間ほどで役立ち度(0〜10)をつけ、続ける・変える・やめるを決める。</li><li>役立つと分かったものを「自分の対処リスト」に残し、しんどい日に使う。</li><li>週に1回、3つの問いでふりかえる。気になるサインがある日は、工夫より先に相談先を案内する。</li></ol><p class="rep-note">診断や治療の判断を目的としたものではなく、日々の記録と、自分でできる工夫の管理のために使っています。</p></div>`;
-  if(repSel.sum)h+=`<h2>まとめ</h2><ul class="rep-list">${sumLines(repN).slice(1).filter(l=>repSel.thought||!l.startsWith('思考の癖メモ')).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;
+  if(repSel.sum)h+=`<h2>まとめ</h2><ul class="rep-list">${sumLines(repDays()).slice(1).filter(l=>repSel.thought||!l.startsWith('思考の癖メモ')).map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;
   if(repSel.chart)h+=repChartsHTML(ks,rec);
   if(repSel.table){
     const sy=S.symNames.map((n,i)=>[n,i]).filter(([n])=>n);
@@ -1174,8 +1187,8 @@ function renderTrend(){
 // doctor note
 $('doc').value=S.doc||'';
 $('doc').addEventListener('input',e=>{S.doc=e.target.value;save('sv-doc')});
-function sumLines(n){
-  const ks=[];for(let i=n-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));
+function sumLines(a){
+  const ks=Array.isArray(a)?a:[];if(!Array.isArray(a))for(let i=a-1;i>=0;i--)ks.push(ymd(addDays(now,-i)));const n=ks.length;
   const rec=ks.map(k=>S.days[k]).filter(hasData);
   const AR={body:[SCALE.body,1],mind:[SCALE.mind,1],sq:[SQ,1]};
   const st=id=>{const a=rec.map(d=>d[id]).filter(f=>typeof f==='number');if(!a.length)return null;const av=a.reduce((x,y)=>x+y,0)/a.length;return '平均 '+av.toFixed(1)+(AR[id]?anchorOf(av,AR[id][0],AR[id][1]):'')+'、最低 '+Math.min(...a)+(AR[id]?anchorOf(Math.min(...a),AR[id][0],AR[id][1]):'')};
