@@ -105,6 +105,7 @@ const NEW_ARTICLE_PATHS: string[] = [
   "/articles/quit-job-no-next",
   "/articles/helper-counseling-when-quitting",
   "/articles/acting-fatigue",
+  "/articles/social-camouflage",
   "/articles/communication-fatigue",
   "/articles/impostor-check-20",
   "/articles/impostor-syndrome",
