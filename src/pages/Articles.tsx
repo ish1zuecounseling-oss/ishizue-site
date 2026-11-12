@@ -191,6 +191,8 @@ const RESEARCH_PATHS = [
   "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue",
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
+  "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
+  "emotional-granularity",
 ];
 
 function isResearchArticle(path: string): boolean {
