@@ -192,7 +192,7 @@ const RESEARCH_PATHS = [
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
-  "emotional-granularity",
+  "emotional-granularity", "ai-verification-fatigue",
 ];
 
 function isResearchArticle(path: string): boolean {
