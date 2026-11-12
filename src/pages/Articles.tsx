@@ -189,6 +189,8 @@ const RESEARCH_PATHS = [
   "helper-attachment-self-compassion", "helper-self-compassion-resistance",
   "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability",
   "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue",
+  "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
+  "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
 ];
 
 function isResearchArticle(path: string): boolean {
