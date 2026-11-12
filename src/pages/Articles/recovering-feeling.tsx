@@ -115,6 +115,10 @@ export default function RecoveringFeeling() {
         <strong>「今日は昨日より少し感じられた」——それが回復です。</strong>
       </p>
 
+      <p className="text-sm text-stone-500 mt-6">
+        感情を言い分ける練習→ <Link to="/articles/emotional-granularity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「しんどい」としか言えないのはなぜ？</Link>
+      </p>
+
       
       <div className="mt-6 p-4 rounded-xl bg-stone-50 border border-stone-100">
         <p className="text-sm text-stone-600 leading-relaxed mb-2">

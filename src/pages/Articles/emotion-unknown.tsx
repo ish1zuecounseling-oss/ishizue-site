@@ -129,6 +129,10 @@ export default function EmotionUnknown() {
       </p>
 
       <p className="text-sm text-stone-500">
+        感覚はあるが言い分けられない→ <Link to="/articles/emotional-granularity" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">「しんどい」としか言えないのはなぜ？（感情を言い分ける力）</Link>
+      </p>
+
+      <p className="text-sm text-stone-500">
         消耗の深さを確認→ <Link to="/articles/helper-empathy-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">共感疲労チェック（20項目）</Link>
       </p>
 
