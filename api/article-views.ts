@@ -62,6 +62,82 @@ function keyMatches(given: string, expected: string): boolean {
   return a.length === b.length && timingSafeEqual(a, b)
 }
 
+type Ga4Row = { dimensionValues: { value: string }[]; metricValues: { value: string }[] }
+
+/* ---- GA4 Data API の呼び出し(同時数の制限・結果の一時保存・クォータ超過時の再試行) ----
+ * GA4 Data API は、1つのプロパティで同時に処理できるリクエストが10本まで。超えると
+ * "Exhausted concurrent requests quota" になる。そのため
+ *   1. 同時に飛ばす数を GA4_MAX_CONCURRENT 本までに絞る(順番待ちさせる)
+ *   2. 同じ問い合わせは GA4_CACHE_TTL_MS のあいだ結果を使い回す(同時に来た同じ問い合わせは1本にまとめる)
+ *   3. 429 / 503 / クォータ超過のときは、待ち時間を倍にしながら再試行する
+ * 手入力の値・LINE・Redis は、この一時保存の対象外(毎回取り直す)。 */
+const GA4_MAX_CONCURRENT = 4
+const GA4_CACHE_TTL_MS = 5 * 60_000
+const GA4_CACHE_MAX = 200
+const GA4_RETRIES = 3
+let ga4Active = 0
+const ga4Waiters: (() => void)[] = []
+const ga4Cache = new Map<string, { at: number; rows: Ga4Row[] }>()
+const ga4Inflight = new Map<string, Promise<Ga4Row[]>>()
+
+/** 同時実行数の枠を1つ使って fn を実行する。枠が空くまで待つ(空いた枠は待っている人に直接渡す) */
+async function ga4Slot<T>(fn: () => Promise<T>): Promise<T> {
+  if (ga4Active >= GA4_MAX_CONCURRENT) await new Promise<void>((resolve) => ga4Waiters.push(resolve))
+  else ga4Active++
+  try {
+    return await fn()
+  } finally {
+    const next = ga4Waiters.shift()
+    if (next) next()
+    else ga4Active--
+  }
+}
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
+const ga4Retryable = (status: number, message: string) =>
+  status === 429 || status === 503 || /quota|exhausted|concurrent|rate.?limit|too many/i.test(message)
+
+async function ga4Fetch(token: string, propertyId: string, body: unknown): Promise<Ga4Row[]> {
+  for (let attempt = 0; ; attempt++) {
+    const out = await ga4Slot(async () => {
+      const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+      const data = (await r.json().catch(() => ({}))) as { rows?: Ga4Row[]; error?: { message?: string } }
+      return { ok: r.ok, status: r.status, rows: data.rows ?? [], message: data.error?.message ?? "" }
+    })
+    if (out.ok) return out.rows
+    if (attempt < GA4_RETRIES && ga4Retryable(out.status, out.message)) {
+      // 枠を手放してから待つ(0.6秒→1.2秒→2.4秒+ばらつき)
+      await sleep(600 * 2 ** attempt + Math.random() * 300)
+      continue
+    }
+    throw new Error("GA4: " + (out.message || out.status))
+  }
+}
+
+async function ga4(token: string, propertyId: string, body: unknown): Promise<Ga4Row[]> {
+  const key = propertyId + "|" + JSON.stringify(body)
+  const hit = ga4Cache.get(key)
+  if (hit && Date.now() - hit.at < GA4_CACHE_TTL_MS) return hit.rows
+  const running = ga4Inflight.get(key)
+  if (running) return running
+  const p = ga4Fetch(token, propertyId, body)
+    .then((rows) => {
+      if (ga4Cache.size >= GA4_CACHE_MAX) {
+        const oldest = ga4Cache.keys().next().value
+        if (oldest !== undefined) ga4Cache.delete(oldest)
+      }
+      ga4Cache.set(key, { at: Date.now(), rows })
+      return rows
+    })
+    .finally(() => { ga4Inflight.delete(key) })
+  ga4Inflight.set(key, p)
+  return p
+}
+
 export default async function handler(req: Req, res: Res) {
   res.setHeader("Cache-Control", "no-store")
   res.setHeader("X-Robots-Tag", "noindex")
@@ -109,23 +185,17 @@ export default async function handler(req: Req, res: Res) {
       dimensionFilter: { filter: { fieldName: "pagePath", stringFilter: { matchType: "BEGINS_WITH", value: "/articles/" } } },
       limit: 2000,
     }
-    const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
-    const data = (await r.json()) as {
-      rows?: { dimensionValues: { value: string }[]; metricValues: { value: string }[] }[]
-      error?: { message?: string }
-    }
-    if (!r.ok) {
-      res.status(502).json({ error: "ga4", message: data.error?.message ?? String(r.status) })
+    let rows: Ga4Row[]
+    try {
+      rows = await ga4(token, GA4_PROPERTY_ID, body)
+    } catch (e) {
+      res.status(502).json({ error: "ga4", message: e instanceof Error ? e.message.replace(/^GA4: /, "") : "unknown" })
       return
     }
 
     // 2つの期間を指定すると、dimensionValues の最後に dateRange の名前が付く
     const map = new Map<string, { views: number; users: number; engagementSec: number; prevViews: number }>()
-    for (const row of data.rows ?? []) {
+    for (const row of rows) {
       const rawPath = row.dimensionValues[0].value
       const range = row.dimensionValues[row.dimensionValues.length - 1].value
       const path = rawPath.split("?")[0].replace(/\/$/, "")
