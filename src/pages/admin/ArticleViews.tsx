@@ -4,6 +4,7 @@
 // データ取得: /api/article-views(閲覧キーがないと数字は返らない)
 
 import { useEffect, useMemo, useState } from "react"
+import { adminFetch } from "../../lib/adminFetch"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
 
@@ -76,7 +77,7 @@ export default function ArticleViews() {
     let alive = true
     setLoading(true)
     setError("")
-    fetch(`/api/article-views?days=${days}`, { headers: { "x-admin-key": key } })
+    adminFetch(`/api/article-views?days=${days}`, { headers: { "x-admin-key": key } }, "article-views")
       .then(async (r) => {
         const body = await r.json().catch(() => ({}))
         if (r.status === 401) { saveKey(""); if (alive) { setKey(""); setError("閲覧キーが違います") } return }
