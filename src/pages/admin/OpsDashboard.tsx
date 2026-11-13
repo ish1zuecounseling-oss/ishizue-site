@@ -4,6 +4,7 @@
 // データ取得: /api/ops-dashboard(閲覧キーは /admin/views と共通)
 
 import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { adminFetch } from "../../lib/adminFetch"
 import { MATCHING_CHECK_ITEMS } from "../../data/matchingCheckItems"
 import { Helmet } from "react-helmet-async"
 import { articles } from "../../data/articles"
@@ -899,7 +900,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
   useEffect(() => {
     let alive = true
     setLoading(true); setErr("")
-    fetch(`/api/ops-dashboard?view=users&days=${days}`, { headers: { "x-admin-key": adminKey } })
+    adminFetch(`/api/ops-dashboard?view=users&days=${days}`, { headers: { "x-admin-key": adminKey } }, "ops-users")
       .then(async (r) => {
         const b = await r.json().catch(() => ({}))
         if (!r.ok) throw new Error(b.message ?? `エラー(${r.status})`)
@@ -2186,7 +2187,7 @@ export default function OpsDashboard() {
     let alive = true
     setLoading(true)
     setError("")
-    fetch(`/api/ops-dashboard?days=${days}`, { headers: { "x-admin-key": key } })
+    adminFetch(`/api/ops-dashboard?days=${days}`, { headers: { "x-admin-key": key } }, "ops-main")
       .then(async (r) => {
         const body = await r.json().catch(() => ({}))
         if (r.status === 401) { saveKey(""); if (alive) { setKey(""); setError("閲覧キーが違います") } return }
