@@ -193,6 +193,7 @@ const RESEARCH_PATHS = [
   "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "emotional-granularity", "ai-verification-fatigue",
+  "sudden-bad-memories-intrusive-thoughts",
 ];
 
 function isResearchArticle(path: string): boolean {
@@ -425,7 +426,7 @@ const RESEARCH_SECTIONS: ResearchSection[] = [
   { label: "回復と立て直し｜どう戻るか", desc: "つらい経験から回復し、意味を見出し、立て直していくプロセス", paths: ["helper-benefit-finding", "helper-retelling-memory", "helper-reframing-caring", "helper-supervision-compassion", "helper-goal-adjustment", "helper-reality-shock", "helper-burnout-scale-validity", "helper-burnout-occupation", "helper-self-compassion-burnout", "helper-nurse-self-compassion", "helper-attachment-self-compassion", "helper-self-compassion-resistance", "helper-self-compassion-behavior", "helper-msc-program", "helper-self-care-ability", "helper-burnout-recovery", "helper-mental-recovery", "helper-rest-types", "helper-rest-importance", "helper-stress-coping", "helper-compassion-fatigue-practice", "empathy-fatigue-recovery", "helper-burnout-what-to-do", "helper-burnout-signs", "compassion-fatigue-coping", "care-worker-burnout"] },
   { label: "抱え込み・境界線", desc: "「断れない」「巻き込まれすぎる」——境界線が曖昧になる構造と、抜け出すための方法", paths: ["helper-pulled-by-client", "helper-cannot-say-no", "helper-boundary", "helper-boundary-how-to", "empathy-fatigue-boundary", "helper-guilt-about-suffering", "helper-perfectionism", "helper-social-worker-dilem", "helper-stop-self-sacrifice"] },
   { label: "人間関係・職場ストレス", desc: "上司・同僚・組織との関係で消耗しているとき", paths: ["helper-boss-stress", "helper-complaint-damage", "helper-harassment-gray-zone", "helper-workplace-stress", "helper-team-fatigue", "nursery-teacher-relationship-stress", "welfare-worker-relationship-counseling"] },
-  { label: "職種別｜看護師・介護・保育・教師", desc: "職種特有の消耗と、それぞれに合った対処を解説した記事", paths: ["nurse-compassion-fatigue", "nurse-emotional-exhaustion", "nurse-emotional-labor-hard", "nursery-teacher-limit", "school-counselor-loneliness", "teacher-mental-health", "teacher-mental-health-limit", "empathy-fatigue-by-job-type", "compassion-fatigue-diagnosis", "helper-aptitude-doubt", "helper-burnout-vs-depression", "compassion-fatigue-vs-depression"] },
+  { label: "職種別｜看護師・介護・保育・教師", desc: "職種特有の消耗と、それぞれに合った対処を解説した記事", paths: ["nurse-compassion-fatigue", "nurse-emotional-exhaustion", "nurse-emotional-labor-hard", "nursery-teacher-limit", "nursery-teacher-self-blame-development", "school-counselor-loneliness", "teacher-mental-health", "teacher-mental-health-limit", "empathy-fatigue-by-job-type", "compassion-fatigue-diagnosis", "helper-aptitude-doubt", "helper-burnout-vs-depression", "compassion-fatigue-vs-depression"] },
   { label: "カウンセリング・相談を考えているとき", desc: "「相談してもいいのか」「どこに行けばいいか」——一歩を踏み出すための記事", paths: ["helper-counseling", "helper-online-counseling", "teacher-online-counseling", "helper-receiving-counseling", "helper-resistance-to-counseling", "helper-cannot-seek"] },
 ];
 
