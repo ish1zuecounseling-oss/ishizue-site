@@ -224,6 +224,7 @@ const CLUSTERS: Record<string, LinkItem[]> = {
     { href: "/articles/boundary-check",                 text: "境界線チェック（15項目）" },
     { href: "/articles/secondary-trauma-check",          text: "二次受傷チェック（15項目）" },
     { href: "/articles/helper-emotional-numbness-check", text: "感情麻痺チェック（15項目）" },
+    { href: "/articles/helper-wellbeing-check",         text: "心の充実度チェック（20項目）" },
   ],
 
   symptoms: [
