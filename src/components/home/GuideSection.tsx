@@ -131,15 +131,13 @@ export default function GuideSection({ accepting = false }: { accepting?: boolea
           {/* 流れ */}
           <motion.div variants={fadeUp} className="space-y-6">
             <p className="text-[10px] tracking-[0.2em] uppercase text-stone-500">ご利用の流れ</p>
-            <ol>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {flowItems.map((item) => (
-                <li key={item.step} className="flex gap-5 items-start group">
-                  <span className="text-stone-600 font-light text-xs tabular-nums shrink-0 pt-4 w-6">{item.step}</span>
-                  <div className="flex-1 py-4 border-b border-stone-900 group-last:border-b-0">
-                    <p className="text-stone-200 text-sm font-medium mb-0.5">{item.title}</p>
-                    <p className="text-stone-500 text-xs leading-relaxed">{item.desc}</p>
-                    <p className="text-[#8FAF9F]/60 text-[11px] mt-1 italic">{item.note}</p>
-                  </div>
+                <li key={item.step} className="p-5 rounded-2xl border border-stone-800 bg-[#2C1F14]/40">
+                  <span className="block text-[11px] tracking-[0.14em] text-[#8FAF9F] font-medium mb-2">STEP {item.step}</span>
+                  <p className="text-stone-200 text-sm font-medium mb-1">{item.title}</p>
+                  <p className="text-stone-500 text-xs leading-relaxed">{item.desc}</p>
+                  <p className="text-[#8FAF9F]/60 text-[11px] mt-1.5 italic">{item.note}</p>
                 </li>
               ))}
             </ol>
