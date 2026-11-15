@@ -4,12 +4,41 @@
  * - 旧FeaturesSection(3カード)を「変わること」として統合(セクション数削減)
  * - accepting prop対応: 停止中はCTAを「LINEで再開通知」に自動切替
  */
+import { Fragment, useState } from "react";
 import { motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
 import { SectionLabel, BlockQuote, CtaButton, stagger, fadeUp } from "./homeShared";
 import { features, sessionGuideItems } from "./homeData";
 
 const LINE_URL = "https://lin.ee/6H8Pzo6";
+
+const STRUCTS = [
+  { n: "01", title: "役割の過剰化", q: "自分がやらなくてもいい役割まで、背負っていませんか。", d: "現場の調整役、家族対応、新人のフォロー——気づけば役割が3つも4つも重なっていることがあります。「私が弱かったんじゃなかった」と気づく方が多いポイントです。" },
+  { n: "02", title: "責任の抱え込み", q: "どこまでが自分の責任か、線が引けなくなっていませんか。", d: "組織や制度の問題まで「自分の責任」にしていませんか。責任の範囲が見えると、抱えなくていい重さに気づけます。" },
+  { n: "03", title: "思考のループ", q: "仕事が終わっても、同じことが頭の中で回り続けていませんか。", d: "つらい話を受け止め続けた疲れ（二次受傷）と重なると、オフの時間も回復に使えなくなります。何が回っているのかを言葉にすることから始めます。" },
+  { n: "04", title: "境界の曖昧さ", q: "相手の気持ちや問題を、自分のことのように抱えていませんか。", d: "寄り添うことが仕事だからこそ、自分と相手の境目が薄くなりがちです。境界が見えると、「支える」と「抱え込む」を分けられます。" },
+] as const;
+
+function StructCard({ n, title, q, d }: { n: string; title: string; q: string; d: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-stone-100 bg-stone-50 p-5">
+      <span className="text-[11px] tracking-[0.14em] text-[#8FAF9F] font-medium">構造 {n}</span>
+      <h3 className="text-base md:text-lg font-medium text-stone-800 mt-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>{title}</h3>
+      <p className="text-stone-500 text-sm leading-[1.8] mt-1">{q}</p>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="mt-2 -ml-1 px-1 min-h-[40px] inline-flex items-center gap-1.5 text-sm font-medium text-[#8FAF9F]"
+      >
+        {open ? "閉じる" : "くわしく見る"}
+        <span aria-hidden="true" className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+      </button>
+      {open && <p className="border-t border-dashed border-stone-200 mt-1.5 pt-3 text-stone-500 text-sm leading-[1.9]">{d}</p>}
+    </div>
+  );
+}
 declare function gtag(...args: unknown[]): void;
 
 export default function ApproachSection({ accepting = false }: { accepting?: boolean }) {
@@ -21,12 +50,9 @@ export default function ApproachSection({ accepting = false }: { accepting?: boo
 
           <motion.div variants={fadeUp} className="space-y-7 text-stone-600 text-sm md:text-base leading-[2]">
             <BlockQuote><p className="text-stone-800 font-medium">なぜ消耗するのかを、構造として解きほぐす。</p></BlockQuote>
-            <ul className="space-y-2.5">
-              <li><span className="text-stone-800 font-medium">役割の過剰化</span>——自分がやらなくてもいい役割まで、背負っていないか</li>
-              <li><span className="text-stone-800 font-medium">責任の抱え込み</span>——どこまでが自分の責任なのか、線が引けなくなっていないか</li>
-              <li><span className="text-stone-800 font-medium">思考のループ</span>——仕事が終わっても、同じことが頭の中で回り続けていないか</li>
-              <li><span className="text-stone-800 font-medium">境界の曖昧さ</span>——相手の気持ちや問題を、自分のことのように抱えていないか</li>
-            </ul>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 not-italic">
+              {STRUCTS.map((st) => <Fragment key={st.n}><StructCard n={st.n} title={st.title} q={st.q} d={st.d} /></Fragment>)}
+            </div>
             <p>これらを一緒に言葉にして、負荷がどこから来ているのかを整理します。</p>
           </motion.div>
 
