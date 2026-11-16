@@ -409,7 +409,7 @@ body.easy.easy-show-sym #symBox{display:flex!important}
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
-      <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。書き直したい週があれば、その週の「書き直す」を押すと、上の3つの問いで直せます。</p></details>
+      <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。書き直したい週があれば、その週の「書き直す」を押すと、上の3つの問いで直せます。書き忘れた週があれば、「前の週の記録」に出ている週の「書く」を押すと、あとから書けます。</p></details>
       <details class="faq"><summary>記録をまとめて提出するには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間(7・14・28・56日)と入れる項目を選びます。思考の癖メモ・気づき・ひとこと・食事の内容などは初めは外してあり、押すと入ります。「印刷・PDFにする」→ 共有ボタン →「ファイルに保存」でPDFになります。文字で送るときは「文字でコピー」を使います。</p></details>
       <details class="faq"><summary>主治医に見てもらうには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間と入れる項目を選びます。体・心・睡眠・症状のグラフと日ごとの表が1枚に入ります。いちばん確実なのは「印刷・PDFにする」でPDFにして、メールやLINEなどで送るか、受診のときに画面を見せる方法です。最初から、グラフ・日ごとの表・セルフケアの取り組み(試した工夫と評価、対処リスト、週のふりかえり)・この記録ページの使い方が入ります。選んだ項目は次回も残ります。「閲覧用ファイルを保存」は、同じ内容を1つのHTMLファイルにしたものです。ページのアドレスだけで主治医が見られる仕組みは、記録を外部のサーバーに置くことになるため、作っていません。</p></details>
       <details class="faq"><summary>主治医へのメモはどう使う?</summary><p>「最近2週間の記録から下書きを足す」で数字のまとめが入ります。自分の言葉で書き足して、受診のときに画面を見せるか、「コピー」してメモアプリなどに貼ります。</p></details>
@@ -1246,7 +1246,8 @@ function renderLook(){
 let editWeek=null;
 function renderWeek(){
   const w=editWeek||monday(now), wk=S.weeks[w]||{};
-  $('weekLabel').textContent=md(w)+'からの週'+(editWeek?'を書き直しています':'');
+  const wkHas=wk.good||wk.much||wk.next;
+  $('weekLabel').textContent=md(w)+'からの週'+(editWeek?(wkHas?'を書き直しています':'を書いています'):'');
   $('w-good').value=wk.good||''; $('w-much').value=wk.much||''; $('w-next').value=wk.next||'';
   $('weekEditBar').innerHTML=editWeek?`<div class="row"><button class="btn small ghost" id="weekBack">今週に戻る</button></div>`:'';
   if($('weekBack'))$('weekBack').addEventListener('click',()=>{editWeek=null;renderWeek()});
@@ -1254,8 +1255,11 @@ function renderWeek(){
 }
 function renderPastWeeks(){
   const cw=monday(now);
-  const past=Object.keys(S.weeks).filter(k=>k<cw).sort().reverse().slice(0,8);
-  $('pastWeeks').innerHTML=past.length?past.map(k=>{const x=S.weeks[k];return `<div class="exp"><span class="name">${md(k)}からの週</span><span>うまくいった:${esc(x.good||'—')}</span><span>無理をした:${esc(x.much||'—')}</span><span>変える:${esc(x.next||'—')}</span><div class="row"><button class="btn small ghost" data-wk="${k}">書き直す</button></div></div>`}).join(''):'<p class="note">まだありません。</p>';
+  // 書いた週だけでなく、直近8週分の月曜日も出す。何も書いていない週も「書く」から書ける。
+  const keys=new Set(Object.keys(S.weeks).filter(k=>k<cw));
+  for(let i=1;i<=8;i++)keys.add(ymd(addDays(new Date(cw+'T00:00:00'),-7*i)));
+  const past=[...keys].sort().reverse().slice(0,10);
+  $('pastWeeks').innerHTML=past.map(k=>{const x=S.weeks[k]||{};const has=x.good||x.much||x.next;return `<div class="exp"><span class="name">${md(k)}からの週</span><span>うまくいった:${esc(x.good||'—')}</span><span>無理をした:${esc(x.much||'—')}</span><span>変える:${esc(x.next||'—')}</span><div class="row"><button class="btn small ghost" data-wk="${k}">${has?'書き直す':'書く'}</button></div></div>`}).join('');
   $('pastWeeks').querySelectorAll('[data-wk]').forEach(b=>b.addEventListener('click',()=>{editWeek=b.dataset.wk;renderWeek();$('w-good').focus()}));
 }
 let trN=30;
