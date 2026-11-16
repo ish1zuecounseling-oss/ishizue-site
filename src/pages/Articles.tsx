@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import StatePicker from "../components/articles/StatePicker";
+import { STATE_PICK_PATHS, pickKind } from "../data/statePicks";
 import { articles } from "../data/articles";
 import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
 
@@ -283,43 +284,19 @@ type ShindoPick = { path: string; kind: "整える" | "理由を知る" };
 const SHINDO_PICKS: Record<string, { lead: string; picks: ShindoPick[] }> = {
   "疲れが取れない": {
     lead: "休んでも疲れが抜けないときは、休み方だけでなく、回復を妨げているものが残っていることがあります。まず今日からできることを3本、そのあとに理由を知る2本です。",
-    picks: [
-      { path: "/articles/helper-cannot-rest-on-days-off", kind: "整える" },
-      { path: "/articles/helper-fatigue-diagnosis", kind: "整える" },
-      { path: "/articles/compassion-fatigue-coping", kind: "整える" },
-      { path: "/articles/brain-fatigue-mechanism", kind: "理由を知る" },
-      { path: "/articles/burnout-not-recovering", kind: "理由を知る" },
-    ],
+    picks: STATE_PICK_PATHS.fatigue.map((path, i) => ({ path, kind: pickKind(i) })),
   },
   "利用者を抱え込みすぎる": {
     lead: "抱え込みは、性格の問題というより、役割や責任の線があいまいになる構造から起きることがあります。まず手放し方・伝え方を3本、そのあとに構造を知る2本です。",
-    picks: [
-      { path: "/articles/helper-carrying-clients", kind: "整える" },
-      { path: "/articles/helper-boundary-how-to", kind: "整える" },
-      { path: "/articles/helper-cannot-say-no", kind: "整える" },
-      { path: "/articles/cannot-depend-on-others", kind: "理由を知る" },
-      { path: "/articles/helper-overwork", kind: "理由を知る" },
-    ],
+    picks: STATE_PICK_PATHS.carry.map((path, i) => ({ path, kind: pickKind(i) })),
   },
   "辞めたい": {
     lead: "結論を急がず、まず「何が限界なのか」を分けて考えてみる5本です。職場そのものなのか、働き方や役割なのかで、次の一手は変わります。",
-    picks: [
-      { path: "/articles/helper-want-to-quit-landing", kind: "整える" },
-      { path: "/articles/quit-job-timing", kind: "整える" },
-      { path: "/articles/helper-quit-timing-check", kind: "整える" },
-      { path: "/articles/helper-guilt-about-leaving", kind: "理由を知る" },
-      { path: "/articles/helper-leave-of-absence-hesitation", kind: "理由を知る" },
-    ],
+    picks: STATE_PICK_PATHS.quit.map((path, i) => ({ path, kind: pickKind(i) })),
   },
   "なぜこうなるか理解したい": {
     lead: "しんどさを言葉にできないときは、考えが足りないのではなく、整理する枠組みが見つかっていないだけのこともあります。まず今の状態を確かめる3本、そのあとに構造を知る2本です。",
-    picks: [
-      { path: "/articles/helper-status-check", kind: "整える" },
-      { path: "/articles/emotion-unknown", kind: "整える" },
-      { path: "/articles/helper-self-blame", kind: "整える" },
-      { path: "/articles/emotional-labor-what-pillar", kind: "理由を知る" },
-      { path: "/articles/burnout-causes", kind: "理由を知る" },
-    ],
+    picks: STATE_PICK_PATHS.lost.map((path, i) => ({ path, kind: pickKind(i) })),
   },
 };
 
