@@ -57,10 +57,12 @@ const stagger: Variants = {
   visible: { transition: { staggerChildren: 0.05 } },
 };
 
+// 2026-11-16 更新:運営ダッシュボードの入口ページ・遷移上位(境界線チェック→他人軸、優しすぎる人ほど壊れる理由)に合わせて入れ替え
 const STARTER_PATHS = [
-  "/articles/helper-empathy-check",
   "/articles/compassion-fatigue-complete",
-  "/articles/helper-rest-types",
+  "/articles/boundary-check",
+  "/articles/exhausted-by-being-nice",
+  "/articles/helper-empathy-check",
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -963,16 +965,10 @@ export default function Articles() {
                 >
                   <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: SAGE }}>新着・注目記事</p>
                   <div className="space-y-2">
-                    {[
-                      { path: "/articles/impostor-check-20",                  label: "インポスター症候群チェック(20項目)｜できているのに自信がない状態を確認" },
-                      { path: "/articles/why-support-workers-lose-themselves", label: "なぜ支援職は自分を見失うのか(総合ピラー)" },
-                      { path: "/articles/quit-job-timing",                    label: "仕事を辞めるタイミングがわからない｜限界サインと判断の軸" },
-                      { path: "/articles/communication-fatigue",              label: "コミュニケーションで疲れるのはなぜ?｜消耗の構造と回復" },
-                      { path: "/articles/safe-base",                          label: "安全基地とは何か｜回復に必要な「安心できる場所」" },
-                    ].map((item) => (
+                    {sortedByNew.slice(0, 5).map((item) => (
                       <Link key={item.path} to={item.path} className="flex items-center gap-2 group">
                         <span className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${SAGE}25`, color: SAGE }}>NEW</span>
-                        <span className="text-[13px] text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.label}</span>
+                        <span className="text-[13px] text-stone-600 group-hover:text-stone-900 group-hover:underline underline-offset-2 transition-colors leading-snug">{item.title.replace(/【[^】]*】/g, "").trim()}</span>
                       </Link>
                     ))}
                   </div>
