@@ -387,7 +387,7 @@ body.easy.easy-show-sym #symBox{display:flex!important}
       <details class="faq"><summary>決定ボタンはある?</summary><p>ありません。押したり書いたりした時点で自動で保存されます。入力したら、そのまま閉じて大丈夫です。各欄の右上に「保存しました」と一瞬出ます。例外は「メモ」タブの「思考の癖メモ」と「気づいたこと」で、書いたあとに「メモを残す」を押します。</p></details>
       <details class="faq"><summary>押し間違えたら?</summary><p>同じボタンをもう一度押すと取り消せます。文字の欄は、書き直せばそのまま保存されます。</p></details>
       <details class="faq"><summary>日付が変わったらどうなる?</summary><p>「今日」タブは空の状態から始まります。前の日の記録はその日付のまま残り、引き継がれることはありません。開いたまま日付をまたいだときは、画面に戻った時点で自動で読み込み直します。</p></details>
-      <details class="faq"><summary>書き忘れた日は?</summary><p>夜の分は、翌日のお昼(12時)まで「今日」タブの「昨日の分を書き足す」から追加できます。昼間の分(体と心・今日の4つ・食事・出来事など)は、状態カードの「別の日を書き足す」から7日前まで追加できます。お昼を過ぎた昨日の夜の分と、8日以上前の分は、そのまま空にします。空いた日は「ふりかえり」で「・」(未記入)になるだけで、集計にも入りません。</p></details>
+      <details class="faq"><summary>書き忘れた日は?</summary><p>「今日」タブの状態カードの「別の日を書き足す」から、7日前まで追加できます。昨日の分は「昨日の分を書き足す」ボタンからも開けます。8日以上前の分は、そのまま空にします。空いた日は「ふりかえり」で「・」(未記入)になるだけで、集計にも入りません。</p></details>
       <details class="faq"><summary>全部書けない日は?</summary><p>「体と心」の2つだけで十分です。何も書けない日があっても、そのままで大丈夫です。連続記録や達成率は出しません。</p></details>
     </div>
     <div class="card">
@@ -674,7 +674,7 @@ function nightParts(d){const p=[['体と心',typeof d.body==='number'&&typeof d.
   if(medSlots(d).length){const L=medSlots(d);p.push(['服薬',medDone(d),L.filter(x=>typeof x[2]==='boolean').length+'/'+L.length])}
   return p}
 function renderStatus(){
-  const nowD=new Date(), hr=nowD.getHours(), yd=ymd(addDays(new Date(TODAY+'T00:00:00'),-1));
+  const yd=ymd(addDays(new Date(TODAY+'T00:00:00'),-1));
   const past=T!==TODAY, d=S.days[T]||{};
   $('statusCard').classList.toggle('editing-past',past);
   $('stTitle').textContent=past?md(T)+'の分を書き足しています':'今日の記録';
@@ -683,12 +683,12 @@ function renderStatus(){
   const it=(l,ok,c)=>`<span class="${ok?'ok':'no'}">${ok?'✓':'・'}${esc(l)}${!ok&&c?'('+c+')':''}</span>`;
   const weekAgo=ymd(addDays(new Date(TODAY+'T00:00:00'),-7));
   let h=`<div class="st-row"><span class="lab">朝</span><div><div class="st-items">${it('睡眠',sl)}</div><span class="note">起きてから、お昼(12時)までに</span></div>
-    <span class="lab">夜</span><div><div class="st-items">${nightParts(d).map(([l,ok,c])=>it(l,ok,c)).join('')}</div><span class="note">寝る前までに。書き忘れたら、翌日のお昼(12時)まで書き足せます。昼間の分は7日前まで書き足せます</span></div></div>
+    <span class="lab">夜</span><div><div class="st-items">${nightParts(d).map(([l,ok,c])=>it(l,ok,c)).join('')}</div><span class="note">寝る前までに。書き忘れたら、7日前まで書き足せます</span></div></div>
     <p class="note">つらい日や時間がない日は、「体と心」の2つだけで十分です。空いた日があっても、そのままで大丈夫です。</p>`;
   const ydD=S.days[yd]||{};
-  if(!past&&hr<12&&nightParts(ydD).some(x=>!x[1]))h+=`<div class="row"><button class="btn small" id="stPrev">昨日(${md(yd)})の分を書き足す</button><span class="note">お昼まで</span></div>`;
+  if(!past&&nightParts(ydD).some(x=>!x[1]))h+=`<div class="row"><button class="btn small" id="stPrev">昨日(${md(yd)})の分を書き足す</button></div>`;
   if(past)h+=`<div class="row"><button class="btn small" id="stBack">今日の記録に戻る</button></div>`;
-  if(past&&T!==yd)h+=`<p class="note">睡眠は、その日の朝に終わった夜の分です。</p>`;
+  if(past)h+=`<p class="note">睡眠は、その日の朝に終わった夜の分です。</p>`;
   h+=`<div class="row"><label class="note" for="stDate">別の日を書き足す</label><input type="date" id="stDate" min="${weekAgo}" max="${TODAY}" value="${T}" style="max-width:11em"><span class="note">7日前まで</span><span class="saved" aria-live="polite" id="sv-st"></span></div>`;
   $('stBody').innerHTML=h;
   renderSuggest();
@@ -698,7 +698,6 @@ function renderStatus(){
     let msg='';
     if(v>TODAY)msg='今日より先の日は選べません';
     else if(v<weekAgo)msg='7日前までです';
-    else if(v===yd&&hr>=12)msg='昨日の分はお昼までです';
     if(msg){renderStatus();flash('sv-st',msg);return}
     T=v;renderBasics();renderTodayExp();window.scrollTo(0,0)});
   if(past&&T<weekAgo){T=TODAY;renderBasics();renderTodayExp()}
