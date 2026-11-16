@@ -312,11 +312,12 @@ body.easy.easy-show-sym #symBox{display:flex!important}
     </div>
     <div class="card">
       <h2>自分の対処リスト</h2>
-      <p class="note">つらいときに見返すための、自分に効いた対処のリストです。入る道は3つあります。</p>
+      <p class="note">つらいときに見返すための、自分に効いた対処のリストです。入る道は4つあります。</p>
       <ol class="note" style="margin:0;padding-left:1.4em">
         <li>工夫を1週間ほど試し、「役に立ったかを記録する」で役立ち度を6以上にして「続ける」を押す</li>
         <li>「メモ」タブの「これまでのメモ」で、気づき・ひとこと・思考の癖の「別の見方」にある「対処リストに入れる」を押す</li>
         <li>下の欄に直接書いて「追加」を押す</li>
+        <li>下の「記録からの提案」に出たものを「追加する」で入れる</li>
       </ol>
       <ul class="plain list" id="keepList"></ul>
     </div>
@@ -372,6 +373,7 @@ body.easy.easy-show-sym #symBox{display:flex!important}
     <div class="card">
       <div class="head"><h2>週に一度の3つの問い</h2><span class="saved" aria-live="polite" id="sv-week"></span></div>
       <p class="note" id="weekLabel"></p>
+      <div id="weekEditBar"></div>
       <div class="item"><label class="q" for="w-good">うまくいったこと</label><textarea id="w-good"></textarea></div>
       <div class="item"><label class="q" for="w-much">無理をしたこと(責めずに、場面だけ)</label><textarea id="w-much"></textarea></div>
       <div class="item"><label class="q" for="w-next">来週、1つだけ変えること</label><textarea id="w-next"></textarea></div>
@@ -407,7 +409,7 @@ body.easy.easy-show-sym #symBox{display:flex!important}
       <details class="faq"><summary>思考の癖が、どれにも当てはまらないときは?</summary><p>選ばなくてかまいません。場面と浮かんだ考えを書くだけで十分です。</p></details>
       <details class="faq"><summary>消したメモは戻せる?</summary><p>戻せません。「消す」は2回押したときだけ消えます。</p></details>
       <details class="faq"><summary>「傾向」が出てこない</summary><p>比べる両側に3日以上ずつ記録が必要です。2〜3週間たつと出てきます。表示されるのは「同じ日に起きていた」ことで、原因とは限りません。</p></details>
-      <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。</p></details>
+      <details class="faq"><summary>週のふりかえりはいつ書く?</summary><p>週は月曜から始まります。週のうちいつ書いてもかまいません。前の週の分は「前の週の記録」で見られます。書き直したい週があれば、その週の「書き直す」を押すと、上の3つの問いで直せます。</p></details>
       <details class="faq"><summary>記録をまとめて提出するには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間(7・14・28・56日)と入れる項目を選びます。思考の癖メモ・気づき・ひとこと・食事の内容などは初めは外してあり、押すと入ります。「印刷・PDFにする」→ 共有ボタン →「ファイルに保存」でPDFになります。文字で送るときは「文字でコピー」を使います。</p></details>
       <details class="faq"><summary>主治医に見てもらうには?</summary><p>「ふりかえり」タブの「まとめを作る」で、期間と入れる項目を選びます。体・心・睡眠・症状のグラフと日ごとの表が1枚に入ります。いちばん確実なのは「印刷・PDFにする」でPDFにして、メールやLINEなどで送るか、受診のときに画面を見せる方法です。最初から、グラフ・日ごとの表・セルフケアの取り組み(試した工夫と評価、対処リスト、週のふりかえり)・この記録ページの使い方が入ります。選んだ項目は次回も残ります。「閲覧用ファイルを保存」は、同じ内容を1つのHTMLファイルにしたものです。ページのアドレスだけで主治医が見られる仕組みは、記録を外部のサーバーに置くことになるため、作っていません。</p></details>
       <details class="faq"><summary>主治医へのメモはどう使う?</summary><p>「最近2週間の記録から下書きを足す」で数字のまとめが入ります。自分の言葉で書き足して、受診のときに画面を見せるか、「コピー」してメモアプリなどに貼ります。</p></details>
@@ -760,6 +762,7 @@ function suggest(){
 }
 function renderSuggest(){
   const box=$('sugCard'); if(!box)return;
+  renderKeep();
   const tD=S.days[TODAY]||{}, yk=ymd(addDays(new Date(TODAY+'T00:00:00'),-1)), y=S.days[yk]||{};
   if(T!==TODAY){box.hidden=true;return} box.hidden=false;
   document.body.classList.toggle('easy-show-sug', !!((tD.signs||[]).length||(y.signs||[]).length));
@@ -1089,7 +1092,7 @@ function scaleGuideText(){return '\n\n【数字の見方(点数の基準)】\n'+
 
 // ── 自分の対処リスト:工夫(役立ち度6以上で「続ける」)+ 自分で入れたもの(メモ・ひとこと・直接入力) ──
 S.copes=Array.isArray(S.copes)?S.copes:[];
-const COPE_FROM={manual:'自分で追加',aware:'気づきから',day:'ひとことから',thought:'別の見方から'};
+const COPE_FROM={manual:'自分で追加',aware:'気づきから',day:'ひとことから',thought:'別の見方から',suggest:'記録からの提案'};
 function keepItems(){
   const a=S.exps.filter(x=>{const r=lastRate(x);return r&&r.keep==='keep'&&r.score>=6&&!x.hideKeep}).map(x=>({id:'e:'+x.id,text:x.name,tag:'工夫・役立ち度 '+lastRate(x).score}));
   const b=S.copes.map(c=>({id:'c:'+c.id,text:c.text,tag:COPE_FROM[c.from]||''}));
@@ -1097,12 +1100,27 @@ function keepItems(){
 }
 function addCope(text,from){text=String(text||'').trim().slice(0,300);if(!text)return 'empty';if(keepItems().some(k=>k.text===text))return 'dup';S.copes.push({id:'k'+Date.now(),text,from,date:TODAY});return save()?'ok':'fail'}
 let keepDel=null;
+// ── 記録からの提案 ──
+// 今日のおすすめの決まり(suggest)と、最近7日の思考の癖メモの「別の見方」から、
+// まだ対処リストに入っていないものを3つまで出す。外には送らない。
+function copeProposals(){
+  const have=new Set(keepItems().map(k=>k.text));
+  const out=[];
+  suggest().forEach(o=>{if(o.txt&&!have.has(o.txt)&&!out.some(x=>x.text===o.txt))out.push({text:o.txt,why:o.why})});
+  const wk=[];for(let i=0;i<7;i++)wk.push(ymd(addDays(new Date(TODAY+'T00:00:00'),-i)));
+  S.notes.filter(n=>n.type==='thought'&&n.alt&&wk.includes(n.date)).sort((a,b)=>(b.date+b.at).localeCompare(a.date+a.at)).forEach(n=>{const t=String(n.alt).trim().slice(0,300);if(t&&!have.has(t)&&!out.some(x=>x.text===t))out.push({text:t,why:'思考の癖メモの「別の見方」から'})});
+  return out.slice(0,3);
+}
 function renderKeep(){
   const L=keepItems();
+  const P=copeProposals();
+  const prop=P.length?`<li style="list-style:none;margin-left:-1.2em"><b>記録からの提案</b><p class="note">最近の記録から選んでいます。よければ追加してください。外には送っていません。</p>`+P.map((pr,i)=>`<div class="exp"><span class="name">${esc(pr.text)}</span><span class="note">${esc(pr.why)}</span><div class="row"><button class="btn small ghost" data-prop="${i}">追加する</button></div></div>`).join('')+`</li>`:'';
   const html=(L.length?L.map(k=>`<li class="keep-li"><span>${esc(k.text)}<small class="keep-tag">${esc(k.tag)}</small></span><button class="del" data-kdel="${k.id}">${keepDel===k.id?'本当に外す':'外す'}</button></li>`).join(''):'<li class="note" style="list-style:none;margin-left:-1.2em">まだありません。</li>')
+    +prop
     +`<li style="list-style:none;margin-left:-1.2em"><div class="row" style="margin-top:6px"><input type="text" class="keep-in" aria-label="対処を直接追加" placeholder="例:温かいお茶を飲んで5分座る" style="flex:1;min-width:0"><button class="btn small keep-add">追加</button></div></li>`;
   ['keepList','keepList2'].forEach(id=>{const ul=$(id);if(!ul)return;ul.innerHTML=html;
     ul.querySelector('.keep-add').addEventListener('click',()=>{const inp=ul.querySelector('.keep-in');const r=addCope(inp.value,'manual');if(r==='ok'){inp.value='';renderKeep()}else if(r==='dup'){inp.value='';inp.placeholder='すでにリストにあります'}});
+    ul.querySelectorAll('[data-prop]').forEach(b=>b.addEventListener('click',()=>{const pr=copeProposals()[+b.dataset.prop];if(!pr)return;const r=addCope(pr.text,'suggest');if(r==='ok'||r==='dup')renderKeep()}));
     ul.querySelectorAll('[data-kdel]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.kdel;if(keepDel!==id){keepDel=id;renderKeep();setTimeout(()=>{if(keepDel===id){keepDel=null;renderKeep()}},4000);return}
       keepDel=null;if(id.startsWith('c:'))S.copes=S.copes.filter(c=>c.id!==id.slice(2));else{const x=S.exps.find(e=>e.id===id.slice(2));if(x)x.hideKeep=true}save();renderKeep()}))});
 }
@@ -1221,11 +1239,24 @@ function renderLook(){
    +'<tr><td>気圧差</td>'+ks.map(k=>`<td>${wx[k]&&wx[k].dp!=null?wx[k].dp:'・'}</td>`).join('')+'</tr>'
    +'<tr><td colspan="8" class="note" style="text-align:left;border:0">気圧差=その日の気圧の最高と最低の差(hPa)。天気と体調の関係は、数週間たってから見比べてください。</td></tr>';
   renderTrend();
-  const w=monday(now), wk=S.weeks[w]||{};
-  $('weekLabel').textContent=md(w)+'からの週';
+  renderWeek();
+}
+// ── 週に一度の3つの問い(前の週の書き直し) ──
+// editWeek が入っているときだけ、上の3つの問いはその週の分を直す。空のときは今週の分。
+let editWeek=null;
+function renderWeek(){
+  const w=editWeek||monday(now), wk=S.weeks[w]||{};
+  $('weekLabel').textContent=md(w)+'からの週'+(editWeek?'を書き直しています':'');
   $('w-good').value=wk.good||''; $('w-much').value=wk.much||''; $('w-next').value=wk.next||'';
-  const past=Object.keys(S.weeks).filter(k=>k<w).sort().reverse().slice(0,8);
-  $('pastWeeks').innerHTML=past.length?past.map(k=>{const x=S.weeks[k];return `<div class="exp"><span class="name">${md(k)}からの週</span><span>うまくいった:${esc(x.good||'—')}</span><span>無理をした:${esc(x.much||'—')}</span><span>変える:${esc(x.next||'—')}</span></div>`}).join(''):'<p class="note">まだありません。</p>';
+  $('weekEditBar').innerHTML=editWeek?`<div class="row"><button class="btn small ghost" id="weekBack">今週に戻る</button></div>`:'';
+  if($('weekBack'))$('weekBack').addEventListener('click',()=>{editWeek=null;renderWeek()});
+  renderPastWeeks();
+}
+function renderPastWeeks(){
+  const cw=monday(now);
+  const past=Object.keys(S.weeks).filter(k=>k<cw).sort().reverse().slice(0,8);
+  $('pastWeeks').innerHTML=past.length?past.map(k=>{const x=S.weeks[k];return `<div class="exp"><span class="name">${md(k)}からの週</span><span>うまくいった:${esc(x.good||'—')}</span><span>無理をした:${esc(x.much||'—')}</span><span>変える:${esc(x.next||'—')}</span><div class="row"><button class="btn small ghost" data-wk="${k}">書き直す</button></div></div>`}).join(''):'<p class="note">まだありません。</p>';
+  $('pastWeeks').querySelectorAll('[data-wk]').forEach(b=>b.addEventListener('click',()=>{editWeek=b.dataset.wk;renderWeek();$('w-good').focus()}));
 }
 let trN=30;
 function renderTrend(){
@@ -1253,7 +1284,7 @@ function renderTrend(){
     const [la,lb]=l.split(' / ');out+=`<div class="t"><span style="white-space:normal">${esc(la)}(${a.length}日)</span><span>${avg(a,'body')}</span><span>${avg(a,'mind')}</span></div><div class="t" style="color:var(--sub)"><span style="white-space:normal">${esc(lb.replace(/\(.*$/,''))}(${b.length}日)</span><span>${avg(b,'body')}</span><span>${avg(b,'mind')}</span></div>`});
   $('trend').innerHTML=n?out:`<p class="note" style="color:var(--ink)">まだ比べられるだけの記録がありません(この${trN}日で、体か心を記録した日:${rows.length}日)。2〜3週間たつと出てきます。</p>`;
 }
-['good','much','next'].forEach(f=>$('w-'+f).addEventListener('input',e=>{const w=monday(now);(S.weeks[w]=S.weeks[w]||{})[f]=e.target.value;save('sv-week')}));
+['good','much','next'].forEach(f=>$('w-'+f).addEventListener('input',e=>{const w=editWeek||monday(now);(S.weeks[w]=S.weeks[w]||{})[f]=e.target.value;save('sv-week');renderPastWeeks()}));
 
 // doctor note
 $('doc').value=S.doc||'';
