@@ -106,6 +106,11 @@ export default function ThinkerSeligmanHelplessness() {
         動けなくなったのは、あなたが弱くなったからではありません。
         <strong>「自分で変えられた」という経験が、長いあいだ得られていない</strong>からなのです。
       </p>
+      <p className="text-sm text-stone-500 leading-[1.9]">
+        この2016年の論文の中身（脳で分かったこと、まだ言えていないこと）は、
+        <Link to="/articles/learned-helplessness-revisited" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">学習性無力感は「学習」ではなかった？</Link>
+        で詳しく整理しています。
+      </p>
 
       <h2>支援職に置き換えると——「言っても変わらない」の積み重ね</h2>
       <div className="card">
