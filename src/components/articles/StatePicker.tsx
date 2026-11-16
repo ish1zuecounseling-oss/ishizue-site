@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { articles } from "../../data/articles";
+import { STATE_PICK_PATHS, type StateKey } from "../../data/statePicks";
 
 const SAGE = "#8FAF9F";
-
-type StateKey = "fatigue" | "carry" | "quit" | "lost";
 
 type StateDef = {
   key: StateKey;
@@ -13,10 +12,9 @@ type StateDef = {
   ex: string;
   lead: string;
   text: string;
-  paths: string[]; // 先頭3本=いま整える / 後ろ2本=理由を知る
 };
 
-// おすすめは実在する記事のみ。1〜3本目は「いま整える」、4〜5本目は「理由を知る」
+// おすすめ5本の並びは src/data/statePicks.ts(正本)。1〜3本目は「いま整える」、4〜5本目は「理由を知る」
 const STATES: StateDef[] = [
   {
     key: "fatigue",
@@ -25,13 +23,6 @@ const STATES: StateDef[] = [
     ex: "寝ても頭が休まらない／休日に回復できない／体が重い",
     lead: "まず「整える」ことから。理由探しはそのあとで大丈夫です。",
     text: "休んでも疲れが抜けないのは、休み方が足りないのではなく、回復を妨げるものが残っているからかもしれません。最初の3本で今できることを、残りの2本で理由を整理します。",
-    paths: [
-      "/articles/helper-status-check",
-      "/articles/compassion-fatigue-coping",
-      "/articles/helper-rest-types",
-      "/articles/brain-fatigue-mechanism",
-      "/articles/burnout-not-recovering",
-    ],
   },
   {
     key: "carry",
@@ -40,13 +31,6 @@ const STATES: StateDef[] = [
     ex: "相談できない／自分がやらなきゃと思う／断れない",
     lead: "性格の問題というより、抱え込みやすい構造の問題かもしれません。",
     text: "抱え込みは、役割の重なりや、境界線の曖昧さから起きやすくなります。最初の3本で引き方・断り方・頼り方を、残りの2本で構造そのものを見ていきます。",
-    paths: [
-      "/articles/helper-boundary-how-to",
-      "/articles/helper-cannot-say-no",
-      "/articles/why-support-workers-cannot-ask-for-help",
-      "/articles/helper-carrying-clients",
-      "/articles/helper-responsibility-burnout",
-    ],
   },
   {
     key: "quit",
@@ -55,13 +39,6 @@ const STATES: StateDef[] = [
     ex: "辞めたいが決めきれない／逃げだと思ってしまう／先が見えない",
     lead: "結論を急がず、まず「何が限界なのか」を分けてみましょう。",
     text: "辞めたい気持ちは、職場そのものへの限界なのか、働き方や役割への限界なのかで、次の一手が変わることがあります。判断の軸をそろえるための5本です。",
-    paths: [
-      "/articles/helper-want-to-quit-landing",
-      "/articles/helper-quit-timing-check",
-      "/articles/helper-leave-of-absence-hesitation",
-      "/articles/helper-guilt-about-leaving",
-      "/articles/quit-job-timing",
-    ],
   },
   {
     key: "lost",
@@ -70,13 +47,6 @@ const STATES: StateDef[] = [
     ex: "モヤモヤする／自分のせいにしてしまう／整理したい",
     lead: "答えを出す前に、いまの状態を整理することから始めます。",
     text: "言葉にできないのは、考えが足りないからではなく、見る枠組みがまだないだけかもしれません。状態を振り返るチェックから、構造で理解する記事へと順に案内します。",
-    paths: [
-      "/articles/helper-wellbeing-check",
-      "/articles/helper-self-blame-landing",
-      "/articles/emotion-unknown",
-      "/articles/thinking-feeling-gap",
-      "/articles/helper-stress-coping",
-    ],
   },
 ];
 
@@ -97,7 +67,7 @@ export default function StatePicker({ onPick, onAiClick }: Props) {
   };
 
   const list = def
-    ? def.paths
+    ? STATE_PICK_PATHS[def.key]
         .map((p) => articles.find((a) => a.path === p))
         .filter((a): a is NonNullable<typeof a> => !!a)
     : [];
