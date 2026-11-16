@@ -193,10 +193,10 @@ function fmtTime(sec: number): string {
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`
 }
 function changeLabel(cur: number, prev: number): { text: string; color: string } {
-  if (prev === 0 && cur === 0) return { text: "—", color: "#a8a29e" }
+  if (prev === 0 && cur === 0) return { text: "—", color: "#78716c" }
   if (prev === 0) return { text: "新規", color: "#0369a1" }
   const p = Math.round(((cur - prev) / prev) * 100)
-  if (p === 0) return { text: "±0%", color: "#a8a29e" }
+  if (p === 0) return { text: "±0%", color: "#78716c" }
   return p > 0 ? { text: `+${p}%`, color: "#047857" } : { text: `${p}%`, color: "#b91c1c" }
 }
 
@@ -239,7 +239,7 @@ function KeyGate({ onSubmit, error }: { onSubmit: (k: string) => void; error: st
           type="password" value={v} autoFocus autoComplete="off"
           onChange={(e) => setV(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && v) onSubmit(v) }}
-          className="w-full px-3 py-2.5 rounded-xl border border-stone-300 text-sm bg-white focus:outline-none"
+          className="w-full px-3 py-2.5 rounded-xl border border-stone-300 text-sm bg-white focus:outline-none focus:border-[#7C9A8A] focus:ring-2 focus:ring-[#7C9A8A]/40"
           placeholder="閲覧キー"
         />
         {error && <p className="text-xs text-red-600">{error}</p>}
@@ -267,7 +267,7 @@ function ProgressRing({ ratio, held = false }: { ratio: number | null; held?: bo
         )}
       </svg>
       <span className="absolute inset-0 flex items-center justify-center text-[11px] font-medium"
-        style={{ color: held || ratio === null ? "#a8a29e" : done ? "#2f6b45" : INK }}>
+        style={{ color: held || ratio === null ? "#78716c" : done ? "#2f6b45" : INK }}>
         {held ? "保留" : done ? "達成" : label}
       </span>
     </div>
@@ -289,9 +289,9 @@ function GoalCard({ no, title, value, sub, goal, ratio, note }: {
         <ProgressRing ratio={ratio} held={held} />
       </div>
       {sub && <p className="text-[11px] text-stone-500 mt-0.5">{sub}</p>}
-      <p className="text-[10px] text-stone-400 mt-1">目標:{goal}</p>
-      {held ? <p className="text-[10px] text-stone-400 mt-0.5">{HELD_REASON}(開始の判断から外しています)</p>
-        : note && <p className="text-[10px] text-stone-400 mt-0.5">{note}</p>}
+      <p className="text-[10px] text-stone-500 mt-1">目標:{goal}</p>
+      {held ? <p className="text-[10px] text-stone-500 mt-0.5">{HELD_REASON}(開始の判断から外しています)</p>
+        : note && <p className="text-[10px] text-stone-500 mt-0.5">{note}</p>}
     </div>
   )
 }
@@ -324,9 +324,9 @@ function MatchingItems({ data, rows }: { data: ApiResult; rows: Row[] }) {
       <p className="text-xs font-medium text-stone-700">「合う人・合わない人」チェックの集計</p>
       <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">結果を見た人が、どの項目を選んだか(項目ごとの人数と、完了した人に対する割合)。どんな人がこのカウンセリングに関心を持っているかを見る材料です。少人数のうちは傾向として読み、断定しないでください。</p>
       {!mi?.ok ? (
-        <p className="text-[12px] text-stone-400">取得できませんでした{mi?.message ? `(${mi.message})` : ""}。</p>
+        <p className="text-[12px] text-stone-500">取得できませんでした{mi?.message ? `(${mi.message})` : ""}。</p>
       ) : total === 0 ? (
-        <p className="text-[12px] text-stone-400">この期間の項目データはまだありません(項目ごとの計測は、この機能を公開した日以降の分から集まります)。</p>
+        <p className="text-[12px] text-stone-500">この期間の項目データはまだありません(項目ごとの計測は、この機能を公開した日以降の分から集まります)。</p>
       ) : (
         <div className="bg-white rounded-xl border border-stone-200 p-3 space-y-2">
           <p className="text-[10px] text-stone-500">
@@ -347,7 +347,7 @@ function MatchingItems({ data, rows }: { data: ApiResult; rows: Row[] }) {
               </div>
             )
           })}
-          <p className="text-[10px] text-stone-400">割合は「その項目を選んだ人 ÷ チェックを完了した人」。完了の数え方の違いで、まれに100%近くになることがあります。</p>
+          <p className="text-[10px] text-stone-500">割合は「その項目を選んだ人 ÷ チェックを完了した人」。完了の数え方の違いで、まれに100%近くになることがあります。</p>
         </div>
       )}
     </div>
@@ -361,10 +361,10 @@ function CandList({ title, desc, items, empty }: { title: string; desc: string; 
   const list = all ? items : items.slice(0, 8)
   return (
     <div>
-      <p className="text-xs font-medium text-stone-700">{title}<span className="text-stone-400 font-normal ml-1">{items.length}本</span></p>
+      <p className="text-xs font-medium text-stone-700">{title}<span className="text-stone-500 font-normal ml-1">{items.length}本</span></p>
       <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">{desc}</p>
       {items.length === 0 ? (
-        <p className="text-[12px] text-stone-400 mb-1">{empty}</p>
+        <p className="text-[12px] text-stone-500 mb-1">{empty}</p>
       ) : (
         <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
           {list.map(({ row, reason }) => (
@@ -374,7 +374,7 @@ function CandList({ title, desc, items, empty }: { title: string; desc: string; 
             </div>
           ))}
           {items.length > 8 && (
-            <button onClick={() => setAll((a) => !a)} className="w-full text-[11px] py-2 underline" style={{ color: SAGE }}>
+            <button onClick={() => setAll((a) => !a)} className="w-full text-[11px] py-2.5 underline" style={{ color: SAGE }}>
               {all ? "8本だけ表示" : `残り${items.length - 8}本も表示`}
             </button>
           )}
@@ -432,7 +432,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
     <div className="space-y-6">
       <div className="flex gap-2 text-xs">
         {[7, 28, 90].map((d) => (
-          <button key={d} onClick={() => setDays(d)} className="px-3 py-1.5 rounded-full border" style={chip(days === d)}>直近{d}日</button>
+          <button key={d} onClick={() => setDays(d)} className="px-3 py-2.5 rounded-full border" style={chip(days === d)}>直近{d}日</button>
         ))}
       </div>
 
@@ -441,7 +441,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
         <p className="text-xs font-medium text-stone-700">チェックごとの結果→LINE</p>
         <p className="text-[11px] text-stone-500 mb-2 leading-relaxed">完了した人のうち、結果画面からLINEに進んだ人の割合。目標は{pct(tgt3)}(年間計画の売上目標に合わせて変わります)。完了が多いのに率が低いチェックほど、結果画面を直す効果が大きくなります。</p>
         {checks.length === 0 ? (
-          <p className="text-[12px] text-stone-400">この期間のチェック完了はありません。</p>
+          <p className="text-[12px] text-stone-500">この期間のチェック完了はありません。</p>
         ) : (
           <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
             {checks.map((r) => {
@@ -455,7 +455,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
                   </div>
                   <p className="text-[10px] text-stone-500 mt-0.5">完了{fmt(r.checkCompletes)}人 ／ LINE{fmt(r.lineFromCheckUsers)}人</p>
                   {lv.length > 0 && (
-                    <p className="text-[10px] text-stone-400 mt-0.5">
+                    <p className="text-[10px] text-stone-500 mt-0.5">
                       {lv.map((x) => `${LEVEL_LABEL[x.level] ?? x.level} ${x.lines}/${x.completes}人`).join(" ／ ")}
                     </p>
                   )}
@@ -465,7 +465,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
           </div>
         )}
         {!data.checkLevels?.ok && (
-          <p className="text-[10px] text-stone-400 mt-1">結果のレベル別(軽め・強めなど)は、GA4に「level」をカスタム定義として登録すると、その日以降の分から表示されます。</p>
+          <p className="text-[10px] text-stone-500 mt-1">結果のレベル別(軽め・強めなど)は、GA4に「level」をカスタム定義として登録すると、その日以降の分から表示されます。</p>
         )}
       </div>
 
@@ -495,7 +495,7 @@ function TodoPanel({ rows, data, days, setDays, chip }: {
         items={tidy}
         empty="該当なし"
       />
-      <p className="text-[10px] text-stone-400">基準は直近{days}日の数字から自動で判定しています。目安なので、最終判断は内容を見て行ってください。</p>
+      <p className="text-[10px] text-stone-500">基準は直近{days}日の数字から自動で判定しています。目安なので、最終判断は内容を見て行ってください。</p>
     </div>
   )
 }
@@ -598,7 +598,7 @@ function ManualEditor({ manual, adminKey, onSaved }: {
             <span className="text-[11px] text-stone-500">{status}</span>
           </div>
           {manual.data?.updatedAt && (
-            <p className="text-[10px] text-stone-400">最終更新:{new Date(manual.data.updatedAt).toLocaleString("ja-JP")}</p>
+            <p className="text-[10px] text-stone-500">最終更新:{new Date(manual.data.updatedAt).toLocaleString("ja-JP")}</p>
           )}
         </div>
       )}
@@ -687,7 +687,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
   })
 
   const cellStyle = (v: Cell) => {
-    if (v === null) return { background: "#faf8f4", color: "#c4bdb3" }
+    if (v === null) return { background: "#faf8f4", color: "#78716c" }
     const p = Math.max(0, Math.min(1, v))
     if (p >= 1) return { background: "#4d8a63", color: "white" }
     const alpha = 0.08 + p * 0.5
@@ -704,7 +704,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">達成率の推移</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
         各月の「実績 ÷ 目標」。今月は途中経過。8は手入力を保存した月から記録されます(9はLINEの記録から自動)。総合は1〜8のうち保留中を除いた項目の平均(100%で頭打ち)です。
       </p>
 
@@ -714,7 +714,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
           {[0, 0.5, 1].map((g) => (
             <g key={g}>
               <line x1={padX} x2={W - padX} y1={ys(g)} y2={ys(g)} stroke="#ece6dc" strokeWidth={1} />
-              <text x={2} y={ys(g) + 3} fontSize={8} fill="#a8a29e">{g * 100}%</text>
+              <text x={2} y={ys(g) + 3} fontSize={8} fill="#78716c">{g * 100}%</text>
             </g>
           ))}
           <polyline points={pts} fill="none" stroke={SAGE} strokeWidth={2} strokeLinejoin="round" />
@@ -722,7 +722,7 @@ function AchievementTrend({ data }: { data: ApiResult }) {
             <g key={i}>
               <circle cx={xs(i)} cy={ys(v ?? 0)} r={3} fill={SAGE} />
               <text x={xs(i)} y={ys(v ?? 0) - 6} fontSize={8} textAnchor="middle" fill={INK}>{Math.round((v ?? 0) * 100)}%</text>
-              <text x={xs(i)} y={H - 2} fontSize={8} textAnchor="middle" fill="#a8a29e">{monthLabel(months[i])}</text>
+              <text x={xs(i)} y={H - 2} fontSize={8} textAnchor="middle" fill="#78716c">{monthLabel(months[i])}</text>
             </g>
           ))}
         </svg>
@@ -734,14 +734,14 @@ function AchievementTrend({ data }: { data: ApiResult }) {
             <tr className="text-[10px] text-stone-500 border-b border-stone-100">
               <th className="text-left font-normal px-3 py-2 sticky left-0 bg-white">項目</th>
               {months.map((ym) => (
-                <th key={ym} className="font-normal px-1 text-center">{monthLabel(ym)}{ym === curYm && <span className="text-stone-400">(途中)</span>}</th>
+                <th key={ym} className="font-normal px-1 text-center">{monthLabel(ym)}{ym === curYm && <span className="text-stone-500">(途中)</span>}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rows.map((r, ri) => (
               <tr key={r.label} className="border-b border-stone-50 last:border-0" style={HELD_GOALS.includes(ri + 1) ? { opacity: 0.5 } : undefined}>
-                <td className="px-3 py-1.5 text-stone-600 whitespace-nowrap sticky left-0 bg-white">{r.label}{HELD_GOALS.includes(ri + 1) && <span className="text-[10px] text-stone-400">(保留)</span>}</td>
+                <td className="px-3 py-1.5 text-stone-600 whitespace-nowrap sticky left-0 bg-white">{r.label}{HELD_GOALS.includes(ri + 1) && <span className="text-[10px] text-stone-500">(保留)</span>}</td>
                 {r.cells.map((v, i) => (
                   <td key={i} className="px-1 py-1">
                     <div className="rounded-md text-center py-1" style={cellStyle(v)}>{text(v)}</div>
@@ -784,7 +784,7 @@ function ChannelTable({ months, cur }: { months: Month[]; cur?: Month }) {
                 <tr onClick={() => setOpen(isOpen ? null : ch)} className="border-b border-stone-50 cursor-pointer hover:bg-stone-50">
                   <td className="px-3 py-2 sticky left-0 bg-white">
                     <span>{info ? info[0] : ch}</span>
-                    <span className="text-[10px] text-stone-400 ml-1">{ch}</span>
+                    <span className="text-[10px] text-stone-500 ml-1">{ch}</span>
                     <span className="text-[10px] ml-1" style={{ color: SAGE }}>{isOpen ? "▲" : "▼"}</span>
                   </td>
                   {months.map((mo) => <td key={mo.month} className="text-right px-3">{fmt(mo.channels[ch] ?? 0)}</td>)}
@@ -796,7 +796,7 @@ function ChannelTable({ months, cur }: { months: Month[]; cur?: Month }) {
                       {srcs.length > 0 ? (
                         <table className="text-[11px] text-stone-600">
                           <thead>
-                            <tr className="text-[10px] text-stone-400">
+                            <tr className="text-[10px] text-stone-500">
                               <th className="text-left font-normal pr-3">具体的な参照元</th>
                               {months.map((mo) => <th key={mo.month} className="text-right font-normal pl-3">{monthLabel(mo.month)}</th>)}
                             </tr>
@@ -811,7 +811,7 @@ function ChannelTable({ months, cur }: { months: Month[]; cur?: Month }) {
                           </tbody>
                         </table>
                       ) : (
-                        <p className="text-[10px] text-stone-400">内訳はありません。</p>
+                        <p className="text-[10px] text-stone-500">内訳はありません。</p>
                       )}
                     </td>
                   </tr>
@@ -885,7 +885,7 @@ function Section({ title, desc, children }: { title: string; desc?: string; chil
   return (
     <div>
       <p className="text-xs font-medium text-stone-700">{title}</p>
-      {desc && <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">{desc}</p>}
+      {desc && <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">{desc}</p>}
       <div className="bg-white rounded-xl border border-stone-200 p-3">{children}</div>
     </div>
   )
@@ -933,7 +933,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
     <div className="space-y-5">
       <div className="flex gap-2 text-xs">
         {[7, 28, 90].map((n) => (
-          <button key={n} onClick={() => setDays(n)} className="px-3 py-1.5 rounded-full border" style={chip(days === n)}>直近{n}日</button>
+          <button key={n} onClick={() => setDays(n)} className="px-3 py-2.5 rounded-full border" style={chip(days === n)}>直近{n}日</button>
         ))}
       </div>
       {err && <p className="text-sm text-red-600">{err}</p>}
@@ -952,7 +952,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
               <div key={t} className="bg-white rounded-xl border border-stone-200 p-3">
                 <p className="text-[10px] text-stone-500">{t}</p>
                 <p className="text-lg font-medium" style={{ color: INK }}>{v}</p>
-                <p className="text-[10px] text-stone-400">{sub}</p>
+                <p className="text-[10px] text-stone-500">{sub}</p>
               </div>
             ))}
           </div>
@@ -964,7 +964,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
               {d.newVsReturning.filter((x) => NR[x.type]).map((x) => (
                 <div key={x.type}>
                   <Bar label={NR[x.type]} value={x.users} max={Math.max(...d.newVsReturning.map((y) => y.users))} right={`${fmt(x.users)}人`} />
-                  <p className="text-[10px] text-stone-400 mt-0.5">1人あたり {perUser(x.pageViews, x.users).toFixed(1)}ページ ／ 滞在 {fmtTime(perUser(x.engagementSec, x.users))}</p>
+                  <p className="text-[10px] text-stone-500 mt-0.5">1人あたり {perUser(x.pageViews, x.users).toFixed(1)}ページ ／ 滞在 {fmtTime(perUser(x.engagementSec, x.users))}</p>
                 </div>
               ))}
             </div>
@@ -976,7 +976,7 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
                 {d.devices.map((x) => (
                   <div key={x.device}><Bar label={DEVICE_LABEL[x.device] ?? x.device} value={x.users} max={s.users}
                     right={`${pct(perUser(x.users, d.devices.reduce((n, y) => n + y.users, 0)))}(${fmt(x.users)}人)`} />
-                    {x.users >= 20 && <p className="text-[10px] text-stone-400 mt-0.5">しっかり見た訪問 {pct(x.engagementRate)} ／ LINEボタン {fmt(x.lineUsers ?? 0)}人({pct(perUser(x.lineUsers ?? 0, x.users))})</p>}</div>
+                    {x.users >= 20 && <p className="text-[10px] text-stone-500 mt-0.5">しっかり見た訪問 {pct(x.engagementRate)} ／ LINEボタン {fmt(x.lineUsers ?? 0)}人({pct(perUser(x.lineUsers ?? 0, x.users))})</p>}</div>
                 ))}
               </div>
             </Section>
@@ -1031,23 +1031,23 @@ function UsersPanel({ adminKey, chip }: { adminKey: string; chip: (active: boole
               {d.landing.filter((x) => x.path && x.path !== "(not set)").slice(0, 15).map((x) => (
                 <div key={x.path} className="py-1.5 flex items-start justify-between gap-3">
                   <a href={x.path} target="_blank" rel="noopener noreferrer" className="text-[12px] leading-snug hover:underline min-w-0" style={{ color: INK }}>{pageTitle(x.path)}</a>
-                  <span className="text-[10px] text-stone-400 flex-shrink-0 text-right">{fmt(x.sessions)}回<br />しっかり{pct(x.engagementRate)}・{x.pagesPerSession.toFixed(1)}ページ</span>
+                  <span className="text-[10px] text-stone-500 flex-shrink-0 text-right">{fmt(x.sessions)}回<br />しっかり{pct(x.engagementRate)}・{x.pagesPerSession.toFixed(1)}ページ</span>
                 </div>
               ))}
             </div>
           </Section>
 
           <Section title="次に読まれているページ" desc="サイトの中で、あるページから別のページへ移った回数。よく使われている道すじです。">
-            {d.transitions.length === 0 ? <p className="text-[12px] text-stone-400">データがありません</p> : (
+            {d.transitions.length === 0 ? <p className="text-[12px] text-stone-500">データがありません</p> : (
               <div className="divide-y divide-stone-100">
                 {d.transitions.slice(0, 20).map((x) => (
                   <div key={x.from + x.to} className="py-1.5 flex items-start justify-between gap-3">
                     <p className="text-[12px] leading-snug min-w-0" style={{ color: INK }}>
                       <span className="text-stone-500">{pageTitle(x.from)}</span>
-                      <span className="text-stone-400"> → </span>
+                      <span className="text-stone-500"> → </span>
                       {pageTitle(x.to)}
                     </p>
-                    <span className="text-[10px] text-stone-400 flex-shrink-0">{fmt(x.views)}回</span>
+                    <span className="text-[10px] text-stone-500 flex-shrink-0">{fmt(x.views)}回</span>
                   </div>
                 ))}
               </div>
@@ -1085,16 +1085,16 @@ function ChangeLog() {
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">サイトに加えた変更</p>
-      <p className="text-[10px] text-stone-400 mb-2">数字が動いたときは、その少し前に何を変えたかを見てください。効果が出るまで2〜3週間かかることが多いです。</p>
+      <p className="text-[10px] text-stone-500 mb-2">数字が動いたときは、その少し前に何を変えたかを見てください。効果が出るまで2〜3週間かかることが多いです。</p>
       <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
         {list.map((c, i) => (
           <div key={i} className="px-3 py-2 flex gap-3 text-[12px]">
-            <span className="text-stone-400 flex-shrink-0 tabular-nums">{c.date.slice(5).replace("-", "/")}</span>
+            <span className="text-stone-500 flex-shrink-0 tabular-nums">{c.date.slice(5).replace("-", "/")}</span>
             <span className="text-stone-700 leading-snug">{c.text}</span>
           </div>
         ))}
         {CHANGE_LOG.length > 4 && (
-          <button type="button" onClick={() => setOpen(!open)} className="w-full px-3 py-2 text-[11px] text-stone-500 text-left">
+          <button type="button" onClick={() => setOpen(!open)} className="w-full px-3 py-2.5 text-[11px] text-stone-500 text-left">
             {open ? "閉じる" : `すべて見る(${CHANGE_LOG.length}件)`}
           </button>
         )}
@@ -1121,7 +1121,7 @@ function LineAddTable({ data, months }: { data: ApiResult; months: Month[] }) {
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">LINEボタンと友だち追加</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
         ボタンが押された回数に対して、実際に友だち追加された数。追加には、サイト以外(QRコード・LINE内の検索など)からの分も含みます。
         「追加」が「押された回数」よりずっと少なければ、押したあとにやめている人が多いということです。
       </p>
@@ -1130,7 +1130,7 @@ function LineAddTable({ data, months }: { data: ApiResult; months: Month[] }) {
           <thead>
             <tr className="text-[10px] text-stone-500 border-b border-stone-100">
               <th className="text-left font-normal px-3 py-2"></th>
-              {cols.map((c) => <th key={c.mo.month} className="text-right font-normal px-3">{monthLabel(c.mo.month)}{c.mo.month === curYm && <span className="text-stone-400">(途中)</span>}</th>)}
+              {cols.map((c) => <th key={c.mo.month} className="text-right font-normal px-3">{monthLabel(c.mo.month)}{c.mo.month === curYm && <span className="text-stone-500">(途中)</span>}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -1173,11 +1173,11 @@ function LineStepTable({ data }: { data: ApiResult }) {
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">ステップ配信から来た人(7日間・2026年11月版)</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
         配信のリンクからサイトに来た数({st?.since?.slice(5).replace("-", "/") ?? "10/29"}以降の合計)。何日目で来なくなるか、どの回がよく読まれるかの目安です。
       </p>
       {!st?.ok ? (
-        <p className="text-[12px] text-stone-400">取得できませんでした{st?.message ? `(${st.message})` : ""}</p>
+        <p className="text-[12px] text-stone-500">取得できませんでした{st?.message ? `(${st.message})` : ""}</p>
       ) : (
         <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
           <table className="w-full text-[12px] text-stone-700 min-w-[420px]">
@@ -1198,7 +1198,7 @@ function LineStepTable({ data }: { data: ApiResult }) {
               </tr>
             </tbody>
           </table>
-          {other > 0 && <p className="text-[10px] text-stone-400 px-3 pb-2">日目がわからない訪問 {fmt(other)}回</p>}
+          {other > 0 && <p className="text-[10px] text-stone-500 px-3 pb-2">日目がわからない訪問 {fmt(other)}回</p>}
         </div>
       )}
     </div>
@@ -1227,7 +1227,7 @@ const AI_CAT_LABEL: Record<string, string> = {
 
 function AIAssistantPanel({ data }: { data: ApiResult }) {
   const ai = data.aiAssistant
-  if (!ai?.ok) return <p className="text-[12px] text-stone-400">取得できませんでした{ai?.message ? `(${ai.message})` : ""}</p>
+  if (!ai?.ok) return <p className="text-[12px] text-stone-500">取得できませんでした{ai?.message ? `(${ai.message})` : ""}</p>
   const ev = ai.events ?? {}
   const users = (k: string) => ev[k]?.users ?? 0
   const count = (k: string) => ev[k]?.count ?? 0
@@ -1254,16 +1254,16 @@ function AIAssistantPanel({ data }: { data: ApiResult }) {
               right={`${fmt(s.v)}人${i > 0 && seen ? `(${pct(s.v / seen)})` : ""}`} /></div>
           ))}
         </div>
-        <p className="text-[10px] text-stone-400 mt-2">「整理する」を押した回数 {fmt(count("ai_assistant_analyze"))}回</p>
+        <p className="text-[10px] text-stone-500 mt-2">「整理する」を押した回数 {fmt(count("ai_assistant_analyze"))}回</p>
       </Section>
       <Section title="結果のタイプ" desc={`整理した回数のうち、どのタイプの結果が出たか(${since}以降の記録)。`}>
         {typeTotal === 0
-          ? <p className="text-[12px] text-stone-400">まだ記録がありません</p>
+          ? <p className="text-[12px] text-stone-500">まだ記録がありません</p>
           : <div className="space-y-2.5">{types.map((t) => <div key={t.k}><Bar label={AI_TYPE_LABEL[t.k]} value={t.v} max={types[0].v} right={`${fmt(t.v)}回(${pct(t.v / typeTotal)})`} /></div>)}</div>}
       </Section>
       <Section title="チェックが入ったカテゴリ" desc={`整理したときに、そのカテゴリの項目が1つ以上チェックされていた回数(${since}以降の記録)。`}>
         {cats.every((c) => c.v === 0)
-          ? <p className="text-[12px] text-stone-400">まだ記録がありません</p>
+          ? <p className="text-[12px] text-stone-500">まだ記録がありません</p>
           : <div className="space-y-2.5">{cats.map((c) => <div key={c.k}><Bar label={AI_CAT_LABEL[c.k]} value={c.v} max={Math.max(1, cats[0].v)} right={`${fmt(c.v)}回`} /></div>)}</div>}
       </Section>
       <Section title="相談窓口の案内を出した回数" desc={`自由記述に命に関わる言葉があり、相談窓口の案内を表示した回数(${since}以降の記録)。言葉の中身は記録していません。`}>
@@ -1286,11 +1286,11 @@ function TitleTests({ data }: { data: ApiResult }) {
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">タイトル変更の効果</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
         変更前の28日間と、変更後の1日あたりの数字を比べます。検索の数字は3日ほど遅れて確定し、14日分たまるまでは判断しません。
       </p>
       {!tt?.ok ? (
-        <p className="text-[12px] text-stone-400">取得できませんでした{tt?.message ? `(${tt.message})` : ""}</p>
+        <p className="text-[12px] text-stone-500">取得できませんでした{tt?.message ? `(${tt.message})` : ""}</p>
       ) : (
         <div className="space-y-2">
           {(tt.rows ?? []).map((r) => {
@@ -1305,11 +1305,11 @@ function TitleTests({ data }: { data: ApiResult }) {
               <div key={r.path} className="bg-white rounded-xl border border-stone-200 p-3">
                 <div className="flex justify-between gap-2 mb-2">
                   <a href={r.path} target="_blank" rel="noopener noreferrer" className="text-[12px] font-medium hover:underline" style={{ color: INK }}>{b.label}</a>
-                  <span className="text-[10px] text-stone-400 flex-shrink-0">{r.days < 1 ? `${r.since.slice(5).replace("-", "/")}に変更・まだデータなし` : `${r.since.slice(5).replace("-", "/")}〜 ${r.days}日分${r.days < 14 ? "(判断はまだ早い)" : ""}`}</span>
+                  <span className="text-[10px] text-stone-500 flex-shrink-0">{r.days < 1 ? `${r.since.slice(5).replace("-", "/")}に変更・まだデータなし` : `${r.since.slice(5).replace("-", "/")}〜 ${r.days}日分${r.days < 14 ? "(判断はまだ早い)" : ""}`}</span>
                 </div>
                 {r.days >= 1 && (
                   <table className="w-full text-[11px] text-stone-600">
-                    <thead><tr className="text-[10px] text-stone-400"><th className="text-left font-normal">1日あたり</th><th className="text-right font-normal">変更前</th><th className="text-right font-normal">変更後</th><th className="text-right font-normal">差</th></tr></thead>
+                    <thead><tr className="text-[10px] text-stone-500"><th className="text-left font-normal">1日あたり</th><th className="text-right font-normal">変更前</th><th className="text-right font-normal">変更後</th><th className="text-right font-normal">差</th></tr></thead>
                     <tbody>
                       <tr><td>表示回数</td><td className="text-right">{bi.toFixed(1)}</td><td className="text-right">{ai.toFixed(1)}</td><td className="text-right">{diff(ai, bi)}</td></tr>
                       <tr><td>クリック</td><td className="text-right">{bc.toFixed(2)}</td><td className="text-right">{ac.toFixed(2)}</td><td className="text-right">{diff(ac, bc)}</td></tr>
@@ -1364,29 +1364,29 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">Googleで検索された言葉と順位</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
         {g.startDate}〜{g.endDate}(2〜3日遅れ)。「表示」は、その言葉で検索されてこのサイトが結果に出た回数で、検索ボリュームの目安です
         (順位が低い言葉は、実際の検索数より少なく出ます)。順位は期間中の平均、▲▼は直前の同じ日数との比較です。
       </p>
       <div className="flex flex-wrap gap-1.5 mb-2 text-[11px]">
         {([["impressions", "表示の多い順"], ["clicks", "クリックの多い順"], ["position", "順位の高い順"], ["up", "順位が上がった順"]] as [QSort, string][]).map(([v, l]) => (
-          <button key={v} onClick={() => setSort(v)} className="px-2.5 py-1 rounded-full border" style={chip(sort === v)}>{l}</button>
+          <button key={v} onClick={() => setSort(v)} className="px-2.5 py-2.5 rounded-full border" style={chip(sort === v)}>{l}</button>
         ))}
       </div>
       <div className="flex flex-wrap gap-1.5 mb-2 text-[11px]">
         {([["all", `すべて(${all.length})`], ["top10", `1ページ目 1〜10位(${counts.top10})`], ["near", `あと少し 11〜20位(${counts.near})`], ["far", "21位以下"]] as ["all" | "top10" | "near" | "far", string][]).map(([v, l]) => (
-          <button key={v} onClick={() => setBand(v)} className="px-2.5 py-1 rounded-full border" style={chip(band === v)}>{l}</button>
+          <button key={v} onClick={() => setBand(v)} className="px-2.5 py-2.5 rounded-full border" style={chip(band === v)}>{l}</button>
         ))}
       </div>
       <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="言葉で絞り込む(例:バーンアウト)"
         className="w-full mb-2 px-3 py-2 text-[12px] rounded-lg border border-stone-200 bg-white" />
       <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100">
-        {list.length === 0 && <p className="px-3 py-3 text-[12px] text-stone-400">該当する言葉がありません</p>}
+        {list.length === 0 && <p className="px-3 py-3 text-[12px] text-stone-500">該当する言葉がありません</p>}
         {list.slice(0, limit).map((x) => {
           const d = delta(x)
           return (
             <div key={x.q} className="px-3 py-2 flex items-start gap-2.5">
-              <span className="text-[10px] text-stone-400 w-6 text-right pt-1 flex-shrink-0 tabular-nums">{ranked.get(x.q)}</span>
+              <span className="text-[10px] text-stone-500 w-6 text-right pt-1 flex-shrink-0 tabular-nums">{ranked.get(x.q)}</span>
               <span className="text-[11px] font-medium rounded-md px-1.5 py-0.5 flex-shrink-0 tabular-nums text-center min-w-[42px]" style={posStyle(x.position)}>
                 {x.position.toFixed(1)}位
               </span>
@@ -1396,9 +1396,9 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
                   {d !== null && Math.abs(d) >= 1 && (
                     <span className="ml-1.5 text-[10px]" style={{ color: d > 0 ? "#4f7a63" : "#b0654a" }}>{d > 0 ? "▲" : "▼"}{Math.abs(d).toFixed(1)}</span>
                   )}
-                  {x.prevPosition === null && <span className="ml-1.5 text-[10px] text-stone-400">新規</span>}
+                  {x.prevPosition === null && <span className="ml-1.5 text-[10px] text-stone-500">新規</span>}
                 </p>
-                <p className="text-[10px] text-stone-400 truncate">
+                <p className="text-[10px] text-stone-500 truncate">
                   表示 {fmt(x.impressions)} ・ クリック {fmt(x.clicks)}{x.page ? ` ・ ${pageTitle(x.page)}` : ""}
                 </p>
               </div>
@@ -1406,7 +1406,7 @@ function GscQueries({ data, chip }: { data: ApiResult; chip: (active: boolean) =
           )
         })}
         {list.length > limit && (
-          <button type="button" onClick={() => setLimit(limit + 50)} className="w-full px-3 py-2 text-[11px] text-stone-500">もっと見る(残り{list.length - limit})</button>
+          <button type="button" onClick={() => setLimit(limit + 50)} className="w-full px-3 py-2.5 text-[11px] text-stone-500">もっと見る(残り{list.length - limit})</button>
         )}
       </div>
     </div>
@@ -1464,7 +1464,7 @@ function PlanRevenueChart({ rows, target, label }: { rows: { i: number; revenue:
         {ticks.map((t) => (
           <g key={t}>
             <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" strokeWidth={1} />
-            <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#a8a29e">{t === 0 ? "0" : `${t / 10000}万`}</text>
+            <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#78716c">{t === 0 ? "0" : `${t / 10000}万`}</text>
           </g>
         ))}
         {rows.map((r, k) => {
@@ -1476,7 +1476,7 @@ function PlanRevenueChart({ rows, target, label }: { rows: { i: number; revenue:
               <path d={`M${x},${base} V${top + rr} Q${x},${top} ${x + rr},${top} H${x + w - rr} Q${x + w},${top} ${x + w},${top + rr} V${base} Z`}
                 fill={SAGE} opacity={hover === null || hover === k ? 1 : 0.45} />
               {(k === 0 || (k + 1) % 3 === 0) && (
-                <text x={x + w / 2} y={H - B + 13} textAnchor="middle" fontSize={9} fill="#a8a29e">{label(r.i).replace("か月目", "")}</text>
+                <text x={x + w / 2} y={H - B + 13} textAnchor="middle" fontSize={9} fill="#78716c">{label(r.i).replace("か月目", "")}</text>
               )}
             </g>
           )
@@ -1532,14 +1532,14 @@ function PlanProgressMini({ title, series, need, unit }: { title: string; series
   return (
     <div className="relative">
       <p className="text-[11px] mb-0.5" style={{ color: INK }}>{title}</p>
-      <p className="text-[10px] text-stone-400 mb-1 h-4">
+      <p className="text-[10px] text-stone-500 mb-1 h-4">
         {h ? `${monthLabel(h.month)}${h.partial ? "(途中)" : ""}:${h.value === null ? "—" : `${fmt(h.value)}${unit}(${pct(h.value / need)})`}` : `必要 ${fmt(Math.ceil(need))}${unit}/月`}
       </p>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`${title}の、必要な数に対する割合の推移`}>
         {ticks.map((t) => (
           <g key={t}>
             <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" strokeWidth={1} />
-            <text x={L - 3} y={y(t) + 3} textAnchor="end" fontSize={8} fill="#a8a29e">{Math.round(t * 100)}%</text>
+            <text x={L - 3} y={y(t) + 3} textAnchor="end" fontSize={8} fill="#78716c">{Math.round(t * 100)}%</text>
           </g>
         ))}
         {series.map((x, k) => {
@@ -1553,7 +1553,7 @@ function PlanProgressMini({ title, series, need, unit }: { title: string; series
                 <path d={`M${bx},${base} V${top + rr} Q${bx},${top} ${bx + rr},${top} H${bx + w - rr} Q${bx + w},${top} ${bx + w},${top + rr} V${base} Z`}
                   fill={SAGE} opacity={x.partial ? 0.4 : hover === null || hover === k ? 1 : 0.6} />
               )}
-              <text x={bx + w / 2} y={H - 4} textAnchor="middle" fontSize={8} fill="#a8a29e">{Number(x.month.slice(4))}月</text>
+              <text x={bx + w / 2} y={H - 4} textAnchor="middle" fontSize={8} fill="#78716c">{Number(x.month.slice(4))}月</text>
             </g>
           )
         })}
@@ -1653,16 +1653,16 @@ function Roadmap({ data }: { data: ApiResult }) {
   const actLine = actPts.map((v, i) => (v === null ? null : `${x(i)},${y(v)}`)).filter(Boolean).join(" ")
   const cell = (plan: string, act: string | null, ok: boolean | null, partial: boolean) => (
     <>
-      <span className="text-stone-400">{plan}</span>
+      <span className="text-stone-500">{plan}</span>
       <span className="mx-0.5 text-stone-300">/</span>
-      <span style={{ color: act === null ? "#d6d3d1" : ok === null || partial ? INK : ok ? "#4f7a63" : "#b0654a", fontWeight: act === null ? 400 : 600 }}>{act ?? "—"}</span>
+      <span style={{ color: act === null ? "#d6d3d1" : ok === null || partial ? INK : ok ? "#4f7a63" : "#b0654a", fontWeight: act === null ? 400 : 600 }}>{act ?? "—"}{act !== null && !partial && ok !== null ? (ok ? " ▲" : " ▼") : ""}</span>
     </>
   )
 
   return (
     <div>
       <p className="text-xs font-medium text-stone-600 mb-1">再開までの道のり</p>
-      <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">目標:{ROADMAP_GOAL}。足りない年収は雇用で補う前提です。</p>
+      <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">目標:{ROADMAP_GOAL}。足りない年収は雇用で補う前提です。</p>
       <div className="bg-white rounded-xl border border-stone-200 p-3 space-y-3">
         <p className="text-[12px] font-medium leading-relaxed" style={{ color: status.color }}>{status.text}</p>
 
@@ -1676,7 +1676,7 @@ function Roadmap({ data }: { data: ApiResult }) {
               {ticks.map((t) => (
                 <g key={t}>
                   <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#ece6dc" />
-                  <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#a8a29e">{t}</text>
+                  <text x={L - 4} y={y(t) + 3} textAnchor="end" fontSize={9} fill="#78716c">{t}</text>
                 </g>
               ))}
               <line x1={L} x2={W - R} y1={y(80)} y2={y(80)} stroke="#c2410c" strokeOpacity={0.35} strokeDasharray="2 3" />
@@ -1686,7 +1686,7 @@ function Roadmap({ data }: { data: ApiResult }) {
               {actPts.map((v, i) => v === null ? null : <circle key={i} cx={x(i)} cy={y(v)} r={4} fill={SAGE} stroke="#fff" strokeWidth={2} />)}
               {xs.map((ym, i) => (
                 <g key={ym}>
-                  {((i % 3 === 0 && i < xs.length - 2) || i === xs.length - 1) && <text x={x(i)} y={H - 6} textAnchor={i === xs.length - 1 ? "end" : "middle"} fontSize={9} fill="#a8a29e">{`${ym.slice(2, 4)}/${Number(ym.slice(4))}`}</text>}
+                  {((i % 3 === 0 && i < xs.length - 2) || i === xs.length - 1) && <text x={x(i)} y={H - 6} textAnchor={i === xs.length - 1 ? "end" : "middle"} fontSize={9} fill="#78716c">{`${ym.slice(2, 4)}/${Number(ym.slice(4))}`}</text>}
                   <rect x={x(i) - 12} y={T} width={24} height={H - T - B} fill="transparent" onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => setHover(i)} />
                 </g>
               ))}
@@ -1710,12 +1710,12 @@ function Roadmap({ data }: { data: ApiResult }) {
                 <th className="text-right font-normal px-1">ボタン→追加</th>
                 <th className="text-right font-normal pl-1">ユーザー</th>
               </tr>
-              <tr className="text-[9px] text-stone-400"><td colSpan={6} className="pb-1">予定 / 実績(緑は予定以上、赤は予定未満)</td></tr>
+              <tr className="text-[9px] text-stone-500"><td colSpan={6} className="pb-1">予定 / 実績(▲は予定以上、▼は予定未満)</td></tr>
             </thead>
             <tbody>
               {rows.map(({ p, a, partial, future }) => (
                 <tr key={p.ym} className="border-b border-stone-50 last:border-0" style={partial ? { background: "rgba(124,154,138,0.06)" } : undefined}>
-                  <td className="py-1.5 whitespace-nowrap">{`${p.ym.slice(2, 4)}年${Number(p.ym.slice(4))}月`}{partial && <span className="text-[9px] text-stone-400">(途中)</span>}</td>
+                  <td className="py-1.5 whitespace-nowrap">{`${p.ym.slice(2, 4)}年${Number(p.ym.slice(4))}月`}{partial && <span className="text-[9px] text-stone-500">(途中)</span>}</td>
                   <td className="text-right px-1 whitespace-nowrap">{cell(String(p.reach), a?.reach != null ? String(a.reach) : null, a?.reach != null ? a.reach >= p.reach : null, partial)}</td>
                   <td className="text-right px-1 whitespace-nowrap">{cell(`+${p.net}`, a?.net != null ? `${a.net >= 0 ? "+" : ""}${a.net}` : null, a?.net != null ? a.net >= p.net : null, partial)}</td>
                   <td className="text-right px-1 whitespace-nowrap">{cell(String(p.clicks), a?.clicks != null ? String(a.clicks) : null, a?.clicks != null ? a.clicks >= p.clicks : null, partial)}</td>
@@ -1724,7 +1724,7 @@ function Roadmap({ data }: { data: ApiResult }) {
                 </tr>
               ))}
               {rows.length > 0 && rows.every((r) => r.future) && (
-                <tr><td colSpan={6} className="py-2 text-[10px] text-stone-400">11月から実績が入ります。</td></tr>
+                <tr><td colSpan={6} className="py-2 text-[10px] text-stone-500">11月から実績が入ります。</td></tr>
               )}
             </tbody>
           </table>
@@ -1745,7 +1745,7 @@ function Roadmap({ data }: { data: ApiResult }) {
           <div className="space-y-1">
             {Object.entries(ROADMAP_CHECKPOINTS).map(([ym, t]) => (
               <p key={ym} className="text-[11px] leading-relaxed" style={{ color: ym <= curYm ? INK : "#78716c" }}>
-                <span className="inline-block w-[52px] text-stone-400">{`${ym.slice(2, 4)}年${Number(ym.slice(4))}月`}</span>{t}
+                <span className="inline-block w-[52px] text-stone-500">{`${ym.slice(2, 4)}年${Number(ym.slice(4))}月`}</span>{t}
               </p>
             ))}
           </div>
@@ -1822,7 +1822,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
           />
           {opts.unit && <span className="text-[11px] text-stone-500 flex-shrink-0">{opts.unit}</span>}
         </span>
-        {opts.hint && <span className="text-[10px] text-stone-400 leading-snug block mt-0.5">{opts.hint}</span>}
+        {opts.hint && <span className="text-[10px] text-stone-500 leading-snug block mt-0.5">{opts.hint}</span>}
       </label>
     )
   }
@@ -1844,7 +1844,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
             <div key={t as string} className="rounded-lg p-2.5" style={{ background: "#f7f3ea" }}>
               <p className="text-[10px] text-stone-500">{t}</p>
               <p className="text-[17px] font-medium" style={{ color: INK }}>{v}</p>
-              <p className="text-[10px] text-stone-400">
+              <p className="text-[10px] text-stone-500">
                 {now === null ? "今の実績:—" : `今 ${fmt(now as number)} → ${times(Number(String(v).replace(/[^\d.]/g, "")), now as number)}`}
               </p>
             </div>
@@ -1861,12 +1861,12 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
               めざす年収 {fmt(Math.round((p.targetIncome ?? 0) / 10000))}万円 − 雇用の年収 {fmt(Math.round((p.employmentIncome ?? 0) / 10000))}万円 を、経費率で割り戻すと、開業で必要な売上は<strong>年 約{fmt(Math.round(need / 10000))}万円</strong>です。
               {need !== p.annualTarget
                 ? <button type="button" onClick={() => setP((d) => ({ ...d, annualTarget: need }))} className="ml-2 underline text-stone-700">年間の売上目標にする</button>
-                : <span className="ml-2 text-stone-400">(売上目標と同じです)</span>}
-              <span className="block text-[10px] text-stone-400">売上目標を変えたら「前提を保存」を押すと、開業判断の基準3の目標率({pct(checkRateTarget({ annualTarget: p.annualTarget }))})も変わります。</span>
+                : <span className="ml-2 text-stone-500">(売上目標と同じです)</span>}
+              <span className="block text-[10px] text-stone-500">売上目標を変えたら「前提を保存」を押すと、開業判断の基準3の目標率({pct(checkRateTarget({ annualTarget: p.annualTarget }))})も変わります。</span>
             </p>
           )
         })()}
-        <p className="text-[10px] text-stone-400 mt-1 leading-relaxed">
+        <p className="text-[10px] text-stone-500 mt-1 leading-relaxed">
           「今」は {act.month ? monthLabel(act.month) : "直近の月"} の実績。1年目は相談者が少しずつ積み上がるので、2年目以降の毎月の面談は約{Math.round(steadySessions)}回({fmt(Math.round(steadySessions * p.unitPrice))}円/月)になります。
         </p>
         {over && (
@@ -1879,7 +1879,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 今どこまで来ているか */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">今どこまで来ているか</p>
-        <p className="text-[10px] text-stone-400 mb-2">{act.month ? monthLabel(act.month) : "直近の月"}の実績 ÷ 毎月必要な数。</p>
+        <p className="text-[10px] text-stone-500 mb-2">{act.month ? monthLabel(act.month) : "直近の月"}の実績 ÷ 毎月必要な数。</p>
         <div className="bg-white rounded-xl border border-stone-200 p-3">
           <PlanGapBars items={[
             { label: "サイトのユーザー", now: act.users, need: users, unit: "人" },
@@ -1912,7 +1912,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
         return (
           <div>
             <p className="text-xs font-medium text-stone-600 mb-1">現在比の推移(毎月必要な数の何%まで来たか)</p>
-            <p className="text-[10px] text-stone-400 mb-2">薄い棒は今月(途中)。棒を押すと実数が出ます。開業判断の目標とは別に、売上目標から逆算した「必要な数」と比べています。</p>
+            <p className="text-[10px] text-stone-500 mb-2">薄い棒は今月(途中)。棒を押すと実数が出ます。開業判断の目標とは別に、売上目標から逆算した「必要な数」と比べています。</p>
             <div className="bg-white rounded-xl border border-stone-200 p-3">
               <div className="grid grid-cols-3 gap-2">
                 <PlanProgressMini title="サイトのユーザー" series={usersSer} need={users} unit="人" />
@@ -1922,7 +1922,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
               {reach && reachText && (
                 <p className="text-[11px] text-stone-600 mt-3 leading-relaxed">
                   サイトのユーザーは直近、月{(reach.growth * 100).toFixed(0)}%ずつ伸びています。このペースが続くと、必要な{fmt(Math.ceil(users))}人に届くのは<strong>{reachText}</strong>。
-                  <span className="text-[10px] text-stone-400 block mt-0.5">検索流入の伸びはいずれ鈍るので、楽観的な見込みです。</span>
+                  <span className="text-[10px] text-stone-500 block mt-0.5">検索流入の伸びはいずれ鈍るので、楽観的な見込みです。</span>
                 </p>
               )}
             </div>
@@ -1933,7 +1933,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 何を動かすと楽になるか */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">どの数字を良くすると、必要なユーザーが減るか</p>
-        <p className="text-[10px] text-stone-400 mb-2">それぞれ1つだけ良くした場合の、毎月必要なサイトのユーザー数。</p>
+        <p className="text-[10px] text-stone-500 mb-2">それぞれ1つだけ良くした場合の、毎月必要なサイトのユーザー数。</p>
         <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-100 text-[12px]">
           {[
             ["今の前提のまま", users],
@@ -1952,7 +1952,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
             </div>
           ))}
         </div>
-        <p className="text-[10px] text-stone-400 mt-1.5 leading-relaxed">
+        <p className="text-[10px] text-stone-500 mt-1.5 leading-relaxed">
           サイトの検索流入だけでは届かない差は、Instagram・広告など別の入口からのLINE登録で埋めることになります(その分は「LINE友だち追加」の数で見ます)。
         </p>
       </div>
@@ -1960,7 +1960,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 月ごとの推移 */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">1年目の月ごとの推移(目安)</p>
-        <p className="text-[10px] text-stone-400 mb-2">毎月 {N.toFixed(1)}人ずつ新しい相談者が来て、1人が約{D.toFixed(1)}か月通う前提。棒を押すと金額が出ます。</p>
+        <p className="text-[10px] text-stone-500 mb-2">毎月 {N.toFixed(1)}人ずつ新しい相談者が来て、1人が約{D.toFixed(1)}か月通う前提。棒を押すと金額が出ます。</p>
         <div className="bg-white rounded-xl border border-stone-200 p-3 mb-2">
           <PlanRevenueChart rows={rows} target={p.annualTarget} label={monthName} />
         </div>
@@ -1996,7 +1996,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 段階目標 */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">段階目標(月の面談件数ごと)</p>
-        <p className="text-[10px] text-stone-400 mb-2">事業計画のシートと同じ考え方。その件数を1年続けた場合の数字です。</p>
+        <p className="text-[10px] text-stone-500 mb-2">事業計画のシートと同じ考え方。その件数を1年続けた場合の数字です。</p>
         <div className="bg-white rounded-xl border border-stone-200 overflow-x-auto">
           <table className="w-full text-[12px] text-stone-700 min-w-[380px]">
             <thead>
@@ -2014,7 +2014,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
                 return (
                   <tr key={n} className="border-b border-stone-50 last:border-0" style={hit ? { background: "rgba(124,154,138,0.08)" } : undefined}>
                     <td className="px-3 py-1.5">{n}件{p.capacity !== null && n > p.capacity && <span className="text-[10px] text-[#b0654a]">(上限超え)</span>}</td>
-                    <td className="text-right px-2">{fmt(Math.round(rev / 10000))}万円{hit && <span className="text-[10px] text-stone-400">(目標以上)</span>}</td>
+                    <td className="text-right px-2">{fmt(Math.round(rev / 10000))}万円{hit && <span className="text-[10px] text-stone-500">(目標以上)</span>}</td>
                     <td className="text-right px-2">{fmt(Math.round((rev * (1 - (p.expenseRate ?? 0.2))) / 10000))}万円</td>
                     <td className="text-right px-3">約{Math.ceil(n / p.sessionsPerMonth)}人</td>
                   </tr>
@@ -2028,7 +2028,7 @@ function PlanPanel({ data, adminKey, onSaved }: { data: ApiResult; adminKey: str
       {/* 前提 */}
       <div>
         <p className="text-xs font-medium text-stone-600 mb-1">前提(変えると上の数字がすぐ変わります)</p>
-        <p className="text-[10px] text-stone-400 mb-2 leading-relaxed">
+        <p className="text-[10px] text-stone-500 mb-2 leading-relaxed">
           「仮」の数字は、開業後の実績が出たら置き換えてください。空欄の項目は、今のサイトの実績を使います。
         </p>
         <div className="bg-white rounded-xl border border-stone-200 p-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2102,10 +2102,10 @@ function FeedbackPanel({ adminKey, onOpenCount }: { adminKey: string; onOpenCoun
           <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} />対応済みも表示
         </label>
       </div>
-      <p className="text-[10px] text-stone-400 leading-relaxed">
+      <p className="text-[10px] text-stone-500 leading-relaxed">
         全ページの下の「サイトの不具合・ご意見を送る」から届いた内容です(匿名・返信不可)。新しいものから500件まで残ります。
       </p>
-      {list.length === 0 && <p className="text-[12px] text-stone-400 bg-white rounded-xl border border-stone-200 p-4">{items.length === 0 ? "まだ届いていません" : "未対応のものはありません"}</p>}
+      {list.length === 0 && <p className="text-[12px] text-stone-500 bg-white rounded-xl border border-stone-200 p-4">{items.length === 0 ? "まだ届いていません" : "未対応のものはありません"}</p>}
       {list.map((it) => (
         <div key={it.id} className="bg-white rounded-xl border border-stone-200 p-3" style={it.done ? { opacity: 0.55 } : undefined}>
           <div className="flex items-start justify-between gap-3 mb-1.5">
@@ -2113,7 +2113,7 @@ function FeedbackPanel({ adminKey, onOpenCount }: { adminKey: string; onOpenCoun
               <span className="inline-block px-2 py-0.5 rounded-full mr-1.5" style={{ background: "#f0ebe3", color: INK }}>{FB_CATEGORY[it.category] ?? it.category}</span>
               {new Date(it.at).toLocaleString("ja-JP", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })} ・ {FB_DEVICE[it.device] ?? it.device}
             </div>
-            <button type="button" onClick={() => toggle(it)} className="text-[11px] px-2.5 py-1 rounded-full border flex-shrink-0"
+            <button type="button" onClick={() => toggle(it)} className="text-[11px] px-2.5 py-2.5 rounded-full border flex-shrink-0"
               style={it.done ? { borderColor: "#d6d3d1", color: "#78716c" } : { borderColor: SAGE, color: "#fff", background: SAGE }}>
               {it.done ? "未対応に戻す" : "対応済みにする"}
             </button>
@@ -2339,13 +2339,13 @@ export default function OpsDashboard() {
       <div className="max-w-3xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-3">
           <p className="text-[11px] tracking-[0.2em] text-stone-500">運営ダッシュボード ｜ 運営者用</p>
-          <button onClick={() => { saveKey(""); setKey(""); setData(null) }} className="text-[11px] text-stone-400 underline">キーを消す</button>
+          <button onClick={() => { saveKey(""); setKey(""); setData(null) }} className="text-[11px] text-stone-500 underline">キーを消す</button>
         </div>
 
         {/* タブ */}
         <div className="flex flex-wrap gap-1.5 mb-4 text-xs">
           {([["launch", "開業判断"], ["plan", "年間計画"], ["users", "ユーザー"], ["todo", "改善候補"], ["articles", "記事ごと"], ["search", "検索された言葉"], ["ai", "AIアシスタント"], ["feedback", "ご意見"]] as [Tab, string][]).map(([v, l]) => (
-            <button key={v} onClick={() => setTab(v)} className="relative px-3.5 py-1.5 rounded-full border" style={chip(tab === v)}>
+            <button key={v} onClick={() => setTab(v)} className="relative px-3.5 py-2.5 rounded-full border" style={chip(tab === v)}>
               {l}
               {v === "feedback" && fbOpen > 0 && (
                 <span aria-label={`未対応 ${fbOpen}件`} className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold leading-[18px] text-center text-white" style={{ background: "#c2410c" }}>
@@ -2358,7 +2358,7 @@ export default function OpsDashboard() {
 
         <div className="flex items-center gap-2 mb-4">
           <button type="button" onClick={saveSnapshots} disabled={!!snap || !data}
-            className="px-3.5 py-1.5 rounded-full border text-xs disabled:opacity-50" style={{ background: "white", color: INK, borderColor: SAGE }}>
+            className="px-3.5 py-2.5 rounded-full border text-xs disabled:opacity-50" style={{ background: "white", color: INK, borderColor: SAGE }}>
             📷 分析用の画像を保存(開業判断・年間計画・ユーザー・改善候補)
           </button>
           {snap && <span className="text-[11px] text-stone-500" role="status">{snap}</span>}
@@ -2483,7 +2483,7 @@ export default function OpsDashboard() {
                   <tbody>
                     {months.map((mo, i) => (
                       <tr key={mo.month} className="border-b border-stone-50 last:border-0">
-                        <td className="px-3 py-2">{monthLabel(mo.month)}{i === months.length - 1 && <span className="text-[10px] text-stone-400">(途中)</span>}</td>
+                        <td className="px-3 py-2">{monthLabel(mo.month)}{i === months.length - 1 && <span className="text-[10px] text-stone-500">(途中)</span>}</td>
                         <td className="text-right px-2">{fmt(mo.users)}</td>
                         <td className="text-right px-2">{fmt(mo.newUsers)}</td>
                         <td className="text-right px-2">{fmt(mo.pageViews)}</td>
@@ -2505,7 +2505,7 @@ export default function OpsDashboard() {
             {/* 流入元 */}
             <div>
               <p className="text-xs font-medium text-stone-600 mb-1">流入元(ユーザー数)</p>
-              <p className="text-[10px] text-stone-400 mb-2">行を押すと、説明と、具体的にどのサイト・サービスから来たかが出ます。</p>
+              <p className="text-[10px] text-stone-500 mb-2">行を押すと、説明と、具体的にどのサイト・サービスから来たかが出ます。</p>
               <ChannelTable months={months} cur={cur} />
             </div>
 
@@ -2555,7 +2555,7 @@ export default function OpsDashboard() {
           <div>
             <div className="flex gap-2 mb-3 text-xs">
               {[7, 28, 90].map((d) => (
-                <button key={d} onClick={() => setDays(d)} className="px-3 py-1.5 rounded-full border" style={chip(days === d)}>直近{d}日</button>
+                <button key={d} onClick={() => setDays(d)} className="px-3 py-2.5 rounded-full border" style={chip(days === d)}>直近{d}日</button>
               ))}
             </div>
 
@@ -2583,20 +2583,20 @@ export default function OpsDashboard() {
             <input
               type="search" value={q} onChange={(e) => setQ(e.target.value)}
               placeholder="タイトル・検索語句で絞り込む(例:燃え尽き)"
-              className="w-full px-3 py-2.5 rounded-xl border border-stone-300 bg-white text-sm mb-2 focus:outline-none"
+              className="w-full px-3 py-2.5 rounded-xl border border-stone-300 bg-white text-sm mb-2 focus:outline-none focus:border-[#7C9A8A] focus:ring-2 focus:ring-[#7C9A8A]/40"
             />
             <div className="flex flex-wrap gap-1.5 mb-2 text-xs">
               {([["all", "すべて"], ["normal", "通常の記事"], ["thinker", "偉人・学者"]] as ["all" | "normal" | "thinker", string][]).map(([v, l]) => (
-                <button key={v} onClick={() => setScope(v)} className="px-3 py-1 rounded-full border" style={chip(scope === v)}>{l}</button>
+                <button key={v} onClick={() => setScope(v)} className="px-3 py-2.5 rounded-full border" style={chip(scope === v)}>{l}</button>
               ))}
             </div>
             <div className="flex flex-wrap gap-1.5 mb-4 text-xs items-center">
-              <span className="text-stone-400">並べ替え:</span>
+              <span className="text-stone-500">並べ替え:</span>
               {([["views", "閲覧数"], ["change", "増えた順"], ["line", "LINE"], ["impressions", "検索表示"], ["position", "検索順位"]] as [SortKey, string][]).map(([v, l]) => (
-                <button key={v} onClick={() => setSort(v)} className="px-3 py-1 rounded-full border" style={chip(sort === v)}>{l}</button>
+                <button key={v} onClick={() => setSort(v)} className="px-3 py-2.5 rounded-full border" style={chip(sort === v)}>{l}</button>
               ))}
-              <button onClick={downloadCsv} disabled={!data || loading} className="px-3 py-1 rounded-full border" style={{ borderColor: "#d6d3d1", color: "#57534e", opacity: !data || loading ? 0.4 : 1 }}>CSVで保存</button>
-              <span className="ml-auto text-stone-400">{shown.length}本</span>
+              <button onClick={downloadCsv} disabled={!data || loading} className="px-3 py-2.5 rounded-full border" style={{ borderColor: "#d6d3d1", color: "#57534e", opacity: !data || loading ? 0.4 : 1 }}>CSVで保存</button>
+              <span className="ml-auto text-stone-500">{shown.length}本</span>
             </div>
 
             <div className="space-y-2">
@@ -2606,15 +2606,15 @@ export default function OpsDashboard() {
                 return (
                   <div key={r.path} className="bg-white rounded-xl border border-stone-200 px-3 py-2.5">
                     <div className="flex items-start gap-3">
-                      <span className="text-[11px] text-stone-400 w-6 flex-shrink-0 pt-0.5 text-right">{i + 1}</span>
+                      <span className="text-[11px] text-stone-500 w-6 flex-shrink-0 pt-0.5 text-right">{i + 1}</span>
                       <div className="flex-1 min-w-0">
                         <a href={r.path} target="_blank" rel="noopener noreferrer" className="block text-[13px] leading-snug hover:underline" style={{ color: INK }}>{r.title}</a>
-                        <p className="text-[10px] text-stone-400 mt-1">
+                        <p className="text-[10px] text-stone-500 mt-1">
                           閲覧者 {fmt(r.users)} ／ 平均 {fmtTime(r.users ? r.engagementSec / r.users : 0)}
                           {r.lineClicks > 0 && <> ／ <span style={{ color: "#047857" }}>LINE {r.lineClicks}</span></>}
                           {r.checkCompletes > 0 && <> ／ チェック完了 {r.checkCompletes}人</>}
                         </p>
-                        <p className="text-[10px] text-stone-400">
+                        <p className="text-[10px] text-stone-500">
                           {r.gsc ? <>検索:表示 {fmt(r.gsc.impressions)} ／ クリック {fmt(r.gsc.clicks)} ／ 平均 {r.gsc.position}位</> : data?.gsc.ok ? "検索:表示なし" : null}
                         </p>
                         <button onClick={() => setOpen(isOpen ? null : r.path)} className="text-[10px] underline mt-1" style={{ color: SAGE }}>
@@ -2622,7 +2622,7 @@ export default function OpsDashboard() {
                         </button>
                         {isOpen && (
                           <div className="mt-2 border-t border-stone-100 pt-2 space-y-2">
-                            <p className="text-[10px] text-stone-400">公開/更新 {r.date || "—"} ／ {r.path}</p>
+                            <p className="text-[10px] text-stone-500">公開/更新 {r.date || "—"} ／ {r.path}</p>
                             {r.gsc && r.gsc.queries.length > 0 && (
                               <div>
                                 <p className="text-[10px] text-stone-500 mb-1">この記事が表示された検索語句</p>
@@ -2630,14 +2630,14 @@ export default function OpsDashboard() {
                                   {r.gsc.queries.map((x) => (
                                     <li key={x.q}>
                                       <span>{x.q}</span>
-                                      <span className="text-stone-400 text-[10px] ml-2">表示{x.impressions}・クリック{x.clicks}・{x.position}位</span>
+                                      <span className="text-stone-500 text-[10px] ml-2">表示{x.impressions}・クリック{x.clicks}・{x.position}位</span>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
                             )}
                             <div className="flex items-center gap-2 flex-wrap">
-                              <button onClick={() => runInspect(r.path)} className="text-[10px] px-2.5 py-1 rounded-full border" style={{ borderColor: "#d6d3d1", color: "#57534e" }}>Googleの登録状況を確認</button>
+                              <button onClick={() => runInspect(r.path)} className="text-[10px] px-2.5 py-2.5 rounded-full border" style={{ borderColor: "#d6d3d1", color: "#57534e" }}>Googleの登録状況を確認</button>
                               {inspect[r.path] && <span className="text-[10px] text-stone-500">{inspect[r.path]}</span>}
                             </div>
                           </div>
@@ -2672,7 +2672,7 @@ export default function OpsDashboard() {
                 <div className="bg-white rounded-xl border border-stone-200 divide-y divide-stone-50">
                   {(data.siteSearch.terms ?? []).map((t) => (
                     <div key={t.term} className="flex justify-between px-3 py-2 text-[12px] text-stone-700">
-                      <span>{t.term}</span><span className="text-stone-400">{t.count}回</span>
+                      <span>{t.term}</span><span className="text-stone-500">{t.count}回</span>
                     </div>
                   ))}
                 </div>
@@ -2683,7 +2683,7 @@ export default function OpsDashboard() {
         )}
 
         {data && (
-          <p className="text-[10px] text-stone-400 mt-6">
+          <p className="text-[10px] text-stone-500 mt-6">
             取得:{new Date(data.fetchedAt).toLocaleString("ja-JP")} ／ 月の数字は日本時間の暦月、記事ごとの数字は昨日までの{data.days}日間(比較はその直前の同じ日数)。
           </p>
         )}
