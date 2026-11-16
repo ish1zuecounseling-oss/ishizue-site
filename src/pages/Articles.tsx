@@ -26,6 +26,7 @@ import {
   Search, X as XIcon, MessageCircle, Sparkles, Compass,
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import StatePicker from "../components/articles/StatePicker";
 import { articles } from "../data/articles";
 import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
 
@@ -276,6 +277,51 @@ const SHINDO_CARDS: ShindoCard[] = [
   { label: "復職・続けるか迷う",       icon: "RotateCcw",    keywords: ["return", "transfer", "repeat", "suitable", "absence", "career-stagnation", "job-hopping", "aptitude-doubt", "consider-leave", "want-to-quit", "counseling-when-quitting", "burnout-vs-depression", "burnout-recovery", "signs-to-rest", "guilt-about-leaving", "social-worker-dilem", "burnout-what-to-do"] },
   { label: "なぜこうなるか理解したい", icon: "FlaskConical",  keywords: ["research"] },
 ];
+
+/* 状態を選んだときの「はじめの5本」(読む順)。1〜3本目=いま整える、4〜5本目=理由を知る */
+type ShindoPick = { path: string; kind: "整える" | "理由を知る" };
+const SHINDO_PICKS: Record<string, { lead: string; picks: ShindoPick[] }> = {
+  "疲れが取れない": {
+    lead: "休んでも疲れが抜けないときは、休み方だけでなく、回復を妨げているものが残っていることがあります。まず今日からできることを3本、そのあとに理由を知る2本です。",
+    picks: [
+      { path: "/articles/helper-cannot-rest-on-days-off", kind: "整える" },
+      { path: "/articles/helper-fatigue-diagnosis", kind: "整える" },
+      { path: "/articles/compassion-fatigue-coping", kind: "整える" },
+      { path: "/articles/brain-fatigue-mechanism", kind: "理由を知る" },
+      { path: "/articles/burnout-not-recovering", kind: "理由を知る" },
+    ],
+  },
+  "利用者を抱え込みすぎる": {
+    lead: "抱え込みは、性格の問題というより、役割や責任の線があいまいになる構造から起きることがあります。まず手放し方・伝え方を3本、そのあとに構造を知る2本です。",
+    picks: [
+      { path: "/articles/helper-carrying-clients", kind: "整える" },
+      { path: "/articles/helper-boundary-how-to", kind: "整える" },
+      { path: "/articles/helper-cannot-say-no", kind: "整える" },
+      { path: "/articles/cannot-depend-on-others", kind: "理由を知る" },
+      { path: "/articles/helper-overwork", kind: "理由を知る" },
+    ],
+  },
+  "辞めたい": {
+    lead: "結論を急がず、まず「何が限界なのか」を分けて考えてみる5本です。職場そのものなのか、働き方や役割なのかで、次の一手は変わります。",
+    picks: [
+      { path: "/articles/helper-want-to-quit-landing", kind: "整える" },
+      { path: "/articles/quit-job-timing", kind: "整える" },
+      { path: "/articles/helper-quit-timing-check", kind: "整える" },
+      { path: "/articles/helper-guilt-about-leaving", kind: "理由を知る" },
+      { path: "/articles/helper-leave-of-absence-hesitation", kind: "理由を知る" },
+    ],
+  },
+  "なぜこうなるか理解したい": {
+    lead: "しんどさを言葉にできないときは、考えが足りないのではなく、整理する枠組みが見つかっていないだけのこともあります。まず今の状態を確かめる3本、そのあとに構造を知る2本です。",
+    picks: [
+      { path: "/articles/helper-status-check", kind: "整える" },
+      { path: "/articles/emotion-unknown", kind: "整える" },
+      { path: "/articles/helper-self-blame", kind: "整える" },
+      { path: "/articles/emotional-labor-what-pillar", kind: "理由を知る" },
+      { path: "/articles/burnout-causes", kind: "理由を知る" },
+    ],
+  },
+};
 
 type Category = { id: string; label: string; keywords: string[]; isCheck?: boolean; isResearch?: boolean };
 
@@ -736,6 +782,12 @@ export default function Articles() {
         <section className="py-8 md:py-12 px-5 md:px-6" itemScope itemType="https://schema.org/CollectionPage">
           <div className="max-w-4xl mx-auto">
 
+            {/* 状態から選ぶ(おすすめ5本) */}
+            <StatePicker
+              onPick={(st) => track("articles_state_pick", { state: st })}
+              onAiClick={() => track("articles_state_ai_click", { place: "state_picker" })}
+            />
+
             {/* 検索ボックス */}
             <div className="relative mb-5">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300 pointer-events-none" aria-hidden="true" />
@@ -977,6 +1029,36 @@ export default function Articles() {
             )}
 
             {/* しんどさカード結果表示 */}
+            {!searchQuery.trim() && activeTab === "shindo" && activeShindo && SHINDO_PICKS[activeShindo.label] && (
+              <motion.div initial="hidden" animate="visible" variants={stagger} className="mb-8 p-5 md:p-6 rounded-2xl border" style={{ background: `${SAGE}10`, borderColor: `${SAGE}40` }} data-track-section="shindo-picks">
+                <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-1" style={{ color: SAGE }}>はじめの5本(読む順)</p>
+                <p className="text-sm text-stone-700 leading-[1.9] mb-4">{SHINDO_PICKS[activeShindo.label].lead}</p>
+                <ol className="space-y-2">
+                  {SHINDO_PICKS[activeShindo.label].picks.map((pk, i) => {
+                    const art = articles.find((a) => a.path === pk.path);
+                    if (!art) return null;
+                    return (
+                      <li key={pk.path}>
+                        <Link to={pk.path} className="group flex items-start gap-3 p-3.5 rounded-xl bg-white border border-stone-100 hover:border-[#8FAF9F]/60 transition-colors">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full text-xs font-medium grid place-items-center text-white" style={{ background: SAGE }}>{i + 1}</span>
+                          <span className="min-w-0">
+                            <span className="block text-sm font-medium text-stone-800 leading-snug">{art.title}</span>
+                            <span className="inline-block mt-1.5 text-[10px] px-2 py-0.5 rounded-full text-stone-500 bg-stone-100">{pk.kind === "整える" ? "いま整える" : "理由を知る"}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ol>
+                <p className="text-xs text-stone-500 leading-relaxed mt-4">全部読まなくて大丈夫です。1本目だけでも十分です。</p>
+                <p className="text-xs text-stone-500 leading-relaxed mt-1">
+                  5本でも決めきれないときは、
+                  <Link to="/ai-assistant" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">AI構造整理アシスタント(無料・登録不要)</Link>
+                  で、今の状態を言葉にしてみてください。
+                </p>
+              </motion.div>
+            )}
+
             {!searchQuery.trim() && activeTab === "shindo" && activeShindo && (
               <motion.div initial="hidden" animate="visible" variants={stagger} className="space-y-2 mb-8">
                 <div className="flex items-center justify-between mb-3">
