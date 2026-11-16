@@ -195,7 +195,6 @@ const RESEARCH_PATHS = [
   "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue",
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
-  "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "emotional-granularity", "ai-verification-fatigue",
   "sudden-bad-memories-intrusive-thoughts",
 ];
@@ -347,6 +346,10 @@ const TOOLS = [
   { path: "/articles/helper-self-compassion-check",title: "セルフ・コンパッション反応チェック｜8場面で「自分への思いやり」を確認する",           desc: "つらい場面で自分をどう扱うか——支援職の8つの場面で、いちばん近い反応を1つずつ選んで確認。Neff(2003)の3要素を参考に独自作成。", tag: "8場面・選択式",    color: "#8FAF9F" },
   { path: "/articles/helper-empathy-check",        title: "共感疲労チェック｜支援職のための20項目診断",                                          desc: "利用者のことが頭から離れない、仕事後も気持ちが切り替わらない——20項目から共感疲労の消耗度を3分で確認。",                tag: "20問・3分",        color: "#8FAF9F" },
   { path: "/articles/helper-brain-fatigue-check",  title: "脳疲労セルフチェック｜支援職のための20項目診断",                                      desc: "「頭が回らない」「休んでも疲れが抜けない」——脳疲労の症状20項目から今の状態を3分で確認できます。",                      tag: "20問・3分",        color: "#7EB8A4" },
+  { path: "/articles/helper-wellbeing-check",   title: "支援職の心の充実度チェック｜5つの軸で「いま少なめなところ」を振り返る",               desc: "気持ち・夢中・つながり・意味・できた感の5つの軸で、いま当てはまりが少なめなところを20項目で振り返ります。",   tag: "5軸・20問",       color: "#c084fc" },
+  { path: "/articles/emptiness-check",           title: "空虚感チェック｜心が空っぽな感じはどこから？",                                      desc: "「心が空っぽ」「何も感じない」——感情・意味・身体・自分の4つの側面を16項目で確認。",                     tag: "4側面・16問",     color: "#a78bfa" },
+  { path: "/articles/burnout-recovery-stage-check", title: "燃え尽き症候群の回復段階チェック｜今どの段階？",                                 desc: "休養・整理・再構築・維持の4つの段階のうち、いまの自分がどこにいるかを20項目で振り返ります。",           tag: "4段階・20問",     color: "#60a5fa" },
+  { path: "/articles/counseling-matching-check", title: "このカウンセリングが合う人・合わない人チェック",                                    desc: "いしずえのカウンセリングが合うかどうかを10項目で確認します。",                                         tag: "10問",            color: "#f59e0b" },
   { path: "/articles/working-os-check",            title: "「働き方のOS」診断",                                                                  desc: "なぜ働いているのに満たされないのか。ライス・ライフ・ライトの3軸で消耗の構造を可視化。レーダーチャート付き・全12問。",  tag: "3軸・12問",        color: "#7EB8A4" },
 ] as const;
 
@@ -445,6 +448,7 @@ const THEME_LAYERS: ThemeLayer[] = [
 type ResearchSection = { label: string; desc: string; paths: string[] };
 
 const RESEARCH_SECTIONS: ResearchSection[] = [
+  { label: "気持ちと体の反応｜感じ方・向き合い方", desc: "矛盾する気持ち、抑える・整理する、固まる・避ける、突然よみがえる記憶——感情と体の反応を心理学から解説した記事", paths: ["ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze", "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap", "emotional-granularity", "ai-verification-fatigue", "sudden-bad-memories-intrusive-thoughts"] },
   { label: "消耗の正体｜なぜ疲れるのか", desc: "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事", paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue", "helper-empathy-fatigue", "helper-secondary-trauma", "helper-decision-fatigue", "helper-overwork", "helper-night-shift-mental-health", "helper-case-overload", "emotional-labor-fatigue", "care-worker-mental-fatigue", "empathy-fatigue-vs-secondary-trauma"] },
   { label: "抜け出せない思考｜やめられない・考えすぎ", desc: "「頭から離れない」「自分を責めてしまう」——抜け出せない思考パターンの正体", paths: ["helper-contrast-avoidance", "helper-self-criticism-culture", "helper-implicit-theory", "helper-naive-realism", "helper-self-effacement-family", "helper-wellbeing-not-from"] },
   { label: "辞めたい・休職を考えたとき", desc: "「もう限界かもしれない」「休んでいいのか」——判断を整理するための記事", paths: ["helper-want-to-quit", "helper-consider-leave", "helper-caregiver-burnout", "helper-guilt-about-leaving", "helper-leave-of-absence-hesitation", "helper-signs-to-rest", "helper-return-to-work-fear", "helper-counseling-when-quitting", "helper-career-stagnation"] },
@@ -473,8 +477,8 @@ const THINKER_SECTIONS: ThinkerSection[] = [
   { label: "空虚と意味",           desc: "満たされなさ、やりがい、生きる意味をめぐる思想",         keys: ["baudelaire", "frankl", "csikszentmihalyi", "deci"] },
   { label: "他人軸・比較・思い込み", desc: "人の目、比較、決めつけから距離をとるための思想",         keys: ["epictetus", "adler", "girard", "diogenes", "horney", "pyrrho", "krishnamurti", "doi", "soseki", "seligman"] },
   { label: "支援と他者",           desc: "人を支えること、他者と向き合うことの難しさをめぐる思想", keys: ["dostoevsky", "nietzsche", "schmidbauer", "hochschild", "saint-exupery", "kant", "weil", "levinas", "derrida", "bourdieu", "marcus", "aristotle"] },
-  { label: "疲れ・反芻・休息",     desc: "考えすぎ、眠れなさ、休み方をめぐる思想と研究",           keys: ["russell", "holmes", "dalton-smith", "vanderbilt", "kross", "takuan", "bachelard", "cioran", "pascal", "chomei", "maslach", "seneca"] },
-  { label: "心とからだ",           desc: "からだの感覚と心のつながりをめぐる思想",                 keys: ["ikemi", "nishida", "upanishad"] },
+  { label: "疲れ・反芻・休息",     desc: "考えすぎ、眠れなさ、休み方をめぐる思想と研究",           keys: ["russell", "holmes", "dalton-smith", "vanderbilt", "kross", "takuan", "bachelard", "cioran", "pascal", "chomei", "maslach", "seneca", "pieper"] },
+  { label: "心とからだ",           desc: "からだの感覚と心のつながりをめぐる思想",                 keys: ["ikemi", "nishida", "upanishad", "merleau-ponty"] },
   { label: "カウンセリングそのもの", desc: "問いを通して考えを引き出す、対話の原点",                 keys: ["socrates"] },
 ];
 function getThinkerArticlesForSection(keys: string[]) {
@@ -831,7 +835,7 @@ export default function Articles() {
                     tab.id === "all"      ? articles.length :
                     tab.id === "new"      ? articles.length :
                     tab.id === "tools"    ? TOOLS.length :
-                    tab.id === "research" ? articles.filter((a) => isResearchArticle(a.path)).length :
+                    tab.id === "research" ? new Set(RESEARCH_SECTIONS.flatMap((sec) => getResearchArticlesForSection(sec.paths).map((a) => a.path))).size :
                     tab.id === "thinkers" ? articles.filter((a) => isThinkerArticle(a.path)).length :
                     tab.id === "shindo"   ? articles.length :
                     articles.filter((a) => !isResearchArticle(a.path) && !isThinkerArticle(a.path)).length;
