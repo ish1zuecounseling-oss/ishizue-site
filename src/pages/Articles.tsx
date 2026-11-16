@@ -195,7 +195,7 @@ const RESEARCH_PATHS = [
   "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue",
   "ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze",
   "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap",
-  "emotional-granularity", "ai-verification-fatigue",
+  "emotional-granularity", "learned-helplessness-revisited", "ai-verification-fatigue",
   "sudden-bad-memories-intrusive-thoughts",
 ];
 
@@ -448,7 +448,7 @@ const THEME_LAYERS: ThemeLayer[] = [
 type ResearchSection = { label: string; desc: string; paths: string[] };
 
 const RESEARCH_SECTIONS: ResearchSection[] = [
-  { label: "気持ちと体の反応｜感じ方・向き合い方", desc: "矛盾する気持ち、抑える・整理する、固まる・避ける、突然よみがえる記憶——感情と体の反応を心理学から解説した記事", paths: ["ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze", "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap", "emotional-granularity", "ai-verification-fatigue", "sudden-bad-memories-intrusive-thoughts"] },
+  { label: "気持ちと体の反応｜感じ方・向き合い方", desc: "矛盾する気持ち、抑える・整理する、固まる・避ける、突然よみがえる記憶——感情と体の反応を心理学から解説した記事", paths: ["ambivalence-want-to-rest", "emotion-suppression-vs-processing", "fight-flight-freeze", "avoidance-maintains-anxiety", "sensitive-to-others-reactions", "thinking-feeling-gap", "emotional-granularity", "ai-verification-fatigue", "sudden-bad-memories-intrusive-thoughts", "learned-helplessness-revisited"] },
   { label: "消耗の正体｜なぜ疲れるのか", desc: "「なぜこんなに疲れるのか」——消耗が起きる構造を心理学から解説した記事", paths: ["helper-organization-unsafe", "helper-self-complexity", "helper-mind-wandering", "helper-stress-mindset", "helper-team-communication", "helper-emotional-labor-what", "helper-helplessness", "helper-brain-fatigue", "helper-empathy-fatigue", "helper-secondary-trauma", "helper-decision-fatigue", "helper-overwork", "helper-night-shift-mental-health", "helper-case-overload", "emotional-labor-fatigue", "care-worker-mental-fatigue", "empathy-fatigue-vs-secondary-trauma"] },
   { label: "抜け出せない思考｜やめられない・考えすぎ", desc: "「頭から離れない」「自分を責めてしまう」——抜け出せない思考パターンの正体", paths: ["helper-contrast-avoidance", "helper-self-criticism-culture", "helper-implicit-theory", "helper-naive-realism", "helper-self-effacement-family", "helper-wellbeing-not-from"] },
   { label: "辞めたい・休職を考えたとき", desc: "「もう限界かもしれない」「休んでいいのか」——判断を整理するための記事", paths: ["helper-want-to-quit", "helper-consider-leave", "helper-caregiver-burnout", "helper-guilt-about-leaving", "helper-leave-of-absence-hesitation", "helper-signs-to-rest", "helper-return-to-work-fear", "helper-counseling-when-quitting", "helper-career-stagnation"] },
