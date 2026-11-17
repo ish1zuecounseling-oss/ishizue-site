@@ -132,6 +132,37 @@
 .article-body a.text-white:hover {
   color: #fff;
   text-decoration: none;
+  /* ボタンの高さを44px以上にし、折り返しは均等に（「…受け取／る」の1文字落ち対策） */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  text-wrap: balance;
+}
+/* スマホでは文字をわずかに小さくし、「LINEで状態別の解説と再開のお知らせを受け取る」が1行に収まるようにする */
+@media (max-width: 479px) {
+  .article-body a.text-white {
+    font-size: 13px;
+    letter-spacing: 0;
+  }
+}
+
+/* スマホ最適化：パンくずの記事タイトルは1行で省略（デスクトップは従来どおり全文） */
+@media (max-width: 639px) {
+  .breadcrumb-title {
+    display: inline-block;
+    max-width: 52vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+}
+
+/* 見出しの1文字落ち対策（p の pretty と同じ考え方を見出しにも） */
+.article-body h2,
+.article-body h3 {
+  text-wrap: balance;
 }
 
 /* blockquote — Home.tsx の BlockQuote コンポーネントと同じデザイン */
