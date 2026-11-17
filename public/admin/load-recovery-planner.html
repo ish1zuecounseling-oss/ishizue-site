@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>負荷と回復の設計</title>
 <style>
-:root{--bg:#f7f4ec;--card:#fffdf8;--ink:#3e2f23;--sub:#7a6a58;--line:#ddd2bf;--ai:#7d8c5c;--ai-soft:#eef1e2;--warn:#b4552d;--chip:#f1ead9}
+:root{--bg:#141b21;--card:#1c252d;--ink:#e4e9ed;--sub:#9aa8b3;--line:#2e3b46;--ai:#9fc297;--ai-soft:#24352a;--warn:#e39a7a;--chip:#24303a;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;font-size:15px;line-height:1.65}
 main{max-width:760px;margin:0 auto;padding:16px 14px 60px}
@@ -18,17 +18,17 @@ p.lead{color:var(--sub);margin:0 0 14px}
 .note{font-size:12.5px;color:var(--sub)}
 .warn{color:var(--warn)}
 button{font:inherit;cursor:pointer}
-.btn{background:var(--ai);color:#fff;border:none;border-radius:10px;padding:10px 16px;min-height:44px}
+.btn{background:var(--ai);color:#16210f;border:none;border-radius:10px;padding:10px 16px;min-height:44px}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 12px;min-height:40px;font-size:13.5px}
-.chip[aria-pressed="true"]{background:var(--ai);color:#fff;border-color:var(--ai)}
+.chip[aria-pressed="true"]{background:var(--ai);color:#16210f;border-color:var(--ai)}
 .seg{display:flex;gap:6px}
 .seg button{flex:1;background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:8px 4px;min-height:44px}
-.seg button[aria-pressed="true"]{background:var(--ai);color:#fff;border-color:var(--ai)}
+.seg button[aria-pressed="true"]{background:var(--ai);color:#16210f;border-color:var(--ai)}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
 th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
-input[type="text"],textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+input[type="text"],textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .dayhead{display:flex;justify-content:space-between;align-items:baseline}
 .dayhead b{font-size:15.5px}
 .hint{background:var(--ai-soft);border-radius:10px;padding:8px 10px;font-size:13.5px;margin:8px 0}
@@ -38,7 +38,7 @@ summary{cursor:pointer;font-weight:600;min-height:40px;padding-top:8px}
 .tag{display:inline-block;background:var(--ai-soft);border-radius:6px;padding:0 7px;font-size:12px;margin-right:4px}
 .mk{background:linear-gradient(transparent 56%,rgba(255,105,105,.55) 56%,rgba(255,105,105,.55) 93%,transparent 93%);padding:0 .14em;border-radius:2px;font-weight:700;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .guide-main{font-size:15.5px;line-height:1.8}
-pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
+pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px}
 </style>
 </head>
@@ -333,7 +333,7 @@ function renderPatterns(){
       if(v==null||loV==null||hiV==null)return '<div class="kv"><span>'+label+'</span><span>記録なし</span></div>';
       const inR=v>=loV&&v<=hiV, left=Math.max(0,loV*10), width=Math.min(100,(hiV-loV)*10);
       return '<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13.5px"><span>'+label+'：<b>'+v+'</b></span><span class="note">'+(inR?'いつもの範囲内':'いつもの範囲の外')+(note?'（'+note+'）':'')+'</span></div>'+
-      '<div style="position:relative;height:12px;background:#f1ead9;border-radius:6px"><div style="position:absolute;top:0;height:12px;left:'+left+'%;width:'+width+'%;background:#cdd8ae;border-radius:6px"></div><div style="position:absolute;top:-3px;height:18px;width:3px;background:#3e2f23;left:calc('+(v*10)+'% - 1px)"></div></div></div>'};
+      '<div style="position:relative;height:12px;background:#2e3b46;border-radius:6px"><div style="position:absolute;top:0;height:12px;left:'+left+'%;width:'+width+'%;background:#47603c;border-radius:6px"></div><div style="position:absolute;top:-3px;height:18px;width:3px;background:#e4e9ed;left:calc('+(v*10)+'% - 1px)"></div></div></div>'};
     const bv=typeof d0.body==='number'?d0.body:null, mv=typeof d0.mind==='number'?d0.mind:null;
     const sl=bur0==null?null:10-bur0; /* 症状は「軽さ」に直し、外側ほど良い方向にそろえる */
     if(bv!=null&&mv!=null&&sl!=null&&PAT.lo.body!=null&&PAT.lo.mind!=null&&PAT.sHi!=null){
@@ -341,12 +341,12 @@ function renderPatterns(){
       const pt=(v,i)=>{const a=(-90+i*120)*Math.PI/180;return [cx+R*(v/10)*Math.cos(a),cy+R*(v/10)*Math.sin(a)]};
       const poly=vs=>vs.map((v,i)=>pt(v,i).map(n=>Math.round(n*10)/10).join(',')).join(' ');
       let g='';
-      [5,10].forEach(v=>{g+='<polygon points="'+poly([v,v,v])+'" fill="none" stroke="#ddd2bf" stroke-width="1"/>'});
-      [0,1,2].forEach(i=>{const e=pt(10,i);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0]+'" y2="'+e[1]+'" stroke="#ddd2bf" stroke-width="1"/>'});
-      g+='<polygon points="'+poly([PAT.lo.body,PAT.lo.mind,10-PAT.sHi])+'" fill="#7d8c5c" opacity="0.15" stroke="#7d8c5c" stroke-width="1.5" stroke-dasharray="5 3"/>';
-      g+='<polygon points="'+poly([bv,mv,sl])+'" fill="#a67c52" opacity="0.30" stroke="#8a5a33" stroke-width="2"/>';
-      [['体',bv,0],['心',mv,1],['症状の軽さ',sl,2]].forEach(([lb,v,i])=>{const pxy=pt(v,i);g+='<circle cx="'+pxy[0]+'" cy="'+pxy[1]+'" r="3.5" fill="#8a5a33"/>';
-        const lp=pt(12.6,i);g+='<text x="'+lp[0]+'" y="'+(lp[1]+4)+'" font-size="12" fill="#3e2f23" text-anchor="middle">'+lb+' '+v+'</text>'});
+      [5,10].forEach(v=>{g+='<polygon points="'+poly([v,v,v])+'" fill="none" stroke="#2e3b46" stroke-width="1"/>'});
+      [0,1,2].forEach(i=>{const e=pt(10,i);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0]+'" y2="'+e[1]+'" stroke="#2e3b46" stroke-width="1"/>'});
+      g+='<polygon points="'+poly([PAT.lo.body,PAT.lo.mind,10-PAT.sHi])+'" fill="#9fc297" opacity="0.15" stroke="#9fc297" stroke-width="1.5" stroke-dasharray="5 3"/>';
+      g+='<polygon points="'+poly([bv,mv,sl])+'" fill="#d9b06a" opacity="0.30" stroke="#d9b06a" stroke-width="2"/>';
+      [['体',bv,0],['心',mv,1],['症状の軽さ',sl,2]].forEach(([lb,v,i])=>{const pxy=pt(v,i);g+='<circle cx="'+pxy[0]+'" cy="'+pxy[1]+'" r="3.5" fill="#d9b06a"/>';
+        const lp=pt(12.6,i);g+='<text x="'+lp[0]+'" y="'+(lp[1]+4)+'" font-size="12" fill="#e4e9ed" text-anchor="middle">'+lb+' '+v+'</text>'});
       nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3><p class="note">茶色の面が今の状態、緑の点線が「いつもの範囲」の境目です。緑より外側がいつもの範囲で、内側にはみ出た軸が範囲の外です。症状は「軽さ」に直してあります（外側ほど軽い）。</p>'+
        '<svg viewBox="0 0 300 245" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto" role="img" aria-label="今の状態のレーダーチャート">'+g+'</svg>'+
        '<p class="note" style="text-align:center">体 '+(bv>=PAT.lo.body?'範囲内':'<span class="mk">範囲外</span>')+'／心 '+(mv>=PAT.lo.mind?'範囲内':'<span class="mk">範囲外</span>')+'／症状の支障 '+bur0+'（'+(bur0<=PAT.sHi?'範囲内':'<span class="mk">範囲外</span>')+'）</p>';
@@ -422,7 +422,7 @@ function renderPatterns(){
       if(r.na||!r.den)return '<div style="margin:9px 0"><div>'+esc(r.item)+' <span class="tag">'+esc(r.cover)+'</span></div><div class="note">'+esc(r.na||'判定できた記録がありません')+'</div></div>';
       const pct=Math.round(r.num/r.den*100);
       const numTxt=r.num+'/'+r.den+r.unit+'（'+pct+'%）';
-      return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+esc(r.item)+'</span><b>'+(pct>=50?'<span class="mk">'+numTxt+'</span>':numTxt)+'</b></div><div style="height:10px;background:#eee5d3;border-radius:999px;overflow:hidden;margin-top:4px"><div style="height:100%;width:'+pct+'%;background:#b4552d"></div></div><div class="note">'+esc(r.note)+'</div></div>';
+      return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+esc(r.item)+'</span><b>'+(pct>=50?'<span class="mk">'+numTxt+'</span>':numTxt)+'</b></div><div style="height:10px;background:#2e3b46;border-radius:999px;overflow:hidden;margin-top:4px"><div style="height:100%;width:'+pct+'%;background:#e07856"></div></div><div class="note">'+esc(r.note)+'</div></div>';
     };
     fatGraphHtml='<h3>疲労項目の出方（直近28日）</h3><p class="note">母数は、項目ごとに「判定できた日数（または回数）」です。症状や睡眠は、入力された日だけを母数にしています。割合は比べるための材料で、疲労の点数ではありません。</p>'+rows.map(rowHtml).join('');
   }
@@ -438,23 +438,23 @@ function renderPatterns(){
     const dropSet=new Set(PAT.drops.map(d=>d.date));
     let g='';
     ks.forEach((k,i)=>{if(dropSet.has(k))g+='<rect x="'+(X(i)-pw/(ks.length-1)/2).toFixed(1)+'" y="'+mt+'" width="'+(pw/(ks.length-1)).toFixed(1)+'" height="'+ph+'" fill="#b4552d" opacity="0.10"/>'});
-    ks.forEach((k,i)=>{const hh=sleepH(DATA.days[k]);if(hh==null)return;const bh=hh/12*ph*0.35;g+='<rect x="'+(X(i)-3)+'" y="'+(mt+ph-bh).toFixed(1)+'" width="6" height="'+bh.toFixed(1)+'" fill="#cbbfa8"/>'});
-    [0,5,10].forEach(v=>{g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#ddd2bf" stroke-width="1"/><text x="2" y="'+(Y(v)+4)+'" font-size="10" fill="#7a6a58">'+v+'</text>'});
-    if(PAT.bMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.bMed)+'" y2="'+Y(PAT.bMed)+'" stroke="#7d8c5c" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
-    if(PAT.mMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.mMed)+'" y2="'+Y(PAT.mMed)+'" stroke="#a67c52" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
+    ks.forEach((k,i)=>{const hh=sleepH(DATA.days[k]);if(hh==null)return;const bh=hh/12*ph*0.35;g+='<rect x="'+(X(i)-3)+'" y="'+(mt+ph-bh).toFixed(1)+'" width="6" height="'+bh.toFixed(1)+'" fill="#5d6b76"/>'});
+    [0,5,10].forEach(v=>{g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#2e3b46" stroke-width="1"/><text x="2" y="'+(Y(v)+4)+'" font-size="10" fill="#9aa8b3">'+v+'</text>'});
+    if(PAT.bMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.bMed)+'" y2="'+Y(PAT.bMed)+'" stroke="#9fc297" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
+    if(PAT.mMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.mMed)+'" y2="'+Y(PAT.mMed)+'" stroke="#d9b06a" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
     const line=(get,color,dash)=>{let out='',cur=[];
       const flush=()=>{if(cur.length>1)out+='<polyline fill="none" stroke="'+color+'" stroke-width="2.6" '+(dash?'stroke-dasharray="6 3" ':'')+'points="'+cur.join(' ')+'"/>';cur=[]};
       ks.forEach((k,i)=>{const v=get(DATA.days[k]);if(v==null){flush();return}cur.push(X(i).toFixed(1)+','+Y(v).toFixed(1));out+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="2.8" fill="'+color+'"/>'});
       flush();return out};
-    g+=line(d=>d&&typeof d.body==='number'?d.body:null,'#7d8c5c',false);
-    g+=line(d=>d&&typeof d.mind==='number'?d.mind:null,'#a67c52',false);
+    g+=line(d=>d&&typeof d.body==='number'?d.body:null,'#9fc297',false);
+    g+=line(d=>d&&typeof d.mind==='number'?d.mind:null,'#d9b06a',false);
     g+=line(d=>bur2(d),'#b4552d',true);
     const step=pw/Math.max(1,ks.length-1);
     ks.forEach((k,i)=>{const d=DATA.days[k];CDATA[k]={b:d&&typeof d.body==='number'?d.body:null,m:d&&typeof d.mind==='number'?d.mind:null,s:bur2(d),h:sleepH(d),drop:dropSet.has(k)};
       const rx=Math.max(ml,X(i)-step/2);
-      g+='<rect data-cday="'+k+'" x="'+rx.toFixed(1)+'" y="'+mt+'" width="'+Math.min(step,ml+pw-rx).toFixed(1)+'" height="'+ph+'" fill="#7d8c5c" opacity="0"/>'});
-    ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#7a6a58">'+k.slice(5)+'</text>'});
-    chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg><p class="note" id="chartInfo" aria-live="polite">グラフの日をタップすると、その日の値が出ます。</p>';
+      g+='<rect data-cday="'+k+'" x="'+rx.toFixed(1)+'" y="'+mt+'" width="'+Math.min(step,ml+pw-rx).toFixed(1)+'" height="'+ph+'" fill="#9fc297" opacity="0"/>'});
+    ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#9aa8b3">'+k.slice(5)+'</text>'});
+    chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#1c252d;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg><p class="note" id="chartInfo" aria-live="polite">グラフの日をタップすると、その日の値が出ます。</p>';
   }
   /* まとめの中の「過ごし方の目安」：数字を、今日〜数日の過ごし方に翻訳する */
   let guide='';
