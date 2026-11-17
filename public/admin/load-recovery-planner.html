@@ -286,21 +286,40 @@ function renderPatterns(){
   const evRows=PAT.evList.length?PAT.evList.map(x=>'<tr><td>'+esc(x.label)+'</td><td>'+x.total+'日</td><td>'+x.drop+'日</td></tr>').join(''):'';
   const dropRows=PAT.drops.length?PAT.drops.slice().reverse().map(d=>'<tr><td>'+esc(d.date.slice(5))+'</td><td>'+d.doms.map(dm=>DOML[dm]+' '+(d.vals[dm]??'—')).join('・')+'</td><td>'+esc(d.events.map(e=>(EVENTS.find(x=>x[0]===e)||[e,e])[1]).join('、')||'—')+'</td><td><b>'+esc(d.overall)+'</b><br><span class="note">'+d.doms.map(dm=>DOML[dm]+'：'+esc(d.per[dm].j)).join(' ／ ')+(PAT.sMed==null?' ／ 症状：判定対象外（記録不足）':'')+'</span></td><td>'+(d.recDays==null?'—':d.recDays+'日')+(d.epStart&&d.epLen>1?'<br><span class="note">落下が続いた期間全体では '+(d.epRecDays==null?'判定保留':d.epRecDays+'日')+'</span>':'')+'</td></tr>').join(''):'';
   const ac=PAT.actCmp;
-  box.innerHTML=
-   '<h3>ベースライン（直近28日・あなたの「いつも」）</h3>'+
+  /* 先頭の「まとめ」：数字の前に、普通の言葉で流れを出す */
+  let epTxt='';
+  if(PAT.drops.length){let si=0;PAT.drops.forEach((d,i)=>{if(d.epStart)si=i});
+    const ep=PAT.drops.slice(si), first=ep[0], last=ep[ep.length-1];
+    const rangeTxt=ep.length>1?first.date.slice(5)+'〜'+last.date.slice(5):first.date.slice(5);
+    let status;
+    if(PAT.streak>0)status='今もまだ、いつもの範囲の外にいます。';
+    else if(last.overall.indexOf('範囲内に戻った')===0)status='今は範囲内に戻っています。もう1日、範囲内で過ごせれば「回復」と確定します。';
+    else if(last.overall.indexOf('判定保留')===0)status='戻ったかどうかは、記録がもう少し増えると分かります。';
+    else if(first.epRecDays!=null)status='その後、戻りました。'+(ep.length>1?'崩れた期間全体では、戻るまで '+first.epRecDays+' 日かかりました。':'戻るまで '+first.epRecDays+' 日かかりました。');
+    else if(last.overall.indexOf('回復')===0)status='その後、戻りました。';
+    else status='その後の状態は「'+last.overall+'」です。';
+    epTxt='<p>最近では、'+rangeTxt+' に崩れた期間がありました。'+status+'</p>';
+  }
+  const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
+   '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
+   '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
+   epTxt+
+   '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
+  box.innerHTML= summary+
+   '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
    '<span>心</span><span>中央値 '+fmt(PAT.mMed)+'（通常範囲 '+(PAT.lo.mind??'—')+'〜10、四分位範囲 '+fmt(PAT.mQ1)+'〜'+fmt(PAT.mQ3)+'）</span>'+
    (PAT.sMed!=null?'<span>症状の支障</span><span>中央値 '+fmt(PAT.sMed)+'（通常範囲 0〜'+fmt(PAT.sHi)+'、記録 '+PAT.sN+'日）</span>':'<span>症状の支障</span><span>記録が4日未満のため、判定には使っていません</span>')+
    '<span>記録日数</span><span>全'+PAT.n+'日（分析対象は直近28日の'+PAT.winN+'日、〜'+esc(PAT.anchor)+'）</span></div>'+
    '<p class="note">通常範囲は、このツール独自の暫定的な目安で、統計的に確認された本人の変動範囲ではありません。原則は中央値−1まで（症状は中央値+1まで）で、本人のばらつきが大きい領域では、記録が14日以上ある場合に四分位範囲まで広げています。判定は体・心・症状の支障を分けて行い、記録がない領域は判定保留にします。以下の結果はすべて、この基準による観察・仮説として読んでください。</p>'+
-   '<h3>未回復蓄積（主観版）</h3><p>直近7日の「範囲からの不足・超過分」の合計は <b>'+PAT.shortfall+'</b> です。範囲外の状態が記録の上で続いている日数は <b>'+PAT.streak+'日</b>（未記録の日があると、そこで連続は中断します）。直近28日で範囲外だった記録日は <b>'+PAT.outDays+'日</b> です。これらは医療の指標ではなく、持ち越しの目安です。</p>'+
-   (evRows?'<h3>出来事と落下の重なり（直近28日）</h3><table><tr><th>出来事</th><th>あった日</th><th>うち落下した日</th></tr>'+evRows+'</table><p class="note">重なりは因果ではありません。落下した日の半分以上に重なる出来事は、週の設計で注意の目印にします。</p>':'')+
-   (dropRows?'<h3>落下した日と回復</h3><table><tr><th>日付</th><th>落ちた領域</th><th>出来事</th><th>判定（総合／領域別）</th><th>回復時間</th></tr>'+dropRows+'</table><p class="note">各行の判定は、その落下日の翌日時点の状態です。連続した落下は1つのエピソードとして、集計では開始日の1件だけを数え、回復時間は開始日から最後に戻るまでの期間全体で見ます。症状が消えた日は、記録アプリ側で症状の支障を0と入力すると回復として判定できます。症状欄が未入力の日は「症状なし」とは扱わず、判定保留にします。</p>':'<p>直近28日に、ベースラインから2点以上ずれた日はありませんでした。</p>')+
-   (PAT.sleep&&PAT.sleep.n>=3?'<h3>睡眠（過程の材料）</h3><p>睡眠時間を記録した '+PAT.sleep.n+' 日の平均は '+PAT.sleep.avg+' 時間でした。'+(PAT.sleep.short.total>=3&&PAT.sleep.long.total>=3
+   '<h3>最近の持ち越し</h3><p>直近7日の「範囲からの不足・超過分」の合計は <b>'+PAT.shortfall+'</b> です。範囲外の状態が記録の上で続いている日数は <b>'+PAT.streak+'日</b>（未記録の日があると、そこで連続は中断します）。直近28日で範囲外だった記録日は <b>'+PAT.outDays+'日</b> です。これらは医療の指標ではなく、持ち越しの目安です。</p>'+
+   (evRows?'<h3>出来事と、崩れた日の重なり</h3><table><tr><th>出来事</th><th>あった日</th><th>うち落下した日</th></tr>'+evRows+'</table><p class="note">重なりは因果ではありません。落下した日の半分以上に重なる出来事は、週の設計で注意の目印にします。</p>':'')+
+   (dropRows?'<h3>崩れた日と、戻るまで</h3><p class="note">判定の言葉の意味：回復＝2日続けて戻った／範囲内に戻った（継続未確認）＝戻ったけれどまだ1日だけ／部分回復＝少し戻ったがまだ範囲外／持ち越し＝翌日も崩れたまま／判定保留＝記録が足りず判断できない</p><table><tr><th>日付</th><th>落ちた領域</th><th>出来事</th><th>判定（総合／領域別）</th><th>回復時間</th></tr>'+dropRows+'</table><p class="note">各行の判定は、その落下日の翌日時点の状態です。連続した落下は1つのエピソードとして、集計では開始日の1件だけを数え、回復時間は開始日から最後に戻るまでの期間全体で見ます。症状が消えた日は、記録アプリ側で症状の支障を0と入力すると回復として判定できます。症状欄が未入力の日は「症状なし」とは扱わず、判定保留にします。</p>':'<p>直近28日に、ベースラインから2点以上ずれた日はありませんでした。</p>')+
+   (PAT.sleep&&PAT.sleep.n>=3?'<h3>睡眠について</h3><p>睡眠時間を記録した '+PAT.sleep.n+' 日の平均は '+PAT.sleep.avg+' 時間でした。'+(PAT.sleep.short.total>=3&&PAT.sleep.long.total>=3
       ? '睡眠が6時間未満だった日は、その日が通常範囲内だった割合が '+PAT.sleep.short.in+'/'+PAT.sleep.short.total+' 日、6時間以上だった日は '+PAT.sleep.long.in+'/'+PAT.sleep.long.total+' 日でした。これは因果ではなく、睡眠は回復の過程であって結果ではないため、「長く寝た＝回復した」とは読みません。なお、状態が悪かったために睡眠時間が長くなった可能性もあり、睡眠時間と状態の関連から因果の方向を判断することはできません。'
-      : '睡眠の長さで分けた比較は、記録が増えると出てきます。')+'起床時の回復感は今の記録にはないため、ここでは扱えていません（疲労項目の「候補」です）。</p>':'<h3>睡眠（過程の材料）</h3><p>睡眠時間まで分かる記録が少ないため、材料にしていません。</p>')+
-   '<h3>回復行動と回復時間（記述）</h3><p>'+(ac.nA>=2&&ac.nN>=2
+      : '睡眠の長さで分けた比較は、記録が増えると出てきます。')+'起床時の回復感は今の記録にはないため、ここでは扱えていません（疲労項目の「候補」です）。</p>':'<h3>睡眠について</h3><p>睡眠時間まで分かる記録が少ないため、材料にしていません。</p>')+
+   '<h3>回復行動があった期間との比べ（参考）</h3><p>'+(ac.nA>=2&&ac.nN>=2
       ? '落下が続いた期間中に休憩・区切り・気晴らし・昼寝のいずれかがあった落下（'+ac.nA+'件）は、期間全体の回復時間の中央値 '+ac.medA+'日、なかった落下（'+ac.nN+'件）は '+ac.medN+'日でした。負荷の大きさが違う落下同士の比較なので、行動の効果とは言えません。似た負荷の落下同士で見続けるための材料です。'
       : '比べられる落下がまだ足りません（行動あり '+ac.nA+'件／なし '+ac.nN+'件）。記録が増えると出てきます。')+'</p>';
 }
