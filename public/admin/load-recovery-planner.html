@@ -46,6 +46,9 @@ summary{cursor:pointer;font-weight:600;min-height:40px;padding-top:8px}
 .guide-main{font-size:15.5px;line-height:1.8}
 pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px}
+.picksum{position:sticky;top:6px;z-index:5;background:var(--card);border:1px solid var(--ai);border-radius:10px;padding:8px 10px;margin:8px 0}
+details.exp{border:1px solid var(--line);border-radius:10px;padding:2px 10px;margin:8px 0}
+details.exp>summary{font-weight:400;font-size:13px;color:var(--sub);min-height:36px;padding-top:6px}
 </style>
 </head>
 <body>
@@ -55,23 +58,25 @@ pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);bor
 <p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。<span class="mk">気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</span></p>
 
 <section class="card">
-<h2>ノートとの違い</h2>
+<details open><summary>ノートとの違い</summary>
 <div class="kv">
 <span>向いている時間</span><span>ノート＝起きたこと（過去・今日）／ここ＝これからの1週間と、直近28日の傾向</span>
 <span>すること</span><span>ノート＝記録する／ここ＝読む・設計する（記録の入力はしません）</span>
 <span>「出来事」の意味</span><span>ノート＝実際にあったこと／ここ＝起きそうなこと（予定）</span>
 <span>保存するもの</span><span>ノート＝毎日の記録／ここ＝週の計画だけ。記録は読み込むだけで、保存しません</span>
 </div>
+</details>
 </section>
 
 <section class="card">
-<h2>いつ、何をするか</h2>
+<details open><summary>いつ、何をするか</summary>
 <ol style="margin:0;padding-left:20px">
 <li><b>毎日</b>：寝る前など、自分で決めたタイミングで、ノートにその日を記録する</li>
 <li><b>週のはじめ</b>：ノートを「ファイルで保存する」で書き出し、この道具の「記録のまとめ」で読み込む。材料を見て、「週を設計」でこれからの負荷と回復を先に置く</li>
 <li><b>その日の終わり</b>：設計した回復について、実施できたものと生じた経験を付ける（「週を設計」の各日の中にあります）</li>
 <li><b>次の週のはじめ</b>：もう一度読み込み直すと、崩れた期間と戻るまでの日数が更新され、設計と実際を比べられます</li>
 </ol>
+</details>
 </section>
 
 <div class="seg" role="tablist" aria-label="画面の切り替え" style="margin-bottom:12px">
@@ -118,12 +123,13 @@ pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);bor
 </section>
 
 <section class="card">
-<h2>この道具での「回復」の定義</h2>
+<details><summary>この道具での「回復」の定義</summary>
 <p>前日までの負荷で個人内ベースラインから低下した体・心と症状の支障が、その人の通常の変動範囲内へ戻り、それが2日続くこと。翌日に範囲内へ戻っただけでは「継続未確認」とし、2日続けて確認できた時点で回復とします。戻るまでの日数を回復時間、戻り切らずに翌日が始まる状態を回復停滞（未回復）、その連続と累積を未回復蓄積と呼びます。領域ごとに判定が分かれる場合は、1つの総合ラベルにせず領域別の判定を併記します。休憩・睡眠・対処行動は回復そのものではなく、過程として別に扱います。通常範囲は暫定的な目安です。根拠は「回復の定義：既存研究からの整理」のページにあります。</p>
+</details>
 </section>
 
 <section class="card">
-<h2>基準の区別（何が研究で、何がこのツール独自か）</h2>
+<details><summary>基準の区別（何が研究で、何がこのツール独自か）</summary>
 <h3>研究で確認されている理論・概念</h3>
 <p>負荷でずれた状態がベースラインへ戻ること、不完全な回復が蓄積すること（努力―回復モデル）、回復経験の4分類（Sonnentag &amp; Fritz, 2007）、必要なときに回復が起きにくい回復パラドックス（Sonnentag, 2018）。</p>
 <h3>このツール独自の操作的定義（研究で妥当性が確認された判定基準ではありません）</h3>
@@ -148,6 +154,7 @@ pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);bor
 <p class="note">詳しい根拠と未検証の項目は、研究レポート「回復の定義：既存研究からの整理」にあります。</p>
 <h3>個人の記録から得られた観察結果</h3>
 <p>上の「記録から材料を読む」に出る数値はすべて観察と仮説です。予測の精度が確認されたものではなく、因果関係を示すものでもありません。</p>
+</details>
 </section>
 </div>
 </main>
@@ -650,6 +657,7 @@ function loadUse(p){return p.load==='heavy'?8:(p.load==='light'?3:6)}
 function carryAdj(){return (typeof PAT!=='undefined'&&PAT&&PAT.ok&&(PAT.streak>=2||PAT.shortfall>=8))?1:0}
 function capacityFor(p){return Math.max(1,10-loadUse(p)-carryAdj())}
 let SEL_DAY=null;
+let EXP={}; /* 説明文（details）の開閉状態。再描画しても戻らないように保持する */
 function renderWeek(){
   const mon=mondayOf(PLAN.offset), box=$('week');
   $('wk0').setAttribute('aria-pressed',PLAN.offset===0); $('wk1').setAttribute('aria-pressed',PLAN.offset===1);
@@ -728,18 +736,20 @@ function renderWeek(){
    '<h3>予定の出来事</h3><div class="chips">'+EVENTS.filter(e=>e[0]!=='none').map(e=>'<button type="button" class="chip" data-ev="'+e[0]+'" data-day="'+k+'" aria-pressed="'+(p.events||[]).includes(e[0])+'">'+evPlan(e[0])+'</button>').join('')+'</div>'+
    '<h3>予定の負荷</h3><div class="seg" role="group" aria-label="予定の負荷">'+[['light','軽い'],['normal','ふつう'],['heavy','重い']].map(([v,l])=>'<button type="button" data-load="'+v+'" data-day="'+k+'" aria-pressed="'+(p.load===v)+'">'+l+'</button>').join('')+'</div>'+
    (hints.length?'<div class="hint">'+hints.map(esc).join('<br>')+'</div>':'')+fc+
-   '<h3>先に置く回復</h3><p class="note">コストは「その日の余力」を分母に計算します。余力は10点から、その日の負荷（軽い3点／ふつう6点／重い8点）を引いた残りで、軽い日7点／ふつう4点／重い日2点です。項目のコスト（やる側の時間と手間、1〜3点）の合計が余力を超える組み合わせは置けません。重い日ほど余力自体が小さいので、置けるのは軽い土台のものが中心になります。選ばない日があっても構いません。</p><p class="note">選び方：まず「今日いちばん大きい負担」から選びます。体が範囲外→土台（睡眠と基本）、心が範囲外→切り離し・コントロール、症状が範囲外→刺激を減らす＋土台、重い日の前日→負荷を減らす系（コントロール）。各項目のタグが、軽くなる負担です。</p>'+(carryAdj()?'<p class="note"><span class="warn">今は未回復の蓄積が大きいため、各日の余力から1点を引いています。</span></p>':'')+'<p class="note" data-msg="'+k+'" aria-live="polite"></p>'+((p.picks||[]).length?'<p style="margin:6px 0"><b>置いたもの（'+p.picks.length+'個・コスト'+totalCostOf(p)+'点／余力'+capacityFor(p)+'点（残り'+Math.max(0,capacityFor(p)-totalCostOf(p))+'点）：</b>'+p.picks.map(esc).join('／')+(totalCostOf(p)>capacityFor(p)?' <span class="warn">余力を超えています。追加はできません</span>':'')+'</p>':'<p class="note" style="margin:6px 0">置いたもの：まだありません。下から選ぶと、ここに並びます（余力 '+capacityFor(p)+' 点まで）。</p>')+'<div style="height:8px;background:#2e3b46;border-radius:999px;overflow:hidden;margin:2px 0 8px"><div style="height:100%;width:'+Math.min(100,Math.round(totalCostOf(p)/capacityFor(p)*100))+'%;background:'+(totalCostOf(p)>capacityFor(p)?'#e07856':'#9fc297')+'"></div></div>'+
+   '<h3>先に置く回復</h3><details class="exp" data-exp="picks"'+(EXP.picks?' open':'')+'><summary>コストと選び方の説明</summary><p class="note">コストは「その日の余力」を分母に計算します。余力は10点から、その日の負荷（軽い3点／ふつう6点／重い8点）を引いた残りで、軽い日7点／ふつう4点／重い日2点です。項目のコスト（やる側の時間と手間、1〜3点）の合計が余力を超える組み合わせは置けません。重い日ほど余力自体が小さいので、置けるのは軽い土台のものが中心になります。選ばない日があっても構いません。</p><p class="note">選び方：まず「今日いちばん大きい負担」から選びます。体が範囲外→土台（睡眠と基本）、心が範囲外→切り離し・コントロール、症状が範囲外→刺激を減らす＋土台、重い日の前日→負荷を減らす系（コントロール）。各項目のタグが、軽くなる負担です。</p></details>'+(carryAdj()?'<p class="note"><span class="warn">今は未回復の蓄積が大きいため、各日の余力から1点を引いています。</span></p>':'')+'<p class="note" data-msg="'+k+'" aria-live="polite"></p><div class="picksum">'+((p.picks||[]).length?'<p style="margin:6px 0"><b>置いたもの（'+p.picks.length+'個・コスト'+totalCostOf(p)+'点／余力'+capacityFor(p)+'点（残り'+Math.max(0,capacityFor(p)-totalCostOf(p))+'点）：</b>'+p.picks.map(esc).join('／')+(totalCostOf(p)>capacityFor(p)?' <span class="warn">余力を超えています。追加はできません</span>':'')+'</p>':'<p class="note" style="margin:6px 0">置いたもの：まだありません。下から選ぶと、ここに並びます（余力 '+capacityFor(p)+' 点まで）。</p>')+'<div style="height:8px;background:#2e3b46;border-radius:999px;overflow:hidden;margin:2px 0 8px"><div style="height:100%;width:'+Math.min(100,Math.round(totalCostOf(p)/capacityFor(p)*100))+'%;background:'+(totalCostOf(p)>capacityFor(p)?'#e07856':'#9fc297')+'"></div></div></div>'+
    ['base','detach','control','relax','mastery'].map(id=>RECOVERY_GROUPS.find(g=>g.id===id)).map(g=>'<div class="pgroup"><h4>'+esc(g.name)+'</h4><p class="note">'+esc(GROUP_GUIDE[g.id])+'</p><div class="pgrid">'+g.items.map(it=>'<button type="button" class="pchip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(it)+'">'+esc(it)+'<br><span class="tag">'+esc(REC_INFO[it].t)+'</span> <span class="tag">コスト'+REC_COST[it]+'</span></button>').join('')+'</div></div>').join('')+
    (DATA&&DATA.copes&&DATA.copes.length?'<div class="pgroup"><h4>自分の対処リストから（ノート由来）</h4><p class="note">このページの材料ではなく、ノートに登録した対処です</p><div class="pgrid">'+DATA.copes.map(c=>'<button type="button" class="pchip" data-pick="'+esc(c.text)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(c.text)+'">'+esc(c.text)+'<br><span class="tag">コスト2</span></button>').join('')+'</div></div>':'')+
+   ((p.picks||[]).length?'<div class="picksum" style="position:static"><b>選んだ回復（最終）：</b>'+p.picks.map(esc).join('／')+'（コスト合計 '+totalCostOf(p)+'点／余力 '+capacityFor(p)+'点）</div>':'')+
    '<div style="margin-top:8px"><label><input type="checkbox" data-next="'+k+'" '+(p.nextLight?'checked':'')+'> 翌日の負荷を下げる</label></div>'+
    '<div style="margin-top:6px"><input type="text" data-note="'+k+'" placeholder="ひとこと（任意）" value="'+esc(p.note||'')+'"></div>'+
-   ((p.picks||[]).length?'<h3>設計との照合（その日が終わってから）</h3><p class="note">これは日記の代わりではなく、設計がどうだったかを見るための照合です。日々の記録はノート側で付けます。行動と、それによって生じた経験は分けて残します。経験は回復経験の4分類に対応します。</p>'+
+   ((p.picks||[]).length?'<h3>設計との照合（その日が終わってから）</h3><details class="exp" data-exp="check"'+(EXP.check?' open':'')+'><summary>設計との照合について</summary><p class="note">これは日記の代わりではなく、設計がどうだったかを見るための照合です。日々の記録はノート側で付けます。行動と、それによって生じた経験は分けて残します。経験は回復経験の4分類に対応します。</p></details>'+
      '<p class="note" style="margin:6px 0 4px">実施できたもの</p><div class="chips">'+p.picks.map(it=>'<button type="button" class="chip" data-done="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(a.done||[]).includes(it)+'">'+esc(it)+'</button>').join('')+'</div>'+
      '<p class="note" style="margin:6px 0 4px">生じた経験</p><div class="chips">'+PLAN_EXP.map(x=>'<button type="button" class="chip" data-exp="'+esc(x)+'" data-day="'+k+'" aria-pressed="'+(a.exp||[]).includes(x)+'">'+esc(x)+'</button>').join('')+'</div>'+
      '<div style="margin-top:6px"><input type="text" data-anote="'+k+'" placeholder="実施のひとこと（任意）" value="'+esc(a.note||'')+'"></div>':'')+
    '</div>';
   box.innerHTML=h;
   const msg=(kk,t)=>{const el=box.querySelector('[data-msg="'+kk+'"]');if(el)el.textContent=t};
+  box.querySelectorAll('details[data-exp]').forEach(d=>d.addEventListener('toggle',()=>{EXP[d.dataset.exp]=d.open}));
   box.querySelectorAll('[data-sel]').forEach(b=>b.addEventListener('click',()=>{SEL_DAY=+b.dataset.sel;renderWeek()}));
   box.querySelectorAll('[data-ev]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.events.indexOf(b.dataset.ev);if(ix>=0)p.events.splice(ix,1);else p.events.push(b.dataset.ev);savePlan();renderWeek()}));
   box.querySelectorAll('[data-load]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);p.load=p.load===b.dataset.load?'':b.dataset.load;savePlan();renderWeek();if(totalCostOf(p)>capacityFor(p))msg(b.dataset.day,'今のコストは '+totalCostOf(p)+' 点で、その日の余力 '+capacityFor(p)+' 点を超えています。減らすかどうかは自分で決めてください（自動では消しません）。')}));
