@@ -231,7 +231,7 @@ export default function SuddenBadMemoriesIntrusiveThoughts() {
 
       <ArticleFooterLinks type="concept" exclude={["/articles/sudden-bad-memories-intrusive-thoughts"]} />
 
-      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-all">
+      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-words">
         参考文献：Rachman, S., &amp; de Silva, P. (1978). Abnormal and normal obsessions. Behaviour Research and Therapy, 16(4), 233–248.／
         Salkovskis, P. M. (1985). Obsessional-compulsive problems: A cognitive-behavioural analysis. Behaviour Research and Therapy, 23(5), 571–583.／
         Abramowitz, J. S., Tolin, D. F., &amp; Street, G. P. (2001). Paradoxical effects of thought suppression: A meta-analysis of controlled studies. Clinical Psychology Review, 21(5), 683–703.／

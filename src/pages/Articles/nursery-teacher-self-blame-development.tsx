@@ -232,7 +232,7 @@ export default function NurseryTeacherSelfBlameDevelopment() {
 
       <ArticleFooterLinks type="concept" exclude={["/articles/nursery-teacher-self-blame-development"]} />
 
-      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-all">
+      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-words">
         参考文献：Hochschild, A. R. (1983). The Managed Heart: Commercialization of Human Feeling. University of California Press.／
         Weiner, B. (1985). An attributional theory of achievement motivation and emotion. Psychological Review, 92(4), 548–573.／
         犬山市「0歳児～5歳児の言葉に関する目安となる姿一覧（資料1）」（作成年度の記載なし。資料中の参考文献は2014年3月の犬山市カリキュラム）.

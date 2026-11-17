@@ -1,6 +1,5 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
-import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
 
@@ -184,7 +183,6 @@ export default function LearnedHelplessnessRevisited() {
         </p>
       </div>
 
-      <LineCtaCompassion />
 
       <div className="my-4 p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-500 mb-2">次に読む</p>
@@ -221,7 +219,7 @@ export default function LearnedHelplessnessRevisited() {
 
       <ArticleFooterLinks type="recovery" exclude={["/articles/learned-helplessness-revisited"]} />
 
-      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-all">
+      <p className="text-xs text-stone-400 mt-4 leading-relaxed break-words">
         参考文献：Maier, S. F., &amp; Seligman, M. E. P. (2016). Learned helplessness at fifty: Insights from neuroscience. Psychological Review, 123(4), 349–367. https://doi.org/10.1037/rev0000033／
         Seligman, M. E. P., &amp; Maier, S. F. (1967). Failure to escape traumatic shock. Journal of Experimental Psychology, 74(1), 1–9.
         <br />
