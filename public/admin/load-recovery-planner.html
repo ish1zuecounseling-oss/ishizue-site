@@ -36,6 +36,8 @@ input[type="text"],textarea{width:100%;font:inherit;padding:8px;border:1px solid
 details{margin:6px 0}
 summary{cursor:pointer;font-weight:600;min-height:40px;padding-top:8px}
 .tag{display:inline-block;background:var(--ai-soft);border-radius:6px;padding:0 7px;font-size:12px;margin-right:4px}
+.mk{background:linear-gradient(transparent 56%,rgba(255,105,105,.55) 56%,rgba(255,105,105,.55) 93%,transparent 93%);padding:0 .14em;border-radius:2px;font-weight:700;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.guide-main{font-size:15.5px;line-height:1.8}
 pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px}
 </style>
@@ -44,7 +46,7 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <main>
 <h1>負荷と回復の設計</h1>
 <p class="lead">「こころとからだの記録」とは独立した道具です。記録の書き出しJSONを読み込むと、負荷と回復のパターンを材料として出します。読み込んだ記録はこの端末の画面の中だけで使い、保存も送信もしません。設計した週の計画だけを、この道具の中に保存します。</p>
-<p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</p>
+<p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。<span class="mk">気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</span></p>
 
 <section class="card">
 <h2>いつ、何をするか</h2>
@@ -314,7 +316,7 @@ function renderPatterns(){
     const ep=PAT.drops.slice(si), first=ep[0], last=ep[ep.length-1];
     const rangeTxt=ep.length>1?first.date.slice(5)+'〜'+last.date.slice(5):first.date.slice(5);
     let status;
-    if(PAT.streak>0)status='今もまだ、いつもの範囲の外にいます。';
+    if(PAT.streak>0)status='<span class="mk">今もまだ、いつもの範囲の外にいます。</span>';
     else if(last.overall.indexOf('範囲内に戻った')===0)status='今は範囲内に戻っています。もう1日、範囲内で過ごせれば「回復」と確定します。';
     else if(last.overall.indexOf('判定保留')===0)status='戻ったかどうかは、記録がもう少し増えると分かります。';
     else if(first.epRecDays!=null)status='その後、戻りました。'+(ep.length>1?'崩れた期間全体では、戻るまで '+first.epRecDays+' 日かかりました。':'戻るまで '+first.epRecDays+' 日かかりました。');
@@ -347,7 +349,7 @@ function renderPatterns(){
         const lp=pt(12.6,i);g+='<text x="'+lp[0]+'" y="'+(lp[1]+4)+'" font-size="12" fill="#3e2f23" text-anchor="middle">'+lb+' '+v+'</text>'});
       nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3><p class="note">茶色の面が今の状態、緑の点線が「いつもの範囲」の境目です。緑より外側がいつもの範囲で、内側にはみ出た軸が範囲の外です。症状は「軽さ」に直してあります（外側ほど軽い）。</p>'+
        '<svg viewBox="0 0 300 245" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto" role="img" aria-label="今の状態のレーダーチャート">'+g+'</svg>'+
-       '<p class="note" style="text-align:center">体 '+(bv>=PAT.lo.body?'範囲内':'範囲外')+'／心 '+(mv>=PAT.lo.mind?'範囲内':'範囲外')+'／症状の支障 '+bur0+'（'+(bur0<=PAT.sHi?'範囲内':'範囲外')+'）</p>';
+       '<p class="note" style="text-align:center">体 '+(bv>=PAT.lo.body?'範囲内':'<span class="mk">範囲外</span>')+'／心 '+(mv>=PAT.lo.mind?'範囲内':'<span class="mk">範囲外</span>')+'／症状の支障 '+bur0+'（'+(bur0<=PAT.sHi?'範囲内':'<span class="mk">範囲外</span>')+'）</p>';
     }else{
       nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3>'+
        bar('体',bv,PAT.lo.body,10,'')+bar('心',mv,PAT.lo.mind,10,'')+
@@ -378,7 +380,7 @@ function renderPatterns(){
     if(PAT.streak>=2||PAT.shortfall>=8){pushF(4,'持ち越しが大きめです');pushF(6,'その日の残りの負荷を見る項目です')}
     if(PAT.sleep)pushF(7,'睡眠時間だけでは分からないため、候補として拾います');
     const loadNote=(PAT.streak>=2||PAT.shortfall>=8)?'<p class="note">持ち越しが大きめです。回復を足すより先に、明日の負荷を1つ減らすことも候補です。</p>':'';
-    const safeNote=symOut?'<p class="note">症状の支障が大きい日が続くときは、主治医や相談先に伝えることを先にしてください。</p>':'';
+    const safeNote=symOut?'<p class="note"><span class="mk">症状の支障が大きい日が続くときは、主治医や相談先に伝えることを先にしてください。</span></p>':'';
     recHtml='<h3>現在地からのピックアップ</h3><p class="note">「疲労項目」と「回復リスト」の材料の中から、今の状態に合うものを拾ったものです。やるべきことを決めるものではありません。'+((bodyOut||mindOut||symOut)?'':'今は範囲内なので、特に拾うものは少なめです。')+'</p>'+loadNote+safeNote+
      (fat.length?'<p class="note" style="margin:8px 0 4px">疲労項目から（今、目を向けたいもの）</p>'+fat.map(f=>'<div style="margin:6px 0"><div>'+esc(FATIGUE_ITEMS[f.i].item)+' <span class="tag">'+esc(FATIGUE_ITEMS[f.i].cover)+'</span></div><div class="note">'+esc(f.why)+'</div></div>').join(''):'')+
      '<p class="note" style="margin:8px 0 4px">回復の材料から（今日の設計に置けるもの）</p>'+
@@ -419,7 +421,8 @@ function renderPatterns(){
     const rowHtml=r=>{
       if(r.na||!r.den)return '<div style="margin:9px 0"><div>'+esc(r.item)+' <span class="tag">'+esc(r.cover)+'</span></div><div class="note">'+esc(r.na||'判定できた記録がありません')+'</div></div>';
       const pct=Math.round(r.num/r.den*100);
-      return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+esc(r.item)+'</span><b>'+r.num+'/'+r.den+r.unit+'（'+pct+'%）</b></div><div style="height:10px;background:#eee5d3;border-radius:999px;overflow:hidden;margin-top:4px"><div style="height:100%;width:'+pct+'%;background:#b4552d"></div></div><div class="note">'+esc(r.note)+'</div></div>';
+      const numTxt=r.num+'/'+r.den+r.unit+'（'+pct+'%）';
+      return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+esc(r.item)+'</span><b>'+(pct>=50?'<span class="mk">'+numTxt+'</span>':numTxt)+'</b></div><div style="height:10px;background:#eee5d3;border-radius:999px;overflow:hidden;margin-top:4px"><div style="height:100%;width:'+pct+'%;background:#b4552d"></div></div><div class="note">'+esc(r.note)+'</div></div>';
     };
     fatGraphHtml='<h3>疲労項目の出方（直近28日）</h3><p class="note">母数は、項目ごとに「判定できた日数（または回数）」です。症状や睡眠は、入力された日だけを母数にしています。割合は比べるための材料で、疲労の点数ではありません。</p>'+rows.map(rowHtml).join('');
   }
@@ -453,10 +456,35 @@ function renderPatterns(){
     ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#7a6a58">'+k.slice(5)+'</text>'});
     chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg><p class="note" id="chartInfo" aria-live="polite">グラフの日をタップすると、その日の値が出ます。</p>';
   }
+  /* まとめの中の「過ごし方の目安」：数字を、今日〜数日の過ごし方に翻訳する */
+  let guide='';
+  if(DATA&&DATA.days&&DATA.days[PAT.anchor]){
+    const d0=DATA.days[PAT.anchor];
+    const bur0=(()=>{if(!Array.isArray(d0.sym))return null;const vs=d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null})();
+    const bodyOut=typeof d0.body==='number'&&PAT.lo.body!=null&&d0.body<PAT.lo.body;
+    const mindOut=typeof d0.mind==='number'&&PAT.lo.mind!=null&&d0.mind<PAT.lo.mind;
+    const symOut=bur0!=null&&PAT.sHi!=null&&bur0>PAT.sHi;
+    const anyOut=bodyOut||mindOut||symOut;
+    const bigCarry=PAT.streak>=2||PAT.shortfall>=8;
+    const recVals=PAT.drops.filter(d=>d.epStart&&d.epRecDays!=null).map(d=>d.epRecDays);
+    const recMed=recVals.length?median(recVals):null;
+    const riskLabels=PAT.riskEvents.map(e=>(EVENTS.find(x=>x[0]===e)||[e,e])[1]);
+    const parts=[];
+    if(symOut)parts.push('今日は、立て直しを頑張る日ではなく、予定と刺激を減らして土台を守る日です。症状の支障が大きい日が続くときは、主治医や相談先へ伝えることを先にしてください。');
+    else if(bigCarry)parts.push('今は持ち越しが大きめです。回復をたくさん足すより、今日と明日の負荷を1つ減らしてください。回復は1〜2個だけ、先に置けば十分です。');
+    else if(anyOut)parts.push('今日は、いつもの範囲に戻す途中です。負荷は「ふつう」以下にし、重い予定のあとに回復を1つ置いてください。');
+    else parts.push('今は維持で十分です。無理に回復を足さず、いつもの睡眠と食事を守ってください。');
+    if(recMed!=null)parts.push('これまでの崩れでは、戻るまで中央値で '+recMed+' 日かかっています。重い日の翌日は、その分だけ軽めに見積もってください。');
+    if(riskLabels.length)parts.push('崩れと重なりやすい出来事は「'+riskLabels.join('、')+'」です。その日は、前日の夜と当日のあとに回復を置く前提で組んでください。');
+    if(PAT.sleep&&(PAT.sleep.avg<6.5||PAT.sleep.short.total>=2))parts.push('睡眠が短めの日があるので、回復策を増やす前に、就寝時刻を守ることを優先してください。');
+    if(!anyOut&&!bigCarry)parts.push('重い予定がある週だけ、予定の前後に回復を先に入れてください。');
+    guide=parts.map((t,i)=>i===0?'<span class="mk">'+t+'</span>':t).join('');
+  }
   const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
    '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
+   (guide?'<p class="guide-main"><b>過ごし方の目安：</b>'+guide+'</p>':'')+
    '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
   box.innerHTML= summary+nowHtml+recHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
@@ -507,7 +535,7 @@ function renderWeek(){
   const LM={light:'軽い',normal:'ふつう',heavy:'重い'};
   let h='';
   if(PAT&&PAT.ok&&(PAT.streak>=2||PAT.shortfall>=8))
-    h+='<div class="hint">記録からの目印：直近の未回復蓄積が大きめです（範囲外の連続 '+PAT.streak+'日／直近7日の不足分 '+PAT.shortfall+'）。今週は負荷を軽めに置くことが候補です。これはこのツール独自の目安で、自動で決めるものではありません。</div>';
+    h+='<div class="hint">記録からの目印：直近の未回復蓄積が大きめです（範囲外の連続 '+PAT.streak+'日／直近7日の不足分 '+PAT.shortfall+'）。<span class="mk">今週は負荷を軽めに置くことが候補です。</span>これはこのツール独自の目安で、自動で決めるものではありません。</div>';
   /* 週の見取り図：曜日を選ぶと、その日の編集だけが下に出る */
   h+='<div class="chips" role="group" aria-label="曜日の選択" style="margin-bottom:10px">'+
    DN.map((dn,i)=>{const k=addDays(mon,i), p=PLAN.days[k]||{events:[],load:'',picks:[]};
