@@ -230,7 +230,7 @@ export default function ArticleLayout({
       )}
 
       <div className="min-h-screen bg-white">
-        <div className="max-w-2xl mx-auto px-5 sm:px-8 pt-10 sm:pt-20 pb-20 text-stone-700 leading-loose">
+        <div className="max-w-2xl mx-auto px-6 sm:px-8 pt-10 sm:pt-20 pb-20 text-stone-700 leading-loose">
           <motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -242,7 +242,7 @@ export default function ArticleLayout({
             {/* ============================================================
                 HEADER
             ============================================================ */}
-            <header className="mb-10 sm:mb-14">
+            <header className="mb-10 sm:mb-14 max-sm:text-center">
 
               {/* Schema hidden metas */}
               <meta itemProp="headline"          content={title} />
@@ -271,7 +271,7 @@ export default function ArticleLayout({
 
               {/* タイトル */}
               <h1
-                className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide"
+                className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide text-balance"
                 style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
                 itemProp="name"
               >
@@ -279,7 +279,7 @@ export default function ArticleLayout({
               </h1>
 
               {/* メタ情報バー */}
-              <div className="flex flex-wrap items-center gap-3 text-xs text-stone-500 mb-6">
+              <div className="flex flex-wrap items-center gap-3 max-sm:justify-center text-xs text-stone-500 mb-6">
                 <div className="flex items-center gap-1.5">
                   <span
                     className="w-5 h-5 rounded-full inline-flex items-center justify-center"
@@ -311,7 +311,7 @@ export default function ArticleLayout({
 
               {/* リード文 — Home.tsx の BlockQuote と同一スタイル */}
               <p
-                className="text-stone-600 text-base sm:text-lg leading-[1.9] py-1"
+                className="text-stone-600 text-base sm:text-lg leading-[1.9] py-1 text-left"
                 style={{
                   borderLeft: `2px solid ${SAGE}`,
                   paddingLeft: "1.25rem",
