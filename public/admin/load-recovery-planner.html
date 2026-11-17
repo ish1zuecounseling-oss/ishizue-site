@@ -119,7 +119,7 @@ pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);bor
 
 <section class="card">
 <h2>この道具での「回復」の定義</h2>
-<p>前日までの負荷で個人内ベースラインから低下した体・心と症状の支障が、その人の通常の変動範囲内へ戻り、それが2日続くこと。翌日に範囲内へ戻っただけでは「継続未確認」とし、2日続けて確認できた時点で回復とします。戻るまでの日数を回復時間、戻り切らずに翌日が始まる状態を持ち越し（不完全回復）、その連続と累積を未回復蓄積と呼びます。休憩・睡眠・対処行動は回復そのものではなく、過程として別に扱います。通常範囲は暫定的な目安です。根拠は「回復の定義：既存研究からの整理」のページにあります。</p>
+<p>前日までの負荷で個人内ベースラインから低下した体・心と症状の支障が、その人の通常の変動範囲内へ戻り、それが2日続くこと。翌日に範囲内へ戻っただけでは「継続未確認」とし、2日続けて確認できた時点で回復とします。戻るまでの日数を回復時間、戻り切らずに翌日が始まる状態を回復停滞（未回復）、その連続と累積を未回復蓄積と呼びます。領域ごとに判定が分かれる場合は、1つの総合ラベルにせず領域別の判定を併記します。休憩・睡眠・対処行動は回復そのものではなく、過程として別に扱います。通常範囲は暫定的な目安です。根拠は「回復の定義：既存研究からの整理」のページにあります。</p>
 </section>
 
 <section class="card">
@@ -129,9 +129,9 @@ pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);bor
 <h3>このツール独自の操作的定義（研究で妥当性が確認された判定基準ではありません）</h3>
 <ul>
 <li>落下：中央値から2点以上のずれ（症状の支障は中央値から2点以上の増加）</li>
-<li>通常範囲：中央値−1まで（症状は中央値+1まで）。ばらつきが大きい場合は四分位範囲まで拡張</li>
+<li>通常範囲：中央値−1まで（症状は中央値+1まで）。ばらつきが大きい場合は四分位範囲まで拡張するが、落下の判定線（中央値−2）より下には広げない</li>
 <li>回復：範囲内が2日続くこと</li>
-<li>段階：7日で暫定表示、14日以上で参考分析、28日分で比較的安定した基準</li>
+<li>段階（基準の材料）：記録7日で暫定表示、14日以上で参考分析、28日分で材料が揃った基準。段階はデータ量の表示で、状態の安定とは別です</li>
 <li>未回復蓄積：直近7日の不足・超過分の合計と、範囲外の連続日数・記録日数</li>
 </ul>
 <p class="note">1〜10点の主観評価は、等間隔である保証のない順序尺度です。中央値や四分位は使えますが、精密な測定と同じには扱いません。</p>
@@ -168,8 +168,8 @@ const RECOVERY_GROUPS=[
 ];
 /* 回復リストの各項目が「どこの負担を軽くするか」と「選ぶ目安」。選ぶ基準は、まず今日いちばん大きい負担から選ぶこと */
 const REC_INFO={
- '作業の終わりの時間を先に決めて、アラームをかける':{t:'心の持ち越し',w:'頭が仕事から離れない日に'},
- '夕方に今日の分を3行で閉じる（できたこと・明日に回すこと・ひとこと）':{t:'心の持ち越し',w:'考えがぐるぐるして、終わらない感じが残る日に'},
+ '作業の終わりの時間を先に決めて、アラームをかける':{t:'心の未回復',w:'頭が仕事から離れない日に'},
+ '夕方に今日の分を3行で閉じる（できたこと・明日に回すこと・ひとこと）':{t:'心の未回復',w:'考えがぐるぐるして、終わらない感じが残る日に'},
  '寝る1時間前から画面を見ない':{t:'睡眠・刺激',w:'眠りが浅い日が続くとき、就寝が遅れがちなとき'},
  '頼まれごとには「一度考えてから返事します」と言う':{t:'抱え込み',w:'頼まれごとが多い週、抱え込みで落ちやすいとき'},
  '外の空気を5分吸いに出る':{t:'体・心の切り替え',w:'まず1つだけ、という日に。体が重い日に'},
@@ -187,7 +187,7 @@ const REC_INFO={
  'いつもの就寝時刻を守る':{t:'睡眠・全体の土台',w:'症状が範囲外の日、睡眠が短い日が続くときに。最優先の土台'}
 };
 const GROUP_GUIDE={
- detach:'選ぶ基準：頭が仕事から離れないとき。軽くなるのは「心の持ち越し」です',
+ detach:'選ぶ基準：頭が仕事から離れないとき。軽くなるのは「心の未回復」です',
  relax:'選ぶ基準：体や感覚の緊張を下げたいとき。軽くなるのは「体の緊張と刺激」です',
  mastery:'選ぶ基準：気分や「できた感」を取り戻したいとき。軽い日向きで、重い日は負荷になることがあります',
  control:'選ぶ基準：負荷の量そのものを減らしたいとき、自分で決めたいとき。軽くなるのは「抱え込みと予定過多」です',
@@ -261,7 +261,7 @@ function computePatterns(S){
   const days=(S&&S.days)||{};
   const burden=d=>{if(!d||!Array.isArray(d.sym))return null;const vs=d.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null};
   const allKeys=Object.keys(days).filter(k=>{const d=days[k];return d&&(typeof d.body==='number'||typeof d.mind==='number'||burden(d)!=null)}).sort();
-  if(allKeys.length<7)return {ok:false,reason:'体・心・症状を記録した日が '+allKeys.length+' 日です。暫定表示には最低7日、参考分析には14日、比較的安定した基準には28日分の記録が要ります。',n:allKeys.length};
+  if(allKeys.length<7)return {ok:false,reason:'体・心・症状を記録した日が '+allKeys.length+' 日です。暫定表示には最低7日、参考分析には14日、基準の材料が揃うには28日分の記録が要ります。',n:allKeys.length};
   const anchor=allKeys[allKeys.length-1];
   const winStart=addDays(anchor,-27);
   const keys=allKeys.filter(k=>k>=winStart);
@@ -272,7 +272,7 @@ function computePatterns(S){
   const sMed=sVals.length>=4?median(sVals):null;
   if(bMed==null&&mMed==null&&sMed==null)return {ok:false,reason:'体・心・症状の値がありません。',n:allKeys.length};
   const bQ1=quantile(bVals,0.25), bQ3=quantile(bVals,0.75), mQ1=quantile(mVals,0.25), mQ3=quantile(mVals,0.75);
-  const loFor=(med,q1,n)=>{if(med==null)return null;if(n>=14&&q1!=null&&(med-q1)>1)return Math.max(1,Math.floor(q1));return Math.max(1,med-1)};
+  const loFor=(med,q1,n)=>{if(med==null)return null;if(n>=14&&q1!=null&&(med-q1)>1)return Math.max(1,Math.floor(q1),med-1.5);return Math.max(1,med-1)};
   const lo={body:loFor(bMed,bQ1,bVals.length),mind:loFor(mMed,mQ1,mVals.length)};
   const sHi=sMed==null?null:sMed+1;
   const stage=keys.length>=28?'stable':(keys.length>=14?'reference':'provisional');
@@ -288,23 +288,26 @@ function computePatterns(S){
       if(a===true){const b=inDom(addDays(k,i+1),dom);if(b===true){rec=i;break}if(b===null)break}}
     let j;
     if(rec===1)j='回復（2日続けて範囲内）';
-    else if(inDom(k1,dom)===true)j='範囲内に戻った（継続未確認）';
-    else{const improved=dom==='sym'?v1<v0:v1>v0;j=improved?'部分回復（改善したが範囲外）':'持ち越し（不完全回復）'}
+    else if(inDom(k1,dom)===true)j='復帰（継続未確認）';
+    else{const improved=dom==='sym'?v1<v0:v1>v0;j=improved?'部分回復（改善したが範囲外）':'回復停滞（未回復）'}
     return {j,rec};
   }
-  /* 落下の判定は日ごとに行う（翌日時点の状態を見るため、部分回復や持ち越しも判定できる）。
+  /* 落下の判定は日ごとに行う（翌日時点の状態を見るため、部分回復や回復停滞も判定できる）。
      ただし集計（回復時間の中央値・行動あり／なし）では、連続した落下日を1つのエピソードとして
      開始日だけを数える。同じ出来事を複数件に数えないため。 */
   const drops=[];
   keys.forEach(k=>{const doms=DOMS.filter(dm=>droppedDom(k,dm));if(!doms.length)return;
     const per={};doms.forEach(dm=>{per[dm]=domJudge(k,dm)});
     const js=doms.map(dm=>per[dm].j);
+    /* 総合は1つのラベルに潰さない。全領域が同じならその判定を、判定が分かれる場合は
+       領域ごとの短い判定を併記して混在を保持する（ステップ②の決定）。 */
+    const shortJ=j=>j.indexOf('判定保留')===0?'判定保留':(j.indexOf('回復（')===0?'回復':(j.indexOf('復帰')===0?'復帰':(j.indexOf('部分回復')===0?'部分回復':'回復停滞')));
+    const DN2={body:'体',mind:'心',sym:'症状'};
+    const cats=js.map(shortJ);
     let overall;
-    if(js.some(j=>j.indexOf('判定保留')===0))overall='判定保留（記録不足）';
-    else if(js.some(j=>j.indexOf('持ち越し')===0))overall='持ち越し（不完全回復）';
-    else if(js.some(j=>j.indexOf('部分回復')===0))overall='部分回復（改善したが範囲外）';
-    else if(js.some(j=>j.indexOf('範囲内に戻った')===0))overall='範囲内に戻った（継続未確認）';
-    else overall='回復（2日続けて範囲内）';
+    if(cats.every(c=>c==='判定保留'))overall='判定保留（記録不足）';
+    else if(new Set(cats).size===1)overall=js[0];
+    else overall='混在（'+doms.map((dm,i)=>DN2[dm]+'：'+cats[i]).join('／')+'）';
     const recs=doms.map(dm=>per[dm].rec);
     const recDays=recs.every(r=>r!=null)?Math.max.apply(null,recs):null;
     const d=days[k];
@@ -336,12 +339,40 @@ function computePatterns(S){
   const evStats={};
   keys.forEach(k=>{const evs=(days[k].events||[]).filter(e=>e!=='none');
     evs.forEach(e=>{evStats[e]=evStats[e]||{total:0,drop:0};evStats[e].total++;if(DOMS.some(dm=>droppedDom(k,dm)))evStats[e].drop++})});
-  const evList=Object.keys(evStats).map(e=>({id:e,label:(EVENTS.find(x=>x[0]===e)||[e,e])[1],total:evStats[e].total,drop:evStats[e].drop})).filter(x=>x.total>=2);
-  const riskEvents=evList.filter(x=>x.drop>=2&&x.drop/x.total>=0.5).map(x=>x.id);
+  const evList=Object.keys(evStats).map(e=>({id:e,label:(EVENTS.find(x=>x[0]===e)||[e,e])[1],total:evStats[e].total,drop:evStats[e].drop,smallN:evStats[e].total<5})).filter(x=>x.total>=2);
+  const riskEvents=evList.filter(x=>x.drop>=2&&x.drop/x.total>=0.5&&x.total>=5).map(x=>x.id);
   const withAct=drops.filter(d=>d.epStart&&d.epRecDays!=null&&d.epActed), withoutAct=drops.filter(d=>d.epStart&&d.epRecDays!=null&&!d.epActed);
   const medAct=withAct.length?median(withAct.map(d=>d.epRecDays)):null;
   const medNo=withoutAct.length?median(withoutAct.map(d=>d.epRecDays)):null;
-  return {ok:true,anchor,n:allKeys.length,winN:keys.length,stage,bMed,mMed,bQ1,bQ3,mQ1,mQ3,sMed,sHi,sN:sVals.length,lo,drops,shortfall:Math.round(shortfall*10)/10,streak,outDays,evList,riskEvents,sleep,actCmp:{nA:withAct.length,nN:withoutAct.length,medA:medAct,medN:medNo}};
+  /* ステップ③・⑤の指標：水準（L1）・方向（H1）・変動性（V2）・範囲移行回数（V3）。
+     落下の判定とは別に、状態そのもの（高さ・向き・揺れ）を見る。数値条件はステップ⑤で
+     17ケース＋P2の回帰テストにより検証した値（帯：体・心4以下／支障7以上、割合50%以上、
+     最新の記録日が帯にあること、広がり7日以上、記録7日以上／方向：前半・後半とも記録7日以上、
+     差2以上／変動性：間隔2日以内・変化2以上のペア、8組未満は材料不足、「高い」は5回以上かつ25%以上）。 */
+  const half1End=addDays(anchor,-14);
+  const indDom=dom=>{
+    const pts=keys.map(k=>({k,v:val(k,dom)})).filter(x=>x.v!=null);
+    if(!pts.length)return null;
+    const inB=pts.filter(x=>dom==='sym'?x.v>=7:x.v<=4);
+    const share=inB.length/pts.length;
+    const latestIn=inB.length>0&&inB[inB.length-1].k===pts[pts.length-1].k;
+    const spread=inB.length?Math.round((new Date(inB[inB.length-1].k+'T00:00:00')-new Date(inB[0].k+'T00:00:00'))/86400000):0;
+    const L1={on:pts.length>=7&&share>=0.5&&latestIn&&spread>=7,share:Math.round(share*100)/100,spread,n:pts.length};
+    const f=pts.filter(x=>x.k<=half1End).map(x=>x.v), l=pts.filter(x=>x.k>half1End).map(x=>x.v);
+    let H1;
+    if(f.length<7||l.length<7)H1={label:'材料不足',diff:null,nF:f.length,nL:l.length};
+    else{const diff=Math.round((median(l)-median(f))*10)/10;let label='おおむね同じ';
+      if(Math.abs(diff)>=2){const better=dom==='sym'?diff<0:diff>0;label=better?'改善':'悪化'}
+      H1={label,diff,nF:f.length,nL:l.length}}
+    let pairs=0,big=0;
+    for(let i=1;i<pts.length;i++){const gap=Math.round((new Date(pts[i].k+'T00:00:00')-new Date(pts[i-1].k+'T00:00:00'))/86400000);
+      if(gap<=2){pairs++;if(Math.abs(pts[i].v-pts[i-1].v)>=2)big++}}
+    const V2=pairs<8?{label:'材料不足',pairs,big}:{label:(big>=5&&big/pairs>=0.25)?'高い':'高くない',pairs,big};
+    let V3=0;for(let i=1;i<pts.length;i++){const a=inDom(pts[i-1].k,dom),b=inDom(pts[i].k,dom);if(a!=null&&b!=null&&a!==b)V3++}
+    return {L1,H1,V2,V3};
+  };
+  const ind={body:indDom('body'),mind:indDom('mind'),sym:sMed!=null?indDom('sym'):null};
+  return {ok:true,anchor,n:allKeys.length,winN:keys.length,stage,bMed,mMed,bQ1,bQ3,mQ1,mQ3,sMed,sHi,sN:sVals.length,lo,drops,shortfall:Math.round(shortfall*10)/10,streak,outDays,evList,riskEvents,ind,sleep,actCmp:{nA:withAct.length,nN:withoutAct.length,medA:medAct,medN:medNo}};
 }
 </script>
 <script>
@@ -362,22 +393,29 @@ $('tabbtn-r').addEventListener('click',()=>showTab('r'));
 /* ===== 1. 読み込みとパターン表示 ===== */
 $('file').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f)return;
+  /* 読み込みを始めたら、前回の分析結果を「今回の結果」として表示し続けない。
+     内部の分析データも初期化し、週設計側も前回の分析を参照しない状態にそろえる */
+  DATA=null; PAT=null; $('patterns').innerHTML=''; $('loadStatus').textContent='読み込んでいます…'; renderWeek();
   const r=new FileReader();
   r.onload=()=>{ try{ const S=JSON.parse(r.result);
-      const verr=validateImport(S); if(verr){$('loadStatus').textContent='読み込めませんでした：'+verr; return;}
+      const verr=validateImport(S); if(verr){failImport('読み込めませんでした：'+verr); return;}
       DATA=S; PAT=computePatterns(S); renderPatterns();
       $('loadStatus').textContent='読み込みました（記録は保存・送信していません）。';
       renderWeek();
-    }catch(err){ $('loadStatus').textContent='読み込めませんでした。ノートから書き出したJSONか確かめてください。'; } };
+    }catch(err){ failImport('読み込めませんでした。ノートから書き出したJSONか確かめてください。'); } };
+  r.onerror=()=>{ failImport('読み込めませんでした。ファイルを確認してください。'); };
   r.readAsText(f);
 });
+/* 読み込みに失敗したとき：前回の分析結果は画面に残さず、エラーだけを出す。
+   保存済みの週の計画や、ノート側の記録そのものは消さない。 */
+function failImport(msg){ DATA=null; PAT=null; $('patterns').innerHTML=''; $('loadStatus').textContent=msg; renderWeek(); }
 function renderPatterns(){
   const box=$('patterns');
   if(!PAT||!PAT.ok){box.innerHTML='<p class="warn">'+esc(PAT?PAT.reason:'')+'</p>';return}
-  const stageTxt={provisional:'暫定の基準（記録14日未満）',reference:'参考レベルの基準（記録14日以上）',stable:'比較的安定した基準（記録28日分）'}[PAT.stage];
+  const stageTxt={provisional:'基準の材料：記録14日未満（暫定）',reference:'基準の材料：記録14日以上',stable:'基準の材料：記録28日分'}[PAT.stage];
   const fmt=v=>v==null?'—':(Math.round(v*10)/10);
   const DOML={body:'体',mind:'心',sym:'症状の支障'};
-  const evRows=PAT.evList.length?PAT.evList.map(x=>'<tr><td>'+esc(x.label)+'</td><td>'+x.total+'日</td><td>'+x.drop+'日</td></tr>').join(''):'';
+  const evRows=PAT.evList.length?PAT.evList.map(x=>'<tr><td>'+esc(x.label)+(x.smallN?'<br><span class="note">記録が少ないため参考</span>':'')+'</td><td>'+x.total+'日</td><td>'+x.drop+'日</td></tr>').join(''):'';
   const dropRows=PAT.drops.length?PAT.drops.slice().reverse().map(d=>'<tr><td>'+esc(d.date.slice(5))+'</td><td>'+d.doms.map(dm=>DOML[dm]+' '+(d.vals[dm]??'—')).join('・')+'</td><td>'+esc(d.events.map(e=>(EVENTS.find(x=>x[0]===e)||[e,e])[1]).join('、')||'—')+'</td><td><b>'+esc(d.overall)+'</b><br><span class="note">'+d.doms.map(dm=>DOML[dm]+'：'+esc(d.per[dm].j)).join(' ／ ')+(PAT.sMed==null?' ／ 症状：判定対象外（記録不足）':'')+'</span></td><td>'+(d.recDays==null?'—':d.recDays+'日')+(d.epStart&&d.epLen>1?'<br><span class="note">落下が続いた期間全体では '+(d.epRecDays==null?'判定保留':d.epRecDays+'日')+'</span>':'')+'</td></tr>').join(''):'';
   const ac=PAT.actCmp;
   /* 先頭の「まとめ」：数字の前に、普通の言葉で流れを出す */
@@ -387,10 +425,10 @@ function renderPatterns(){
     const rangeTxt=ep.length>1?first.date.slice(5)+'〜'+last.date.slice(5):first.date.slice(5);
     let status;
     if(PAT.streak>0)status='<span class="mk">今もまだ、いつもの範囲の外にいます。</span>';
-    else if(last.overall.indexOf('範囲内に戻った')===0)status='今は範囲内に戻っています。もう1日、範囲内で過ごせれば「回復」と確定します。';
+    else if(last.overall.indexOf('復帰')===0)status='今は範囲内に戻っています。もう1日、範囲内で過ごせれば「回復」と確定します。';
     else if(last.overall.indexOf('判定保留')===0)status='戻ったかどうかは、記録がもう少し増えると分かります。';
     else if(first.epRecDays!=null)status='その後、戻りました。'+(ep.length>1?'崩れた期間全体では、戻るまで '+first.epRecDays+' 日かかりました。':'戻るまで '+first.epRecDays+' 日かかりました。');
-    else if(last.overall.indexOf('回復')===0)status='その後、戻りました。';
+    else if(last.overall.indexOf('回復（')===0)status='その後、戻りました。';
     else status='その後の状態は「'+last.overall+'」です。';
     epTxt='<p>最近では、'+rangeTxt+' に崩れた期間がありました。'+status+'</p>';
   }
@@ -447,9 +485,9 @@ function renderPatterns(){
     if(bodyOut||mindOut)pushF(0,'体・心がいつもの範囲の外です');
     if(mindOut){pushF(3,'心が範囲の外のときに重なる項目です');pushF(5,'心が範囲の外のときに重なりやすい項目です')}
     if(PAT.sleep&&(PAT.sleep.avg<6.5||PAT.sleep.short.total>=2))pushF(2,'睡眠が短めの日があります');
-    if(PAT.streak>=2||PAT.shortfall>=8){pushF(4,'持ち越しが大きめです');pushF(6,'その日の残りの負荷を見る項目です')}
+    if(PAT.streak>=2||PAT.shortfall>=8){pushF(4,'未回復の蓄積が大きめです');pushF(6,'その日の残りの負荷を見る項目です')}
     if(PAT.sleep)pushF(7,'睡眠時間だけでは分からないため、候補として拾います');
-    const loadNote=(PAT.streak>=2||PAT.shortfall>=8)?'<p class="note">持ち越しが大きめです。回復を足すより先に、明日の負荷を1つ減らすことも候補です。</p>':'';
+    const loadNote=(PAT.streak>=2||PAT.shortfall>=8)?'<p class="note">未回復の蓄積が大きめです。回復を足すより先に、明日の負荷を1つ減らすことも候補です。</p>':'';
     const safeNote=symOut?'<p class="note"><span class="mk">症状の支障が大きい日が続くときは、主治医や相談先に伝えることを先にしてください。</span></p>':'';
     recHtml='<h3>現在地からのピックアップ</h3><p class="note">「疲労項目」と「回復リスト」の材料の中から、今の状態に合うものを拾ったものです。やるべきことを決めるものではありません。'+((bodyOut||mindOut||symOut)?'':'今は範囲内なので、特に拾うものは少なめです。')+'</p>'+loadNote+safeNote+
      (fat.length?'<p class="note" style="margin:8px 0 4px">疲労項目から（今、目を向けたいもの）</p>'+fat.map(f=>'<div style="margin:6px 0"><div>'+esc(FATIGUE_ITEMS[f.i].item)+' <span class="tag">'+esc(FATIGUE_ITEMS[f.i].cover)+'</span></div><div class="note">'+esc(f.why)+'</div></div>').join(''):'')+
@@ -541,7 +579,7 @@ function renderPatterns(){
     const riskLabels=PAT.riskEvents.map(e=>(EVENTS.find(x=>x[0]===e)||[e,e])[1]);
     const parts=[];
     if(symOut)parts.push('今日は、立て直しを頑張る日ではなく、予定と刺激を減らして土台を守る日です。症状の支障が大きい日が続くときは、主治医や相談先へ伝えることを先にしてください。');
-    else if(bigCarry)parts.push('今は持ち越しが大きめです。回復をたくさん足すより、今日と明日の負荷を1つ減らしてください。回復は1〜2個だけ、先に置けば十分です。');
+    else if(bigCarry)parts.push('今は未回復の蓄積が大きめです。回復をたくさん足すより、今日と明日の負荷を1つ減らしてください。回復は1〜2個だけ、先に置けば十分です。');
     else if(anyOut)parts.push('今日は、いつもの範囲に戻す途中です。負荷は「ふつう」以下にし、重い予定のあとに回復を1つ置いてください。');
     else parts.push('今は維持で十分です。無理に回復を足さず、いつもの睡眠と食事を守ってください。');
     if(recMed!=null)parts.push('これまでの崩れでは、戻るまで中央値で '+recMed+' 日かかっています。重い日の翌日は、その分だけ軽めに見積もってください。');
@@ -550,13 +588,25 @@ function renderPatterns(){
     if(!anyOut&&!bigCarry)parts.push('重い予定がある週だけ、予定の前後に回復を先に入れてください。');
     guide=parts.map((t,i)=>i===0?'<span class="mk">'+t+'</span>':t).join('');
   }
+  /* 水準・方向・変動性：落下の判定とは別の見方。1つにまとめず、領域ごとに分けて出す */
+  let indHtml='';
+  if(PAT.ind){
+    const daysAgo=Math.max(0,Math.round((new Date(ymd(new Date())+'T00:00:00')-new Date(PAT.anchor+'T00:00:00'))/86400000));
+    const DL2=[['body','体'],['mind','心'],['sym','症状の支障']];
+    const lvl=DL2.map(([dm,lb])=>{const I=PAT.ind[dm];if(!I||!I.L1)return lb+'：判定対象外（記録不足）';return lb+'：'+(I.L1.on?(dm==='sym'?'大きい値が繰り返し記録されています':'低い値が繰り返し記録されています'):'繰り返しは見られません')}).join('／');
+    const dir=DL2.map(([dm,lb])=>{const I=PAT.ind[dm];if(!I)return lb+'：判定対象外（記録不足）';const H=I.H1;return lb+'：'+H.label+(H.diff!=null?'（代表値の差 '+(H.diff>0?'+':'')+H.diff+'）':'')}).join('／');
+    const vab=DL2.map(([dm,lb])=>{const I=PAT.ind[dm];if(!I)return lb+'：判定対象外（記録不足）';const V=I.V2;return lb+'：'+(V.label==='材料不足'?'材料不足':V.label+'（大きな変化 '+V.big+'回／観測できたペア '+V.pairs+'組）')}).join('／');
+    indHtml='<h3>状態の見方（水準・方向・変動性）</h3>'+
+     '<p class="note">最新の記録は '+esc(PAT.anchor)+'（'+(daysAgo===0?'今日':daysAgo+'日前')+'）です。以下の指標は、その記録時点までの情報です。'+(daysAgo>=4?'記録が少し古いため、今の状態とは限りません。':'')+'落下の判定とは別の見方で、1つにまとめず分けて出しています。</p>'+
+     '<div class="kv"><span>水準</span><span>'+lvl+'</span><span>方向</span><span>'+dir+'</span><span>変動性</span><span>'+vab+'</span></div>';
+  }
   const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
-   '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
+   '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'基準の材料がまだ少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'基準の材料は、記録14日以上分あります。':'基準の材料は、記録28日分あります。')+'</p>'+
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
    (guide?'<p class="guide-main"><b>過ごし方の目安：</b>'+guide+'</p>':'')+
-   '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+nowHtml+recHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
+   '<p>最近7日の未回復の蓄積（不足分）は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
+  box.innerHTML= summary+nowHtml+indHtml+recHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
@@ -564,9 +614,9 @@ function renderPatterns(){
    (PAT.sMed!=null?'<span>症状の支障</span><span>中央値 '+fmt(PAT.sMed)+'（通常範囲 0〜'+fmt(PAT.sHi)+'、記録 '+PAT.sN+'日）</span>':'<span>症状の支障</span><span>記録が4日未満のため、判定には使っていません</span>')+
    '<span>記録日数</span><span>全'+PAT.n+'日（分析対象は直近28日の'+PAT.winN+'日、〜'+esc(PAT.anchor)+'）</span></div>'+
    '<p class="note">通常範囲は、このツール独自の暫定的な目安で、統計的に確認された本人の変動範囲ではありません。原則は中央値−1まで（症状は中央値+1まで）で、本人のばらつきが大きい領域では、記録が14日以上ある場合に四分位範囲まで広げています。判定は体・心・症状の支障を分けて行い、記録がない領域は判定保留にします。以下の結果はすべて、この基準による観察・仮説として読んでください。</p>'+
-   '<h3>最近の持ち越し</h3><p>直近7日の「範囲からの不足・超過分」の合計は <b>'+PAT.shortfall+'</b> です。範囲外の状態が記録の上で続いている日数は <b>'+PAT.streak+'日</b>（未記録の日があると、そこで連続は中断します）。直近28日で範囲外だった記録日は <b>'+PAT.outDays+'日</b> です。これらは医療の指標ではなく、持ち越しの目安です。</p>'+
-   (evRows?'<h3>出来事と、崩れた日の重なり</h3><table><tr><th>出来事</th><th>あった日</th><th>うち落下した日</th></tr>'+evRows+'</table><p class="note">重なりは因果ではありません。落下した日の半分以上に重なる出来事は、週の設計で注意の目印にします。</p>':'')+
-   (dropRows?'<h3>崩れた日と、戻るまで</h3><p class="note">判定の言葉の意味：回復＝2日続けて戻った／範囲内に戻った（継続未確認）＝戻ったけれどまだ1日だけ／部分回復＝少し戻ったがまだ範囲外／持ち越し＝翌日も崩れたまま／判定保留＝記録が足りず判断できない</p><table><tr><th>日付</th><th>落ちた領域</th><th>出来事</th><th>判定（総合／領域別）</th><th>回復時間</th></tr>'+dropRows+'</table><p class="note">各行の判定は、その落下日の翌日時点の状態です。連続した落下は1つのエピソードとして、集計では開始日の1件だけを数え、回復時間は開始日から最後に戻るまでの期間全体で見ます。症状が消えた日は、記録アプリ側で症状の支障を0と入力すると回復として判定できます。症状欄が未入力の日は「症状なし」とは扱わず、判定保留にします。</p>':'<p>直近28日に、ベースラインから2点以上ずれた日はありませんでした。</p>')+
+   '<h3>最近の未回復の蓄積</h3><p>直近7日の「範囲からの不足・超過分」の合計は <b>'+PAT.shortfall+'</b> です。範囲外の状態が記録の上で続いている日数は <b>'+PAT.streak+'日</b>（未記録の日があると、そこで連続は中断します）。直近28日で範囲外だった記録日は <b>'+PAT.outDays+'日</b> です。'+(PAT.ind?'範囲の出入り（範囲内と範囲外を行き来した回数）は、体 '+(PAT.ind.body?PAT.ind.body.V3:'—')+'回・心 '+(PAT.ind.mind?PAT.ind.mind.V3:'—')+'回'+(PAT.ind.sym?'・症状の支障 '+PAT.ind.sym.V3+'回':'')+' です。':'')+'これらは医療の指標ではなく、未回復の蓄積の目安です。</p>'+
+   (evRows?'<h3>出来事と、崩れた日の重なり</h3><table><tr><th>出来事</th><th>あった日</th><th>うち落下した日</th></tr>'+evRows+'</table><p class="note">重なりは因果ではありません。記録が5日以上あり、落下した日の半分以上に重なる出来事だけを、週の設計で注意の目印にします。</p>':'')+
+   (dropRows?'<h3>崩れた日と、戻るまで</h3><p class="note">判定の言葉の意味：回復＝2日続けて戻った／復帰（継続未確認）＝戻ったけれどまだ1日だけ／部分回復＝少し戻ったがまだ範囲外／回復停滞＝翌日も範囲外のまま／判定保留＝記録が足りず判断できない／混在＝領域ごとに判定が分かれている</p><table><tr><th>日付</th><th>落ちた領域</th><th>出来事</th><th>判定（総合／領域別）</th><th>回復時間</th></tr>'+dropRows+'</table><p class="note">各行の判定は、その落下日の翌日時点の状態です。連続した落下は1つのエピソードとして、集計では開始日の1件だけを数え、回復時間は開始日から最後に戻るまでの期間全体で見ます。症状が消えた日は、記録アプリ側で症状の支障を0と入力すると回復として判定できます。症状欄が未入力の日は「症状なし」とは扱わず、判定保留にします。</p>':'<p>直近28日に、ベースラインから2点以上ずれた日はありませんでした。</p>')+
    (PAT.sleep&&PAT.sleep.n>=3?'<h3>睡眠について</h3><p>睡眠時間を記録した '+PAT.sleep.n+' 日の平均は '+PAT.sleep.avg+' 時間でした。'+(PAT.sleep.short.total>=3&&PAT.sleep.long.total>=3
       ? '睡眠が6時間未満だった日は、その日が通常範囲内だった割合が '+PAT.sleep.short.in+'/'+PAT.sleep.short.total+' 日、6時間以上だった日は '+PAT.sleep.long.in+'/'+PAT.sleep.long.total+' 日でした。これは因果ではなく、睡眠は回復の過程であって結果ではないため、「長く寝た＝回復した」とは読みません。なお、状態が悪かったために睡眠時間が長くなった可能性もあり、睡眠時間と状態の関連から因果の方向を判断することはできません。'
       : '睡眠の長さで分けた比較は、記録が増えると出てきます。')+'起床時の回復感は今の記録にはないため、ここでは扱えていません（疲労項目の「候補」です）。</p>':'<h3>睡眠について</h3><p>睡眠時間まで分かる記録が少ないため、材料にしていません。</p>')+
@@ -597,7 +647,7 @@ const PLAN_EXP=['切り離せた','リラックスできた','手ごたえがあ
 /* 余力（コスト計算の分母）＝10 − その日の負荷（軽い3／ふつう6／重い8）。
    持ち越しが大きい時期は、各日の余力からさらに1点を引く（このツールの目安） */
 function loadUse(p){return p.load==='heavy'?8:(p.load==='light'?3:6)}
-function carryAdj(){return (typeof PAT!=='undefined'&&PAT&&PAT.ok&&PAT.accum&&(PAT.accum.streak>=2||PAT.accum.shortfall7>=8))?1:0}
+function carryAdj(){return (typeof PAT!=='undefined'&&PAT&&PAT.ok&&(PAT.streak>=2||PAT.shortfall>=8))?1:0}
 function capacityFor(p){return Math.max(1,10-loadUse(p)-carryAdj())}
 let SEL_DAY=null;
 function renderWeek(){
@@ -640,7 +690,7 @@ function renderWeek(){
   h+='<div class="hint" style="margin-bottom:10px"><b>この週の設計で変わること</b>'+
    '<p style="margin:4px 0">負荷の内訳：重い '+heavy.length+' 日／ふつう '+cntLoad('normal')+' 日／軽い '+cntLoad('light')+' 日／未設定 '+cntUnset+' 日。</p>'+
    '<p style="margin:4px 0">'+changeTxt+'</p>'+
-   (recMedW!=null&&heavy.length?'<p style="margin:4px 0">見通し：過去の戻り方は中央値 '+recMedW+' 日です。重い日の翌日に余白（翌日が軽い、または「翌日の負荷を下げる」設定）があるのは '+buffered+'／'+heavy.length+' 日。余白のない重い日は、持ち越しの見通しが高めです。</p>':'')+
+   (recMedW!=null&&heavy.length?'<p style="margin:4px 0">見通し：過去の戻り方は中央値 '+recMedW+' 日です。重い日の翌日に余白（翌日が軽い、または「翌日の負荷を下げる」設定）があるのは '+buffered+'／'+heavy.length+' 日。余白のない重い日は、未回復の見通しが高めです。</p>':'')+
    (gaps.length?'<p style="margin:4px 0">まだ変わっていないところ：</p><ul style="margin:0;padding-left:18px">'+gaps.map(g=>'<li>'+esc(g)+'</li>').join('')+'</ul>':'')+
    (elapsed.length?'<p style="margin:4px 0">過ぎた日の照合：記録のある '+elapsed.length+' 日のうち、範囲内 '+elIn+' 日／範囲外 '+elOut+' 日（うち崩れた日 '+elDrop+' 日）。設計した週と、していない週の違いは、こうして記録側に残ります。</p>':'')+
    '</div>';
@@ -678,7 +728,7 @@ function renderWeek(){
    '<h3>予定の出来事</h3><div class="chips">'+EVENTS.filter(e=>e[0]!=='none').map(e=>'<button type="button" class="chip" data-ev="'+e[0]+'" data-day="'+k+'" aria-pressed="'+(p.events||[]).includes(e[0])+'">'+evPlan(e[0])+'</button>').join('')+'</div>'+
    '<h3>予定の負荷</h3><div class="seg" role="group" aria-label="予定の負荷">'+[['light','軽い'],['normal','ふつう'],['heavy','重い']].map(([v,l])=>'<button type="button" data-load="'+v+'" data-day="'+k+'" aria-pressed="'+(p.load===v)+'">'+l+'</button>').join('')+'</div>'+
    (hints.length?'<div class="hint">'+hints.map(esc).join('<br>')+'</div>':'')+fc+
-   '<h3>先に置く回復</h3><p class="note">コストは「その日の余力」を分母に計算します。余力は10点から、その日の負荷（軽い3点／ふつう6点／重い8点）を引いた残りで、軽い日7点／ふつう4点／重い日2点です。項目のコスト（やる側の時間と手間、1〜3点）の合計が余力を超える組み合わせは置けません。重い日ほど余力自体が小さいので、置けるのは軽い土台のものが中心になります。選ばない日があっても構いません。</p><p class="note">選び方：まず「今日いちばん大きい負担」から選びます。体が範囲外→土台（睡眠と基本）、心が範囲外→切り離し・コントロール、症状が範囲外→刺激を減らす＋土台、重い日の前日→負荷を減らす系（コントロール）。各項目のタグが、軽くなる負担です。</p>'+(carryAdj()?'<p class="note"><span class="warn">今は持ち越しが大きいため、各日の余力から1点を引いています。</span></p>':'')+'<p class="note" data-msg="'+k+'" aria-live="polite"></p>'+((p.picks||[]).length?'<p style="margin:6px 0"><b>置いたもの（'+p.picks.length+'個・コスト'+totalCostOf(p)+'点／余力'+capacityFor(p)+'点（残り'+Math.max(0,capacityFor(p)-totalCostOf(p))+'点）：</b>'+p.picks.map(esc).join('／')+(totalCostOf(p)>capacityFor(p)?' <span class="warn">余力を超えています。追加はできません</span>':'')+'</p>':'<p class="note" style="margin:6px 0">置いたもの：まだありません。下から選ぶと、ここに並びます（余力 '+capacityFor(p)+' 点まで）。</p>')+'<div style="height:8px;background:#2e3b46;border-radius:999px;overflow:hidden;margin:2px 0 8px"><div style="height:100%;width:'+Math.min(100,Math.round(totalCostOf(p)/capacityFor(p)*100))+'%;background:'+(totalCostOf(p)>capacityFor(p)?'#e07856':'#9fc297')+'"></div></div>'+
+   '<h3>先に置く回復</h3><p class="note">コストは「その日の余力」を分母に計算します。余力は10点から、その日の負荷（軽い3点／ふつう6点／重い8点）を引いた残りで、軽い日7点／ふつう4点／重い日2点です。項目のコスト（やる側の時間と手間、1〜3点）の合計が余力を超える組み合わせは置けません。重い日ほど余力自体が小さいので、置けるのは軽い土台のものが中心になります。選ばない日があっても構いません。</p><p class="note">選び方：まず「今日いちばん大きい負担」から選びます。体が範囲外→土台（睡眠と基本）、心が範囲外→切り離し・コントロール、症状が範囲外→刺激を減らす＋土台、重い日の前日→負荷を減らす系（コントロール）。各項目のタグが、軽くなる負担です。</p>'+(carryAdj()?'<p class="note"><span class="warn">今は未回復の蓄積が大きいため、各日の余力から1点を引いています。</span></p>':'')+'<p class="note" data-msg="'+k+'" aria-live="polite"></p>'+((p.picks||[]).length?'<p style="margin:6px 0"><b>置いたもの（'+p.picks.length+'個・コスト'+totalCostOf(p)+'点／余力'+capacityFor(p)+'点（残り'+Math.max(0,capacityFor(p)-totalCostOf(p))+'点）：</b>'+p.picks.map(esc).join('／')+(totalCostOf(p)>capacityFor(p)?' <span class="warn">余力を超えています。追加はできません</span>':'')+'</p>':'<p class="note" style="margin:6px 0">置いたもの：まだありません。下から選ぶと、ここに並びます（余力 '+capacityFor(p)+' 点まで）。</p>')+'<div style="height:8px;background:#2e3b46;border-radius:999px;overflow:hidden;margin:2px 0 8px"><div style="height:100%;width:'+Math.min(100,Math.round(totalCostOf(p)/capacityFor(p)*100))+'%;background:'+(totalCostOf(p)>capacityFor(p)?'#e07856':'#9fc297')+'"></div></div>'+
    ['base','detach','control','relax','mastery'].map(id=>RECOVERY_GROUPS.find(g=>g.id===id)).map(g=>'<div class="pgroup"><h4>'+esc(g.name)+'</h4><p class="note">'+esc(GROUP_GUIDE[g.id])+'</p><div class="pgrid">'+g.items.map(it=>'<button type="button" class="pchip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(it)+'">'+esc(it)+'<br><span class="tag">'+esc(REC_INFO[it].t)+'</span> <span class="tag">コスト'+REC_COST[it]+'</span></button>').join('')+'</div></div>').join('')+
    (DATA&&DATA.copes&&DATA.copes.length?'<div class="pgroup"><h4>自分の対処リストから（ノート由来）</h4><p class="note">このページの材料ではなく、ノートに登録した対処です</p><div class="pgrid">'+DATA.copes.map(c=>'<button type="button" class="pchip" data-pick="'+esc(c.text)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(c.text)+'">'+esc(c.text)+'<br><span class="tag">コスト2</span></button>').join('')+'</div></div>':'')+
    '<div style="margin-top:8px"><label><input type="checkbox" data-next="'+k+'" '+(p.nextLight?'checked':'')+'> 翌日の負荷を下げる</label></div>'+
