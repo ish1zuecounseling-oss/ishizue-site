@@ -46,7 +46,13 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <p class="lead">「こころとからだの記録」とは独立した道具です。記録の書き出しJSONを読み込むと、負荷と回復のパターンを材料として出します。読み込んだ記録はこの端末の画面の中だけで使い、保存も送信もしません。設計した週の計画だけを、この道具の中に保存します。</p>
 <p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</p>
 
-<section class="card">
+<div class="seg" role="tablist" aria-label="画面の切り替え" style="margin-bottom:12px">
+<button type="button" role="tab" id="tabbtn-p" aria-selected="true">記録のまとめ</button>
+<button type="button" role="tab" id="tabbtn-w" aria-selected="false">週を設計</button>
+<button type="button" role="tab" id="tabbtn-r" aria-selected="false">材料と定義</button>
+</div>
+
+<section class="card" id="panel-p">
 <h2>1. 記録から材料を読む</h2>
 <p class="note">ノートの「ファイルで保存する」で書き出したJSONを選んでください。</p>
 <input type="file" id="file" accept=".json,application/json">
@@ -54,7 +60,7 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <div id="patterns"></div>
 </section>
 
-<section class="card">
+<section class="card" id="panel-w" hidden>
 <h2>2. 週を設計する</h2>
 <div class="seg" role="group" aria-label="週の選択" style="max-width:320px;margin-bottom:10px">
 <button type="button" id="wk0" aria-pressed="true">今週</button>
@@ -69,6 +75,7 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <pre id="planText" hidden></pre>
 </section>
 
+<div id="panel-r" hidden>
 <section class="card">
 <h2>3. 回復リスト（材料）</h2>
 <p class="note">はじめの4分類（切り離し・リラックス・熟達・コントロール）は、回復経験の研究（Sonnentag &amp; Fritz, 2007）にある心理的な経験です。行動そのものではなく、行動のあとに生じる経験を指します。最後の「睡眠と基本」は、この4分類とは別の、基盤的なセルフケアとしてこの道具で付け加えたものです。行動は「回復した証拠」ではなく、回復を生むかどうかを記録で確かめる材料です。高負荷の日ほど、その場の判断では崩れやすいので、先に固定メニューとして置く使い方を想定しています。</p>
@@ -113,6 +120,7 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <h3>個人の記録から得られた観察結果</h3>
 <p>上の「記録から材料を読む」に出る数値はすべて観察と仮説です。予測の精度が確認されたものではなく、因果関係を示すものでもありません。</p>
 </section>
+</div>
 </main>
 
 <script>
@@ -264,6 +272,10 @@ let PLAN={offset:0,days:{}};
 try{const p=JSON.parse(localStorage.getItem(PLAN_KEY)||'null');if(p&&p.days)PLAN=p}catch(e){}
 function savePlan(){let ok=true;try{localStorage.setItem(PLAN_KEY,JSON.stringify(PLAN))}catch(e){ok=false} const s=$('sv-plan');if(s){s.textContent=ok?'保存しました':'保存できませんでした。ブラウザの設定や空き容量を確かめてください';if(ok)setTimeout(()=>{if(s.textContent==='保存しました')s.textContent=''},1500)} return ok}
 function mondayOf(offset){const d=new Date();const dow=(d.getDay()+6)%7;d.setDate(d.getDate()-dow+offset*7);return ymd(d)}
+function showTab(t){['p','w','r'].forEach(x=>{const on=x===t;$('panel-'+x).hidden=!on;$('tabbtn-'+x).setAttribute('aria-selected',on)})}
+$('tabbtn-p').addEventListener('click',()=>showTab('p'));
+$('tabbtn-w').addEventListener('click',()=>showTab('w'));
+$('tabbtn-r').addEventListener('click',()=>showTab('r'));
 
 /* ===== 1. 読み込みとパターン表示 ===== */
 $('file').addEventListener('change',e=>{
@@ -305,7 +317,7 @@ function renderPatterns(){
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
    '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+
+  box.innerHTML= summary+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
@@ -321,56 +333,64 @@ function renderPatterns(){
       : '睡眠の長さで分けた比較は、記録が増えると出てきます。')+'起床時の回復感は今の記録にはないため、ここでは扱えていません（疲労項目の「候補」です）。</p>':'<h3>睡眠について</h3><p>睡眠時間まで分かる記録が少ないため、材料にしていません。</p>')+
    '<h3>回復行動があった期間との比べ（参考）</h3><p>'+(ac.nA>=2&&ac.nN>=2
       ? '落下が続いた期間中に休憩・区切り・気晴らし・昼寝のいずれかがあった落下（'+ac.nA+'件）は、期間全体の回復時間の中央値 '+ac.medA+'日、なかった落下（'+ac.nN+'件）は '+ac.medN+'日でした。負荷の大きさが違う落下同士の比較なので、行動の効果とは言えません。似た負荷の落下同士で見続けるための材料です。'
-      : '比べられる落下がまだ足りません（行動あり '+ac.nA+'件／なし '+ac.nN+'件）。記録が増えると出てきます。')+'</p>';
+      : '比べられる落下がまだ足りません（行動あり '+ac.nA+'件／なし '+ac.nN+'件）。記録が増えると出てきます。')+'</p></details>';
 }
 
 /* ===== 2. 週の設計 ===== */
 function planDay(k){const p=PLAN.days[k]||(PLAN.days[k]={events:[],load:'',picks:[],nextLight:false,note:''});if(!p.actual)p.actual={done:[],exp:[],note:''};return p}
 const PLAN_EXP=['切り離せた','リラックスできた','手ごたえがあった','自分で決められた','特になし'];
 function capFor(p){return p.load==='heavy'?3:2}
+let SEL_DAY=null;
 function renderWeek(){
   const mon=mondayOf(PLAN.offset), box=$('week');
   $('wk0').setAttribute('aria-pressed',PLAN.offset===0); $('wk1').setAttribute('aria-pressed',PLAN.offset===1);
   const DN=['月','火','水','木','金','土','日'];
+  const todayI=(new Date().getDay()+6)%7;
+  if(SEL_DAY==null||SEL_DAY>6)SEL_DAY=PLAN.offset===0?todayI:0;
+  const LM={light:'軽い',normal:'ふつう',heavy:'重い'};
   let h='';
   if(PAT&&PAT.ok&&(PAT.streak>=2||PAT.shortfall>=8))
     h+='<div class="hint">記録からの目印：直近の未回復蓄積が大きめです（範囲外の連続 '+PAT.streak+'日／直近7日の不足分 '+PAT.shortfall+'）。今週は負荷を軽めに置くことが候補です。これはこのツール独自の目安で、自動で決めるものではありません。</div>';
-  for(let i=0;i<7;i++){const k=addDays(mon,i), p=PLAN.days[k]||{events:[],load:'',picks:[],nextLight:false,note:'',actual:{done:[],exp:[],note:''}};
-    const a=p.actual||{done:[],exp:[],note:''};
-    const prevK=addDays(k,-1), prevP=PLAN.days[prevK];
-    let hints=[];
-    if(p.load==='heavy')hints.push('負荷が重い見込みの日です。回復はその場の判断に任せず、先に固定で置くのが回復パラドックスへの備えです。翌日の負荷を下げることも候補です。');
-    (p.events||[]).forEach(e=>{if(PAT&&PAT.ok&&PAT.riskEvents.includes(e))hints.push('「'+(EVENTS.find(x=>x[0]===e)||[e,e])[1]+'」は、記録で落下した日に重なっていた出来事です。')});
-    if(prevP&&prevP.load==='heavy')hints.push('前日が重い予定です。朝の負荷を下げる、回復を先に置く、が候補です。');
-    if(p.nextLight)hints.push('翌日の負荷を下げる設定です。');
-    h+='<div class="card" style="margin-bottom:10px"><div class="dayhead"><b>'+esc(k.slice(5))+'（'+DN[i]+'）</b></div>'+
-     '<h3>予定の出来事</h3><div class="chips">'+EVENTS.filter(e=>e[0]!=='none').map(e=>'<button type="button" class="chip" data-ev="'+e[0]+'" data-day="'+k+'" aria-pressed="'+(p.events||[]).includes(e[0])+'">'+e[1]+'</button>').join('')+'</div>'+
-     '<h3>予定の負荷</h3><div class="seg" role="group" aria-label="予定の負荷">'+[['light','軽い'],['normal','ふつう'],['heavy','重い']].map(([v,l])=>'<button type="button" data-load="'+v+'" data-day="'+k+'" aria-pressed="'+(p.load===v)+'">'+l+'</button>').join('')+'</div>'+
-     (hints.length?'<div class="hint">'+hints.map(esc).join('<br>')+'</div>':'')+
-     '<h3>先に置く回復</h3><p class="note">目安は '+(p.load==='heavy'?'重い日で3つまで':'1〜2つまで')+' です。選ばない日があっても構いません。</p><p class="note" data-msg="'+k+'" aria-live="polite"></p>'+
-     RECOVERY_GROUPS.map(g=>'<p class="note" style="margin:6px 0 4px">'+esc(g.name)+'</p><div class="chips">'+g.items.map(it=>'<button type="button" class="chip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(it)+'">'+esc(it)+'</button>').join('')+'</div>').join('')+
-     (DATA&&DATA.copes&&DATA.copes.length?'<p class="note" style="margin:6px 0 4px">自分の対処リストから</p><div class="chips">'+DATA.copes.map(c=>'<button type="button" class="chip" data-pick="'+esc(c.text)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(c.text)+'">'+esc(c.text)+'</button>').join('')+'</div>':'')+
-     '<div style="margin-top:8px"><label><input type="checkbox" data-next="'+k+'" '+(p.nextLight?'checked':'')+'> 翌日の負荷を下げる</label></div>'+
-     '<div style="margin-top:6px"><input type="text" data-note="'+k+'" placeholder="ひとこと（任意）" value="'+esc(p.note||'')+'"></div>'+
-     ((p.picks||[]).length?'<h3>実施と経験（その日が終わってから）</h3><p class="note">行動と、それによって生じた経験は分けて残します。経験は回復経験の4分類に対応します。</p>'+
-       '<p class="note" style="margin:6px 0 4px">実施できたもの</p><div class="chips">'+p.picks.map(it=>'<button type="button" class="chip" data-done="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(a.done||[]).includes(it)+'">'+esc(it)+'</button>').join('')+'</div>'+
-       '<p class="note" style="margin:6px 0 4px">生じた経験</p><div class="chips">'+PLAN_EXP.map(x=>'<button type="button" class="chip" data-exp="'+esc(x)+'" data-day="'+k+'" aria-pressed="'+(a.exp||[]).includes(x)+'">'+esc(x)+'</button>').join('')+'</div>'+
-       '<div style="margin-top:6px"><input type="text" data-anote="'+k+'" placeholder="実施のひとこと（任意）" value="'+esc(a.note||'')+'"></div>':'')+
-     '</div>';
-  }
+  /* 週の見取り図：曜日を選ぶと、その日の編集だけが下に出る */
+  h+='<div class="chips" role="group" aria-label="曜日の選択" style="margin-bottom:10px">'+
+   DN.map((dn,i)=>{const k=addDays(mon,i), p=PLAN.days[k]||{events:[],load:'',picks:[]};
+     return '<button type="button" class="chip" data-sel="'+i+'" aria-pressed="'+(i===SEL_DAY)+'">'+k.slice(5)+'（'+dn+'）'+(p.load?'・'+LM[p.load]:'')+((p.picks||[]).length?'・回復'+p.picks.length:'')+'</button>'}).join('')+'</div>';
+  const i=SEL_DAY, k=addDays(mon,i), p=PLAN.days[k]||{events:[],load:'',picks:[],nextLight:false,note:'',actual:{done:[],exp:[],note:''}};
+  const a=p.actual||{done:[],exp:[],note:''};
+  const prevK=addDays(k,-1), prevP=PLAN.days[prevK];
+  let hints=[];
+  if(p.load==='heavy')hints.push('負荷が重い見込みの日です。回復はその場の判断に任せず、先に固定で置くのが回復パラドックスへの備えです。翌日の負荷を下げることも候補です。');
+  (p.events||[]).forEach(e=>{if(PAT&&PAT.ok&&PAT.riskEvents.includes(e))hints.push('「'+(EVENTS.find(x=>x[0]===e)||[e,e])[1]+'」は、記録で落下した日に重なっていた出来事です。')});
+  if(prevP&&prevP.load==='heavy')hints.push('前日が重い予定です。朝の負荷を下げる、回復を先に置く、が候補です。');
+  if(p.nextLight)hints.push('翌日の負荷を下げる設定です。');
+  h+='<div class="card" style="margin-bottom:10px"><div class="dayhead"><b>'+esc(k.slice(5))+'（'+DN[i]+'）</b></div>'+
+   '<h3>予定の出来事</h3><div class="chips">'+EVENTS.filter(e=>e[0]!=='none').map(e=>'<button type="button" class="chip" data-ev="'+e[0]+'" data-day="'+k+'" aria-pressed="'+(p.events||[]).includes(e[0])+'">'+e[1]+'</button>').join('')+'</div>'+
+   '<h3>予定の負荷</h3><div class="seg" role="group" aria-label="予定の負荷">'+[['light','軽い'],['normal','ふつう'],['heavy','重い']].map(([v,l])=>'<button type="button" data-load="'+v+'" data-day="'+k+'" aria-pressed="'+(p.load===v)+'">'+l+'</button>').join('')+'</div>'+
+   (hints.length?'<div class="hint">'+hints.map(esc).join('<br>')+'</div>':'')+
+   '<h3>先に置く回復</h3><p class="note">目安は '+(p.load==='heavy'?'重い日で3つまで':'1〜2つまで')+' です。選ばない日があっても構いません。</p><p class="note" data-msg="'+k+'" aria-live="polite"></p>'+
+   RECOVERY_GROUPS.map(g=>'<p class="note" style="margin:6px 0 4px">'+esc(g.name)+'</p><div class="chips">'+g.items.map(it=>'<button type="button" class="chip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(it)+'">'+esc(it)+'</button>').join('')+'</div>').join('')+
+   (DATA&&DATA.copes&&DATA.copes.length?'<p class="note" style="margin:6px 0 4px">自分の対処リストから</p><div class="chips">'+DATA.copes.map(c=>'<button type="button" class="chip" data-pick="'+esc(c.text)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(c.text)+'">'+esc(c.text)+'</button>').join('')+'</div>':'')+
+   '<div style="margin-top:8px"><label><input type="checkbox" data-next="'+k+'" '+(p.nextLight?'checked':'')+'> 翌日の負荷を下げる</label></div>'+
+   '<div style="margin-top:6px"><input type="text" data-note="'+k+'" placeholder="ひとこと（任意）" value="'+esc(p.note||'')+'"></div>'+
+   ((p.picks||[]).length?'<h3>実施と経験（その日が終わってから）</h3><p class="note">行動と、それによって生じた経験は分けて残します。経験は回復経験の4分類に対応します。</p>'+
+     '<p class="note" style="margin:6px 0 4px">実施できたもの</p><div class="chips">'+p.picks.map(it=>'<button type="button" class="chip" data-done="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(a.done||[]).includes(it)+'">'+esc(it)+'</button>').join('')+'</div>'+
+     '<p class="note" style="margin:6px 0 4px">生じた経験</p><div class="chips">'+PLAN_EXP.map(x=>'<button type="button" class="chip" data-exp="'+esc(x)+'" data-day="'+k+'" aria-pressed="'+(a.exp||[]).includes(x)+'">'+esc(x)+'</button>').join('')+'</div>'+
+     '<div style="margin-top:6px"><input type="text" data-anote="'+k+'" placeholder="実施のひとこと（任意）" value="'+esc(a.note||'')+'"></div>':'')+
+   '</div>';
   box.innerHTML=h;
-  const msg=(k,t)=>{const el=box.querySelector('[data-msg="'+k+'"]');if(el)el.textContent=t};
-  box.querySelectorAll('[data-ev]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const i=p.events.indexOf(b.dataset.ev);if(i>=0)p.events.splice(i,1);else p.events.push(b.dataset.ev);savePlan();renderWeek()}));
+  const msg=(kk,t)=>{const el=box.querySelector('[data-msg="'+kk+'"]');if(el)el.textContent=t};
+  box.querySelectorAll('[data-sel]').forEach(b=>b.addEventListener('click',()=>{SEL_DAY=+b.dataset.sel;renderWeek()}));
+  box.querySelectorAll('[data-ev]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.events.indexOf(b.dataset.ev);if(ix>=0)p.events.splice(ix,1);else p.events.push(b.dataset.ev);savePlan();renderWeek()}));
   box.querySelectorAll('[data-load]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);p.load=p.load===b.dataset.load?'':b.dataset.load;savePlan();renderWeek();if(p.picks.length>capFor(p))msg(b.dataset.day,'今は '+p.picks.length+' 個選ばれています。目安は '+capFor(p)+' 個までです。減らすかどうかは自分で決めてください（自動では消しません）。')}));
-  box.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const i=p.picks.indexOf(b.dataset.pick);if(i>=0){p.picks.splice(i,1);const di=p.actual.done.indexOf(b.dataset.pick);if(di>=0)p.actual.done.splice(di,1)}else{if(p.picks.length>=capFor(p)){msg(b.dataset.day,'目安は '+capFor(p)+' 個までです（重い日は3つ）。増やすには、先にどれかを外してください。');return}p.picks.push(b.dataset.pick)}savePlan();renderWeek()}));
+  box.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.picks.indexOf(b.dataset.pick);if(ix>=0){p.picks.splice(ix,1);const di=p.actual.done.indexOf(b.dataset.pick);if(di>=0)p.actual.done.splice(di,1)}else{if(p.picks.length>=capFor(p)){msg(b.dataset.day,'目安は '+capFor(p)+' 個までです（重い日は3つ）。増やすには、先にどれかを外してください。');return}p.picks.push(b.dataset.pick)}savePlan();renderWeek()}));
   box.querySelectorAll('[data-next]').forEach(c=>c.addEventListener('change',()=>{planDay(c.dataset.next).nextLight=c.checked;savePlan();renderWeek()}));
   box.querySelectorAll('[data-note]').forEach(t=>t.addEventListener('change',()=>{planDay(t.dataset.note).note=t.value;savePlan()}));
-  box.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const i=p.actual.done.indexOf(b.dataset.done);if(i>=0)p.actual.done.splice(i,1);else p.actual.done.push(b.dataset.done);savePlan();renderWeek()}));
-  box.querySelectorAll('[data-exp]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const i=p.actual.exp.indexOf(b.dataset.exp);if(i>=0)p.actual.exp.splice(i,1);else p.actual.exp.push(b.dataset.exp);savePlan();renderWeek()}));
+  box.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.actual.done.indexOf(b.dataset.done);if(ix>=0)p.actual.done.splice(ix,1);else p.actual.done.push(b.dataset.done);savePlan();renderWeek()}));
+  box.querySelectorAll('[data-exp]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.actual.exp.indexOf(b.dataset.exp);if(ix>=0)p.actual.exp.splice(ix,1);else p.actual.exp.push(b.dataset.exp);savePlan();renderWeek()}));
   box.querySelectorAll('[data-anote]').forEach(t=>t.addEventListener('change',()=>{planDay(t.dataset.anote).actual.note=t.value;savePlan()}));
 }
-$('wk0').addEventListener('click',()=>{PLAN.offset=0;savePlan();renderWeek()});
-$('wk1').addEventListener('click',()=>{PLAN.offset=1;savePlan();renderWeek()});
+$('wk0').addEventListener('click',()=>{PLAN.offset=0;SEL_DAY=null;savePlan();renderWeek()});
+$('wk1').addEventListener('click',()=>{PLAN.offset=1;SEL_DAY=null;savePlan();renderWeek()});
 $('copyPlan').addEventListener('click',()=>{
   const mon=mondayOf(PLAN.offset), DN=['月','火','水','木','金','土','日'], lines=['【負荷と回復の設計 '+mon+' の週】'];
   for(let i=0;i<7;i++){const k=addDays(mon,i),p=PLAN.days[k];if(!p)continue;
