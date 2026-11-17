@@ -55,11 +55,11 @@ export function LineCtaSmall() {
         段階ごとに整理した内容をLINEで送っています。
       </p>
       <a href={lineUrl("general")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaSmall")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "12px 16px", minHeight: "44px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
         自分の状態をもう少し整理する（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.78)", fontFamily: "sans-serif", margin: 0 }}>
         {LINE_SUBTEXT}
       </p>
     </div>
@@ -79,11 +79,11 @@ export function LineCtaFatigue() {
         回復の段階別の整理をLINEで送っています。
       </p>
       <a href={lineUrl("fatigue")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaFatigue")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "12px 16px", minHeight: "44px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
         この状態がどう進むか知っておく（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.78)", fontFamily: "sans-serif", margin: 0 }}>
         {LINE_SUBTEXT}
       </p>
     </div>
@@ -103,7 +103,7 @@ export function LineCtaQuit() {
         同じ状態の人がどう整理しているか、LINEで送っています。
       </p>
       <a href={lineUrl("quit")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaQuit")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "12px 16px", minHeight: "44px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
         同じ状態の人がどうなるか読む（無料）
       </a>
@@ -127,11 +127,11 @@ export function LineCtaImpostor() {
         自己機能の回復ステップをLINEで整理して届けています。
       </p>
       <a href={lineUrl("impostor")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaImpostor")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "12px 16px", minHeight: "44px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
         自分の状態の構造を整理する（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.78)", fontFamily: "sans-serif", margin: 0 }}>
         {LINE_SUBTEXT}
       </p>
     </div>
@@ -151,11 +151,11 @@ export function LineCtaCompassion() {
         段階別の整理をLINEで送っています。
       </p>
       <a href={lineUrl("compassion")} target="_blank" rel="noopener noreferrer" onClick={() => trackClick("LineCtaCompassion")}
-        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "9px 16px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
+        style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#06C755", color: "#fff", borderRadius: "5px", padding: "12px 16px", minHeight: "44px", fontSize: "13px", fontWeight: 700, textDecoration: "none", fontFamily: "sans-serif", alignSelf: "flex-start" }}>
         {LINE_ICON}
         今どの段階か知っておく（無料）
       </a>
-      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.6)", fontFamily: "sans-serif", margin: 0 }}>
+      <p style={{ fontSize: "11px", color: "rgba(44,31,20,0.78)", fontFamily: "sans-serif", margin: 0 }}>
         {LINE_SUBTEXT}
       </p>
     </div>

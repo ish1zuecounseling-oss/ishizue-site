@@ -59,7 +59,7 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
           <>
             <Link
               to="/#contact"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
+              className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
               style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
@@ -76,8 +76,8 @@ export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackPausedLineClick("article_bottom_paused")}
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
-              style={{ background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
+              className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-full text-xs font-medium tracking-[0.08em] transition-all"
+              style={{ textWrap: "balance", textAlign: "center", justifyContent: "center", maxWidth: "100%", background: "rgba(255,255,255,0.10)", color: "#e7e0d8", border: "1px solid rgba(255,255,255,0.18)" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.18)" }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.10)" }}
             >

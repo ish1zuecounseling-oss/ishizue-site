@@ -230,7 +230,7 @@ export default function ArticleLayout({
       )}
 
       <div className="min-h-screen bg-white">
-        <div className="max-w-2xl mx-auto px-5 sm:px-8 py-20 text-stone-700 leading-loose">
+        <div className="max-w-2xl mx-auto px-5 sm:px-8 pt-10 sm:pt-20 pb-20 text-stone-700 leading-loose">
           <motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -242,7 +242,7 @@ export default function ArticleLayout({
             {/* ============================================================
                 HEADER
             ============================================================ */}
-            <header className="mb-14">
+            <header className="mb-10 sm:mb-14">
 
               {/* Schema hidden metas */}
               <meta itemProp="headline"          content={title} />
@@ -279,7 +279,7 @@ export default function ArticleLayout({
               </h1>
 
               {/* メタ情報バー */}
-              <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 mb-6">
+              <div className="flex flex-wrap items-center gap-3 text-xs text-stone-500 mb-6">
                 <div className="flex items-center gap-1.5">
                   <span
                     className="w-5 h-5 rounded-full inline-flex items-center justify-center"
@@ -441,7 +441,7 @@ export default function ArticleLayout({
                       受付を再開したら、<br className="sm:hidden" />お知らせします
                     </h2>
                     <p className="text-stone-500 text-sm leading-relaxed mb-7 max-w-sm mx-auto">
-                      現在、新規のご相談の受付を休止しています。再開のお知らせは、LINEで先にお送りします。
+                      現在、新規のご相談の受付を休止しています。再開のお知らせは、LINEで先にお送りします。{""}
                       それまでの間も、記事・セルフチェック・AI整理アシスタントはご利用いただけます。
                     </p>
                     <a
@@ -526,7 +526,7 @@ export default function ArticleLayout({
                   </p>
                   <p className="text-xs text-stone-500 leading-relaxed">
                     公認心理師 ／ こころの相談室 いしずえ 代表<br />
-                    障害福祉分野15年・累計300名以上6,000時間以上の支援経験。
+                    障害福祉分野15年・累計300名以上6,000時間以上の支援経験。{""}
                     支援職の燃え尽き・共感疲労に特化した「構造整理型カウンセリング」を提供。
                   </p>
                   <p className="text-[11px] text-stone-400 pt-1">
