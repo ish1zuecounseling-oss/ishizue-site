@@ -7,7 +7,7 @@ export default function Breadcrumbs({ title }: { title: string }) {
       {" > "}
       <Link to="/articles" className="hover:underline">心理記事</Link>
       {" > "}
-      <span className="text-stone-700">{title}</span>
+      <span className="text-stone-700 breadcrumb-title">{title}</span>
     </nav>
   );
 }
