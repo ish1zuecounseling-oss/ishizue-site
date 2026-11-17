@@ -46,6 +46,16 @@ pre{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-rad
 <p class="lead">「こころとからだの記録」とは独立した道具です。記録の書き出しJSONを読み込むと、負荷と回復のパターンを材料として出します。読み込んだ記録はこの端末の画面の中だけで使い、保存も送信もしません。設計した週の計画だけを、この道具の中に保存します。</p>
 <p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</p>
 
+<section class="card">
+<h2>いつ、何をするか</h2>
+<ol style="margin:0;padding-left:20px">
+<li><b>毎日</b>：寝る前など、自分で決めたタイミングで、ノートにその日を記録する</li>
+<li><b>週のはじめ</b>：ノートを「ファイルで保存する」で書き出し、この道具の「記録のまとめ」で読み込む。材料を見て、「週を設計」でこれからの負荷と回復を先に置く</li>
+<li><b>その日の終わり</b>：設計した回復について、実施できたものと生じた経験を付ける（「週を設計」の各日の中にあります）</li>
+<li><b>次の週のはじめ</b>：もう一度読み込み直すと、崩れた期間と戻るまでの日数が更新され、設計と実際を比べられます</li>
+</ol>
+</section>
+
 <div class="seg" role="tablist" aria-label="画面の切り替え" style="margin-bottom:12px">
 <button type="button" role="tab" id="tabbtn-p" aria-selected="true">記録のまとめ</button>
 <button type="button" role="tab" id="tabbtn-w" aria-selected="false">週を設計</button>
@@ -312,12 +322,51 @@ function renderPatterns(){
     else status='その後の状態は「'+last.overall+'」です。';
     epTxt='<p>最近では、'+rangeTxt+' に崩れた期間がありました。'+status+'</p>';
   }
+  /* 今の状態：最新の記録が「いつもの範囲」のどこにあるかを帯と線で示す */
+  let nowHtml='';
+  if(DATA&&DATA.days&&DATA.days[PAT.anchor]){
+    const d0=DATA.days[PAT.anchor];
+    const bur0=(()=>{if(!Array.isArray(d0.sym))return null;const vs=d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null})();
+    const bar=(label,v,loV,hiV,note)=>{
+      if(v==null||loV==null||hiV==null)return '<div class="kv"><span>'+label+'</span><span>記録なし</span></div>';
+      const inR=v>=loV&&v<=hiV, left=Math.max(0,loV*10), width=Math.min(100,(hiV-loV)*10);
+      return '<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13.5px"><span>'+label+'：<b>'+v+'</b></span><span class="note">'+(inR?'いつもの範囲内':'いつもの範囲の外')+(note?'（'+note+'）':'')+'</span></div>'+
+      '<div style="position:relative;height:12px;background:#f1ead9;border-radius:6px"><div style="position:absolute;top:0;height:12px;left:'+left+'%;width:'+width+'%;background:#cdd8ae;border-radius:6px"></div><div style="position:absolute;top:-3px;height:18px;width:3px;background:#3e2f23;left:calc('+(v*10)+'% - 1px)"></div></div></div>'};
+    nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3><p class="note">緑の帯が「いつもの範囲」、黒い線が今の値です。</p>'+
+     bar('体',typeof d0.body==='number'?d0.body:null,PAT.lo.body,10,'')+
+     bar('心',typeof d0.mind==='number'?d0.mind:null,PAT.lo.mind,10,'')+
+     (PAT.sMed!=null?bar('症状の支障',bur0,0,PAT.sHi,'上ほど悪い'):'<div class="kv"><span>症状の支障</span><span>判定対象外（記録不足）</span></div>');
+  }
+  /* 記録の流れの図：体・心・症状の支障の線、崩れた日の帯、睡眠時間の棒を重ねて関係を見る */
+  let chart='';
+  if(DATA&&DATA.days){
+    const ks=[];for(let i=27;i>=0;i--)ks.push(addDays(PAT.anchor,-i));
+    const W=720,H=250,ml=26,mr=8,mt=8,mb=22,pw=W-ml-mr,ph=H-mt-mb;
+    const X=i=>ml+pw*i/(ks.length-1), Y=v=>mt+ph*(10-v)/10;
+    const bur2=d=>{if(!d||!Array.isArray(d.sym))return null;const vs=d.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null};
+    const dropSet=new Set(PAT.drops.map(d=>d.date));
+    let g='';
+    ks.forEach((k,i)=>{if(dropSet.has(k))g+='<rect x="'+(X(i)-pw/(ks.length-1)/2).toFixed(1)+'" y="'+mt+'" width="'+(pw/(ks.length-1)).toFixed(1)+'" height="'+ph+'" fill="#b4552d" opacity="0.10"/>'});
+    ks.forEach((k,i)=>{const hh=sleepH(DATA.days[k]);if(hh==null)return;const bh=hh/12*ph*0.35;g+='<rect x="'+(X(i)-3)+'" y="'+(mt+ph-bh).toFixed(1)+'" width="6" height="'+bh.toFixed(1)+'" fill="#cbbfa8"/>'});
+    [0,5,10].forEach(v=>{g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#ddd2bf" stroke-width="1"/><text x="2" y="'+(Y(v)+4)+'" font-size="10" fill="#7a6a58">'+v+'</text>'});
+    if(PAT.bMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.bMed)+'" y2="'+Y(PAT.bMed)+'" stroke="#7d8c5c" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
+    if(PAT.mMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.mMed)+'" y2="'+Y(PAT.mMed)+'" stroke="#a67c52" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
+    const line=(get,color,dash)=>{let out='',cur=[];
+      const flush=()=>{if(cur.length>1)out+='<polyline fill="none" stroke="'+color+'" stroke-width="2" '+(dash?'stroke-dasharray="5 3" ':'')+'points="'+cur.join(' ')+'"/>';cur=[]};
+      ks.forEach((k,i)=>{const v=get(DATA.days[k]);if(v==null){flush();return}cur.push(X(i).toFixed(1)+','+Y(v).toFixed(1));out+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="2.2" fill="'+color+'"/>'});
+      flush();return out};
+    g+=line(d=>d&&typeof d.body==='number'?d.body:null,'#7d8c5c',false);
+    g+=line(d=>d&&typeof d.mind==='number'?d.mind:null,'#a67c52',false);
+    g+=line(d=>bur2(d),'#b4552d',true);
+    ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#7a6a58">'+k.slice(5)+'</text>'});
+    chart='<h3>記録の流れ（直近28日）</h3><p class="note">緑＝体、茶＝心、赤の点線＝症状の支障（上ほど悪い方向です）。縦の帯は崩れた日、下のグレーの棒は睡眠時間です。細い点線は、それぞれの「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg>';
+  }
   const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
    '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
    '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+'<details><summary>詳しい数字を見る</summary>'+
+  box.innerHTML= summary+nowHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
