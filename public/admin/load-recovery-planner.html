@@ -332,13 +332,32 @@ function renderPatterns(){
       const inR=v>=loV&&v<=hiV, left=Math.max(0,loV*10), width=Math.min(100,(hiV-loV)*10);
       return '<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13.5px"><span>'+label+'：<b>'+v+'</b></span><span class="note">'+(inR?'いつもの範囲内':'いつもの範囲の外')+(note?'（'+note+'）':'')+'</span></div>'+
       '<div style="position:relative;height:12px;background:#f1ead9;border-radius:6px"><div style="position:absolute;top:0;height:12px;left:'+left+'%;width:'+width+'%;background:#cdd8ae;border-radius:6px"></div><div style="position:absolute;top:-3px;height:18px;width:3px;background:#3e2f23;left:calc('+(v*10)+'% - 1px)"></div></div></div>'};
-    nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3><p class="note">緑の帯が「いつもの範囲」、黒い線が今の値です。</p>'+
-     bar('体',typeof d0.body==='number'?d0.body:null,PAT.lo.body,10,'')+
-     bar('心',typeof d0.mind==='number'?d0.mind:null,PAT.lo.mind,10,'')+
-     (PAT.sMed!=null?bar('症状の支障',bur0,0,PAT.sHi,'上ほど悪い'):'<div class="kv"><span>症状の支障</span><span>判定対象外（記録不足）</span></div>');
+    const bv=typeof d0.body==='number'?d0.body:null, mv=typeof d0.mind==='number'?d0.mind:null;
+    const sl=bur0==null?null:10-bur0; /* 症状は「軽さ」に直し、外側ほど良い方向にそろえる */
+    if(bv!=null&&mv!=null&&sl!=null&&PAT.lo.body!=null&&PAT.lo.mind!=null&&PAT.sHi!=null){
+      const cx=150,cy=118,R=78;
+      const pt=(v,i)=>{const a=(-90+i*120)*Math.PI/180;return [cx+R*(v/10)*Math.cos(a),cy+R*(v/10)*Math.sin(a)]};
+      const poly=vs=>vs.map((v,i)=>pt(v,i).map(n=>Math.round(n*10)/10).join(',')).join(' ');
+      let g='';
+      [5,10].forEach(v=>{g+='<polygon points="'+poly([v,v,v])+'" fill="none" stroke="#ddd2bf" stroke-width="1"/>'});
+      [0,1,2].forEach(i=>{const e=pt(10,i);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+e[0]+'" y2="'+e[1]+'" stroke="#ddd2bf" stroke-width="1"/>'});
+      g+='<polygon points="'+poly([PAT.lo.body,PAT.lo.mind,10-PAT.sHi])+'" fill="#7d8c5c" opacity="0.15" stroke="#7d8c5c" stroke-width="1.5" stroke-dasharray="5 3"/>';
+      g+='<polygon points="'+poly([bv,mv,sl])+'" fill="#a67c52" opacity="0.30" stroke="#8a5a33" stroke-width="2"/>';
+      [['体',bv,0],['心',mv,1],['症状の軽さ',sl,2]].forEach(([lb,v,i])=>{const pxy=pt(v,i);g+='<circle cx="'+pxy[0]+'" cy="'+pxy[1]+'" r="3.5" fill="#8a5a33"/>';
+        const lp=pt(12.6,i);g+='<text x="'+lp[0]+'" y="'+(lp[1]+4)+'" font-size="12" fill="#3e2f23" text-anchor="middle">'+lb+' '+v+'</text>'});
+      nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3><p class="note">茶色の面が今の状態、緑の点線が「いつもの範囲」の境目です。緑より外側がいつもの範囲で、内側にはみ出た軸が範囲の外です。症状は「軽さ」に直してあります（外側ほど軽い）。</p>'+
+       '<svg viewBox="0 0 300 245" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto" role="img" aria-label="今の状態のレーダーチャート">'+g+'</svg>'+
+       '<p class="note" style="text-align:center">体 '+(bv>=PAT.lo.body?'範囲内':'範囲外')+'／心 '+(mv>=PAT.lo.mind?'範囲内':'範囲外')+'／症状の支障 '+bur0+'（'+(bur0<=PAT.sHi?'範囲内':'範囲外')+'）</p>';
+    }else{
+      nowHtml='<h3>今の状態（'+esc(PAT.anchor.slice(5))+' の記録）</h3>'+
+       bar('体',bv,PAT.lo.body,10,'')+bar('心',mv,PAT.lo.mind,10,'')+
+       (PAT.sMed!=null?bar('症状の支障',bur0,0,PAT.sHi,'上ほど悪い'):'<div class="kv"><span>症状の支障</span><span>判定対象外（記録不足）</span></div>');
+    }
   }
   /* 今のおすすめ：現在地（範囲の外にある領域）に合わせた候補を最大3つ。自動決定ではなく候補として出す */
   let recHtml='';
+  let noteHtml='';
+  let fatGraphHtml='';
   if(DATA&&DATA.days&&DATA.days[PAT.anchor]){
     const d0=DATA.days[PAT.anchor];
     const bur0=(()=>{if(!Array.isArray(d0.sym))return null;const vs=d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null})();
@@ -351,7 +370,6 @@ function renderPatterns(){
     if(bodyOut){pushR(G('base').items[0],'体がいつもの範囲の外です');pushR(G('relax').items[0],'土台と、軽い切り替えです')}
     if(mindOut){pushR(G('detach').items[1],'心がいつもの範囲の外です。頭を切り替える方向です');pushR(G('control').items[0],'自分で決める感覚を取り戻す方向です')}
     if(!bodyOut&&!mindOut&&!symOut)pushR(G('base').items[3],'今は範囲内です。足すなら、土台の維持から');
-    if(DATA.copes&&DATA.copes.length&&recs.length<3)pushR(DATA.copes[0].text,'自分の対処リストにあるものです');
     const fat=[]; const pushF=(i,why)=>{if(FATIGUE_ITEMS[i]&&!fat.some(f=>f.i===i)&&fat.length<3)fat.push({i,why})};
     if(symOut)pushF(1,'症状の支障がいつもの範囲の外です');
     if(bodyOut||mindOut)pushF(0,'体・心がいつもの範囲の外です');
@@ -366,8 +384,48 @@ function renderPatterns(){
      '<p class="note" style="margin:8px 0 4px">回復の材料から（今日の設計に置けるもの）</p>'+
      recs.map(r=>'<div style="display:flex;gap:8px;align-items:flex-start;margin:6px 0"><div style="flex:1"><div>'+esc(r.item)+'</div><div class="note">'+esc(r.why)+'</div></div><button type="button" class="btn ghost" data-rec="'+esc(r.item)+'">今日の設計に置く</button></div>').join('');
   }
+  /* ノート由来の提案は別枠にする（このページの材料とは混ぜない） */
+  if(DATA&&Array.isArray(DATA.copes)&&DATA.copes.length){
+    noteHtml='<h3>ノートの記録から（別枠）</h3><p class="note">こちらは、このページの材料ではなく、「こころとからだのノート」に登録されている、あなたの対処リストからのピックアップです。</p>'+
+     DATA.copes.slice(0,2).map(c=>'<div style="display:flex;gap:8px;align-items:flex-start;margin:6px 0"><div style="flex:1"><div>'+esc(c.text)+'</div><div class="note">ノートの対処リストから</div></div><button type="button" class="btn ghost" data-rec="'+esc(c.text)+'">今日の設計に置く</button></div>').join('');
+  }
+  /* 疲労項目の出方：項目ごとに「判定できた日数（または回数）」を母数にして、当てはまった割合を出す。
+     候補の項目は今の記録にないので、推定でグラフ化しない。 */
+  if(DATA&&DATA.days){
+    const wk=[]; for(let i=27;i>=0;i--){const k=addDays(PAT.anchor,-i); if(DATA.days[k])wk.push(k)}
+    const burF=d=>{if(!d||!Array.isArray(d.sym))return null;const vs=d.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null};
+    const cnt=f=>wk.filter(f).length;
+    const hasBM=k=>{const d=DATA.days[k];return typeof d.body==='number'||typeof d.mind==='number'};
+    const outBM=k=>{const d=DATA.days[k];return (typeof d.body==='number'&&PAT.lo.body!=null&&d.body<PAT.lo.body)||(typeof d.mind==='number'&&PAT.lo.mind!=null&&d.mind<PAT.lo.mind)};
+    const hasSym=k=>burF(DATA.days[k])!=null;
+    const outSym=k=>{const v=burF(DATA.days[k]);return v!=null&&PAT.sHi!=null&&v>PAT.sHi};
+    const hasSleep=k=>{const d=DATA.days[k];return sleepH(d)!=null||typeof d.sq==='number'};
+    const badSleep=k=>{const d=DATA.days[k];const h=sleepH(d);return (h!=null&&h<6)||(typeof d.sq==='number'&&d.sq<=2)};
+    const hasMind=k=>typeof DATA.days[k].mind==='number';
+    const strongExh=k=>{const d=DATA.days[k];return typeof d.mind==='number'&&PAT.mMed!=null&&d.mind<=PAT.mMed-2};
+    const eps=PAT.drops.filter(d=>d.epStart&&d.epRecDays!=null);
+    const slowEps=eps.filter(d=>d.epRecDays>=3);
+    const mk=(i,den,num,unit,note,na)=>({item:FATIGUE_ITEMS[i].item,cover:FATIGUE_ITEMS[i].cover,den,num,unit,note,na});
+    const rows=[
+      mk(0,cnt(hasBM),cnt(k=>hasBM(k)&&outBM(k)),'日','体・心のどちらかが「いつもの範囲」の外だった日'),
+      PAT.sHi!=null?mk(1,cnt(hasSym),cnt(k=>hasSym(k)&&outSym(k)),'日','症状の支障が「いつもの範囲」の外だった日'):mk(1,0,0,'日','','症状の記録が少ないため、まだ母数を作れません'),
+      mk(2,cnt(hasSleep),cnt(k=>hasSleep(k)&&badSleep(k)),'日','睡眠6時間未満、または眠りの質が低めだった日（この道具の目安）'),
+      mk(3,cnt(hasMind),cnt(k=>hasMind(k)&&strongExh(k)),'日','心が「いつも」より2以上低かった日で代用しています（単独の項目としては記録していません）'),
+      eps.length?mk(4,eps.length,slowEps.length,'回','崩れた期間のうち、戻るまで3日以上かかったもの'):mk(4,0,0,'回','','戻るまでの日数が確定した、崩れた期間がまだありません'),
+      mk(5,0,0,'日','','今の記録にはない項目です（候補）。推定では出しません'),
+      mk(6,0,0,'日','','今の記録にはない項目です（候補）。推定では出しません'),
+      mk(7,0,0,'日','','今の記録にはない項目です（候補）。睡眠時間からは推定しません')
+    ];
+    const rowHtml=r=>{
+      if(r.na||!r.den)return '<div style="margin:9px 0"><div>'+esc(r.item)+' <span class="tag">'+esc(r.cover)+'</span></div><div class="note">'+esc(r.na||'判定できた記録がありません')+'</div></div>';
+      const pct=Math.round(r.num/r.den*100);
+      return '<div style="margin:9px 0"><div style="display:flex;justify-content:space-between;gap:8px"><span>'+esc(r.item)+'</span><b>'+r.num+'/'+r.den+r.unit+'（'+pct+'%）</b></div><div style="height:10px;background:#eee5d3;border-radius:999px;overflow:hidden;margin-top:4px"><div style="height:100%;width:'+pct+'%;background:#b4552d"></div></div><div class="note">'+esc(r.note)+'</div></div>';
+    };
+    fatGraphHtml='<h3>疲労項目の出方（直近28日）</h3><p class="note">母数は、項目ごとに「判定できた日数（または回数）」です。症状や睡眠は、入力された日だけを母数にしています。割合は比べるための材料で、疲労の点数ではありません。</p>'+rows.map(rowHtml).join('');
+  }
   /* 記録の流れの図：体・心・症状の支障の線、崩れた日の帯、睡眠時間の棒を重ねて関係を見る */
   let chart='';
+  let CDATA={};
   if(DATA&&DATA.days){
     let ks=[];for(let i=27;i>=0;i--)ks.push(addDays(PAT.anchor,-i));
     const firstRec=ks.findIndex(k=>DATA.days[k]); if(firstRec>0)ks=ks.slice(firstRec); /* 記録のない期間は切り取り、記録のある範囲だけを広げて描く */
@@ -388,15 +446,19 @@ function renderPatterns(){
     g+=line(d=>d&&typeof d.body==='number'?d.body:null,'#7d8c5c',false);
     g+=line(d=>d&&typeof d.mind==='number'?d.mind:null,'#a67c52',false);
     g+=line(d=>bur2(d),'#b4552d',true);
+    const step=pw/Math.max(1,ks.length-1);
+    ks.forEach((k,i)=>{const d=DATA.days[k];CDATA[k]={b:d&&typeof d.body==='number'?d.body:null,m:d&&typeof d.mind==='number'?d.mind:null,s:bur2(d),h:sleepH(d),drop:dropSet.has(k)};
+      const rx=Math.max(ml,X(i)-step/2);
+      g+='<rect data-cday="'+k+'" x="'+rx.toFixed(1)+'" y="'+mt+'" width="'+Math.min(step,ml+pw-rx).toFixed(1)+'" height="'+ph+'" fill="#7d8c5c" opacity="0"/>'});
     ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#7a6a58">'+k.slice(5)+'</text>'});
-    chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg>';
+    chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg><p class="note" id="chartInfo" aria-live="polite">グラフの日をタップすると、その日の値が出ます。</p>';
   }
   const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
    '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
    '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+nowHtml+recHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
+  box.innerHTML= summary+nowHtml+recHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
@@ -421,6 +483,13 @@ function renderPatterns(){
     else{p.picks.push(b.dataset.rec);msgTxt='今日の設計に入れました'}
     savePlan(); renderWeek(); showTab('w');
     const el=$('week').querySelector('[data-msg="'+tk+'"]'); if(el)el.textContent=msgTxt;
+  }));
+  const ci=box.querySelector('#chartInfo');
+  box.querySelectorAll('[data-cday]').forEach(r=>r.addEventListener('click',()=>{
+    box.querySelectorAll('[data-cday]').forEach(x=>x.setAttribute('opacity','0'));
+    r.setAttribute('opacity','0.10');
+    const v=CDATA[r.dataset.cday]; if(!v||!ci)return;
+    ci.textContent=r.dataset.cday.slice(5)+'：体 '+(v.b==null?'記録なし':v.b)+'／心 '+(v.m==null?'記録なし':v.m)+'／症状の支障 '+(v.s==null?'記録なし':v.s)+'／睡眠 '+(v.h==null?'記録なし':v.h+'時間')+(v.drop?'／崩れた日です':'');
   }));
 }
 
