@@ -337,11 +337,41 @@ function renderPatterns(){
      bar('心',typeof d0.mind==='number'?d0.mind:null,PAT.lo.mind,10,'')+
      (PAT.sMed!=null?bar('症状の支障',bur0,0,PAT.sHi,'上ほど悪い'):'<div class="kv"><span>症状の支障</span><span>判定対象外（記録不足）</span></div>');
   }
+  /* 今のおすすめ：現在地（範囲の外にある領域）に合わせた候補を最大3つ。自動決定ではなく候補として出す */
+  let recHtml='';
+  if(DATA&&DATA.days&&DATA.days[PAT.anchor]){
+    const d0=DATA.days[PAT.anchor];
+    const bur0=(()=>{if(!Array.isArray(d0.sym))return null;const vs=d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null})();
+    const bodyOut=typeof d0.body==='number'&&PAT.lo.body!=null&&d0.body<PAT.lo.body;
+    const mindOut=typeof d0.mind==='number'&&PAT.lo.mind!=null&&d0.mind<PAT.lo.mind;
+    const symOut=bur0!=null&&PAT.sHi!=null&&bur0>PAT.sHi;
+    const G=id=>RECOVERY_GROUPS.find(g=>g.id===id);
+    const recs=[]; const pushR=(item,why)=>{if(item&&!recs.some(r=>r.item===item)&&recs.length<3)recs.push({item,why})};
+    if(symOut){pushR(G('base').items[3],'症状の支障がいつもの範囲の外です。まず土台から');pushR(G('relax').items[3],'刺激を減らす方向です')}
+    if(bodyOut){pushR(G('base').items[0],'体がいつもの範囲の外です');pushR(G('relax').items[0],'土台と、軽い切り替えです')}
+    if(mindOut){pushR(G('detach').items[1],'心がいつもの範囲の外です。頭を切り替える方向です');pushR(G('control').items[0],'自分で決める感覚を取り戻す方向です')}
+    if(!bodyOut&&!mindOut&&!symOut)pushR(G('base').items[3],'今は範囲内です。足すなら、土台の維持から');
+    if(DATA.copes&&DATA.copes.length&&recs.length<3)pushR(DATA.copes[0].text,'自分の対処リストにあるものです');
+    const fat=[]; const pushF=(i,why)=>{if(FATIGUE_ITEMS[i]&&!fat.some(f=>f.i===i)&&fat.length<3)fat.push({i,why})};
+    if(symOut)pushF(1,'症状の支障がいつもの範囲の外です');
+    if(bodyOut||mindOut)pushF(0,'体・心がいつもの範囲の外です');
+    if(mindOut){pushF(3,'心が範囲の外のときに重なる項目です');pushF(5,'心が範囲の外のときに重なりやすい項目です')}
+    if(PAT.sleep&&(PAT.sleep.avg<6.5||PAT.sleep.short.total>=2))pushF(2,'睡眠が短めの日があります');
+    if(PAT.streak>=2||PAT.shortfall>=8){pushF(4,'持ち越しが大きめです');pushF(6,'その日の残りの負荷を見る項目です')}
+    if(PAT.sleep)pushF(7,'睡眠時間だけでは分からないため、候補として拾います');
+    const loadNote=(PAT.streak>=2||PAT.shortfall>=8)?'<p class="note">持ち越しが大きめです。回復を足すより先に、明日の負荷を1つ減らすことも候補です。</p>':'';
+    const safeNote=symOut?'<p class="note">症状の支障が大きい日が続くときは、主治医や相談先に伝えることを先にしてください。</p>':'';
+    recHtml='<h3>現在地からのピックアップ</h3><p class="note">「疲労項目」と「回復リスト」の材料の中から、今の状態に合うものを拾ったものです。やるべきことを決めるものではありません。'+((bodyOut||mindOut||symOut)?'':'今は範囲内なので、特に拾うものは少なめです。')+'</p>'+loadNote+safeNote+
+     (fat.length?'<p class="note" style="margin:8px 0 4px">疲労項目から（今、目を向けたいもの）</p>'+fat.map(f=>'<div style="margin:6px 0"><div>'+esc(FATIGUE_ITEMS[f.i].item)+' <span class="tag">'+esc(FATIGUE_ITEMS[f.i].cover)+'</span></div><div class="note">'+esc(f.why)+'</div></div>').join(''):'')+
+     '<p class="note" style="margin:8px 0 4px">回復の材料から（今日の設計に置けるもの）</p>'+
+     recs.map(r=>'<div style="display:flex;gap:8px;align-items:flex-start;margin:6px 0"><div style="flex:1"><div>'+esc(r.item)+'</div><div class="note">'+esc(r.why)+'</div></div><button type="button" class="btn ghost" data-rec="'+esc(r.item)+'">今日の設計に置く</button></div>').join('');
+  }
   /* 記録の流れの図：体・心・症状の支障の線、崩れた日の帯、睡眠時間の棒を重ねて関係を見る */
   let chart='';
   if(DATA&&DATA.days){
-    const ks=[];for(let i=27;i>=0;i--)ks.push(addDays(PAT.anchor,-i));
-    const W=720,H=250,ml=26,mr=8,mt=8,mb=22,pw=W-ml-mr,ph=H-mt-mb;
+    let ks=[];for(let i=27;i>=0;i--)ks.push(addDays(PAT.anchor,-i));
+    const firstRec=ks.findIndex(k=>DATA.days[k]); if(firstRec>0)ks=ks.slice(firstRec); /* 記録のない期間は切り取り、記録のある範囲だけを広げて描く */
+    const W=720,H=280,ml=26,mr=8,mt=8,mb=22,pw=W-ml-mr,ph=H-mt-mb;
     const X=i=>ml+pw*i/(ks.length-1), Y=v=>mt+ph*(10-v)/10;
     const bur2=d=>{if(!d||!Array.isArray(d.sym))return null;const vs=d.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null};
     const dropSet=new Set(PAT.drops.map(d=>d.date));
@@ -352,21 +382,21 @@ function renderPatterns(){
     if(PAT.bMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.bMed)+'" y2="'+Y(PAT.bMed)+'" stroke="#7d8c5c" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
     if(PAT.mMed!=null)g+='<line x1="'+ml+'" x2="'+(ml+pw)+'" y1="'+Y(PAT.mMed)+'" y2="'+Y(PAT.mMed)+'" stroke="#a67c52" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>';
     const line=(get,color,dash)=>{let out='',cur=[];
-      const flush=()=>{if(cur.length>1)out+='<polyline fill="none" stroke="'+color+'" stroke-width="2" '+(dash?'stroke-dasharray="5 3" ':'')+'points="'+cur.join(' ')+'"/>';cur=[]};
-      ks.forEach((k,i)=>{const v=get(DATA.days[k]);if(v==null){flush();return}cur.push(X(i).toFixed(1)+','+Y(v).toFixed(1));out+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="2.2" fill="'+color+'"/>'});
+      const flush=()=>{if(cur.length>1)out+='<polyline fill="none" stroke="'+color+'" stroke-width="2.6" '+(dash?'stroke-dasharray="6 3" ':'')+'points="'+cur.join(' ')+'"/>';cur=[]};
+      ks.forEach((k,i)=>{const v=get(DATA.days[k]);if(v==null){flush();return}cur.push(X(i).toFixed(1)+','+Y(v).toFixed(1));out+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="2.8" fill="'+color+'"/>'});
       flush();return out};
     g+=line(d=>d&&typeof d.body==='number'?d.body:null,'#7d8c5c',false);
     g+=line(d=>d&&typeof d.mind==='number'?d.mind:null,'#a67c52',false);
     g+=line(d=>bur2(d),'#b4552d',true);
     ks.forEach((k,i)=>{if(i%7===0||i===ks.length-1)g+='<text x="'+(X(i)-12)+'" y="'+(H-6)+'" font-size="10" fill="#7a6a58">'+k.slice(5)+'</text>'});
-    chart='<h3>記録の流れ（直近28日）</h3><p class="note">緑＝体、茶＝心、赤の点線＝症状の支障（上ほど悪い方向です）。縦の帯は崩れた日、下のグレーの棒は睡眠時間です。細い点線は、それぞれの「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg>';
+    chart='<h3>記録の流れ（'+ks[0].slice(5)+'〜'+ks[ks.length-1].slice(5)+'）</h3><p class="note">緑＝体／茶＝心／赤の点線＝症状の支障（上ほど悪い）。帯＝崩れた日、グレーの棒＝睡眠時間、細い点線＝「いつも」の高さです。</p><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px" role="img" aria-label="直近28日の体・心・症状の支障と睡眠時間のグラフ">'+g+'</svg>';
   }
   const summary='<div class="hint" style="margin-bottom:12px"><b>まとめ（普通の言葉で）</b>'+
    '<p>記録は '+PAT.n+' 日分（〜'+esc(PAT.anchor)+'）です。'+(PAT.stage==='provisional'?'まだ日数が少ないので、「いつも」の目安は大まかです。':PAT.stage==='reference'?'「いつも」の目安は、参考になる程度には育っています。':'「いつも」の目安は比較的安定しています。')+'</p>'+
    '<p>あなたの「いつも」は、体が '+fmt(PAT.bMed)+' くらい、心が '+fmt(PAT.mMed)+' くらい'+(PAT.sMed!=null?'、症状の支障が '+fmt(PAT.sMed)+' くらい':'')+'です。</p>'+
    epTxt+
    '<p>最近7日の持ち越しの合計は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+nowHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
+  box.innerHTML= summary+nowHtml+recHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
@@ -383,6 +413,15 @@ function renderPatterns(){
    '<h3>回復行動があった期間との比べ（参考）</h3><p>'+(ac.nA>=2&&ac.nN>=2
       ? '落下が続いた期間中に休憩・区切り・気晴らし・昼寝のいずれかがあった落下（'+ac.nA+'件）は、期間全体の回復時間の中央値 '+ac.medA+'日、なかった落下（'+ac.nN+'件）は '+ac.medN+'日でした。負荷の大きさが違う落下同士の比較なので、行動の効果とは言えません。似た負荷の落下同士で見続けるための材料です。'
       : '比べられる落下がまだ足りません（行動あり '+ac.nA+'件／なし '+ac.nN+'件）。記録が増えると出てきます。')+'</p></details>';
+  box.querySelectorAll('[data-rec]').forEach(b=>b.addEventListener('click',()=>{
+    const tk=ymd(new Date()); PLAN.offset=0; SEL_DAY=(new Date().getDay()+6)%7;
+    const p=planDay(tk); let msgTxt='';
+    if(p.picks.includes(b.dataset.rec))msgTxt='すでに今日の設計に入っています';
+    else if(p.picks.length>=capFor(p))msgTxt='今日は目安の '+capFor(p)+' 個までで、いっぱいです。入れ替える場合は、先にどれかを外してください';
+    else{p.picks.push(b.dataset.rec);msgTxt='今日の設計に入れました'}
+    savePlan(); renderWeek(); showTab('w');
+    const el=$('week').querySelector('[data-msg="'+tk+'"]'); if(el)el.textContent=msgTxt;
+  }));
 }
 
 /* ===== 2. 週の設計 ===== */
