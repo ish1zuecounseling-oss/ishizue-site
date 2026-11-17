@@ -127,6 +127,12 @@
 .article-body a:hover {
   @apply text-blue-800;
 }
+/* 記事末尾の緑ボタン（text-white を付けたリンク）は、本文リンクの青に上書きされないよう白に固定する */
+.article-body a.text-white,
+.article-body a.text-white:hover {
+  color: #fff;
+  text-decoration: none;
+}
 
 /* blockquote — Home.tsx の BlockQuote コンポーネントと同じデザイン */
 .article-body blockquote {
