@@ -74,7 +74,7 @@ export default function StatePicker({ onPick, onAiClick }: Props) {
 
   return (
     <section id="state-picker" className="mb-10 rounded-2xl border border-stone-200 bg-stone-50 p-5 md:p-7" aria-labelledby="state-picker-title">
-      <p className="text-[11px] tracking-[0.2em] font-medium" style={{ color: SAGE }}>274本から探さなくて大丈夫です</p>
+      <p className="text-[11px] tracking-[0.2em] font-medium" style={{ color: SAGE }}>{articles.length}本から探さなくて大丈夫です</p>
       <h2 id="state-picker-title" className="text-lg md:text-xl font-medium text-stone-800 mt-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
         いまの状態から、読む記事を決めましょう
       </h2>
