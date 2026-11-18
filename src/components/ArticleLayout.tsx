@@ -271,7 +271,7 @@ export default function ArticleLayout({
 
               {/* タイトル */}
               <h1
-                className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide text-balance"
+                className="text-2xl sm:text-3xl font-medium mb-6 text-stone-900 leading-snug tracking-wide max-sm:text-balance"
                 style={{ fontFamily: "'Noto Serif JP', Georgia, serif" }}
                 itemProp="name"
               >
@@ -279,7 +279,7 @@ export default function ArticleLayout({
               </h1>
 
               {/* メタ情報バー */}
-              <div className="flex flex-wrap items-center gap-3 max-sm:justify-center text-xs text-stone-500 mb-6">
+              <div className="flex flex-wrap items-center gap-3 max-sm:justify-center text-xs text-stone-400 max-sm:text-stone-500 mb-6">
                 <div className="flex items-center gap-1.5">
                   <span
                     className="w-5 h-5 rounded-full inline-flex items-center justify-center"

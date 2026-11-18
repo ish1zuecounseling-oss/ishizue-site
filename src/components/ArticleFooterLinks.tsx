@@ -348,7 +348,7 @@ function LinkList({ items, exclude, max }: { items: LinkItem[]; exclude?: string
   return (
     <>
       {filtered.map(({ href, text }) => (
-        <Link key={href} to={href} className="block py-3 min-h-[44px] text-sm leading-snug text-stone-600 hover:text-stone-900 underline underline-offset-2">
+        <Link key={href} to={href} className="block py-2 max-sm:py-3 max-sm:min-h-[44px] text-sm leading-snug text-stone-600 hover:text-stone-900 underline underline-offset-2">
           → {text}
         </Link>
       ))}
@@ -406,7 +406,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
                 </p>
                 <a
                   href="/#contact"
-                  className="inline-flex items-center gap-1.5 py-3 text-xs font-medium underline underline-offset-2 transition-colors"
+                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
                   style={{ color: "#8FAF9F" }}
                 >
                   → 今の状態を整理する（初回メール相談無料・無理に決めなくていい）
@@ -422,7 +422,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackPausedLineClick("footer_links_paused")}
-                  className="inline-flex items-center gap-1.5 py-3 text-xs font-medium underline underline-offset-2 transition-colors"
+                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
                   style={{ color: "#8FAF9F" }}
                 >
                   → LINEで状態別の解説を受け取る（新規相談は休止中・再開時にお知らせ）
