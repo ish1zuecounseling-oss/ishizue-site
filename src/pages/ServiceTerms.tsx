@@ -7,6 +7,7 @@ export default function ServiceTerms() {
         <title>ご利用規約・緊急時対応について｜こころの相談室 いしずえ</title>
         <meta name="description" content="こころの相談室 いしずえのご利用規約・守秘義務・緊急時対応についての説明です。" />
         <meta name="robots" content="noindex" />
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/terms" />
       </Helmet>
 
       <div className="max-w-2xl mx-auto px-4 py-12">
