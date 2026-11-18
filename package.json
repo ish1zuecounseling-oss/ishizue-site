@@ -9,7 +9,8 @@
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
     "generate:static-html": "tsx scripts/generateStaticHtml.ts",
     "generate:search-index": "tsx scripts/generateSearchIndex.ts",
-    "build": "npm run generate:articles && npm run generate:sitemap && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server && npm run generate:static-html && npm run generate:search-index",
+    "verify:head": "tsx scripts/verifyHead.ts",
+    "build": "npm run generate:articles && npm run generate:sitemap && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server && npm run generate:static-html && npm run generate:search-index && npm run verify:head",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
