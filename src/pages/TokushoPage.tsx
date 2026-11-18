@@ -7,6 +7,7 @@ export default function TokushoPage() {
         <title>特定商取引法に基づく表記｜こころの相談室 いしずえ</title>
         <meta name="description" content="こころの相談室 いしずえの特定商取引法に基づく表記です。" />
         <meta name="robots" content="noindex" />
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/tokusho" />
       </Helmet>
 
       <div className="max-w-2xl mx-auto px-4 py-12">
