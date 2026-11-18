@@ -52,8 +52,8 @@ function prerender(html: string, path: string, useHelmetHead = false): string {
     // テンプレートの既定 title / description / canonical を、そのページの Helmet の内容に置き換える
     html = html
       .replace(/<title>[\s\S]*?<\/title>/, "")
-      .replace(/<meta\s+name="description"[\s\S]*?\/?>/g, "")
-      .replace(/<link\s+rel="canonical"[^>]*>/g, "")
+      .replace(/<meta\s[^>]*?name="description"[^>]*>/g, "")
+      .replace(/<link\s[^>]*?rel="canonical"[^>]*>/g, "")
       .replace("</head>", "    " + out.head + "\n  </head>");
     // Helmet に canonical がないページは、自分自身の URL を canonical にする
     if (!/rel="canonical"/.test(out.head)) {
@@ -66,7 +66,7 @@ function prerender(html: string, path: string, useHelmetHead = false): string {
 }
 
 // 記事以外でプリレンダリングするページ(title / description / canonical は各ページの Helmet から取る)
-const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers"];
+const EXTRA_PAGES = ["/articles", "/profile", "/for-helpers", "/ai-assistant", "/privacy", "/tokusho", "/terms"];
 
 // 記事データ型
 interface Article {
@@ -153,8 +153,9 @@ async function main() {
   let errorCount = 0;
 
   const titleReplace = new RegExp("<title>[\\s\\S]*?</title>");
-  const descReplace = new RegExp("<meta\\s+name=\"description\"[^>]*>", "g");
-  const canonicalReplace = new RegExp("<link\\s+rel=\"canonical\"[^>]*>", "g");
+  // data-rh 付き・属性順違い・複数行のタグにも一致させる(タグ1つの範囲に限る)
+  const descReplace = new RegExp("<meta\\s[^>]*?name=\"description\"[^>]*>", "g");
+  const canonicalReplace = new RegExp("<link\\s[^>]*?rel=\"canonical\"[^>]*>", "g");
   const ogpReplace = new RegExp("<meta\\s+property=\"og:[^\"]+\"[^>]*>", "g");
   const twitterReplace = new RegExp("<meta\\s+name=\"twitter:[^\"]+\"[^>]*>", "g");
 
@@ -169,7 +170,8 @@ async function main() {
 
       html = html.replace(titleReplace, "<title>" + fullTitle + "</title>");
       html = html.replace(descReplace, "<meta name=\"description\" content=\"" + safeDescription + "\" />");
-      html = html.replace(canonicalReplace, "<link rel=\"canonical\" href=\"" + articleUrl + "\" />");
+      // data-rh="true" を付けると、ブラウザで Helmet が動いたときに、このタグを自分のタグとして置き換える(二重にならない)
+      html = html.replace(canonicalReplace, "<link data-rh=\"true\" rel=\"canonical\" href=\"" + articleUrl + "\" />");
       html = html.replace(ogpReplace, "");
       html = html.replace(twitterReplace, "");
 
