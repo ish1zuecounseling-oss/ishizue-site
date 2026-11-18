@@ -7,6 +7,7 @@ export default function PrivacyPolicy() {
         <title>プライバシーポリシー｜こころの相談室 いしずえ</title>
         <meta name="description" content="こころの相談室 いしずえのプライバシーポリシーです。個人情報の取り扱い・守秘義務・情報管理方針を定めています。" />
         <meta name="robots" content="noindex" />
+        <link rel="canonical" href="https://www.ishizue-counseling.jp/privacy" />
       </Helmet>
 
       <div className="max-w-2xl mx-auto px-4 py-12">
