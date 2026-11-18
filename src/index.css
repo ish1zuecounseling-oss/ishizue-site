@@ -132,12 +132,16 @@
 .article-body a.text-white:hover {
   color: #fff;
   text-decoration: none;
-  /* ボタンの高さを44px以上にし、折り返しは均等に（「…受け取／る」の1文字落ち対策） */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  text-wrap: balance;
+}
+/* スマホのみ：ボタンの高さを44px以上にし、折り返しは均等に（「…受け取／る」の1文字落ち対策）。PC表示は従来どおり */
+@media (max-width: 639px) {
+  .article-body a.text-white {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    text-wrap: balance;
+  }
 }
 /* スマホでは文字をわずかに小さくし、「LINEで状態別の解説と再開のお知らせを受け取る」が1行に収まるようにする */
 @media (max-width: 479px) {
@@ -159,10 +163,22 @@
   }
 }
 
-/* 見出しの1文字落ち対策（p の pretty と同じ考え方を見出しにも） */
-.article-body h2,
-.article-body h3 {
-  text-wrap: balance;
+/* スマホのみ：見出しの1文字落ち対策（p の pretty と同じ考え方を見出しにも）。PC表示は従来どおり */
+@media (max-width: 639px) {
+  .article-body h2,
+  .article-body h3 {
+    text-wrap: balance;
+  }
+  /* LINE案内（LineCta）：スマホだけ全幅・中央、高さ44px以上、注記を読みやすく */
+  .lc-btn {
+    align-self: stretch !important;
+    justify-content: center !important;
+    padding: 12px 16px !important;
+    min-height: 44px !important;
+  }
+  .lc-note {
+    color: rgba(44, 31, 20, 0.78) !important;
+  }
 }
 
 /* blockquote — Home.tsx の BlockQuote コンポーネントと同じデザイン */
