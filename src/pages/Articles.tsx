@@ -19,7 +19,7 @@
 
 import { useState, useRef, useEffect, type MouseEvent } from "react";
 import { motion, type Variants, AnimatePresence } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowRight, BookOpen, ClipboardList, ChevronRight,
   BatteryLow, LogOut, Layers, Users, Moon, RotateCcw, FlaskConical,
@@ -393,6 +393,34 @@ const TAB_GROUPS: { id: TabGroup; label: string; desc: string; subs: { id: TabId
   },
 ];
 
+/* -------------------------------------------------------------------------- */
+/*  URL パラメータ(?q=検索語 / ?tab=タブ)                                       */
+/*  - q: 記事検索の検索語。共有・ブラウザの戻る/進むで復元できる                      */
+/*  - tab: 開くタブ(例: /articles?tab=tools)。既定のタブのときは URL に出さない      */
+/* -------------------------------------------------------------------------- */
+
+const SEARCH_DEBOUNCE_MS = 500;   // GA4 の site_search 計測と同じ間隔
+const MAX_QUERY_LENGTH = 100;
+const DEFAULT_TAB: TabId = "shindo";
+const ALL_TABS: string[] = TAB_GROUPS.flatMap((g) => g.subs.map((sub) => sub.id));
+
+/** 検索語を整える(制御文字を空白に・前後の空白を除く・長さの上限) */
+const normalizeQuery = (raw: string | null): string =>
+  (raw ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, MAX_QUERY_LENGTH).trim();
+
+/** 不明な tab 値は既定のタブに戻す */
+const parseTab = (raw: string | null): TabId => (raw !== null && ALL_TABS.includes(raw) ? (raw as TabId) : DEFAULT_TAB);
+
+const groupOfTab = (tab: TabId): TabGroup =>
+  TAB_GROUPS.find((g) => g.subs.some((sub) => sub.id === tab))?.id ?? "action";
+
+/** パラメータの中身だけを比べる(順序・エンコード方法の違いは無視) */
+const paramsKey = (p: URLSearchParams): string => {
+  const c = new URLSearchParams(p);
+  c.sort();
+  return c.toString();
+};
+
 type ThemeSection = { label: string; keywords: string[] };
 type ThemeLayer   = { id: string; label: string; desc: string; sections: ThemeSection[] };
 
@@ -534,14 +562,96 @@ function ArticleCard({ article, showNew }: { article: typeof articles[0]; showNe
 
 export default function Articles() {
   // タブ状態:グループ+サブタブの2階層
-  const [activeGroup, setActiveGroup] = useState<TabGroup>("action");
-  const [activeTab, setActiveTab] = useState<TabId>("shindo");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = parseTab(searchParams.get("tab"));
+  const initialQuery = normalizeQuery(searchParams.get("q"));
+  const [activeGroup, setActiveGroup] = useState<TabGroup>(() => groupOfTab(initialTab));
+  const [activeTab, setActiveTab] = useState<TabId>(initialTab);
   const [activeShindo, setActiveShindo] = useState<ShindoCard | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [worryViewMode, setWorryViewMode] = useState<"grid" | "list">("grid");
   const [showFloatingLine, setShowFloatingLine] = useState(false);
   const [showStickyNav, setShowStickyNav] = useState(false);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // --- URL(?q= / ?tab=)との同期 ---
+  const urlTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const composingRef = useRef(false);                        // IME 変換中
+  const syncedQueryRef = useRef(initialQuery);               // URL に書いた(または URL から読んだ)検索語
+  const syncedTabRef = useRef<TabId>(initialTab);            // 同じく、タブ
+  const setSearchParamsRef = useRef(setSearchParams);
+  setSearchParamsRef.current = setSearchParams;
+
+  /** URL の q / tab を書き換える。他のパラメータは残し、履歴は積まない(replace) */
+  const writeUrl = (changes: { q?: string; tab?: TabId }) => {
+    const current = new URLSearchParams(window.location.search);
+    const next = new URLSearchParams(window.location.search);
+    if (changes.q !== undefined) {
+      next.delete("q");
+      if (changes.q) next.set("q", changes.q);
+      syncedQueryRef.current = changes.q;
+    }
+    if (changes.tab !== undefined) {
+      next.delete("tab");
+      if (changes.tab !== DEFAULT_TAB) next.set("tab", changes.tab);
+      syncedTabRef.current = changes.tab;
+    }
+    if (paramsKey(next) === paramsKey(current)) return;
+    setSearchParamsRef.current(next, { replace: true });
+  };
+
+  /** 入力のたびに呼ぶ。空になったら q をすぐ消し、入力があれば 500ms 後に URL へ反映する */
+  const scheduleQueryUpdate = (raw: string) => {
+    if (urlTimerRef.current) { clearTimeout(urlTimerRef.current); urlTimerRef.current = null; }
+    const q = normalizeQuery(raw);
+    if (!q) { writeUrl({ q: "" }); return; }
+    urlTimerRef.current = setTimeout(() => {
+      urlTimerRef.current = null;
+      if (composingRef.current) return;   // IME 変換中は書かない(確定時にもう一度予約する)
+      writeUrl({ q });
+    }, SEARCH_DEBOUNCE_MS);
+  };
+
+  /** 待機中の URL 更新をすぐ反映する(記事を開く直前に呼び、「戻る」で検索結果を復元できるようにする) */
+  const flushQueryUpdate = () => {
+    if (urlTimerRef.current) { clearTimeout(urlTimerRef.current); urlTimerRef.current = null; }
+    if (!composingRef.current) writeUrl({ q: normalizeQuery(searchQuery) });
+  };
+
+  const clearSearch = () => {
+    if (urlTimerRef.current) { clearTimeout(urlTimerRef.current); urlTimerRef.current = null; }
+    setSearchQuery("");
+    writeUrl({ q: "" });
+  };
+
+  const selectTab = (tab: TabId) => {
+    setActiveTab(tab);
+    setActiveGroup(groupOfTab(tab));
+    writeUrl({ tab });
+  };
+
+  // 読み込み時: 不正な値(空白だけの q、長すぎる q、不明な tab など)を URL からも取り除く
+  useEffect(() => {
+    writeUrl({ q: initialQuery, tab: initialTab });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ブラウザの戻る/進む・外部リンクで URL が変わったとき、検索欄とタブを URL に合わせる
+  useEffect(() => {
+    const urlQuery = normalizeQuery(searchParams.get("q"));
+    const urlTab = parseTab(searchParams.get("tab"));
+    if (urlQuery !== syncedQueryRef.current) {
+      syncedQueryRef.current = urlQuery;
+      if (urlTimerRef.current) { clearTimeout(urlTimerRef.current); urlTimerRef.current = null; }
+      setSearchQuery(urlQuery);
+    }
+    if (urlTab !== syncedTabRef.current) {
+      syncedTabRef.current = urlTab;
+      setActiveTab(urlTab);
+      setActiveGroup(groupOfTab(urlTab));
+      setActiveShindo(null);
+    }
+  }, [searchParams]);
 
   // スクロール監視:フローティングLINE・スティッキーナビ
   useEffect(() => {
@@ -558,12 +668,13 @@ export default function Articles() {
   const switchGroup = (g: TabGroup) => {
     setActiveGroup(g);
     const firstSub = TAB_GROUPS.find((tg) => tg.id === g)?.subs[0]?.id;
-    if (firstSub) setActiveTab(firstSub);
+    if (firstSub) { setActiveTab(firstSub); writeUrl({ tab: firstSub }); }
     setActiveShindo(null);
   };
 
   // 一覧内の記事リンククリックを一括計測(どのタブ・絞り込み・検索から開かれたか)
   const onArticleLinkClick = (e: MouseEvent<HTMLDivElement>) => {
+    flushQueryUpdate();
     const link = (e.target as HTMLElement).closest("a");
     const href = link?.getAttribute("href") ?? "";
     if (!href.startsWith("/articles/")) return;
@@ -777,9 +888,13 @@ export default function Articles() {
               <input
                 type="search"
                 value={searchQuery}
+                maxLength={MAX_QUERY_LENGTH}
+                onCompositionStart={() => { composingRef.current = true; }}
+                onCompositionEnd={(e) => { composingRef.current = false; scheduleQueryUpdate(e.currentTarget.value); }}
                 onChange={(e) => {
                   const val = e.target.value;
                   setSearchQuery(val);
+                  scheduleQueryUpdate(val);
                   if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
                   if (val.trim().length >= 2) {
                     searchTimerRef.current = setTimeout(() => {
@@ -793,7 +908,7 @@ export default function Articles() {
               />
               {searchQuery && (
                 <button
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => clearSearch()}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-300 hover:text-stone-600 transition-colors"
                   aria-label="検索をクリア"
                   type="button"
@@ -840,7 +955,7 @@ export default function Articles() {
                     tab.id === "shindo"   ? articles.length :
                     articles.filter((a) => !isResearchArticle(a.path) && !isThinkerArticle(a.path)).length;
                   return (
-                    <button key={tab.id} onClick={() => { track("articles_tab_click", { tab: tab.id }); setActiveTab(tab.id); setActiveShindo(null); }}
+                    <button key={tab.id} onClick={() => { track("articles_tab_click", { tab: tab.id }); selectTab(tab.id); setActiveShindo(null); }}
                       className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-all border-b-2 -mb-px whitespace-nowrap focus:outline-none focus-visible:bg-stone-50 ${activeTab === tab.id ? "text-stone-900" : "border-transparent text-stone-400 hover:text-stone-600"}`}
                       style={activeTab === tab.id ? { borderBottomColor: tab.id === "research" ? "#0369a1" : SAGE } : {}}
                     >
@@ -1253,7 +1368,7 @@ export default function Articles() {
                         <p className="text-stone-400 text-sm">「{searchQuery}」に一致する記事が見つかりませんでした。</p>
                         <p className="text-stone-300 text-xs">別のキーワードをお試しください</p>
                         <button
-                          onClick={() => setSearchQuery("")}
+                          onClick={() => clearSearch()}
                           className="text-xs underline underline-offset-2 transition-colors mt-2"
                           style={{ color: SAGE }}
                           type="button"

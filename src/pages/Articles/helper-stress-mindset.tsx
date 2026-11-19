@@ -122,7 +122,7 @@ export default function HelperStressMindset() {
           <Link to="/articles/helper-reframing-caring" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 困難な支援経験を「受け継ぐもの」に変える
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>

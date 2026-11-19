@@ -135,7 +135,7 @@ export default function HelperRealityShock() {
           <Link to="/articles/helper-team-communication" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 職場の構造が消耗を作る｜チームワーク研究から
           </Link>
-          <Link to="/tools/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-burnout-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → バーンアウトチェック｜今の消耗度を確認する
           </Link>
         </div>

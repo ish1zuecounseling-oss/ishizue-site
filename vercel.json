@@ -351,11 +351,33 @@
       "source": "/articles/helper-fatigue-check",
       "destination": "/articles/helper-burnout-check",
       "permanent": true
+    },
+    {
+      "source": "/tools/helper-burnout-check",
+      "destination": "/articles/helper-burnout-check",
+      "permanent": true
+    },
+    {
+      "source": "/tools/helper-empathy-check",
+      "destination": "/articles/helper-empathy-check",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/admin/chronicle",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/search",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/views",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/dashboard",
       "destination": "/index.html"
     }
   ],
@@ -381,6 +403,15 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
         }
       ]
     }

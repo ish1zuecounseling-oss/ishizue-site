@@ -399,22 +399,6 @@ export default function BoundaryCheck() {
         ))}
       </div>
 
-      {/* FAQ Schema(ArticleLayoutのfaq propで既に挿入されている場合は下記を削除してください) */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": FAQ_ITEMS.map((item) => ({
-              "@type": "Question",
-              "name": item.q,
-              "acceptedAnswer": { "@type": "Answer", "text": item.a },
-            })),
-          }),
-        }}
-      />
-
       <p className="check-disclaimer">
         このチェックは診断ではなく、自分の状態に気づくための目安として活用してください。
       </p>

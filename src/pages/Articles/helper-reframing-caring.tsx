@@ -133,7 +133,7 @@ export default function HelperReframingCaring() {
           <Link to="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 体験を語り直すと記憶が変わる
           </Link>
-          <Link to="/tools/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
+          <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断
           </Link>
         </div>

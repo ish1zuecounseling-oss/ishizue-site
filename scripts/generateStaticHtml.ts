@@ -32,6 +32,26 @@ async function loadRenderer() {
   render = mod.render as RenderFn;
 }
 
+/**
+ * 404.html を作る(Vercel は、どのURLにも当たらないリクエストに、これを 404 ステータスで返す)。
+ * テンプレート(本文なしのシェル)から作るので、アプリが起動して、URL に合わせた「ページが見つかりません」を表示する。
+ *  - canonical・description は外す(404 のページに自己参照 canonical は不要)
+ *  - noindex, nofollow を入れる(data-rh を付け、アプリ側の Helmet が動いたときに二重にならないようにする)
+ *  - JavaScript が無効でも、トップ・記事一覧へ戻れるリンクを <noscript> で出す
+ */
+function build404Html(template: string): string {
+  let html = template
+    .replace(/<meta\s[^>]*?name="description"[^>]*>/g, "")
+    .replace(/<link\s[^>]*?rel="canonical"[^>]*>/g, "")
+    .replace(/<title>[\s\S]*?<\/title>/, "<title>ページが見つかりません | こころの相談室 いしずえ</title>");
+  html = html.replace("</head>", '  <meta data-rh="true" name="robots" content="noindex, nofollow" />\n  </head>');
+  const noscript =
+    '<noscript><div style="max-width:32rem;margin:4rem auto;padding:0 1.25rem;font-family:sans-serif;line-height:1.9">' +
+    "<h1>ページが見つかりません</h1><p>お探しのページは見つかりませんでした。</p>" +
+    '<p><a href="/">トップページ</a> ／ <a href="/articles">心理記事の一覧</a></p></div></noscript>\n';
+  return html.replace('<div id="root">', noscript + '<div id="root">');
+}
+
 /** テンプレートの <div id="root"></div> に本文を、</head> の前に JSON-LD を入れる */
 function prerender(html: string, path: string, useHelmetHead = false): string {
   if (!render) return html;
@@ -220,6 +240,14 @@ async function main() {
       console.error("❌ " + page + ": " + (error as Error).message);
       errorCount++;
     }
+  }
+  // 404.html(不明なURLに 404 ステータスで返す用)
+  try {
+    writeFileSync(join(DIST_DIR, "404.html"), build404Html(template), "utf-8");
+    console.log("✅ 404.html を生成しました");
+  } catch (error) {
+    console.error("❌ 404.html: " + (error as Error).message);
+    errorCount++;
   }
   if (errorCount > 0) {
     console.warn("⚠️ エラー: " + errorCount + "件");

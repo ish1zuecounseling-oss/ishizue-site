@@ -16,6 +16,8 @@ function generateSitemap() {
     { loc: `${BASE_URL}/`,         priority: 1.0, changefreq: "weekly",  lastmod: today },
     { loc: `${BASE_URL}/articles`, priority: 0.9, changefreq: "weekly",  lastmod: today },
     { loc: `${BASE_URL}/profile`,  priority: 0.6, changefreq: "monthly", lastmod: today },
+    { loc: `${BASE_URL}/for-helpers`,  priority: 0.8, changefreq: "monthly", lastmod: today },
+    { loc: `${BASE_URL}/ai-assistant`, priority: 0.7, changefreq: "monthly", lastmod: today },
   ];
 
   // 王様記事（優先度最高）
