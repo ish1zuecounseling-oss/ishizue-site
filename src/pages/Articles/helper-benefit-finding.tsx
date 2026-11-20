@@ -7,7 +7,7 @@ export default function HelperBenefitFinding() {
   return (
     <ArticleLayout
       title="つらい経験から立ち直る方法｜意味づけ（ベネフィットファインディング）と回復の心理"
-      description="しんどい経験のあとに「これにも意味があった」と思おうとする——その心の動きは回復を助ける自然なプロセスです。なぜ意味づけが起きるのか、心理学で理由と立ち直り方を解説します。"
+      description="しんどい経験のあとに「これにも意味があった」と思えることがあります。発達障害のある子どもをもつ母親を対象にした研究では、こうした意味づけ（ベネフィットファインディング）とストレス反応の関連が報告されています。研究でわかっていることと、支援職が経験を振り返るときのヒントを紹介します。"
       url="https://www.ishizue-counseling.jp/articles/helper-benefit-finding"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -17,15 +17,15 @@ export default function HelperBenefitFinding() {
       <div className="mb-8 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜつらい経験に意味を見出そうとするのか（ベネフィットファインディングの仕組み）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>意味づけが回復を助ける理由（心理学が示す「調整機能」としての役割）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>ベネフィットファインディングとは何か（つらい経験から意味を見出すこと）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>意味づけとストレスの関係（研究でわかっていること・わかっていないこと）</li>
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>一人では難しい理由と、整理する方法</li>
         </ul>
       </div>
 
       {/* 自分ごと化の一文 */}
       <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
-        「この経験、意味なんてなかった」と感じているうちは、まだ回復の途中にいるサインかもしれません。
+        「この経験、意味なんてなかった」と感じていても大丈夫です。無理に意味を見つけようとしなくてもかまいません。
       </p>
 
       <p>
@@ -35,9 +35,9 @@ export default function HelperBenefitFinding() {
       </p>
       <p>
         支援職として働く中で、こうした感覚が頭をよぎることがあるかもしれません。
-        でも時間が経つと「あの経験があったから、今の自分がある」と思える瞬間が来ることもある。
-        この「意味を見出す」という経験は、単なる気の持ちようではありません。
-        消耗からの回復に実際に関わっている、心理学的に重要なプロセスです。
+        時間が経って「あの経験があったから、今の自分がある」と思えることもあれば、
+        そう思えないままのこともあります。どちらも、おかしなことではありません。
+        この「意味を見出す」という経験については、心理学でも研究があります。
       </p>
 
       <h2>Benefit Findingとは何か</h2>
@@ -48,30 +48,33 @@ export default function HelperBenefitFinding() {
         こうした意味づけが、BFの典型です。
       </p>
       <p>
-        山根（2014）は、発達障害のある子どもをもつ母親265名を対象に、
-        BFがストレス状態での心理的消耗をどう和らげるかを検討しました。
-        その結果、<strong>ストレッサーが高い状況でこそ、BFが心理的ストレス反応を緩衝する</strong>ことが示されました。
-        つまり、しんどさが大きいときほど、意味を見出す力が消耗を和らげる効果を持つのです。
+        山根（2014）は、発達障害のある子どもをもつ母親265名への質問紙調査で、
+        BFを測る尺度を作り、BFと心理的ストレス反応の関係を調べました。
+        その結果、ストレッサーが多い状況では、<strong>BFが高いこととストレス反応の低さに関連</strong>が見られ、
+        BFがストレスを和らげる（緩衝する）可能性が示唆されています。
+        ただし、これは質問紙調査で見られた関連で、意味づけを促せばストレスが減ることを確かめたものではありません。
+        また、支援職を対象にした研究でもありません。
       </p>
 
-      <h2>意味づけは「できたら良いこと」ではなく、回復の調整機能</h2>
+      <h2>意味づけは「努力してするもの」ではない</h2>
       <p>
-        ここで重要なのは、BFを「ポジティブに考える努力」として捉えないことです。
+        ここからは、研究の結果ではなく筆者の考えです。
       </p>
       <p>
-        意味づけは、<strong>消耗から回復していく過程で自然に起きる「調整機能」</strong>です。
-        研究の知見によれば、BFはストレッサーが低いときより高いときに機能します。
-        つまり、本当にしんどいとき——消耗の中にいるとき——に、
-        人は自然と意味を探し始める。これは意志の問題ではなく、心理的な回復メカニズムです。
+        BFを「ポジティブに考える努力」として捉える必要はありません。
+        研究が示唆しているのは、ストレスが多い状況でのBFとストレス反応の関連です。
+        つらい最中に誰もが自然に意味を探し始める、ということではありません。
       </p>
       <p>
-        だから「意味を見出せない自分はダメだ」と思う必要はありません。
-        見出せないのは、まだ回復の途中にいるからです。
+        意味が見えない時期があっても大丈夫です。
+        意味が見えないことは、回復が遅れている証拠ではありません。
       </p>
 
-      <h2>支援職が見出しやすい「意味」の4つの側面</h2>
+      <h2>研究で整理された4つの側面と、支援職の場合</h2>
       <p>
-        研究では、逆境体験から見出されるBFの内容として4つの因子が抽出されました。
+        山根（2014）の尺度では、母親が子育ての経験から見出すBFが、4つのまとまり（因子）に整理されています。
+        以下では、その4つを手がかりに、支援職の経験に置き換えた例を挙げます。
+        支援職を対象に確かめられた分類ではなく、振り返りの例として読んでください。
       </p>
 
       <div className="card">
@@ -88,7 +91,7 @@ export default function HelperBenefitFinding() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           小さな達成感に満足を感じるようになった、
           以前とは違う自分の一面に気づいた——
-          消耗した経験が、実は自分の生き方を変えていた。
+          消耗した経験が、実は自分の生き方を変えていたと気づくこともある。
         </p>
       </div>
 
@@ -97,7 +100,7 @@ export default function HelperBenefitFinding() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           「できない人」の気持ちが本当にわかるようになった、
           一人ひとりの違いを尊重できるようになった——
-          しんどい体験が、人を見る目を変えた。
+          しんどい体験が、人を見る目を変えていることもある。
         </p>
       </div>
 
@@ -106,7 +109,7 @@ export default function HelperBenefitFinding() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           多少の困難にくじけなくなった、
           物事にあまり動じなくなった——
-          消耗や苦しみを乗り越えてきたこと自体が、自分の強さになっている。
+          消耗や苦しみを乗り越えてきたことが、自分の強さになっていると感じられることもある。
         </p>
       </div>
 
@@ -146,7 +149,7 @@ export default function HelperBenefitFinding() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解の問題ではなく、<strong className="text-stone-700">体験の整理がまだ途中だから</strong>です。
+          これは、理解が足りないからではありません。<strong className="text-stone-700">体験を整理するには、まだ時間が必要なのかもしれません。</strong>
         </p>
       </div>
 
