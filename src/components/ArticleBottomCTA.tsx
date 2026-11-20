@@ -9,6 +9,13 @@ import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "..
 
 type Props = {
   links?: { label: string; path: string }[]
+  /**
+   * true のとき、下の「理解→対処ブリッジ」の見出しと説明文を出さない
+   * （「次にできること」とリンクは出す）。
+   * 記事側に同じ見出し「原因がわかっても、しんどさが残るとき」のブロックがある記事だけで使う。
+   * 指定しない記事は、これまでどおりの表示。
+   */
+  hideBridgeIntro?: boolean
 }
 
 const DEFAULT_LINKS = [
@@ -17,19 +24,23 @@ const DEFAULT_LINKS = [
   { label: "今の状態をチェックする",               path: "/articles/helper-empathy-check" },
 ]
 
-export default function ArticleBottomCTA({ links = DEFAULT_LINKS }: Props) {
+export default function ArticleBottomCTA({ links = DEFAULT_LINKS, hideBridgeIntro = false }: Props) {
   return (
     <div className="mt-10 space-y-4">
 
       {/* 理解→対処ブリッジ */}
       <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200">
-        <p className="text-sm font-medium text-stone-800 mb-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-          原因がわかっても、しんどさが残るとき
-        </p>
-        <p className="text-xs text-stone-500 leading-relaxed mb-4">
-          「頭では理解できるけど、現場ではうまくできない」——そう感じている方も多いと思います。<br />
-          共感疲労や思考のクセは、<strong>理解だけで変えるのが難しい領域</strong>でもあります。
-        </p>
+        {!hideBridgeIntro && (
+          <>
+            <p className="text-sm font-medium text-stone-800 mb-1" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+              原因がわかっても、しんどさが残るとき
+            </p>
+            <p className="text-xs text-stone-500 leading-relaxed mb-4">
+              「頭では理解できるけど、現場ではうまくできない」——そう感じている方も多いと思います。<br />
+              共感疲労や思考のクセは、<strong>理解だけで変えるのが難しい領域</strong>でもあります。
+            </p>
+          </>
+        )}
         <p className="text-[10px] text-stone-400 tracking-widest uppercase mb-2">次にできること</p>
         <div className="flex flex-col gap-2">
           {links.map(({ label, path }) => (
