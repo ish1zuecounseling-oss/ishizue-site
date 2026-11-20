@@ -6,7 +6,7 @@ export default function HelperSelfEffacementFamily() {
   return (
     <ArticleLayout
       title="自分を後回しにしてしまう人の対処法｜自己犠牲の心理学"
-      description="気づくと自分の気持ちを後回しにしてしまう——この癖はどこから来るのか。家族関係の中で培われた自己抑制パターンの正体と、どう変えていくかを心理学から解説します。"
+      description="家族には素直に話せるのに、職場では「まだまだです」と控えめになる——。誰に話すかで成功の語り方が変わるという研究を紹介し、職場で負担を伝えにくいと感じているときの考え方と、話せる場の持ち方を、筆者の考察として整理します。"
       url="https://www.ishizue-counseling.jp/articles/helper-self-effacement-family"
       date="2026-04-18"
       tags={["burnout", "boundary", "compassion"]}
@@ -15,9 +15,9 @@ export default function HelperSelfEffacementFamily() {
       <div className="mb-8 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ自分を後回しにしてしまうのか（家族関係と自己抑制の心理学）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（自己犠牲が慢性化すると起きること）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（自分を後回しにする癖を変えていく方法）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>誰に話すかで、成功の語り方が変わる（村本・山口, 2003の研究から）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>職場で負担を伝えにくいと感じるときの考え方（筆者の考察）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>職場でも家庭でも話しにくいときの、話せる場の持ち方</li>
         </ul>
       </div>
 
@@ -31,7 +31,7 @@ export default function HelperSelfEffacementFamily() {
       </p>
       <p>
         この使い分けに心当たりはありませんか。
-        これは偽善でも計算でもなく、日本人の心理に根ざした自然な傾向です。
+        これは偽善でも計算でもなく、多くの人に見られる自然な語り分けなのかもしれません。
         村本・山口（2003）の研究から、その構造を整理します。
       </p>
 
@@ -53,14 +53,14 @@ export default function HelperSelfEffacementFamily() {
         </p>
       </div>
       <p>
-        この傾向は性別・年代を超えて一貫していました。
-        「同じ出来事を、誰に話すかによって全く違う語り方をする」
-        というのは、日本人に広く共通した心理的傾向です。
+        同じ出来事でも、誰に話すかによって語り方が変わる——
+        この研究は、そうした語り分けがあることを示しています。
       </p>
 
       <h2>なぜ家族には素直に喜べるのか</h2>
       <p>
-        研究では、家族との関係を「心理的一体感が強い関係」として分析しています。
+        研究では、こうした語り分けの違いを、家族や職場といった集団との関係のあり方から説明しています。
+        筆者なりに言いかえると、家族は「一体感の強い関係」といえるかもしれません。
         家族の誰かが成功すると、他のメンバーもそれを我が事のように喜ぶ。
         個人の成功が家族全体で共有されるのです。
       </p>
@@ -83,53 +83,39 @@ export default function HelperSelfEffacementFamily() {
         「まだまだです」と言うことで、相手との関係を円滑に保とうとするのです。
       </p>
       <p>
-        興味深いのは、この謙遜が「自己犠牲」ではないという点です。
-        研究では、職場で謙遜している人ほど、
-        <strong>「同僚が自分の成功を内的に評価してくれる」と期待している</strong>
-        ことも示されています。
-        謙遜しながらも、相手から「いや、すごいですね」と言ってもらうことを
-        無意識に期待している——これが相互配慮のシステムです。
+        興味深いのは、この謙遜が、自分を犠牲にしているとはかぎらないという点です。
+        謙遜しながらも、相手から「いや、すごいですね」と返してもらえることを、どこかで期待している——
+        そうしたやりとりで、お互いの関係が保たれている面もあると筆者は考えます。
       </p>
 
-      <h2>支援職でこの構造が消耗につながるとき</h2>
+      <h2>職場で負担まで控えめに伝えてしまうとき</h2>
       <p>
-        この「場に応じた自己卑下」は、本来は適応的な心理機能です。
-        しかし支援職の環境では、これが消耗の源になることがあります。
+        ここからは研究の結果ではなく、支援職の方の話を聞いてきた筆者の考察です。
+        村本・山口（2003）が調べたのは成功の語り方で、負担や困りごとの伝え方は、この研究の対象外です。
       </p>
       <p>
-        <strong>相互配慮が機能しない職場では、謙遜が報われない。</strong>
+        そのうえで、もし職場で、自分の頑張りだけでなく、負担やしんどさまで控えめに伝えてしまうと感じることがあるなら、
+        少し立ち止まってみてもよいかもしれません。
+        「まだ大丈夫です」「たいしたことはありません」と言い続けるうちに、
+        周りから負担が見えにくくなり、一人で抱える形になることもあるからです。
       </p>
       <p>
-        研究が示すように、謙遜は「相手が自分を評価してくれる」という期待のもとで
-        機能します。しかし職場が忙しすぎる、余裕がない、評価し合う文化がない——
-        そういう環境では、謙遜しても誰も「いや、すごいですね」と言ってくれない。
-        謙遜したまま、ただ消耗が積み重なっていきます。
+        大切なのは、謙遜すること自体を問題にするのではなく、
+        負担やしんどさについては、控えめにしすぎずに伝えてよい場面もあると知っておくことだと考えます。
       </p>
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「うまくいっても誰にも認められない」という感覚が続くとき、
-          それは個人の問題ではなく、相互配慮が機能していない職場環境の問題かもしれません。
-        </p>
-      </div>
 
-      <h2>家族にも話せない状態は危険信号</h2>
+      <h2>職場でも家庭でも話しにくいとき</h2>
       <p>
-        もう一つ注目したいのは、「家族にすら素直に話せない」という状態です。
+        職場だけでなく、家族にも素直に話しにくいと感じている人もいるかもしれません。
       </p>
       <p>
-        研究では、家族との心理的一体感が弱い人は、
-        家族に対しても自己卑下的になることが示されています。
-        つまり、心理的に安全な場所がどこにもない状態です。
+        家族に話しにくい理由は、人によってさまざまです。
+        心配をかけたくない、仕事の内容を話しにくい、話す時間がとれない——
+        どれも自然なことで、話しにくいこと自体が問題なわけではありません。
       </p>
       <p>
-        支援職として働く中で、職場でも家族にも本当のことを話せない——
-        そういう状態になっていたとしたら、
-        それは燃え尽きの手前にいるサインかもしれません。
-      </p>
-      <p>
-        「話せる場所」を意識的に作ること、
-        あるいは外部の専門家との対話を活用することが、
-        その構造を変える一つの方法です。
+        ただ、職場でも家庭でも、しんどさを言葉にする機会がほとんどないと感じるなら、
+        職場や家庭とは別に、安心して話せる相手や場（信頼できる人や専門家など）に話してみることも一つの方法です。
       </p>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
