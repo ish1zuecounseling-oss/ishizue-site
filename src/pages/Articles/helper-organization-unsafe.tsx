@@ -168,10 +168,10 @@ export default function HelperOrganizationUnsafe() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたの感受性の問題ではなく、<strong className="text-stone-700">環境の構造そのものが消耗を生んでいる</strong>からです。
+          これは、理解が足りないからでも、あなたの感受性の問題でもありません。<strong className="text-stone-700">職場の環境や仕組みが、しんどさにつながっているのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

@@ -173,10 +173,10 @@ export default function HelperSupervisionCompassionFatigue() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたの取り組み方の問題ではなく、<strong className="text-stone-700">スーパービジョンの効果が出る条件がまだ整っていない</strong>可能性があります。
+          これは、理解が足りないからでも、あなたの取り組み方の問題でもありません。<strong className="text-stone-700">スーパービジョンが役に立つための条件（安心して話せる関係や場）が、まだ整っていないのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

@@ -165,10 +165,10 @@ export default function HelperSelfEffacementFamily() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたが自己中心的でないということではなく、<strong className="text-stone-700">自分を後回しにすることが生存戦略として身についてしまっている</strong>からです。
+          これは、理解が足りないからでも、あなたの性格の問題でもありません。<strong className="text-stone-700">周りに配慮して自分を控えめにするふるまいが、いつの間にか習慣のようになっているのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }
