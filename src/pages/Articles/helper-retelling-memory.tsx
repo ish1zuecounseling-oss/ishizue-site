@@ -1,12 +1,13 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperRetellingMemory() {
   return (
     <ArticleLayout
-      title="嫌な記憶が頭から離れないときの対処法｜記憶の心理と回復方法"
-      description="繰り返し思い出してしまう出来事——それを「語り直す」ことで、記憶の持つ意味が変わることが研究で示されています。なぜ止まらないのか、心理学で理由と対処法を解説します。"
+      title="つらかった経験を語り直すと、何が変わる？｜支援職の無理のない振り返り"
+      description="つらかった体験を別の視点から語り直すと、その後の思い出し方は変わるのか。大学生が受験の体験を語り直した実験をもとに、わかっていることとわかっていないこと、支援職が無理なく振り返るための工夫を紹介します。"
       url="https://www.ishizue-counseling.jp/articles/helper-retelling-memory"
       date="2026-04-18"
       tags={["burnout", "compassion", "boundary"]}
@@ -15,14 +16,14 @@ export default function HelperRetellingMemory() {
       <div className="mb-8 p-4 rounded-xl" style={{ background: "#f5f0eb", border: "1px solid #e8ddd4" }}>
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ嫌な記憶が繰り返し頭に浮かぶのか（記憶と反すうの心理学）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（思い出し続けることが消耗を深める理由）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（記憶を「語り直す」ことで回復する方法）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>語り直しの実験でわかったこと（大学生の受験体験の思い出し方の変化）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>語り直しは「なかったことにする」こととどう違うか</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>無理なく振り返るための工夫と、話さない選択も含めた向き合い方</li>
         </ul>
       </div>
 
       <p className="text-stone-500 text-sm leading-relaxed mb-6 pl-4 border-l-2 border-stone-200">
-        「あの記憶がまた出てきた」と繰り返し感じているうちは、体験の整理がまだ続いているサインかもしれません。
+        つらかった体験を、今のあなたはどんな言葉で語っているでしょうか。
       </p>
       <p>
         「あの時期はしんどかったけど、あの経験があったから今の自分がある」<br />
@@ -30,100 +31,102 @@ export default function HelperRetellingMemory() {
       </p>
       <p>
         こういう「語り直し」を、あなたも経験したことがあるのではないでしょうか。
-        これは単なる気休めではありません。
-        過去の体験をポジティブに語り直すことで、記憶そのものが変容するという実験的証拠があります。
+        こうした語り直しについて、心理学の実験があります。
+        体験を別の視点から語り直すと、その後に思い出したときに語られる言葉の感情的な色合いが変わることが報告されています。
       </p>
 
-      <h2>語り直しが記憶を変える</h2>
+      <h2>語り直すと、思い出したときの感情表現が変わる</h2>
       <p>
-        池田・仁平（2009）は、ネガティブな体験（大学受験）をポジティブに語り直した場合、
-        その後に元の記憶を再生したとき、何が変わるかを実験で検証しました。
+        池田・仁平（2009）は、大学生44名を対象に実験を行いました。
+        一方のグループ（21名）は、大学受験の準備というつらかった体験を「楽しかった体験」として語り直し、
+        もう一方のグループ（23名）は、実際の体験をそのままもう一度語りました。
+        そのあと、体験を思い出してもらい、語られた内容を比べています。
       </p>
       <p>
-        結果は明確でした。
-        <strong>ネガティブな経験を「楽しかった」として語り直したグループは、
-        その後の記憶の中でポジティブな感情表現が増加し、
-        ネガティブな感情表現が減少しました。</strong>
-        しかも、語り直しの効果は語り直しの最中だけでなく、
-        その後の記憶の再生にも持続していました。
+        語り直したグループでは、<strong>その後に思い出したとき、肯定的な感情を表す言葉が増え、
+        否定的な感情を表す言葉が減りました。</strong>
       </p>
       <p>
-        単純に繰り返し思い出したグループでは、このような変化は起きませんでした。
+        この実験が測ったのは、思い出したときに語られた言葉の感情的な色合いです。
+        出来事の記憶そのものが書き換わったかどうかや、
+        気分や心の健康がよくなったかどうかを調べたものではありません。
       </p>
 
-      <h2>中心的な記憶ほど変わりやすい</h2>
+      <h2>体験の中心にあることばほど、感情の色合いが大きく変わった</h2>
       <p>
-        さらに興味深いのは、記憶の変容パターンです。
+        研究では、体験に関わることば（概念）を「中心的なもの」と「周辺的なもの」に分けて、
+        それぞれの感情的な色合いを調べています。
       </p>
       <p>
-        研究では、体験を構成する概念を「中心的なもの」と「周辺的なもの」に分けて分析しました。
-        受験でいえば「合格」「センター試験」などが中心的概念、
-        「志望校」「偏差値」などが周辺的概念です。
-      </p>
-      <p>
-        語り直しによる感情価の変化は、<strong>周辺的な概念よりも中心的な概念で大きく現れました。</strong>
-        つまり、体験の核心にある記憶ほど、語り直しによって変容しやすいということです。
+        実際の体験をそのまま語ったグループと比べて、語り直したグループでは、
+        中心的なことばも周辺的なことばも、感情的な色合いが「楽しい」方向に変わっていました。
+        その変化は、<strong>周辺的なことばよりも中心的なことばで大きく現れました。</strong>
       </p>
       <div className="card">
         <p className="text-sm text-stone-600 leading-[1.9]">
-          これは支援職にとって重要な意味を持ちます。
-          「あのケースで一番しんどかった部分」「あの職場での最も消耗した経験」——
-          そういった体験の核心部分こそが、語り直しによって変容しやすいということです。
+          ただし、これは大学受験という体験での結果です。
+          支援の現場での最もつらい経験にも同じことが言えるかは、この研究では確かめられていません。
         </p>
       </div>
 
-      <h2>「カタルシス」ではなく「語り直し」が効く</h2>
+      <h2>語り方で受け止め方が変わるという考え方</h2>
       <p>
-        よく「つらい体験は思い切り吐き出せばスッキリする」と言われます。
-        しかしこの研究は、その考えに疑問を投げかけています。
-      </p>
-      <p>
-        語り直し群では、転換的に語り直している最中、
-        ネガティブな感情表現は<strong>増加するのではなく、むしろ抑制されていました。</strong>
-        吐き出してスッキリするのではなく、別の視点から語り直すことで、
-        記憶の感情的な色合いが変わっていったのです。
-      </p>
-      <p>
-        これはナラティヴセラピーの基本的な考え方——
-        「同じ出来事でも、どう語るかによって意味が変わる」——を
-        実験的に支持する結果です（White & Epston, 1990）。
+        「同じ出来事でも、どう語るかによって受け止め方が変わることがある」という考え方は、
+        日常の振り返りにも通じるものです。
+        ただし、この実験は、臨床の理論や心理療法の効果を確かめるために行われたものではありません。
       </p>
 
       <h2>支援職にとっての「語り直し」</h2>
       <p>
         支援職は、消耗・失敗・限界・悲しみを日常的に体験します。
-        その体験をどう「語るか」は、記憶としてその体験がどう残るかに影響します。
+        ここからは、この実験を手がかりに、支援の経験の振り返り方を考えます。
+        研究の結果ではなく、記事としての考えです。
       </p>
       <p>
         「あの時の自分はダメだった」と繰り返し語ることと、
         「あの時の経験が今の支援の土台になっている」と語ることでは、
-        同じ出来事でも記憶の感情的な質が変わっていきます。
+        同じ出来事でも、思い出したときの感じ方が違ってくるかもしれません。
       </p>
       <p>
         ただし重要なのは、<strong>語り直しは「なかったことにする」のではない</strong>という点です。
-        研究でも「実際になかった事実を話すことはせず、同じ事実でも楽しかった思い出として語る」
-        と教示されています。
-        事実を否定するのではなく、同じ事実に別の意味を見出すことが、語り直しの本質です。
+        研究でも、同じ体験を「楽しかった体験」として語るよう求めています。
+        事実を否定するのではなく、同じ事実を別の視点から語るということです。
       </p>
 
-      <h2>「語れる場所」が必要な理由</h2>
+      <h2>語れる場所と、聴いてくれる人</h2>
       <p>
-        語り直しには、語れる場所と聴いてくれる人が必要です。
-        研究では参加者は実験者に向かって語りましたが、
-        日常生活では「消耗した体験を語り直せる場所」は限られています。
+        ここからは一般的な提案です。
+        人によっては、信頼できる相手に話すことで、自分の経験を整理しやすくなることもあります。
+        ただ、日常生活では、消耗した体験を話せる場所は限られています。
       </p>
       <p>
-        支援職が「誰にも言えない」「相談できる人がいない」という状況に置かれやすいのは、
-        単に孤独な問題ではありません。
-        語り直しの機会が奪われると、つらい記憶がそのままの形で蓄積し続けることになります。
+        「誰にも言えない」「相談できる人がいない」と感じているときは、
+        つらい経験を一人で抱え込みやすくなります。
+        一方で、話さないと決めている人や、一人で振り返るほうが合っている人もいます。
       </p>
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          カウンセリングの場が「語り直しの場」として機能するのはこのためです。
-          「あの経験をどう意味づけるか」を一緒に整理することで、
-          記憶の感情的な質が変わっていく可能性があります。
-        </p>
-      </div>
+
+      <h2>一人で無理に語り直さなくていい</h2>
+      <p>
+        この記事で紹介した実験は、大学生が受験の体験を語り直したものです。
+        事故や暴力など、深く傷ついた体験に同じやり方を当てはめた研究ではありません。
+      </p>
+      <ul>
+        <li>・語り直すかどうかも、話すかどうかも、自分で決めてかまいません。話さないという選び方もあります。</li>
+        <li>・話し始めたあとでも、つらくなったら途中でやめてかまいません。「前向きに語らなければ」と思う必要もありません。</li>
+        <li>・つらい記憶が何度もよみがえる、眠れない、仕事や生活に支障が出ている——そうした状態が続いているときは、一人で抱えず、医療機関や心理の専門家に相談するという選択肢もあります。</li>
+      </ul>
+      <p>
+        不意によみがえる記憶との向き合い方は、「<Link to="/articles/sudden-bad-memories-intrusive-thoughts" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">昔の嫌なことを急に思い出すのはなぜ？</Link>」でも解説しています。
+      </p>
+
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、話す内容やペースを自分で選びながら、
+            「あの経験をどう振り返るか」を一緒に整理することができます。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
@@ -141,7 +144,7 @@ export default function HelperRetellingMemory() {
       </div>
 
       <p className="text-xs text-stone-400 mt-6 leading-relaxed">
-        参考文献：池田和浩・仁平義明（2009）「ネガティブな体験の肯定的な語り直しによる自伝的記憶の変容」心理学研究，79(6), 481-489 ／ White, M., & Epston, D.（1990）Narrative means to therapeutic ends. New York: W.W. Norton ／ Tversky, B., & Marsh, E. J.（2000）Biased retellings of events yield biased memories. Cognitive Psychology, 40, 1-38 ／ King, L. A., & Miner, K. N.（2000）Writing about the perceived benefits of traumatic events. Personality and Social Psychology Bulletin, 26, 220-230
+        参考文献：池田和浩・仁平義明（2009）「ネガティブな体験の肯定的な語り直しによる自伝的記憶の変容」心理学研究，79(6), 481-489
       </p>
 
       <div className="my-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
@@ -152,13 +155,13 @@ export default function HelperRetellingMemory() {
           頭では理解できていても——
         </p>
         <ul className="space-y-1.5 mb-4">
-          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>ふとした瞬間に、過去のしんどい場面が浮かんでくる</li>
-          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>「もう終わったこと」なのに、気持ちがその場に引き戻される感覚がある</li>
-          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>思い出さないようにしようとするほど、かえって浮かびやすくなる</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>つらかった時期のことを、今も同じ言葉でしか語れない気がする</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>振り返ろうとすると、「あのときの自分はダメだった」という話になってしまう</li>
+          <li className="flex items-start gap-2 text-xs text-stone-500 leading-relaxed"><span className="flex-shrink-0 mt-0.5 text-stone-300">・</span>話したい気持ちはあるのに、話せる相手や場が見つからない</li>
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、記憶力の問題でも意志の問題でもなく、<strong className="text-stone-700">体験がまだ「過去のこと」として整理されていない状態</strong>だからです。
+          これは、理解が足りないからでも、記憶力や意志の問題でもありません。<strong className="text-stone-700">その体験を、自分のペースで振り返れる時間や場が、まだなかったのかもしれません。</strong>
         </p>
       </div>
       <ArticleBottomCTA />

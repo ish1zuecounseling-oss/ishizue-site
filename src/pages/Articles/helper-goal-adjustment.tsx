@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperGoalAdjustment() {
   return (
@@ -108,13 +109,15 @@ export default function HelperGoalAdjustment() {
         「諦める」ことは敗北ではなく、より賢明な対処である場合があります。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          カウンセリングでは、「今の目標が本当に達成可能か」「別の形で意味を見出せないか」を
-          一緒に整理することができます。
-          諦めることへの罪悪感を丁寧に扱いながら、次の一歩を考える場として活用いただけます。
-        </p>
-      </div>
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、「今の目標が本当に達成可能か」「別の形で意味を見出せないか」を
+            一緒に整理することができます。
+            諦めることへの罪悪感を丁寧に扱いながら、次の一歩を考える場として活用いただけます。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>

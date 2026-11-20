@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperRealityShock() {
   return (
@@ -116,15 +117,20 @@ export default function HelperRealityShock() {
         次の一歩を考えるための土台になります。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          カウンセリングでは、「このまま続けるべきか」という問いに
-          すぐに答えを出すのではなく、
-          今の消耗がどこから来ているのかを一緒に整理することができます。
-          環境の問題か、自分の期待の問題か、あるいは両方か——
-          それを見極めることが、判断の出発点になります。
-        </p>
-      </div>
+      <p>
+        今の消耗が、環境の問題か、自分の期待の問題か、あるいは両方か——
+        それを見極めることが、判断の出発点になります。
+      </p>
+
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、「このまま続けるべきか」という問いに
+            すぐに答えを出すのではなく、
+            今の消耗がどこから来ているのかを一緒に整理することができます。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>

@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperContrastAvoidance() {
   return (
@@ -110,14 +111,16 @@ export default function HelperContrastAvoidance() {
         簡単に「やめよう」と思ってやめられるものではありません。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「休めない自分はおかしいのか」「なぜリラックスできないのか」——
-          カウンセリングでは、こうした問いに対して、
-          あなたの不安がどのような文脈で形成されてきたかを一緒に理解するところから始めます。
-          パターンに気づくことが、変化への第一歩になります。
-        </p>
-      </div>
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            「休めない自分はおかしいのか」「なぜリラックスできないのか」——
+            カウンセリングでは、こうした問いに対して、
+            あなたの不安がどのような文脈で形成されてきたかを一緒に理解するところから始めます。
+            パターンに気づくことが、変化への第一歩になります。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>

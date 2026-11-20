@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperReframingCaring() {
   return (
@@ -111,18 +112,24 @@ export default function HelperReframingCaring() {
         意識的に振り返り、言語化することで初めて見えてくることがあります。
       </p>
       <p>
-        カウンセリングは、こうした振り返りを行うための場として機能します。
         「あの経験から受け取ったものは何か」「これからの支援に受け継がれるものは何か」——
-        こうした問いを一緒に探ることが、消耗からの回復と支援観の再構築につながります。
+        こうした問いを、ひとりで、あるいは信頼できる相手と振り返ってみることもできます。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「しんどい経験ばかりが積み重なっている」と感じているとき、
-          その経験の中に何が宿っているかを一緒に見ていくことが、
-          カウンセリングでできることのひとつです。
+      <CounselingServiceNotice>
+        <p>
+          カウンセリングは、こうした振り返りを行うための場として機能します。
+          こうした問いを一緒に探ることが、消耗からの回復や、支援観を見直すきっかけになることがあります。
         </p>
-      </div>
+
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            「しんどい経験ばかりが積み重なっている」と感じているとき、
+            その経験の中に何が宿っているかを一緒に見ていくことが、
+            カウンセリングでできることのひとつです。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
@@ -131,7 +138,7 @@ export default function HelperReframingCaring() {
             → 「こんな経験、意味があったのか」と思える日が来る
           </Link>
           <Link to="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 体験を語り直すと記憶が変わる
+            → 体験を語り直すと、思い出し方は変わる？
           </Link>
           <Link to="/articles/helper-empathy-check" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 共感疲労チェック｜支援職のための20項目診断

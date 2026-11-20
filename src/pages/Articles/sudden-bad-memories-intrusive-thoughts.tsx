@@ -201,7 +201,7 @@ export default function SuddenBadMemoriesIntrusiveThoughts() {
         <p className="text-xs font-medium text-stone-500 mb-2">次に読む</p>
         <div className="flex flex-col gap-1.5">
           <a href="/articles/helper-rumination" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 仕事のことが頭から離れない</a>
-          <a href="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 嫌な記憶が頭から離れないときの対処法</a>
+          <a href="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ つらかった経験を語り直すと、何が変わる？</a>
           <a href="/articles/care-worker-secondary-trauma" className="text-sm text-stone-600 hover:text-stone-900 underline underline-offset-2">→ 介護士の二次受傷</a>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperImplicitTheory() {
   return (
@@ -102,14 +103,16 @@ export default function HelperImplicitTheory() {
         消耗の深さに影響するということです。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          カウンセリングでは、「自分には向いていない」という信念が
-          どこから来ているのかを一緒に探ることができます。
-          固定的な自己観が形成された背景を理解することが、
-          消耗からの回復の第一歩になることがあります。
-        </p>
-      </div>
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、「自分には向いていない」という信念が
+            どこから来ているのかを一緒に探ることができます。
+            固定的な自己観が形成された背景を理解することが、
+            消耗からの回復の第一歩になることがあります。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>

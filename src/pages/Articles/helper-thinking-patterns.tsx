@@ -142,7 +142,7 @@ export default function HelperThinkingPatterns() {
             → 「自分は変われない」と感じるのはなぜ？｜暗黙の信念と支援職の消耗
           </Link>
           <Link to="/articles/helper-stress-mindset" className="text-sm text-[#7EB8A4] hover:underline">
-            → 「ストレスは有害だ」と思うほど消耗しやすい理由
+            → ストレスの受け止め方と心の健康の関係
           </Link>
           <Link to="/articles/helper-self-effacement-family" className="text-sm text-[#7EB8A4] hover:underline">
             → 自分を後回しにする癖が抜けないのはなぜ？

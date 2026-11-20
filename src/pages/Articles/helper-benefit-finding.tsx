@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperBenefitFinding() {
   return (
@@ -150,22 +151,27 @@ export default function HelperBenefitFinding() {
       </div>
 
       {/* カウンセリングの役割を具体的に */}
-      <div className="card">
-        <p className="text-sm font-medium text-stone-700 mb-2">カウンセリングでできること</p>
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          一人で整理しようとすると、「意味づけ」は"考える作業"になりがちです。<br /><br />
-          カウンセリングでは、体験を言葉にしながら整理することで、
-          あとから自然に意味が見えてくるプロセスを支えます。<br /><br />
-          無理に前向きになる必要はありません。
-          「何が起きていたのか」を一緒に整理するところから始められます。
-        </p>
-      </div>
+      <p>
+        一人で整理しようとすると、「意味づけ」は"考える作業"になりがちです。
+        無理に前向きになる必要はありません。
+      </p>
+
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm font-medium text-stone-700 mb-2">カウンセリングでできること</p>
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、体験を言葉にしながら整理することで、
+            あとから自然に意味が見えてくるプロセスを支えます。<br /><br />
+            「何が起きていたのか」を一緒に整理するところから始められます。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-6 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
         <div className="flex flex-col gap-2">
           <Link to="/articles/helper-retelling-memory" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
-            → 嫌な記憶が頭から離れないときの対処法｜記憶の心理と回復方法
+            → つらかった経験を語り直すと、何が変わる？｜支援職の無理のない振り返り
           </Link>
           <Link to="/articles/self-complexity" className="text-sm text-stone-600 hover:text-stone-900 hover:underline underline-offset-2 transition-colors">
             → 仕事しかないと辛いときの対処法｜自己複雑性の心理学
@@ -183,7 +189,7 @@ export default function HelperBenefitFinding() {
       <ArticleBottomCTA
         links={[
           { label: "共感疲労の対処法を見る",       path: "/articles/compassion-fatigue-coping" },
-          { label: "嫌な記憶が離れないときの対処法", path: "/articles/helper-retelling-memory" },
+          { label: "つらかった経験の振り返り方", path: "/articles/helper-retelling-memory" },
           { label: "今の状態をチェックする",         path: "/articles/helper-empathy-check" },
         ]}
       />

@@ -1,6 +1,7 @@
 import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import ArticleBottomCTA from "../../components/ArticleBottomCTA"
+import CounselingServiceNotice from "../../components/CounselingServiceNotice"
 
 export default function HelperTeamCommunication() {
   return (
@@ -167,14 +168,19 @@ export default function HelperTeamCommunication() {
         ない場合は、小規模な職場で働く人が無料で利用できる地域産業保健センターや、医療機関に相談することもできます。
       </p>
 
-      <div className="card">
-        <p className="text-sm text-stone-600 leading-[1.9]">
-          「職場の構造の問題」と頭ではわかっていても、
-          その中で消耗し続けると、自分を責めるようになります。
-          カウンセリングでは、「これは自分のせいなのか、構造の問題なのか」を
-          一緒に整理することができます。
-        </p>
-      </div>
+      <p>
+        「職場の構造の問題」と頭ではわかっていても、
+        その中で消耗し続けると、自分を責めてしまうこともあります。
+      </p>
+
+      <CounselingServiceNotice>
+        <div className="card">
+          <p className="text-sm text-stone-600 leading-[1.9]">
+            カウンセリングでは、「これは自分のせいなのか、構造の問題なのか」を
+            一緒に整理することができます。
+          </p>
+        </div>
+      </CounselingServiceNotice>
 
       <div className="mt-8 p-5 rounded-2xl bg-stone-50 border border-stone-200">
         <p className="text-sm font-medium text-stone-700 mb-3">関連する記事・ツール</p>
