@@ -17,7 +17,7 @@ export default function HelperRealityShock() {
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ「こんなはずじゃなかった」と感じるのか（リアリティショックの正体）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（リアリティショックが消耗・離職につながる経路）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>リアリティショックと「辞めたい」気持ちの関係（研究で示された経路と、支援職に特有の形）</li>
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう乗り越えるか（リアリティショックへの具体的な対処法）</li>
         </ul>
       </div>
@@ -122,6 +122,46 @@ export default function HelperRealityShock() {
         それを見極めることが、判断の出発点になります。
       </p>
 
+      <h2>「こんなはずじゃなかった」を整理するために</h2>
+      <p>
+        上で触れた「言葉にして整理する」ことを、具体的な形にしてみます。
+        以下は、研究で効果が確かめられた方法ではなく、一般的な工夫です。
+        辞めるかどうかを決めるためではなく、今の状態をつかむための整理です。
+      </p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① 期待と実際を並べて書く</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          入る前に思い描いていたことと、実際に起きていることを、並べて書き出してみます。
+          全部でなくても、気になっているものを一つか二つで十分です。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② 変わりうるずれと、変わりにくいずれを分ける</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          慣れや相談で変わっていきそうなものと、職場の仕組みや体制など、個人では変えにくいものを分けてみます。
+          変わりにくいものが多いときは、自分の努力不足ではなく、環境とのミスマッチを考える材料になります。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">③ 自分が大切にしたいことを書き出す</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          「この仕事で何を大切にしたいか」を、思いつくままに書き出してみます。
+          前半で紹介した「自己概念の明確性」の考え方を参考にしたものですが、
+          書き出すこと自体の効果は、研究では調べられていません。答えが出なくてもかまいません。
+        </p>
+      </div>
+
+      <p>
+        <strong>実行するときの注意：</strong>
+        疲れが強いときは、書き出すより先に休むことを優先してください。すぐに結論を出す必要もありません。
+        長時間労働やハラスメントなど、職場の環境に問題があるときは、自分の受け止め方で解決しようとせず、
+        信頼できる相手や、職場の内外の相談窓口に相談してください。
+        眠れない、食欲が落ちているなどの状態が続くときは、医療機関に相談することも選択肢です。
+      </p>
+
       <CounselingServiceNotice>
         <div className="card">
           <p className="text-sm text-stone-600 leading-[1.9]">
@@ -165,10 +205,10 @@ export default function HelperRealityShock() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたの期待が高すぎたのではなく、<strong className="text-stone-700">事前の情報と現実の乖離が生んだ、自然な心理的反応</strong>だからです。
+          これは、理解が足りないからでも、あなたの期待が高すぎたからでもありません。<strong className="text-stone-700">思い描いていたことと現実のずれから生まれる、自然な心の反応のひとつとも考えられます。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

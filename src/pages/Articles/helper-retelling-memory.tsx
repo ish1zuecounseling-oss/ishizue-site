@@ -164,7 +164,7 @@ export default function HelperRetellingMemory() {
           これは、理解が足りないからでも、記憶力や意志の問題でもありません。<strong className="text-stone-700">その体験を、自分のペースで振り返れる時間や場が、まだなかったのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

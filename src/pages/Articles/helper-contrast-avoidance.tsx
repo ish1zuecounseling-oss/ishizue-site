@@ -17,8 +17,8 @@ export default function HelperContrastAvoidance() {
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ「どうせまた嫌なことが起きる」と考えてしまうのか（コントラスト回避の正体）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（慢性的な不安が消耗を深めるプロセス）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（不安の先取りをやめるための具体的な方法）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>不安の先取りが続きやすい理由（心配が「守り」として習慣になっていく仕組み）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（不安の先取りに気づき、少しずつゆるめるための工夫）</li>
         </ul>
       </div>
 
@@ -111,6 +111,50 @@ export default function HelperContrastAvoidance() {
         簡単に「やめよう」と思ってやめられるものではありません。
       </p>
 
+      <h2>不安の先取りに気づき、少しずつゆるめるために</h2>
+      <p>
+        ここまでは、コントラスト回避という理論の説明でした。
+        以下は、この理論から直接導かれた方法でも、研究で効果が確かめられた方法でもありません。
+        不安との付き合い方として一般に使われている工夫のうち、この記事の内容と関わりのあるものです。
+        合うものがあれば、できる範囲で試してみてください。
+      </p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① 「先取りしている」と気づくだけにする</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          「また最悪に備えているな」と、心の動きに一言で名前をつけてみます。
+          不安を消そうとしたり、やめようとしたりする必要はありません。
+          気づくことと、変えることは別のことです。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② よい時間に、短く目を向ける</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          うまくいった場面や、ほっとした瞬間に、少しだけ目を向けてみます。
+          そのとき「このあとが怖い」と感じても、それはこの記事で見てきたような自然な反応です。
+          無理に安心しようとしなくてかまいません。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">③ 心配を考える時間を、あとに決めておく</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          心配が浮かんだとき、すぐに打ち消そうとするのではなく、
+          「これは夕方に考えよう」と、考える時間をあとに回してみる方法もあります。
+          うまく回せない日があっても大丈夫です。
+        </p>
+      </div>
+
+      <p>
+        <strong>実行するときの注意：</strong>
+        どれも、できない日があって当然です。できなかったことで自分を責める必要はありません。
+        疲れているときは、工夫を試すより、休むことや、不安の元になっている状況から少し距離を取ること、
+        信頼できる人に話すことを優先してください。
+        不安で眠れない、仕事や生活に支障が出ている——そうした状態が続くときは、
+        一人で抱えず、心療内科・精神科などの医療機関に相談することも選択肢です。
+      </p>
+
       <CounselingServiceNotice>
         <div className="card">
           <p className="text-sm text-stone-600 leading-[1.9]">
@@ -155,10 +199,10 @@ export default function HelperContrastAvoidance() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、性格が悲観的なのではなく、<strong className="text-stone-700">失望を避けるための心理的な防衛が習慣化している</strong>からです。
+          これは、理解が足りないからでも、性格が悲観的だからでもありません。<strong className="text-stone-700">失望に備えようとする心の動きが、習慣のようになっているのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

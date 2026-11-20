@@ -218,7 +218,7 @@ export default function HelperTeamCommunication() {
           これは、理解が足りないからでも、あなたの人間関係能力だけの問題でもありません。<strong className="text-stone-700">職場のコミュニケーションや協働のあり方は、支援職の負担を考えるうえで見逃せない要素です。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

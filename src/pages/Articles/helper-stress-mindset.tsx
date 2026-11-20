@@ -176,7 +176,7 @@ export default function HelperStressMindset() {
           これは、理解が足りないからでも、あなたが弱いからでもありません。<strong className="text-stone-700">負担そのものが大きすぎることもあれば、ストレスを「あってはならないもの」と感じていることが、しんどさに重なっていることもあります。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

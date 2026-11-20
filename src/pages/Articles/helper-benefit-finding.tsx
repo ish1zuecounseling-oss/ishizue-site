@@ -187,6 +187,7 @@ export default function HelperBenefitFinding() {
       </p>
 
       <ArticleBottomCTA
+        hideBridgeIntro
         links={[
           { label: "共感疲労の対処法を見る",       path: "/articles/compassion-fatigue-coping" },
           { label: "つらかった経験の振り返り方", path: "/articles/helper-retelling-memory" },

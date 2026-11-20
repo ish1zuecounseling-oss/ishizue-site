@@ -152,10 +152,10 @@ export default function HelperGoalAdjustment() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたの意志が弱いのではなく、<strong className="text-stone-700">「諦めない」という信念そのものが消耗の燃料になっている</strong>からです。
+          これは、理解が足りないからでも、あなたの意志が弱いからでもありません。<strong className="text-stone-700">「諦めてはいけない」という思いが、立ち止まりにくさにつながっているのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }

@@ -17,8 +17,8 @@ export default function HelperImplicitTheory() {
         <p className="text-[10px] tracking-[0.2em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>この記事でわかること</p>
         <ul className="space-y-1.5">
           <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>なぜ「自分は変われない」と感じるのか（固定理論・暗黙の信念の仕組み）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>放置するとどうなるか（固定的な自己観がストレス下で消耗を加速させる理由）</li>
-          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（思い込みを変えるための具体的なアプローチ）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>固定的な思い込みとストレスの関係（研究でわかっていることと、支援職の現場で生まれやすい理由）</li>
+          <li className="flex items-start gap-2 text-xs text-stone-600 leading-relaxed"><span className="flex-shrink-0 mt-0.5" style={{ color: "#8FAF9F" }}>✓</span>どう対処するか（「向いていない」と感じたときに、分けて考える工夫）</li>
         </ul>
       </div>
 
@@ -86,10 +86,10 @@ export default function HelperImplicitTheory() {
         </p>
       </div>
 
-      <h2>信念は変えられる</h2>
+      <h2>信念を見直す余地</h2>
       <p>
-        暗黙理論研究の重要な知見のひとつは、
-        <strong>固定理論は介入によって変えることができる</strong>という点です。
+        固定理論を持っていると感じても、
+        <strong>自分の考え方や行動を見直す余地はあります</strong>。
       </p>
       <p>
         「支援の技術は経験と工夫によって変わる」「今日うまくいかなかったことは、
@@ -101,6 +101,47 @@ export default function HelperImplicitTheory() {
         困難を「自分の本質的な欠如の証明」として読むのではなく、
         「対処可能な課題」として読み直す——その認知の枠組みの違いが、
         消耗の深さに影響するということです。
+      </p>
+
+      <h2>「向いていない」と感じたときに、分けて考えてみる</h2>
+      <p>
+        以下は、研究で効果が確かめられた方法ではなく、この記事の考え方を参考にした一般的な工夫です。
+        記事で紹介した研究は、子どもをもつ親を対象にした調査で、
+        考え方を変える方法の効果を支援職で調べたものではありません。
+        合うものがあれば、できる範囲で試してみてください。
+      </p>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">① 「能力」と「やり方」を分けて書き出す</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          うまくいかなかった場面を、「自分には無理だ」ではなく、
+          「何を、どのようにしたか」で書き出してみます。
+          次に試せそうなやり方が一つ見つかれば十分です。見つからなくてもかまいません。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">② 少し前の自分と比べてみる</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          働き始めた頃や半年前と比べて、できるようになったこと、慣れたことを一つ思い出してみます。
+          小さなことで大丈夫です。
+        </p>
+      </div>
+
+      <div className="card">
+        <p className="text-sm font-medium text-stone-700 mb-2">③ 自分の問題と、環境の問題を分ける</p>
+        <p className="text-sm text-stone-600 leading-[1.9]">
+          人手不足や業務量、支援体制など、個人の能力や努力だけでは変えにくいものもあります。
+          それを、自分の力不足として数えないようにします。
+        </p>
+      </div>
+
+      <p>
+        <strong>実行するときの注意：</strong>
+        「向いていない」という感覚は、職場の環境や心身の疲れから生まれていることもあります。
+        考え方を変えることで乗り切ろうとせず、休むこと、仕事との距離を少し取ること、
+        信頼できる人や職場の相談窓口に相談することも選択肢です。
+        気分の落ち込みや眠れない状態が続くときは、医療機関に相談してください。
       </p>
 
       <CounselingServiceNotice>
@@ -147,10 +188,10 @@ export default function HelperImplicitTheory() {
         </ul>
         <p className="text-xs text-stone-500 leading-relaxed">
           こうした状態はよく起こります。<br />
-          これは、理解が足りないのではなく、これは、あなたの能力の問題ではなく、<strong className="text-stone-700">「変われない」という信念そのものが変化を阻んでいる</strong>からです。
+          これは、理解が足りないからでも、あなたの能力の問題でもありません。<strong className="text-stone-700">「自分は変われない」という感覚が、新しいやり方を試しにくくしているのかもしれません。</strong>
         </p>
       </div>
-      <ArticleBottomCTA />
+      <ArticleBottomCTA hideBridgeIntro />
     </ArticleLayout>
   )
 }
