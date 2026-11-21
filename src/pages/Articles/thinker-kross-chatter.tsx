@@ -147,6 +147,10 @@ export default function ThinkerKrossChatter() {
         <strong>気持ちを受け止めてもらうことに加えて、別の見方や次の一歩を一緒に考えてもらえる相手</strong>が、
         チャッターを静める助けになります。
       </p>
+      <p>
+        話す相手がAIの場合に起こりやすいこと（肯定されて考えが偏る、何度も相談したくなる）は、
+        「<Link to="/articles/ai-consultation-psychology" className={linkCls}>AIに悩みを相談すると楽になるのはなぜ？</Link>」で扱っています。
+      </p>
 
       <h2>この考え方の限界</h2>
       <div className="card">

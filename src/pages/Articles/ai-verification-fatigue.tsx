@@ -49,6 +49,10 @@ export default function AiVerificationFatigue() {
         この記事では、その体験を手がかりに、AIを使う仕事で疲れが増える仕組みを、
         <strong>これまでの研究で分かっていること</strong>に分けて整理します。
       </p>
+      <p>
+        仕事ではなく、自分の悩みをAIに話す場面については、
+        「<Link to="/articles/ai-consultation-psychology" className={LINK}>AIに悩みを相談すると楽になるのはなぜ？</Link>」で扱っています。
+      </p>
 
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">こんな状態はありませんか</p>

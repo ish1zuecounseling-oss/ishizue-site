@@ -238,6 +238,8 @@ export default function CannotSleepThinkingWork() {
         <p className="text-sm text-stone-600 leading-[1.9]">
           反芻している内容を、誰かに話す・カウンセリングで言語化することで、頭の中での「再生」が減ります。
           「外に出す」ことが、反芻ループを根本から弱める最も現実的な方法の一つです。
+          夜中にAIに何度も相談してしまうときは、
+          「<Link to="/articles/ai-consultation-psychology" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">AIに悩みを相談すると楽になるのはなぜ？</Link>」も読んでみてください。
         </p>
       </div>
 

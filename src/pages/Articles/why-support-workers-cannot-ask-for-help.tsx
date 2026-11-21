@@ -139,6 +139,10 @@ export default function WhySupportWorkersCannotAskForHelp() {
           <p className="text-stone-600 leading-[1.9]">「何がしんどいのかもよくわからないんですけど」という切り出し方が、実はいちばん伝わります。うまく話せない状態のまま持ち込んでかまいません。</p>
         </div>
       </div>
+      <p>
+        人に話す前に、まずAIに話しているという方は、
+        「<Link to="/articles/ai-consultation-psychology" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">AIに悩みを相談すると楽になるのはなぜ？</Link>」も参考にしてください。
+      </p>
 
       <h2>職場の外に「話せる場」を持つ</h2>
       <p>
