@@ -135,6 +135,11 @@ export default function ThinkingFeelingGap() {
         <Link to="/articles/helper-thinking-check" className={LINK}>考え方のクセチェック</Link>は、体や感情が落ち着いてからのほうが使いやすくなります。
       </p>
 
+      <p>
+        ここまでは、自分自身のしんどさに向き合うときの入り口です。人を支える立場で、相手に何から働きかけるかを考えたいときは、
+        「<Link to="/articles/cbt-support-starting-point" className={LINK}>考え方から？行動から？｜支援の入口の見立て方</Link>」で整理しています。
+      </p>
+
       <div className="card">
         <p className="text-sm font-medium text-stone-700 mb-2">しんどさが強いときは、無理に試さない</p>
         <p className="text-sm text-stone-600 leading-[1.9]">

@@ -174,6 +174,10 @@ export default function ThinkerSocratesMidwife() {
           <strong>本人の中にある答えを、まず信頼する</strong>という姿勢です。
         </p>
       </div>
+      <p>
+        問いかけは、考え方から関わる入り口の一つです。相手の状態によっては、行動や環境から関わるほうが合うこともあります。
+        どこから関わるかを見立てる考え方は、「<Link to="/articles/cbt-support-starting-point" className={linkCls}>考え方から？行動から？｜支援の入口の見立て方</Link>」で整理しています。
+      </p>
 
       <h2>明日からできること</h2>
       <div className="card">

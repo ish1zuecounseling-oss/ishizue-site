@@ -213,6 +213,11 @@ export default function AvoidanceMaintainsAnxiety() {
         避けている理由が見えやすくなります。
       </p>
 
+      <p>
+        利用者や患者さんなど、支える相手が避けている場面にどう関わるかは、
+        「<Link to="/articles/cbt-support-starting-point" className={LINK}>考え方から？行動から？｜支援の入口の見立て方</Link>」で扱っています。
+      </p>
+
       <LineCtaCompassion />
 
       <div className="my-4 p-4 rounded-xl bg-stone-50 border border-stone-200">
