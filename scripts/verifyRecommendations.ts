@@ -83,6 +83,10 @@ for (const [p, entry] of Object.entries(recommendations)) {
     }
     if (count(area, "data-rec-reason") !== entry.recs.length) errors.push(`${label}: 推薦理由の数が第1層の本数と一致しません`);
     if (html.includes("どれにも当てはまらない場合は")) errors.push(`${label}: 参照先のない「どれにも当てはまらない場合は」が残っています`);
+    // 推薦エリアの名前(aria-label)は、個別推薦が1件以上なら「次に読む記事」、0件なら「ほかの探し方」
+    const expectedLabel = entry.recs.length > 0 ? "次に読む記事" : "ほかの探し方";
+    const shownLabel = /^<section[^>]*\saria-label="([^"]*)"/.exec(area)?.[1];
+    if (shownLabel !== expectedLabel) errors.push(`${label}: 推薦エリアの aria-label が「${shownLabel}」です(推薦${entry.recs.length}件なので「${expectedLabel}」が正しい)`);
     if (count(area, 'data-rec-layer="3"') !== 3) errors.push(`${label}: 第3層のリンクが3本ではありません`);
     if (/lin\.ee|受付/.test(area)) errors.push(`${label}: 推薦エリアの中に受付・LINE の案内があります`);
   } else {

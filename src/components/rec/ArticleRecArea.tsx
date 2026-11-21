@@ -42,7 +42,7 @@ export default function ArticleRecArea({ sourceId, entry }: Props) {
       data-rec-container=""
       data-rec-structure="new_3layer"
       data-rec-region="new_3layer"
-      aria-label="次に読む記事"
+      aria-label={items.length > 0 ? "次に読む記事" : "ほかの探し方"}
       className="mt-10 pt-8 border-t border-stone-100"
     >
       {/* 第1層:個別推薦 */}
