@@ -4,9 +4,9 @@
  * アクセントカラー #8FAF9F に統一 / Layout.tsx・Home.tsx と整合
  */
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { motion } from "motion/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, Clock, Calendar, User, MessageCircle } from "lucide-react";
 import Breadcrumbs from "./Breadcrumbs";
@@ -18,6 +18,15 @@ import { pillarMap } from "../lib/pillarMap";
 import { articles } from "../data/articles";
 import { BookOpen } from "lucide-react";
 import { ACCEPTING_NEW_CLIENTS, LINE_SUBTEXT } from "../data/siteStatus";
+import { recommendations } from "../data/recommendations";
+import { REC_PHASE1_ENABLED } from "../data/recFlags";
+import { RecModeContext } from "./rec/RecModeContext";
+import ArticleRecArea from "./rec/ArticleRecArea";
+import { useRecImpression } from "../lib/useRecImpression";
+import { usePostRecEngagement } from "../lib/usePostRecEngagement";
+import { handleRecLinkClick } from "../lib/recContext";
+import { pageTypeOfPath } from "../lib/recUrl";
+import type { RecSlotType } from "../lib/analytics";
 
 const PAUSED_LINE_URL = "https://lin.ee/6H8Pzo6";
 declare function gtag(...args: unknown[]): void;
@@ -123,6 +132,26 @@ export default function ArticleLayout({
   const path = url.replace(/.*\/articles/, "");
   const readingTime = estimateReadingTime(children);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  /* 回遊再設計 フェーズ1:パイロットの判定はここだけで行う(推薦データの pilot。推薦の本数は使わない) */
+  const recPath = path.startsWith("/articles") ? path : `/articles${path}`;
+  const recEntry = recommendations[recPath];
+  const isPilot = REC_PHASE1_ENABLED && recEntry?.pilot === true;
+  const sourceId = recEntry?.id ?? recPath;
+  const articleRef = useRef<HTMLElement | null>(null);
+  useRecImpression(articleRef, { sourceId, structure: isPilot ? "new_3layer" : "legacy", locationKey: location.key });
+  usePostRecEngagement(location.key);
+  /* 旧構造の推薦リンクのクリック(legacy_pillar / legacy_prev_next / legacy_random) */
+  const legacyClick = (slot: RecSlotType, targetPath: string) => () =>
+    handleRecLinkClick({
+      source_id: sourceId,
+      target_id: recommendations[targetPath]?.id ?? targetPath,
+      target_type: pageTypeOfPath(targetPath),
+      slot_type: slot,
+      rec_structure: "legacy",
+      href: targetPath,
+    });
 
   const handleContactClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -232,6 +261,7 @@ export default function ArticleLayout({
       <div className="min-h-screen bg-white">
         <div className="max-w-2xl mx-auto px-6 sm:px-8 pt-10 sm:pt-20 pb-20 text-stone-700 leading-loose">
           <motion.article
+            ref={articleRef}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -346,7 +376,9 @@ export default function ArticleLayout({
                 BODY — article-body クラスで index.css のスタイルを適用
             ============================================================ */}
             <div className="article-body" itemProp="articleBody">
-              {children}
+              <RecModeContext.Provider value={{ pilot: isPilot }}>
+                {children}
+              </RecModeContext.Provider>
               {isOriginalSelfCheck(url) && (
                 <div className="mt-8 p-4 rounded-xl border border-stone-200 bg-stone-50">
                   <p className="text-xs font-medium text-stone-600 mb-1.5">このチェックについて</p>
@@ -479,9 +511,9 @@ export default function ArticleLayout({
                 .map((slug) => articles.find((a) => a.path === slug))
                 .filter((a): a is NonNullable<typeof a> => !!a && a.path !== currentPath);
 
-              if (ordered.length === 0) return null;
+              if (isPilot || ordered.length === 0) return null;
               return (
-                <div className="mt-10 mb-2 p-5 rounded-2xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
+                <div data-rec-region="legacy_pillar" className="mt-10 mb-2 p-5 rounded-2xl" style={{ background: "rgba(143,175,159,0.06)", border: "1px solid rgba(143,175,159,0.3)" }}>
                   <p className="text-[10px] tracking-[0.25em] uppercase font-medium mb-3" style={{ color: "#8FAF9F" }}>
                     まず読んでほしい記事
                   </p>
@@ -490,6 +522,8 @@ export default function ArticleLayout({
                       <a
                         key={a.path}
                         href={a.path}
+                        data-rec-slot="legacy_pillar"
+                        onClick={legacyClick("legacy_pillar", a.path)}
                         className="flex items-center gap-2 text-sm text-stone-700 hover:text-stone-900 transition-colors group"
                       >
                         <BookOpen className="w-4 h-4 flex-shrink-0" style={{ color: "#8FAF9F" }} />
@@ -547,12 +581,14 @@ export default function ArticleLayout({
               if (currentIndex < 0) return null;
               const prev = currentIndex > 0 ? articles[currentIndex - 1] : null;
               const next = currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null;
-              if (!prev && !next) return null;
+              if (isPilot || (!prev && !next)) return null;
               return (
-                <div className="mt-10 pt-8 border-t border-stone-100 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div data-rec-region="legacy_prev_next" className="mt-10 pt-8 border-t border-stone-100 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {prev && (
                     <Link
                       to={prev.path}
+                      data-rec-slot="legacy_prev_next"
+                      onClick={legacyClick("legacy_prev_next", prev.path)}
                       className="group flex flex-col gap-1 p-4 rounded-xl border border-stone-100 hover:shadow-sm transition-all"
                       onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
                       onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
@@ -567,6 +603,8 @@ export default function ArticleLayout({
                   {next && (
                     <Link
                       to={next.path}
+                      data-rec-slot="legacy_prev_next"
+                      onClick={legacyClick("legacy_prev_next", next.path)}
                       className="group flex flex-col gap-1 p-4 rounded-xl border border-stone-100 hover:shadow-sm transition-all md:text-right"
                       onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}60`; }}
                       onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
@@ -585,7 +623,8 @@ export default function ArticleLayout({
             {/* ============================================================
                 関連記事（意味ベース優先 → フォールバック: ランダム）
             ============================================================ */}
-            <div className="mt-8 pt-8 border-t border-stone-100">
+            {isPilot && recEntry && <ArticleRecArea sourceId={sourceId} entry={recEntry} />}
+            {!isPilot && <div data-rec-region="legacy_random" className="mt-8 pt-8 border-t border-stone-100">
               {(() => {
                 // タグから意味ベースで関連記事を取得
                 const currentPath = path.startsWith("/articles") ? path : `/articles${path}`;
@@ -615,6 +654,8 @@ export default function ArticleLayout({
                         <Link
                           key={a.path}
                           to={a.path}
+                          data-rec-slot="legacy_random"
+                          onClick={legacyClick("legacy_random", a.path)}
                           className="group flex items-center gap-3 p-3 rounded-xl border border-stone-100 hover:shadow-sm transition-all"
                           onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${SAGE}55`; }}
                           onMouseLeave={(e) => { e.currentTarget.style.borderColor = ""; }}
@@ -630,7 +671,7 @@ export default function ArticleLayout({
                   </>
                 );
               })()}
-            </div>
+            </div>}
 
           </motion.article>
         </div>

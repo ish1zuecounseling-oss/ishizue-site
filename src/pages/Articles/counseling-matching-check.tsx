@@ -5,6 +5,7 @@ import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { trackCheckComplete, trackLineClickFromCheck, trackCheckItems } from "../../lib/analytics"
 import { MATCHING_CHECK_ITEMS, MATCHING_ITEM_EVENT_PREFIX } from "../../data/matchingCheckItems"
 import { FREE_FIRST, ACCEPTING_NEW_CLIENTS, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
+import LegacyRelated from "../../components/rec/LegacyRelated"
 
 const CHECK_NAME = "counseling-matching-check"
 
@@ -420,6 +421,7 @@ export default function CounselingMatchingCheck() {
         ))}
       </div>
 
+      <LegacyRelated>
       <h2>関連する記事</h2>
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">構造を理解する(主要ピラー)</p>
@@ -435,6 +437,7 @@ export default function CounselingMatchingCheck() {
           <li>・<Link to="/articles/boundary-check" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">境界線チェック(15項目)</Link></li>
         </ul>
       </div>
+      </LegacyRelated>
 
       <p className="check-disclaimer">
         このチェックは「いしずえカウンセリングとの相性」を確認するための目安です。結果はあくまで参考としてご活用ください。最終的な判断は、ご自身のペースで決めてください。

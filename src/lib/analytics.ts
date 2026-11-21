@@ -120,3 +120,50 @@ export function trackCheckItems(prefix: string, indices: number[]): void {
     gtag("event", prefix + String(i + 1).padStart(2, "0"))
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/*  記事末尾の推薦の計測(回遊再設計 フェーズ1。仕様は計画書の8章)              */
+/* -------------------------------------------------------------------------- */
+
+export type RecStructure = "new_3layer" | "legacy"
+export type RecSlotType =
+  | "primary" | "aux1" | "aux2" | "hub" | "explore"
+  | "legacy_pillar" | "legacy_prev_next" | "legacy_random"
+export type RecTargetType = "article" | "self_check" | "article_list" | "ai_assistant"
+
+function recGtag(): ((...args: unknown[]) => void) | null {
+  if (typeof window === "undefined") return null
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+  return typeof gtag === "function" ? gtag : null
+}
+
+/** 推薦ユニットが表示の条件を満たしたとき(1ページ表示につき1回) */
+export function trackRecImpression(sourceId: string, recStructure: RecStructure, recCount: number): void {
+  const gtag = recGtag()
+  if (!gtag) return
+  try {
+    gtag("event", "article_rec_impression", { source_id: sourceId, rec_structure: recStructure, rec_count: recCount })
+  } catch { /* 計測の失敗で画面を止めない */ }
+}
+
+/** 推薦ユニットの中のリンクを押したとき */
+export function trackRecClick(sourceId: string, targetId: string, targetType: RecTargetType, slotType: RecSlotType): void {
+  const gtag = recGtag()
+  if (!gtag) return
+  try {
+    gtag("event", "article_rec_click", { source_id: sourceId, target_id: targetId, target_type: targetType, slot_type: slotType })
+  } catch { /* noop */ }
+}
+
+/** 推薦から移った先で、アクティブ滞在30秒以上かつスクロール50%以上になったとき(1回の移動につき1回) */
+export function trackPostRecEngagement(
+  sourceId: string, targetId: string, targetType: RecTargetType, slotType: RecSlotType, engagedSec: number,
+): void {
+  const gtag = recGtag()
+  if (!gtag) return
+  try {
+    gtag("event", "post_rec_engagement", {
+      source_id: sourceId, target_id: targetId, target_type: targetType, slot_type: slotType, engaged_sec: engagedSec,
+    })
+  } catch { /* noop */ }
+}

@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import LineCta, { LineCtaSmall } from "../../components/LineCta"
 import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
+import LegacyRelated from "../../components/rec/LegacyRelated"
 
 export default function CompassionFatigueCoping() {
   return (
@@ -307,6 +308,7 @@ export default function CompassionFatigueCoping() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
+      <LegacyRelated>
       {/* 内部リンク（クラスター順番設計：チェック→原因→対処→回復） */}
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-600 mb-3">共感疲労クラスター——あわせて読む</p>
@@ -347,6 +349,7 @@ export default function CompassionFatigueCoping() {
           </a>
         </div>
       </div>
+      </LegacyRelated>
 
     </ArticleLayout>
   )

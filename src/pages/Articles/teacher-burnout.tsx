@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
+import LegacyRelated from "../../components/rec/LegacyRelated"
 
 const FAQ_ITEMS = [
   {
@@ -448,6 +449,7 @@ export default function TeacherBurnout() {
         ))}
       </div>
 
+      <LegacyRelated>
       <h2>関連する記事</h2>
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">バーンアウトを深く理解する</p>
@@ -473,6 +475,7 @@ export default function TeacherBurnout() {
           <li>・<Link to="/articles/helper-leave-of-absence-hesitation" className="underline underline-offset-2 text-stone-600 hover:text-stone-900">休職をためらう心理</Link></li>
         </ul>
       </div>
+      </LegacyRelated>
 
       {/* マッチング誘導ブロック */}
       <div className="p-4 rounded-xl mb-3 mt-6" style={{ background: "rgba(245, 158, 11, 0.04)", border: "1px solid rgba(245, 158, 11, 0.2)" }}>

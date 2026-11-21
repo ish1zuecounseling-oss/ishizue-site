@@ -6,7 +6,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, type Variants } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { usePostRecEngagement } from "../lib/usePostRecEngagement";
 import { ArrowRight, Sparkles, MessageCircle, RotateCcw, Lock, Compass } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, LINE_SUBTEXT } from "../data/siteStatus";
@@ -243,6 +244,8 @@ function determineType(checkedItems: CheckItem[]): StateType {
 }
 
 export default function AIAssistant() {
+  // 記事末尾の推薦から来たときだけ、移動先での読まれ方を計測する(回遊再設計 フェーズ1)
+  usePostRecEngagement(useLocation().key);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [freeText, setFreeText] = useState("");
   const [analyzed, setAnalyzed] = useState(false);

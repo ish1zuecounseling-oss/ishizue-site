@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "generate:articles": "tsx scripts/generateArticles.ts",
+    "generate:recommendations": "tsx scripts/buildRecommendations.ts",
     "generate:sitemap": "tsx scripts/generateSitemap.ts",
     "generate:static-html": "tsx scripts/generateStaticHtml.ts",
     "generate:search-index": "tsx scripts/generateSearchIndex.ts",
     "verify:head": "tsx scripts/verifyHead.ts",
-    "build": "npm run generate:articles && npm run generate:sitemap && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server && npm run generate:static-html && npm run generate:search-index && npm run verify:head",
+    "verify:recommendations": "tsx scripts/verifyRecommendations.ts",
+    "build": "npm run generate:articles && npm run generate:recommendations && npm run generate:sitemap && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server && npm run generate:static-html && npm run generate:search-index && npm run verify:head && npm run verify:recommendations",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { LineCtaCompassion } from "../../components/LineCta"
 import ArticleFooterLinks from "../../components/ArticleFooterLinks"
 import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
+import LegacyRelated from "../../components/rec/LegacyRelated"
 
 const FAQ_ITEMS = [
   {
@@ -203,6 +204,11 @@ export default function ThinkerWeilAttention() {
         ))}
       </div>
 
+      <LegacyRelated pilotFallback={
+        <p className="text-xs text-stone-400 pt-2">
+          「偉人・学者から学ぶ」シリーズは、<Link to="/articles" className={linkCls}>心理記事一覧</Link>の「知る・理解する」→「偉人・学者から」にまとめています。
+        </p>
+      }>
       <h2>関連する記事</h2>
       <div className="card space-y-2 text-sm">
         <p className="font-medium text-stone-700 mb-2">この記事とつながるテーマ</p>
@@ -217,6 +223,7 @@ export default function ThinkerWeilAttention() {
           「偉人・学者から学ぶ」シリーズは、<Link to="/articles" className={linkCls}>心理記事一覧</Link>の「知る・理解する」→「偉人・学者から」にまとめています。
         </p>
       </div>
+      </LegacyRelated>
 
       <div className="my-8 p-5 rounded-2xl" style={{ background: "#2C1F14" }}>
         <p className="text-[10px] text-stone-500 mb-1">人の話を聴き続けてきた方へ</p>

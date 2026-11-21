@@ -2,6 +2,7 @@ import ArticleLayout from "../../components/ArticleLayout"
 import { Link } from "react-router-dom"
 import { LineCtaSmall } from "../../components/LineCta"
 import { FREE_FIRST, CONTACT_HREF, CONTACT_LINK_PROPS, ctaText } from "../../data/siteStatus"
+import LegacyRelated from "../../components/rec/LegacyRelated"
 
 export default function NurseCompassionFatigue() {
   return (
@@ -183,6 +184,7 @@ export default function NurseCompassionFatigue() {
         <p className="text-[10px] text-stone-400 text-center mt-1.5">支援職15年・公認心理師 ／ 勧誘なし ／ 1回のみでもOK</p>
       </div>
 
+      <LegacyRelated>
       {/* 内部リンク */}
       <div className="p-4 rounded-xl bg-stone-50 border border-stone-200">
         <p className="text-xs font-medium text-stone-600 mb-3">あわせて読む</p>
@@ -201,6 +203,7 @@ export default function NurseCompassionFatigue() {
           </Link>
         </div>
       </div>
+      </LegacyRelated>
 
       <div className="text-[11px] text-stone-400 mt-6 pt-4 border-t border-stone-100">
         本記事は支援職支援の臨床経験（公認心理師・障害福祉15年・累計300名以上）と、

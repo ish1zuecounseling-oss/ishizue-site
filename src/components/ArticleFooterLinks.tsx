@@ -16,6 +16,7 @@
 
 import { Link } from "react-router-dom"
 import { ACCEPTING_NEW_CLIENTS, PAUSED_LINE_URL, trackPausedLineClick } from "../data/siteStatus"
+import { useIsRecPilot } from "./rec/RecModeContext"
 
 type TypeKey = "check" | "concept" | "symptom" | "jobtype" | "self-function" | "mbti" | "attachment" | "recovery"
 
@@ -356,6 +357,50 @@ function LinkList({ items, exclude, max }: { items: LinkItem[]; exclude?: string
   )
 }
 
+/* 受付状態に連動する案内(分岐ナビの末尾)。パイロット記事でも、ここだけは残す。
+   standalone = パイロット記事で、この案内だけを出すとき。上のリンクがないので
+   「どれにも当てはまらない場合は、」だけを除く(それ以外の文言・リンクは変えない) */
+function ServiceFallback({ standalone = false }: { standalone?: boolean }) {
+  return (
+    <>
+            {ACCEPTING_NEW_CLIENTS ? (
+              <>
+                <p className="text-xs text-stone-400 leading-relaxed mb-2">
+                  {standalone
+                    ? "今の状態を一緒に整理することもできます。"
+                    : "どれにも当てはまらない場合は、今の状態を一緒に整理することもできます。"}
+                </p>
+                <a
+                  href="/#contact"
+                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
+                  style={{ color: "#8FAF9F" }}
+                >
+                  → 今の状態を整理する（初回メール相談無料・無理に決めなくていい）
+                </a>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-stone-400 leading-relaxed mb-2">
+                  {standalone
+                    ? "LINEで状態タイプ別の解説を受け取ることもできます。"
+                    : "どれにも当てはまらない場合は、LINEで状態タイプ別の解説を受け取ることもできます。"}
+                </p>
+                <a
+                  href={PAUSED_LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackPausedLineClick("footer_links_paused")}
+                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
+                  style={{ color: "#8FAF9F" }}
+                >
+                  → LINEで状態別の解説を受け取る（新規相談は休止中・再開時にお知らせ）
+                </a>
+              </>
+            )}
+    </>
+  )
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Component                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -364,6 +409,19 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
   const isFirstReadExcluded = exclude.includes(FIRST_READ.href)
   const sectionsToShow = SHOW_RULES[type] ?? SHOW_RULES["check"]
   const branchNav = BRANCH_NAV[type]
+  const isPilot = useIsRecPilot()
+
+  /* 回遊再設計 フェーズ1:パイロット記事では推薦リンクの部分を出さず、受付状態の案内だけを残す */
+  if (isPilot) {
+    if (!branchNav) return null
+    return (
+      <div className="mt-6 space-y-3">
+        <div className="p-4 rounded-xl border border-stone-200 bg-white">
+          <ServiceFallback standalone />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-6 space-y-3">
@@ -399,36 +457,7 @@ export default function ArticleFooterLinks({ type = "check", exclude = [] }: Pro
           ))}
           {/* フォールバック：取りこぼし防止 */}
           <div className="pt-3 border-t border-stone-100">
-            {ACCEPTING_NEW_CLIENTS ? (
-              <>
-                <p className="text-xs text-stone-400 leading-relaxed mb-2">
-                  どれにも当てはまらない場合は、今の状態を一緒に整理することもできます。
-                </p>
-                <a
-                  href="/#contact"
-                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
-                  style={{ color: "#8FAF9F" }}
-                >
-                  → 今の状態を整理する（初回メール相談無料・無理に決めなくていい）
-                </a>
-              </>
-            ) : (
-              <>
-                <p className="text-xs text-stone-400 leading-relaxed mb-2">
-                  どれにも当てはまらない場合は、LINEで状態タイプ別の解説を受け取ることもできます。
-                </p>
-                <a
-                  href={PAUSED_LINE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackPausedLineClick("footer_links_paused")}
-                  className="inline-flex items-center gap-1.5 max-sm:py-3 text-xs font-medium underline underline-offset-2 transition-colors"
-                  style={{ color: "#8FAF9F" }}
-                >
-                  → LINEで状態別の解説を受け取る（新規相談は休止中・再開時にお知らせ）
-                </a>
-              </>
-            )}
+            <ServiceFallback />
           </div>
         </div>
       )}
