@@ -17,6 +17,7 @@ import { useState, useEffect, type CSSProperties, type ReactNode } from 'react'
 import { PILOT, PILOT_EVAL, PILOT_EVAL_KIND, type PilotEvalId, type PilotTask, type PilotKind } from '../../data/chroniclePilot'
 import { TALK } from '../../data/chronicleTalk'
 import { TalkCard, box, btn, primary, area, quiet } from './ChronicleDaily'
+import { NextPracticeReminder, type NextPractice } from './ChronicleSvai'
 
 type Mark = 'ok' | 'half' | 'not'
 const MARKS: Mark[] = ['ok', 'half', 'not']
@@ -489,7 +490,7 @@ function ScoreLine({ e, q, b, n, kind }: { e?: Evals; q?: Quotes; b?: By; n?: st
   )
 }
 
-export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (d: PilotStore) => void }) {
+export function PilotBlock({ store, onChange, nextPractice = [] }: { store: PilotStore; onChange: (d: PilotStore) => void; nextPractice?: NextPractice[] }) {
   const [open, setOpen] = useState(false)
   const [key, setKey] = useState<string | null>(null)
   const [stage, setStage] = useState<1 | 2 | 3>(1)
@@ -561,6 +562,7 @@ export function PilotBlock({ store, onChange }: { store: PilotStore; onChange: (
       {open && (
         <div style={{ marginTop: 10 }}>
           {msg && <div role="status" style={{ fontSize: 12, color: '#9fc98a', marginBottom: 8 }}>{msg}</div>}
+          <NextPracticeReminder items={nextPractice} />
 
           {/* 課題の選択 */}
           {!t && (

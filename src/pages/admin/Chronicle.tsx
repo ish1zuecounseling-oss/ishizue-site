@@ -1209,10 +1209,10 @@ function ChronicleInner() {
           </div>
 
           {/* 今日の一頁(毎日の学習) */}
-          <DailyPageBlock levels={LEVELS} unlockedIds={unlockedIds} store={daily} onChange={handleDaily} examLists={Object.values(exams)} />
+          <DailyPageBlock levels={LEVELS} unlockedIds={unlockedIds} store={daily} onChange={handleDaily} examLists={Object.values(exams)} nextPractice={svai.next} />
 
           {/* 試作練習(7項目・5課題) */}
-          <PilotBlock store={pilot} onChange={handlePilot} />
+          <PilotBlock store={pilot} onChange={handlePilot} nextPractice={svai.next} />
 
           {/* SVAI(振り返りの補助):プロンプトのコピー・SVAI ログ・次の練習 */}
           <SvaiBlock store={svai} onChange={handleSvai} />

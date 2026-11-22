@@ -313,3 +313,20 @@ export function SvaiBlock({ store, onChange }: { store: SvaiStore; onChange: (d:
     </section>
   )
 }
+
+/** 段階6:今日の一頁・試作練習に、「次の練習」(練習中のもの)を思い出せるよう小さく表示する。
+ *  表示だけで、ここからは変更しない(追加・確かめた・削除は SVAI の欄で行う)。練習中が0件なら何も出さない */
+export function NextPracticeReminder({ items, max = 3 }: { items: NextPractice[]; max?: number }) {
+  const open = items.filter(n => n.status === '練習中')
+  if (open.length === 0) return null
+  return (
+    <div role="note" aria-label="次の練習" style={{ border: '1px solid #3d2a12', borderLeft: '3px solid #c9933a', borderRadius: 4, padding: '8px 10px', margin: '8px 0', background: '#0b0804' }}>
+      <div style={{ fontSize: 11, color: '#c9a96e', letterSpacing: '0.08em' }}>次の練習(練習中 {open.length} 件)</div>
+      <ul style={{ margin: '4px 0 0', paddingLeft: 16, fontSize: 12, color: '#d8c7a4', lineHeight: 1.7 }}>
+        {open.slice(0, max).map(n => <li key={n.id}>{n.text}</li>)}
+      </ul>
+      {open.length > max && <div style={{ fontSize: 11, color: '#8a6a3a' }}>ほか {open.length - max} 件</div>}
+      <div style={{ fontSize: 11, color: '#8a6a3a', marginTop: 2 }}>追加・「確かめた」への切り替えは、SVAI の欄で行います。</div>
+    </div>
+  )
+}

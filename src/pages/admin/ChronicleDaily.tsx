@@ -15,6 +15,7 @@ import type { LevelData } from '../../data/chronicleData'
 import { refsFor, DAILY_REFS } from '../../data/chronicleRefs'
 import { DAILY_SCENES, INDICATORS, type IndKey } from '../../data/chronicleExaminers'
 import { TALK, TALK_TYPES, SCENE_TALK, findTalk, type TalkEntry } from '../../data/chronicleTalk'
+import { NextPracticeReminder, type NextPractice } from './ChronicleSvai'
 
 // ── 出題の間隔(日)。使ってみて調整するときはここを変える ──
 export const DAILY_INTERVALS = {
@@ -191,8 +192,8 @@ export const area: CSSProperties = { width: '100%', boxSizing: 'border-box', bac
 export const stepHead: CSSProperties = { fontSize: 11, letterSpacing: '0.12em', color: '#e6b555', margin: '14px 0 6px' }
 export const quiet: CSSProperties = { fontSize: 10.5, color: '#8a6a3a', lineHeight: 1.7 }
 
-export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists }: {
-  levels: LevelData[]; unlockedIds: string[]; store: DailyStore; onChange: (d: DailyStore) => void; examLists: IndRecord[][]
+export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists, nextPractice = [] }: {
+  levels: LevelData[]; unlockedIds: string[]; store: DailyStore; onChange: (d: DailyStore) => void; examLists: IndRecord[][]; nextPractice?: NextPractice[]
 }) {
   const date = todayJst()
   const tasks = useMemo(() => taskList(levels.filter(l => unlockedIds.includes(l.id))), [levels, unlockedIds])
@@ -259,6 +260,7 @@ export function DailyPageBlock({ levels, unlockedIds, store, onChange, examLists
       <div style={{ fontSize: 12, color: '#e6b555', margin: '4px 0 2px', letterSpacing: '0.2em' }} aria-label={`しるし ${earned.length}個`}>
         {MARKS.map(m => <span key={m} title={`${m}頁`} style={{ opacity: total >= m ? 1 : 0.18, marginRight: 4 }}>✦</span>)}
       </div>
+      <NextPracticeReminder items={nextPractice} />
       <p style={quiet}>
         {nextMark ? `あと${nextMark - total}頁で、次のしるし(${nextMark}頁)。` : 'すべてのしるしがそろいました。'}
         休んでも頁は減りません。この記録は合否や達成率には使いません。
