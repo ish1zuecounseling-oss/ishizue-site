@@ -441,12 +441,15 @@ export default function AIAssistant() {
                         <li>命の危険が迫っているとき：<a href="tel:119" className="font-bold underline">119</a></li>
                         <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>（受付時間は地域で異なります）</li>
                         <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
-                        <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li>
+                        {/* #いのちSOS は2026年11月1日〜11月末に受付休止(運営団体の告知 https://lifelink.or.jp/4400)。再開したら次の行に戻す:
+                            <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li> */}
+                        <li>#いのちSOS（0120-061-338）：2026年11月末まで受付を休止しています。ほかの窓口は<a href="https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel/" target="_blank" rel="noopener noreferrer" className="underline">厚生労働省「まもろうよ こころ」</a>で探せます</li>
                       </ul>
                       <p className="text-stone-600 mt-1">通院中の方は、主治医の医療機関にも連絡してください。近くにいる人に今の気持ちを伝えることも助けになります。</p>
                     </div>
                   ) : (
-                    <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）、#いのちSOS（0120-061-338・24時間）を使ってください。</p>
+                    /* #いのちSOS は2026年11月末まで受付休止(https://lifelink.or.jp/4400)。再開したら、「よりそいホットライン（0120-279-338・24時間）」のあとに「、#いのちSOS（0120-061-338・24時間）」を戻し、休止の一文を消す */
+                    <p className="text-[10px] text-stone-400 leading-relaxed">命に関わるようなつらさがあるときは、この整理より先に、119番やこころの健康相談統一ダイヤル（0570-064-556）、よりそいホットライン（0120-279-338・24時間）を使ってください。#いのちSOS は2026年11月末まで受付を休止しています。ほかの窓口は<a href="https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel/" target="_blank" rel="noopener noreferrer" className="underline">厚生労働省「まもろうよ こころ」</a>で探せます。</p>
                   )}
                 </div>
 
@@ -479,7 +482,9 @@ export default function AIAssistant() {
                       <li>命の危険が迫っているとき：<a href="tel:119" className="font-bold underline">119</a></li>
                       <li>こころの健康相談統一ダイヤル：<a href="tel:0570064556" className="font-bold underline">0570-064-556</a>（受付時間は地域で異なります）</li>
                       <li>よりそいホットライン（24時間）：<a href="tel:0120279338" className="font-bold underline">0120-279-338</a></li>
-                      <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li>
+                      {/* #いのちSOS は2026年11月1日〜11月末に受付休止(運営団体の告知 https://lifelink.or.jp/4400)。再開したら次の行に戻す:
+                          <li>#いのちSOS（24時間）：<a href="tel:0120061338" className="font-bold underline">0120-061-338</a></li> */}
+                      <li>#いのちSOS（0120-061-338）：2026年11月末まで受付を休止しています。ほかの窓口は<a href="https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel/" target="_blank" rel="noopener noreferrer" className="underline">厚生労働省「まもろうよ こころ」</a>で探せます</li>
                     </ul>
                     <p className="text-xs text-stone-600 leading-relaxed mt-3">通院中の方は、主治医の医療機関にも連絡してください。ひとりで抱えず、近くにいる人に今の気持ちを伝えることも助けになります。</p>
                     <p className="text-xs text-stone-600 leading-relaxed mt-2">電話が難しいときは、SNSやチャットで相談できる窓口もあります：<a href="https://www.mhlw.go.jp/mamorouyokokoro/" target="_blank" rel="noopener noreferrer" className="underline">厚生労働省「まもろうよ こころ」</a></p>

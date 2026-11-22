@@ -229,7 +229,8 @@ export default function AiConsultationPsychology() {
             <tr style={{ borderBottom: "1px solid #f0efed" }}>
               <td className="py-2 px-2 align-top font-medium">#いのちSOS</td>
               <td className="py-2 px-2 align-top"><span className="whitespace-nowrap">0120-061-338</span></td>
-              <td className="py-2 px-2 align-top">24時間365日</td>
+              {/* 2026年11月1日〜11月末は受付休止(https://lifelink.or.jp/4400)。再開したら「24時間365日」に戻す */}
+              <td className="py-2 px-2 align-top">通常は24時間365日。<strong>2026年11月末まで受付を休止しています</strong>（運営団体の告知による）</td>
               <td className="py-2 px-2 align-top whitespace-nowrap">無料</td>
             </tr>
             <tr style={{ borderBottom: "1px solid #f0efed" }}>
