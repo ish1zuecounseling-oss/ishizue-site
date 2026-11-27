@@ -1172,7 +1172,7 @@ function renderWeek(){
   box.querySelectorAll('[data-next]').forEach(c=>c.addEventListener('change',()=>{planDay(c.dataset.next).nextLight=c.checked;savePlan();renderWeek()}));
   box.querySelectorAll('[data-note]').forEach(t=>t.addEventListener('change',()=>{planDay(t.dataset.note).note=t.value;savePlan()}));
   box.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.actual.done.indexOf(b.dataset.done);if(ix>=0)p.actual.done.splice(ix,1);else p.actual.done.push(b.dataset.done);savePlan();renderWeek()}));
-  box.querySelectorAll('[data-exp]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.actual.exp.indexOf(b.dataset.exp);if(ix>=0)p.actual.exp.splice(ix,1);else p.actual.exp.push(b.dataset.exp);savePlan();renderWeek()}));
+  box.querySelectorAll('button[data-exp]').forEach(b=>b.addEventListener('click',()=>{const p=planDay(b.dataset.day);const ix=p.actual.exp.indexOf(b.dataset.exp);if(ix>=0)p.actual.exp.splice(ix,1);else p.actual.exp.push(b.dataset.exp);savePlan();renderWeek()}));
   box.querySelectorAll('[data-anote]').forEach(t=>t.addEventListener('change',()=>{planDay(t.dataset.anote).actual.note=t.value;savePlan()}));
 }
 $('wk0').addEventListener('click',()=>{PLAN.offset=0;SEL_DAY=null;savePlan();renderWeek()});
