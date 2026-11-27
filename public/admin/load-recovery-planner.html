@@ -54,44 +54,34 @@ details.exp>summary{font-weight:400;font-size:13px;color:var(--sub);min-height:3
 <body>
 <main>
 <h1>負荷と回復の設計</h1>
-<p class="lead">ノートが「記録する」場所なら、ここは「読んで、設計する」場所です。毎日の記録はノートで付けます。ここでは記録を入力しません。書き出しJSONを読み込んで傾向を読み、来週の負荷と回復を先に置くことだけをします。読み込んだ記録は保存も送信もせず、ここに保存するのは設計した計画だけです。</p>
-<p class="note">これは診断ではありません。パターンは「そう見える」という仮説として読み、1日だけの数字では判断しません。<span class="mk">気になるサインが続くときは、主治医や相談先に伝えることを先にしてください。</span></p>
-
-<section class="card">
-<details open><summary>ノートとの違い</summary>
-<div class="kv">
-<span>向いている時間</span><span>ノート＝起きたこと（過去・今日）／ここ＝これからの1週間と、直近28日の傾向</span>
-<span>すること</span><span>ノート＝記録する／ここ＝読む・設計する（記録の入力はしません）</span>
-<span>「出来事」の意味</span><span>ノート＝実際にあったこと／ここ＝起きそうなこと（予定）</span>
-<span>保存するもの</span><span>ノート＝毎日の記録／ここ＝週の計画だけ。記録は読み込むだけで、保存しません</span>
-</div>
-</details>
-</section>
-
-<section class="card">
-<details open><summary>いつ、何をするか</summary>
-<ol style="margin:0;padding-left:20px">
-<li><b>毎日</b>：寝る前など、自分で決めたタイミングで、ノートにその日を記録する</li>
-<li><b>週のはじめ</b>：ノートを「ファイルで保存する」で書き出し、この道具の「記録のまとめ」で読み込む。材料を見て、「週を設計」でこれからの負荷と回復を先に置く</li>
-<li><b>その日の終わり</b>：設計した回復について、実施できたものと生じた経験を付ける（「週を設計」の各日の中にあります）</li>
-<li><b>次の週のはじめ</b>：もう一度読み込み直すと、崩れた期間と戻るまでの日数が更新され、設計と実際を比べられます</li>
-</ol>
-</details>
-</section>
+<p class="lead">ノートが「記録する」場所なら、ここは「読んで、設計する」場所です。この端末のノートの記録を読んで、今日の向きと今日の一歩を出し、週の負荷と回復を先に置きます。ここでは記録を入力しません。ノートの記録は読むだけで、書き換えも送信もしません。ここに保存するのは、設計した計画だけです。</p>
+<p class="note">これは診断ではありません。出てくるのは、記録から「そう見える」という目安で、1日だけの数字では判断しません。</p>
 
 <div class="seg" role="tablist" aria-label="画面の切り替え" style="margin-bottom:12px">
-<button type="button" role="tab" id="tabbtn-p" aria-selected="true">記録のまとめ</button>
+<button type="button" role="tab" id="tabbtn-p" aria-selected="true">今日</button>
 <button type="button" role="tab" id="tabbtn-w" aria-selected="false">週を設計</button>
 <button type="button" role="tab" id="tabbtn-r" aria-selected="false">材料と定義</button>
 </div>
 
-<section class="card" id="panel-p">
-<h2>1. 記録から材料を読む</h2>
-<p class="note">ノートの「ファイルで保存する」で書き出したJSONを選んでください。</p>
+<div id="panel-p">
+<div id="safety"></div>
+<section class="card" id="nowCard"></section>
+<section class="card" id="stepCard"></section>
+<section class="card" id="expCard"></section>
+<section class="card"><details id="moreBox"><summary>詳しく見る</summary><div id="patterns"></div></details></section>
+<section class="card" id="fixedHelp"><p style="margin:0">つらいときは、ノートの「つらいとき」タブに相談先があります。今すぐ自分の安全を保てないと感じるとき、差し迫った危険があるときは、119番に電話してください。</p><p class="note" style="margin:6px 0 0"><a href="kokoro-karada.html" style="color:var(--ai)">ノートを開く</a></p></section>
+<section class="card" id="srcCard">
+<p id="loadStatus" class="note" aria-live="polite"></p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button type="button" class="btn ghost" id="reloadNote">読み直す</button>
+<button type="button" class="btn ghost" id="backToNote" hidden>この端末のノートに戻す</button>
+</div>
+<details><summary>別の端末の記録を読む</summary>
+<p class="note">別の端末のノートで「ファイルで保存する」で書き出したJSONを選ぶと、そのファイルの記録を表示します。ファイルの記録は保存しません。ファイルを表示している間は、この端末のノートの記録を自動では読み直しません。</p>
 <input type="file" id="file" accept=".json,application/json">
-<p id="loadStatus" class="note"></p>
-<div id="patterns"></div>
+</details>
 </section>
+</div>
 
 <section class="card" id="panel-w" hidden>
 <h2>2. 週を設計する</h2>
@@ -110,6 +100,38 @@ details.exp>summary{font-weight:400;font-size:13px;color:var(--sub);min-height:3
 </section>
 
 <div id="panel-r" hidden>
+<section class="card">
+<details open><summary>ノートとの違い</summary>
+<div class="kv">
+<span>向いている時間</span><span>ノート＝起きたこと（過去・今日）／ここ＝今日と、これからの1週間。直近28日の傾向</span>
+<span>すること</span><span>ノート＝記録する／ここ＝読む・設計する（記録の入力はしません）</span>
+<span>「出来事」の意味</span><span>ノート＝実際にあったこと／ここ＝起きそうなこと（予定）</span>
+<span>保存するもの</span><span>ノート＝毎日の記録／ここ＝週の計画だけ。ノートの記録は読むだけで、保存も書き換えもしません</span>
+</div>
+</details>
+</section>
+
+<section class="card">
+<details open><summary>いつ、何をするか</summary>
+<ol style="margin:0;padding-left:20px">
+<li><b>毎日</b>：自分で決めたタイミングで、ノートにその日を記録する</li>
+<li><b>見たいとき</b>：この道具の「今日」を開く。この端末のノートの記録を自動で読み、今日の向きと今日の一歩を出します。どちらもしない日があってかまいません</li>
+<li><b>週のはじめ</b>：「週を設計」で、これからの負荷と回復を先に置く</li>
+<li><b>その日の終わり</b>：設計した回復について、実施できたものと生じた経験を付ける（「週を設計」の各日の中にあります。付けなくてもかまいません）</li>
+</ol>
+<p class="note">別の端末で付けたノートの記録は、「今日」のいちばん下の「別の端末の記録を読む」から、書き出したファイルで読めます。</p>
+</details>
+</section>
+
+<section class="card">
+<details><summary>今日の向きと今日の一歩について</summary>
+<p>今日の向きは「休むこと・減らすことを先に」「整えることを中心に」「少し広げてもよい日」「今日は判定しません」のどれかです。気になるサインの記録、記録の日数、最新の記録がいつか、いつもの範囲、疲労の持ち越し、睡眠の順に見て決めます。個々の基準はこの道具のもので、組み合わせ方は研究で確かめられたものではありません。</p>
+<p>「少し広げてもよい日」は、体力や能力が回復したことを意味しません。これまでの記録から見て、いつもの範囲を外れておらず、持ち越しの目印もないため、活動を少し試す選択肢を出してもよさそうな日、という意味です。あなたの感覚と合わないときは、「この向きは合わない」から向きを選び直してください。あなたの感覚を優先します。</p>
+<p>今日の一歩は、効果が確かめられた処方ではありません。2つまで、手間の合計が3点までの候補です。見送っても何も記録しません。</p>
+<p class="note">混在：体・心・症状のうち、落下した領域ごとに判定が分かれている状態です。たとえば「混在（体：回復／心：部分回復）」は、体はいつもの範囲に戻り、心はまだ戻りきっていないことを表します。一方の回復を、もう一方の不調で隠さないために、領域ごとに並べて表示します。</p>
+</details>
+</section>
+
 <section class="card">
 <h2>3. 回復リスト（材料）</h2>
 <p class="note">はじめの4分類（切り離し・リラックス・熟達・コントロール）は、回復経験の研究（Sonnentag &amp; Fritz, 2007）にある心理的な経験です。行動そのものではなく、行動のあとに生じる経験を指します。最後の「睡眠と基本」は、この4分類とは別の、基盤的なセルフケアとしてこの道具で付け加えたものです。行動は「回復した証拠」ではなく、回復を生むかどうかを記録で確かめる材料です。高負荷の日ほど、その場の判断では崩れやすいので、先に固定メニューとして置く使い方を想定しています。</p>
@@ -153,7 +175,7 @@ details.exp>summary{font-weight:400;font-size:13px;color:var(--sub);min-height:3
 </ul>
 <p class="note">詳しい根拠と未検証の項目は、研究レポート「回復の定義：既存研究からの整理」にあります。</p>
 <h3>個人の記録から得られた観察結果</h3>
-<p>上の「記録から材料を読む」に出る数値はすべて観察と仮説です。予測の精度が確認されたものではなく、因果関係を示すものでもありません。</p>
+<p>「今日」の「詳しく見る」に出る数値はすべて観察と仮説です。予測の精度が確認されたものではなく、因果関係を示すものでもありません。</p>
 </details>
 </section>
 </div>
@@ -381,6 +403,183 @@ function computePatterns(S){
   const ind={body:indDom('body'),mind:indDom('mind'),sym:sMed!=null?indDom('sym'):null};
   return {ok:true,anchor,n:allKeys.length,winN:keys.length,stage,bMed,mMed,bQ1,bQ3,mQ1,mQ3,sMed,sHi,sN:sVals.length,lo,drops,shortfall:Math.round(shortfall*10)/10,streak,outDays,evList,riskEvents,ind,sleep,actCmp:{nA:withAct.length,nN:withoutAct.length,medA:medAct,medN:medNo}};
 }
+
+/* ===== A1：今日の画面の判断（純粋ロジック。2026-11-27 最終修正版の仕様） =====
+   3つの層を分ける：①安全の案内（signs）②今日の向き ③今日の一歩。
+   ノートの記録は読むだけで、ここからは書き込まない。 */
+const NOTE_KEY='kokoro_karada_v1';
+/* サインの優先順（安全を優先する順）。id はノートの SIGNS と同じ */
+const SIGN_IDS=['die','odd','noeat','nosleep'];
+const SIGN_LABEL={die:'消えてしまいたい気持ち',odd:'体の症状がいつもと違う',noeat:'食べられない',nosleep:'眠れない日が続いている'};
+const isDateKey=k=>/^\d{4}-\d{2}-\d{2}$/.test(k);
+function daysBetween(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/86400000)}
+/* 1日分の signs を読む。欠落・空配列は「サインなし」。配列でない・知らないid・重複は「判読不能」 */
+function readSigns(d){
+  if(!d||d.signs==null)return {ok:true,ids:[]};
+  const s=d.signs;
+  if(!Array.isArray(s))return {ok:false,ids:[]};
+  if(s.some(x=>typeof x!=='string'||SIGN_IDS.indexOf(x)<0))return {ok:false,ids:[]};
+  if(new Set(s).size!==s.length)return {ok:false,ids:[]};
+  return {ok:true,ids:s.slice().sort((a,b)=>SIGN_IDS.indexOf(a)-SIGN_IDS.indexOf(b))};
+}
+/* 安全の案内の状態。今日・昨日の記録があればそれだけを見る（ノートと同じ）。
+   今日・昨日の記録があってサインがなければ、それより前のサインは引き継がない。
+   今日・昨日の記録がどちらもないときだけ、それより前の最新の記録を「過去の記録」として見る。 */
+function safetyOf(days,today){
+  days=days||{};
+  const y=addDays(today,-1);
+  /* 「記録がある」＝中身のある日。ノートは画面の操作で空の日（{}）を作ることがあるため、空の日は記録なしと数える */
+  const hasRec=k=>{const d=days[k];return !!d&&typeof d==='object'&&!Array.isArray(d)&&Object.keys(d).length>0};
+  const recent=[today,y].filter(hasRec);
+  if(recent.length){
+    const ids=[],dateOf={},badDates=[];
+    recent.forEach(k=>{const r=readSigns(days[k]);if(!r.ok)badDates.push(k);
+      r.ids.forEach(id=>{if(ids.indexOf(id)<0)ids.push(id);if(!dateOf[id]||k>dateOf[id])dateOf[id]=k})});
+    ids.sort((a,b)=>SIGN_IDS.indexOf(a)-SIGN_IDS.indexOf(b));
+    if(!ids.length&&!badDates.length)return {kind:'none',ids:[],bad:false,dateOf:{}};
+    return {kind:'recent',ids,bad:badDates.length>0,badDates,dateOf};
+  }
+  const older=Object.keys(days).filter(k=>isDateKey(k)&&k<y&&hasRec(k)).sort();
+  const L=older[older.length-1];
+  if(!L)return {kind:'none',ids:[],bad:false,dateOf:{}};
+  const r=readSigns(days[L]);
+  const ago=daysBetween(L,today);
+  if(!r.ok)return {kind:'past',ids:[],bad:true,badDates:[L],date:L,daysAgo:ago,dateOf:{}};
+  if(!r.ids.length)return {kind:'none',ids:[],bad:false,dateOf:{}};
+  const dateOf={};r.ids.forEach(id=>{dateOf[id]=L});
+  return {kind:'past',ids:r.ids,bad:false,date:L,daysAgo:ago,dateOf};
+}
+/* 体・心・症状のどれかを記録した日（分析と同じ数え方）。今日より先の日付は数えない */
+function recordKeys(days,today){
+  const bur=d=>{if(!d||!Array.isArray(d.sym))return null;const vs=d.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null);return vs.length?Math.max.apply(null,vs):null};
+  return Object.keys(days||{}).filter(k=>isDateKey(k)&&k<=today&&days[k]&&(typeof days[k].body==='number'||typeof days[k].mind==='number'||bur(days[k])!=null)).sort();
+}
+/* 今日の向き。順は仕様 1-6 のとおり。個々の基準は既存のもの（範囲・持ち越し・睡眠・段階・H1・V2）。
+   c = {safety, n, fresh, out:{body,mind,sym}, carry, badSleep, provisional, h1Low, v2High} */
+function decideDirection(c){
+  const s=c.safety||{kind:'none',ids:[],bad:false};
+  const recent=s.kind==='recent', past=s.kind==='past';
+  const has=id=>s.ids.indexOf(id)>=0;
+  const f={noCards:recent&&has('die'),
+    noMove:(recent&&has('odd'))||(past&&(has('die')||has('odd')||s.bad)),
+    noNap:recent&&has('nosleep'),
+    noMastery:recent||past,
+    restOnly:recent};
+  let dir,why;
+  if(recent){dir='rest';why=s.bad?'サインの記録を読めなかったため':'直近の記録に気になるサインがあるため'}
+  else if(c.n<7){dir='none';why='記録が'+c.n+'日分のため'}
+  else if(c.fresh!=null&&c.fresh>=4){dir='none';why='最新の記録が'+c.fresh+'日前のため'}
+  else if(c.out&&(c.out.body||c.out.mind||c.out.sym)){dir='rest';why='いつもの範囲の外の領域があるため'}
+  else if(c.carry){dir='rest';why='疲労の持ち越しの目印があるため'}
+  else if(c.badSleep){dir='adjust';why='昨夜の睡眠が短め、または眠りの質が低めのため'}
+  else if(c.provisional||c.h1Low||c.v2High||(c.fresh!=null&&c.fresh>=2)||past){dir='adjust';
+    why=past?'過去の記録にサインがあるため':(c.fresh!=null&&c.fresh>=2)?'最新の記録が'+c.fresh+'日前のため':c.provisional?'記録が14日未満（暫定）のため':c.h1Low?'この2週間の流れに低めの領域があるため':'変動性が高い領域があるため'}
+  else {dir='expand';why='いつもの範囲内で、持ち越しの目印もないため'}
+  /* 本人が選び直せる向き。「少し広げる」は、直近・過去のサイン、4日以上前、判定しない日には選べない */
+  const expandOk=!recent&&!past&&!(c.fresh!=null&&c.fresh>=4)&&c.n>=7;
+  const allowed=['rest','adjust'].concat(expandOk?['expand']:[]);
+  return Object.assign({dir,why,allowed},f);
+}
+/* 今日の一歩の候補。text は画面に出す文で、保存（今日の設計に置く）もこの文で行う。
+   既存の回復リストの文と意味が違う候補は、別の文として持ち、既存の文や過去の記録の意味は変えない。 */
+const A1_STEPS={
+  none:{text:'朝に「今日やらないこと」を1つ決める',cost:1,
+    goal:'負荷の量そのものを減らす',amount:'1つでよい。決めるだけです',end:'決めたら終わり',check:'夜の心の調子、翌日の持ち越し',stop:'決めること自体が負担なら、今日はしなくてかまいません'},
+  restTime:{text:'横になったり、目を閉じたりして、いったん休む時間をとる',cost:1,
+    goal:'体と頭を休める',amount:'長さに決まりはありません。少しの時間でもかまいません',end:'横になったり、目を閉じたりして、いったん休む時間を取れたら終わり。眠れたかどうかは問いません',check:'翌朝の体の調子',stop:'休もうとして、かえってつらくなるときは、無理に続けなくてかまいません。眠れない日が続くときは、主治医に相談してください'},
+  lowStim:{text:'刺激の少ない時間を置く（音楽、照明を落とす、目を閉じて座る、入浴 など）',cost:2,
+    goal:'体と感覚の緊張を下げる',amount:'少しの時間でかまいません。10〜15分は目安で、短くてもかまいません',end:'少し落ち着いたと感じたら、または時間が来たら',check:'夜の症状の支障、眠り',stop:'入浴でふらつきや動悸があるときは、入浴以外にしてください。症状が強まるときはやめてかまいません'},
+  eat:{text:'食べられるもの、飲めるものを、できる範囲でとる',cost:1,
+    goal:'体の土台を保つ',amount:'主治医から食事や水分について言われていることがあれば、そちらを優先してください。量や回数に決まりはありません',end:'一口でも、一杯でもとれたら',check:'夜の体の調子',stop:'食べられない・飲めない状態が続くときは、工夫より先に主治医に相談してください'},
+  nap:{text:'短い昼寝を選んでもよい',cost:1,nap:true,
+    goal:'眠気とだるさを軽くする',amount:'主治医から昼寝について言われていることがあれば、そちらを優先してください。決まりがなければ、短め・早めの時間を目安に',end:'起きられたら終わり。時間を区切りにくい日は、区切らなくてかまいません',check:'その夜の眠り',stop:'夜の眠りが浅くなる日が続くときは、昼寝の取り方を主治医と相談してください'},
+  window:{text:'窓を開けて、外の空気を入れる',cost:1,
+    goal:'体と心の切り替え',amount:'窓を少し開けるだけでかまいません',end:'少し空気が入れ替わったら',check:'夜の体と心の調子',stop:'寒さや音がつらいときは、すぐ閉めてかまいません'},
+  close3:{text:'夕方に今日の分を3行で閉じる（できたこと・明日に回すこと・ひとこと）',cost:2,
+    goal:'考えごとを今日で区切る',amount:'3行まで。1行でもかまいません',end:'書いたら閉じる',check:'夜の心の調子、寝つき',stop:'書くことでつらい考えが強まるときは、すぐやめてかまいません'},
+  walk:{text:'慣れた道を少しだけ歩く（余裕があれば、少し違う道を選んでもよい）',cost:2,move:true,mastery:true,
+    goal:'軽い刺激と、体を少し動かす感覚',amount:'最初は数分から。家の近くでかまいません',end:'疲れる前に戻る。途中で戻ってかまいません',check:'夜と翌日の体の調子、翌日の持ち越し',stop:'疲れや痛み、ふらつきが出たら、すぐ引き返してください。翌日に持ち越しの目印が出たら、次は短くするか、しばらく休んでかまいません'}
+};
+const A1_EXP_STEP={goal:'ノートで試している工夫を確かめる',amount:'ノートで決めた形のままで。今日は休んでもかまいません',end:'ノートで「使えた」を押したら',check:'ノートの役立ち度',stop:'合わないと感じたら、ノートで「使えなかった」を押してかまいません'};
+/* 今日の一歩を選ぶ。dec = decideDirection の結果、t = {symOut,bodyOut,mindOut,carry,sleepShort,busyYesterday,actives:[{id,name}]}
+   戻り値：{noCards:true} か、{steps:[{key,text,cost,...}]}（2つまで、手間の合計3以下） */
+function pickSteps(dir,dec,t){
+  t=t||{};
+  if(dec.noCards)return {noCards:true,steps:[]};
+  const S=A1_STEPS, cand=[];
+  const add=k=>{if(k&&cand.indexOf(k)<0)cand.push(k)};
+  const ids=(dec.signIds||[]);
+  if(dir==='rest'){
+    if(ids.indexOf('noeat')>=0){add('eat');add('restTime')}
+    if(ids.indexOf('odd')>=0||ids.indexOf('nosleep')>=0||dec.restOnly){add('restTime');add('lowStim')}
+    if(t.symOut){add('lowStim');add('restTime')}
+    if(t.bodyOut){add('restTime');add('eat')}
+    if(t.mindOut){add('none');add('close3')}
+    if(t.carry){add('none');add('restTime')}
+    if(t.sleepShort)add('nap');
+    add('restTime');add('none');add('window');
+  }else if(dir==='adjust'){
+    if(t.sleepShort){add('nap');add('restTime')}
+    add('restTime');add('close3');add('window');add('none');
+  }else if(dir==='expand'){
+    add('restTime');add('window');add('close3');
+  }else{ /* 判定しない日：本人が選べる土台の候補 */
+    add('restTime');add('eat');add('none');
+  }
+  const ok=k=>{const s=S[k];if(!s)return false;if(s.move&&(dec.noMove||dir!=='expand'))return false;if(s.mastery&&(dec.noMastery||dir!=='expand'))return false;if(s.nap&&dec.noNap)return false;return true};
+  let list=[];
+  /* 試している工夫：中身が分からないため、休む向き・判定しない日には出さない（新しい行動を増やさない） */
+  if((dir==='adjust'||dir==='expand')&&!dec.restOnly&&Array.isArray(t.actives)&&t.actives.length){
+    const x=t.actives[0];list.push(Object.assign({key:'exp:'+x.id,text:x.name,cost:2,isExp:true},A1_EXP_STEP))}
+  const maxN=2;
+  const sumOf=()=>list.reduce((a,x)=>a+x.cost,0);
+  if(dir==='expand'){
+    /* 土台の維持1つ＋広げる行動1つ（手間の合計3以下）。前日に予定が多ければ広げない */
+    const walkOk=!t.busyYesterday&&ok('walk');
+    if(!list.length){const room=walkOk?3-S.walk.cost:3;const m=cand.find(k=>ok(k)&&S[k].cost<=room);if(m)list.push(Object.assign({key:m},S[m]))}
+    if(walkOk&&sumOf()+S.walk.cost<=3)list.push(Object.assign({key:'walk'},S.walk));
+  }
+  for(const k of cand){if(list.length>=maxN)break;if(!ok(k)||list.some(x=>x.key===k))continue;
+    const sum=list.reduce((a,x)=>a+x.cost,0);if(sum+S[k].cost>3)continue;list.push(Object.assign({key:k},S[k]))}
+  return {noCards:false,steps:list.slice(0,maxN)};
+}
+/* 積み重ねの集計。取り組んだこと（日数）と感じられた経験（回数）を分ける。
+   同じ行動とみなすのは、PLAN_TO_BASIC の3組だけ（文字の一致では合わせない）。同じ日だけを重ねる。 */
+const BASIC_IDS=['meal','rest','stop','free'];
+const BASIC_LABEL={meal:'食事を抜かなかった',rest:'作業の合間に休んだ',stop:'決めた時間で作業を終えた',free:'仕事以外のことをした'};
+const PLAN_TO_BASIC={'食事を抜かない':'meal','作業の合間に休憩を入れる':'rest','決めた時間で区切って終える':'stop'};
+const FELT_LIST=['切り離せた','リラックスできた','手ごたえがあった','自分で決められた'];
+function tallyExperience(S,plan,from,to){
+  const days=(S&&S.days)||{}, pdays=(plan&&plan.days)||{};
+  const inR=k=>isDateKey(k)&&k>=from&&k<=to;
+  const full={},part={};BASIC_IDS.forEach(id=>{full[id]=new Set();part[id]=new Set()});
+  Object.keys(days).filter(inR).forEach(k=>{const d=days[k];if(!d||typeof d!=='object')return;
+    BASIC_IDS.forEach(id=>{if(d[id]===2)full[id].add(k);else if(d[id]===1)part[id].add(k)})});
+  const planRows={}, felt={}; FELT_LIST.forEach(x=>felt[x]=0);
+  const fromPlan={};
+  Object.keys(pdays).filter(inR).forEach(k=>{const a=pdays[k]&&pdays[k].actual;if(!a)return;
+    (Array.isArray(a.done)?a.done:[]).forEach(it=>{if(typeof it!=='string')return;
+      const b=PLAN_TO_BASIC[it];
+      if(b){full[b].add(k);part[b].delete(k);fromPlan[b]=true}
+      else{(planRows[it]=planRows[it]||new Set()).add(k)}});
+    (Array.isArray(a.exp)?a.exp:[]).forEach(x=>{if(felt[x]!=null)felt[x]++})});
+  const expRows=[];
+  (Array.isArray(S&&S.exps)?S.exps:[]).forEach(x=>{if(!x||typeof x.name!=='string'||!x.uses||typeof x.uses!=='object')return;
+    const ds=Object.keys(x.uses).filter(k=>inR(k)&&x.uses[k]===true);if(ds.length)expRows.push({label:x.name,src:'note-exp',dates:new Set(ds)})});
+  const did=[];
+  BASIC_IDS.forEach(id=>{if(full[id].size)did.push({label:BASIC_LABEL[id],src:'note-basic',count:full[id].size,withPlan:!!fromPlan[id]})});
+  expRows.forEach(r=>did.push({label:r.label,src:'note-exp',count:r.dates.size,maybeDup:false,dates:r.dates}));
+  Object.keys(planRows).forEach(it=>{const ds=planRows[it];
+    const twin=expRows.find(r=>r.label===it&&[...ds].some(k=>r.dates.has(k)));
+    if(twin)twin.maybeDup=true;
+    did.push({label:it,src:'plan',count:ds.size,maybeDup:!!twin})});
+  did.forEach(r=>{if(r.src==='note-exp'){const t=expRows.find(e=>e.label===r.label);r.maybeDup=!!(t&&t.maybeDup)}delete r.dates});
+  const partial=BASIC_IDS.filter(id=>part[id].size).map(id=>({label:BASIC_LABEL[id],count:part[id].size}));
+  const feltRows=FELT_LIST.filter(x=>felt[x]>0).map(x=>({label:x,count:felt[x]}));
+  return {did,partial,felt:feltRows};
+}
+/* A1 の候補の手間（既存の REC_COST に、新しい文の分だけを足す。既存の文の値は変えない） */
+Object.keys(A1_STEPS).forEach(k=>{const s=A1_STEPS[k];if(REC_COST[s.text]==null)REC_COST[s.text]=s.cost});
 </script>
 <script>
 "use strict";
@@ -390,35 +589,248 @@ const PLAN_KEY='load_recovery_plan_v1';
 let DATA=null, PAT=null;
 let PLAN={offset:0,days:{}};
 try{const p=JSON.parse(localStorage.getItem(PLAN_KEY)||'null');if(p&&p.days)PLAN=p}catch(e){}
-function savePlan(){let ok=true;try{localStorage.setItem(PLAN_KEY,JSON.stringify(PLAN))}catch(e){ok=false} const s=$('sv-plan');if(s){s.textContent=ok?'保存しました':'保存できませんでした。ブラウザの設定や空き容量を確かめてください';if(ok)setTimeout(()=>{if(s.textContent==='保存しました')s.textContent=''},1500)} return ok}
+function savePlan(){let ok=true;try{localStorage.setItem(PLAN_KEY,JSON.stringify(PLAN))}catch(e){ok=false} if(typeof expHtml==='function'&&$('expCard'))$('expCard').innerHTML=expHtml(); const s=$('sv-plan');if(s){s.textContent=ok?'保存しました':'保存できませんでした。ブラウザの設定や空き容量を確かめてください';if(ok)setTimeout(()=>{if(s.textContent==='保存しました')s.textContent=''},1500)} return ok}
 function mondayOf(offset){const d=new Date();const dow=(d.getDay()+6)%7;d.setDate(d.getDate()-dow+offset*7);return ymd(d)}
 function showTab(t){['p','w','r'].forEach(x=>{const on=x===t;$('panel-'+x).hidden=!on;$('tabbtn-'+x).setAttribute('aria-selected',on)})}
 $('tabbtn-p').addEventListener('click',()=>showTab('p'));
 $('tabbtn-w').addEventListener('click',()=>showTab('w'));
 $('tabbtn-r').addEventListener('click',()=>showTab('r'));
 
-/* ===== 1. 読み込みとパターン表示 ===== */
+/* ===== 1. ノートの記録を読む（読むだけ。書き込まない） ===== */
+let SOURCE='note';      /* 'note'＝この端末のノート／'file'＝別の端末の書き出しファイル */
+let LAST_RAW=undefined; /* 前回読んだ文字列。変わっていなければ読み直さない */
+let FILE_NAME='';
+let TODAY_KEY=ymd(new Date());
+let OVERRIDE=null;      /* 「この向きは合わない」で選び直した向き。保存しない */
+let HIDDEN={};          /* 「今日は見送る」を押した候補。保存しない */
+let MORE_OPEN=false;    /* 「詳しく見る」の開閉。保存しない */
+function setStatus(t){$('loadStatus').textContent=t}
+function setData(S){
+  DATA=S; PAT=S?computePatterns(S):null;
+  renderAll();
+}
+function loadFromNote(force){
+  if(SOURCE!=='note')return;
+  let raw;
+  try{raw=localStorage.getItem(NOTE_KEY)}catch(e){
+    LAST_RAW=undefined; setData(null);
+    setStatus('この端末の保存領域を読めませんでした。ブラウザの設定（プライベートブラウズなど）を確かめてください。ノートの記録は変えていません。');return}
+  if(!force&&raw===LAST_RAW)return;
+  LAST_RAW=raw;
+  if(raw==null){setData(null);
+    setStatus('この端末のノートの記録が見つかりませんでした。ノートを、この端末の同じブラウザで開いているか確かめてください。ホーム画面から開いた場合と、ブラウザから開いた場合で、記録が分かれることがあります。');return}
+  let S;
+  try{S=JSON.parse(raw)}catch(e){setData(null);
+    setStatus('ノートの記録を読み取れませんでした（記録の形が壊れています）。ノートの記録は変えていません。');return}
+  const verr=validateImport(S);
+  if(verr){setData(null);setStatus('ノートの記録の形が違うため、読み込めませんでした：'+verr+'。ノートの記録は変えていません。');return}
+  setData(S);
+  setStatus('この端末のノートの記録を読みました（'+hm()+'）。記録は読むだけで、書き換えも送信もしていません。');
+}
+function hm(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+$('reloadNote').addEventListener('click',()=>{if(SOURCE==='file'){setStatus('ファイルの記録を表示しています。この端末のノートを読むときは「この端末のノートに戻す」を押してください。');return}loadFromNote(true)});
+$('backToNote').addEventListener('click',()=>{SOURCE='note';FILE_NAME='';$('backToNote').hidden=true;$('file').value='';OVERRIDE=null;HIDDEN={};loadFromNote(true)});
 $('file').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f)return;
-  /* 読み込みを始めたら、前回の分析結果を「今回の結果」として表示し続けない。
-     内部の分析データも初期化し、週設計側も前回の分析を参照しない状態にそろえる */
-  DATA=null; PAT=null; $('patterns').innerHTML=''; $('loadStatus').textContent='読み込んでいます…'; renderWeek();
+  /* 読み込みを始めたら、前回の分析結果を「今回の結果」として表示し続けない */
+  SOURCE='file'; FILE_NAME=f.name; $('backToNote').hidden=false; OVERRIDE=null; HIDDEN={};
+  setData(null); setStatus('読み込んでいます…');
   const r=new FileReader();
   r.onload=()=>{ try{ const S=JSON.parse(r.result);
       const verr=validateImport(S); if(verr){failImport('読み込めませんでした：'+verr); return;}
-      DATA=S; PAT=computePatterns(S); renderPatterns();
-      $('loadStatus').textContent='読み込みました（記録は保存・送信していません）。';
-      renderWeek();
+      setData(S);
+      setStatus('ファイル「'+FILE_NAME+'」の記録を表示しています（保存・送信していません）。この端末のノートの記録は、自動では読み直しません。');
     }catch(err){ failImport('読み込めませんでした。ノートから書き出したJSONか確かめてください。'); } };
   r.onerror=()=>{ failImport('読み込めませんでした。ファイルを確認してください。'); };
   r.readAsText(f);
 });
 /* 読み込みに失敗したとき：前回の分析結果は画面に残さず、エラーだけを出す。
    保存済みの週の計画や、ノート側の記録そのものは消さない。 */
-function failImport(msg){ DATA=null; PAT=null; $('patterns').innerHTML=''; $('loadStatus').textContent=msg; renderWeek(); }
+function failImport(msg){ setData(null); setStatus(msg); }
+/* 読み直すきっかけ：別のタブでノートが保存したとき、表示に戻ったとき、日付が変わったとき */
+window.addEventListener('storage',e=>{if(e.key===NOTE_KEY||e.key===null)loadFromNote(false)});
+function onShow(){const t=ymd(new Date());if(t!==TODAY_KEY){TODAY_KEY=t;OVERRIDE=null;HIDDEN={};if(SOURCE==='note')loadFromNote(true);else renderAll()}else loadFromNote(false)}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')onShow()});
+window.addEventListener('pageshow',e=>{if(e.persisted)onShow()});
+setInterval(()=>{const t=ymd(new Date());if(t!==TODAY_KEY)onShow()},60000);
+$('moreBox').addEventListener('toggle',()=>{MORE_OPEN=$('moreBox').open});
+
+function renderAll(){renderToday();renderPatterns();renderWeek()}
+
+/* ===== 今日の画面 ===== */
+const md=k=>{const p=k.split('-');return (+p[1])+'/'+(+p[2])};
+const DIR_LABEL={rest:'休むこと・減らすことを先に',adjust:'整えることを中心に',expand:'少し広げてもよい日',none:'今日は判定しません'};
+const CONTACTS_HTML='<div class="hint" style="margin:8px 0">'+
+  '<div><b>よりそいホットライン</b>（24時間・無料）<br><a href="tel:0120279338" style="color:var(--ink);font-size:17px">0120-279-338</a><br><span class="note">IP電話（050から始まる番号）からは <a href="tel:05036550279" style="color:var(--ink)">050-3655-0279</a>（通話料がかかります）</span></div>'+
+  '<div style="margin-top:8px"><b>こころの健康相談統一ダイヤル</b><br><a href="tel:0570064556" style="color:var(--ink);font-size:17px">0570-064-556</a><br><span class="note">受付の日時は地域によって異なります。IP電話からはつながらない場合があります</span></div>'+
+  '<p class="note" style="margin:8px 0 0">ほかの相談先は、ノートの「つらいとき」タブにあります。</p></div>';
+const SAFETY_NOTE='<p class="note" style="margin:8px 0 0">この案内は、診断や危険の度合いを判定するものではありません。</p>';
+function signText(kind,id,date,ago){
+  const dd=kind==='recent'?md(date)+' の記録に':md(date)+'（'+ago+'日前）の記録に';
+  const L='『'+SIGN_LABEL[id]+'』';
+  if(kind==='recent'){
+    if(id==='die')return '<p style="margin:0 0 6px"><b>'+dd+L+'があります。</b>一人で抱えずに、主治医、信頼できる人、相談窓口のどれかに、今日のうちに話してください。</p>'+
+      '<p style="margin:0 0 6px">今すぐ自分の安全を保てないと感じるとき、差し迫った危険があるときは、119番に電話してください。</p>'+
+      '<a class="btn" href="tel:119" style="display:inline-block;text-decoration:none;line-height:24px">119番に電話する</a>'+CONTACTS_HTML;
+    if(id==='odd')return '<p style="margin:0 0 6px"><b>'+dd+L+'があります。</b>今日は無理な活動を避けてください。症状に応じて、主治医や医療機関に相談してください。</p>'+
+      '<p style="margin:0 0 6px">命に関わるような急な症状があるときは、119番に電話してください。</p>';
+    if(id==='noeat')return '<p style="margin:0 0 6px"><b>'+dd+L+'があります。</b>食べられるもの・飲めるものを、できる範囲でとってください。食べられない状態が続くときは、次の受診を待たずに主治医に相談してください。</p>';
+    return '<p style="margin:0 0 6px"><b>'+dd+L+'があります。</b>今日は、横になって休める時間を先に確保してください。続くときは、次の受診を待たずに主治医に相談してください。</p>';
+  }
+  if(id==='die')return '<p style="margin:0 0 6px"><b>'+dd+L+'がありました。</b>今の気持ちを確かめてください。今もその気持ちがあるときは、一人で抱えずに、主治医、信頼できる人、相談窓口のどれかに話してください。</p>'+
+    '<p style="margin:0 0 6px">今すぐ自分の安全を保てないと感じるとき、差し迫った危険があるときは、119番に電話してください。</p>'+CONTACTS_HTML;
+  if(id==='odd')return '<p style="margin:0 0 6px"><b>'+dd+L+'がありました。</b>今の体の状態を確かめてください。続いているときは、主治医や医療機関に相談してください。</p>';
+  if(id==='noeat')return '<p style="margin:0 0 6px"><b>'+dd+L+'がありました。</b>今、食べられているかを確かめてください。続いているときは、次の受診を待たずに主治医に相談してください。</p>';
+  return '<p style="margin:0 0 6px"><b>'+dd+L+'がありました。</b>今の眠りの様子を確かめてください。続いているときは、次の受診を待たずに主治医に相談してください。</p>';
+}
+function safetyHtml(sf){
+  if(!sf||sf.kind==='none')return '';
+  let h='';
+  if(sf.kind==='recent'){
+    sf.ids.forEach(id=>{h+=signText('recent',id,sf.dateOf[id])});
+    if(sf.bad){h+='<p style="margin:0 0 6px"><b>サインの記録を読めませんでした。ノートで確かめてください。</b></p>';
+      if(sf.ids.indexOf('die')<0)h+=CONTACTS_HTML}
+  }else{
+    sf.ids.forEach(id=>{h+=signText('past',id,sf.date,sf.daysAgo)});
+    if(sf.bad)h+='<p style="margin:0 0 6px"><b>'+md(sf.date)+'（'+sf.daysAgo+'日前）のサインの記録を読めませんでした。ノートで確かめてください。</b></p>';
+  }
+  return '<section class="card" style="border-color:var(--warn)" role="region" aria-label="安全の案内"><h2>先に確かめてほしいこと</h2>'+h+SAFETY_NOTE+'</section>';
+}
+/* 今日の判断に使う材料を、記録から集める */
+function todayContext(){
+  const today=TODAY_KEY, days=(DATA&&DATA.days)||{};
+  const safety=safetyOf(days,today);
+  const keys=recordKeys(days,today);
+  const n=keys.length, latest=keys.length?keys[keys.length-1]:null;
+  const fresh=latest?daysBetween(latest,today):null;
+  const out={body:false,mind:false,sym:false};
+  let carry=false,provisional=false,h1Low=false,v2High=false;
+  const ok=!!(PAT&&PAT.ok&&latest);
+  if(ok){
+    const d0=days[latest];
+    const vs=Array.isArray(d0.sym)?d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null):[];
+    const bur0=vs.length?Math.max.apply(null,vs):null;
+    out.body=typeof d0.body==='number'&&PAT.lo.body!=null&&d0.body<PAT.lo.body;
+    out.mind=typeof d0.mind==='number'&&PAT.lo.mind!=null&&d0.mind<PAT.lo.mind;
+    out.sym=bur0!=null&&PAT.sHi!=null&&bur0>PAT.sHi;
+    carry=PAT.streak>=2||PAT.shortfall>=8;
+    provisional=PAT.stage==='provisional';
+    ['body','mind','sym'].forEach(dm=>{const I=PAT.ind&&PAT.ind[dm];if(!I)return;if(I.H1&&I.H1.label==='悪化')h1Low=true;if(I.V2&&I.V2.label==='高い')v2High=true});
+  }
+  /* 昨夜の睡眠：今日の記録、なければ昨日の記録 */
+  const sd=[today,addDays(today,-1)].map(k=>days[k]).find(d=>d&&(sleepH(d)!=null||typeof d.sq==='number'));
+  const sh=sd?sleepH(sd):null;
+  const badSleep=!!sd&&((sh!=null&&sh<6)||(typeof sd.sq==='number'&&sd.sq<=2));
+  const dec=decideDirection({safety,n,fresh,out,carry,badSleep,provisional,h1Low,v2High});
+  dec.signIds=safety.kind==='recent'?safety.ids:[];
+  const yk=addDays(today,-1), yp=PLAN.days[yk], yn=days[yk];
+  const busyYesterday=!!((yp&&yp.load==='heavy')||(yn&&Array.isArray(yn.events)&&yn.events.filter(e=>e!=='none').length>=2));
+  const actives=(DATA&&Array.isArray(DATA.actives)&&Array.isArray(DATA.exps))?DATA.actives.map(id=>DATA.exps.find(x=>x&&x.id===id)).filter(x=>x&&typeof x.name==='string'):[];
+  return {today,safety,n,latest,fresh,out,carry,badSleep,dec,busyYesterday,actives,ok};
+}
+function bandHtml(label,v,loV,hiV,faded){
+  if(v==null)return '<div class="kv"><span>'+label+'</span><span>この日の記録なし</span></div>';
+  if(loV==null||hiV==null)return '<div class="kv"><span>'+label+'</span><span>'+v+'（いつもの範囲は、まだ出せません）</span></div>';
+  const inR=v>=loV&&v<=hiV, left=Math.max(0,loV*10), width=Math.min(100,(hiV-loV)*10);
+  return '<div style="margin:8px 0;'+(faded?'opacity:.5':'')+'"><div style="display:flex;justify-content:space-between;font-size:13.5px"><span>'+label+'：<b>'+v+'</b></span><span class="note">'+(inR?'いつもの範囲内':'いつもの範囲の外')+'</span></div>'+
+   '<div style="position:relative;height:12px;background:#2e3b46;border-radius:6px"><div style="position:absolute;top:0;height:12px;left:'+left+'%;width:'+width+'%;background:#47603c;border-radius:6px"></div><div style="position:absolute;top:-3px;height:18px;width:3px;background:#e4e9ed;left:calc('+(v*10)+'% - 1px)"></div></div></div>';
+}
+function nowHtml(c){
+  const days=(DATA&&DATA.days)||{};
+  let h='<h2>いまの自分</h2>';
+  if(!DATA){return h+'<p class="note">まだ記録を読めていません。いちばん下の「記録の読み込み」を見てください。</p>'}
+  if(!c.latest){return h+'<p class="note">体・心・症状を記録した日が、まだありません。</p>'}
+  const L=c.latest, d0=days[L];
+  const when=c.fresh===0?'（今日）':c.fresh===1?'（昨日）':'';
+  if(c.fresh!=null&&c.fresh>=2)h+='<p>最新の記録は '+md(L)+'（'+c.fresh+'日前）です。<span class="note">下は、この日の記録です。</span></p>';
+  else h+='<p>'+md(L)+' の記録'+when+(c.ok?' <span class="tag">'+({provisional:'暫定',reference:'参考',stable:'基準'})[PAT.stage]+'</span>':'')+'</p>';
+  const vs=Array.isArray(d0.sym)?d0.sym.map(x=>x&&typeof x.dis==='number'?x.dis:null).filter(v=>v!=null):[];
+  const bur0=vs.length?Math.max.apply(null,vs):null;
+  if(!c.ok){
+    h+='<p class="note">いつもの範囲を出すには、あと'+Math.max(1,7-c.n)+'日分の記録が要ります（今は'+c.n+'日分）。</p>';
+    h+='<div class="kv"><span>体</span><span>'+(typeof d0.body==='number'?d0.body:'この日の記録なし')+'</span><span>心</span><span>'+(typeof d0.mind==='number'?d0.mind:'この日の記録なし')+'</span><span>症状の支障</span><span>'+(bur0==null?'この日の記録なし':bur0)+'</span></div>';
+  }else{
+    const faded=c.fresh!=null&&c.fresh>=2;
+    h+=bandHtml('体',typeof d0.body==='number'?d0.body:null,PAT.lo.body,10,faded)+bandHtml('心',typeof d0.mind==='number'?d0.mind:null,PAT.lo.mind,10,faded)+
+      (PAT.sMed!=null?bandHtml('症状の支障（上ほど重い）',bur0,0,PAT.sHi,faded):'<div class="kv"><span>症状の支障</span><span>判定対象外（記録不足）</span></div>');
+    const H=dm=>{const I=PAT.ind&&PAT.ind[dm];if(!I||!I.H1||I.H1.label==='材料不足')return '材料不足';const lb=I.H1.label;
+      if(lb==='おおむね同じ')return 'おおむね同じ';
+      if(dm==='sym')return lb==='改善'?'前の2週間より軽め':'前の2週間より重め';
+      return lb==='改善'?'前の2週間より高め':'前の2週間より低め'};
+    h+='<div class="kv" style="margin-top:6px"><span>この2週間の流れ</span><span>体：'+H('body')+'／心：'+H('mind')+(PAT.ind&&PAT.ind.sym?'／症状の支障：'+H('sym'):'')+'</span>'+
+       '<span>疲労の持ち越し</span><span>'+(c.carry?'目印あり':'目印なし')+'</span></div>';
+  }
+  /* 今日の向き */
+  const dir=OVERRIDE&&c.dec.allowed.indexOf(OVERRIDE)>=0?OVERRIDE:c.dec.dir;
+  h+='<div class="hint" style="margin-top:10px"><b>今日の向き：'+DIR_LABEL[dir]+'</b>'+
+    (dir===c.dec.dir?'<br><span class="note">'+esc(c.dec.why)+'</span>':'<br><span class="note">あなたが選び直した向きです（保存しません）。記録からの向きは「'+DIR_LABEL[c.dec.dir]+'」でした。</span>')+'</div>';
+  h+='<details id="dirPick"><summary style="font-weight:400;font-size:13.5px">この向きは合わない</summary><p class="note">あなたの感覚を優先します。選び直しは保存しません。'+(c.dec.allowed.indexOf('expand')<0?'今日は「少し広げてもよい日」は選べません。':'')+'</p><div class="chips">'+
+    c.dec.allowed.map(x=>'<button type="button" class="chip" data-dir="'+x+'" aria-pressed="'+(dir===x)+'">'+DIR_LABEL[x]+'</button>').join('')+
+    (OVERRIDE?'<button type="button" class="chip" data-dir="">記録からの向きに戻す</button>':'')+'</div></details>';
+  return h;
+}
+function stepHtml(c){
+  const dir=OVERRIDE&&c.dec.allowed.indexOf(OVERRIDE)>=0?OVERRIDE:c.dec.dir;
+  let h='<h2>今日の一歩</h2>';
+  if(c.dec.noCards){
+    return h+'<p><b>今日は、行動の候補を出しません。</b></p><p>今日は、相談することと、休むことを先にしてください。上の「先に確かめてほしいこと」を見てください。</p>';
+  }
+  const r=pickSteps(dir,c.dec,{symOut:c.out.sym,bodyOut:c.out.body,mindOut:c.out.mind,carry:c.carry,sleepShort:c.badSleep,busyYesterday:c.busyYesterday,actives:c.actives.map(x=>({id:x.id,name:x.name}))});
+  const base=dir==='none'||!c.ok||(c.fresh!=null&&c.fresh>=2);
+  h+='<p class="note">'+(base?'土台の候補（選んでも、選ばなくてもかまいません）':'今日の候補')+(c.latest&&c.fresh!=null&&c.fresh>=2?'。'+md(c.latest).replace('/','月')+'日の記録をもとにした候補です':'')+'</p>';
+  if(dir==='rest')h+='<p class="note">今日は、休むことも回復の行動です。</p>';
+  const list=r.steps.filter(s=>!HIDDEN[s.key]);
+  list.forEach(s=>{
+    h+='<div class="pgroup"><div><b>'+esc(s.text)+'</b>'+(s.isExp?' <span class="tag">ノートで試している工夫</span>':'')+'</div>'+
+      '<div class="kv" style="margin-top:4px"><span>実施目安</span><span>'+esc(s.amount)+'</span><span>中止目安</span><span>'+esc(s.stop)+'</span></div>'+
+      '<details><summary style="font-weight:400;font-size:13px">目的・終了条件・確認事項</summary><div class="kv"><span>目的</span><span>'+esc(s.goal)+'</span><span>終了条件</span><span>'+esc(s.end)+'</span><span>確認事項</span><span>'+esc(s.check)+'</span></div></details>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn ghost" data-place="'+esc(s.text)+'">今日の設計に置く</button><button type="button" class="btn ghost" data-skip="'+esc(s.key)+'">今日は見送る</button></div></div>';
+  });
+  if(!list.length)h+='<p class="note">今日の候補は、ここまでです。</p>';
+  h+='<p class="note">どちらもしない日があってかまいません。見送っても、何も記録しません。</p>';
+  return h;
+}
+function expHtml(){
+  const t=TODAY_KEY, mon=mondayOf(0), m1=t.slice(0,8)+'01';
+  const W=tallyExperience(DATA,PLAN,mon,t), M=tallyExperience(DATA,PLAN,m1,t);
+  const rowsOf=(a,b,unit)=>{const names=[];a.concat(b).forEach(r=>{if(names.indexOf(r.label)<0)names.push(r.label)});
+    return names.map(n=>{const x=a.find(r=>r.label===n), y=b.find(r=>r.label===n), r=y||x;
+      return '<tr><td>'+esc(n)+(r.withPlan?'<br><span class="note">週の設計の「実施できたもの」も含みます</span>':'')+(r.maybeDup?'<br><span class="note">同じ日に、ノートの工夫と週の設計の実施に同じ名前があります。同じ行動かどうかは判断していないため、別に数えています</span>':'')+'</td><td>'+(x?x.count+unit:'—')+'</td><td>'+(y?y.count+unit:'—')+'</td></tr>'}).join('')};
+  let h='<h2>これまでの積み重ね</h2>';
+  const head='<tr><th></th><th>今週</th><th>今月</th></tr>';
+  h+='<h3>取り組んだこと（日数）</h3>';
+  h+=(W.did.length||M.did.length)?'<table>'+head+rowsOf(W.did,M.did,'日')+'</table>':'<p class="note">ノートの「今日の4つ」の「できた」、ノートの工夫の「使えた」、週の設計の「実施できたもの」があると、ここに出ます。</p>';
+  if(W.partial.length||M.partial.length)h+='<p class="note" style="margin:8px 0 2px">「少し」できた日（別に数えています）</p><table>'+head+rowsOf(W.partial,M.partial,'日')+'</table>';
+  h+='<h3>感じられた経験（回数）</h3>';
+  h+=(W.felt.length||M.felt.length)?'<table>'+head+rowsOf(W.felt,M.felt,'回')+'</table>':'<p class="note">週の設計で「生じた経験」を付けた日があると、ここに出ます。</p>';
+  h+='<p class="note">どちらも、記録された事実です。体力や回復が上がったことを示すものではありません。</p>';
+  return h;
+}
+function renderToday(){
+  const c=todayContext();
+  $('safety').innerHTML=safetyHtml(c.safety);
+  $('nowCard').innerHTML=nowHtml(c);
+  $('stepCard').innerHTML=stepHtml(c);
+  $('expCard').innerHTML=expHtml();
+  $('moreBox').open=MORE_OPEN;
+  $('nowCard').querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>{OVERRIDE=b.dataset.dir||null;HIDDEN={};renderToday();const d=$('dirPick');if(d)d.open=true}));
+  $('stepCard').querySelectorAll('[data-skip]').forEach(b=>b.addEventListener('click',()=>{HIDDEN[b.dataset.skip]=true;renderToday()}));
+  $('stepCard').querySelectorAll('[data-place]').forEach(b=>b.addEventListener('click',()=>placeToday(b.dataset.place)));
+}
+function placeToday(item){
+  const tk=ymd(new Date()); PLAN.offset=0; SEL_DAY=(new Date().getDay()+6)%7;
+  const p=planDay(tk); let msgTxt='';
+  if(p.picks.includes(item))msgTxt='すでに今日の設計に入っています';
+  else if(totalCostOf(p)+costOf(item)>capacityFor(p))msgTxt='その日の余力（'+capacityFor(p)+'点）を超えるため置けません。今 '+totalCostOf(p)+' 点使っています。入れ替える場合は、先にどれかを外してください';
+  else{p.picks.push(item);msgTxt='今日の設計に入れました'}
+  savePlan(); renderWeek(); renderToday(); showTab('w');
+  const el=$('week').querySelector('[data-msg="'+tk+'"]'); if(el)el.textContent=msgTxt;
+}
+
+/* ===== 詳しく見る（今までの分析表示。中身は変えない） ===== */
 function renderPatterns(){
   const box=$('patterns');
-  if(!PAT||!PAT.ok){box.innerHTML='<p class="warn">'+esc(PAT?PAT.reason:'')+'</p>';return}
+  if(!PAT||!PAT.ok){box.innerHTML='<p class="note">'+esc(PAT?PAT.reason:'記録を読めると、ここに分析が出ます。')+'</p>';return}
   const stageTxt={provisional:'基準の材料：記録14日未満（暫定）',reference:'基準の材料：記録14日以上',stable:'基準の材料：記録28日分'}[PAT.stage];
   const fmt=v=>v==null?'—':(Math.round(v*10)/10);
   const DOML={body:'体',mind:'心',sym:'症状の支障'};
@@ -613,7 +1025,7 @@ function renderPatterns(){
    epTxt+
    (guide?'<p class="guide-main"><b>過ごし方の目安：</b>'+guide+'</p>':'')+
    '<p>最近7日の未回復の蓄積（不足分）は '+PAT.shortfall+' で、'+(PAT.streak>0?'範囲の外の状態が今も '+PAT.streak+' 日続いています。':'今は範囲の外の状態は続いていません。')+'下に詳しい数字があります。</p></div>';
-  box.innerHTML= summary+nowHtml+indHtml+recHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
+  box.innerHTML= summary+nowHtml+indHtml+noteHtml+fatGraphHtml+chart+'<details><summary>詳しい数字を見る</summary>'+
    '<h3>あなたの「いつも」（直近28日から）</h3>'+
    '<p><span class="tag">'+stageTxt+'</span><span class="note">分析はすべて直近28日で統一しています。</span></p>'+
    '<div class="kv"><span>体</span><span>中央値 '+fmt(PAT.bMed)+'（通常範囲 '+(PAT.lo.body??'—')+'〜10、四分位範囲 '+fmt(PAT.bQ1)+'〜'+fmt(PAT.bQ3)+'）</span>'+
@@ -738,6 +1150,9 @@ function renderWeek(){
    (hints.length?'<div class="hint">'+hints.map(esc).join('<br>')+'</div>':'')+fc+
    '<h3>先に置く回復</h3><details class="exp" data-exp="picks"'+(EXP.picks?' open':'')+'><summary>コストと選び方の説明</summary><p class="note">コストは「その日の余力」を分母に計算します。余力は10点から、その日の負荷（軽い3点／ふつう6点／重い8点）を引いた残りで、軽い日7点／ふつう4点／重い日2点です。項目のコスト（やる側の時間と手間、1〜3点）の合計が余力を超える組み合わせは置けません。重い日ほど余力自体が小さいので、置けるのは軽い土台のものが中心になります。選ばない日があっても構いません。</p><p class="note">選び方：まず「今日いちばん大きい負担」から選びます。体が範囲外→土台（睡眠と基本）、心が範囲外→切り離し・コントロール、症状が範囲外→刺激を減らす＋土台、重い日の前日→負荷を減らす系（コントロール）。各項目のタグが、軽くなる負担です。</p></details>'+(carryAdj()?'<p class="note"><span class="warn">今は未回復の蓄積が大きいため、各日の余力から1点を引いています。</span></p>':'')+'<p class="note" data-msg="'+k+'" aria-live="polite"></p><div class="picksum">'+((p.picks||[]).length?'<p style="margin:6px 0"><b>置いたもの（'+p.picks.length+'個・コスト'+totalCostOf(p)+'点／余力'+capacityFor(p)+'点（残り'+Math.max(0,capacityFor(p)-totalCostOf(p))+'点）：</b>'+p.picks.map(esc).join('／')+(totalCostOf(p)>capacityFor(p)?' <span class="warn">余力を超えています。追加はできません</span>':'')+'</p>':'<p class="note" style="margin:6px 0">置いたもの：まだありません。下から選ぶと、ここに並びます（余力 '+capacityFor(p)+' 点まで）。</p>')+'<div style="height:8px;background:#2e3b46;border-radius:999px;overflow:hidden;margin:2px 0 8px"><div style="height:100%;width:'+Math.min(100,Math.round(totalCostOf(p)/capacityFor(p)*100))+'%;background:'+(totalCostOf(p)>capacityFor(p)?'#e07856':'#9fc297')+'"></div></div></div>'+
    ['base','detach','control','relax','mastery'].map(id=>RECOVERY_GROUPS.find(g=>g.id===id)).map(g=>'<div class="pgroup"><h4>'+esc(g.name)+'</h4><p class="note">'+esc(GROUP_GUIDE[g.id])+'</p><div class="pgrid">'+g.items.map(it=>'<button type="button" class="pchip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(it)+'">'+esc(it)+'<br><span class="tag">'+esc(REC_INFO[it].t)+'</span> <span class="tag">コスト'+REC_COST[it]+'</span></button>').join('')+'</div></div>').join('')+
+   (()=>{const known=new Set();RECOVERY_GROUPS.forEach(g=>g.items.forEach(it=>known.add(it)));((DATA&&DATA.copes)||[]).forEach(c=>known.add(c.text));
+     const extra=(p.picks||[]).filter(it=>!known.has(it));
+     return extra.length?'<div class="pgroup"><h4>「今日の一歩」などから置いたもの</h4><p class="note">押すと外せます</p><div class="pgrid">'+extra.map(it=>'<button type="button" class="pchip" data-pick="'+esc(it)+'" data-day="'+k+'" aria-pressed="true">'+esc(it)+'<br><span class="tag">コスト'+costOf(it)+'</span></button>').join('')+'</div></div>':''})()+
    (DATA&&DATA.copes&&DATA.copes.length?'<div class="pgroup"><h4>自分の対処リストから（ノート由来）</h4><p class="note">このページの材料ではなく、ノートに登録した対処です</p><div class="pgrid">'+DATA.copes.map(c=>'<button type="button" class="pchip" data-pick="'+esc(c.text)+'" data-day="'+k+'" aria-pressed="'+(p.picks||[]).includes(c.text)+'">'+esc(c.text)+'<br><span class="tag">コスト2</span></button>').join('')+'</div></div>':'')+
    ((p.picks||[]).length?'<div class="picksum" style="position:static"><b>選んだ回復（最終）：</b>'+p.picks.map(esc).join('／')+'（コスト合計 '+totalCostOf(p)+'点／余力 '+capacityFor(p)+'点）</div>':'')+
    '<div style="margin-top:8px"><label><input type="checkbox" data-next="'+k+'" '+(p.nextLight?'checked':'')+'> 翌日の負荷を下げる</label></div>'+
@@ -793,6 +1208,7 @@ $('recoveryRef').innerHTML=RECOVERY_GROUPS.map(g=>'<details><summary>'+esc(g.nam
 $('fatigueRef').innerHTML='<table><tr><th>項目</th><th>今の記録</th><th>由来・補足</th></tr>'+FATIGUE_ITEMS.map(f=>'<tr><td>'+esc(f.item)+'</td><td>'+esc(f.cover)+'</td><td>'+esc(f.from)+'</td></tr>').join('')+'</table>'+
  '<p class="note">回復ニーズ尺度の全11項目の文面は原典が未検証のため、ここには載せていません。確認できた項目例と症状の集まりの範囲で作っています。</p>';
 renderWeek();
+loadFromNote(true);
 </script>
 </body>
 </html>
