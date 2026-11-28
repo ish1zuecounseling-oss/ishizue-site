@@ -1,5 +1,5 @@
 // src/pages/admin/ChronicleAnswerKey.tsx
-// 運営者用 — 成長の書 Lv.1 の模範解答・対応例(管理者・採点者用)
+// 運営者用 — 成長の書 Lv.1〜Lv.5 の模範解答・対応例(管理者・採点者用)
 // ルーティング: <Route path="/admin/chronicle-key" element={<ChronicleAnswerKey />} />
 // データ取得: /api/chronicle-answer-key(閲覧キーは /admin/views・/admin/dashboard と共通)
 //
@@ -13,6 +13,11 @@ const KEY_STORAGE = "ishizue_views_key"
 const SAGE = "#7C9A8A"
 const INK = "#2C1F14"
 const BG = "#F7F3EA"
+const LEVELS = ["lv1", "lv2", "lv3", "lv4", "lv5"] as const
+const LEVEL_STORAGE = "ishizue_chronicle_key_level"
+function readLevel(): string {
+  try { const v = localStorage.getItem(LEVEL_STORAGE) ?? ""; return (LEVELS as readonly string[]).includes(v) ? v : "lv1" } catch { return "lv1" }
+}
 
 type Part = { title: string; markdown: string }
 type AnswerKey = { level: string; version: string; date: string; status: string; parts: Part[] }
@@ -162,13 +167,16 @@ export default function ChronicleAnswerKey() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [part, setPart] = useState(0)
+  const [level, setLevel] = useState(readLevel)
 
   useEffect(() => {
     if (!key) return
     let alive = true
     setLoading(true)
     setError("")
-    fetch("/api/chronicle-answer-key?level=lv1", { headers: { "x-admin-key": key } })
+    setData(null)
+    setPart(0)
+    fetch("/api/chronicle-answer-key?level=" + level, { headers: { "x-admin-key": key } })
       .then(async (r) => {
         if (r.status === 401) { saveKey(""); if (alive) { setKey(""); setError("閲覧キーが違います") } return }
         if (!r.ok) {
@@ -182,7 +190,7 @@ export default function ChronicleAnswerKey() {
       .catch(() => { if (alive) setError("資料を読み込めませんでした(通信エラー)") })
       .finally(() => { if (alive) setLoading(false) })
     return () => { alive = false }
-  }, [key])
+  }, [key, level])
 
   const head = (
     <Helmet>
@@ -198,7 +206,16 @@ export default function ChronicleAnswerKey() {
       {head}
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "20px 16px 60px", fontSize: 14, lineHeight: 1.85 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.1em", color: SAGE, marginBottom: 4 }}>運営者用 ・ 採点者用の資料</div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: INK }}>成長の書 Lv.1 模範解答・対応例</div>
+        <div style={{ fontSize: 18, fontWeight: 700, color: INK }}>成長の書 {level.replace("lv", "Lv.")} 模範解答・対応例</div>
+        <div role="tablist" aria-label="等級" style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "10px 0 4px" }}>
+          {LEVELS.map((lv) => (
+            <button key={lv} type="button" role="tab" aria-selected={level === lv}
+              onClick={() => { if (lv !== level) { setLevel(lv); try { localStorage.setItem(LEVEL_STORAGE, lv) } catch { /* noop */ } window.scrollTo(0, 0) } }}
+              style={{ fontSize: 13, minWidth: 52, minHeight: 36, padding: "6px 10px", borderRadius: 8, border: `1px solid ${INK}33`, background: level === lv ? INK : "#fff", color: level === lv ? "#fff" : INK, fontWeight: level === lv ? 700 : 400 }}>
+              {lv.replace("lv", "Lv.")}
+            </button>
+          ))}
+        </div>
         <p style={{ fontSize: 12, color: "#7a6a58", margin: "6px 0 12px" }}>
           受験者には見せない資料です。判定の基準は試験官プロンプトの「見るポイント」で、この資料はそれを具体化したものです。
           {data && <> 版：{data.version}({data.date})。{data.status}</>}
