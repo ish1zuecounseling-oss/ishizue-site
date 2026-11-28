@@ -1,7 +1,8 @@
 // src/pages/admin/ChronicleCards.tsx
 // 成長の書 — 要点カード(暗記カード)
 //
-// 問い(表)→タップで答え(裏)→自己評価(まだ/半分/言えた)。
+// 問い(表)→(必要ならヒント)→タップで答え(裏)→自己評価(まだ/半分/言えた)。
+// ヒントは、何を聞かれているか・答えの形を示すだけ。見たかどうかは記録しない。
 // 出題の間隔は「今日の一頁」と同じ決まり(ChronicleDaily の nextSched を使う)。
 // この記録は、合否・達成率・習得度には一切使わない(出題の順番にだけ使う)。休んでも減らない。
 
@@ -73,17 +74,18 @@ export function CardsBlock({ levels, unlockedIds, store, onChange }: {
   const [deck, setDeck] = useState<StudyCard[] | null>(null)
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
+  const [hintOpen, setHintOpen] = useState(false)
   const [rated, setRated] = useState<Record<string, Rating>>({})
 
   if (!cards.length) return null
 
-  const open = (list: StudyCard[]) => { setDeck(list); setPos(0); setFlipped(false); setRated({}) }
+  const open = (list: StudyCard[]) => { setDeck(list); setPos(0); setFlipped(false); setHintOpen(false); setRated({}) }
   const close = () => { setDeck(null); setFlipped(false) }
-  const go = (d: number) => { if (!deck) return; setPos(p => Math.min(deck.length - 1, Math.max(0, p + d))); setFlipped(false) }
+  const go = (d: number) => { if (!deck) return; setPos(p => Math.min(deck.length - 1, Math.max(0, p + d))); setFlipped(false); setHintOpen(false) }
   const rate = (card: StudyCard, r: Rating) => {
     onChange({ ...store, sched: { ...store.sched, [card.id]: nextSched(store.sched[card.id], r, date) } })
     setRated(m => ({ ...m, [card.id]: r }))
-    if (deck && pos < deck.length - 1) { setPos(pos + 1); setFlipped(false) }
+    if (deck && pos < deck.length - 1) { setPos(pos + 1); setFlipped(false); setHintOpen(false) }
   }
 
   const card = deck?.[pos]
@@ -98,7 +100,7 @@ export function CardsBlock({ levels, unlockedIds, store, onChange }: {
         </div>
       </div>
       <p style={quiet}>
-        問いを見て、答えを声に出すか頭の中で言ってから、カードをめくります。休んでもカードは減りません。この記録は合否・達成率・習得度には使いません。
+        問いを見て、答えを声に出すか頭の中で言ってから、カードをめくります。何を聞かれているか分からないときは、ヒントを見てから思い出してください。休んでもカードは減りません。この記録は合否・達成率・習得度には使いません。
       </p>
 
       {!deck && (
@@ -130,6 +132,16 @@ export function CardsBlock({ levels, unlockedIds, store, onChange }: {
               : <div style={{ fontSize: 16, lineHeight: 1.8, fontWeight: 700, color: '#e6b555' }}>{card.q}</div>}
             <div style={{ fontSize: 10, color: '#8a6a3a', marginTop: 12 }}>{flipped ? 'タップで問いに戻る' : 'タップで答えを見る'}</div>
           </button>
+
+          {!flipped && card.hint && (
+            hintOpen
+              ? <div role="note" aria-label="ヒント" style={{ marginTop: 8, border: '1px dashed #6b4f28', borderRadius: 6, padding: '10px 12px', fontSize: 13, lineHeight: 1.8, color: '#e6d5b0', background: '#0d0904' }}>
+                  <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#c9a96e', marginRight: 8 }}>ヒント</span>{card.hint}
+                </div>
+              : <button type="button" style={{ ...btn, marginTop: 8, minHeight: 44, width: '100%' }} onClick={() => setHintOpen(true)} aria-expanded={false}>
+                  💡 ヒントを見る（何を聞かれているか）
+                </button>
+          )}
 
           {flipped && (
             <div style={{ marginTop: 10 }}>
