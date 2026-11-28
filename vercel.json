@@ -379,6 +379,10 @@
     {
       "source": "/admin/dashboard",
       "destination": "/index.html"
+    },
+    {
+      "source": "/admin/chronicle-key",
+      "destination": "/index.html"
     }
   ],
   "headers": [
