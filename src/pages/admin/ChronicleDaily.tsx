@@ -89,7 +89,7 @@ export function cleanDaily(raw: unknown): DailyStore | null {
 }
 
 // ── 日付・乱数 ──
-const todayJst = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
+export const todayJst = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
 function addDays(d: string, n: number) {
   const t = new Date(`${d}T00:00:00Z`); t.setUTCDate(t.getUTCDate() + n)
   return t.toISOString().slice(0, 10)
@@ -157,7 +157,7 @@ function pickScene(date: string, lvIds: string[], shift: number, lastScene?: str
   const rnd = seeded(`scene:${date}`)
   return pool[(Math.floor(rnd() * pool.length) + shift) % pool.length]
 }
-function nextSched(prev: Sched | undefined, rating: Rating, date: string): Sched {
+export function nextSched(prev: Sched | undefined, rating: Rating, date: string): Sched {
   const I = DAILY_INTERVALS
   const interval = rating === 'not' ? I.not : rating === 'half' ? I.half
     : prev?.last === 'ok' ? Math.min(I.okMax, Math.round(prev.interval * I.okGrow)) : I.ok

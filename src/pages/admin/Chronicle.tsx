@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async'
 import { LEVELS, type LevelData } from '../../data/chronicleData'
 import { refsFor, STRENGTH_LABEL, type TaskRefs, type RefKind, type Ref, type Verify, type Strength } from '../../data/chronicleRefs'
 import { DailyPageBlock, loadDaily, saveDaily, cleanDaily, type DailyStore } from './ChronicleDaily'
+import { CardsBlock, loadCards, saveCards, cleanCards, type CardsStore } from './ChronicleCards'
 import { PilotBlock, loadPilot, savePilot, cleanPilot, type PilotStore } from './ChroniclePilot'
 import { SvaiBlock, loadSvai, saveSvai, cleanSvai, type SvaiStore } from './ChronicleSvai'
 import { INDICATORS, type IndKey, EXAMINER_PROMPTS, EXAMINER_NAMES, EXAM_REQUIRED } from '../../data/chronicleExaminers'
@@ -138,9 +139,9 @@ function levelComplete(lv: LevelData, state: CheckState, exams: ExamRecords) {
 }
 
 // ── 記録の書き出し・読み込み(ブラウザのデータが消えたときのための控え) ──
-function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords, daily: DailyStore, pilot: PilotStore, svai: SvaiStore) {
+function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords, daily: DailyStore, pilot: PilotStore, svai: SvaiStore, cards: CardsStore) {
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
-  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 6, savedAt: new Date().toISOString(), state: s, reflections, exams, daily: { pages: daily.pages, sched: daily.sched }, pilot, svai }, null, 2)], { type: 'application/json' })
+  const blob = new Blob([JSON.stringify({ app: 'ishizue_chronicle', version: 7, savedAt: new Date().toISOString(), state: s, reflections, exams, daily: { pages: daily.pages, sched: daily.sched }, pilot, svai, cards }, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -149,7 +150,7 @@ function exportState(s: CheckState, reflections: Reflections, exams: ExamRecords
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null; daily: DailyStore | null; pilot: PilotStore | null; svai: SvaiStore | null } | null {
+function parseImported(text: string): { state: CheckState; reflections: Reflections | null; exams: ExamRecords | null; daily: DailyStore | null; pilot: PilotStore | null; svai: SvaiStore | null; cards: CardsStore | null } | null {
   try {
     const raw = JSON.parse(text)
     // 振り返り(version 2 以降)。形が合わないものは読み飛ばす
@@ -189,7 +190,9 @@ function parseImported(text: string): { state: CheckState; reflections: Reflecti
     const pilot = raw && typeof raw === 'object' && raw.pilot ? cleanPilot(raw.pilot) : null
     // SVAI ログ・次の練習(version 6 以降)。入っていない・形が合わないときは null(今の記録をそのまま残す)
     const svai = raw && typeof raw === 'object' && raw.svai ? cleanSvai(raw.svai) : null
-    return { state: out, reflections, exams, daily, pilot, svai }
+    // 要点カード(version 7 以降)。入っていない控え(version 6 以前)では null(今の記録をそのまま残す)
+    const cards = raw && typeof raw === 'object' && raw.cards ? cleanCards(raw.cards) : null
+    return { state: out, reflections, exams, daily, pilot, svai, cards }
   } catch {
     return null
   }
@@ -1096,13 +1099,15 @@ function ChronicleInner() {
   const handlePilot = useCallback((d: PilotStore) => { savePilot(d); setPilot(d) }, [])
   const [svai, setSvai] = useState<SvaiStore>(loadSvai)
   const handleSvai = useCallback((d: SvaiStore) => { saveSvai(d); setSvai(d) }, [])
+  const [cards, setCards] = useState<CardsStore>(loadCards)
+  const handleCards = useCallback((d: CardsStore) => { saveCards(d); setCards(d) }, [])
   const [ioMsg, setIoMsg] = useState('')
   const handleImport = async (file: File | undefined) => {
     if (!file) return
     if (file.size > 1_000_000) { setIoMsg('ファイルが大きすぎます。書き出したファイルを選んでください。'); return }
     const next = parseImported(await file.text())
     if (!next) { setIoMsg('読み込めませんでした。書き出したファイルを選んでください。'); return }
-    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : '', next.daily ? '今日の一頁の記録' : '', next.pilot ? '試作練習の記録' : '', next.svai ? 'SVAI ログと次の練習' : ''].filter(Boolean).join('と')
+    const parts = ['チェック状態', next.reflections ? '振り返り' : '', next.exams ? '本試験の記録' : '', next.daily ? '今日の一頁の記録' : '', next.pilot ? '試作練習の記録' : '', next.svai ? 'SVAI ログと次の練習' : '', next.cards ? '要点カードの記録' : ''].filter(Boolean).join('と')
     const msg = `今の${parts}を、このファイルの内容で置きかえます(ファイルに入っていないものは今のまま残します)。よろしいですか？`
     if (!window.confirm(msg)) return
     saveState(next.state)
@@ -1112,6 +1117,7 @@ function ChronicleInner() {
     if (next.daily) { saveDaily(next.daily); setDaily(next.daily) }
     if (next.pilot) { savePilot(next.pilot); setPilot(next.pilot) }
     if (next.svai) { saveSvai(next.svai); setSvai(next.svai) }
+    if (next.cards) { saveCards(next.cards); setCards(next.cards) }
     setIoMsg('読み込みました。')
   }
 
@@ -1211,6 +1217,9 @@ function ChronicleInner() {
           {/* 今日の一頁(毎日の学習) */}
           <DailyPageBlock levels={LEVELS} unlockedIds={unlockedIds} store={daily} onChange={handleDaily} examLists={Object.values(exams)} nextPractice={svai.next} />
 
+          {/* 要点カード(暗記カード) */}
+          <CardsBlock levels={LEVELS} unlockedIds={unlockedIds} store={cards} onChange={handleCards} />
+
           {/* 試作練習(7項目・5課題) */}
           <PilotBlock store={pilot} onChange={handlePilot} nextPractice={svai.next} />
 
@@ -1275,7 +1284,7 @@ function ChronicleInner() {
           }}>
             ― チェック状態・振り返り・本試験の記録はこのブラウザに自動保存されます ―
             <div style={{ marginTop: 10, display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', letterSpacing: '0.05em' }}>
-              <button type="button" onClick={() => { exportState(checkState, reflections, exams, daily, pilot, svai); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
+              <button type="button" onClick={() => { exportState(checkState, reflections, exams, daily, pilot, svai, cards); setIoMsg('書き出しました。ファイルを大切に保管してください。') }}
                 style={{ fontSize: 11, color: '#c9a96e', background: 'transparent', border: '1px solid #6b4f28', borderRadius: 4, padding: '4px 10px', cursor: 'pointer' }}>
                 記録を書き出す(控え)
               </button>
