@@ -171,7 +171,11 @@ export default function ChronicleAnswerKey() {
     fetch("/api/chronicle-answer-key?level=lv1", { headers: { "x-admin-key": key } })
       .then(async (r) => {
         if (r.status === 401) { saveKey(""); if (alive) { setKey(""); setError("閲覧キーが違います") } return }
-        if (!r.ok) { if (alive) setError("資料を読み込めませんでした(" + r.status + ")"); return }
+        if (!r.ok) {
+          const j = (await r.json().catch(() => ({}))) as { message?: string }
+          if (alive) setError("資料を読み込めませんでした(" + r.status + (j.message ? "：" + j.message : "") + ")")
+          return
+        }
         const j = (await r.json()) as AnswerKey
         if (alive) setData(j)
       })
